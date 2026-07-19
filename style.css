@@ -238,3 +238,133 @@ font-size:20px;
 color:#cbd5e1;
 margin-bottom:30px;
   }
+/* Mobile Responsive Design */
+
+@media(max-width:768px){
+
+header{
+padding:15px 20px;
+}
+
+nav{
+flex-direction:column;
+gap:15px;
+}
+
+nav a{
+margin:0 8px;
+font-size:15px;
+}
+
+
+.hero{
+padding:60px 20px;
+}
+
+
+.hero h1{
+font-size:38px;
+}
+
+
+.hero p{
+font-size:18px;
+}
+
+
+.btn{
+padding:12px 25px;
+font-size:16px;
+}
+
+
+.tools{
+padding:50px 20px;
+}
+
+
+.tools h2,
+.testimonials h2,
+.contact h2{
+font-size:32px;
+}
+
+
+.tool-grid{
+grid-template-columns:1fr;
+}
+
+
+.card{
+padding:25px;
+}
+
+
+.stats{
+padding:50px 20px;
+}
+
+
+.stat-box{
+width:100%;
+max-width:300px;
+}
+
+
+.testimonial-box{
+grid-template-columns:1fr;
+}
+
+
+.contact{
+padding:50px 20px;
+}
+
+}
+
+
+/* Hero Design Upgrade */
+
+.hero{
+background:linear-gradient(135deg,#0b1120,#1e3a8a);
+border-radius:0 0 40px 40px;
+}
+
+
+.hero h1{
+background:linear-gradient(90deg,#38bdf8,#818cf8);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+
+/* Better Card Animation */
+
+.card{
+position:relative;
+overflow:hidden;
+}
+
+
+.card:before{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:3px;
+background:#38bdf8;
+transition:.4s;
+}
+
+
+.card:hover:before{
+left:0;
+}
+
+
+/* Smooth Scrolling */
+
+html{
+scroll-behavior:smooth;
+  }
