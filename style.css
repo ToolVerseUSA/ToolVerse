@@ -140,3 +140,101 @@ margin-bottom:15px;
 .tools .btn{
 margin-top:20px;
 }
+.tool-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+max-width:1200px;
+margin:auto;
+}
+
+
+.card{
+background:#111827;
+padding:30px;
+border-radius:16px;
+border:1px solid #1f2937;
+transition:0.3s;
+box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+
+
+.card:hover{
+transform:translateY(-8px);
+border-color:#38bdf8;
+}
+
+
+.stats{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:30px;
+padding:70px 20px;
+}
+
+
+.stat-box{
+background:#111827;
+padding:35px;
+width:250px;
+text-align:center;
+border-radius:16px;
+border:1px solid #1f2937;
+}
+
+
+.stat-box h2{
+font-size:45px;
+color:#38bdf8;
+}
+
+
+.stat-box p{
+color:#cbd5e1;
+font-size:20px;
+}
+
+
+
+.testimonials{
+padding:80px 20px;
+text-align:center;
+}
+
+
+.testimonials h2,
+.contact h2{
+font-size:42px;
+margin-bottom:30px;
+}
+
+
+.testimonial-box{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+max-width:1000px;
+margin:auto;
+}
+
+
+.testimonial-box .card p{
+font-size:18px;
+color:#cbd5e1;
+margin-bottom:20px;
+}
+
+
+
+.contact{
+padding:80px 20px;
+text-align:center;
+}
+
+
+.contact p{
+font-size:20px;
+color:#cbd5e1;
+margin-bottom:30px;
+  }
