@@ -34,7 +34,6 @@
 
 </header>
 
-
 <section class="hero">
 
 <h1>AI Resume Builder</h1>
@@ -45,15 +44,11 @@ Create a professional resume in minutes.
 
 </section>
 
-
 <section class="resume-builder">
 
 <div class="container">
 
 <div class="resume-grid">
-
-
-<!-- Resume Form -->
 
 <div class="resume-form">
 
@@ -89,9 +84,6 @@ Print Resume
 </button>
 
 </div>
-
-
-<!-- Resume Preview -->
 
 <div class="resume-preview">
 
@@ -131,117 +123,8 @@ Print Resume
 
 </section>
 
-
 <script src="resume-builder.js"></script>
 
 </body>
 
 </html>
-/* =====================================
-   Resume Builder
-===================================== */
-
-.resume-builder{
-padding:80px 20px;
-background:#f8fafc;
-}
-
-.resume-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:40px;
-max-width:1200px;
-margin:auto;
-}
-
-.resume-form,
-.resume-preview{
-background:#ffffff;
-padding:35px;
-border-radius:16px;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
-border:1px solid #e5e7eb;
-}
-
-.resume-form h2,
-.resume-preview h2{
-margin-bottom:25px;
-color:#111827;
-}
-
-.resume-form label{
-display:block;
-font-weight:bold;
-margin:18px 0 8px;
-color:#374151;
-}
-
-.resume-form input,
-.resume-form textarea{
-width:100%;
-padding:14px;
-border:1px solid #d1d5db;
-border-radius:8px;
-font-size:16px;
-outline:none;
-}
-
-.resume-form input:focus,
-.resume-form textarea:focus{
-border-color:#2563eb;
-}
-
-.resume-form textarea{
-resize:vertical;
-}
-
-.resume-form .btn{
-margin-top:18px;
-margin-right:10px;
-cursor:pointer;
-border:none;
-}
-
-#preview{
-line-height:1.8;
-}
-
-#preview h1{
-font-size:32px;
-margin-bottom:10px;
-color:#111827;
-}
-
-#preview h3{
-margin-top:25px;
-margin-bottom:10px;
-color:#2563eb;
-}
-
-#preview hr{
-margin:20px 0;
-border:none;
-border-top:1px solid #e5e7eb;
-}
-
-/* Mobile */
-
-@media(max-width:768px){
-
-.resume-grid{
-grid-template-columns:1fr;
-}
-
-.resume-form,
-.resume-preview{
-padding:25px;
-}
-
-.resume-form .btn{
-width:100%;
-margin-right:0;
-margin-bottom:12px;
-}
-
-}
-
