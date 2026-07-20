@@ -576,3 +576,90 @@ margin:10px 0;
 }
 
    }
+/* =====================================
+   AI Grammar Checker
+===================================== */
+
+.grammar-checker{
+padding:80px 20px;
+background:#f8fafc;
+}
+
+.grammar-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+max-width:1200px;
+margin:auto;
+}
+
+.grammar-box{
+background:#ffffff;
+padding:35px;
+border-radius:16px;
+border:1px solid #e5e7eb;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.grammar-box h2{
+margin-bottom:20px;
+color:#111827;
+}
+
+.grammar-box textarea{
+width:100%;
+min-height:320px;
+padding:16px;
+font-size:16px;
+border:1px solid #d1d5db;
+border-radius:10px;
+outline:none;
+resize:vertical;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+.grammar-box textarea:focus{
+border-color:#e5322d;
+}
+
+#outputText{
+min-height:320px;
+padding:16px;
+border:1px solid #d1d5db;
+border-radius:10px;
+background:#f9fafb;
+white-space:pre-wrap;
+line-height:1.7;
+color:#374151;
+overflow:auto;
+}
+
+.grammar-box .btn{
+margin-top:18px;
+margin-right:10px;
+cursor:pointer;
+border:none;
+}
+
+@media(max-width:768px){
+
+.grammar-grid{
+grid-template-columns:1fr;
+}
+
+.grammar-box{
+padding:25px;
+}
+
+.grammar-box .btn{
+width:100%;
+margin-right:0;
+margin-bottom:12px;
+}
+
+#outputText,
+.grammar-box textarea{
+min-height:250px;
+}
+
+}
