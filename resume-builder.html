@@ -1,130 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>AI Resume Builder | ToolVerse</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Builder | ToolVerse</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<header>
+    <header>
+        <div class="container">
+            <div class="logo">🚀 ToolVerse</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="index.html#tools">AI Tools</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
 
-<div class="container">
+    <section class="tool-header">
+        <h1>ATS-Friendly AI Resume Builder</h1>
+        <p>Fill in the details below and watch your professional resume build in real-time.</p>
+    </section>
 
-<div class="logo">
-🚀 ToolVerse
-</div>
+    <section class="resume-builder">
+        <div class="container">
+            <div class="resume-grid">
+                
+                <!-- Left Side: Input Form -->
+                <div class="resume-form">
+                    <h2>Personal Information</h2>
+                    
+                    <label>Full Name</label>
+                    <input type="text" id="nameInput" placeholder="e.g. Imran Khan">
 
-<nav>
+                    <label>Professional Title</label>
+                    <input type="text" id="titleInput" placeholder="e.g. Freelance Digital Media Specialist">
+                    
+                    <div class="input-row">
+                        <div class="input-half">
+                            <label>Email</label>
+                            <input type="email" id="emailInput" placeholder="you@email.com">
+                        </div>
+                        <div class="input-half">
+                            <label>Phone</label>
+                            <input type="text" id="phoneInput" placeholder="+92 300 0000000">
+                        </div>
+                    </div>
 
-<a href="index.html">Home</a>
-<a href="index.html#tools">AI Tools</a>
-<a href="index.html#contact">Contact</a>
+                    <label>Address / Location</label>
+                    <input type="text" id="addressInput" placeholder="e.g. Hyderabad, Sindh, Pakistan">
 
-</nav>
+                    <h2>Professional Summary</h2>
+                    <textarea id="summaryInput" rows="3" placeholder="A brief summary of your professional background and goals..."></textarea>
 
-</div>
+                    <h2>Skills</h2>
+                    <textarea id="skillsInput" rows="3" placeholder="e.g. YouTube SEO, Digital Graphic Design, AI Productivity Tools..."></textarea>
 
-</header>
+                    <h2>Work Experience</h2>
+                    <textarea id="experienceInput" rows="5" placeholder="e.g. Managed online video channels and optimized digital media profiles..."></textarea>
 
-<section class="hero">
+                    <h2>Education</h2>
+                    <textarea id="educationInput" rows="3" placeholder="e.g. Degree, University Name, Year..."></textarea>
 
-<h1>AI Resume Builder</h1>
+                    <button class="btn action-btn" id="downloadBtn" onclick="window.print()">
+                        📄 Download PDF
+                    </button>
+                </div>
 
-<p>
-Create a professional resume in minutes.
-</p>
+                <!-- Right Side: Live A4 Preview -->
+                <div class="resume-preview-container">
+                    <div class="preview-badge">🔴 Live Preview</div>
+                    <div class="a4-sheet" id="resumePreview">
+                        
+                        <div class="resume-header">
+                            <h1 id="previewName">Imran Khan</h1>
+                            <h3 id="previewTitle">Freelance Digital Media Specialist</h3>
+                            <div class="resume-contact">
+                                <span id="previewEmail">you@email.com</span> | 
+                                <span id="previewPhone">+92 300 0000000</span> | 
+                                <span id="previewAddress">Hyderabad, Sindh, Pakistan</span>
+                            </div>
+                        </div>
 
-</section>
+                        <div class="resume-section">
+                            <h4 class="section-title">Professional Summary</h4>
+                            <p id="previewSummary">A brief summary of your professional background and goals will appear here.</p>
+                        </div>
 
-<section class="resume-builder">
+                        <div class="resume-section">
+                            <h4 class="section-title">Core Skills</h4>
+                            <p id="previewSkills">YouTube SEO, Digital Graphic Design, AI Productivity Tools</p>
+                        </div>
 
-<div class="container">
+                        <div class="resume-section">
+                            <h4 class="section-title">Work Experience</h4>
+                            <p id="previewExperience">Your detailed work experience will appear here as you type.</p>
+                        </div>
 
-<div class="resume-grid">
+                        <div class="resume-section">
+                            <h4 class="section-title">Education</h4>
+                            <p id="previewEducation">Your educational background will appear here.</p>
+                        </div>
 
-<div class="resume-form">
+                    </div>
+                </div>
 
-<h2>Your Information</h2>
+            </div>
+        </div>
+    </section>
 
-<label>Full Name</label>
-<input type="text" id="name" placeholder="John Smith">
+    <footer>
+        © 2026 ToolVerse. All Rights Reserved.
+    </footer>
 
-<label>Email</label>
-<input type="email" id="email" placeholder="john@email.com">
-
-<label>Phone</label>
-<input type="text" id="phone" placeholder="+92 300 1234567">
-
-<label>Address</label>
-<input type="text" id="address" placeholder="Hyderabad, Pakistan">
-
-<label>Skills</label>
-<textarea id="skills" rows="4" placeholder="HTML, CSS, JavaScript"></textarea>
-
-<label>Education</label>
-<textarea id="education" rows="4" placeholder="BS Computer Science"></textarea>
-
-<label>Experience</label>
-<textarea id="experience" rows="6" placeholder="Web Developer at ABC Company"></textarea>
-
-<button class="btn" id="generateBtn">
-Generate Resume
-</button>
-
-<button class="btn" id="printBtn">
-Print Resume
-</button>
-
-</div>
-
-<div class="resume-preview">
-
-<h2>Resume Preview</h2>
-
-<div id="preview">
-
-<h1>Your Name</h1>
-
-<p>Email</p>
-
-<p>Phone</p>
-
-<p>Address</p>
-
-<hr>
-
-<h3>Skills</h3>
-
-<p>Your skills will appear here.</p>
-
-<h3>Education</h3>
-
-<p>Your education will appear here.</p>
-
-<h3>Experience</h3>
-
-<p>Your experience will appear here.</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<script src="resume-builder.js"></script>
+    <!-- Link to JavaScript -->
+    <script src="resume-builder.js"></script>
 
 </body>
-
 </html>
