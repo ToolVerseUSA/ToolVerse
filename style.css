@@ -506,4 +506,135 @@ gap: 15px;
     .resume-grid { grid-template-columns: 1fr; }
     .input-row { flex-direction: column; }
 }
+/* =====================================
+   AI Email Writer Premium Styles
+===================================== */
+
+/* Email Client Mockup Design */
+.email-client-mockup {
+    width: 100%;
+    max-width: 600px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+}
+
+.email-top-bar {
+    background: #f3f4f6;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.dots {
+    display: flex;
+    gap: 6px;
+    margin-right: auto;
+}
+
+.dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.dots span:nth-child(1) { background: #ff5f56; }
+.dots span:nth-child(2) { background: #ffbd2e; }
+.dots span:nth-child(3) { background: #27c93f; }
+
+.new-message-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4b5563;
+    margin-right: auto;
+    transform: translateX(-50%); /* Centering adjustment */
+}
+
+.email-header-mockup {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #ffffff;
+}
+
+.email-line {
+    font-size: 14px;
+    color: #374151;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #f3f4f6;
+    padding-bottom: 8px;
+}
+
+.email-line:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.email-line strong {
+    color: #9ca3af;
+    font-weight: 500;
+    width: 60px;
+    display: inline-block;
+}
+
+.email-body-mockup {
+    padding: 25px 20px;
+    min-height: 250px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #1f2937;
+    background: #ffffff;
+    white-space: pre-wrap; /* Keeps paragraph formatting */
+}
+
+.placeholder-text {
+    color: #9ca3af;
+    text-align: center;
+    margin-top: 50px;
+    font-style: italic;
+}
+
+.email-footer-mockup {
+    padding: 15px 20px;
+    background: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.copy-btn {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.copy-btn:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.copy-status {
+    font-size: 14px;
+    color: #10b981;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.copy-status.show {
+    opacity: 1;
+}
+
 
