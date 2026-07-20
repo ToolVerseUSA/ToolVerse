@@ -482,3 +482,97 @@ margin-bottom:12px;
 }
 
 }
+/* =====================================
+   AI PDF Summarizer
+===================================== */
+
+.pdf-tool{
+padding:80px 20px;
+background:#f8fafc;
+}
+
+.pdf-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+max-width:1200px;
+margin:auto;
+}
+
+.pdf-form,
+.pdf-preview{
+background:#ffffff;
+padding:35px;
+border-radius:16px;
+border:1px solid #e5e7eb;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.pdf-form h2,
+.pdf-preview h2{
+margin-bottom:25px;
+color:#111827;
+}
+
+.pdf-form input[type="file"]{
+width:100%;
+padding:14px;
+border:2px dashed #d1d5db;
+border-radius:10px;
+background:#ffffff;
+cursor:pointer;
+margin-bottom:20px;
+}
+
+#fileName{
+color:#6b7280;
+margin-bottom:20px;
+font-size:16px;
+word-break:break-word;
+}
+
+.pdf-form .btn{
+margin-top:12px;
+margin-right:10px;
+border:none;
+cursor:pointer;
+}
+
+#summaryOutput{
+min-height:300px;
+padding:20px;
+background:#f9fafb;
+border:1px solid #e5e7eb;
+border-radius:10px;
+line-height:1.8;
+color:#374151;
+overflow:auto;
+white-space:pre-wrap;
+margin-bottom:20px;
+}
+
+.pdf-preview .btn{
+border:none;
+cursor:pointer;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.pdf-grid{
+grid-template-columns:1fr;
+}
+
+.pdf-form,
+.pdf-preview{
+padding:25px;
+}
+
+.pdf-form .btn,
+.pdf-preview .btn{
+width:100%;
+margin:10px 0;
+}
+
+   }
