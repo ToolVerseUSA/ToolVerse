@@ -1,114 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>AI Email Writer | ToolVerse</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Email Writer | Premium ToolVerse</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<header>
+    <header>
+        <div class="container">
+            <div class="logo">🚀 ToolVerse</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="index.html#tools">AI Tools</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
 
-<div class="container">
+    <section class="tool-header">
+        <h1>Smart AI Email Writer</h1>
+        <p>Draft highly professional, engaging, and perfectly toned emails in seconds.</p>
+    </section>
 
-<div class="logo">
-🚀 ToolVerse
-</div>
+    <section class="resume-builder">
+        <div class="container">
+            <div class="resume-grid">
+                
+                <!-- Left Side: Input Form -->
+                <div class="resume-form">
+                    <h2>Email Details</h2>
+                    
+                    <div class="input-row">
+                        <div class="input-half">
+                            <label>Your Name (Sender)</label>
+                            <input type="text" id="senderName" placeholder="e.g. Imran Khan">
+                        </div>
+                        <div class="input-half">
+                            <label>Recipient Name / Title</label>
+                            <input type="text" id="recipientName" placeholder="e.g. Project Manager">
+                        </div>
+                    </div>
 
-<nav>
+                    <label>Email Subject</label>
+                    <input type="text" id="emailSubject" placeholder="e.g. Leave Request for Next Week">
+                    
+                    <label>Select Tone</label>
+                    <select id="emailTone">
+                        <option value="Professional">👔 Professional & Formal</option>
+                        <option value="Friendly">😊 Friendly & Casual</option>
+                        <option value="Persuasive">🎯 Persuasive & Sales</option>
+                        <option value="Apologetic">🙏 Apologetic</option>
+                    </select>
 
-<a href="index.html">Home</a>
-<a href="index.html#tools">AI Tools</a>
-<a href="index.html#contact">Contact</a>
+                    <label>What is the main purpose of this email?</label>
+                    <textarea id="emailPurpose" rows="5" placeholder="Explain what you want to say in simple words. Our AI will structure it perfectly..."></textarea>
 
-</nav>
+                    <button class="btn action-btn" id="generateEmailBtn">
+                        ✨ Generate Email
+                    </button>
+                </div>
 
-</div>
+                <!-- Right Side: Email Output Mockup -->
+                <div class="resume-preview-container">
+                    <div class="email-client-mockup">
+                        
+                        <div class="email-top-bar">
+                            <div class="dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="new-message-title">New Message</div>
+                        </div>
 
-</header>
+                        <div class="email-header-mockup">
+                            <div class="email-line"><strong>To:</strong> <span id="outRecipient">Recipient</span></div>
+                            <div class="email-line"><strong>Subject:</strong> <span id="outSubject">Your Subject Here</span></div>
+                        </div>
 
-<section class="hero">
+                        <div class="email-body-mockup" id="outBody">
+                            <p class="placeholder-text">Click "Generate Email" to see your professionally drafted message here.</p>
+                        </div>
 
-<h1>AI Email Writer</h1>
+                        <div class="email-footer-mockup">
+                            <button class="copy-btn" id="copyBtn">📋 Copy to Clipboard</button>
+                            <span class="copy-status" id="copyStatus">Copied!</span>
+                        </div>
 
-<p>
-Generate professional emails in seconds.
-</p>
+                    </div>
+                </div>
 
-</section>
+            </div>
+        </div>
+    </section>
 
-<section class="resume-builder">
+    <footer>
+        © 2026 ToolVerse. All Rights Reserved.
+    </footer>
 
-<div class="container">
-
-<div class="resume-grid">
-
-<div class="resume-form">
-
-<h2>Email Details</h2>
-
-<label>Recipient</label>
-<input type="text" id="recipient" placeholder="Manager">
-
-<label>Subject</label>
-<input type="text" id="subject" placeholder="Leave Request">
-
-<label>Tone</label>
-
-<select id="tone">
-
-<option>Professional</option>
-
-<option>Friendly</option>
-
-<option>Formal</option>
-
-<option>Casual</option>
-
-</select>
-
-<label>Purpose</label>
-
-<textarea
-id="purpose"
-rows="6"
-placeholder="Explain what this email should say..."></textarea>
-
-<button class="btn" id="generateEmail">
-Generate Email
-</button>
-
-</div>
-
-<div class="resume-preview">
-
-<h2>Email Preview</h2>
-
-<div id="emailPreview">
-
-<p>
-Your generated email will appear here.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<script src="email-writer.js"></script>
+    <!-- Link to JavaScript -->
+    <script src="email-writer.js"></script>
 
 </body>
-
 </html>
