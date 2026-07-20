@@ -1,665 +1,307 @@
 /* ===================================
-   ToolVerse Premium Theme - Part 1
+   ToolVerse Premium Theme - Global
 =================================== */
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
 }
 
-html{
-scroll-behavior:smooth;
+html {
+scroll-behavior: smooth;
 }
 
-body{
-font-family:Arial,Helvetica,sans-serif;
-background:#f8fafc;
-color:#1f2937;
-line-height:1.7;
+body {
+font-family: 'Inter', Arial, sans-serif;
+background: #f8fafc;
+color: #333333;
+line-height: 1.6;
 }
 
-
-/* Container */
-
-.container{
-width:92%;
-max-width:1200px;
-margin:auto;
+.container {
+width: 90%;
+max-width: 1200px;
+margin: auto;
 }
-
 
 /* Header */
-
-header{
-position:sticky;
-top:0;
-background:#ffffff;
-border-bottom:1px solid #e5e7eb;
-z-index:1000;
-box-shadow:0 2px 10px rgba(0,0,0,.05);
+header {
+position: sticky;
+top: 0;
+background: #ffffff;
+border-bottom: 1px solid #e5e7eb;
+z-index: 1000;
+box-shadow: 0 2px 10px rgba(0,0,0,.03);
 }
 
-header .container{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:18px 0;
+header .container {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 15px 0;
 }
 
-
-/* Logo */
-
-.logo{
-font-size:30px;
-font-weight:700;
-color:#e5322d;
+.logo {
+font-size: 26px;
+font-weight: 800;
+color: #e5322d;
+letter-spacing: -0.5px;
 }
 
-
-/* Navigation */
-
-nav{
-display:flex;
-gap:30px;
-align-items:center;
+nav {
+display: flex;
+gap: 25px;
 }
 
-nav a{
-text-decoration:none;
-color:#374151;
-font-size:16px;
-font-weight:600;
-transition:.3s;
+nav a {
+text-decoration: none;
+color: #4b5563;
+font-size: 15px;
+font-weight: 600;
+transition: .2s;
 }
 
-nav a:hover{
-color:#e5322d;
+nav a:hover {
+color: #e5322d;
 }
 
-
-/* Hero */
-
-.hero{
-text-align:center;
-padding:90px 20px;
-background:linear-gradient(180deg,#ffffff,#f3f4f6);
+/* Hero Section (iLovePDF Style) */
+.hero {
+text-align: center;
+padding: 80px 20px 60px;
+background: #f3f4f6;
+border-bottom: 1px solid #e5e7eb;
 }
 
-.hero h1{
-font-size:58px;
-font-weight:700;
-color:#111827;
-margin-bottom:20px;
+.hero h1 {
+font-size: 48px;
+font-weight: 800;
+color: #111827;
+margin-bottom: 15px;
+letter-spacing: -1px;
 }
 
-.hero p{
-font-size:22px;
-color:#6b7280;
-max-width:760px;
-margin:auto;
-margin-bottom:35px;
+.hero p {
+font-size: 20px;
+color: #4b5563;
+max-width: 700px;
+margin: auto;
+margin-bottom: 35px;
 }
 
+/* Search Bar */
+.search-container {
+max-width: 600px;
+margin: auto;
+position: relative;
+}
+
+.search-container input {
+width: 100%;
+padding: 18px 25px;
+font-size: 16px;
+border: 2px solid #e5e7eb;
+border-radius: 50px;
+outline: none;
+box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+transition: 0.3s;
+font-family: 'Inter', sans-serif;
+}
+
+.search-container input:focus {
+border-color: #e5322d;
+box-shadow: 0 4px 20px rgba(229, 50, 45, 0.15);
+}
 
 /* Button */
-
-.btn{
-display:inline-block;
-background:#e5322d;
-color:#fff;
-padding:15px 35px;
-border-radius:8px;
-text-decoration:none;
-font-weight:bold;
-transition:.3s;
+.btn {
+display: inline-block;
+background: #e5322d;
+color: #fff;
+padding: 14px 30px;
+border-radius: 8px;
+text-decoration: none;
+font-weight: 600;
+transition: .3s;
 }
 
-.btn:hover{
-background:#c62828;
-transform:translateY(-2px);
+.btn:hover {
+background: #c62828;
 }
 
-
-/* Hero Stats */
-
-.hero-stats{
-display:flex;
-justify-content:center;
-gap:25px;
-margin-top:60px;
-flex-wrap:wrap;
+/* Tools Grid (The iLovePDF Look) */
+.tools {
+padding: 80px 20px;
+background: #ffffff;
 }
 
-.hero-stats div{
-background:#fff;
-padding:22px 35px;
-border-radius:14px;
-box-shadow:0 5px 20px rgba(0,0,0,.08);
-min-width:180px;
+.tools h2 {
+text-align: center;
+font-size: 36px;
+color: #111827;
+margin-bottom: 50px;
+font-weight: 800;
 }
 
-.hero-stats h3{
-font-size:34px;
-color:#e5322d;
-margin-bottom:8px;
+.tool-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+gap: 25px;
+max-width: 1200px;
+margin: auto;
 }
 
-.hero-stats p{
-font-size:17px;
-color:#6b7280;
-}
-/* ===================================
-   ToolVerse Premium Theme - Part 2
-=================================== */
-
-
-/* Tools Section */
-
-.tools{
-padding:90px 20px;
-background:#ffffff;
+/* The Card styling - Entire card is clickable */
+.card {
+background: #ffffff;
+padding: 35px 30px;
+border: 1px solid #e5e7eb;
+border-radius: 12px;
+text-decoration: none;
+color: inherit;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+transition: all 0.3s ease;
 }
 
-.tools h2{
-text-align:center;
-font-size:42px;
-color:#111827;
-margin-bottom:15px;
+.card:hover {
+transform: translateY(-5px);
+border-color: #e5322d;
+box-shadow: 0 15px 35px rgba(229, 50, 45, 0.1);
 }
 
-.tools > p{
-text-align:center;
-color:#6b7280;
-font-size:18px;
-margin-bottom:50px;
+.card .icon {
+font-size: 40px;
+margin-bottom: 15px;
+line-height: 1;
 }
 
-.tool-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:30px;
-max-width:1200px;
-margin:auto;
+.card h3 {
+font-size: 22px;
+margin-bottom: 10px;
+color: #111827;
+font-weight: 700;
 }
 
-.card{
-background:#ffffff;
-padding:30px;
-border:1px solid #e5e7eb;
-border-radius:16px;
-box-shadow:0 6px 20px rgba(0,0,0,.06);
-transition:.3s;
+.card p {
+color: #6b7280;
+font-size: 15px;
+line-height: 1.5;
 }
-
-.card:hover{
-transform:translateY(-8px);
-box-shadow:0 15px 35px rgba(0,0,0,.10);
-}
-
-.card h3{
-font-size:24px;
-margin-bottom:15px;
-color:#111827;
-}
-
-.card p{
-color:#6b7280;
-margin-bottom:25px;
-}
-
 
 /* Stats */
-
-.stats{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:30px;
-padding:80px 20px;
-background:#f8fafc;
+.stats {
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+gap: 30px;
+padding: 80px 20px;
+background: #f8fafc;
+border-top: 1px solid #e5e7eb;
 }
 
-.stat-box{
-background:#ffffff;
-padding:35px;
-width:250px;
-border-radius:16px;
-text-align:center;
-border:1px solid #e5e7eb;
-box-shadow:0 5px 20px rgba(0,0,0,.05);
+.stat-box {
+text-align: center;
+padding: 20px;
+width: 250px;
 }
 
-.stat-box h2{
-font-size:42px;
-color:#e5322d;
-margin-bottom:10px;
+.stat-box h2 {
+font-size: 48px;
+color: #e5322d;
+margin-bottom: 5px;
+font-weight: 800;
 }
 
-.stat-box p{
-color:#6b7280;
+.stat-box p {
+color: #6b7280;
+font-size: 18px;
+font-weight: 600;
 }
 
-
-/* Testimonials */
-
-.testimonials{
-padding:90px 20px;
-background:#ffffff;
-text-align:center;
+/* Contact & Footer */
+.contact {
+padding: 80px 20px;
+text-align: center;
+background: #ffffff;
+border-top: 1px solid #e5e7eb;
 }
 
-.testimonials h2{
-font-size:42px;
-margin-bottom:45px;
-color:#111827;
+.contact h2 {
+font-size: 36px;
+margin-bottom: 15px;
 }
 
-.testimonial-box{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:30px;
-max-width:1100px;
-margin:auto;
+.contact p {
+font-size: 18px;
+color: #6b7280;
+margin-bottom: 30px;
 }
 
-
-/* Contact */
-
-.contact{
-padding:90px 20px;
-text-align:center;
-background:#f8fafc;
+footer {
+background: #111827;
+color: #9ca3af;
+text-align: center;
+padding: 30px 20px;
+font-size: 14px;
 }
-
-.contact h2{
-font-size:42px;
-margin-bottom:20px;
-color:#111827;
-}
-
-.contact p{
-font-size:20px;
-color:#6b7280;
-margin-bottom:35px;
-}
-
-
-/* Footer */
-
-footer{
-background:#111827;
-color:#d1d5db;
-text-align:center;
-padding:35px 20px;
-}
-
 
 /* Responsive */
+@media(max-width: 768px) {
+header .container {
+flex-direction: column;
+gap: 15px;
+}
+nav {
+flex-wrap: wrap;
+justify-content: center;
+gap: 15px;
+}
+.hero h1 { font-size: 36px; }
+.hero p { font-size: 16px; }
+.tools h2 { font-size: 28px; }
+.tool-grid { grid-template-columns: 1fr; }
+}
+
+/* =====================================
+   Individual Tools CSS (Retained from your code)
+===================================== */
+.resume-form select { width:100%; padding:14px; border:1px solid #d1d5db; border-radius:8px; font-size:16px; margin-bottom:18px; background:#fff; outline:none; }
+.resume-form select:focus { border-color:#e5322d; }
+#emailPreview { line-height:1.9; font-size:17px; color:#374151; word-wrap:break-word; }
+#emailPreview strong { color:#e5322d; }
+
+.caption-generator { padding:80px 20px; background:#f8fafc; }
+.caption-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; max-width:1200px; margin:auto; }
+.caption-form, .caption-preview { background:#ffffff; padding:35px; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.08); border:1px solid #e5e7eb; }
+.caption-form h2, .caption-preview h2 { margin-bottom:25px; color:#111827; }
+.caption-form label { display:block; font-weight:bold; margin:18px 0 8px; color:#374151; }
+.caption-form input, .caption-form select { width:100%; padding:14px; border:1px solid #d1d5db; border-radius:8px; font-size:16px; outline:none; background:#ffffff; }
+.caption-form input:focus, .caption-form select:focus { border-color:#e5322d; }
+.caption-form .btn { margin-top:18px; margin-right:10px; cursor:pointer; border:none; }
+#captionOutput { min-height:260px; padding:20px; border:1px solid #e5e7eb; border-radius:10px; background:#f9fafb; line-height:1.8; white-space:pre-wrap; margin-bottom:20px; color:#374151; }
+
+.pdf-tool { padding:80px 20px; background:#f8fafc; }
+.pdf-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; max-width:1200px; margin:auto; }
+.pdf-form, .pdf-preview { background:#ffffff; padding:35px; border-radius:16px; border:1px solid #e5e7eb; box-shadow:0 10px 30px rgba(0,0,0,.08); }
+.pdf-form h2, .pdf-preview h2 { margin-bottom:25px; color:#111827; }
+.pdf-form input[type="file"] { width:100%; padding:14px; border:2px dashed #d1d5db; border-radius:10px; background:#ffffff; cursor:pointer; margin-bottom:20px; }
+#fileName { color:#6b7280; margin-bottom:20px; font-size:16px; word-break:break-word; }
+.pdf-form .btn { margin-top:12px; margin-right:10px; border:none; cursor:pointer; }
+#summaryOutput { min-height:300px; padding:20px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:10px; line-height:1.8; color:#374151; overflow:auto; white-space:pre-wrap; margin-bottom:20px; }
+
+.grammar-checker { padding:80px 20px; background:#f8fafc; }
+.grammar-grid { display:grid; grid-template-columns:1fr 1fr; gap:40px; max-width:1200px; margin:auto; }
+.grammar-box { background:#ffffff; padding:35px; border-radius:16px; border:1px solid #e5e7eb; box-shadow:0 10px 30px rgba(0,0,0,.08); }
+.grammar-box h2 { margin-bottom:20px; color:#111827; }
+.grammar-box textarea { width:100%; min-height:320px; padding:16px; font-size:16px; border:1px solid #d1d5db; border-radius:10px; outline:none; resize:vertical; font-family:Arial,Helvetica,sans-serif; }
+.grammar-box textarea:focus { border-color:#e5322d; }
+#outputText { min-height:320px; padding:16px; border:1px solid #d1d5db; border-radius:10px; background:#f9fafb; white-space:pre-wrap; line-height:1.7; color:#374151; overflow:auto; }
+.grammar-box .btn { margin-top:18px; margin-right:10px; cursor:pointer; border:none; }
 
 @media(max-width:768px){
-
-header .container{
-flex-direction:column;
-gap:18px;
-}
-
-nav{
-flex-wrap:wrap;
-justify-content:center;
-gap:18px;
-}
-
-.hero{
-padding:70px 20px;
-}
-
-.hero h1{
-font-size:38px;
-}
-
-.hero p{
-font-size:18px;
-}
-
-.hero-stats{
-flex-direction:column;
-align-items:center;
-}
-
-.hero-stats div{
-width:90%;
-max-width:280px;
-}
-
-.tools h2,
-.testimonials h2,
-.contact h2{
-font-size:32px;
-}
-
-.tool-grid,
-.testimonial-box{
-grid-template-columns:1fr;
-}
-
-.stat-box{
-width:90%;
-max-width:300px;
-}
-
-.btn{
-padding:12px 28px;
-}
-
-                           }
-/* =====================================
-   Email Writer
-===================================== */
-
-.resume-form select{
-width:100%;
-padding:14px;
-border:1px solid #d1d5db;
-border-radius:8px;
-font-size:16px;
-margin-bottom:18px;
-background:#fff;
-outline:none;
-}
-
-.resume-form select:focus{
-border-color:#2563eb;
-}
-
-#emailPreview{
-line-height:1.9;
-font-size:17px;
-color:#374151;
-word-wrap:break-word;
-}
-
-#emailPreview strong{
-color:#2563eb;
-}
-/* =====================================
-   AI Caption Generator
-===================================== */
-
-.caption-generator{
-padding:80px 20px;
-background:#f8fafc;
-}
-
-.caption-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:40px;
-max-width:1200px;
-margin:auto;
-}
-
-.caption-form,
-.caption-preview{
-background:#ffffff;
-padding:35px;
-border-radius:16px;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
-border:1px solid #e5e7eb;
-}
-
-.caption-form h2,
-.caption-preview h2{
-margin-bottom:25px;
-color:#111827;
-}
-
-.caption-form label{
-display:block;
-font-weight:bold;
-margin:18px 0 8px;
-color:#374151;
-}
-
-.caption-form input,
-.caption-form select{
-width:100%;
-padding:14px;
-border:1px solid #d1d5db;
-border-radius:8px;
-font-size:16px;
-outline:none;
-background:#ffffff;
-}
-
-.caption-form input:focus,
-.caption-form select:focus{
-border-color:#2563eb;
-}
-
-.caption-form .btn{
-margin-top:18px;
-margin-right:10px;
-cursor:pointer;
-border:none;
-}
-
-#captionOutput{
-min-height:260px;
-padding:20px;
-border:1px solid #e5e7eb;
-border-radius:10px;
-background:#f9fafb;
-line-height:1.8;
-white-space:pre-wrap;
-margin-bottom:20px;
-color:#374151;
-}
-
-.caption-preview .btn{
-border:none;
-cursor:pointer;
-}
-
-/* Mobile */
-
-@media(max-width:768px){
-
-.caption-grid{
-grid-template-columns:1fr;
-}
-
-.caption-form,
-.caption-preview{
-padding:25px;
-}
-
-.caption-form .btn,
-.caption-preview .btn{
-width:100%;
-margin-right:0;
-margin-bottom:12px;
-}
-
-}
-/* =====================================
-   AI PDF Summarizer
-===================================== */
-
-.pdf-tool{
-padding:80px 20px;
-background:#f8fafc;
-}
-
-.pdf-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:40px;
-max-width:1200px;
-margin:auto;
-}
-
-.pdf-form,
-.pdf-preview{
-background:#ffffff;
-padding:35px;
-border-radius:16px;
-border:1px solid #e5e7eb;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
-}
-
-.pdf-form h2,
-.pdf-preview h2{
-margin-bottom:25px;
-color:#111827;
-}
-
-.pdf-form input[type="file"]{
-width:100%;
-padding:14px;
-border:2px dashed #d1d5db;
-border-radius:10px;
-background:#ffffff;
-cursor:pointer;
-margin-bottom:20px;
-}
-
-#fileName{
-color:#6b7280;
-margin-bottom:20px;
-font-size:16px;
-word-break:break-word;
-}
-
-.pdf-form .btn{
-margin-top:12px;
-margin-right:10px;
-border:none;
-cursor:pointer;
-}
-
-#summaryOutput{
-min-height:300px;
-padding:20px;
-background:#f9fafb;
-border:1px solid #e5e7eb;
-border-radius:10px;
-line-height:1.8;
-color:#374151;
-overflow:auto;
-white-space:pre-wrap;
-margin-bottom:20px;
-}
-
-.pdf-preview .btn{
-border:none;
-cursor:pointer;
-}
-
-/* Mobile */
-
-@media(max-width:768px){
-
-.pdf-grid{
-grid-template-columns:1fr;
-}
-
-.pdf-form,
-.pdf-preview{
-padding:25px;
-}
-
-.pdf-form .btn,
-.pdf-preview .btn{
-width:100%;
-margin:10px 0;
-}
-
-   }
-/* =====================================
-   AI Grammar Checker
-===================================== */
-
-.grammar-checker{
-padding:80px 20px;
-background:#f8fafc;
-}
-
-.grammar-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:40px;
-max-width:1200px;
-margin:auto;
-}
-
-.grammar-box{
-background:#ffffff;
-padding:35px;
-border-radius:16px;
-border:1px solid #e5e7eb;
-box-shadow:0 10px 30px rgba(0,0,0,.08);
-}
-
-.grammar-box h2{
-margin-bottom:20px;
-color:#111827;
-}
-
-.grammar-box textarea{
-width:100%;
-min-height:320px;
-padding:16px;
-font-size:16px;
-border:1px solid #d1d5db;
-border-radius:10px;
-outline:none;
-resize:vertical;
-font-family:Arial,Helvetica,sans-serif;
-}
-
-.grammar-box textarea:focus{
-border-color:#e5322d;
-}
-
-#outputText{
-min-height:320px;
-padding:16px;
-border:1px solid #d1d5db;
-border-radius:10px;
-background:#f9fafb;
-white-space:pre-wrap;
-line-height:1.7;
-color:#374151;
-overflow:auto;
-}
-
-.grammar-box .btn{
-margin-top:18px;
-margin-right:10px;
-cursor:pointer;
-border:none;
-}
-
-@media(max-width:768px){
-
-.grammar-grid{
-grid-template-columns:1fr;
-}
-
-.grammar-box{
-padding:25px;
-}
-
-.grammar-box .btn{
-width:100%;
-margin-right:0;
-margin-bottom:12px;
-}
-
-#outputText,
-.grammar-box textarea{
-min-height:250px;
-}
-
+.caption-grid, .pdf-grid, .grammar-grid { grid-template-columns:1fr; }
+.caption-form, .caption-preview, .pdf-form, .pdf-preview, .grammar-box { padding:25px; }
+.caption-form .btn, .pdf-form .btn, .grammar-box .btn { width:100%; margin-right:0; margin-bottom:12px; }
 }
