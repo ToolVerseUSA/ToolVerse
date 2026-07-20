@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Grammar Checker | ToolVerse</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="container">
+
+<div class="logo">
+🚀 ToolVerse
+</div>
+
+<nav>
+
+<a href="index.html">Home</a>
+<a href="index.html#tools">AI Tools</a>
+<a href="index.html#contact">Contact</a>
+
+</nav>
+
+</div>
+
+</header>
+
+<section class="hero">
+
+<h1>AI Grammar Checker</h1>
+
+<p>
+Correct grammar, spelling and punctuation in seconds.
+</p>
+
+</section>
+
+<section class="grammar-checker">
+
+<div class="container">
+
+<div class="grammar-grid">
+
+<!-- Input -->
+
+<div class="grammar-box">
+
+<h2>Enter Your Text</h2>
+
+<textarea
+id="inputText"
+rows="14"
+placeholder="Paste or type your text here..."></textarea>
+
+<button class="btn" id="checkBtn">
+Check Grammar
+</button>
+
+<button class="btn" id="clearBtn">
+Clear
+</button>
+
+</div>
+
+<!-- Output -->
+
+<div class="grammar-box">
+
+<h2>Corrected Text</h2>
+
+<div id="outputText">
+
+Your corrected text will appear here...
+
+</div>
+
+<button class="btn" id="copyBtn">
+Copy Text
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<script src="grammar-checker.js"></script>
+
+</body>
+
+</html>
