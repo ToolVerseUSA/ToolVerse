@@ -1,46 +1,28 @@
-document.addEventListener("DOMContentLoaded", function () {
+// Function to update the preview instantly
+function updatePreview(inputId, previewId, placeholderText) {
+    const inputElement = document.getElementById(inputId);
+    const previewElement = document.getElementById(previewId);
 
-const name = document.getElementById("name");
-const email = document.getElementById("email");
-const phone = document.getElementById("phone");
-const address = document.getElementById("address");
-const skills = document.getElementById("skills");
-const education = document.getElementById("education");
-const experience = document.getElementById("experience");
+    // Listen for typing events
+    inputElement.addEventListener('input', function() {
+        if (this.value.trim() === '') {
+            previewElement.innerText = placeholderText; // Show placeholder if empty
+        } else {
+            previewElement.innerText = this.value; // Show actual typed text
+        }
+    });
+}
 
-const generateBtn = document.getElementById("generateBtn");
-const printBtn = document.getElementById("printBtn");
-
-const preview = document.getElementById("preview");
-
-generateBtn.addEventListener("click", function () {
-
-preview.innerHTML = `
-<h1>${name.value || "Your Name"}</h1>
-
-<p><strong>Email:</strong> ${email.value}</p>
-
-<p><strong>Phone:</strong> ${phone.value}</p>
-
-<p><strong>Address:</strong> ${address.value}</p>
-
-<hr>
-
-<h3>Skills</h3>
-<p>${skills.value.replace(/\n/g,"<br>")}</p>
-
-<h3>Education</h3>
-<p>${education.value.replace(/\n/g,"<br>")}</p>
-
-<h3>Experience</h3>
-<p>${experience.value.replace(/\n/g,"<br>")}</p>
-
-`;
-
-});
-
-printBtn.addEventListener("click", function () {
-window.print();
-});
-
+// Map the Inputs to the Preview areas
+document.addEventListener("DOMContentLoaded", function() {
+    updatePreview('nameInput', 'previewName', 'Imran Khan');
+    updatePreview('titleInput', 'previewTitle', 'Freelance Digital Media Specialist');
+    updatePreview('emailInput', 'previewEmail', 'you@email.com');
+    updatePreview('phoneInput', 'previewPhone', '+92 300 0000000');
+    updatePreview('addressInput', 'previewAddress', 'Hyderabad, Sindh, Pakistan');
+    
+    updatePreview('summaryInput', 'previewSummary', 'A brief summary of your professional background and goals will appear here.');
+    updatePreview('skillsInput', 'previewSkills', 'YouTube SEO, Digital Graphic Design, AI Productivity Tools');
+    updatePreview('experienceInput', 'previewExperience', 'Your detailed work experience will appear here as you type.');
+    updatePreview('educationInput', 'previewEducation', 'Your educational background will appear here.');
 });
