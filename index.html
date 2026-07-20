@@ -1,218 +1,622 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>ToolVerse | All-in-One Premium AI SaaS Platform</title>
+    <meta name="title" content="ToolVerse | All-in-One Premium AI SaaS Platform">
+    <meta name="description" content="ToolVerse is the ultimate production-ready AI ecosystem. Access premium tools for writing, coding, image generation, and document processing in one modern interface.">
+    <meta name="keywords" content="AI tools, SaaS, Resume Builder, Email Writer, PDF Summarizer, Grammar Checker, AI Platform, ToolVerse">
+    <meta name="author" content="ToolVerse Inc.">
+    <link rel="canonical" href="https://toolverse.ai/">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://toolverse.ai/">
+    <meta property="og:title" content="ToolVerse | All-in-One Premium AI SaaS Platform">
+    <meta property="og:description" content="ToolVerse is the ultimate production-ready AI ecosystem. Access premium tools for writing, coding, image generation, and document processing in one modern interface.">
+    <meta property="og:image" content="https://toolverse.ai/assets/og-image.jpg">
 
-<title>ToolVerse | AI Tools for Everyone</title>
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://toolverse.ai/">
+    <meta property="twitter:title" content="ToolVerse | All-in-One Premium AI SaaS Platform">
+    <meta property="twitter:description" content="ToolVerse is the ultimate production-ready AI ecosystem. Access premium tools for writing, coding, image generation, and document processing in one modern interface.">
+    <meta property="twitter:image" content="https://toolverse.ai/assets/og-image.jpg">
 
-<link rel="stylesheet" href="style.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23E5322D'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold' font-size='60'>V</text></svg>">
 
+    <!-- Preload Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "ToolVerse",
+      "url": "https://toolverse.ai",
+      "description": "Premium AI SaaS platform offering professional-grade tools for writing, design, and productivity.",
+      "applicationCategory": "ProductivitySoftware",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
 </head>
-
 <body>
+    <!-- Premium Header -->
+    <header class="main-header" id="header">
+        <div class="container header-container">
+            <div class="logo-wrapper">
+                <a href="index.html" class="logo">
+                    <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="8" fill="#E5322D"/>
+                        <path d="M16 8L22.9282 20H9.0718L16 8Z" fill="white"/>
+                    </svg>
+                    <span class="logo-text">Tool<span>Verse</span></span>
+                </a>
+            </div>
 
-<header>
+            <nav class="mega-nav">
+                <ul class="nav-list">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">AI Tools <svg class="chevron" width="10" height="10" viewBox="0 0 10 10"><path d="M1 3L5 7L9 3" stroke="currentColor" stroke-width="2" fill="none"/></svg></a>
+                        <div class="mega-menu">
+                            <div class="mega-grid">
+                                <div class="mega-column">
+                                    <h3>Writing & Content</h3>
+                                    <a href="tools/resume-builder.html" class="mega-item">
+                                        <div class="item-icon writing"></div>
+                                        <div class="item-info">
+                                            <span class="item-title">Resume Builder</span>
+                                            <span class="item-desc">Professional AI-powered resumes</span>
+                                        </div>
+                                    </a>
+                                    <a href="tools/email-writer.html" class="mega-item">
+                                        <div class="item-icon writing"></div>
+                                        <div class="item-info">
+                                            <span class="item-title">Email Writer</span>
+                                            <span class="item-desc">Craft perfect professional emails</span>
+                                        </div>
+                                    </a>
+                                    <a href="tools/caption-generator.html" class="mega-item">
+                                        <div class="item-icon writing"></div>
+                                        <div class="item-info">
+                                            <span class="item-title">Caption Generator</span>
+                                            <span class="item-desc">Social media engagement booster</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="mega-column">
+                                    <h3>Documents & PDF</h3>
+                                    <a href="tools/pdf-summarizer.html" class="mega-item">
+                                        <div class="item-icon doc"></div>
+                                        <div class="item-info">
+                                            <span class="item-title">PDF Summarizer</span>
+                                            <span class="item-desc">Extract insights from any PDF</span>
+                                        </div>
+                                    </a>
+                                    <a href="tools/grammar-checker.html" class="mega-item">
+                                        <div class="item-icon doc"></div>
+                                        <div class="item-info">
+                                            <span class="item-title">Grammar Checker</span>
+                                            <span class="item-desc">Flawless writing every time</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="mega-item coming-soon">
+                                        <div class="item-icon doc"></div>
+                                        <div class="item-info">
+                                            <span class="item-title">PDF Merge</span>
+                                            <span class="item-desc">Combine multiple files</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="mega-column">
+                                    <h3>Visual & Design</h3>
+                                    <a href="#" class="mega-item coming-soon">
+                                        <div class="item-icon visual"></div>
+                                        <div class="item-info">
+                                            <span class="item-title">Image Generator</span>
+                                            <span class="item-desc">Text to stunning visuals</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="mega-item coming-soon">
+                                        <div class="item-icon visual"></div>
+                                        <div class="item-info">
+                                            <span class="item-title">OCR Tool</span>
+                                            <span class="item-desc">Extract text from images</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a href="#featured" class="nav-link">Featured</a></li>
+                    <li class="nav-item"><a href="#trending" class="nav-link">Trending</a></li>
+                    <li class="nav-item"><a href="#pricing" class="nav-link">Pricing</a></li>
+                </ul>
+            </nav>
 
-<div class="container">
+            <div class="header-actions">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search AI tools...">
+                    <button type="button" class="search-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </button>
+                </div>
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-login">Login</a>
+                    <a href="#" class="btn btn-primary">Get Started</a>
+                </div>
+                <button class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
 
-<div class="logo">
-🚀 ToolVerse
-</div>
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="badge">New: AI Video Generator is coming!</div>
+                    <h1 class="hero-title">
+                        All the AI Tools <br>
+                        <span>One Premium Universe</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        ToolVerse is the professional choice for individuals and teams who demand high-quality AI solutions. No more switching between 50 different apps. Everything you need, optimized and production-ready.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#tools" class="btn btn-primary btn-lg">Explore 50+ Tools</a>
+                        <a href="#how-it-works" class="btn btn-outline btn-lg">How it Works</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">10M+</span>
+                            <span class="stat-label">Active Users</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">AI Tools</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">99.9%</span>
+                            <span class="stat-label">Uptime</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="visual-container">
+                        <!-- Abstract UI elements representing the platform -->
+                        <div class="ui-card card-1 animate-float">
+                            <div class="card-header">
+                                <div class="dots"><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="card-body">
+                                <div class="line long"></div>
+                                <div class="line med"></div>
+                                <div class="line short"></div>
+                            </div>
+                        </div>
+                        <div class="ui-card card-2 animate-float-delayed">
+                            <div class="card-header">
+                                <div class="dots"><span></span><span></span><span></span></div>
+                            </div>
+                            <div class="card-body">
+                                <div class="circle"></div>
+                                <div class="line med"></div>
+                            </div>
+                        </div>
+                        <div class="glow-effect"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<nav>
+        <!-- Popular Categories -->
+        <section class="categories-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Popular Categories</h2>
+                    <p class="section-desc">Browse our curated collection of AI tools by category.</p>
+                </div>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        </div>
+                        <span class="category-name">Writing</span>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                        </div>
+                        <span class="category-name">Documents</span>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        </div>
+                        <span class="category-name">Images</span>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                        </div>
+                        <span class="category-name">Coding</span>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <span class="category-name">Marketing</span>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <span class="category-name">Translation</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<a href="#home">Home</a>
-<a href="#tools">AI Tools</a>
-<a href="#about">About</a>
-<a href="#contact">Contact</a>
+        <!-- Featured Tools Grid -->
+        <section class="tools-section" id="featured">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge">Featured</div>
+                    <h2 class="section-title">Most Popular AI Tools</h2>
+                    <p class="section-desc">Hand-picked AI solutions to supercharge your daily workflow.</p>
+                </div>
+                <div class="tools-grid">
+                    <!-- Tool Card: Resume Builder -->
+                    <div class="tool-card">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon resume">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                            </div>
+                            <div class="tool-tag">Hot</div>
+                        </div>
+                        <h3 class="tool-title">AI Resume Builder</h3>
+                        <p class="tool-description">Create a professional, ATS-friendly resume in minutes with our advanced AI algorithms.</p>
+                        <a href="tools/resume-builder.html" class="btn btn-tool">Open Tool</a>
+                    </div>
 
-</nav>
+                    <!-- Tool Card: Email Writer -->
+                    <div class="tool-card">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon email">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            </div>
+                        </div>
+                        <h3 class="tool-title">AI Email Writer</h3>
+                        <p class="tool-description">Generate professional emails for any situation. Perfect tone, perfect grammar, perfect results.</p>
+                        <a href="tools/email-writer.html" class="btn btn-tool">Open Tool</a>
+                    </div>
 
-</div>
+                    <!-- Tool Card: Caption Generator -->
+                    <div class="tool-card">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon social">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                            </div>
+                        </div>
+                        <h3 class="tool-title">Caption Generator</h3>
+                        <p class="tool-description">Stop staring at a blank screen. Get viral-ready captions for Instagram, LinkedIn, and Twitter.</p>
+                        <a href="tools/caption-generator.html" class="btn btn-tool">Open Tool</a>
+                    </div>
 
-</header>
+                    <!-- Tool Card: PDF Summarizer -->
+                    <div class="tool-card">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon pdf">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15h6"/><path d="M9 19h6"/><path d="M9 11h1"/></svg>
+                            </div>
+                            <div class="tool-tag new">New</div>
+                        </div>
+                        <h3 class="tool-title">PDF Summarizer</h3>
+                        <p class="tool-description">Upload long documents and get instant, accurate summaries. Save hours of reading time.</p>
+                        <a href="tools/pdf-summarizer.html" class="btn btn-tool">Open Tool</a>
+                    </div>
 
-<section class="hero" id="home">
+                    <!-- Tool Card: Grammar Checker -->
+                    <div class="tool-card">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon grammar">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                            </div>
+                        </div>
+                        <h3 class="tool-title">Grammar Checker</h3>
+                        <p class="tool-description">Advanced error detection and style suggestions. Better than a human editor.</p>
+                        <a href="tools/grammar-checker.html" class="btn btn-tool">Open Tool</a>
+                    </div>
 
-<h1>
-Unlock The Power Of Artificial Intelligence
-</h1>
+                    <!-- Tool Card: Image Generator -->
+                    <div class="tool-card coming-soon-card">
+                        <div class="tool-icon-wrapper">
+                            <div class="tool-icon image">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                            </div>
+                        </div>
+                        <h3 class="tool-title">AI Image Gen</h3>
+                        <p class="tool-description">Create photorealistic images and artistic masterpieces from simple text descriptions.</p>
+                        <button disabled class="btn btn-tool btn-disabled">Coming Soon</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<p>
-Discover smart AI tools that help you create, work and grow faster.
-</p>
+        <!-- Why ToolVerse Section -->
+        <section class="features-section" id="features">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="features-text">
+                        <div class="section-badge">Why ToolVerse?</div>
+                        <h2 class="section-title">Built for Professionals, <br>Powered by Advanced AI</h2>
+                        <p class="section-desc">We don't just wrap APIs. We build specialized models and fine-tune them for specific tasks to ensure you get the best possible output every single time.</p>
+                        
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <div class="feature-icon-sm">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E5322D" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                                <div class="feature-content">
+                                    <h4>Privacy First</h4>
+                                    <p>Your data is encrypted and never used for training without permission.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon-sm">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E5322D" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                                <div class="feature-content">
+                                    <h4>Lightning Fast</h4>
+                                    <p>Optimized infrastructure ensures sub-second response times.</p>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon-sm">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E5322D" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                                <div class="feature-content">
+                                    <h4>Enterprise Grade</h4>
+                                    <p>Scalable solutions for teams of all sizes with 99.9% uptime.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="features-visual">
+                        <div class="dashboard-preview">
+                            <div class="preview-header">
+                                <div class="preview-dots"><span></span><span></span><span></span></div>
+                                <div class="preview-search"></div>
+                            </div>
+                            <div class="preview-sidebar"></div>
+                            <div class="preview-content">
+                                <div class="preview-row"></div>
+                                <div class="preview-row"></div>
+                                <div class="preview-row"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<a class="btn" href="#tools">
-Explore AI Tools
-</a>
+        <!-- Stats Section -->
+        <section class="stats-banner">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value">500M+</div>
+                        <div class="stat-name">Words Generated</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">1.2M+</div>
+                        <div class="stat-name">Images Created</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">450k+</div>
+                        <div class="stat-name">Resumes Built</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">180+</div>
+                        <div class="stat-name">Countries Supported</div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<div class="hero-stats">
+        <!-- Testimonials -->
+        <section class="testimonials-section">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title">Loved by Professionals</h2>
+                    <p class="section-desc">Join thousands of users who have transformed their productivity.</p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"ToolVerse has completely replaced five other subscriptions I had. The quality of the AI Resume Builder is unmatched."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">SC</div>
+                            <div class="author-info">
+                                <span class="author-name">Sarah Chen</span>
+                                <span class="author-role">Product Designer at Google</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"The PDF Summarizer is a lifesaver. I can process dozens of research papers in a fraction of the time."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">JM</div>
+                            <div class="author-info">
+                                <span class="author-name">James Miller</span>
+                                <span class="author-role">Legal Analyst</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"Clean UI, fast results, and actually useful tools. ToolVerse is the first AI platform that feels like a real professional tool."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">AK</div>
+                            <div class="author-info">
+                                <span class="author-name">Alex Kumar</span>
+                                <span class="author-role">Full Stack Developer</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<div>
-<h3>100+</h3>
-<p>AI Tools</p>
-</div>
+        <!-- FAQ Section -->
+        <section class="faq-section" id="faq">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-desc">Everything you need to know about ToolVerse.</p>
+                </div>
+                <div class="faq-accordion">
+                    <div class="faq-item">
+                        <button class="faq-question">Is ToolVerse free to use? <span class="icon">+</span></button>
+                        <div class="faq-answer">
+                            <p>Yes, ToolVerse offers a generous free tier that allows you to use most of our tools with daily limits. For power users and teams, we offer premium plans with unlimited access and advanced features.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">How secure is my data? <span class="icon">+</span></button>
+                        <div class="faq-answer">
+                            <p>We take security seriously. All data is encrypted in transit and at rest. We never sell your data, and your inputs are never used to train public models without your explicit consent.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Do you offer API access? <span class="icon">+</span></button>
+                        <div class="faq-answer">
+                            <p>Yes! We provide a robust API for developers who want to integrate ToolVerse's AI capabilities into their own applications. Check our developer documentation for more details.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Can I cancel my subscription anytime? <span class="icon">+</span></button>
+                        <div class="faq-answer">
+                            <p>Absolutely. You can cancel your premium subscription at any time from your account settings with a single click. No hidden fees or complicated processes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<div>
-<h3>10K+</h3>
-<p>Users</p>
-</div>
+        <!-- Newsletter Section -->
+        <section class="newsletter-section">
+            <div class="container">
+                <div class="newsletter-card">
+                    <div class="newsletter-content">
+                        <h2 class="newsletter-title">Stay Ahead with AI</h2>
+                        <p class="newsletter-desc">Get weekly updates on new tools, AI prompts, and productivity tips.</p>
+                        <form class="newsletter-form">
+                            <input type="email" placeholder="Enter your email address" required>
+                            <button type="submit" class="btn btn-primary">Subscribe</button>
+                        </form>
+                        <p class="newsletter-note">No spam, ever. Unsubscribe with one click.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<div>
-<h3>24/7</h3>
-<p>Availability</p>
-</div>
+        <!-- Final CTA -->
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-content">
+                    <h2 class="cta-title">Ready to 10x Your Productivity?</h2>
+                    <p class="cta-desc">Join 10 million+ professionals using ToolVerse to work smarter, not harder.</p>
+                    <div class="cta-actions">
+                        <a href="#" class="btn btn-primary btn-lg">Get Started for Free</a>
+                        <a href="#" class="btn btn-outline btn-lg">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-</div>
+    <!-- Professional Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="32" height="32" rx="8" fill="#E5322D"/>
+                            <path d="M16 8L22.9282 20H9.0718L16 8Z" fill="white"/>
+                        </svg>
+                        <span class="logo-text">Tool<span>Verse</span></span>
+                    </a>
+                    <p class="footer-tagline">The premium universe of AI-powered tools for modern professionals and teams.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
+                        <a href="#" class="social-link"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                        <a href="#" class="social-link"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h3>Company</h3>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Press Kit</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>Resources</h3>
+                        <ul>
+                            <li><a href="#">Documentation</a></li>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Community</a></li>
+                            <li><a href="#">API Status</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>Legal</h3>
+                        <ul>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Cookie Policy</a></li>
+                            <li><a href="#">GDPR</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ToolVerse Inc. All rights reserved.</p>
+                <div class="footer-badges">
+                    <span class="badge-item">ISO 27001 Certified</span>
+                    <span class="badge-item">GDPR Compliant</span>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-</section>
-
-<section class="tools" id="tools">
-
-<h2>
-Popular AI Tools
-</h2>
-
-<p>
-Powerful AI tools to boost your productivity.
-</p>
-
-<div class="tool-grid">
-
-<div class="card">
-<h3>📄 AI Resume Builder</h3>
-<p>Create ATS-friendly resumes in seconds.</p>
-<a class="btn" href="resume-builder.html">Open Tool</a>
-</div>
-
-<div class="card">
-<h3>✉️ AI Email Writer</h3>
-<p>Write professional emails instantly.</p>
-<a class="btn" href="email-writer.html">Open Tool</a>
-</div>
-
-<div class="card">
-<h3>📱 AI Caption Generator</h3>
-<p>Create viral social media captions.</p>
-<a class="btn" href="caption-generator.html">Open Tool</a>
-</div>
-
-<div class="card">
-<h3>📚 AI PDF Summarizer</h3>
-<p>Summarize PDF documents with AI.</p>
-<a class="btn" href="pdf-summarizer.html">Open Tool</a>
-</div>
-
-<div class="card">
-<h3>✅ AI Grammar Checker</h3>
-<p>Fix grammar and improve writing quality.</p>
-<a class="btn" href="grammar-checker.html">Open Tool</a>
-</div>
-
-<div class="card">
-<h3>💡 AI Prompt Generator</h3>
-<p>Generate high-quality prompts for AI.</p>
-<a class="btn" href="prompt-generator.html">Open Tool</a>
-</div>
-
-<div class="card">
-<h3>🎨 AI Image Generator</h3>
-<p>Create stunning AI-generated images.</p>
-<a class="btn" href="image-generator.html">Open Tool</a>
-</div>
-
-<div class="card">
-<h3>🌐 AI Translator</h3>
-<p>Translate text into over 100 languages.</p>
-<a class="btn" href="translator.html">Open Tool</a>
-</div>
-
-<div class="card">
-<h3>💻 AI Code Generator</h3>
-<p>Generate HTML, CSS, JavaScript and Python code.</p>
-<a class="btn" href="code-generator.html">Open Tool</a>
-</div>
-
-</div>
-
-</section>
-
-<section class="stats">
-
-<div class="stat-box">
-<h2>100+</h2>
-<p>AI Tools</p>
-</div>
-
-<div class="stat-box">
-<h2>10K+</h2>
-<p>Users</p>
-</div>
-
-<div class="stat-box">
-<h2>24/7</h2>
-<p>Availability</p>
-</div>
-
-</section>
-
-<section class="testimonials">
-
-<h2>
-What Users Say
-</h2>
-
-<div class="testimonial-box">
-
-<div class="card">
-<p>
-"ToolVerse helps me work faster and save time every day."
-</p>
-<h3>- Alex</h3>
-</div>
-
-<div class="card">
-<p>
-"Simple AI tools with a clean and easy experience."
-</p>
-<h3>- Sarah</h3>
-</div>
-
-<div class="card">
-<p>
-"Great platform for productivity and creativity."
-</p>
-<h3>- David</h3>
-</div>
-
-</div>
-
-</section>
-
-<section class="contact" id="contact">
-
-<h2>
-Contact Us
-</h2>
-
-<p>
-Have questions or suggestions? Send us a message.
-</p>
-
-<a class="btn" href="mailto:contact@toolverse.com">
-Email Us
-</a>
-
-</section>
-
-<footer>
-
-© 2026 ToolVerse. All Rights Reserved.
-
-</footer>
-
+    <!-- Scripts -->
+    <script src="app.js"></script>
 </body>
 </html>
