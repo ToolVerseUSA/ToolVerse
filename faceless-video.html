@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faceless Video Blueprint Generator - ToolVerse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #ff4757;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 10px 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Header */
+        .header {
+            max-width: 1400px;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #64748b;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: #ff4757;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+            min-height: 600px;
+        }
+
+        /* Form styling */
+        .form-panel h2, .results-panel h2 {
+            font-size: 1.5rem;
+            color: #1e293b;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s;
+            background: #f8fafc;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #ff4757;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: #e0313f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Results Panel */
+        .results-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .loading-state {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .loading-state.active { display: block; }
+        .loading-spinner {
+            width: 40px; height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #ff4757;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .results-content { display: none; }
+        .results-content.active { display: block; animation: fadeIn 0.5s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .result-box {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ff4757;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #334155;
+            white-space: pre-wrap;
+        }
+
+        h3 { font-size: 1rem; color: #1e293b; margin-bottom: 10px; }
+
+        /* Affiliate Monetization Section */
+        .monetization-box {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .monetization-box h3 { color: white; margin-bottom: 10px; font-size: 1.2rem; }
+        .monetization-box p { font-size: 0.9rem; color: #cbd5e1; margin-bottom: 15px; }
+
+        .affiliate-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-invideo { background: #3b82f6; color: white; border: 1px solid #2563eb; }
+        .btn-invideo:hover { background: #2563eb; transform: scale(1.02); }
+
+        .btn-fliki { background: #8b5cf6; color: white; border: 1px solid #7c3aed; }
+        .btn-fliki:hover { background: #7c3aed; transform: scale(1.02); }
+
+        @media (max-width: 900px) {
+            .content { grid-template-columns: 1fr; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-link">← Back to ToolVerse</a>
+
+    <div class="header">
+        <div class="header-badge">PRO AI TOOL</div>
+        <h1>Faceless Video Blueprint</h1>
+        <p>Generate high-retention scripts and 4K image prompts for your automated YouTube channel.</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <!-- Left Form Panel -->
+            <div class="form-panel">
+                <h2>Video Details</h2>
+                <form id="blueprintForm">
+                    <div class="form-group">
+                        <label>Topic / Niche *</label>
+                        <input type="text" id="topic" placeholder="e.g., Mysteries of the Ocean, Stoic Philosophy" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Video Length *</label>
+                        <select id="duration" required>
+                            <option value="60s">YouTube Short / TikTok (60 seconds)</option>
+                            <option value="3m">Mini Documentary (3 Minutes)</option>
+                            <option value="8m">Full Video (8 Minutes)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Visual Art Style *</label>
+                        <select id="artStyle" required>
+                            <option value="Hyper-realistic, 4K cinematic lighting">Realistic & Cinematic</option>
+                            <option value="Anime style, Studio Ghibli inspired, vibrant colors">Anime / Animation</option>
+                            <option value="Dark, mysterious, moody lighting, highly detailed">Dark & Mysterious</option>
+                            <option value="3D rendered, Pixar style, cute and bright">3D Cartoon (Pixar)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">Generate Full Blueprint</button>
+                </form>
+            </div>
+
+            <!-- Right Results Panel -->
+            <div class="results-panel">
+                <h2>Generated Assets</h2>
+                
+                <div class="results-placeholder" id="placeholder">
+                    <span>Fill the details on the left to generate your video blueprint.</span>
+                </div>
+
+                <div class="loading-state" id="loadingState">
+                    <div class="loading-spinner"></div>
+                    <p style="color: #64748b; font-weight: 600;">AI is writing script and designing scenes...</p>
+                </div>
+
+                <div class="results-content" id="resultsContent">
+                    <h3>🎤 Voiceover Script</h3>
+                    <div class="result-box" id="scriptOutput"></div>
+
+                    <h3>🎨 AI Image Prompts (Scene by Scene)</h3>
+                    <div class="result-box" id="promptsOutput"></div>
+
+                    <!-- Monetization Area (YOUR MONEY MAKER) -->
+                    <div class="monetization-box">
+                        <h3>Turn this Script into a 4K Video Automatically! 🪄</h3>
+                        <p>Don't want to edit manually? Use these AI Video Generators to convert your script into a finished video in 1 click.</p>
+                        
+                        <!-- NOTE FOR IMRAN: Replace the # with your actual affiliate links when you sign up -->
+                        <a href="#" target="_blank" class="affiliate-btn btn-invideo">
+                            🎬 Generate with InVideo AI (Free)
+                        </a>
+                        <a href="#" target="_blank" class="affiliate-btn btn-fliki">
+                            🎙️ Generate Voice & Video with Fliki
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('blueprintForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const topic = document.getElementById('topic').value.trim();
+            const artStyle = document.getElementById('artStyle').value;
+
+            // UI Adjustments
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('resultsContent').classList.remove('active');
+            document.getElementById('loadingState').classList.add('active');
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = 'Analyzing Audience Retention...';
+
+            setTimeout(() => {
+                // Generate Mock Script
+                const generatedScript = `[0:00 - 0:05] HOOK: "What if everything you thought you knew about ${topic} was completely wrong? The truth is actually terrifying..."\n\n[0:05 - 0:15] INTRO: "For decades, experts have tried to solve the mystery of ${topic}. But a recent discovery has changed everything."\n\n[0:15 - 0:45] MAIN BODY: "It turns out, the core foundation of ${topic} relies on a hidden secret. When you look closely, the evidence points to something massive..."\n\n[0:45 - 1:00] CTA: "If this blew your mind, hit the subscribe button so you don't miss part 2!"`;
+                
+                // Generate Mock Prompts
+                const generatedPrompts = `SCENE 1 (Hook):\n"Wide angle shot representing ${topic}, mysterious atmosphere, dynamic angle, ${artStyle}"\n\nSCENE 2 (Intro):\n"Close up macro shot of ancient evidence relating to ${topic}, dramatic shadows, ${artStyle}"\n\nSCENE 3 (Main Body):\n"Epic cinematic transition showing the evolution of ${topic}, highly detailed, ${artStyle}"\n\nSCENE 4 (Outro):\n"A subtle, engaging end screen background fading to black, maintaining the vibe of ${topic}, ${artStyle}"`;
+
+                // Set content
+                document.getElementById('scriptOutput').innerText = generatedScript;
+                document.getElementById('promptsOutput').innerText = generatedPrompts;
+
+                // Show Results
+                document.getElementById('loadingState').classList.remove('active');
+                document.getElementById('resultsContent').classList.add('active');
+                btn.disabled = false;
+                btn.innerText = 'Generate Full Blueprint';
+
+            }, 1800); // 1.8 second delay
+        });
+    </script>
+</body>
+              </html>
+              
