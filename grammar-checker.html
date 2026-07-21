@@ -1,102 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>AI Grammar Checker | ToolVerse</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Grammar Checker | Premium ToolVerse</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<header>
+    <header>
+        <div class="container">
+            <div class="logo">🚀 ToolVerse</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="index.html#tools">AI Tools</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
 
-<div class="container">
+    <section class="tool-header">
+        <h1>Pro AI Grammar Checker</h1>
+        <p>Instantly fix grammatical errors, spelling mistakes, and enhance your writing flow.</p>
+    </section>
 
-<div class="logo">
-🚀 ToolVerse
-</div>
+    <section class="resume-builder">
+        <div class="container">
+            <div class="resume-grid">
+                
+                <!-- Left Side: Editor Form -->
+                <div class="resume-form">
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h2 style="margin: 0; border: none;">Enter Your Text</h2>
+                        <select id="fixMode" class="editor-select">
+                            <option value="Standard">Standard Fix</option>
+                            <option value="Fluency">Improve Fluency</option>
+                            <option value="Formal">Formal Tone</option>
+                        </select>
+                    </div>
 
-<nav>
+                    <textarea id="inputText" rows="12" class="premium-textarea" placeholder="Type or paste your text here to check for grammar, spelling, and punctuation errors..."></textarea>
+                    
+                    <div class="editor-footer">
+                        <span id="wordCount">0 words</span> | <span id="charCount">0 characters</span>
+                    </div>
 
-<a href="index.html">Home</a>
-<a href="index.html#tools">AI Tools</a>
-<a href="index.html#contact">Contact</a>
+                    <div class="input-row">
+                        <div class="input-half">
+                            <button class="btn action-btn" id="checkBtn">✨ Fix Grammar</button>
+                        </div>
+                        <div class="input-half">
+                            <button class="btn action-btn" id="clearBtn" style="background: #6b7280;">🗑️ Clear</button>
+                        </div>
+                    </div>
+                </div>
 
-</nav>
+                <!-- Right Side: Corrected Output -->
+                <div class="resume-preview-container">
+                    <div class="document-mockup">
+                        
+                        <div class="doc-header">
+                            <div class="doc-title">Corrected Text</div>
+                            <div class="doc-badge" id="statusBadge" style="background: #10b981;">Perfect 💯</div>
+                        </div>
 
-</div>
+                        <div class="doc-body" id="outputText" style="font-size: 16px;">
+                            <div class="empty-state">
+                                ✍️ Your flawless, error-free text will appear here.
+                            </div>
+                        </div>
 
-</header>
+                        <div class="mockup-footer">
+                            <button class="copy-btn" id="copyBtn">📋 Copy Text</button>
+                            <span class="copy-status" id="copyStatus">Copied!</span>
+                        </div>
 
-<section class="hero">
+                    </div>
+                </div>
 
-<h1>AI Grammar Checker</h1>
+            </div>
+        </div>
+    </section>
 
-<p>
-Correct grammar, spelling and punctuation in seconds.
-</p>
+    <footer>
+        © 2026 ToolVerse. All Rights Reserved.
+    </footer>
 
-</section>
-
-<section class="grammar-checker">
-
-<div class="container">
-
-<div class="grammar-grid">
-
-<!-- Input -->
-
-<div class="grammar-box">
-
-<h2>Enter Your Text</h2>
-
-<textarea
-id="inputText"
-rows="14"
-placeholder="Paste or type your text here..."></textarea>
-
-<button class="btn" id="checkBtn">
-Check Grammar
-</button>
-
-<button class="btn" id="clearBtn">
-Clear
-</button>
-
-</div>
-
-<!-- Output -->
-
-<div class="grammar-box">
-
-<h2>Corrected Text</h2>
-
-<div id="outputText">
-
-Your corrected text will appear here...
-
-</div>
-
-<button class="btn" id="copyBtn">
-Copy Text
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<script src="grammar-checker.js"></script>
+    <!-- Link to JavaScript -->
+    <script src="grammar-checker.js"></script>
 
 </body>
-
 </html>
