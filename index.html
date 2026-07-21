@@ -1,132 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ToolVerse | Premium AI Tools for Everyone</title>
-<link rel="stylesheet" href="style.css">
-<!-- Google Fonts for Premium Look -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToolVerse | Every AI tool you need in one place</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<header>
-<div class="container">
-<div class="logo">🚀 ToolVerse</div>
-<nav>
-<a href="#home">Home</a>
-<a href="#tools">AI Tools</a>
-<a href="#about">About</a>
-<a href="#contact">Contact</a>
-</nav>
-</div>
-</header>
+    <!-- iLovePDF Style Header -->
+    <header class="ilove-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <span class="logo-icon">🚀</span> 
+                <span class="logo-text">ToolVerse</span>
+            </div>
+            
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    
+                    <!-- Mega Menu Dropdown -->
+                    <li class="dropdown">
+                        <a href="#tools" class="dropbtn">All AI Tools <span class="arrow">▼</span></a>
+                        <div class="mega-menu">
+                            <div class="mega-column">
+                                <h3>Writing Tools</h3>
+                                <a href="email-writer.html"><span class="icon">✉️</span> Email Writer</a>
+                                <a href="grammar-checker.html"><span class="icon">✅</span> Grammar Checker</a>
+                                <a href="resume-builder.html"><span class="icon">📄</span> Resume Builder</a>
+                            </div>
+                            <div class="mega-column">
+                                <h3>Creative AI</h3>
+                                <a href="prompt-generator.html"><span class="icon">💡</span> Prompt Generator</a>
+                                <a href="caption-generator.html"><span class="icon">📱</span> Caption Generator</a>
+                                <a href="#"><span class="icon">🎨</span> Image Generator <span class="badge">Pro</span></a>
+                            </div>
+                            <div class="mega-column">
+                                <h3>Productivity</h3>
+                                <a href="pdf-summarizer.html"><span class="icon">📚</span> PDF Summarizer</a>
+                                <a href="#"><span class="icon">💻</span> Code Generator</a>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li><a href="#pricing">Pricing</a></li>
+                </ul>
+            </nav>
 
-<section class="hero" id="home">
-<h1>Every AI tool you need, in one place</h1>
-<p>All the tools you need to write, design, code, and grow faster. 100% free and secure.</p>
-<!-- iLovePDF Style Search Bar -->
-<div class="search-container">
-<input type="text" id="searchInput" placeholder="Search for tools... (e.g. Resume, PDF)">
-</div>
-</section>
+            <div class="auth-buttons">
+                <a href="#" class="login-btn">Login</a>
+                <a href="#" class="signup-btn">Sign up</a>
+            </div>
+        </div>
+    </header>
 
-<section class="tools" id="tools">
-<h2>Our Premium AI Suite</h2>
-<div class="tool-grid">
+    <!-- iLovePDF Style Hero Section -->
+    <section class="ilove-hero" id="home">
+        <h1>Every AI tool you need to work faster in one place</h1>
+        <p>Every tool you need to use AI, at your fingertips. All are 100% FREE and easy to use! Write, generate, summarize, and automate with just a few clicks.</p>
+        
+        <!-- Category Filter Pills -->
+        <div class="category-filters">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Writing</button>
+            <button class="filter-btn">Social Media</button>
+            <button class="filter-btn">Productivity</button>
+            <button class="filter-btn">Developers</button>
+        </div>
+    </section>
 
-<!-- Tool Card 1 -->
-<a href="resume-builder.html" class="card">
-<div class="icon">📄</div>
-<h3>AI Resume Builder</h3>
-<p>Create professional, ATS-friendly resumes in seconds to land your dream job.</p>
-</a>
+    <!-- iLovePDF Style Tool Grid -->
+    <section class="tools-section" id="tools">
+        <div class="ilove-grid">
 
-<!-- Tool Card 2 -->
-<a href="email-writer.html" class="card">
-<div class="icon">✉️</div>
-<h3>AI Email Writer</h3>
-<p>Draft highly professional and engaging emails for any situation instantly.</p>
-</a>
+            <a href="prompt-generator.html" class="ilove-card">
+                <div class="card-icon" style="color: #f59e0b;">💡</div>
+                <h3>Prompt Generator</h3>
+                <p>Create highly optimized prompts to get the best results from ChatGPT, Claude & Midjourney.</p>
+            </a>
 
-<!-- Tool Card 3 -->
-<a href="caption-generator.html" class="card">
-<div class="icon">📱</div>
-<h3>Caption Generator</h3>
-<p>Generate viral, engaging social media captions with trending hashtags.</p>
-</a>
+            <a href="email-writer.html" class="ilove-card">
+                <div class="card-icon" style="color: #3b82f6;">✉️</div>
+                <h3>Email Writer</h3>
+                <p>Draft highly professional and engaging emails for any situation instantly.</p>
+            </a>
 
-<!-- Tool Card 4 -->
-<a href="pdf-summarizer.html" class="card">
-<div class="icon">📚</div>
-<h3>PDF Summarizer</h3>
-<p>Extract key points and summarize long PDF documents automatically.</p>
-</a>
+            <a href="pdf-summarizer.html" class="ilove-card">
+                <div class="card-icon" style="color: #e5322d;">📚</div>
+                <h3>PDF Summarizer</h3>
+                <p>Extract key points and summarize long PDF documents automatically in seconds.</p>
+            </a>
 
-<!-- Tool Card 5 -->
-<a href="grammar-checker.html" class="card">
-<div class="icon">✅</div>
-<h3>Grammar Checker</h3>
-<p>Instantly fix grammatical errors, spelling mistakes, and improve writing tone.</p>
-</a>
+            <a href="grammar-checker.html" class="ilove-card">
+                <div class="card-icon" style="color: #10b981;">✅</div>
+                <h3>Grammar Checker</h3>
+                <p>Instantly fix grammatical errors, spelling mistakes, and improve your writing tone.</p>
+            </a>
 
-<!-- Tool Card 6 -->
-<a href="prompt-generator.html" class="card">
-<div class="icon">💡</div>
-<h3>Prompt Generator</h3>
-<p>Create highly optimized prompts to get the best results from ChatGPT & Midjourney.</p>
-</a>
+            <a href="caption-generator.html" class="ilove-card">
+                <div class="card-icon" style="color: #ec4899;">📱</div>
+                <h3>Caption Generator</h3>
+                <p>Generate viral, engaging social media captions with trending hashtags.</p>
+            </a>
 
-<!-- Tool Card 7 -->
-<a href="image-generator.html" class="card">
-<div class="icon">🎨</div>
-<h3>Image Generator</h3>
-<p>Turn your text ideas into stunning, high-quality digital artwork.</p>
-</a>
+            <a href="resume-builder.html" class="ilove-card">
+                <div class="card-icon" style="color: #6366f1;">📄</div>
+                <h3>Resume Builder</h3>
+                <p>Create professional, ATS-friendly resumes in seconds to land your dream job.</p>
+            </a>
 
-<!-- Tool Card 8 -->
-<a href="translator.html" class="card">
-<div class="icon">🌐</div>
-<h3>AI Translator</h3>
-<p>Translate text seamlessly into over 100+ languages with perfect context.</p>
-</a>
+        </div>
+    </section>
 
-<!-- Tool Card 9 -->
-<a href="code-generator.html" class="card">
-<div class="icon">💻</div>
-<h3>Code Generator</h3>
-<p>Generate clean HTML, CSS, JavaScript, and Python code from plain English.</p>
-</a>
-
-</div>
-</section>
-
-<section class="stats">
-<div class="stat-box">
-<h2>100+</h2>
-<p>AI Tools Coming</p>
-</div>
-<div class="stat-box">
-<h2>100%</h2>
-<p>Free to Use</p>
-</div>
-<div class="stat-box">
-<h2>24/7</h2>
-<p>Availability</p>
-</div>
-</section>
-
-<section class="contact" id="contact">
-<h2>Ready to boost your productivity?</h2>
-<p>Join thousands of users working smarter with ToolVerse.</p>
-<a class="btn" href="mailto:contact@toolverse.com">Contact Support</a>
-</section>
-
-<footer>
-© 2026 ToolVerse. All Rights Reserved. Built for the Future.
-</footer>
+    <footer style="text-align: center; padding: 40px; background: #f8fafc; color: #64748b; margin-top: 50px;">
+        © 2026 ToolVerse. All Rights Reserved. Building the future of AI.
+    </footer>
 
 </body>
 </html>
