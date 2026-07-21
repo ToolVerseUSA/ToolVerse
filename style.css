@@ -929,6 +929,77 @@ gap: 15px;
 .editor-select:focus {
     border-color: #e5322d;
 }
+/* =====================================
+   Ultimate Prompt Generator Styles
+===================================== */
+
+.terminal-mockup {
+    width: 100%;
+    max-width: 600px;
+    background: #0d1117; /* GitHub Dark style */
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    border: 1px solid #30363d;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 450px;
+}
+
+.terminal-header {
+    background: #161b22;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #30363d;
+    border-radius: 12px 12px 0 0;
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 6px;
+    margin-right: auto;
+}
+
+.terminal-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.terminal-dots span:nth-child(1) { background: #ff5f56; }
+.terminal-dots span:nth-child(2) { background: #ffbd2e; }
+.terminal-dots span:nth-child(3) { background: #27c93f; }
+
+.terminal-title {
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    color: #8b949e;
+    margin-right: auto;
+    transform: translateX(-50%);
+}
+
+.terminal-body {
+    padding: 25px 20px;
+    flex-grow: 1;
+    font-family: 'Fira Code', monospace; /* Pro Coder Font */
+    font-size: 14px;
+    line-height: 1.7;
+    color: #58a6ff;
+    overflow-y: auto;
+    white-space: pre-wrap;
+}
+
+.terminal-empty {
+    color: #484f58;
+}
+
+/* Enhancing the copy button for terminal */
+.terminal-mockup .copy-btn:hover {
+    background: #238636 !important;
+    box-shadow: 0 0 10px rgba(46, 160, 67, 0.4);
+   }
+   
 
 
 
