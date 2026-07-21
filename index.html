@@ -115,6 +115,10 @@
             padding: 15px; border-radius: 12px; font-weight: 700; font-size: 1rem;
             cursor: pointer; transition: 0.3s; border: none; font-family: inherit;
         }
+        .boost-btn { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: white; box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4); border: 1px solid #a78bfa; }
+        .boost-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(139, 92, 246, 0.6); }
+        .boost-btn:disabled { background: #10b981; color: white; cursor: default; transform: none; box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4); border: none; }
+        
         .claim-btn { background: #ff4757; color: white; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3); }
         .claim-btn:hover { background: #e0313f; transform: translateY(-2px); }
         .claim-btn:disabled { background: #475569; cursor: not-allowed; box-shadow: none; color: #94a3b8; transform: none;}
@@ -263,7 +267,7 @@
         <div class="crypto-modal-content">
             <span class="close-crypto" id="closeModalBtn">&times;</span>
             <div class="crypto-header">
-                <div class="crypto-badge">🚀 VIP MINING ACCESS</div>
+                <div class="crypto-badge" id="miningStatusBadge">🚀 VIP MINING ACCESS</div>
                 <h2>$TOOL Dashboard</h2>
                 <p>Mine tokens for free before the official mainnet launch.</p>
             </div>
@@ -271,10 +275,13 @@
             <div class="crypto-balance-box">
                 <div class="balance-label">Your Total Mined Balance</div>
                 <div class="balance-amount"><span style="font-size: 2rem;">🪙</span> <span id="modalBal">0.000</span></div>
-                <div class="balance-usd">Mining Rate: +0.001 per 5 seconds</div>
+                <div class="balance-usd" id="miningRateText">Mining Rate: +0.001 per 5 seconds</div>
             </div>
             
             <div class="crypto-actions">
+                <!-- NEW 3x BOOST BUTTON -->
+                <button class="action-btn boost-btn" id="boostBtn">⚡ Boost Mining 3x (Use a Tool)</button>
+                
                 <button class="action-btn claim-btn" id="claimDailyBtn">🎁 Claim Daily Bonus (+50 $TOOL)</button>
                 <button class="action-btn invite-btn" onclick="alert('Invite link copied to clipboard!')">🔗 Copy Invite Link (+100 $TOOL)</button>
             </div>
@@ -289,12 +296,16 @@
             // 1. Initialize variables from Local Storage
             let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
             let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
+            let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
 
             // Elements
             const headerBal = document.getElementById('headerBal');
             const widgetBal = document.getElementById('widgetBal');
             const modalBal = document.getElementById('modalBal');
             const claimBtn = document.getElementById('claimDailyBtn');
+            const boostBtn = document.getElementById('boostBtn');
+            const miningRateText = document.getElementById('miningRateText');
+            const miningStatusBadge = document.getElementById('miningStatusBadge');
             
             // Modal Elements
             const modal = document.getElementById('cryptoModal');
@@ -311,7 +322,7 @@
                 localStorage.setItem('toolVerseBalance', toolBalance);
             }
 
-            // 3. Check Daily Claim Status on Load
+            // 3. Check Daily Claim Status
             function checkDailyStatus() {
                 const today = new Date().toDateString();
                 if (lastClaimDate === today) {
@@ -320,17 +331,48 @@
                 }
             }
 
-            // 4. Background Auto Mining (Adds 0.001 every 5 seconds)
+            // 4. Update Boost UI
+            function updateBoostUI() {
+                if (isBoostActive) {
+                    boostBtn.disabled = true;
+                    boostBtn.innerHTML = "🔥 3x Boost is Active!";
+                    miningRateText.innerHTML = "Mining Rate: <span style='color:#fbbf24; font-weight:bold;'>+0.003 per 5 seconds (3x)</span>";
+                    miningStatusBadge.innerHTML = "🔥 3x BOOST ACTIVE";
+                    miningStatusBadge.style.background = "rgba(16, 185, 129, 0.1)";
+                    miningStatusBadge.style.color = "#10b981";
+                    miningStatusBadge.style.borderColor = "#10b981";
+                }
+            }
+
+            // 5. Background Auto Mining
             setInterval(() => {
-                toolBalance += 0.001;
+                // If boost is active, add 0.003, otherwise 0.001
+                let amountToAdd = isBoostActive ? 0.003 : 0.001;
+                toolBalance += amountToAdd;
                 updateBalance();
             }, 5000);
 
-            // 5. Daily Claim Button Logic
+            // 6. 3x Boost Button Logic (The Masterstroke)
+            boostBtn.addEventListener('click', function() {
+                alert("🚀 To activate 3x Mining Speed, please select and use any AI Tool from the grid below!");
+                modal.style.display = 'none';
+                
+                // Scroll down to the tools section smoothly
+                document.getElementById('tools').scrollIntoView({ behavior: 'smooth' });
+                
+                // Simulate activation when they click to use a tool
+                setTimeout(() => {
+                    isBoostActive = true;
+                    localStorage.setItem('toolVerseBoostActive', 'true');
+                    updateBoostUI();
+                }, 3000); 
+            });
+
+            // 7. Daily Claim Button Logic
             claimBtn.addEventListener('click', function() {
                 const today = new Date().toDateString();
                 if (lastClaimDate !== today) {
-                    toolBalance += 50.000; // Give 50 tokens
+                    toolBalance += 50.000; 
                     lastClaimDate = today;
                     localStorage.setItem('toolVerseLastClaim', today);
                     updateBalance();
@@ -339,7 +381,7 @@
                 }
             });
 
-            // 6. Modal Controls
+            // 8. Modal Controls
             openNavBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
             openWidgetBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
             closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
@@ -347,10 +389,12 @@
                 if(e.target === modal) modal.style.display = 'none'; 
             });
 
-            // Initial Setup Call
+            // Initial Setup Calls
             updateBalance();
             checkDailyStatus();
+            updateBoostUI();
         });
     </script>
 </body>
-</html>
+                </html>
+                
