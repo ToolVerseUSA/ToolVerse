@@ -22,7 +22,7 @@
 
     <section class="tool-header">
         <h1>Ultimate Prompt Generator</h1>
-        <p>Build master-level prompts for ChatGPT, Midjourney, and Claude using advanced engineering formulas.</p>
+        <p>Build master-level prompts for ChatGPT, Claude, Manus.ai, Midjourney, and Video models.</p>
     </section>
 
     <section class="resume-builder">
@@ -36,8 +36,11 @@
                         <div class="input-half">
                             <label>Target AI Model</label>
                             <select id="aiModel">
-                                <option value="chatgpt">🤖 ChatGPT / Claude (Text)</option>
+                                <option value="chatgpt">🤖 ChatGPT (GPT-4o / O1)</option>
+                                <option value="claude">🧠 Claude (3.5 Sonnet / Opus)</option>
+                                <option value="manus">⚙️ Manus.ai (Agentic AI)</option>
                                 <option value="midjourney">🎨 Midjourney / DALL-E (Image)</option>
+                                <option value="veo">🎥 Google Veo / Sora (Video)</option>
                             </select>
                         </div>
                         <div class="input-half">
@@ -47,7 +50,7 @@
                                 <option value="Marketer">Digital Marketer</option>
                                 <option value="Developer">Senior Software Engineer</option>
                                 <option value="Copywriter">Direct Response Copywriter</option>
-                                <option value="Photographer">Professional Photographer</option>
+                                <option value="Photographer">Professional Photographer / Director</option>
                             </select>
                         </div>
                     </div>
@@ -61,7 +64,7 @@
                             <select id="promptTone">
                                 <option value="Professional & Persuasive">Professional</option>
                                 <option value="Casual & Friendly">Friendly</option>
-                                <option value="Cinematic & Photorealistic">Cinematic (For Images)</option>
+                                <option value="Cinematic & Photorealistic">Cinematic (For Images/Video)</option>
                                 <option value="Humorous & Witty">Humorous</option>
                             </select>
                         </div>
@@ -71,7 +74,7 @@
                                 <option value="Detailed Markdown with Headings">Markdown / Structured</option>
                                 <option value="Bullet Points">Bullet Points</option>
                                 <option value="JSON Format">JSON</option>
-                                <option value="High-Resolution 16:9 Aspect Ratio">16:9 Image (For Midjourney)</option>
+                                <option value="High-Resolution 16:9 Aspect Ratio">16:9 Aspect Ratio (Image/Video)</option>
                             </select>
                         </div>
                     </div>
@@ -89,7 +92,7 @@
                             <div class="terminal-dots">
                                 <span></span><span></span><span></span>
                             </div>
-                            <div class="terminal-title">Prompt_Terminal_v2.0</div>
+                            <div class="terminal-title">Prompt_Terminal_v3.0</div>
                         </div>
 
                         <div class="terminal-body" id="promptOutput">
@@ -118,5 +121,4 @@
     <script src="prompt-generator.js"></script>
 
 </body>
-  </html>
-  
+</html>
