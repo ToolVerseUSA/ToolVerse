@@ -1,63 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>AI PDF Summarizer | ToolVerse</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI PDF Summarizer | Premium ToolVerse</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<header>
+    <header>
+        <div class="container">
+            <div class="logo">🚀 ToolVerse</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="index.html#tools">AI Tools</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
 
-<div class="container">
+    <section class="tool-header">
+        <h1>Smart AI PDF Summarizer</h1>
+        <p>Instantly extract key insights, bullet points, and summaries from any PDF document.</p>
+    </section>
 
-<div class="logo">
-🚀 ToolVerse
-</div>
+    <section class="resume-builder">
+        <div class="container">
+            <div class="resume-grid">
+                
+                <!-- Left Side: Upload Form -->
+                <div class="resume-form">
+                    <h2>Upload Document</h2>
+                    
+                    <!-- Drag & Drop Zone -->
+                    <div class="drag-drop-zone" id="dropZone">
+                        <div class="upload-icon">📄</div>
+                        <h3>Drag & Drop your PDF here</h3>
+                        <p>or click to browse from your device</p>
+                        <input type="file" id="pdfFileInput" accept=".pdf" hidden>
+                        <button class="btn browse-btn" onclick="document.getElementById('pdfFileInput').click()">Browse File</button>
+                    </div>
 
-<nav>
+                    <!-- File Info Display -->
+                    <div class="file-info" id="fileInfo" style="display: none;">
+                        <span id="fileNameDisplay">document.pdf</span>
+                        <span class="remove-file" id="removeFile">✖</span>
+                    </div>
 
-<a href="index.html">Home</a>
-<a href="index.html#tools">AI Tools</a>
-<a href="index.html#contact">Contact</a>
+                    <label style="margin-top: 25px;">Summary Format</label>
+                    <select id="summaryFormat">
+                        <option value="Executive">Executive Summary (Brief)</option>
+                        <option value="Bullets">Key Bullet Points</option>
+                        <option value="Detailed">Detailed Overview</option>
+                    </select>
 
-</nav>
+                    <button class="btn action-btn" id="summarizeBtn" disabled style="background: #9ca3af; cursor: not-allowed;">
+                        ✨ Summarize PDF
+                    </button>
+                </div>
 
-</div>
+                <!-- Right Side: Document Output Mockup -->
+                <div class="resume-preview-container">
+                    <div class="document-mockup">
+                        
+                        <div class="doc-header">
+                            <div class="doc-title">Document Summary</div>
+                            <div class="doc-badge" id="formatBadge">Executive Summary</div>
+                        </div>
 
-</header>
+                        <div class="doc-body" id="summaryOutput">
+                            <div class="empty-state">
+                                🔍 Upload a PDF and click summarize to see the extracted AI insights here.
+                            </div>
+                        </div>
 
+                        <div class="mockup-footer">
+                            <button class="copy-btn" id="copyBtn">📋 Copy Text</button>
+                            <button class="copy-btn" id="downloadTxtBtn" style="margin-left: 10px;">⬇️ Download .txt</button>
+                            <span class="copy-status" id="copyStatus">Copied!</span>
+                        </div>
 
-<section class="hero">
+                    </div>
+                </div>
 
-<h1>AI PDF Summarizer</h1>
+            </div>
+        </div>
+    </section>
 
-<p>
-Upload your PDF and generate a quick summary.
-</p>
+    <footer>
+        © 2026 ToolVerse. All Rights Reserved.
+    </footer>
 
-</section>
+    <!-- Link to JavaScript -->
+    <script src="pdf-summarizer.js"></script>
 
-
-<section class="pdf-tool">
-
-<div class="container">
-
-<div class="pdf-grid">
-
-<!-- Upload Panel -->
-
-<div class="pdf-form">
-
-<h2>Upload PDF</h2>
-
-<input type="file" id="pdfFile" accept=".pdf">
-
-<p id="fileName">
+</body>
+</html>
