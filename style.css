@@ -733,6 +733,142 @@ gap: 15px;
     align-items: center;
     gap: 15px;
    }
+/* =====================================
+   AI PDF Summarizer Premium Styles
+===================================== */
+
+/* Drag & Drop Zone */
+.drag-drop-zone {
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.drag-drop-zone.dragover {
+    background: #eff6ff;
+    border-color: #3b82f6;
+}
+
+.upload-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    line-height: 1;
+}
+
+.drag-drop-zone h3 {
+    font-size: 18px;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.drag-drop-zone p {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+.browse-btn {
+    background: #ffffff;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.browse-btn:hover {
+    background: #f3f4f6;
+}
+
+/* File Info Box */
+.file-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #e0f2fe;
+    border: 1px solid #bae6fd;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #0369a1;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.remove-file {
+    cursor: pointer;
+    color: #ef4444;
+    font-size: 16px;
+    padding: 0 5px;
+}
+
+/* Document Mockup Output */
+.document-mockup {
+    width: 100%;
+    max-width: 600px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 500px;
+}
+
+.doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f9fafb;
+    border-radius: 12px 12px 0 0;
+}
+
+.doc-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.doc-badge {
+    background: #e5322d;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.doc-body {
+    padding: 30px;
+    flex-grow: 1;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #374151;
+    overflow-y: auto;
+    white-space: pre-wrap;
+}
+
+.empty-state {
+    text-align: center;
+    color: #9ca3af;
+    margin-top: 80px;
+    font-style: italic;
+}
+
+.summary-bullets li {
+    margin-bottom: 12px;
+    margin-left: 20px;
+}
+
 
 
 
