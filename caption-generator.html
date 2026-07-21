@@ -1,136 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>AI Caption Generator | ToolVerse</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Caption Generator | Premium ToolVerse</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<header>
+    <header>
+        <div class="container">
+            <div class="logo">🚀 ToolVerse</div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="index.html#tools">AI Tools</a>
+                <a href="index.html#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
 
-<div class="container">
+    <section class="tool-header">
+        <h1>Viral AI Caption Generator</h1>
+        <p>Generate highly engaging, optimized captions with viral hashtags for any social media platform.</p>
+    </section>
 
-<div class="logo">
-🚀 ToolVerse
-</div>
+    <section class="resume-builder">
+        <div class="container">
+            <div class="resume-grid">
+                
+                <!-- Left Side: Input Form -->
+                <div class="resume-form">
+                    <h2>Post Details</h2>
+                    
+                    <label>Select Platform</label>
+                    <select id="platformInput">
+                        <option value="Instagram">📸 Instagram</option>
+                        <option value="LinkedIn">💼 LinkedIn</option>
+                        <option value="Facebook">👥 Facebook</option>
+                        <option value="Twitter">🐦 X (Twitter)</option>
+                        <option value="TikTok">🎵 TikTok</option>
+                    </select>
 
-<nav>
+                    <label>What is your post about?</label>
+                    <input type="text" id="topicInput" placeholder="e.g. 5 AI tools that will save you 10 hours a week">
 
-<a href="index.html">Home</a>
-<a href="index.html#tools">AI Tools</a>
-<a href="index.html#contact">Contact</a>
+                    <label>Select Tone</label>
+                    <select id="toneInput">
+                        <option value="Engaging">🔥 Engaging & Viral</option>
+                        <option value="Professional">👔 Professional</option>
+                        <option value="Funny">😂 Funny & Witty</option>
+                        <option value="Motivational">🚀 Motivational</option>
+                        <option value="Educational">📚 Educational</option>
+                    </select>
 
-</nav>
+                    <label>Include Emojis?</label>
+                    <select id="emojiInput">
+                        <option value="Yes">Yes, lots of emojis! 🎉</option>
+                        <option value="Few">Just a few 🙂</option>
+                        <option value="No">No emojis, keep it clean.</option>
+                    </select>
 
-</div>
+                    <div class="input-row">
+                        <div class="input-half">
+                            <button class="btn action-btn" id="generateBtn">✨ Generate</button>
+                        </div>
+                        <div class="input-half">
+                            <button class="btn action-btn" id="clearBtn" style="background: #6b7280;">🗑️ Clear</button>
+                        </div>
+                    </div>
+                </div>
 
-</header>
+                <!-- Right Side: Social Media Mockup -->
+                <div class="resume-preview-container">
+                    <div class="social-mockup">
+                        
+                        <!-- Mockup Header -->
+                        <div class="social-header">
+                            <div class="social-avatar"></div>
+                            <div class="social-user-info">
+                                <strong>YourBrandName</strong>
+                                <span>Just now • <span id="platformBadge">Instagram</span></span>
+                            </div>
+                            <div class="social-dots">•••</div>
+                        </div>
 
-<section class="hero">
+                        <!-- Mockup Image Placeholder -->
+                        <div class="social-image">
+                            <span>Your Awesome Visual Here</span>
+                        </div>
 
-<h1>AI Caption Generator</h1>
+                        <!-- Mockup Actions (Like, Comment) -->
+                        <div class="social-actions">
+                            <span>❤️ 1.2k</span>
+                            <span>💬 45</span>
+                            <span>↗️ Share</span>
+                        </div>
 
-<p>
-Generate engaging captions for your social media posts in seconds.
-</p>
+                        <!-- Mockup Caption -->
+                        <div class="social-caption">
+                            <strong>YourBrandName</strong> 
+                            <span id="outputCaption">Your generated caption will appear here. Select your options and hit generate!</span>
+                        </div>
 
-</section>
+                        <div class="mockup-footer">
+                            <button class="copy-btn" id="copyBtn">📋 Copy Caption</button>
+                            <span class="copy-status" id="copyStatus">Copied!</span>
+                        </div>
 
-<section class="caption-generator">
+                    </div>
+                </div>
 
-<div class="container">
+            </div>
+        </div>
+    </section>
 
-<div class="caption-grid">
+    <footer>
+        © 2026 ToolVerse. All Rights Reserved.
+    </footer>
 
-<!-- Input -->
-
-<div class="caption-form">
-
-<h2>Create Caption</h2>
-
-<label>Platform</label>
-
-<select id="platform">
-
-<option value="instagram">Instagram</option>
-
-<option value="facebook">Facebook</option>
-
-<option value="tiktok">TikTok</option>
-
-<option value="linkedin">LinkedIn</option>
-
-<option value="twitter">X (Twitter)</option>
-
-</select>
-
-<label>Topic</label>
-
-<input
-type="text"
-id="topic"
-placeholder="Example: Artificial Intelligence">
-
-<label>Tone</label>
-
-<select id="tone">
-
-<option value="professional">Professional</option>
-
-<option value="friendly">Friendly</option>
-
-<option value="motivational">Motivational</option>
-
-<option value="funny">Funny</option>
-
-<option value="marketing">Marketing</option>
-
-</select>
-
-<button class="btn" id="generateCaption">
-Generate Caption
-</button>
-
-<button class="btn" id="clearCaption">
-Clear
-</button>
-
-</div>
-
-<!-- Output -->
-
-<div class="caption-preview">
-
-<h2>Generated Caption</h2>
-
-<div id="captionOutput">
-
-<p>Your caption will appear here...</p>
-
-</div>
-
-<button class="btn" id="copyCaption">
-Copy Caption
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<script src="caption-generator.js"></script>
+    <!-- Link to JavaScript -->
+    <script src="caption-generator.js"></script>
 
 </body>
-
 </html>
