@@ -4,8 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToolVerse | Every AI tool you need in one place</title>
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- VIP Crypto Mining Styles -->
+    <style>
+        /* Header Premium Button */
+        .crypto-nav-btn {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #1e293b !important;
+            font-weight: 700 !important;
+            padding: 8px 16px !important;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            border: 2px solid #fff;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .crypto-nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+        }
+        .header-container { display: flex; align-items: center; justify-content: space-between; }
+        
+        /* Floating Mining Widget */
+        .mining-widget {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            border-radius: 12px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 999;
+            transition: 0.3s;
+        }
+        .mining-widget:hover {
+            transform: scale(1.05);
+            border-color: #fbbf24;
+        }
+        .mining-icon { font-size: 24px; animation: pickaxe 2s infinite; }
+        @keyframes pickaxe {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(-30deg); }
+            100% { transform: rotate(0deg); }
+        }
+        .mining-stats { display: flex; flex-direction: column; }
+        .mining-title { font-size: 0.8rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .mining-rate { font-size: 0.75rem; color: #4ade80; display: flex; align-items: center; gap: 5px; }
+        .pulse-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .mining-balance { font-size: 1.2rem; font-weight: 800; color: #fbbf24; margin-left: 10px; }
+
+        /* VIP Crypto Modal */
+        .crypto-modal {
+            display: none; /* Hidden by default */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .crypto-modal-content {
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            border: 2px solid #fbbf24;
+            width: 90%; max-width: 450px;
+            border-radius: 20px; padding: 30px;
+            color: white; position: relative;
+            box-shadow: 0 20px 50px rgba(251, 191, 36, 0.2);
+            text-align: center;
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .close-crypto {
+            position: absolute; top: 15px; right: 20px;
+            font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s;
+        }
+        .close-crypto:hover { color: #ff4757; }
+        
+        .crypto-badge {
+            background: rgba(251, 191, 36, 0.1); color: #fbbf24;
+            padding: 5px 12px; border-radius: 20px; font-size: 0.8rem;
+            font-weight: 700; display: inline-block; margin-bottom: 15px; border: 1px solid #fbbf24;
+        }
+        .crypto-header h2 { font-size: 1.8rem; margin-bottom: 5px; }
+        .crypto-header p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 25px; }
+        
+        .crypto-balance-box {
+            background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .balance-label { color: #cbd5e1; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; margin-bottom: 10px; }
+        .balance-amount { font-size: 3rem; font-weight: 800; color: #fbbf24; text-shadow: 0 0 20px rgba(251, 191, 36, 0.4); line-height: 1; margin-bottom: 5px; }
+        .balance-usd { color: #4ade80; font-size: 0.9rem; font-weight: 500; }
+
+        .crypto-actions { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 25px; }
+        .action-btn {
+            padding: 15px; border-radius: 12px; font-weight: 700; font-size: 1rem;
+            cursor: pointer; transition: 0.3s; border: none; font-family: inherit;
+        }
+        .claim-btn { background: #ff4757; color: white; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3); }
+        .claim-btn:hover { background: #e0313f; transform: translateY(-2px); }
+        .claim-btn:disabled { background: #475569; cursor: not-allowed; box-shadow: none; color: #94a3b8; transform: none;}
+        
+        .invite-btn { background: #334155; color: white; border: 1px solid #475569; }
+        .invite-btn:hover { background: #475569; }
+
+        .status-note { font-size: 0.8rem; color: #64748b; margin-top: 15px; line-height: 1.5; }
+    </style>
 </head>
 <body>
 
@@ -51,7 +169,11 @@
                 </ul>
             </nav>
 
-            <div class="auth-buttons">
+            <div class="auth-buttons" style="display: flex; align-items: center; gap: 15px;">
+                <!-- VIP Crypto Header Button -->
+                <div class="crypto-nav-btn" id="openModalBtnNav">
+                    🪙 $TOOL: <span id="headerBal">0.000</span>
+                </div>
                 <a href="#" class="login-btn">Login</a>
                 <a href="#" class="signup-btn">Sign up</a>
             </div>
@@ -63,7 +185,6 @@
         <h1>Every AI tool you need to work faster in one place</h1>
         <p>Every tool you need to use AI, at your fingertips. All are 100% FREE and easy to use! Write, generate, summarize, and automate with just a few clicks.</p>
         
-        <!-- Category Filter Pills -->
         <div class="category-filters">
             <button class="filter-btn active">All</button>
             <button class="filter-btn">Writing</button>
@@ -76,55 +197,46 @@
     <!-- iLovePDF Style Tool Grid -->
     <section class="tools-section" id="tools">
         <div class="ilove-grid">
-
             <a href="faceless-video.html" class="ilove-card">
                 <div class="card-icon">🎭</div>
                 <h3>Faceless Video Blueprint</h3>
                 <p>Generate high-retention scripts and 4K image prompts for your automated YouTube channel instantly.</p>
             </a>
-
             <a href="youtube-toolkit.html" class="ilove-card">
                 <div class="card-icon">▶️</div>
                 <h3>YouTube AI Toolkit</h3>
                 <p>Generate viral titles, opening scripts, and SEO tags for your YouTube videos instantly.</p>
             </a>
-
             <a href="prompt-generator.html" class="ilove-card">
                 <div class="card-icon">💡</div>
                 <h3>Prompt Generator</h3>
                 <p>Create highly optimized prompts to get the best results from ChatGPT, Claude & Midjourney.</p>
             </a>
-
             <a href="email-writer.html" class="ilove-card">
                 <div class="card-icon">✉️</div>
                 <h3>Email Writer</h3>
                 <p>Draft highly professional and engaging emails for any situation instantly.</p>
             </a>
-
             <a href="pdf-summarizer.html" class="ilove-card">
                 <div class="card-icon">📚</div>
                 <h3>PDF Summarizer</h3>
                 <p>Extract key points and summarize long PDF documents automatically in seconds.</p>
             </a>
-
             <a href="grammar-checker.html" class="ilove-card">
                 <div class="card-icon">✅</div>
                 <h3>Grammar Checker</h3>
                 <p>Instantly fix grammatical errors, spelling mistakes, and improve your writing tone.</p>
             </a>
-
             <a href="caption-generator.html" class="ilove-card">
                 <div class="card-icon">📱</div>
                 <h3>Caption Generator</h3>
                 <p>Generate viral, engaging social media captions with trending hashtags.</p>
             </a>
-
             <a href="resume-builder.html" class="ilove-card">
                 <div class="card-icon">📄</div>
                 <h3>Resume Builder</h3>
                 <p>Create professional, ATS-friendly resumes in seconds to land your dream job.</p>
             </a>
-
         </div>
     </section>
 
@@ -132,5 +244,113 @@
         © 2026 ToolVerse. All Rights Reserved. Building the future of AI.
     </footer>
 
+    <!-- ==========================================
+         VIP CRYPTO MINING WIDGET & MODAL
+    =========================================== -->
+    
+    <!-- Floating Widget -->
+    <div class="mining-widget" id="miningWidgetBtn">
+        <div class="mining-icon">⛏️</div>
+        <div class="mining-stats">
+            <span class="mining-title">Mining $TOOL</span>
+            <span class="mining-rate">Live <span class="pulse-dot"></span></span>
+        </div>
+        <div class="mining-balance" id="widgetBal">0.000</div>
+    </div>
+
+    <!-- VIP Modal Dashboard -->
+    <div class="crypto-modal" id="cryptoModal">
+        <div class="crypto-modal-content">
+            <span class="close-crypto" id="closeModalBtn">&times;</span>
+            <div class="crypto-header">
+                <div class="crypto-badge">🚀 VIP MINING ACCESS</div>
+                <h2>$TOOL Dashboard</h2>
+                <p>Mine tokens for free before the official mainnet launch.</p>
+            </div>
+            
+            <div class="crypto-balance-box">
+                <div class="balance-label">Your Total Mined Balance</div>
+                <div class="balance-amount"><span style="font-size: 2rem;">🪙</span> <span id="modalBal">0.000</span></div>
+                <div class="balance-usd">Mining Rate: +0.001 per 5 seconds</div>
+            </div>
+            
+            <div class="crypto-actions">
+                <button class="action-btn claim-btn" id="claimDailyBtn">🎁 Claim Daily Bonus (+50 $TOOL)</button>
+                <button class="action-btn invite-btn" onclick="alert('Invite link copied to clipboard!')">🔗 Copy Invite Link (+100 $TOOL)</button>
+            </div>
+            
+            <p class="status-note">Keep using ToolVerse to mine faster. Once we reach our milestone, you will be able to convert these to real crypto tokens!</p>
+        </div>
+    </div>
+
+    <!-- VIP Crypto Mining Logic -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Initialize variables from Local Storage
+            let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
+            let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
+
+            // Elements
+            const headerBal = document.getElementById('headerBal');
+            const widgetBal = document.getElementById('widgetBal');
+            const modalBal = document.getElementById('modalBal');
+            const claimBtn = document.getElementById('claimDailyBtn');
+            
+            // Modal Elements
+            const modal = document.getElementById('cryptoModal');
+            const openNavBtn = document.getElementById('openModalBtnNav');
+            const openWidgetBtn = document.getElementById('miningWidgetBtn');
+            const closeBtn = document.getElementById('closeModalBtn');
+
+            // 2. Function to Update UI & Save
+            function updateBalance() {
+                const displayVal = toolBalance.toFixed(3);
+                headerBal.innerText = displayVal;
+                widgetBal.innerText = displayVal;
+                modalBal.innerText = displayVal;
+                localStorage.setItem('toolVerseBalance', toolBalance);
+            }
+
+            // 3. Check Daily Claim Status on Load
+            function checkDailyStatus() {
+                const today = new Date().toDateString();
+                if (lastClaimDate === today) {
+                    claimBtn.disabled = true;
+                    claimBtn.innerText = "✅ Come back tomorrow";
+                }
+            }
+
+            // 4. Background Auto Mining (Adds 0.001 every 5 seconds)
+            setInterval(() => {
+                toolBalance += 0.001;
+                updateBalance();
+            }, 5000);
+
+            // 5. Daily Claim Button Logic
+            claimBtn.addEventListener('click', function() {
+                const today = new Date().toDateString();
+                if (lastClaimDate !== today) {
+                    toolBalance += 50.000; // Give 50 tokens
+                    lastClaimDate = today;
+                    localStorage.setItem('toolVerseLastClaim', today);
+                    updateBalance();
+                    checkDailyStatus();
+                    alert('🎉 Success! 50 $TOOL tokens added to your wallet.');
+                }
+            });
+
+            // 6. Modal Controls
+            openNavBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
+            openWidgetBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
+            closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+            window.addEventListener('click', (e) => { 
+                if(e.target === modal) modal.style.display = 'none'; 
+            });
+
+            // Initial Setup Call
+            updateBalance();
+            checkDailyStatus();
+        });
+    </script>
 </body>
 </html>
