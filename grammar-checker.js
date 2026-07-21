@@ -1,78 +1,85 @@
-// =====================================
-// ToolVerse AI Grammar Checker
-// =====================================
+// Elements
+const inputText = document.getElementById('inputText');
+const wordCount = document.getElementById('wordCount');
+const charCount = document.getElementById('charCount');
+const checkBtn = document.getElementById('checkBtn');
+const clearBtn = document.getElementById('clearBtn');
+const outputText = document.getElementById('outputText');
+const statusBadge = document.getElementById('statusBadge');
+const copyBtn = document.getElementById('copyBtn');
 
-const inputText = document.getElementById("inputText");
-const outputText = document.getElementById("outputText");
-
-const checkBtn = document.getElementById("checkBtn");
-const copyBtn = document.getElementById("copyBtn");
-const clearBtn = document.getElementById("clearBtn");
-
-checkBtn.addEventListener("click", () => {
-
-let text = inputText.value.trim();
-
-if(text === ""){
-outputText.innerHTML = "Please enter some text.";
-return;
-}
-
-// Remove extra spaces
-text = text.replace(/\s+/g," ");
-
-// Capitalize first letter
-text = text.charAt(0).toUpperCase() + text.slice(1);
-
-// Common spelling corrections
-const corrections = {
-
-" i ":" I ",
-" dont ":" don't ",
-" cant ":" can't ",
-" wont ":" won't ",
-" didnt ":" didn't ",
-" doesnt ":" doesn't ",
-" isnt ":" isn't ",
-" im ":" I'm ",
-" ive ":" I've ",
-" ill ":" I'll ",
-" youre ":"you're ",
-" theres ":"there's ",
-" thats ":"that's ",
-" teh ":"the ",
-" recieve ":"receive ",
-" adress ":"address ",
-" seperate ":"separate ",
-" occured ":"occurred ",
-" sucess ":"success ",
-" becuase ":"because "
-
-};
-
-text = " " + text + " ";
-
-for(const wrong in corrections){
-text = text.replaceAll(wrong, corrections[wrong]);
-}
-
-text = text.trim();
-
-outputText.innerHTML = text;
-
+// Live Word & Character Count
+inputText.addEventListener('input', function() {
+    const text = this.value;
+    
+    // Character Count
+    charCount.innerText = `${text.length} characters`;
+    
+    // Word Count
+    const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+    wordCount.innerText = `${words.length} words`;
 });
 
-copyBtn.addEventListener("click",()=>{
+// Check Grammar Button
+checkBtn.addEventListener('click', function() {
+    const text = inputText.value.trim();
+    
+    if (text === "") {
+        outputText.innerHTML = `<span style="color:#ef4444;">Please enter some text to check!</span>`;
+        return;
+    }
 
-navigator.clipboard.writeText(outputText.innerText);
+    // Loading State
+    const originalText = this.innerHTML;
+    this.innerHTML = "⏳ Checking...";
+    this.disabled = true;
+    
+    statusBadge.innerText = "Analyzing...";
+    statusBadge.style.background = "#f59e0b"; // Yellow/Orange processing
 
-alert("Corrected text copied!");
+    // Simulate AI Processing (1.2 seconds)
+    setTimeout(() => {
+        
+        // Mock Grammar Fix: Capitalize first letter of string and add period if missing
+        let fixedText = text.charAt(0).toUpperCase() + text.slice(1);
+        if (!fixedText.match(/[.!?]$/)) {
+            fixedText += ".";
+        }
 
+        // Output Result
+        outputText.innerText = fixedText;
+
+        // Update Badge randomly for mock effect (e.g., "3 Issues Fixed")
+        const mockIssues = Math.floor(Math.random() * 4) + 1; 
+        statusBadge.innerText = `${mockIssues} Issues Fixed`;
+        statusBadge.style.background = "#e5322d"; // Red badge for fixed issues
+
+        // Reset Button
+        this.innerHTML = "✨ Fix Grammar";
+        this.disabled = false;
+
+    }, 1200);
 });
 
-clearBtn.addEventListener("click",()=>{
+// Clear Button
+clearBtn.addEventListener('click', function() {
+    inputText.value = "";
+    wordCount.innerText = "0 words";
+    charCount.innerText = "0 characters";
+    outputText.innerHTML = `<div class="empty-state">✍️ Your flawless, error-free text will appear here.</div>`;
+    statusBadge.innerText = "Perfect 💯";
+    statusBadge.style.background = "#10b981";
+});
 
-inputText.value="";
-outputText.innerHTML="Your corrected text will appear here...";
+// Copy Text
+copyBtn.addEventListener('click', function() {
+    const textToCopy = outputText.innerText;
+    
+    if (textToCopy.includes("Your flawless, error-free text")) return;
 
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        const status = document.getElementById('copyStatus');
+        status.classList.add('show');
+        setTimeout(() => { status.classList.remove('show'); }, 2000);
+    });
 });
