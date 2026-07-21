@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube AI Toolkit - ToolVerse</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            max-width: 1400px;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .header-badge {
+            display: inline-block;
+            background: #ff4757;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 50px;
+            min-height: 600px;
+        }
+
+        /* Left Panel - Form */
+        .form-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .form-panel h2 {
+            font-size: 1.5rem;
+            color: #222;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            color: #333;
+            background: #fafafa;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ff4757;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 14px 24px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: #ff3838;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ff4757;
+            opacity: 0.8;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Right Panel - Results */
+        .results-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .results-panel h2 {
+            font-size: 1.5rem;
+            color: #222;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .results-placeholder {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #999;
+            font-size: 1rem;
+            background: #f9f9f9;
+            border-radius: 12px;
+            border: 2px dashed #e8e8e8;
+            min-height: 300px;
+        }
+
+        .results-placeholder.hidden {
+            display: none;
+        }
+
+        .results-content {
+            display: none;
+        }
+
+        .results-content.visible {
+            display: block;
+        }
+
+        .result-section {
+            margin-bottom: 25px;
+        }
+
+        .result-section h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .result-item {
+            background: #f9f9f9;
+            padding: 14px;
+            border-radius: 8px;
+            border-left: 4px solid #ff4757;
+            margin-bottom: 8px;
+            font-size: 0.95srem;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #fff0f1;
+            color: #ff4757;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #ffe0e3;
+        }
+
+        /* Copy Button */
+        .copy-btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #e8e8e8;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .copy-btn:hover {
+            background: #ff4757;
+            color: white;
+            border-color: #ff4757;
+        }
+
+        .loading-state {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .loading-state.visible {
+            display: block;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e8e8e8;
+            border-top-color: #ff4757;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 15px 30px; background: #fff; border-bottom: 1px solid #eaeaea;">
+        <a href="index.html" style="text-decoration: none; color: #ff4757; font-weight: bold; font-size: 1.2rem;">← Back to ToolVerse</a>
+    </div>
+
+    <div class="header">
+        <div class="header-badge">FREE AI TOOL</div>
+        <h1>YouTube AI Toolkit</h1>
+        <p>Generate viral titles, opening scripts, and SEO tags for your YouTube videos instantly.</p>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <!-- Left Form -->
+            <div class="form-panel">
+                <h2>Content Parameters</h2>
+                <form id="youtubeForm">
+                    <div class="form-group">
+                        <label for="videoTopic">Video Topic *</label>
+                        <input type="text" id="videoTopic" placeholder="e.g., How to build a profitable AI startup" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="videoType">Video Type *</label>
+                        <select id="videoType" required>
+                            <option value="">Select type...</option>
+                            <option value="tutorial">Tutorial / Guide</option>
+                            <option value="vlog">Lifestyle Vlog</option>
+                            <option value="review">Product Review</option>
+                            <option value="educational">Educational / Essay</option>
+                            <option value="entertainment">Entertainment / Challenge</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tone">Tone / Style *</label>
+                        <select id="tone" required>
+                            <option value="">Select tone...</option>
+                            <option value="professional">Professional & Authoritative</option>
+                            <option value="casual">Casual & Friendly</option>
+                            <option value="urgent">Urgent & Exciting</option>
+                            <option value="inspirational">Inspirational & Deep</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">Generate Content</button>
+                </form>
+            </div>
+
+            <!-- Right Results -->
+            <div class="results-panel">
+                <h2>AI Generated Output</h2>
+                
+                <div class="results-placeholder" id="placeholder">
+                    <p>✨ Fill out the form on the left and click generate to see results.</p>
+                </div>
+
+                <div class="loading-state" id="loadingState">
+                    <div class="loading-spinner"></div>
+                    <p>AI is crafting your YouTube assets...</p>
+                </div>
+
+                <div class="results-content" id="resultsContent">
+                    <div class="result-section">
+                        <h3>🎯 Viral Titles</h3>
+                        <div id="titlesContainer"></div>
+                    </div>
+
+                    <div class="result-section">
+                        <h3>📝 Opening Hook Script</h3>
+                        <div class="result-item" id="scriptContainer"></div>
+                    </div>
+
+                    <div class="result-section">
+                        <h3>🏷️ SEO Tags</h3>
+                        <div class="tags-container" id="tagsContainer"></div>
+                    </div>
+
+                    <button class="copy-btn" id="copyBtn">📋 Copy All to Clipboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mockTitles = {
+            tutorial: [
+                "Master {topic} in 10 Minutes (Step-by-Step)",
+                "The Ultimate {topic} Blueprint for Beginners",
+                "How to Actually Learn {topic} Fast in 2026",
+                "Stop Doing This When Learning {topic}!"
+            ],
+            vlog: [
+                "I Tried {topic} For 7 Days Straight",
+                "The Truth About {topic} (My Experience)",
+                "A Day In My Life Living With {topic}",
+                "Why {topic} Completely Changed My Routine"
+            ],
+            review: [
+                "{topic} Review: Don't Buy Until You See This!",
+                "I Tested {topic} So You Don't Have To",
+                "Is {topic} Worth The Hype? (Honest Review)",
+                "{topic} vs Alternatives: Which is Better?"
+            ],
+            educational: [
+                "The Complex Truth About {topic} Explained",
+                "Why Everyone is Wrong About {topic}",
+                "The Hidden History and Future of {topic}",
+                "Understanding {topic} in Under 15 Minutes"
+            ],
+            entertainment: [
+                "I Tried the Craziest {topic} Challenge!",
+                "Attempting {topic} With Zero Experience",
+                "{topic} Gone Wrong (Hilarious Results)",
+                "The Ultimate {topic} Test!"
+            ]
+        };
+
+        const mockScripts = {
+            professional: "Welcome back. Today we are taking an objective, deep-dive look into {topic}. If you want precise strategies that actually deliver results without the fluff, pay close attention to what we cover in this video.",
+            casual: "Hey everyone, welcome back to the channel! Today we're talking about something you guys have been asking me about constantly: {topic}. Trust me, you'll want to stick around till the end for this one.",
+            urgent: "Stop whatever you're doing right now. {topic} is shifting faster than ever, and if you aren't paying attention, you are falling behind. Let's break down exactly what's happening.",
+            inspirational: "There are moments in life that completely shift your perspective. Exploring {topic} did exactly that for me, and today, I want to share why this matters more than you think."
+        };
+
+        document.getElementById('youtubeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const topic = document.getElementById('videoTopic').value.trim();
+            const type = document.getElementById('videoType').value;
+            const tone = document.getElementById('tone').value;
+
+            if(!topic || !type || !tone) return;
+
+            // UI Loading state
+            document.getElementById('placeholder').classList.add('hidden');
+            document.getElementById('resultsContent').classList.remove('visible');
+            document.getElementById('loadingState').classList.add('visible');
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Generating...';
+
+            setTimeout(() => {
+                // Populate Titles
+                const titleTemplate = mockTitles[type] || mockTitles.tutorial;
+                const titlesContainer = document.getElementById('titlesContainer');
+                titlesContainer.innerHTML = '';
+                titleTemplate.forEach(t => {
+                    const div = document.createElement('div');
+                    div.className = 'result-item';
+                    div.innerText = t.replace(/{topic}/g, topic);
+                    titlesContainer.appendChild(div);
+                });
+
+                // Populate Script
+                const scriptTemplate = mockScripts[tone] || mockScripts.professional;
+                document.getElementById('scriptContainer').innerText = scriptTemplate.replace(/{topic}/g, topic);
+
+                // Populate Tags
+                const tagsContainer = document.getElementById('tagsContainer');
+                tagsContainer.innerHTML = '';
+                const baseTags = [topic, "youtube growth", "viral tips", "2026 guide", "tutorial", "masterclass", "trending now"];
+                baseTags.forEach(tagText => {
+                    const span = document.createElement('span');
+                    span.className = 'tag';
+                    span.innerText = "#" + tagText.replace(/\s+/g, '');
+                    tagsContainer.appendChild(span);
+                });
+
+                // Reset button & show results
+                document.getElementById('loadingState').classList.remove('visible');
+                document.getElementById('resultsContent').classList.add('visible');
+                btn.disabled = false;
+                btn.innerHTML = 'Generate Content';
+            }, 1500);
+        });
+
+        // Copy functionality
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const content = document.getElementById('resultsContent').innerText;
+            navigator.clipboard.writeText(content).then(() => {
+                this.innerText = "✅ Copied Successfully!";
+                setTimeout(() => { this.innerText = "📋 Copy All to Clipboard"; }, 2000);
+            });
+        });
+    </script>
+</body>
+  </html>
+  
