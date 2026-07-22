@@ -29,17 +29,15 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'API key not configured on server' });
         }
 
-        // 🌟 NAYA 2026 API URL
         const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/interactions';
 
         const apiResponse = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-goog-api-key': apiKey // Key ab header mein jayegi (jese aapne curl mein dikhaya)
+                'x-goog-api-key': apiKey
             },
             body: JSON.stringify({
-                // 🚨 UPDATE: Pro se Flash par shift kar diya gaya hai taake Quota Exceeded ka error na aaye
                 model: 'gemini-3.6-flash',
                 input: prompt,
                 generation_config: {
@@ -55,17 +53,22 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'Google API Error', details: data.error.message || data.error });
         }
 
-        // Naye API ka response structure pakarne ke liye smart logic
+        // 🌟 FINAL FIX: Naye JSON structure se sirf caption nikalne ka tareeqa
         let reply = "";
         
-        if (data.output) {
-            reply = data.output; // Agar response mein seedha output aata hai
+        if (data.steps && data.steps.length > 0) {
+            // Find that specific step which contains the text
+            const outputStep = data.steps.find(step => step.type === 'model_output');
+            if (outputStep && outputStep.content && outputStep.content.length > 0) {
+                reply = outputStep.content[0].text;
+            }
         } else if (data.candidates && data.candidates[0].content) {
-            reply = data.candidates[0].content.parts[0].text; // Purana structure
-        } else {
-            // Agar naya structure in dono se mukhtalif hua, to hum poora data screen par dikha denge
-            // taake humein pata chal jaye ke text kahan chupa hai
-            reply = JSON.stringify(data); 
+            reply = data.candidates[0].content.parts[0].text; 
+        }
+
+        // Agar phir bhi empty ho to fallback
+        if (!reply) {
+            reply = "Caption generate ho gaya hai lekin text extract nahi ho saka. " + JSON.stringify(data);
         }
 
         return res.status(200).json({ reply });
@@ -74,4 +77,4 @@ export default async function handler(req, res) {
         console.error('Server Error:', error);
         return res.status(500).json({ error: 'Internal Server Error', details: error.message });
     }
-}
+            }
