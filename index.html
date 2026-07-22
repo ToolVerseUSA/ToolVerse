@@ -1,326 +1,538 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToolVerse | Every AI tool you need in one place</title>
-    <link rel="stylesheet" href="style.css?v=6">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- VIP Crypto Mining & Auth Styles -->
-    <style>
-        /* Header Premium Button */
-        .crypto-nav-btn {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: #1e293b !important;
-            font-weight: 700 !important;
-            padding: 8px 16px !important;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
-            border: 2px solid #fff;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .crypto-nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
-        }
-        .header-container { display: flex; align-items: center; justify-content: space-between; }
-        
-        /* Floating Mining Widget */
-        .mining-widget {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(251, 191, 36, 0.4);
-            border-radius: 12px;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            cursor: pointer;
-            z-index: 999;
-            transition: 0.3s;
-        }
-        .mining-widget:hover {
-            transform: scale(1.05);
-            border-color: #fbbf24;
-        }
-        .mining-icon { font-size: 24px; animation: pickaxe 2s infinite; }
-        @keyframes pickaxe {
-            0% { transform: rotate(0deg); }
-            50% { transform: rotate(-30deg); }
-            100% { transform: rotate(0deg); }
-        }
-        .mining-stats { display: flex; flex-direction: column; }
-        .mining-title { font-size: 0.8rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        .mining-rate { font-size: 0.75rem; color: #4ade80; display: flex; align-items: center; gap: 5px; }
-        .pulse-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-        .mining-balance { font-size: 1.2rem; font-weight: 800; color: #fbbf24; margin-left: 10px; }
-
-        /* VIP Crypto Modal */
-        .crypto-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);
-        }
-        .crypto-modal-content {
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24;
-            width: 90%; max-width: 450px; border-radius: 20px; padding: 30px; color: white; position: relative;
-            box-shadow: 0 20px 50px rgba(251, 191, 36, 0.2); text-align: center;
-            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        .close-crypto {
-            position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s;
-        }
-        .close-crypto:hover { color: #ff4757; }
-        
-        .crypto-badge {
-            background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem;
-            font-weight: 700; display: inline-block; margin-bottom: 15px; border: 1px solid #fbbf24;
-        }
-        .crypto-header h2 { font-size: 1.8rem; margin-bottom: 5px; }
-        .crypto-header p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 25px; }
-        
-        .crypto-balance-box {
-            background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; margin-bottom: 25px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .balance-label { color: #cbd5e1; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; margin-bottom: 10px; }
-        .balance-amount { font-size: 3rem; font-weight: 800; color: #fbbf24; text-shadow: 0 0 20px rgba(251, 191, 36, 0.4); line-height: 1; margin-bottom: 5px; }
-        .balance-usd { color: #4ade80; font-size: 0.9rem; font-weight: 500; }
-
-        .crypto-actions { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 25px; }
-        .action-btn { padding: 15px; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; border: none; font-family: inherit; }
-        .boost-btn { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: white; box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4); border: 1px solid #a78bfa; }
-        .boost-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(139, 92, 246, 0.6); }
-        .boost-btn:disabled { background: #10b981; color: white; cursor: default; transform: none; box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4); border: none; }
-        
-        .claim-btn { background: #ff4757; color: white; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3); }
-        .claim-btn:hover { background: #e0313f; transform: translateY(-2px); }
-        .claim-btn:disabled { background: #475569; cursor: not-allowed; box-shadow: none; color: #94a3b8; transform: none;}
-        
-        .invite-btn { background: #334155; color: white; border: 1px solid #475569; }
-        .invite-btn:hover { background: #475569; }
-        .status-note { font-size: 0.8rem; color: #64748b; margin-top: 15px; line-height: 1.5; }
-
-        /* =========================================
-           Firebase Auth Modal Styles
-        ========================================= */
-        .auth-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); z-index: 10001; justify-content: center; align-items: center; backdrop-filter: blur(5px);
-        }
-        .auth-modal-content {
-            background-color: #1e1e1e; padding: 40px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.8);
-            text-align: center; width: 90%; max-width: 350px; position: relative; color: white;
-            border: 1px solid #333; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .close-auth {
-            position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s;
-        }
-        .close-auth:hover { color: #ff4757; }
-        .auth-title { margin-top: 0; color: #4da6ff; letter-spacing: 1px; font-size: 1.5rem; margin-bottom: 5px; }
-        .auth-subtitle { color: #aaaaaa; font-size: 14px; margin-bottom: 25px; }
-        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #333; border-radius: 6px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit;}
-        .auth-input:focus { outline: none; border-color: #4da6ff; }
-        .auth-submit-btn { width: 100%; padding: 12px; margin: 15px 0 10px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 16px; transition: 0.3s; font-family: inherit;}
-        .auth-submit-btn:hover { background-color: #3388dd; }
-        .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
-        .auth-google-btn:hover { background-color: #e2e2e2; }
-        .auth-divider { color: #666; font-size: 12px; margin: 15px 0; }
-        #authMessageBox { margin-top: 15px; font-size: 14px; min-height: 20px; font-weight: 500;}
-    </style>
-</head>
-<body>
-
-    <!-- iLovePDF Style Header -->
-    <header class="ilove-header">
-        <div class="header-container">
-            <div class="logo-area">
-                <span class="logo-icon">🚀</span> 
-                <span class="logo-text">ToolVerse</span>
-            </div>
-            
-            <nav class="main-nav">
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    
-                    <!-- Mega Menu Dropdown -->
-                    <li class="dropdown">
-                        <a href="#tools" class="dropbtn">All AI Tools <span class="arrow">▼</span></a>
-                        <div class="mega-menu">
-                            <div class="mega-column">
-                                <h3>Writing Tools</h3>
-                                <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')"><span class="icon">✉️</span> Email Writer</a>
-                                <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')"><span class="icon">✅</span> Grammar Checker</a>
-                                <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')"><span class="icon">📄</span> Resume Builder</a>
-                            </div>
-                            <div class="mega-column">
-                                <h3>Creative AI</h3>
-                                <a href="faceless-video.html"><span class="icon">🎭</span> Faceless Video AI <span class="badge" style="background: #ff4757; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px;">Hot</span></a>
-                                <a href="youtube-toolkit.html"><span class="icon">▶️</span> YouTube Toolkit</a>
-                                <a href="thumbnail-downloader.html"><span class="icon">🖼️</span> 4K Thumbnail Downloader</a>
-                                <a href="transcript-extractor.html"><span class="icon">📜</span> Transcript Extractor</a>
-                                <a href="prompt-generator.html"><span class="icon">💡</span> Prompt Generator</a>
-                                <a href="caption-generator.html"><span class="icon">📱</span> Caption Generator</a>
-                            </div>
-                            <div class="mega-column">
-                                <h3>Productivity</h3>
-                                <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')"><span class="icon">📚</span> PDF Summarizer</a>
-                                <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')"><span class="icon">🎨</span> Image Generator <span class="badge" style="background: #e2e8f0; color: #64748b; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px;">Pro</span></a>
-                                <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')"><span class="icon">💻</span> Code Generator</a>
-                            </div>
-                        </div>
-                    </li>
-                    
-                    <li><a href="#pricing">Pricing</a></li>
-                </ul>
-            </nav>
-
-            <div class="auth-buttons" style="display: flex; align-items: center; gap: 15px;">
-                <!-- VIP Crypto Header Button -->
-                <div class="crypto-nav-btn" id="openModalBtnNav">
-                    🪙 $TOOL: <span id="headerBal">0.000</span>
-                </div>
-                <!-- Dynamic Auth Buttons -->
-                <a href="#" class="login-btn" id="navLoginBtn">Login</a>
-                <a href="#" class="signup-btn" id="navSignupBtn">Sign up</a>
-                <a href="#" class="login-btn" id="navLogoutBtn" style="display: none; background: #ff4757; color: white; border: none;">Logout</a>
-            </div>
-        </div>
-    </header>
-
-    <!-- iLovePDF Style Hero Section -->
-    <section class="ilove-hero" id="home">
-        <h1>Every AI tool you need to work faster in one place</h1>
-        <p>Every tool you need to use AI, at your fingertips. All are 100% FREE and easy to use! Write, generate, summarize, and automate with just a few clicks.</p>
-        
-        <div class="category-filters">
-            <!-- Data filter attributes added here -->
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="writing">Writing</button>
-            <button class="filter-btn" data-filter="creative">Creative & Video</button>
-            <button class="filter-btn" data-filter="productivity">Productivity</button>
-            <button class="filter-btn" data-filter="developers">Developers</button>
-        </div>
-    </section>
-
-    <!-- iLovePDF Style Tool Grid -->
-    <section class="tools-section" id="tools">
-        <div class="ilove-grid" id="toolsContainer">
-            
-            <!-- CREATIVE & VIDEO TOOLS -->
-            <a href="faceless-video.html" class="ilove-card" data-category="creative">
-                <div class="card-icon">🎭</div>
-                <h3>Faceless Video Blueprint</h3>
-                <p>Generate high-retention scripts and 4K image prompts for your automated YouTube channel instantly.</p>
-            </a>
-            <a href="youtube-toolkit.html" class="ilove-card" data-category="creative">
-                <div class="card-icon">▶️</div>
-                <h3>YouTube AI Toolkit</h3>
-                <p>Generate viral titles, opening scripts, and SEO tags for your YouTube videos instantly.</p>
-            </a>
-            <a href="thumbnail-downloader.html" class="ilove-card" data-category="creative">
-                <div class="card-icon">🖼️</div>
-                <h3>4K Thumbnail Downloader</h3>
-                <p>Extract and download maximum resolution 4K HD thumbnails from any YouTube video link instantly.</p>
-            </a>
-            <a href="transcript-extractor.html" class="ilove-card" data-category="creative">
-                <div class="card-icon">📜</div>
-                <h3>Transcript Extractor</h3>
-                <p>Extract subtitles and transcripts from any YouTube video in any language instantly.</p>
-            </a>
-            <a href="prompt-generator.html" class="ilove-card" data-category="creative">
-                <div class="card-icon">💡</div>
-                <h3>Prompt Generator</h3>
-                <p>Create highly optimized prompts to get the best results from ChatGPT, Claude & Midjourney.</p>
-            </a>
-            <a href="caption-generator.html" class="ilove-card" data-category="creative">
-                <div class="card-icon">📱</div>
-                <h3>Caption Generator</h3>
-                <p>Generate viral, engaging social media captions with trending hashtags.</p>
-            </a>
-
-            <!-- WRITING TOOLS -->
-            <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')" class="ilove-card" data-category="writing">
-                <div class="card-icon">✉️</div>
-                <h3>Email Writer</h3>
-                <p>Draft highly professional and engaging emails for any situation instantly.</p>
-            </a>
-            <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')" class="ilove-card" data-category="writing">
-                <div class="card-icon">✅</div>
-                <h3>Grammar Checker</h3>
-                <p>Instantly fix grammatical errors, spelling mistakes, and improve your writing tone.</p>
-            </a>
-            <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')" class="ilove-card" data-category="writing">
-                <div class="card-icon">📄</div>
-                <h3>Resume Builder</h3>
-                <p>Create professional, ATS-friendly resumes in seconds to land your dream job.</p>
-            </a>
-
-            <!-- PRODUCTIVITY TOOLS -->
-            <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')" class="ilove-card" data-category="productivity">
-                <div class="card-icon">📚</div>
-                <h3>PDF Summarizer</h3>
-                <p>Extract key points and summarize long PDF documents automatically in seconds.</p>
-            </a>
-            <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')" class="ilove-card" data-category="productivity">
-                <div class="card-icon">📅</div>
-                <h3>AI Task Planner</h3>
-                <p>Organize your day and break down complex projects into simple, actionable steps.</p>
-            </a>
-            <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')" class="ilove-card" data-category="productivity">
-                <div class="card-icon">📝</div>
-                <h3>Meeting Minutes AI</h3>
-                <p>Turn messy meeting notes into perfectly formatted summaries and action items.</p>
-            </a>
-
-            <!-- DEVELOPERS TOOLS -->
-            <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')" class="ilove-card" data-category="developers">
-                <div class="card-icon">💻</div>
-                <h3>Code Generator</h3>
-                <p>Write, debug, and optimize code snippets in JavaScript, Python, and more instantly.</p>
-            </a>
-            <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')" class="ilove-card" data-category="developers">
-                <div class="card-icon">🛠️</div>
-                <h3>JSON Formatter & Validator</h3>
-                <p>Format, validate, and beautify messy JSON data for your web and mobile apps.</p>
-            </a>
-            <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')" class="ilove-card" data-category="developers">
-                <div class="card-icon">🔍</div>
-                <h3>Regex Builder AI</h3>
-                <p>Generate complex Regular Expressions simply by describing what you want to match in English.</p>
-            </a>
-            <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This tool is currently under development.')" class="ilove-card" data-category="developers">
-                <div class="card-icon">🗄️</div>
-                <h3>SQL Query AI</h3>
-                <p>Translate plain English text into complex, optimized SQL database queries instantly.</p>
-            </a>
-        </div>
-    </section>
-
-    <footer style="text-align: center; padding: 40px; background: #fcfbfb; color: #64748b; margin-top: 50px;">
-        © 2026 ToolVerse. All Rights Reserved. Building the future of AI.
-    </footer>
-
-    <!-- ==========================================
-         VIP CRYPTO MINING WIDGET & MODAL
-    =========================================== -->
-    
-    <!-- Floating Widget -->
-    <div class="mining-widget" id="miningWidgetBtn">
-        <div class="mining-icon">⛏️</div>
-        <div class="mining-stats">
-            <span class="mining-title">Mining $TOOL</span>
-            <span class="mining-rate">Live <span class="pulse-dot"></span></span>
-  
+‎<!DOCTYPE html>
+‎<html lang="en">
+‎<head>
+‎    <meta charset="UTF-8">
+‎    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+‎    <title>ToolVerse | Every AI tool you need in one place</title>
+‎    <link rel="stylesheet" href="style.css?v=6">
+‎    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+‎    
+‎    <!-- VIP Crypto Mining & Auth Styles -->
+‎    <style>
+‎        /* Header Premium Button */
+‎        .crypto-nav-btn {
+‎            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+‎            color: #1e293b !important;
+‎            font-weight: 700 !important;
+‎            padding: 8px 16px !important;
+‎            border-radius: 20px;
+‎            display: flex;
+‎            align-items: center;
+‎            gap: 6px;
+‎            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+‎            border: 2px solid #fff;
+‎            transition: 0.3s;
+‎            cursor: pointer;
+‎        }
+‎        .crypto-nav-btn:hover {
+‎            transform: translateY(-2px);
+‎            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+‎        }
+‎        .header-container { display: flex; align-items: center; justify-content: space-between; }
+‎        
+‎        /* Floating Mining Widget */
+‎        .mining-widget {
+‎            position: fixed;
+‎            bottom: 30px;
+‎            left: 30px;
+‎            background: rgba(15, 23, 42, 0.95);
+‎            backdrop-filter: blur(10px);
+‎            border: 1px solid rgba(251, 191, 36, 0.4);
+‎            border-radius: 12px;
+‎            padding: 12px 20px;
+‎            display: flex;
+‎            align-items: center;
+‎            gap: 15px;
+‎            color: white;
+‎            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+‎            cursor: pointer;
+‎            z-index: 999;
+‎            transition: 0.3s;
+‎        }
+‎        .mining-widget:hover {
+‎            transform: scale(1.05);
+‎            border-color: #fbbf24;
+‎        }
+‎        .mining-icon { font-size: 24px; animation: pickaxe 2s infinite; }
+‎        @keyframes pickaxe {
+‎            0% { transform: rotate(0deg); }
+‎            50% { transform: rotate(-30deg); }
+‎            100% { transform: rotate(0deg); }
+‎        }
+‎        .mining-stats { display: flex; flex-direction: column; }
+‎        .mining-title { font-size: 0.8rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+‎        .mining-rate { font-size: 0.75rem; color: #4ade80; display: flex; align-items: center; gap: 5px; }
+‎        .pulse-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; animation: pulse 1s infinite; }
+‎        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+‎        .mining-balance { font-size: 1.2rem; font-weight: 800; color: #fbbf24; margin-left: 10px; }
+‎
+‎        /* VIP Crypto Modal */
+‎        .crypto-modal {
+‎            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+‎            background: rgba(0, 0, 0, 0.8); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);
+‎        }
+‎        .crypto-modal-content {
+‎            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24;
+‎            width: 90%; max-width: 450px; border-radius: 20px; padding: 30px; color: white; position: relative;
+‎            box-shadow: 0 20px 50px rgba(251, 191, 36, 0.2); text-align: center;
+‎            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+‎        }
+‎        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+‎        
+‎        .close-crypto {
+‎            position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s;
+‎        }
+‎        .close-crypto:hover { color: #ff4757; }
+‎        
+‎        .crypto-badge {
+‎            background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem;
+‎            font-weight: 700; display: inline-block; margin-bottom: 15px; border: 1px solid #fbbf24;
+‎        }
+‎        .crypto-header h2 { font-size: 1.8rem; margin-bottom: 5px; }
+‎        .crypto-header p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 25px; }
+‎        
+‎        .crypto-balance-box {
+‎            background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; margin-bottom: 25px;
+‎            border: 1px solid rgba(255,255,255,0.05);
+‎        }
+‎        .balance-label { color: #cbd5e1; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; margin-bottom: 10px; }
+‎        .balance-amount { font-size: 3rem; font-weight: 800; color: #fbbf24; text-shadow: 0 0 20px rgba(251, 191, 36, 0.4); line-height: 1; margin-bottom: 5px; }
+‎        .balance-usd { color: #4ade80; font-size: 0.9rem; font-weight: 500; }
+‎
+‎        .crypto-actions { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 25px; }
+‎        .action-btn { padding: 15px; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; border: none; font-family: inherit; }
+‎        .boost-btn { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: white; box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4); border: 1px solid #a78bfa; }
+‎        .boost-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(139, 92, 246, 0.6); }
+‎        .boost-btn:disabled { background: #10b981; color: white; cursor: default; transform: none; box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4); border: none; }
+‎        
+‎        .claim-btn { background: #ff4757; color: white; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3); }
+‎        .claim-btn:hover { background: #e0313f; transform: translateY(-2px); }
+‎        .claim-btn:disabled { background: #475569; cursor: not-allowed; box-shadow: none; color: #94a3b8; transform: none;}
+‎        
+‎        .invite-btn { background: #334155; color: white; border: 1px solid #475569; }
+‎        .invite-btn:hover { background: #475569; }
+‎        .status-note { font-size: 0.8rem; color: #64748b; margin-top: 15px; line-height: 1.5; }
+‎
+‎        /* =========================================
+‎           Firebase Auth Modal Styles
+‎        ========================================= */
+‎        .auth-modal {
+‎            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+‎            background: rgba(0, 0, 0, 0.8); z-index: 10001; justify-content: center; align-items: center; backdrop-filter: blur(5px);
+‎        }
+‎        .auth-modal-content {
+‎            background-color: #1e1e1e; padding: 40px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+‎            text-align: center; width: 90%; max-width: 350px; position: relative; color: white;
+‎            border: 1px solid #333; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+‎        }
+‎        .close-auth {
+‎            position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s;
+‎        }
+‎        .close-auth:hover { color: #ff4757; }
+‎        .auth-title { margin-top: 0; color: #4da6ff; letter-spacing: 1px; font-size: 1.5rem; margin-bottom: 5px; }
+‎        .auth-subtitle { color: #aaaaaa; font-size: 14px; margin-bottom: 25px; }
+‎        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #333; border-radius: 6px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit;}
+‎        .auth-input:focus { outline: none; border-color: #4da6ff; }
+‎        .auth-submit-btn { width: 100%; padding: 12px; margin: 15px 0 10px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 16px; transition: 0.3s; font-family: inherit;}
+‎        .auth-submit-btn:hover { background-color: #3388dd; }
+‎        .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
+‎        .auth-google-btn:hover { background-color: #e2e2e2; }
+‎        .auth-divider { color: #666; font-size: 12px; margin: 15px 0; }
+‎        #authMessageBox { margin-top: 15px; font-size: 14px; min-height: 20px; font-weight: 500;}
+‎    </style>
+‎</head>
+‎<body>
+‎
+‎    <!-- iLovePDF Style Header -->
+‎    <header class="ilove-header">
+‎        <div class="header-container">
+‎            <div class="logo-area">
+‎                <span class="logo-icon">🚀</span> 
+‎                <span class="logo-text">ToolVerse</span>
+‎            </div>
+‎            
+‎            <nav class="main-nav">
+‎                <ul class="nav-links">
+‎                    <li><a href="#home">Home</a></li>
+‎                    
+‎                    <!-- Mega Menu Dropdown -->
+‎                    <li class="dropdown">
+‎                        <a href="#tools" class="dropbtn">All AI Tools <span class="arrow">▼</span></a>
+‎                        <div class="mega-menu">
+‎                            <div class="mega-column">
+‎                                <h3>Writing Tools</h3>
+‎                                <a href="email-writer.html"><span class="icon">✉️</span> Email Writer</a>
+‎                                <a href="grammar-checker.html"><span class="icon">✅</span> Grammar Checker</a>
+‎                                <a href="resume-builder.html"><span class="icon">📄</span> Resume Builder</a>
+‎                            </div>
+‎                            <div class="mega-column">
+‎                                <h3>Creative AI</h3>
+‎                                <a href="faceless-video.html"><span class="icon">🎭</span> Faceless Video AI <span class="badge" style="background: #ff4757; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px;">Hot</span></a>
+‎                                <a href="youtube-toolkit.html"><span class="icon">▶️</span> YouTube Toolkit</a>
+‎                                <a href="prompt-generator.html"><span class="icon">💡</span> Prompt Generator</a>
+‎                                <a href="caption-generator.html"><span class="icon">📱</span> Caption Generator</a>
+‎                            </div>
+‎                            <div class="mega-column">
+‎                                <h3>Productivity</h3>
+‎                                <a href="pdf-summarizer.html"><span class="icon">📚</span> PDF Summarizer</a>
+‎                                <a href="#"><span class="icon">🎨</span> Image Generator <span class="badge" style="background: #e2e8f0; color: #64748b; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px;">Pro</span></a>
+‎                                <a href="#"><span class="icon">💻</span> Code Generator</a>
+‎                            </div>
+‎                        </div>
+‎                    </li>
+‎                    
+‎                    <li><a href="#pricing">Pricing</a></li>
+‎                </ul>
+‎            </nav>
+‎
+‎            <div class="auth-buttons" style="display: flex; align-items: center; gap: 15px;">
+‎                <!-- VIP Crypto Header Button -->
+‎                <div class="crypto-nav-btn" id="openModalBtnNav">
+‎                    🪙 $TOOL: <span id="headerBal">0.000</span>
+‎                </div>
+‎                <!-- Dynamic Auth Buttons -->
+‎                <a href="#" class="login-btn" id="navLoginBtn">Login</a>
+‎                <a href="#" class="signup-btn" id="navSignupBtn">Sign up</a>
+‎                <a href="#" class="login-btn" id="navLogoutBtn" style="display: none; background: #ff4757; color: white; border: none;">Logout</a>
+‎            </div>
+‎        </div>
+‎    </header>
+‎
+‎    <!-- iLovePDF Style Hero Section -->
+‎    <section class="ilove-hero" id="home">
+‎        <h1>Every AI tool you need to work faster in one place</h1>
+‎        <p>Every tool you need to use AI, at your fingertips. All are 100% FREE and easy to use! Write, generate, summarize, and automate with just a few clicks.</p>
+‎        
+‎        <div class="category-filters">
+‎            <button class="filter-btn active">All</button>
+‎            <button class="filter-btn">Writing</button>
+‎            <button class="filter-btn">Creative & Video</button>
+‎            <button class="filter-btn">Productivity</button>
+‎            <button class="filter-btn">Developers</button>
+‎        </div>
+‎    </section>
+‎
+‎    <!-- iLovePDF Style Tool Grid -->
+‎    <section class="tools-section" id="tools">
+‎        <div class="ilove-grid">
+‎            <a href="faceless-video.html" class="ilove-card">
+‎                <div class="card-icon">🎭</div>
+‎                <h3>Faceless Video Blueprint</h3>
+‎                <p>Generate high-retention scripts and 4K image prompts for your automated YouTube channel instantly.</p>
+‎            </a>
+‎            <a href="youtube-toolkit.html" class="ilove-card">
+‎                <div class="card-icon">▶️</div>
+‎                <h3>YouTube AI Toolkit</h3>
+‎                <p>Generate viral titles, opening scripts, and SEO tags for your YouTube videos instantly.</p>
+‎            </a>
+‎            <a href="prompt-generator.html" class="ilove-card">
+‎                <div class="card-icon">💡</div>
+‎                <h3>Prompt Generator</h3>
+‎                <p>Create highly optimized prompts to get the best results from ChatGPT, Claude & Midjourney.</p>
+‎            </a>
+‎            <a href="email-writer.html" class="ilove-card">
+‎                <div class="card-icon">✉️</div>
+‎                <h3>Email Writer</h3>
+‎                <p>Draft highly professional and engaging emails for any situation instantly.</p>
+‎            </a>
+‎            <a href="pdf-summarizer.html" class="ilove-card">
+‎                <div class="card-icon">📚</div>
+‎                <h3>PDF Summarizer</h3>
+‎                <p>Extract key points and summarize long PDF documents automatically in seconds.</p>
+‎            </a>
+‎            <a href="grammar-checker.html" class="ilove-card">
+‎                <div class="card-icon">✅</div>
+‎                <h3>Grammar Checker</h3>
+‎                <p>Instantly fix grammatical errors, spelling mistakes, and improve your writing tone.</p>
+‎            </a>
+‎            <a href="caption-generator.html" class="ilove-card">
+‎                <div class="card-icon">📱</div>
+‎                <h3>Caption Generator</h3>
+‎                <p>Generate viral, engaging social media captions with trending hashtags.</p>
+‎            </a>
+‎            <a href="resume-builder.html" class="ilove-card">
+‎                <div class="card-icon">📄</div>
+‎                <h3>Resume Builder</h3>
+‎                <p>Create professional, ATS-friendly resumes in seconds to land your dream job.</p>
+‎            </a>
+‎        </div>
+‎    </section>
+‎
+‎    <footer style="text-align: center; padding: 40px; background: #fcfbfb; color: #64748b; margin-top: 50px;">
+‎        © 2026 ToolVerse. All Rights Reserved. Building the future of AI.
+‎    </footer>
+‎
+‎    <!-- ==========================================
+‎         VIP CRYPTO MINING WIDGET & MODAL
+‎    =========================================== -->
+‎    
+‎    <!-- Floating Widget -->
+‎    <div class="mining-widget" id="miningWidgetBtn">
+‎        <div class="mining-icon">⛏️</div>
+‎        <div class="mining-stats">
+‎            <span class="mining-title">Mining $TOOL</span>
+‎            <span class="mining-rate">Live <span class="pulse-dot"></span></span>
+‎        </div>
+‎        <div class="mining-balance" id="widgetBal">0.000</div>
+‎    </div>
+‎
+‎    <!-- VIP Modal Dashboard -->
+‎    <div class="crypto-modal" id="cryptoModal">
+‎        <div class="crypto-modal-content">
+‎            <span class="close-crypto" id="closeModalBtn">&times;</span>
+‎            <div class="crypto-header">
+‎                <div class="crypto-badge" id="miningStatusBadge">🚀 VIP MINING ACCESS</div>
+‎                <h2>$TOOL Dashboard</h2>
+‎                <p>Mine tokens for free before the official mainnet launch.</p>
+‎            </div>
+‎            
+‎            <div class="crypto-balance-box">
+‎                <div class="balance-label">Your Total Mined Balance</div>
+‎                <div class="balance-amount"><span style="font-size: 2rem;">🪙</span> <span id="modalBal">0.000</span></div>
+‎                <div class="balance-usd" id="miningRateText">Mining Rate: +0.001 per 5 seconds</div>
+‎            </div>
+‎            
+‎            <div class="crypto-actions">
+‎                <button class="action-btn boost-btn" id="boostBtn">⚡ Boost Mining 3x (Use a Tool)</button>
+‎                <button class="action-btn claim-btn" id="claimDailyBtn">🎁 Claim Daily Bonus (+50 $TOOL)</button>
+‎                <button class="action-btn invite-btn" onclick="alert('Invite link copied to clipboard!')">🔗 Copy Invite Link (+100 $TOOL)</button>
+‎            </div>
+‎            
+‎            <p class="status-note">Keep using ToolVerse to mine faster. Once we reach our milestone, you will be able to convert these to real crypto tokens!</p>
+‎        </div>
+‎    </div>
+‎
+‎    <!-- ==========================================
+‎         FIREBASE AUTHENTICATION MODAL
+‎    =========================================== -->
+‎    <div class="auth-modal" id="firebaseAuthModal">
+‎        <div class="auth-modal-content">
+‎            <span class="close-auth" id="closeAuthModalBtn">&times;</span>
+‎            <h2 class="auth-title">ToolVerse</h2>
+‎            <p class="auth-subtitle">Access your professional toolkit</p>
+‎            
+‎            <input type="email" id="authEmail" class="auth-input" placeholder="Email Address" required>
+‎            <input type="password" id="authPassword" class="auth-input" placeholder="Password" required>
+‎
+‎            <button id="emailLoginBtn" class="auth-submit-btn">Login / Sign Up</button>
+‎            
+‎            <div class="auth-divider">──────── OR ────────</div>
+‎            
+‎            <button id="googleBtn" class="auth-google-btn">
+‎                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+‎                Continue with Google
+‎            </button>
+‎            
+‎            <div id="authMessageBox"></div>
+‎        </div>
+‎    </div>
+‎
+‎    <!-- VIP Crypto Mining Logic (Your Original Script) -->
+‎    <script>
+‎        document.addEventListener("DOMContentLoaded", function() {
+‎            let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
+‎            let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
+‎            let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
+‎
+‎            const headerBal = document.getElementById('headerBal');
+‎            const widgetBal = document.getElementById('widgetBal');
+‎            const modalBal = document.getElementById('modalBal');
+‎            const claimBtn = document.getElementById('claimDailyBtn');
+‎            const boostBtn = document.getElementById('boostBtn');
+‎            const miningRateText = document.getElementById('miningRateText');
+‎            const miningStatusBadge = document.getElementById('miningStatusBadge');
+‎            
+‎            const modal = document.getElementById('cryptoModal');
+‎            const openNavBtn = document.getElementById('openModalBtnNav');
+‎            const openWidgetBtn = document.getElementById('miningWidgetBtn');
+‎            const closeBtn = document.getElementById('closeModalBtn');
+‎
+‎            function updateBalance() {
+‎                const displayVal = toolBalance.toFixed(3);
+‎                headerBal.innerText = displayVal;
+‎                widgetBal.innerText = displayVal;
+‎                modalBal.innerText = displayVal;
+‎                localStorage.setItem('toolVerseBalance', toolBalance);
+‎            }
+‎
+‎            function checkDailyStatus() {
+‎                const today = new Date().toDateString();
+‎                if (lastClaimDate === today) {
+‎                    claimBtn.disabled = true;
+‎                    claimBtn.innerText = "✅ Come back tomorrow";
+‎                }
+‎            }
+‎
+‎            function updateBoostUI() {
+‎                if (isBoostActive) {
+‎                    boostBtn.disabled = true;
+‎                    boostBtn.innerHTML = "🔥 3x Boost is Active!";
+‎                    miningRateText.innerHTML = "Mining Rate: <span style='color:#fbbf24; font-weight:bold;'>+0.003 per 5 seconds (3x)</span>";
+‎                    miningStatusBadge.innerHTML = "🔥 3x BOOST ACTIVE";
+‎                    miningStatusBadge.style.background = "rgba(16, 185, 129, 0.1)";
+‎                    miningStatusBadge.style.color = "#10b981";
+‎                    miningStatusBadge.style.borderColor = "#10b981";
+‎                }
+‎            }
+‎
+‎            setInterval(() => {
+‎                let amountToAdd = isBoostActive ? 0.003 : 0.001;
+‎                toolBalance += amountToAdd;
+‎                updateBalance();
+‎            }, 5000);
+‎
+‎            boostBtn.addEventListener('click', function() {
+‎                alert("🚀 To activate 3x Mining Speed, please select and use any AI Tool from the grid below!");
+‎                modal.style.display = 'none';
+‎                document.getElementById('tools').scrollIntoView({ behavior: 'smooth' });
+‎                setTimeout(() => {
+‎                    isBoostActive = true;
+‎                    localStorage.setItem('toolVerseBoostActive', 'true');
+‎                    updateBoostUI();
+‎                }, 3000); 
+‎            });
+‎
+‎            claimBtn.addEventListener('click', function() {
+‎                const today = new Date().toDateString();
+‎                if (lastClaimDate !== today) {
+‎                    toolBalance += 50.000; 
+‎                    lastClaimDate = today;
+‎                    localStorage.setItem('toolVerseLastClaim', today);
+‎                    updateBalance();
+‎                    checkDailyStatus();
+‎                    alert('🎉 Success! 50 $TOOL tokens added to your wallet.');
+‎                }
+‎            });
+‎
+‎            openNavBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
+‎            openWidgetBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
+‎            closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+‎            window.addEventListener('click', (e) => { 
+‎                if(e.target === modal) modal.style.display = 'none'; 
+‎            });
+‎
+‎            updateBalance();
+‎            checkDailyStatus();
+‎            updateBoostUI();
+‎        });
+‎    </script>
+‎
+‎    <!-- Firebase Authentication Logic -->
+‎    <script type="module">
+‎        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+‎        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+‎        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+‎
+‎        // Your Firebase config
+‎        const firebaseConfig = {
+‎            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+‎            authDomain: "toolverstoken.firebaseapp.com",
+‎            projectId: "toolverstoken",
+‎            storageBucket: "toolverstoken.firebasestorage.app",
+‎            messagingSenderId: "762644487097",
+‎            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
+‎            measurementId: "G-6VX2WPNECZ"
+‎        };
+‎
+‎        const app = initializeApp(firebaseConfig);
+‎        const analytics = getAnalytics(app);
+‎        const auth = getAuth(app);
+‎        const googleProvider = new GoogleAuthProvider();
+‎
+‎        // Auth UI Elements
+‎        const authModal = document.getElementById('firebaseAuthModal');
+‎        const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
+‎        const navLoginBtn = document.getElementById('navLoginBtn');
+‎        const navSignupBtn = document.getElementById('navSignupBtn');
+‎        const navLogoutBtn = document.getElementById('navLogoutBtn');
+‎        
+‎        const emailInput = document.getElementById('authEmail');
+‎        const passwordInput = document.getElementById('authPassword');
+‎        const emailLoginBtn = document.getElementById('emailLoginBtn');
+‎        const googleBtn = document.getElementById('googleBtn');
+‎        const messageBox = document.getElementById('authMessageBox');
+‎
+‎        // Show/Hide Modal Logic
+‎        function openAuthModal(e) {
+‎            e.preventDefault();
+‎            authModal.style.display = 'flex';
+‎            messageBox.textContent = '';
+‎        }
+‎        navLoginBtn.addEventListener('click', openAuthModal);
+‎        navSignupBtn.addEventListener('click', openAuthModal);
+‎        
+‎        closeAuthModalBtn.addEventListener('click', () => { authModal.style.display = 'none'; });
+‎        window.addEventListener('click', (e) => { 
+‎            if(e.target === authModal) authModal.style.display = 'none'; 
+‎        });
+‎
+‎        function showMessage(text, color) {
+‎            messageBox.style.color = color;
+‎            messageBox.textContent = text;
+‎        }
+‎
+‎        // Email / Password Auth
+‎        emailLoginBtn.addEventListener('click', () => {
+‎            const email = emailInput.value;
+‎            const password = passwordInput.value;
+‎            if(!email || !password) {
+‎                showMessage("Please enter email and password!", "#ff4d4d");
+‎                return;
+‎            }
+‎            emailLoginBtn.textContent = "Processing...";
+‎
+‎            signInWithEmailAndPassword(auth, email, password)
+‎                .then(() => {
+‎                    showMessage("Login successful!", "#4dff4d");
+‎                    setTimeout(() => authModal.style.display = 'none', 1000);
+‎                })
+‎                .catch((error) => {
+‎                    if(error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found') {
+‎                        createUserWithEmailAndPassword(auth, email, password)
+‎                            .then(() => {
+‎                                showMessage("New account created!", "#4dff4d");
+‎                                setTimeout(() => authModal.style.display = 'none', 1000);
+‎                            })
+‎                            .catch((err) => { showMessage(err.message, "#ff4d4d"); });
+‎                    } else {
+‎                        showMessage(error.message, "#ff4d4d");
+‎                    }
+‎                }).finally(() => { emailLoginBtn.textContent = "Login / Sign Up"; });
+‎        });
+‎
+‎        // Google Auth
+‎        googleBtn.addEventListener('click', () => {
+‎            showMessage("Connecting to Google...", "#aaaaaa");
+‎            signInWithPopup(auth, googleProvider)
+‎                .then(() => {
+‎                    showMessage("Login successful!", "#4dff4d");
+‎                    setTimeout(() => authModal.style.display = 'none', 1000);
+‎                }).catch((error) => { showMessage(error.message, "#ff4d4d"); });
+‎        });
+‎
+‎        // Logout Logic
+‎        navLogoutBtn.addEventListener('click', (e) => {
+‎            e.preventDefault();
+‎            signOut(auth).then(() => {
+‎                alert("You have been logged out successfully.");
+‎            });
+‎        });
+‎
+‎        // Real-time Auth State Listener (Changes Header Buttons automatically)
+‎        onAuthStateChanged(auth, (user) => {
+‎            if (user) {
+‎                // User is logged in
+‎                navLoginBtn.style.display = 'none';
+‎                navSignupBtn.style.display = 'none';
+‎                navLogoutBtn.style.display = 'inline-block';
+‎            } else {
+‎                // User is logged out
+‎                navLoginBtn.style.display = 'inline-block';
+‎                navSignupBtn.style.display = 'inline-block';
+‎                navLogoutBtn.style.display = 'none';
+‎            }
+‎        });
+‎    </script>
+‎</body>
+‎</html>
+‎
