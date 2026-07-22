@@ -5,7 +5,7 @@ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
     res.setHeader(
         'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-Type, Date, X-Api-Version'
+        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-Type, Date, X-Api-Version, x-goog-api-key'
     );
 
     if (req.method === 'OPTIONS') {
@@ -29,36 +29,45 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'API key not configured on server' });
         }
 
-        // 🌟 FINAL FIX: Correct, exact, and active model name 'gemini-1.5-flash'
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        // 🌟 NAYA 2026 API URL
+        const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/interactions';
 
         const apiResponse = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'x-goog-api-key': apiKey // Key ab header mein jayegi (jese aapne curl mein dikhaya)
             },
             body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: prompt }]
-                }]
+                model: 'gemini-3.1-pro-preview', // Aapka bataya hua latest model!
+                input: prompt,
+                generation_config: {
+                    thinking_level: 'low'
+                }
             })
         });
 
         const data = await apiResponse.json();
 
-        // Agar Google koi direct API error bhejta hai to usey pakarna
         if (data.error) {
             console.error('Google API Error:', data.error);
-            return res.status(500).json({ error: 'Google API Error', details: data.error.message });
+            return res.status(500).json({ error: 'Google API Error', details: data.error.message || data.error });
         }
 
-        if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-            const reply = data.candidates[0].content.parts[0].text;
-            return res.status(200).json({ reply });
+        // Naye API ka response structure pakarne ke liye smart logic
+        let reply = "";
+        
+        if (data.output) {
+            reply = data.output; // Agar response mein seedha output aata hai
+        } else if (data.candidates && data.candidates[0].content) {
+            reply = data.candidates[0].content.parts[0].text; // Purana structure
         } else {
-            console.error('Gemini API Structure Error:', data);
-            return res.status(500).json({ error: 'Invalid response structure from Gemini API', details: data });
+            // Agar naya structure in dono se mukhtalif hua, to hum poora data screen par dikha denge
+            // taake humein pata chal jaye ke text kahan chupa hai
+            reply = JSON.stringify(data); 
         }
+
+        return res.status(200).json({ reply });
 
     } catch (error) {
         console.error('Server Error:', error);
