@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube 4K Thumbnail Downloader | ToolVerse</title>
+    <link rel="stylesheet" href="style.css?v=6">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .tool-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+        .tool-header { text-align: center; margin-bottom: 30px; }
+        .tool-header h1 { font-size: 2.2rem; color: #fbbf24; margin-bottom: 10px; }
+        .tool-header p { color: #94a3b8; font-size: 0.95rem; }
+        
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .tool-input {
+            flex: 1;
+            padding: 15px 20px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        .tool-input:focus { outline: none; border-color: #fbbf24; }
+        
+        .action-btn {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #1e293b;
+            font-weight: 700;
+            padding: 0 25px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4); }
+
+        .preview-section {
+            display: none;
+            text-align: center;
+            background: #1e293b;
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .thumbnail-preview {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #334155;
+        }
+        .download-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        .dl-btn {
+            background: #3b82f6;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            display: inline-block;
+            text-align: center;
+        }
+        .dl-btn:hover { background: #2563eb; transform: translateY(-2px); }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #94a3b8; text-decoration: none; font-weight: 500; }
+        .back-link:hover { color: #fbbf24; }
+    </style>
+</head>
+<body style="background: #090d16; font-family: 'Inter', sans-serif; padding: 20px;">
+
+    <div style="max-width: 800px; margin: 0 auto;">
+        <a href="index.html" class="back-link">← Back to ToolVerse</a>
+    </div>
+
+    <div class="tool-container">
+        <div class="tool-header">
+            <h1>🔴 YouTube 4K Thumbnail Downloader</h1>
+            <p>Paste any YouTube video link below to instantly extract and download its maximum resolution thumbnail.</p>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="ytUrlInput" class="tool-input" placeholder="Paste YouTube Video URL here (e.g., https://youtu.be/...)">
+            <button id="extractBtn" class="action-btn">Extract HD</button>
+        </div>
+
+        <div class="preview-section" id="previewSection">
+            <img id="thumbImage" class="thumbnail-preview" src="" alt="Thumbnail Preview">
+            <div class="download-options" id="dlOptions">
+                <!-- Dynamically generated download buttons will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('extractBtn').addEventListener('click', function() {
+            const url = document.getElementById('ytUrlInput').value.trim();
+            const videoId = extractYouTubeVideoId(url);
+
+            if (!videoId) {
+                alert('Please enter a valid YouTube video URL!');
+                return;
+            }
+
+            // YouTube Thumbnail Quality URLs
+            const maxresUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+            const hqUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+            const mqUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+
+            const thumbImage = document.getElementById('thumbImage');
+            thumbImage.src = maxresUrl;
+
+            // Fallback if maxres doesn't exist, check standard hq
+            thumbImage.onerror = function() {
+                thumbImage.src = hqUrl;
+            };
+
+            const dlOptions = document.getElementById('dlOptions');
+            dlOptions.innerHTML = `
+                <a href="${maxresUrl}" target="_blank" download="youtube-thumbnail-max.jpg" class="dl-btn" style="background: #10b981;">Download Max/4K HD</a>
+                <a href="${hqUrl}" target="_blank" download="youtube-thumbnail-hq.jpg" class="dl-btn">Download High Quality</a>
+                <a href="${mqUrl}" target="_blank" download="youtube-thumbnail-mq.jpg" class="dl-btn" style="background: #64748b;">Download Medium Quality</a>
+            `;
+
+            document.getElementById('previewSection').style.display = 'block';
+        });
+
+        function extractYouTubeVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+    </script>
+</body>
+</html>
+
