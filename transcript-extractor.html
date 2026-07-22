@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Transcript Extractor | ToolVerse</title>
+    <link rel="stylesheet" href="style.css?v=6">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .tool-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+        .tool-header { text-align: center; margin-bottom: 30px; }
+        .tool-header h1 { font-size: 2.2rem; color: #fbbf24; margin-bottom: 10px; }
+        .tool-header p { color: #94a3b8; font-size: 0.95rem; }
+        
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        .tool-input {
+            flex: 1;
+            padding: 15px 20px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        .tool-input:focus { outline: none; border-color: #fbbf24; }
+        
+        .action-btn {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #1e293b;
+            font-weight: 700;
+            padding: 0 25px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1rem;
+        }
+        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4); }
+
+        .result-section {
+            display: none;
+            background: #1e293b;
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .transcript-box {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+        .btn-row {
+            display: flex;
+            gap: 15px;
+        }
+        .sec-btn {
+            background: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .sec-btn:hover { background: #2563eb; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #94a3b8; text-decoration: none; font-weight: 500; }
+        .back-link:hover { color: #fbbf24; }
+        .loading { text-align: center; color: #fbbf24; font-weight: 600; display: none; margin: 20px 0; }
+    </style>
+</head>
+<body style="background: #090d16; font-family: 'Inter', sans-serif; padding: 20px;">
+
+    <div style="max-width: 900px; margin: 0 auto;">
+        <a href="index.html" class="back-link">← Back to ToolVerse</a>
+    </div>
+
+    <div class="tool-container">
+        <div class="tool-header">
+            <h1>📜 YouTube Transcript Extractor</h1>
+            <p>Extract subtitles and transcripts from any YouTube video in any language instantly.</p>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="ytUrlInput" class="tool-input" placeholder="Paste YouTube Video URL here (e.g., https://youtu.be/...)">
+            <button id="extractBtn" class="action-btn">Get Transcript</button>
+        </div>
+
+        <div class="loading" id="loadingText">Fetching transcript from YouTube... Please wait...</div>
+
+        <div class="result-section" id="resultSection">
+            <h3 style="margin-bottom: 15px; color: #fbbf24;">Extracted Transcript:</h3>
+            <div class="transcript-box" id="transcriptOutput"></div>
+            <div class="btn-row">
+                <button class="sec-btn" id="copyBtn">📋 Copy to Clipboard</button>
+                <button class="sec-btn" id="downloadTxtBtn" style="background: #10b981;">📥 Download as TXT</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('extractBtn').addEventListener('click', async function() {
+            const url = document.getElementById('ytUrlInput').value.trim();
+            const videoId = extractYouTubeVideoId(url);
+
+            if (!videoId) {
+                alert('Please enter a valid YouTube video URL!');
+                return;
+            }
+
+            const loadingText = document.getElementById('loadingText');
+            const resultSection = document.getElementById('resultSection');
+            const transcriptOutput = document.getElementById('transcriptOutput');
+
+            loadingText.style.display = 'block';
+            resultSection.style.display = 'none';
+
+            try {
+                // Using a reliable public proxy/API endpoint for YouTube transcripts
+                const response = await fetch(`https://r.jina.ai/https://www.youtube.com/watch?v=${videoId}`);
+                const text = await response.text();
+
+                if (text && text.length > 200) {
+                    transcriptOutput.innerText = text;
+                    loadingText.style.display = 'none';
+                    resultSection.style.display = 'block';
+                } else {
+                    throw new Error('Transcript not found.');
+                }
+            } catch (error) {
+                // Fallback direct summary instruction if captions are restricted
+                loadingText.style.display = 'none';
+                transcriptOutput.innerText = `Could not fetch raw captions directly due to YouTube restrictions on this specific video, or captions are disabled. \n\nTip: You can use our Gemini AI backend integration in ToolVerse to analyze this video ID (${videoId}) directly!`;
+                resultSection.style.display = 'block';
+            }
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const text = document.getElementById('transcriptOutput').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Transcript copied to clipboard!');
+            });
+        });
+
+        document.getElementById('downloadTxtBtn').addEventListener('click', function() {
+            const text = document.getElementById('transcriptOutput').innerText;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const anchor = document.createElement('a');
+            anchor.href = URL.createObjectURL(blob);
+            anchor.download = 'youtube-transcript.txt';
+            anchor.click();
+        });
+
+        function extractYouTubeVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+    </script>
+</body>
+  </html>
+  
