@@ -119,7 +119,7 @@
     <div class="tool-container">
         <div class="tool-header">
             <h1>📜 YouTube Transcript Extractor</h1>
-            <p>Extract subtitles and transcripts from any YouTube video in your desired language.</p>
+            <p>Extract subtitles and transcripts directly from YouTube's internal APIs.</p>
         </div>
 
         <div class="input-group">
@@ -160,9 +160,9 @@
                 <option value="fi">Finnish (Suomi)</option>
             </select>
         </div>
-        <button id="extractBtn" class="action-btn">Get Transcript with Language Support</button>
+        <button id="extractBtn" class="action-btn">Extract Clean Transcript</button>
 
-        <div class="loading" id="loadingText">Fetching and translating transcript... Please wait...</div>
+        <div class="loading" id="loadingText">Connecting to YouTube's server to fetch captions...</div>
 
         <div class="result-section" id="resultSection">
             <h3 style="margin-bottom: 15px; color: #fbbf24;">Extracted Transcript:</h3>
@@ -193,21 +193,73 @@
 
             loadingText.style.display = 'block';
             resultSection.style.display = 'none';
+            transcriptOutput.innerText = '';
 
             try {
-                const response = await fetch(`https://r.jina.ai/https://www.youtube.com/watch?v=${videoId}`);
-                let text = await response.text();
+                // Step 1: Fetch raw YouTube Video Page to find internal Caption Tracks
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent('https://www.youtube.com/watch?v=' + videoId)}`;
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                const html = data.contents;
 
-                if (text && text.length > 200) {
-                    transcriptOutput.innerText = `[Selected Language: ${langName}]\n\n` + text;
+                // Step 2: Look for the exact caption JSON data hidden in YouTube's code
+                const regex = /"captions":\{"playerCaptionsTracklistRenderer":(\{.*?\})\}/;
+                const match = html.match(regex);
+
+                if (!match) {
+                    throw new Error("No closed captions (CC) or Subtitles found for this video.");
+                }
+
+                // Step 3: Parse the exact language tracks available
+                const tracklist = JSON.parse(`{"playerCaptionsTracklistRenderer":${match[1]}}`);
+                const tracks = tracklist.playerCaptionsTracklistRenderer.captionTracks;
+
+                if (!tracks || tracks.length === 0) {
+                    throw new Error("Captions exist but cannot be loaded.");
+                }
+
+                // Find the user's selected language, or fall back to base language, or default to English
+                let targetTrack = tracks.find(t => t.languageCode === lang) || 
+                                  tracks.find(t => t.languageCode.startsWith(lang.split('-')[0])) || 
+                                  tracks.find(t => t.languageCode === 'en') || 
+                                  tracks[0];
+
+                const actualLangName = targetTrack.name.simpleText || langName;
+
+                // Step 4: Fetch the actual XML file of the transcript from YouTube's direct API
+                const transcriptUrl = targetTrack.baseUrl;
+                const tResponse = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(transcriptUrl)}`);
+                const tData = await tResponse.json();
+                
+                // Step 5: Convert XML text tags into clean readable text
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(tData.contents, "text/xml");
+                const textNodes = xmlDoc.getElementsByTagName("text");
+                
+                let transcriptText = "";
+                for (let i = 0; i < textNodes.length; i++) {
+                    transcriptText += textNodes[i].textContent + " ";
+                }
+
+                // Clean up formatting and extra spaces
+                transcriptText = transcriptText.replace(/\s+/g, ' ').trim();
+                
+                // Unescape HTML elements like &#39; to '
+                let textArea = document.createElement('textarea');
+                textArea.innerHTML = transcriptText;
+                let cleanTranscript = textArea.value;
+
+                if (cleanTranscript.length > 0) {
+                    transcriptOutput.innerText = `[Video ID: ${videoId} | Language: ${actualLangName}]\n\n` + cleanTranscript;
                     loadingText.style.display = 'none';
                     resultSection.style.display = 'block';
                 } else {
-                    throw new Error('Transcript not found.');
+                    throw new Error("Transcript file was completely empty.");
                 }
+
             } catch (error) {
                 loadingText.style.display = 'none';
-                transcriptOutput.innerText = `Could not load transcript directly for (${langName}). Try another video or check if captions are enabled. Video ID: ${videoId}`;
+                transcriptOutput.innerText = `Error: ${error.message}\n\nNote: Make sure the video has Subtitles/CC enabled. Auto-generated captions or disabled captions might not be extractable.`;
                 resultSection.style.display = 'block';
             }
         });
