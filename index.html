@@ -170,6 +170,7 @@
                                 <a href="faceless-video.html"><span class="icon">🎭</span> Faceless Video AI <span class="badge" style="background: #ff4757; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px;">Hot</span></a>
                                 <a href="youtube-toolkit.html"><span class="icon">▶️</span> YouTube Toolkit</a>
                                 <a href="thumbnail-downloader.html"><span class="icon">🖼️</span> 4K Thumbnail Downloader</a>
+                                <a href="transcript-extractor.html"><span class="icon">📜</span> Transcript Extractor</a>
                                 <a href="prompt-generator.html"><span class="icon">💡</span> Prompt Generator</a>
                                 <a href="caption-generator.html"><span class="icon">📱</span> Caption Generator</a>
                             </div>
@@ -230,6 +231,11 @@
                 <div class="card-icon">🖼️</div>
                 <h3>4K Thumbnail Downloader</h3>
                 <p>Extract and download maximum resolution 4K HD thumbnails from any YouTube video link instantly.</p>
+            </a>
+            <a href="transcript-extractor.html" class="ilove-card">
+                <div class="card-icon">📜</div>
+                <h3>Transcript Extractor</h3>
+                <p>Extract subtitles and transcripts from any YouTube video in any language instantly.</p>
             </a>
             <a href="prompt-generator.html" class="ilove-card">
                 <div class="card-icon">💡</div>
@@ -346,4 +352,69 @@
             const claimBtn = document.getElementById('claimDailyBtn');
             const boostBtn = document.getElementById('boostBtn');
             const miningRateText = document.getElementById('miningRateText');
-  
+            const miningStatusBadge = document.getElementById('miningStatusBadge');
+            
+            const modal = document.getElementById('cryptoModal');
+            const openNavBtn = document.getElementById('openModalBtnNav');
+            const openWidgetBtn = document.getElementById('miningWidgetBtn');
+            const closeBtn = document.getElementById('closeModalBtn');
+
+            function updateDisplay() {
+                headerBal.innerText = toolBalance.toFixed(3);
+                widgetBal.innerText = toolBalance.toFixed(3);
+                modalBal.innerText = toolBalance.toFixed(3);
+                localStorage.setItem('toolVerseBalance', toolBalance);
+            }
+
+            openNavBtn.addEventListener('click', () => modal.style.display = 'flex');
+            openWidgetBtn.addEventListener('click', () => modal.style.display = 'flex');
+            closeBtn.addEventListener('click', () => modal.style.display = 'none');
+            window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+
+            let increment = isBoostActive ? 0.003 : 0.001;
+            if(isBoostActive) {
+                boostBtn.innerText = "⚡ 3x Boost Active!";
+                boostBtn.disabled = true;
+                miningRateText.innerText = "Mining Rate: +0.003 per 5 seconds (Boosted)";
+                miningStatusBadge.innerText = "🔥 3X BOOST ACTIVE";
+            }
+
+            setInterval(() => {
+                toolBalance += increment;
+                updateDisplay();
+            }, 5000);
+
+            boostBtn.addEventListener('click', () => {
+                if(!isBoostActive) {
+                    isBoostActive = true;
+                    increment = 0.003;
+                    localStorage.setItem('toolVerseBoostActive', 'true');
+                    boostBtn.innerText = "⚡ 3x Boost Active!";
+                    boostBtn.disabled = true;
+                    miningRateText.innerText = "Mining Rate: +0.003 per 5 seconds (Boosted)";
+                    miningStatusBadge.innerText = "🔥 3X BOOST ACTIVE";
+                }
+            });
+
+            const today = new Date().toDateString();
+            if(lastClaimDate === today) {
+                claimBtn.innerText = "🎁 Claimed Today";
+                claimBtn.disabled = true;
+            }
+
+            claimBtn.addEventListener('click', () => {
+                if(lastClaimDate !== today) {
+                    toolBalance += 50.000;
+                    localStorage.setItem('toolVerseLastClaim', today);
+                    claimBtn.innerText = "🎁 Claimed Today";
+                    claimBtn.disabled = true;
+                    updateDisplay();
+                    alert("Successfully claimed +50 $TOOL bonus!");
+                }
+            });
+
+            updateDisplay();
+        });
+    </script>
+</body>
+</html>
