@@ -29,8 +29,8 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'API key not configured on server' });
         }
 
-        // 🚨 FIX: Model name updated to 'gemini-1.5-flash-latest' for the REST API
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+        // 🚨 ماڈل کا نام واپس 'gemini-pro' کر دیا گیا ہے
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
 
         const apiResponse = await fetch(apiUrl, {
             method: 'POST',
@@ -58,4 +58,4 @@ export default async function handler(req, res) {
         console.error('Server Error:', error);
         return res.status(500).json({ error: 'Internal Server Error', details: error.message });
     }
-    }
+}
