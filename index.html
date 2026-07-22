@@ -169,6 +169,7 @@
                                 <h3>Creative AI</h3>
                                 <a href="faceless-video.html"><span class="icon">🎭</span> Faceless Video AI <span class="badge" style="background: #ff4757; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px;">Hot</span></a>
                                 <a href="youtube-toolkit.html"><span class="icon">▶️</span> YouTube Toolkit</a>
+                                <a href="thumbnail-downloader.html"><span class="icon">🖼️</span> 4K Thumbnail Downloader</a>
                                 <a href="prompt-generator.html"><span class="icon">💡</span> Prompt Generator</a>
                                 <a href="caption-generator.html"><span class="icon">📱</span> Caption Generator</a>
                             </div>
@@ -224,6 +225,11 @@
                 <div class="card-icon">▶️</div>
                 <h3>YouTube AI Toolkit</h3>
                 <p>Generate viral titles, opening scripts, and SEO tags for your YouTube videos instantly.</p>
+            </a>
+            <a href="thumbnail-downloader.html" class="ilove-card">
+                <div class="card-icon">🖼️</div>
+                <h3>4K Thumbnail Downloader</h3>
+                <p>Extract and download maximum resolution 4K HD thumbnails from any YouTube video link instantly.</p>
             </a>
             <a href="prompt-generator.html" class="ilove-card">
                 <div class="card-icon">💡</div>
@@ -327,7 +333,7 @@
         </div>
     </div>
 
-    <!-- VIP Crypto Mining Logic (Your Original Script) -->
+    <!-- VIP Crypto Mining Logic -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
@@ -340,198 +346,4 @@
             const claimBtn = document.getElementById('claimDailyBtn');
             const boostBtn = document.getElementById('boostBtn');
             const miningRateText = document.getElementById('miningRateText');
-            const miningStatusBadge = document.getElementById('miningStatusBadge');
-            
-            const modal = document.getElementById('cryptoModal');
-            const openNavBtn = document.getElementById('openModalBtnNav');
-            const openWidgetBtn = document.getElementById('miningWidgetBtn');
-            const closeBtn = document.getElementById('closeModalBtn');
-
-            function updateBalance() {
-                const displayVal = toolBalance.toFixed(3);
-                headerBal.innerText = displayVal;
-                widgetBal.innerText = displayVal;
-                modalBal.innerText = displayVal;
-                localStorage.setItem('toolVerseBalance', toolBalance);
-            }
-
-            function checkDailyStatus() {
-                const today = new Date().toDateString();
-                if (lastClaimDate === today) {
-                    claimBtn.disabled = true;
-                    claimBtn.innerText = "✅ Come back tomorrow";
-                }
-            }
-
-            function updateBoostUI() {
-                if (isBoostActive) {
-                    boostBtn.disabled = true;
-                    boostBtn.innerHTML = "🔥 3x Boost is Active!";
-                    miningRateText.innerHTML = "Mining Rate: <span style='color:#fbbf24; font-weight:bold;'>+0.003 per 5 seconds (3x)</span>";
-                    miningStatusBadge.innerHTML = "🔥 3x BOOST ACTIVE";
-                    miningStatusBadge.style.background = "rgba(16, 185, 129, 0.1)";
-                    miningStatusBadge.style.color = "#10b981";
-                    miningStatusBadge.style.borderColor = "#10b981";
-                }
-            }
-
-            setInterval(() => {
-                let amountToAdd = isBoostActive ? 0.003 : 0.001;
-                toolBalance += amountToAdd;
-                updateBalance();
-            }, 5000);
-
-            boostBtn.addEventListener('click', function() {
-                alert("🚀 To activate 3x Mining Speed, please select and use any AI Tool from the grid below!");
-                modal.style.display = 'none';
-                document.getElementById('tools').scrollIntoView({ behavior: 'smooth' });
-                setTimeout(() => {
-                    isBoostActive = true;
-                    localStorage.setItem('toolVerseBoostActive', 'true');
-                    updateBoostUI();
-                }, 3000); 
-            });
-
-            claimBtn.addEventListener('click', function() {
-                const today = new Date().toDateString();
-                if (lastClaimDate !== today) {
-                    toolBalance += 50.000; 
-                    lastClaimDate = today;
-                    localStorage.setItem('toolVerseLastClaim', today);
-                    updateBalance();
-                    checkDailyStatus();
-                    alert('🎉 Success! 50 $TOOL tokens added to your wallet.');
-                }
-            });
-
-            openNavBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
-            openWidgetBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
-            closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
-            window.addEventListener('click', (e) => { 
-                if(e.target === modal) modal.style.display = 'none'; 
-            });
-
-            updateBalance();
-            checkDailyStatus();
-            updateBoostUI();
-        });
-    </script>
-
-    <!-- Firebase Authentication Logic -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-
-        // Your Firebase config
-        const firebaseConfig = {
-            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
-            authDomain: "toolverstoken.firebaseapp.com",
-            projectId: "toolverstoken",
-            storageBucket: "toolverstoken.firebasestorage.app",
-            messagingSenderId: "762644487097",
-            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
-            measurementId: "G-6VX2WPNECZ"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const auth = getAuth(app);
-        const googleProvider = new GoogleAuthProvider();
-
-        // Auth UI Elements
-        const authModal = document.getElementById('firebaseAuthModal');
-        const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
-        const navLoginBtn = document.getElementById('navLoginBtn');
-        const navSignupBtn = document.getElementById('navSignupBtn');
-        const navLogoutBtn = document.getElementById('navLogoutBtn');
-        
-        const emailInput = document.getElementById('authEmail');
-        const passwordInput = document.getElementById('authPassword');
-        const emailLoginBtn = document.getElementById('emailLoginBtn');
-        const googleBtn = document.getElementById('googleBtn');
-        const messageBox = document.getElementById('authMessageBox');
-
-        // Show/Hide Modal Logic
-        function openAuthModal(e) {
-            e.preventDefault();
-            authModal.style.display = 'flex';
-            messageBox.textContent = '';
-        }
-        navLoginBtn.addEventListener('click', openAuthModal);
-        navSignupBtn.addEventListener('click', openAuthModal);
-        
-        closeAuthModalBtn.addEventListener('click', () => { authModal.style.display = 'none'; });
-        window.addEventListener('click', (e) => { 
-            if(e.target === authModal) authModal.style.display = 'none'; 
-        });
-
-        function showMessage(text, color) {
-            messageBox.style.color = color;
-            messageBox.textContent = text;
-        }
-
-        // Email / Password Auth
-        emailLoginBtn.addEventListener('click', () => {
-            const email = emailInput.value;
-            const password = passwordInput.value;
-            if(!email || !password) {
-                showMessage("Please enter email and password!", "#ff4d4d");
-                return;
-            }
-            emailLoginBtn.textContent = "Processing...";
-
-            signInWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    showMessage("Login successful!", "#4dff4d");
-                    setTimeout(() => authModal.style.display = 'none', 1000);
-                })
-                .catch((error) => {
-                    if(error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found') {
-                        createUserWithEmailAndPassword(auth, email, password)
-                            .then(() => {
-                                showMessage("New account created!", "#4dff4d");
-                                setTimeout(() => authModal.style.display = 'none', 1000);
-                            })
-                            .catch((err) => { showMessage(err.message, "#ff4d4d"); });
-                    } else {
-                        showMessage(error.message, "#ff4d4d");
-                    }
-                }).finally(() => { emailLoginBtn.textContent = "Login / Sign Up"; });
-        });
-
-        // Google Auth
-        googleBtn.addEventListener('click', () => {
-            showMessage("Connecting to Google...", "#aaaaaa");
-            signInWithPopup(auth, googleProvider)
-                .then(() => {
-                    showMessage("Login successful!", "#4dff4d");
-                    setTimeout(() => authModal.style.display = 'none', 1000);
-                }).catch((error) => { showMessage(error.message, "#ff4d4d"); });
-        });
-
-        // Logout Logic
-        navLogoutBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            signOut(auth).then(() => {
-                alert("You have been logged out successfully.");
-            });
-        });
-
-        // Real-time Auth State Listener (Changes Header Buttons automatically)
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is logged in
-                navLoginBtn.style.display = 'none';
-                navSignupBtn.style.display = 'none';
-                navLogoutBtn.style.display = 'inline-block';
-            } else {
-                // User is logged out
-                navLoginBtn.style.display = 'inline-block';
-                navSignupBtn.style.display = 'inline-block';
-                navLogoutBtn.style.display = 'none';
-            }
-        });
-    </script>
-</body>
-</html>
+  
