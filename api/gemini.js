@@ -29,8 +29,8 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'API key not configured on server' });
         }
 
-        // 🚨 ماڈل کا نام واپس 'gemini-pro' کر دیا گیا ہے
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+        // 🌟 FINAL FIX: Correct, exact, and active model name 'gemini-1.5-flash'
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
         const apiResponse = await fetch(apiUrl, {
             method: 'POST',
@@ -45,6 +45,12 @@ export default async function handler(req, res) {
         });
 
         const data = await apiResponse.json();
+
+        // Agar Google koi direct API error bhejta hai to usey pakarna
+        if (data.error) {
+            console.error('Google API Error:', data.error);
+            return res.status(500).json({ error: 'Google API Error', details: data.error.message });
+        }
 
         if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
             const reply = data.candidates[0].content.parts[0].text;
