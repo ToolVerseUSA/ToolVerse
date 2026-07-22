@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- VIP Crypto Mining Styles -->
+    <!-- VIP Crypto Mining & Auth Styles -->
     <style>
         /* Header Premium Button */
         .crypto-nav-btn {
@@ -68,35 +68,24 @@
 
         /* VIP Crypto Modal */
         .crypto-modal {
-            display: none; /* Hidden by default */
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 10000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);
         }
         .crypto-modal-content {
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-            border: 2px solid #fbbf24;
-            width: 90%; max-width: 450px;
-            border-radius: 20px; padding: 30px;
-            color: white; position: relative;
-            box-shadow: 0 20px 50px rgba(251, 191, 36, 0.2);
-            text-align: center;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24;
+            width: 90%; max-width: 450px; border-radius: 20px; padding: 30px; color: white; position: relative;
+            box-shadow: 0 20px 50px rgba(251, 191, 36, 0.2); text-align: center;
             animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
         .close-crypto {
-            position: absolute; top: 15px; right: 20px;
-            font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s;
+            position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s;
         }
         .close-crypto:hover { color: #ff4757; }
         
         .crypto-badge {
-            background: rgba(251, 191, 36, 0.1); color: #fbbf24;
-            padding: 5px 12px; border-radius: 20px; font-size: 0.8rem;
+            background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem;
             font-weight: 700; display: inline-block; margin-bottom: 15px; border: 1px solid #fbbf24;
         }
         .crypto-header h2 { font-size: 1.8rem; margin-bottom: 5px; }
@@ -111,10 +100,7 @@
         .balance-usd { color: #4ade80; font-size: 0.9rem; font-weight: 500; }
 
         .crypto-actions { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 25px; }
-        .action-btn {
-            padding: 15px; border-radius: 12px; font-weight: 700; font-size: 1rem;
-            cursor: pointer; transition: 0.3s; border: none; font-family: inherit;
-        }
+        .action-btn { padding: 15px; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; border: none; font-family: inherit; }
         .boost-btn { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: white; box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4); border: 1px solid #a78bfa; }
         .boost-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(139, 92, 246, 0.6); }
         .boost-btn:disabled { background: #10b981; color: white; cursor: default; transform: none; box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4); border: none; }
@@ -125,8 +111,34 @@
         
         .invite-btn { background: #334155; color: white; border: 1px solid #475569; }
         .invite-btn:hover { background: #475569; }
-
         .status-note { font-size: 0.8rem; color: #64748b; margin-top: 15px; line-height: 1.5; }
+
+        /* =========================================
+           Firebase Auth Modal Styles
+        ========================================= */
+        .auth-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); z-index: 10001; justify-content: center; align-items: center; backdrop-filter: blur(5px);
+        }
+        .auth-modal-content {
+            background-color: #1e1e1e; padding: 40px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+            text-align: center; width: 90%; max-width: 350px; position: relative; color: white;
+            border: 1px solid #333; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .close-auth {
+            position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s;
+        }
+        .close-auth:hover { color: #ff4757; }
+        .auth-title { margin-top: 0; color: #4da6ff; letter-spacing: 1px; font-size: 1.5rem; margin-bottom: 5px; }
+        .auth-subtitle { color: #aaaaaa; font-size: 14px; margin-bottom: 25px; }
+        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #333; border-radius: 6px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit;}
+        .auth-input:focus { outline: none; border-color: #4da6ff; }
+        .auth-submit-btn { width: 100%; padding: 12px; margin: 15px 0 10px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 16px; transition: 0.3s; font-family: inherit;}
+        .auth-submit-btn:hover { background-color: #3388dd; }
+        .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
+        .auth-google-btn:hover { background-color: #e2e2e2; }
+        .auth-divider { color: #666; font-size: 12px; margin: 15px 0; }
+        #authMessageBox { margin-top: 15px; font-size: 14px; min-height: 20px; font-weight: 500;}
     </style>
 </head>
 <body>
@@ -178,8 +190,10 @@
                 <div class="crypto-nav-btn" id="openModalBtnNav">
                     🪙 $TOOL: <span id="headerBal">0.000</span>
                 </div>
-                <a href="#" class="login-btn">Login</a>
-                <a href="#" class="signup-btn">Sign up</a>
+                <!-- Dynamic Auth Buttons -->
+                <a href="#" class="login-btn" id="navLoginBtn">Login</a>
+                <a href="#" class="signup-btn" id="navSignupBtn">Sign up</a>
+                <a href="#" class="login-btn" id="navLogoutBtn" style="display: none; background: #ff4757; color: white; border: none;">Logout</a>
             </div>
         </div>
     </header>
@@ -279,9 +293,7 @@
             </div>
             
             <div class="crypto-actions">
-                <!-- NEW 3x BOOST BUTTON -->
                 <button class="action-btn boost-btn" id="boostBtn">⚡ Boost Mining 3x (Use a Tool)</button>
-                
                 <button class="action-btn claim-btn" id="claimDailyBtn">🎁 Claim Daily Bonus (+50 $TOOL)</button>
                 <button class="action-btn invite-btn" onclick="alert('Invite link copied to clipboard!')">🔗 Copy Invite Link (+100 $TOOL)</button>
             </div>
@@ -290,15 +302,38 @@
         </div>
     </div>
 
-    <!-- VIP Crypto Mining Logic -->
+    <!-- ==========================================
+         FIREBASE AUTHENTICATION MODAL
+    =========================================== -->
+    <div class="auth-modal" id="firebaseAuthModal">
+        <div class="auth-modal-content">
+            <span class="close-auth" id="closeAuthModalBtn">&times;</span>
+            <h2 class="auth-title">ToolVerse</h2>
+            <p class="auth-subtitle">Access your professional toolkit</p>
+            
+            <input type="email" id="authEmail" class="auth-input" placeholder="Email Address" required>
+            <input type="password" id="authPassword" class="auth-input" placeholder="Password" required>
+
+            <button id="emailLoginBtn" class="auth-submit-btn">Login / Sign Up</button>
+            
+            <div class="auth-divider">──────── OR ────────</div>
+            
+            <button id="googleBtn" class="auth-google-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                Continue with Google
+            </button>
+            
+            <div id="authMessageBox"></div>
+        </div>
+    </div>
+
+    <!-- VIP Crypto Mining Logic (Your Original Script) -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // 1. Initialize variables from Local Storage
             let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
             let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
             let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
 
-            // Elements
             const headerBal = document.getElementById('headerBal');
             const widgetBal = document.getElementById('widgetBal');
             const modalBal = document.getElementById('modalBal');
@@ -307,13 +342,11 @@
             const miningRateText = document.getElementById('miningRateText');
             const miningStatusBadge = document.getElementById('miningStatusBadge');
             
-            // Modal Elements
             const modal = document.getElementById('cryptoModal');
             const openNavBtn = document.getElementById('openModalBtnNav');
             const openWidgetBtn = document.getElementById('miningWidgetBtn');
             const closeBtn = document.getElementById('closeModalBtn');
 
-            // 2. Function to Update UI & Save
             function updateBalance() {
                 const displayVal = toolBalance.toFixed(3);
                 headerBal.innerText = displayVal;
@@ -322,7 +355,6 @@
                 localStorage.setItem('toolVerseBalance', toolBalance);
             }
 
-            // 3. Check Daily Claim Status
             function checkDailyStatus() {
                 const today = new Date().toDateString();
                 if (lastClaimDate === today) {
@@ -331,7 +363,6 @@
                 }
             }
 
-            // 4. Update Boost UI
             function updateBoostUI() {
                 if (isBoostActive) {
                     boostBtn.disabled = true;
@@ -344,23 +375,16 @@
                 }
             }
 
-            // 5. Background Auto Mining
             setInterval(() => {
-                // If boost is active, add 0.003, otherwise 0.001
                 let amountToAdd = isBoostActive ? 0.003 : 0.001;
                 toolBalance += amountToAdd;
                 updateBalance();
             }, 5000);
 
-            // 6. 3x Boost Button Logic (The Masterstroke)
             boostBtn.addEventListener('click', function() {
                 alert("🚀 To activate 3x Mining Speed, please select and use any AI Tool from the grid below!");
                 modal.style.display = 'none';
-                
-                // Scroll down to the tools section smoothly
                 document.getElementById('tools').scrollIntoView({ behavior: 'smooth' });
-                
-                // Simulate activation when they click to use a tool
                 setTimeout(() => {
                     isBoostActive = true;
                     localStorage.setItem('toolVerseBoostActive', 'true');
@@ -368,7 +392,6 @@
                 }, 3000); 
             });
 
-            // 7. Daily Claim Button Logic
             claimBtn.addEventListener('click', function() {
                 const today = new Date().toDateString();
                 if (lastClaimDate !== today) {
@@ -381,7 +404,6 @@
                 }
             });
 
-            // 8. Modal Controls
             openNavBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
             openWidgetBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
             closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
@@ -389,12 +411,127 @@
                 if(e.target === modal) modal.style.display = 'none'; 
             });
 
-            // Initial Setup Calls
             updateBalance();
             checkDailyStatus();
             updateBoostUI();
         });
     </script>
+
+    <!-- Firebase Authentication Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // Your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
+            measurementId: "G-6VX2WPNECZ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        // Auth UI Elements
+        const authModal = document.getElementById('firebaseAuthModal');
+        const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
+        const navLoginBtn = document.getElementById('navLoginBtn');
+        const navSignupBtn = document.getElementById('navSignupBtn');
+        const navLogoutBtn = document.getElementById('navLogoutBtn');
+        
+        const emailInput = document.getElementById('authEmail');
+        const passwordInput = document.getElementById('authPassword');
+        const emailLoginBtn = document.getElementById('emailLoginBtn');
+        const googleBtn = document.getElementById('googleBtn');
+        const messageBox = document.getElementById('authMessageBox');
+
+        // Show/Hide Modal Logic
+        function openAuthModal(e) {
+            e.preventDefault();
+            authModal.style.display = 'flex';
+            messageBox.textContent = '';
+        }
+        navLoginBtn.addEventListener('click', openAuthModal);
+        navSignupBtn.addEventListener('click', openAuthModal);
+        
+        closeAuthModalBtn.addEventListener('click', () => { authModal.style.display = 'none'; });
+        window.addEventListener('click', (e) => { 
+            if(e.target === authModal) authModal.style.display = 'none'; 
+        });
+
+        function showMessage(text, color) {
+            messageBox.style.color = color;
+            messageBox.textContent = text;
+        }
+
+        // Email / Password Auth
+        emailLoginBtn.addEventListener('click', () => {
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            if(!email || !password) {
+                showMessage("Please enter email and password!", "#ff4d4d");
+                return;
+            }
+            emailLoginBtn.textContent = "Processing...";
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    showMessage("Login successful!", "#4dff4d");
+                    setTimeout(() => authModal.style.display = 'none', 1000);
+                })
+                .catch((error) => {
+                    if(error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found') {
+                        createUserWithEmailAndPassword(auth, email, password)
+                            .then(() => {
+                                showMessage("New account created!", "#4dff4d");
+                                setTimeout(() => authModal.style.display = 'none', 1000);
+                            })
+                            .catch((err) => { showMessage(err.message, "#ff4d4d"); });
+                    } else {
+                        showMessage(error.message, "#ff4d4d");
+                    }
+                }).finally(() => { emailLoginBtn.textContent = "Login / Sign Up"; });
+        });
+
+        // Google Auth
+        googleBtn.addEventListener('click', () => {
+            showMessage("Connecting to Google...", "#aaaaaa");
+            signInWithPopup(auth, googleProvider)
+                .then(() => {
+                    showMessage("Login successful!", "#4dff4d");
+                    setTimeout(() => authModal.style.display = 'none', 1000);
+                }).catch((error) => { showMessage(error.message, "#ff4d4d"); });
+        });
+
+        // Logout Logic
+        navLogoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            signOut(auth).then(() => {
+                alert("You have been logged out successfully.");
+            });
+        });
+
+        // Real-time Auth State Listener (Changes Header Buttons automatically)
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is logged in
+                navLoginBtn.style.display = 'none';
+                navSignupBtn.style.display = 'none';
+                navLogoutBtn.style.display = 'inline-block';
+            } else {
+                // User is logged out
+                navLoginBtn.style.display = 'inline-block';
+                navSignupBtn.style.display = 'inline-block';
+                navLogoutBtn.style.display = 'none';
+            }
+        });
+    </script>
 </body>
-                </html>
-                
+</html>
