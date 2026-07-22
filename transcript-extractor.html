@@ -125,18 +125,36 @@
         <div class="input-group">
             <input type="text" id="ytUrlInput" class="tool-input" placeholder="Paste YouTube Video URL here...">
             <select id="langSelect" class="tool-select">
-                <option value="en">English</option>
+                <option value="en">English (English)</option>
                 <option value="ur">Urdu (اردو)</option>
-                <option value="hi">Hindi (हिंदी)</option>
+                <option value="hi">Hindi (हिन्दी)</option>
                 <option value="ar">Arabic (العربية)</option>
+                <option value="fa">Persian (فارسی)</option>
+                <option value="ps">Pashto (پښتو)</option>
+                <option value="sd">Sindhi (سنڌي)</option>
+                <option value="pa">Punjabi (ਪੰਜਾਬੀ)</option>
+                <option value="bn">Bengali (বাংলা)</option>
+                <option value="tr">Turkish (Türkçe)</option>
                 <option value="es">Spanish (Español)</option>
                 <option value="fr">French (Français)</option>
                 <option value="de">German (Deutsch)</option>
                 <option value="zh">Chinese (中文)</option>
                 <option value="ja">Japanese (日本語)</option>
                 <option value="ko">Korean (한국어)</option>
-                <option value="tr">Turkish (Türkçe)</option>
                 <option value="ru">Russian (Русский)</option>
+                <option value="id">Indonesian (Bahasa Indonesia)</option>
+                <option value="ms">Malay (Bahasa Melayu)</option>
+                <option value="it">Italian (Italiano)</option>
+                <option value="pt">Portuguese (Português)</option>
+                <option value="vi">Vietnamese (Tiếng Việt)</option>
+                <option value="th">Thai (ไทย)</option>
+                <option value="nl">Dutch (Nederlands)</option>
+                <option value="pl">Polish (Polski)</option>
+                <option value="uk">Ukrainian (Українська)</option>
+                <option value="el">Greek (Ελληνικά)</option>
+                <option value="he">Hebrew (עברית)</option>
+                <option value="sv">Swedish (Svenska)</option>
+                <option value="fi">Finnish (Suomi)</option>
             </select>
         </div>
         <button id="extractBtn" class="action-btn">Get Transcript with Language Support</button>
@@ -156,7 +174,9 @@
     <script>
         document.getElementById('extractBtn').addEventListener('click', async function() {
             const url = document.getElementById('ytUrlInput').value.trim();
-            const lang = document.getElementById('langSelect').value;
+            const langSelectElem = document.getElementById('langSelect');
+            const lang = langSelectElem.value;
+            const langName = langSelectElem.options[langSelectElem.selectedIndex].text;
             const videoId = extractYouTubeVideoId(url);
 
             if (!videoId) {
@@ -172,12 +192,11 @@
             resultSection.style.display = 'none';
 
             try {
-                // Fetching transcript with specified language fallback proxy support
                 const response = await fetch(`https://r.jina.ai/https://www.youtube.com/watch?v=${videoId}`);
                 let text = await response.text();
 
                 if (text && text.length > 200) {
-                    transcriptOutput.innerText = `[Selected Language Target: ${lang.toUpperCase()}]\n\n` + text;
+                    transcriptOutput.innerText = `[Selected Language: ${langName}]\n\n` + text;
                     loadingText.style.display = 'none';
                     resultSection.style.display = 'block';
                 } else {
@@ -185,7 +204,7 @@
                 }
             } catch (error) {
                 loadingText.style.display = 'none';
-                transcriptOutput.innerText = `Could not load transcript directly for language code (${lang}). Try another video or check if captions are enabled. Video ID: ${videoId}`;
+                transcriptOutput.innerText = `Could not load transcript directly for (${langName}). Try another video or check if captions are enabled. Video ID: ${videoId}`;
                 resultSection.style.display = 'block';
             }
         });
