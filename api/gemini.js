@@ -39,7 +39,8 @@ export default async function handler(req, res) {
                 'x-goog-api-key': apiKey // Key ab header mein jayegi (jese aapne curl mein dikhaya)
             },
             body: JSON.stringify({
-                model: 'gemini-3.1-pro-preview', // Aapka bataya hua latest model!
+                // 🚨 UPDATE: Pro se Flash par shift kar diya gaya hai taake Quota Exceeded ka error na aaye
+                model: 'gemini-3.6-flash',
                 input: prompt,
                 generation_config: {
                     thinking_level: 'low'
