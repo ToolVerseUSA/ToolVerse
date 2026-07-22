@@ -206,67 +206,107 @@
         <p>Every tool you need to use AI, at your fingertips. All are 100% FREE and easy to use! Write, generate, summarize, and automate with just a few clicks.</p>
         
         <div class="category-filters">
-            <button class="filter-btn active">All</button>
-            <button class="filter-btn">Writing</button>
-            <button class="filter-btn">Creative & Video</button>
-            <button class="filter-btn">Productivity</button>
-            <button class="filter-btn">Developers</button>
+            <!-- Data attributes added here for filtering -->
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="writing">Writing</button>
+            <button class="filter-btn" data-filter="creative">Creative & Video</button>
+            <button class="filter-btn" data-filter="productivity">Productivity</button>
+            <button class="filter-btn" data-filter="developers">Developers</button>
         </div>
     </section>
 
     <!-- iLovePDF Style Tool Grid -->
     <section class="tools-section" id="tools">
-        <div class="ilove-grid">
-            <a href="faceless-video.html" class="ilove-card">
+        <div class="ilove-grid" id="toolsContainer">
+            
+            <!-- CREATIVE & VIDEO TOOLS -->
+            <a href="faceless-video.html" class="ilove-card" data-category="creative">
                 <div class="card-icon">🎭</div>
                 <h3>Faceless Video Blueprint</h3>
                 <p>Generate high-retention scripts and 4K image prompts for your automated YouTube channel instantly.</p>
             </a>
-            <a href="youtube-toolkit.html" class="ilove-card">
+            <a href="youtube-toolkit.html" class="ilove-card" data-category="creative">
                 <div class="card-icon">▶️</div>
                 <h3>YouTube AI Toolkit</h3>
                 <p>Generate viral titles, opening scripts, and SEO tags for your YouTube videos instantly.</p>
             </a>
-            <a href="thumbnail-downloader.html" class="ilove-card">
+            <a href="thumbnail-downloader.html" class="ilove-card" data-category="creative">
                 <div class="card-icon">🖼️</div>
                 <h3>4K Thumbnail Downloader</h3>
                 <p>Extract and download maximum resolution 4K HD thumbnails from any YouTube video link instantly.</p>
             </a>
-            <a href="transcript-extractor.html" class="ilove-card">
+            <a href="transcript-extractor.html" class="ilove-card" data-category="creative">
                 <div class="card-icon">📜</div>
                 <h3>Transcript Extractor</h3>
                 <p>Extract subtitles and transcripts from any YouTube video in any language instantly.</p>
             </a>
-            <a href="prompt-generator.html" class="ilove-card">
+            <a href="prompt-generator.html" class="ilove-card" data-category="creative">
                 <div class="card-icon">💡</div>
                 <h3>Prompt Generator</h3>
                 <p>Create highly optimized prompts to get the best results from ChatGPT, Claude & Midjourney.</p>
             </a>
-            <a href="email-writer.html" class="ilove-card">
-                <div class="card-icon">✉️</div>
-                <h3>Email Writer</h3>
-                <p>Draft highly professional and engaging emails for any situation instantly.</p>
-            </a>
-            <a href="pdf-summarizer.html" class="ilove-card">
-                <div class="card-icon">📚</div>
-                <h3>PDF Summarizer</h3>
-                <p>Extract key points and summarize long PDF documents automatically in seconds.</p>
-            </a>
-            <a href="grammar-checker.html" class="ilove-card">
-                <div class="card-icon">✅</div>
-                <h3>Grammar Checker</h3>
-                <p>Instantly fix grammatical errors, spelling mistakes, and improve your writing tone.</p>
-            </a>
-            <a href="caption-generator.html" class="ilove-card">
+            <a href="caption-generator.html" class="ilove-card" data-category="creative">
                 <div class="card-icon">📱</div>
                 <h3>Caption Generator</h3>
                 <p>Generate viral, engaging social media captions with trending hashtags.</p>
             </a>
-            <a href="resume-builder.html" class="ilove-card">
+
+            <!-- WRITING TOOLS -->
+            <a href="email-writer.html" class="ilove-card" data-category="writing">
+                <div class="card-icon">✉️</div>
+                <h3>Email Writer</h3>
+                <p>Draft highly professional and engaging emails for any situation instantly.</p>
+            </a>
+            <a href="grammar-checker.html" class="ilove-card" data-category="writing">
+                <div class="card-icon">✅</div>
+                <h3>Grammar Checker</h3>
+                <p>Instantly fix grammatical errors, spelling mistakes, and improve your writing tone.</p>
+            </a>
+            <a href="resume-builder.html" class="ilove-card" data-category="writing">
                 <div class="card-icon">📄</div>
                 <h3>Resume Builder</h3>
                 <p>Create professional, ATS-friendly resumes in seconds to land your dream job.</p>
             </a>
+
+            <!-- PRODUCTIVITY TOOLS (Added new) -->
+            <a href="pdf-summarizer.html" class="ilove-card" data-category="productivity">
+                <div class="card-icon">📚</div>
+                <h3>PDF Summarizer</h3>
+                <p>Extract key points and summarize long PDF documents automatically in seconds.</p>
+            </a>
+            <a href="task-planner.html" class="ilove-card" data-category="productivity">
+                <div class="card-icon">📅</div>
+                <h3>AI Task Planner</h3>
+                <p>Organize your day and break down complex projects into simple, actionable steps.</p>
+            </a>
+            <a href="meeting-notes.html" class="ilove-card" data-category="productivity">
+                <div class="card-icon">📝</div>
+                <h3>Meeting Minutes AI</h3>
+                <p>Turn messy meeting notes into perfectly formatted summaries and action items.</p>
+            </a>
+
+            <!-- DEVELOPERS TOOLS (Added new) -->
+            <a href="code-generator.html" class="ilove-card" data-category="developers">
+                <div class="card-icon">💻</div>
+                <h3>Code Generator</h3>
+                <p>Write, debug, and optimize code snippets in JavaScript, Python, and more instantly.</p>
+            </a>
+            <a href="json-formatter.html" class="ilove-card" data-category="developers">
+                <div class="card-icon">🛠️</div>
+                <h3>JSON Formatter & Validator</h3>
+                <p>Format, validate, and beautify messy JSON data for your web and mobile apps.</p>
+            </a>
+            <a href="regex-builder.html" class="ilove-card" data-category="developers">
+                <div class="card-icon">🔍</div>
+                <h3>Regex Builder AI</h3>
+                <p>Generate complex Regular Expressions simply by describing what you want to match in English.</p>
+            </a>
+            <a href="sql-generator.html" class="ilove-card" data-category="developers">
+                <div class="card-icon">🗄️</div>
+                <h3>SQL Query AI</h3>
+                <p>Translate plain English text into complex, optimized SQL database queries instantly.</p>
+            </a>
+            
         </div>
     </section>
 
@@ -307,114 +347,4 @@
             <div class="crypto-actions">
                 <button class="action-btn boost-btn" id="boostBtn">⚡ Boost Mining 3x (Use a Tool)</button>
                 <button class="action-btn claim-btn" id="claimDailyBtn">🎁 Claim Daily Bonus (+50 $TOOL)</button>
-                <button class="action-btn invite-btn" onclick="alert('Invite link copied to clipboard!')">🔗 Copy Invite Link (+100 $TOOL)</button>
-            </div>
-            
-            <p class="status-note">Keep using ToolVerse to mine faster. Once we reach our milestone, you will be able to convert these to real crypto tokens!</p>
-        </div>
-    </div>
-
-    <!-- ==========================================
-         FIREBASE AUTHENTICATION MODAL
-    =========================================== -->
-    <div class="auth-modal" id="firebaseAuthModal">
-        <div class="auth-modal-content">
-            <span class="close-auth" id="closeAuthModalBtn">&times;</span>
-            <h2 class="auth-title">ToolVerse</h2>
-            <p class="auth-subtitle">Access your professional toolkit</p>
-            
-            <input type="email" id="authEmail" class="auth-input" placeholder="Email Address" required>
-            <input type="password" id="authPassword" class="auth-input" placeholder="Password" required>
-
-            <button id="emailLoginBtn" class="auth-submit-btn">Login / Sign Up</button>
-            
-            <div class="auth-divider">──────── OR ────────</div>
-            
-            <button id="googleBtn" class="auth-google-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                Continue with Google
-            </button>
-            
-            <div id="authMessageBox"></div>
-        </div>
-    </div>
-
-    <!-- VIP Crypto Mining Logic -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
-            let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
-            let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
-
-            const headerBal = document.getElementById('headerBal');
-            const widgetBal = document.getElementById('widgetBal');
-            const modalBal = document.getElementById('modalBal');
-            const claimBtn = document.getElementById('claimDailyBtn');
-            const boostBtn = document.getElementById('boostBtn');
-            const miningRateText = document.getElementById('miningRateText');
-            const miningStatusBadge = document.getElementById('miningStatusBadge');
-            
-            const modal = document.getElementById('cryptoModal');
-            const openNavBtn = document.getElementById('openModalBtnNav');
-            const openWidgetBtn = document.getElementById('miningWidgetBtn');
-            const closeBtn = document.getElementById('closeModalBtn');
-
-            function updateDisplay() {
-                headerBal.innerText = toolBalance.toFixed(3);
-                widgetBal.innerText = toolBalance.toFixed(3);
-                modalBal.innerText = toolBalance.toFixed(3);
-                localStorage.setItem('toolVerseBalance', toolBalance);
-            }
-
-            openNavBtn.addEventListener('click', () => modal.style.display = 'flex');
-            openWidgetBtn.addEventListener('click', () => modal.style.display = 'flex');
-            closeBtn.addEventListener('click', () => modal.style.display = 'none');
-            window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-
-            let increment = isBoostActive ? 0.003 : 0.001;
-            if(isBoostActive) {
-                boostBtn.innerText = "⚡ 3x Boost Active!";
-                boostBtn.disabled = true;
-                miningRateText.innerText = "Mining Rate: +0.003 per 5 seconds (Boosted)";
-                miningStatusBadge.innerText = "🔥 3X BOOST ACTIVE";
-            }
-
-            setInterval(() => {
-                toolBalance += increment;
-                updateDisplay();
-            }, 5000);
-
-            boostBtn.addEventListener('click', () => {
-                if(!isBoostActive) {
-                    isBoostActive = true;
-                    increment = 0.003;
-                    localStorage.setItem('toolVerseBoostActive', 'true');
-                    boostBtn.innerText = "⚡ 3x Boost Active!";
-                    boostBtn.disabled = true;
-                    miningRateText.innerText = "Mining Rate: +0.003 per 5 seconds (Boosted)";
-                    miningStatusBadge.innerText = "🔥 3X BOOST ACTIVE";
-                }
-            });
-
-            const today = new Date().toDateString();
-            if(lastClaimDate === today) {
-                claimBtn.innerText = "🎁 Claimed Today";
-                claimBtn.disabled = true;
-            }
-
-            claimBtn.addEventListener('click', () => {
-                if(lastClaimDate !== today) {
-                    toolBalance += 50.000;
-                    localStorage.setItem('toolVerseLastClaim', today);
-                    claimBtn.innerText = "🎁 Claimed Today";
-                    claimBtn.disabled = true;
-                    updateDisplay();
-                    alert("Successfully claimed +50 $TOOL bonus!");
-                }
-            });
-
-            updateDisplay();
-        });
-    </script>
-</body>
-</html>
+       
