@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Transcript Extractor | ToolVerse</title>
+    <title>YouTube Transcript Extractor & Translator | ToolVerse</title>
     <link rel="stylesheet" href="style.css?v=6">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -81,13 +81,14 @@
             border: 1px solid #334155;
             border-radius: 10px;
             padding: 20px;
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
             color: #cbd5e1;
-            font-size: 0.95rem;
-            line-height: 1.6;
+            font-size: 1.05rem;
+            line-height: 1.8;
             white-space: pre-wrap;
             margin-bottom: 20px;
+            direction: auto; /* Supports RTL languages like Urdu/Arabic */
         }
         .btn-row {
             display: flex;
@@ -118,18 +119,15 @@
 
     <div class="tool-container">
         <div class="tool-header">
-            <h1>📜 YouTube Transcript Extractor</h1>
-            <p>Extract clean subtitles and transcripts from any YouTube video instantly.</p>
+            <h1>📜 AI Transcript Extractor & Translator</h1>
+            <p>Extract and automatically translate YouTube transcripts into your local language.</p>
         </div>
 
         <div class="input-group">
             <input type="text" id="ytUrlInput" class="tool-input" placeholder="Paste YouTube Video URL here...">
             <select id="langSelect" class="tool-select">
-                <option value="en-US">English (United States)</option>
-                <option value="en-GB">English (United Kingdom)</option>
-                <option value="en-AU">English (Australian)</option>
-                <option value="en">English (General)</option>
                 <option value="ur">Urdu (اردو)</option>
+                <option value="en">English (English)</option>
                 <option value="hi">Hindi (हिन्दी)</option>
                 <option value="ar">Arabic (العربية)</option>
                 <option value="fa">Persian (فارسی)</option>
@@ -145,27 +143,14 @@
                 <option value="ja">Japanese (日本語)</option>
                 <option value="ko">Korean (한국어)</option>
                 <option value="ru">Russian (Русский)</option>
-                <option value="id">Indonesian (Bahasa Indonesia)</option>
-                <option value="ms">Malay (Bahasa Melayu)</option>
-                <option value="it">Italian (Italiano)</option>
-                <option value="pt">Portuguese (Português)</option>
-                <option value="vi">Vietnamese (Tiếng Việt)</option>
-                <option value="th">Thai (ไทย)</option>
-                <option value="nl">Dutch (Nederlands)</option>
-                <option value="pl">Polish (Polski)</option>
-                <option value="uk">Ukrainian (Українська)</option>
-                <option value="el">Greek (Ελληνικά)</option>
-                <option value="he">Hebrew (עברית)</option>
-                <option value="sv">Swedish (Svenska)</option>
-                <option value="fi">Finnish (Suomi)</option>
             </select>
         </div>
-        <button id="extractBtn" class="action-btn">Extract Clean Transcript</button>
+        <button id="extractBtn" class="action-btn">Extract & Translate Transcript</button>
 
-        <div class="loading" id="loadingText">Fetching transcript... Please wait...</div>
+        <div class="loading" id="loadingText">Extracting and translating... This might take a few seconds...</div>
 
         <div class="result-section" id="resultSection">
-            <h3 style="margin-bottom: 15px; color: #fbbf24;">Extracted Transcript:</h3>
+            <h3 style="margin-bottom: 15px; color: #fbbf24;">Generated Transcript:</h3>
             <div class="transcript-box" id="transcriptOutput"></div>
             <div class="btn-row">
                 <button class="sec-btn" id="copyBtn">📋 Copy to Clipboard</button>
@@ -175,6 +160,45 @@
     </div>
 
     <script>
+        // Function to chunk large text so free translation APIs don't fail
+        function chunkText(text, length) {
+            const chunks = [];
+            for (let i = 0; i < text.length; i += length) {
+                chunks.push(text.substring(i, i + length));
+            }
+            return chunks;
+        }
+
+        // Function to translate text using a free Google Translate proxy
+        async function translateText(text, targetLang) {
+            if (targetLang === 'en' || !targetLang) return text; // No translation needed if target is English
+            
+            // Clean up text format slightly before translation
+            text = text.replace(/\[\d+:\d+\]/g, ''); // Remove timestamps like [0:03] for cleaner translation
+
+            const chunks = chunkText(text, 4000); // Google API limit per request is usually 5000
+            let translatedFullText = "";
+
+            for (const chunk of chunks) {
+                try {
+                    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(chunk)}`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    
+                    let translatedChunk = "";
+                    data[0].forEach(item => {
+                        if (item[0]) translatedChunk += item[0];
+                    });
+                    
+                    translatedFullText += translatedChunk + " ";
+                } catch (e) {
+                    console.error("Translation Error: ", e);
+                    return "Translation failed midway. Here is the original text:\n\n" + text;
+                }
+            }
+            return translatedFullText;
+        }
+
         document.getElementById('extractBtn').addEventListener('click', async function() {
             const url = document.getElementById('ytUrlInput').value.trim();
             const langSelectElem = document.getElementById('langSelect');
@@ -196,21 +220,30 @@
             transcriptOutput.innerText = '';
 
             try {
-                // Using a direct, reliable public API endpoint that natively supports CORS
-                // No more DOM parsing, no more 'Failed to fetch' proxy errors
-                const apiUrl = `https://youtube-transcript.ai/transcript/${videoId}.txt?lang=${lang}`;
-                
+                // Step 1: Extract the base English transcript first
+                const apiUrl = `https://youtube-transcript.ai/transcript/${videoId}.txt`;
                 const response = await fetch(apiUrl);
                 
                 if (!response.ok) {
                     throw new Error(`YouTube restricted captions for this video or they don't exist.`);
                 }
                 
-                const cleanText = await response.text();
+                let rawText = await response.text();
+                
+                // Clean up the watermark from the external API
+                rawText = rawText.replace(/---\nGenerated by https:\/\/youtube-transcript\.ai[\s\S]*/g, '');
 
-                if (cleanText && cleanText.trim().length > 0) {
-                    transcriptOutput.innerText = cleanText;
+                if (rawText && rawText.trim().length > 0) {
+                    
+                    // Step 2: Translate the extracted text to the user's selected language
+                    if(lang !== 'en') {
+                        loadingText.innerText = `Transcript found! Translating to ${langName}... Please wait.`;
+                        rawText = await translateText(rawText, lang);
+                    }
+
+                    transcriptOutput.innerText = `[Language: ${langName}]\n\n` + rawText.trim();
                     loadingText.style.display = 'none';
+                    loadingText.innerText = "Extracting and translating... This might take a few seconds...";
                     resultSection.style.display = 'block';
                 } else {
                     throw new Error("Transcript file was empty.");
@@ -218,7 +251,8 @@
 
             } catch (error) {
                 loadingText.style.display = 'none';
-                transcriptOutput.innerText = `Error: Could not extract transcript.\n\nNote: This usually happens if the video has disabled closed captions (CC), or if it's a private video. Try a video that has public subtitles enabled.`;
+                loadingText.innerText = "Extracting and translating... This might take a few seconds...";
+                transcriptOutput.innerText = `Error: Could not extract transcript.\n\nNote: Make sure the video has public subtitles enabled. Private videos or videos without any captions will not work.`;
                 resultSection.style.display = 'block';
             }
         });
@@ -232,10 +266,10 @@
 
         document.getElementById('downloadTxtBtn').addEventListener('click', function() {
             const text = document.getElementById('transcriptOutput').innerText;
-            const blob = new Blob([text], { type: 'text/plain' });
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
             const anchor = document.createElement('a');
             anchor.href = URL.createObjectURL(blob);
-            anchor.download = 'youtube-transcript.txt';
+            anchor.download = 'ToolVerse-Transcript.txt';
             anchor.click();
         });
 
