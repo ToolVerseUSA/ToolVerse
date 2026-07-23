@@ -187,8 +187,8 @@
                             <div class="mega-column">
                                 <h3>Productivity</h3>
                                 <a href="pdf-summarizer.html"><span class="icon">📚</span> PDF Summarizer</a>
-                                <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This AI tool is currently under development and will be available shortly.')"><span class="icon">🎨</span> Image Generator</a>
-                                <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This AI tool is currently under development and will be available shortly.')"><span class="icon">💻</span> Code Generator</a>
+                                <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This AI tool is currently under development and will be available shortly.')"><span class="icon">📅</span> AI Task Planner</a>
+                                <a href="javascript:void(0)" onclick="alert('🚀 Coming Soon! This AI tool is currently under development and will be available shortly.')"><span class="icon">📝</span> Meeting Minutes AI</a>
                             </div>
                         </div>
                     </li>
@@ -197,7 +197,8 @@
             </nav>
 
             <div class="auth-buttons" style="display: flex; align-items: center; gap: 15px;">
-                <div class="crypto-nav-btn" id="openModalBtnNav">
+                <!-- Updated Header Link -->
+                <div class="crypto-nav-btn" onclick="window.location.href='mining-node.html'">
                     🪙 $TOOL: <span id="headerBal">0.000</span>
                 </div>
                 <a href="#" class="login-btn" id="navLoginBtn">Login</a>
@@ -283,7 +284,8 @@
                         <li>⚡ Priority 24/7 VIP Access</li>
                     </ul>
                 </div>
-                <button onclick="document.getElementById('openModalBtnNav').click()" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #0f172a; border: none; border-radius: 8px; font-weight: 800; cursor: pointer;">Activate 3x VIP Boost</button>
+                <!-- Updated VIP Pricing Link -->
+                <button onclick="window.location.href='mining-node.html'" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #0f172a; border: none; border-radius: 8px; font-weight: 800; cursor: pointer;">Activate 3x VIP Boost</button>
             </div>
 
             <!-- Enterprise Tier -->
@@ -309,8 +311,8 @@
         © 2026 ToolVerse. All Rights Reserved. Building the future of AI.
     </footer>
 
-    <!-- Floating Widget -->
-    <div class="mining-widget" id="miningWidgetBtn">
+    <!-- Updated Floating Widget Link -->
+    <div class="mining-widget" onclick="window.location.href='mining-node.html'">
         <div class="mining-icon">⛏️</div>
         <div class="mining-stats">
             <span class="mining-title">Mining $TOOL</span>
@@ -319,7 +321,7 @@
         <div class="mining-balance" id="widgetBal">0.000</div>
     </div>
 
-    <!-- VIP Modal Dashboard -->
+    <!-- VIP Modal Dashboard (Kept for fallback but won't trigger) -->
     <div class="crypto-modal" id="cryptoModal">
         <div class="crypto-modal-content">
             <span class="close-crypto" id="closeModalBtn">&times;</span>
