@@ -71,6 +71,11 @@
         .live-balance { font-size: 34px; font-weight: 800; color: var(--neon-gold); text-shadow: 0 0 20px var(--neon-gold-glow); font-family: 'Courier New', Courier, monospace; letter-spacing: -1px; }
         .currency-symbol { font-size: 13px; color: var(--text-muted); margin-top: 8px; letter-spacing: 3px; }
 
+        /* نیا گولڈن وڈرا بٹن (Withdraw Button) */
+        .withdraw-container { text-align: center; margin-top: -15px; margin-bottom: 30px; position: relative; z-index: 20; }
+        .btn-withdraw { background: linear-gradient(135deg, #ffcc00, #ff9900); color: #000; border: 2px solid #ffcc00; padding: 14px 40px; border-radius: 30px; font-weight: 800; font-size: 15px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 10px 25px rgba(255, 204, 0, 0.3); font-family: inherit; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-withdraw:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(255, 204, 0, 0.5); }
+
         /* سیکشن 3: ٹاسکس */
         .section-title { font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; margin-top: 10px; font-weight: 600; }
         .task-list { display: flex; flex-direction: column; gap: 12px; }
@@ -81,40 +86,25 @@
         .btn-gold { background: linear-gradient(90deg, #ffcc00, #ffaa00); color: #000; border: none; padding: 10px 24px; border-radius: 10px; font-weight: 700; font-size: 12px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(255, 204, 0, 0.2); }
         .btn-gold:hover { box-shadow: 0 6px 20px rgba(255, 204, 0, 0.5); transform: scale(1.05); }
 
-        /* کسٹم ٹوسٹ نوٹیفکیشن (سائز ٹھیک کر دیا گیا) */
-        .custom-toast {
-            visibility: hidden;
-            width: 90%;          /* سکرین کا 90 فیصد حصہ لے گا */
-            max-width: 400px;    /* زیادہ سے زیادہ سائز */
-            box-sizing: border-box; /* پیڈنگ کی وجہ سے ڈیزائن خراب نہیں ہوگا */
-            background-color: rgba(16, 185, 129, 0.9);
-            color: #fff;
-            text-align: center;
-            border-radius: 12px;
-            padding: 16px;
-            position: fixed;
-            z-index: 1000;
-            left: 50%;
-            bottom: 30px;
-            font-size: 14px;
-            font-weight: 600;
-            transform: translateX(-50%);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            opacity: 0;
-            transition: opacity 0.5s, bottom 0.5s;
-        }
-        .custom-toast.show {
-            visibility: visible;
-            opacity: 1;
-            bottom: 50px;
-        }
+        /* پریمیم وڈرا لاک میسج (Modal) */
+        .premium-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center; }
+        .premium-modal-content { background: linear-gradient(180deg, #1a2333 0%, #0b0f19 100%); border: 1px solid var(--neon-gold); padding: 40px 30px; border-radius: 20px; text-align: center; width: 85%; max-width: 380px; box-shadow: 0 20px 50px rgba(255, 204, 0, 0.15); animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-icon { font-size: 45px; margin-bottom: 15px; animation: gentle-shake 3s infinite ease-in-out; }
+        .premium-modal-content h3 { color: var(--neon-gold); margin: 0 0 10px 0; font-size: 22px; text-transform: uppercase; letter-spacing: 1px; }
+        .premium-modal-content p { color: #cbd5e1; font-size: 14px; line-height: 1.7; margin-bottom: 25px; font-weight: 500; }
+        .btn-outline-gold { background: transparent; border: 2px solid var(--neon-gold); color: var(--neon-gold); padding: 12px 30px; border-radius: 30px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.3s; letter-spacing: 1px; }
+        .btn-outline-gold:hover { background: var(--neon-gold); color: #000; }
+
+        /* کسٹم ٹوسٹ نوٹیفکیشن */
+        .custom-toast { visibility: hidden; width: 90%; max-width: 400px; box-sizing: border-box; background-color: rgba(16, 185, 129, 0.9); color: #fff; text-align: center; border-radius: 12px; padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; font-size: 14px; font-weight: 600; transform: translateX(-50%); box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); opacity: 0; transition: opacity 0.5s, bottom 0.5s; }
+        .custom-toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
         /* اینیمیشنز */
         @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.7; } 50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 15px var(--success); } 100% { transform: scale(0.95); opacity: 0.7; } }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes gentle-shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
 
         /* موبائل ریسپانسیو */
         @media (max-width: 600px) {
@@ -123,7 +113,6 @@
         }
     </style>
 </head>
-<!-- oncontextmenu="return false;" کی وجہ سے موبائل پر Long Press مینو نہیں کھلے گا -->
 <body oncontextmenu="return false;">
 
     <div class="dashboard-wrapper">
@@ -153,10 +142,16 @@
                 </div>
             </div>
 
+            <!-- نیا وڈرا بٹن -->
+            <div class="withdraw-container">
+                <button class="btn-withdraw" id="btn-show-withdraw">
+                    <span style="font-size: 18px;">🏦</span> Withdraw Yield
+                </button>
+            </div>
+
             <div class="section-title">Network Contributions</div>
             <div class="task-list">
                 
-                <!-- بٹن 1: سروے کے لیے -->
                 <div class="task-item">
                     <div class="task-info">
                         <h4>Data Yield Mission</h4>
@@ -165,7 +160,6 @@
                     <button class="btn-gold" id="btn-survey">Initialize</button>
                 </div>
 
-                <!-- بٹن 2: ریفرل لنک کے لیے -->
                 <div class="task-item">
                     <div class="task-info">
                         <h4>Expand Node Network</h4>
@@ -174,7 +168,6 @@
                     <button class="btn-gold" id="btn-referral">Copy Link</button>
                 </div>
 
-                <!-- بٹن 3: واپس ٹولز پر جانے کے لیے -->
                 <div class="task-item">
                     <div class="task-info">
                         <h4>Daily AI Invocations</h4>
@@ -187,11 +180,21 @@
         </div>
     </div>
 
+    <!-- پریمیم وڈرا لاک میسج -->
+    <div id="withdrawModal" class="premium-modal">
+        <div class="premium-modal-content">
+            <div class="modal-icon">🔒</div>
+            <h3>Beta Lock Active</h3>
+            <p>Withdrawals are currently locked in Beta. $TOOL to Crypto swaps will be available in Mainnet Phase 2!</p>
+            <button class="btn-outline-gold" id="close-withdraw">Keep Mining</button>
+        </div>
+    </div>
+
     <!-- خوبصورت نوٹیفکیشن باکس -->
     <div id="toastMessage" class="custom-toast">Message goes here</div>
 
     <script>
-        // لائیو مائننگ بیلنس (مین ہوم پیج سے لنک کیا گیا ہے)
+        // لائیو مائننگ بیلنس
         let savedBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.483120;
         const balanceElement = document.getElementById('toolBalance');
         
@@ -204,7 +207,19 @@
             localStorage.setItem('toolVerseBalance', savedBalance.toString());
         }, 150);
 
-        // ٹوسٹ نوٹیفکیشن دکھانے کا فنکشن
+        // وڈرا ماڈل کو اوپن اور کلوز کرنے کا کوڈ
+        const wModal = document.getElementById('withdrawModal');
+        document.getElementById('btn-show-withdraw').addEventListener('click', function() {
+            wModal.style.display = 'flex';
+        });
+        document.getElementById('close-withdraw').addEventListener('click', function() {
+            wModal.style.display = 'none';
+        });
+        window.addEventListener('click', function(e) {
+            if (e.target === wModal) wModal.style.display = 'none';
+        });
+
+        // ٹوسٹ نوٹیفکیشن کا فنکشن
         function showToast(message, color = "rgba(16, 185, 129, 0.9)") {
             const toast = document.getElementById("toastMessage");
             toast.innerText = message;
@@ -213,20 +228,16 @@
             setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
-        // فنکشن 1: سروے آفر وال
+        // ٹاسک بٹنز
         document.getElementById("btn-survey").addEventListener("click", function() {
             showToast("⏳ Connecting to Secure Offerwall Network...", "rgba(245, 158, 11, 0.9)");
-            // یہاں مستقبل میں آپ کے BitLabs یا CPX Research کا لنک آئے گا
             setTimeout(() => {
                 showToast("Offerwall API ready for integration!", "rgba(16, 185, 129, 0.9)");
             }, 2000);
         });
 
-        // فنکشن 2: ریفرل لنک کاپی کرنا
         document.getElementById("btn-referral").addEventListener("click", function() {
-            // ایک ڈمی ریفرل لنک بنا کر کلپ بورڈ میں کاپی کرنا
             const dummyReferralLink = "https://project-hf1rg.vercel.app/?ref=VIP" + Math.floor(Math.random() * 9000 + 1000);
-            
             navigator.clipboard.writeText(dummyReferralLink).then(() => {
                 showToast("✅ Referral Link Copied: " + dummyReferralLink);
             }).catch(err => {
@@ -234,7 +245,6 @@
             });
         });
 
-        // فنکشن 3: واپس ٹولز پر جانا
         document.getElementById("btn-tools").addEventListener("click", function() {
             showToast("🚀 Redirecting to AI Tools Array...");
             setTimeout(() => {
