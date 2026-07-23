@@ -320,19 +320,10 @@
                 <input type="text" id="profLastName" class="auth-input" style="margin: 0;" placeholder="Last Name">
             </div>
             
-            <!-- Phone Setup with Country Code Dropdown -->
+            <!-- Phone Setup with Complete Country Code Dropdown -->
             <div style="display: flex; gap: 10px; margin-top: 5px; margin-bottom: 10px;">
                 <select id="profPhoneCode" class="auth-input" style="width: 35%; margin: 0; padding-right: 5px;">
-                    <option value="+1">🇺🇸 +1 (US)</option>
-                    <option value="+44">🇬🇧 +44 (UK)</option>
-                    <option value="+61">🇦🇺 +61 (AU)</option>
-                    <option value="+92">🇵🇰 +92 (PK)</option>
-                    <option value="+91">🇮🇳 +91 (IN)</option>
-                    <option value="+971">🇦🇪 +971 (UAE)</option>
-                    <option value="+966">🇸🇦 +966 (KSA)</option>
-                    <option value="+86">🇨🇳 +86 (CN)</option>
-                    <option value="+49">🇩🇪 +49 (DE)</option>
-                    <option value="+33">🇫🇷 +33 (FR)</option>
+                    <!-- Auto-populated by JavaScript with ALL countries -->
                 </select>
                 <input type="tel" id="profPhone" class="auth-input" style="width: 65%; margin: 0;" placeholder="Phone Number">
             </div>
@@ -347,17 +338,7 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px;">
                 <select id="profCountry" class="auth-input" style="margin: 0;">
                     <option value="" disabled selected>Country</option>
-                    <option value="United States">United States</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="Australia">Australia</option>
-                    <option value="Canada">Canada</option>
-                    <option value="France">France</option>
-                    <option value="Germany">Germany</option>
-                    <option value="India">India</option>
-                    <option value="Pakistan">Pakistan</option>
-                    <option value="Saudi Arabia">Saudi Arabia</option>
-                    <option value="United Arab Emirates">United Arab Emirates</option>
-                    <option value="Other">Other...</option>
+                    <!-- Auto-populated by JavaScript with ALL countries -->
                 </select>
                 <input type="text" id="profState" class="auth-input" style="margin: 0;" placeholder="State/Prov">
                 <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Zip Code">
@@ -422,7 +403,11 @@
                 document.getElementById('profPhoneCode').value = localStorage.getItem('tv_phCode') || '+1';
                 document.getElementById('profPhone').value = localStorage.getItem('tv_ph') || '';
                 document.getElementById('profAddress').value = localStorage.getItem('tv_ad') || '';
-                document.getElementById('profCountry').value = localStorage.getItem('tv_co') || '';
+                
+                // Only load country if a valid one was saved, otherwise leave it at default
+                const savedCountry = localStorage.getItem('tv_co');
+                if(savedCountry) { document.getElementById('profCountry').value = savedCountry; }
+                
                 document.getElementById('profState').value = localStorage.getItem('tv_st') || '';
                 document.getElementById('profZip').value = localStorage.getItem('tv_zip') || '';
                 userProfileModal.style.display = 'flex';
@@ -499,7 +484,6 @@
                     navProfileBtn.style.display = 'flex';
                     const displayName = user.displayName ? user.displayName.split(' ')[0] : 'User';
                     
-                    // The dynamic injection for the Premium Profile Button
                     navProfileBtn.innerHTML = `
                         <div class="profile-avatar-icon">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4da6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -528,11 +512,44 @@
         }
     </script>
 
-    <!-- 2. FILTER, MINING & ADDRESS AUTOCOMPLETE LOGIC -->
+    <!-- 2. AUTO-GENERATE COUNTRIES, FILTER, MINING & ADDRESS API LOGIC -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             
-            // ADDRESS AUTOCOMPLETE API LOGIC (Free OpenStreetMap API)
+            // ==========================================
+            // 1. ALL COUNTRIES & FLAGS GENERATOR API
+            // ==========================================
+            const countryData = [
+                ["United States","US","1","🇺🇸"],["United Kingdom","GB","44","🇬🇧"],["Afghanistan","AF","93","🇦🇫"],["Albania","AL","355","🇦🇱"],["Algeria","DZ","213","🇩🇿"],["Andorra","AD","376","🇦🇩"],["Angola","AO","244","🇦🇴"],["Antigua and Barbuda","AG","1","🇦🇬"],["Argentina","AR","54","🇦🇷"],["Armenia","AM","374","🇦🇲"],["Australia","AU","61","🇦🇺"],["Austria","AT","43","🇦🇹"],["Azerbaijan","AZ","994","🇦🇿"],["Bahamas","BS","1","🇧🇸"],["Bahrain","BH","973","🇧🇭"],["Bangladesh","BD","880","🇧🇩"],["Barbados","BB","1","🇧🇧"],["Belarus","BY","375","🇧🇾"],["Belgium","BE","32","🇧🇪"],["Belize","BZ","501","🇧🇿"],["Benin","BJ","229","🇧🇯"],["Bhutan","BT","975","🇧🇹"],["Bolivia","BO","591","🇧🇴"],["Bosnia and Herzegovina","BA","387","🇧🇦"],["Botswana","BW","267","🇧🇼"],["Brazil","BR","55","🇧🇷"],["Brunei","BN","673","🇧🇳"],["Bulgaria","BG","359","🇧🇬"],["Burkina Faso","BF","226","🇧🇫"],["Burundi","BI","257","🇧🇮"],["Cambodia","KH","855","🇰🇭"],["Cameroon","CM","237","🇨🇲"],["Canada","CA","1","🇨🇦"],["Cape Verde","CV","238","🇨🇻"],["Central African Republic","CF","236","🇨🇫"],["Chad","TD","235","🇹🇩"],["Chile","CL","56","🇨🇱"],["China","CN","86","🇨🇳"],["Colombia","CO","57","🇨🇴"],["Comoros","KM","269","🇰🇲"],["Congo","CG","242","🇨🇬"],["Costa Rica","CR","506","🇨🇷"],["Croatia","HR","385","🇭🇷"],["Cuba","CU","53","🇨🇺"],["Cyprus","CY","357","🇨🇾"],["Czech Republic","CZ","420","🇨🇿"],["Denmark","DK","45","🇩🇰"],["Djibouti","DJ","253","🇩🇯"],["Dominica","DM","1","🇩🇲"],["Dominican Republic","DO","1","🇩🇴"],["Ecuador","EC","593","🇪🇨"],["Egypt","EG","20","🇪🇬"],["El Salvador","SV","503","🇸🇻"],["Equatorial Guinea","GQ","240","🇬🇶"],["Eritrea","ER","291","🇪🇷"],["Estonia","EE","372","🇪🇪"],["Ethiopia","ET","251","🇪🇹"],["Fiji","FJ","679","🇫🇯"],["Finland","FI","358","🇫🇮"],["France","FR","33","🇫🇷"],["Gabon","GA","241","🇬🇦"],["Gambia","GM","220","🇬🇲"],["Georgia","GE","995","🇬🇪"],["Germany","DE","49","🇩🇪"],["Ghana","GH","233","🇬🇭"],["Greece","GR","30","🇬🇷"],["Grenada","GD","1","🇬🇩"],["Guatemala","GT","502","🇬🇹"],["Guinea","GN","224","🇬🇳"],["Guinea-Bissau","GW","245","🇬🇼"],["Guyana","GY","592","🇬🇾"],["Haiti","HT","509","🇭🇹"],["Honduras","HN","504","🇭🇳"],["Hungary","HU","36","🇭🇺"],["Iceland","IS","354","🇮🇸"],["India","IN","91","🇮🇳"],["Indonesia","ID","62","🇮🇩"],["Iran","IR","98","🇮🇷"],["Iraq","IQ","964","🇮🇶"],["Ireland","IE","353","🇮🇪"],["Israel","IL","972","🇮🇱"],["Italy","IT","39","🇮🇹"],["Jamaica","JM","1","🇯🇲"],["Japan","JP","81","🇯🇵"],["Jordan","JO","962","🇯🇴"],["Kazakhstan","KZ","7","🇰🇿"],["Kenya","KE","254","🇰🇪"],["Kiribati","KI","686","🇰🇮"],["Kuwait","KW","965","🇰🇼"],["Kyrgyzstan","KG","996","🇰🇬"],["Laos","LA","856","🇱🇦"],["Latvia","LV","371","🇱🇻"],["Lebanon","LB","961","🇱🇧"],["Lesotho","LS","266","🇱🇸"],["Liberia","LR","231","🇱🇷"],["Libya","LY","218","🇱🇾"],["Liechtenstein","LI","423","🇱🇮"],["Lithuania","LT","370","🇱🇹"],["Luxembourg","LU","352","🇱🇺"],["Madagascar","MG","261","🇲🇬"],["Malawi","MW","265","🇲🇼"],["Malaysia","MY","60","🇲🇾"],["Maldives","MV","960","🇲🇻"],["Mali","ML","223","🇲🇱"],["Malta","MT","356","🇲🇹"],["Marshall Islands","MH","692","🇲🇭"],["Mauritania","MR","222","🇲🇷"],["Mauritius","MU","230","🇲🇺"],["Mexico","MX","52","🇲🇽"],["Micronesia","FM","691","🇫🇲"],["Moldova","MD","373","🇲🇩"],["Monaco","MC","377","🇲🇨"],["Mongolia","MN","976","🇲🇳"],["Montenegro","ME","382","🇲🇪"],["Morocco","MA","212","🇲🇦"],["Mozambique","MZ","258","🇲🇿"],["Myanmar","MM","95","🇲🇲"],["Namibia","NA","264","🇳🇦"],["Nauru","NR","674","🇳🇷"],["Nepal","NP","977","🇳🇵"],["Netherlands","NL","31","🇳🇱"],["New Zealand","NZ","64","🇳🇿"],["Nicaragua","NI","505","🇳🇮"],["Niger","NE","227","🇳🇪"],["Nigeria","NG","234","🇳🇬"],["North Korea","KP","850","🇰🇵"],["North Macedonia","MK","389","🇲🇰"],["Norway","NO","47","🇳🇴"],["Oman","OM","968","🇴🇲"],["Pakistan","PK","92","🇵🇰"],["Palau","PW","680","🇵🇼"],["Palestine","PS","970","🇵🇸"],["Panama","PA","507","🇵🇦"],["Papua New Guinea","PG","675","🇵🇬"],["Paraguay","PY","595","🇵🇾"],["Peru","PE","51","🇵🇪"],["Philippines","PH","63","🇵🇭"],["Poland","PL","48","🇵🇱"],["Portugal","PT","351","🇵🇹"],["Qatar","QA","974","🇶🇦"],["Romania","RO","40","🇷🇴"],["Russia","RU","7","🇷🇺"],["Rwanda","RW","250","🇷🇼"],["Saint Kitts and Nevis","KN","1","🇰🇳"],["Saint Lucia","LC","1","🇱🇨"],["Saint Vincent","VC","1","🇻🇨"],["Samoa","WS","685","🇼🇸"],["San Marino","SM","378","🇸🇲"],["Sao Tome and Principe","ST","239","🇸🇹"],["Saudi Arabia","SA","966","🇸🇦"],["Senegal","SN","221","🇸🇳"],["Serbia","RS","381","🇷🇸"],["Seychelles","SC","248","🇸🇨"],["Sierra Leone","SL","232","🇸🇱"],["Singapore","SG","65","🇸🇬"],["Slovakia","SK","421","🇸🇰"],["Slovenia","SI","386","🇸🇮"],["Solomon Islands","SB","677","🇸🇧"],["Somalia","SO","252","🇸🇴"],["South Africa","ZA","27","🇿🇦"],["South Korea","KR","82","🇰🇷"],["South Sudan","SS","211","🇸🇸"],["Spain","ES","34","🇪🇸"],["Sri Lanka","LK","94","🇱🇰"],["Sudan","SD","249","🇸🇩"],["Suriname","SR","597","🇸🇷"],["Sweden","SE","46","🇸🇪"],["Switzerland","CH","41","🇨🇭"],["Syria","SY","963","🇸🇾"],["Taiwan","TW","886","🇹🇼"],["Tajikistan","TJ","992","🇹🇯"],["Tanzania","TZ","255","🇹🇿"],["Thailand","TH","66","🇹🇭"],["Togo","TG","228","🇹🇬"],["Tonga","TO","676","🇹🇴"],["Trinidad and Tobago","TT","1","🇹🇹"],["Tunisia","TN","216","🇹🇳"],["Turkey","TR","90","🇹🇷"],["Turkmenistan","TM","993","🇹🇲"],["Tuvalu","TV","688","🇹🇻"],["Uganda","UG","256","🇺🇬"],["Ukraine","UA","380","🇺🇦"],["United Arab Emirates","AE","971","🇦🇪"],["Uruguay","UY","598","🇺🇾"],["Uzbekistan","UZ","998","🇺🇿"],["Vanuatu","VU","678","🇻🇺"],["Vatican City","VA","379","🇻🇦"],["Venezuela","VE","58","🇻🇪"],["Vietnam","VN","84","🇻🇳"],["Yemen","YE","967","🇾🇪"],["Zambia","ZM","260","🇿🇲"],["Zimbabwe","ZW","263","🇿🇼"]
+            ];
+
+            const phoneSelect = document.getElementById('profPhoneCode');
+            const countrySelect = document.getElementById('profCountry');
+
+            countryData.forEach(country => {
+                // Populate Phone Dropdown
+                let pOption = document.createElement('option');
+                pOption.value = `+${country[2]}`;
+                pOption.textContent = `${country[3]} +${country[2]} (${country[1]})`;
+                phoneSelect.appendChild(pOption);
+                
+                // Populate Country Dropdown
+                let cOption = document.createElement('option');
+                cOption.value = country[0];
+                cOption.textContent = `${country[3]} ${country[0]}`;
+                countrySelect.appendChild(cOption);
+            });
+
+            // Add "Other" at the very end of Countries
+            let otherOpt = document.createElement('option');
+            otherOpt.value = "Other";
+            otherOpt.textContent = "🌍 Other...";
+            countrySelect.appendChild(otherOpt);
+
+
+            // ==========================================
+            // 2. ADDRESS AUTOCOMPLETE API (OpenStreetMap)
+            // ==========================================
             const addressInput = document.getElementById('profAddress');
             const suggestionsBox = document.getElementById('addressSuggestions');
             let debounceTimer;
@@ -571,18 +588,18 @@
                                 suggestionsBox.style.display = 'none';
                             }
                         }).catch(err => console.log("Address API error:", err));
-                }, 500); // 500ms debounce to prevent API blocking
+                }, 500); 
             });
 
-            // Hide suggestions if clicked outside
             document.addEventListener('click', (e) => {
                 if(e.target !== addressInput && e.target !== suggestionsBox) {
                     suggestionsBox.style.display = 'none';
                 }
             });
 
-
-            // FILTER LOGIC
+            // ==========================================
+            // 3. CATEGORY FILTERS
+            // ==========================================
             const filterBtns = document.querySelectorAll('.filter-btn');
             const toolCards = document.querySelectorAll('.ilove-card');
 
@@ -602,7 +619,9 @@
                 });
             });
 
-            // MINING LOGIC
+            // ==========================================
+            // 4. MINING & VIP DASHBOARD LOGIC
+            // ==========================================
             let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
             let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
             let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
