@@ -28,9 +28,14 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            /* یہ لائن ڈکشنری پاپ اپ اور ٹیکسٹ ہائی لائٹ کو روکے گی */
-            user-select: none; 
+            
+            /* ضدی کروم ڈکشنری اور ہائی لائٹ کو جڑ سے ختم کرنے کا کوڈ */
+            -webkit-touch-callout: none;
             -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         .dashboard-wrapper {
@@ -76,10 +81,12 @@
         .btn-gold { background: linear-gradient(90deg, #ffcc00, #ffaa00); color: #000; border: none; padding: 10px 24px; border-radius: 10px; font-weight: 700; font-size: 12px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(255, 204, 0, 0.2); }
         .btn-gold:hover { box-shadow: 0 6px 20px rgba(255, 204, 0, 0.5); transform: scale(1.05); }
 
-        /* کسٹم ٹوسٹ نوٹیفکیشن (Alert کی جگہ) */
+        /* کسٹم ٹوسٹ نوٹیفکیشن (سائز ٹھیک کر دیا گیا) */
         .custom-toast {
             visibility: hidden;
-            min-width: 250px;
+            width: 90%;          /* سکرین کا 90 فیصد حصہ لے گا */
+            max-width: 400px;    /* زیادہ سے زیادہ سائز */
+            box-sizing: border-box; /* پیڈنگ کی وجہ سے ڈیزائن خراب نہیں ہوگا */
             background-color: rgba(16, 185, 129, 0.9);
             color: #fff;
             text-align: center;
@@ -116,7 +123,8 @@
         }
     </style>
 </head>
-<body>
+<!-- oncontextmenu="return false;" کی وجہ سے موبائل پر Long Press مینو نہیں کھلے گا -->
+<body oncontextmenu="return false;">
 
     <div class="dashboard-wrapper">
         <div class="glass-panel">
