@@ -320,10 +320,10 @@
                 <input type="text" id="profLastName" class="auth-input" style="margin: 0;" placeholder="Last Name">
             </div>
             
-            <!-- Phone Setup with Complete Country Code Dropdown -->
+            <!-- Phone Setup with Country Code Dropdown -->
             <div style="display: flex; gap: 10px; margin-top: 5px; margin-bottom: 10px;">
                 <select id="profPhoneCode" class="auth-input" style="width: 35%; margin: 0; padding-right: 5px;">
-                    <!-- Auto-populated by JavaScript with ALL countries -->
+                    <!-- JS will fill this completely, automatically clearing old cache -->
                 </select>
                 <input type="tel" id="profPhone" class="auth-input" style="width: 65%; margin: 0;" placeholder="Phone Number">
             </div>
@@ -337,8 +337,7 @@
             <!-- Country, State, Zip Setup -->
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px;">
                 <select id="profCountry" class="auth-input" style="margin: 0;">
-                    <option value="" disabled selected>Country</option>
-                    <!-- Auto-populated by JavaScript with ALL countries -->
+                    <!-- JS will fill this completely, automatically clearing old cache -->
                 </select>
                 <input type="text" id="profState" class="auth-input" style="margin: 0;" placeholder="State/Prov">
                 <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Zip Code">
@@ -404,7 +403,6 @@
                 document.getElementById('profPhone').value = localStorage.getItem('tv_ph') || '';
                 document.getElementById('profAddress').value = localStorage.getItem('tv_ad') || '';
                 
-                // Only load country if a valid one was saved, otherwise leave it at default
                 const savedCountry = localStorage.getItem('tv_co');
                 if(savedCountry) { document.getElementById('profCountry').value = savedCountry; }
                 
@@ -526,25 +524,36 @@
             const phoneSelect = document.getElementById('profPhoneCode');
             const countrySelect = document.getElementById('profCountry');
 
-            countryData.forEach(country => {
-                // Populate Phone Dropdown
-                let pOption = document.createElement('option');
-                pOption.value = `+${country[2]}`;
-                pOption.textContent = `${country[3]} +${country[2]} (${country[1]})`;
-                phoneSelect.appendChild(pOption);
-                
-                // Populate Country Dropdown
-                let cOption = document.createElement('option');
-                cOption.value = country[0];
-                cOption.textContent = `${country[3]} ${country[0]}`;
-                countrySelect.appendChild(cOption);
-            });
+            if(phoneSelect && countrySelect) {
+                // CLEAR EVERYTHING FIRST (To override old Vercel Cache)
+                phoneSelect.innerHTML = '';
+                countrySelect.innerHTML = '<option value="" disabled selected>Select Country</option>';
 
-            // Add "Other" at the very end of Countries
-            let otherOpt = document.createElement('option');
-            otherOpt.value = "Other";
-            otherOpt.textContent = "🌍 Other...";
-            countrySelect.appendChild(otherOpt);
+                countryData.forEach(country => {
+                    // Populate Phone Dropdown
+                    let pOption = document.createElement('option');
+                    pOption.value = `+${country[2]}`;
+                    pOption.textContent = `${country[3]} +${country[2]} (${country[1]})`;
+                    phoneSelect.appendChild(pOption);
+                    
+                    // Populate Country Dropdown WITH FLAGS
+                    let cOption = document.createElement('option');
+                    cOption.value = country[0];
+                    cOption.textContent = `${country[3]} ${country[0]}`; 
+                    countrySelect.appendChild(cOption);
+                });
+
+                // Add "Other" at the end
+                let otherOpt = document.createElement('option');
+                otherOpt.value = "Other";
+                otherOpt.textContent = "🌍 Other...";
+                countrySelect.appendChild(otherOpt);
+
+                // Set default Phone Code
+                if(!localStorage.getItem('tv_phCode')) {
+                    phoneSelect.value = "+1";
+                }
+            }
 
 
             // ==========================================
