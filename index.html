@@ -249,11 +249,121 @@
         </div>
     </div>
 
-    <!-- MAIN JAVASCRIPT -->
+    <!-- 1. FIREBASE AUTHENTICATION LOGIC (MODULE) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
+            measurementId: "G-6VX2WPNECZ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        const authModal = document.getElementById('firebaseAuthModal');
+        const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
+        const navLoginBtn = document.getElementById('navLoginBtn');
+        const navSignupBtn = document.getElementById('navSignupBtn');
+        const navLogoutBtn = document.getElementById('navLogoutBtn');
+        const authMessageBox = document.getElementById('authMessageBox');
+        
+        const openAuthModal = (e) => { e.preventDefault(); authModal.style.display = 'flex'; authMessageBox.innerHTML = ''; };
+        if(navLoginBtn) navLoginBtn.addEventListener('click', openAuthModal);
+        if(navSignupBtn) navSignupBtn.addEventListener('click', openAuthModal);
+        if(closeAuthModalBtn) closeAuthModalBtn.addEventListener('click', () => authModal.style.display = 'none');
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => { 
+            if (e.target === authModal) authModal.style.display = 'none'; 
+        });
+
+        // Google Login
+        document.getElementById('googleBtn').addEventListener('click', () => {
+            signInWithPopup(auth, googleProvider)
+                .then((result) => {
+                    authModal.style.display = 'none';
+                    alert(`Welcome ${result.user.displayName}! Aap Google se login ho gaye hain.`);
+                }).catch((error) => {
+                    authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
+                });
+        });
+
+        // Email/Password Login & Signup
+        document.getElementById('emailLoginBtn').addEventListener('click', () => {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            
+            if(!email || !password) {
+                authMessageBox.innerHTML = `<span style="color: #ff4757;">Email aur Password likhna zaroori hai!</span>`;
+                return;
+            }
+
+            authMessageBox.innerHTML = `<span style="color: #4da6ff;">Processing...</span>`;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    authModal.style.display = 'none';
+                    alert("Login Successful!");
+                })
+                .catch((error) => {
+                    if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                        createUserWithEmailAndPassword(auth, email, password)
+                            .then((userCredential) => {
+                                authModal.style.display = 'none';
+                                alert("Naya Account Ban Gaya! Welcome.");
+                            })
+                            .catch((err) => {
+                                authMessageBox.innerHTML = `<span style="color: #ff4757;">${err.message}</span>`;
+                            });
+                    } else {
+                        authMessageBox.innerHTML = `<span style="color: #ff4757;">${error.message}</span>`;
+                    }
+                });
+        });
+
+        // User State Check
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                if(navLoginBtn) navLoginBtn.style.display = 'none';
+                if(navSignupBtn) navSignupBtn.style.display = 'none';
+                if(navLogoutBtn) navLogoutBtn.style.display = 'block';
+                
+                const displayName = user.displayName ? user.displayName.split(' ')[0] : 'User';
+                if(navLogoutBtn) navLogoutBtn.innerHTML = `Logout (${displayName})`;
+            } else {
+                if(navLoginBtn) navLoginBtn.style.display = 'block';
+                if(navSignupBtn) navSignupBtn.style.display = 'block';
+                if(navLogoutBtn) navLogoutBtn.style.display = 'none';
+                if(navLogoutBtn) navLogoutBtn.innerHTML = `Logout`;
+            }
+        });
+
+        // Logout
+        if(navLogoutBtn) {
+            navLogoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                signOut(auth).then(() => {
+                    alert("Aap safely logout ho gaye hain.");
+                }).catch((error) => {
+                    console.error("Logout Error:", error);
+                });
+            });
+        }
+    </script>
+
+    <!-- 2. FILTER & MINING LOGIC (STANDARD SCRIPT) -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             
-            // 1. FILTER LOGIC
+            // FILTER LOGIC
             const filterBtns = document.querySelectorAll('.filter-btn');
             const toolCards = document.querySelectorAll('.ilove-card');
 
@@ -273,7 +383,7 @@
                 });
             });
 
-            // 2. MINING LOGIC
+            // MINING LOGIC
             let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
             let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
             let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
@@ -299,6 +409,11 @@
             if(openModalBtnNav) openModalBtnNav.addEventListener('click', () => cryptoModal.style.display = 'flex');
             if(miningWidgetBtn) miningWidgetBtn.addEventListener('click', () => cryptoModal.style.display = 'flex');
             if(closeModalBtn) closeModalBtn.addEventListener('click', () => cryptoModal.style.display = 'none');
+
+            // Close Crypto Modal when clicking outside
+            window.addEventListener('click', (e) => { 
+                if (e.target === cryptoModal) cryptoModal.style.display = 'none'; 
+            });
 
             let increment = isBoostActive ? 0.003 : 0.001;
             if(isBoostActive && boostBtn) {
@@ -346,38 +461,6 @@
                 });
             }
             updateDisplay();
-
-            // 3. AUTH MODAL LOGIC
-            const authModal = document.getElementById('firebaseAuthModal');
-            const navLoginBtn = document.getElementById('navLoginBtn');
-            const navSignupBtn = document.getElementById('navSignupBtn');
-            const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
-
-            if(navLoginBtn) {
-                navLoginBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    authModal.style.display = 'flex';
-                });
-            }
-
-            if(navSignupBtn) {
-                navSignupBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    authModal.style.display = 'flex';
-                });
-            }
-
-            if(closeAuthModalBtn) {
-                closeAuthModalBtn.addEventListener('click', () => {
-                    authModal.style.display = 'none';
-                });
-            }
-
-            window.addEventListener('click', (e) => { 
-                if (e.target === cryptoModal) cryptoModal.style.display = 'none'; 
-                if (e.target === authModal) authModal.style.display = 'none'; 
-            });
-
         });
     </script>
 </body>
