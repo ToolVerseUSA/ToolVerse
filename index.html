@@ -25,7 +25,6 @@
         .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
         .header-container { display: flex; align-items: center; justify-content: space-between; }
         
-        /* Fixed Mobile Widget Issue */
         .mining-widget {
             position: fixed; bottom: 30px; left: 30px;
             background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px);
@@ -146,7 +145,8 @@
                 </div>
                 <a href="#" class="login-btn" id="navLoginBtn">Login</a>
                 <a href="#" class="signup-btn" id="navSignupBtn">Sign up</a>
-                <a href="#" class="login-btn" id="navLogoutBtn" style="display: none; background: #ff4757; color: white; border: none;">Logout</a>
+                <!-- Updated Nav Button for Profile -->
+                <a href="#" class="login-btn" id="navProfileBtn" style="display: none; background: #334155; color: white; border: 1px solid #475569;">👤 Profile</a>
             </div>
         </div>
     </header>
@@ -213,13 +213,11 @@
                 <h2>$TOOL Dashboard</h2>
                 <p>Mine tokens for free before the official mainnet launch.</p>
             </div>
-            
             <div class="crypto-balance-box">
                 <div class="balance-label">Your Total Mined Balance</div>
                 <div class="balance-amount"><span style="font-size: 2rem;">🪙</span> <span id="modalBal">0.000</span></div>
                 <div class="balance-usd" id="miningRateText">Mining Rate: +0.001 per 5 seconds</div>
             </div>
-            
             <div class="crypto-actions">
                 <button class="action-btn boost-btn" id="boostBtn">⚡ Boost Mining 3x (Use a Tool)</button>
                 <button class="action-btn claim-btn" id="claimDailyBtn">🎁 Claim Daily Bonus (+50 $TOOL)</button>
@@ -229,7 +227,7 @@
         </div>
     </div>
 
-    <!-- FIREBASE AUTH MODAL -->
+    <!-- FIREBASE LOGIN/SIGNUP MODAL -->
     <div class="auth-modal" id="firebaseAuthModal">
         <div class="auth-modal-content">
             <span class="close-auth" id="closeAuthModalBtn">&times;</span>
@@ -249,7 +247,39 @@
         </div>
     </div>
 
-    <!-- 1. FIREBASE AUTHENTICATION LOGIC (MODULE) -->
+    <!-- VIP USER PROFILE MODAL (NEW) -->
+    <div class="auth-modal" id="userProfileModal">
+        <div class="auth-modal-content" style="max-width: 500px; text-align: left;">
+            <span class="close-auth" id="closeProfileModalBtn">&times;</span>
+            <h2 class="auth-title" style="text-align: center; font-size: 1.8rem; color: #fff;">Account Profile</h2>
+            <p class="auth-subtitle" style="text-align: center;">Manage your personal information and billing details.</p>
+
+            <div style="background: rgba(251, 191, 36, 0.05); border: 1px solid rgba(251, 191, 36, 0.3); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 25px;">
+                <span style="color: #cbd5e1; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Available Coin Balance</span><br>
+                <span style="font-size: 1.8rem; font-weight: 800; color: #fbbf24;">🪙 <span id="profileModalBal">0.000</span> $TOOL</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 10px;">
+                <input type="text" id="profFirstName" class="auth-input" style="margin: 0;" placeholder="First Name">
+                <input type="text" id="profLastName" class="auth-input" style="margin: 0;" placeholder="Last Name">
+            </div>
+            
+            <input type="tel" id="profPhone" class="auth-input" style="margin-top: 5px; margin-bottom: 10px;" placeholder="Phone Number (e.g., +1 234 567 8900)">
+            <input type="text" id="profAddress" class="auth-input" style="margin-top: 5px; margin-bottom: 15px;" placeholder="Street Address">
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px;">
+                <input type="text" id="profCountry" class="auth-input" style="margin: 0;" placeholder="Country">
+                <input type="text" id="profState" class="auth-input" style="margin: 0;" placeholder="State">
+                <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Postal Code">
+            </div>
+
+            <button id="saveProfileBtn" class="auth-submit-btn" style="background-color: #4ade80; color: #121212;">Save Profile</button>
+            <button id="actualLogoutBtn" class="auth-submit-btn" style="background-color: transparent; border: 1px solid #ff4757; color: #ff4757; margin-top: 10px;">Sign Out Securely</button>
+        </div>
+    </div>
+
+
+    <!-- 1. FIREBASE AUTHENTICATION & PROFILE LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -269,56 +299,96 @@
         const googleProvider = new GoogleAuthProvider();
 
         const authModal = document.getElementById('firebaseAuthModal');
+        const userProfileModal = document.getElementById('userProfileModal');
         const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
+        const closeProfileModalBtn = document.getElementById('closeProfileModalBtn');
+        
         const navLoginBtn = document.getElementById('navLoginBtn');
         const navSignupBtn = document.getElementById('navSignupBtn');
-        const navLogoutBtn = document.getElementById('navLogoutBtn');
+        const navProfileBtn = document.getElementById('navProfileBtn');
+        const actualLogoutBtn = document.getElementById('actualLogoutBtn');
+        const saveProfileBtn = document.getElementById('saveProfileBtn');
+        
         const authMessageBox = document.getElementById('authMessageBox');
         
+        // Open Auth Modal
         const openAuthModal = (e) => { e.preventDefault(); authModal.style.display = 'flex'; authMessageBox.innerHTML = ''; };
         if(navLoginBtn) navLoginBtn.addEventListener('click', openAuthModal);
         if(navSignupBtn) navSignupBtn.addEventListener('click', openAuthModal);
+        
+        // Close Modals
         if(closeAuthModalBtn) closeAuthModalBtn.addEventListener('click', () => authModal.style.display = 'none');
-
-        // Close modal when clicking outside
+        if(closeProfileModalBtn) closeProfileModalBtn.addEventListener('click', () => userProfileModal.style.display = 'none');
         window.addEventListener('click', (e) => { 
             if (e.target === authModal) authModal.style.display = 'none'; 
+            if (e.target === userProfileModal) userProfileModal.style.display = 'none'; 
         });
+
+        // Open Profile Modal & Load Data
+        if(navProfileBtn) {
+            navProfileBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('profFirstName').value = localStorage.getItem('tv_fn') || '';
+                document.getElementById('profLastName').value = localStorage.getItem('tv_ln') || '';
+                document.getElementById('profPhone').value = localStorage.getItem('tv_ph') || '';
+                document.getElementById('profAddress').value = localStorage.getItem('tv_ad') || '';
+                document.getElementById('profCountry').value = localStorage.getItem('tv_co') || '';
+                document.getElementById('profState').value = localStorage.getItem('tv_st') || '';
+                document.getElementById('profZip').value = localStorage.getItem('tv_zip') || '';
+                userProfileModal.style.display = 'flex';
+            });
+        }
+
+        // Save Profile Data
+        if(saveProfileBtn) {
+            saveProfileBtn.addEventListener('click', () => {
+                localStorage.setItem('tv_fn', document.getElementById('profFirstName').value);
+                localStorage.setItem('tv_ln', document.getElementById('profLastName').value);
+                localStorage.setItem('tv_ph', document.getElementById('profPhone').value);
+                localStorage.setItem('tv_ad', document.getElementById('profAddress').value);
+                localStorage.setItem('tv_co', document.getElementById('profCountry').value);
+                localStorage.setItem('tv_st', document.getElementById('profState').value);
+                localStorage.setItem('tv_zip', document.getElementById('profZip').value);
+                
+                saveProfileBtn.innerText = "Profile Saved ✓";
+                setTimeout(() => { saveProfileBtn.innerText = "Save Profile"; }, 2000);
+            });
+        }
 
         // Google Login
         document.getElementById('googleBtn').addEventListener('click', () => {
             signInWithPopup(auth, googleProvider)
                 .then((result) => {
                     authModal.style.display = 'none';
-                    alert(`Welcome ${result.user.displayName}! Aap Google se login ho gaye hain.`);
+                    alert(`Authentication successful. Welcome to ToolVerse, ${result.user.displayName}!`);
                 }).catch((error) => {
-                    authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
+                    authMessageBox.innerHTML = `<span style="color: #ff4757;">Authentication failed: ${error.message}</span>`;
                 });
         });
 
-        // Email/Password Login & Signup
+        // Email/Password Login
         document.getElementById('emailLoginBtn').addEventListener('click', () => {
             const email = document.getElementById('authEmail').value;
             const password = document.getElementById('authPassword').value;
             
             if(!email || !password) {
-                authMessageBox.innerHTML = `<span style="color: #ff4757;">Email aur Password likhna zaroori hai!</span>`;
+                authMessageBox.innerHTML = `<span style="color: #ff4757;">Please enter a valid email and password.</span>`;
                 return;
             }
 
-            authMessageBox.innerHTML = `<span style="color: #4da6ff;">Processing...</span>`;
+            authMessageBox.innerHTML = `<span style="color: #4da6ff;">Authenticating securely...</span>`;
 
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     authModal.style.display = 'none';
-                    alert("Login Successful!");
+                    alert("Authentication successful.");
                 })
                 .catch((error) => {
                     if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
                         createUserWithEmailAndPassword(auth, email, password)
                             .then((userCredential) => {
                                 authModal.style.display = 'none';
-                                alert("Naya Account Ban Gaya! Welcome.");
+                                alert("Account successfully created. Welcome!");
                             })
                             .catch((err) => {
                                 authMessageBox.innerHTML = `<span style="color: #ff4757;">${err.message}</span>`;
@@ -334,32 +404,32 @@
             if (user) {
                 if(navLoginBtn) navLoginBtn.style.display = 'none';
                 if(navSignupBtn) navSignupBtn.style.display = 'none';
-                if(navLogoutBtn) navLogoutBtn.style.display = 'block';
+                if(navProfileBtn) navProfileBtn.style.display = 'flex';
                 
                 const displayName = user.displayName ? user.displayName.split(' ')[0] : 'User';
-                if(navLogoutBtn) navLogoutBtn.innerHTML = `Logout (${displayName})`;
+                if(navProfileBtn) navProfileBtn.innerHTML = `👤 Profile (${displayName})`;
             } else {
                 if(navLoginBtn) navLoginBtn.style.display = 'block';
                 if(navSignupBtn) navSignupBtn.style.display = 'block';
-                if(navLogoutBtn) navLogoutBtn.style.display = 'none';
-                if(navLogoutBtn) navLogoutBtn.innerHTML = `Logout`;
+                if(navProfileBtn) navProfileBtn.style.display = 'none';
             }
         });
 
-        // Logout
-        if(navLogoutBtn) {
-            navLogoutBtn.addEventListener('click', (e) => {
+        // Secure Logout inside Profile Modal
+        if(actualLogoutBtn) {
+            actualLogoutBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 signOut(auth).then(() => {
-                    alert("Aap safely logout ho gaye hain.");
+                    userProfileModal.style.display = 'none';
+                    alert("You have been securely signed out.");
                 }).catch((error) => {
-                    console.error("Logout Error:", error);
+                    console.error("Sign Out Error:", error);
                 });
             });
         }
     </script>
 
-    <!-- 2. FILTER & MINING LOGIC (STANDARD SCRIPT) -->
+    <!-- 2. FILTER & MINING LOGIC -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             
@@ -391,9 +461,10 @@
             const headerBal = document.getElementById('headerBal');
             const widgetBal = document.getElementById('widgetBal');
             const modalBal = document.getElementById('modalBal');
+            const profileModalBal = document.getElementById('profileModalBal');
+            
             const claimBtn = document.getElementById('claimDailyBtn');
             const boostBtn = document.getElementById('boostBtn');
-            
             const cryptoModal = document.getElementById('cryptoModal');
             const openModalBtnNav = document.getElementById('openModalBtnNav');
             const miningWidgetBtn = document.getElementById('miningWidgetBtn');
@@ -403,6 +474,7 @@
                 if(headerBal) headerBal.innerText = toolBalance.toFixed(3);
                 if(widgetBal) widgetBal.innerText = toolBalance.toFixed(3);
                 if(modalBal) modalBal.innerText = toolBalance.toFixed(3);
+                if(profileModalBal) profileModalBal.innerText = toolBalance.toFixed(3);
                 localStorage.setItem('toolVerseBalance', toolBalance.toString());
             }
 
@@ -410,7 +482,6 @@
             if(miningWidgetBtn) miningWidgetBtn.addEventListener('click', () => cryptoModal.style.display = 'flex');
             if(closeModalBtn) closeModalBtn.addEventListener('click', () => cryptoModal.style.display = 'none');
 
-            // Close Crypto Modal when clicking outside
             window.addEventListener('click', (e) => { 
                 if (e.target === cryptoModal) cryptoModal.style.display = 'none'; 
             });
