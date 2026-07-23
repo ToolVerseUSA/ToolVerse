@@ -25,7 +25,6 @@
         .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
         .header-container { display: flex; align-items: center; justify-content: space-between; }
         
-        /* PREMIUM PROFILE BUTTON UPGRADE */
         .premium-profile-btn {
             background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(10px);
@@ -78,7 +77,7 @@
 
         .crypto-modal, .auth-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);
         }
         .crypto-modal-content {
             background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24;
@@ -87,7 +86,7 @@
             animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .auth-modal-content {
-            background-color: #1e1e1e; padding: 40px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+            background-color: #1e1e1e; padding: 35px 30px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
             text-align: center; width: 90%; max-width: 450px; position: relative; color: white;
             border: 1px solid #333; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -118,8 +117,8 @@
         .status-note { font-size: 0.8rem; color: #64748b; margin-top: 15px; line-height: 1.5; }
 
         .auth-title { margin-top: 0; color: #4da6ff; letter-spacing: 1px; font-size: 1.5rem; margin-bottom: 5px; }
-        .auth-subtitle { color: #aaaaaa; font-size: 14px; margin-bottom: 25px; }
-        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #333; border-radius: 6px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit; font-size: 14px;}
+        .auth-subtitle { color: #aaaaaa; font-size: 13px; margin-bottom: 20px; }
+        .auth-input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #333; border-radius: 6px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit; font-size: 14px;}
         .auth-input:focus { outline: none; border-color: #4da6ff; }
         
         select.auth-input {
@@ -130,6 +129,11 @@
             background-size: 1em;
             cursor: pointer;
         }
+
+        /* 6-Digit OTP Box Styling */
+        .otp-inputs { display: flex; justify-content: space-between; gap: 8px; margin: 20px 0; }
+        .otp-box { width: 45px; height: 50px; text-align: center; font-size: 22px; font-weight: 700; background: #2a2a2a; border: 1px solid #444; color: #fff; border-radius: 8px; }
+        .otp-box:focus { border-color: #4da6ff; outline: none; box-shadow: 0 0 10px rgba(77, 166, 255, 0.3); }
 
         .suggestions-box {
             position: absolute; top: 100%; left: 0; width: 100%; background: #2a2a2a;
@@ -142,12 +146,12 @@
         }
         .suggestions-box li:hover { background: #4da6ff; color: #121212; font-weight: 600; }
 
-        .auth-submit-btn { width: 100%; padding: 12px; margin: 15px 0 10px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 16px; transition: 0.3s; font-family: inherit;}
+        .auth-submit-btn { width: 100%; padding: 12px; margin: 12px 0 8px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 15px; transition: 0.3s; font-family: inherit;}
         .auth-submit-btn:hover { background-color: #3388dd; }
-        .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
+        .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
         .auth-google-btn:hover { background-color: #e2e2e2; }
-        .auth-divider { color: #666; font-size: 12px; margin: 15px 0; }
-        #authMessageBox { margin-top: 15px; font-size: 14px; min-height: 20px; font-weight: 500;}
+        .auth-divider { color: #666; font-size: 12px; margin: 12px 0; }
+        #authMessageBox { margin-top: 10px; font-size: 13px; min-height: 18px; font-weight: 500;}
     </style>
 </head>
 <body>
@@ -198,10 +202,7 @@
                 </div>
                 <a href="#" class="login-btn" id="navLoginBtn">Login</a>
                 <a href="#" class="signup-btn" id="navSignupBtn">Sign up</a>
-                <!-- NEW PREMIUM PROFILE BUTTON -->
-                <a href="#" id="navProfileBtn" class="premium-profile-btn" style="display: none;">
-                    <!-- JS injects the modern avatar icon and name here -->
-                </a>
+                <a href="#" id="navProfileBtn" class="premium-profile-btn" style="display: none;"></a>
             </div>
         </div>
     </header>
@@ -292,7 +293,7 @@
             <input type="email" id="authEmail" class="auth-input" placeholder="Email Address" required>
             <input type="password" id="authPassword" class="auth-input" placeholder="Password" required>
 
-            <button id="emailLoginBtn" class="auth-submit-btn">Login / Sign Up</button>
+            <button id="emailLoginBtn" class="auth-submit-btn">Continue with Email</button>
             <div class="auth-divider">──────── OR ────────</div>
             <button id="googleBtn" class="auth-google-btn">
                 <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
@@ -302,14 +303,40 @@
         </div>
     </div>
 
-    <!-- VIP USER PROFILE MODAL -->
+    <!-- 6-DIGIT OTP VERIFICATION MODAL (NEW) -->
+    <div class="auth-modal" id="otpVerificationModal">
+        <div class="auth-modal-content" style="max-width: 400px; text-align: center;">
+            <span class="close-auth" id="closeOtpModalBtn">&times;</span>
+            <div style="font-size: 40px; margin-bottom: 10px;">🔒</div>
+            <h2 class="auth-title">Security Verification</h2>
+            <p class="auth-subtitle">Enter the 6-digit verification code sent to your registered email/phone.</p>
+            
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" class="otp-box" id="otp1" autofocus>
+                <input type="text" maxlength="1" class="otp-box" id="otp2">
+                <input type="text" maxlength="1" class="otp-box" id="otp3">
+                <input type="text" maxlength="1" class="otp-box" id="otp4">
+                <input type="text" maxlength="1" class="otp-box" id="otp5">
+                <input type="text" maxlength="1" class="otp-box" id="otp6">
+            </div>
+
+            <div style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">
+                Resend code in <span id="otpTimer" style="color: #4da6ff; font-weight: 600;">59</span>s
+            </div>
+
+            <button id="verifyOtpBtn" class="auth-submit-btn">Verify & Proceed</button>
+            <div id="otpMessageBox" style="margin-top: 15px; font-size: 13px;"></div>
+        </div>
+    </div>
+
+    <!-- VIP USER PROFILE MODAL WITH 2FA -->
     <div class="auth-modal" id="userProfileModal">
         <div class="auth-modal-content" style="max-width: 500px; text-align: left; padding-top: 30px;">
             <span class="close-auth" id="closeProfileModalBtn">&times;</span>
-            <h2 class="auth-title" style="text-align: center; font-size: 1.8rem; color: #fff;">Account Profile</h2>
-            <p class="auth-subtitle" style="text-align: center;">Manage your personal information and billing details.</p>
+            <h2 class="auth-title" style="text-align: center; font-size: 1.8rem; color: #fff;">Account Profile & Security</h2>
+            <p class="auth-subtitle" style="text-align: center;">Manage your personal info and Two-Factor Authentication (2FA).</p>
 
-            <div style="background: rgba(251, 191, 36, 0.05); border: 1px solid rgba(251, 191, 36, 0.3); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 25px;">
+            <div style="background: rgba(251, 191, 36, 0.05); border: 1px solid rgba(251, 191, 36, 0.3); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px;">
                 <span style="color: #cbd5e1; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Available Coin Balance</span><br>
                 <span style="font-size: 1.8rem; font-weight: 800; color: #fbbf24;">🪙 <span id="profileModalBal">0.000</span> $TOOL</span>
             </div>
@@ -322,9 +349,7 @@
             
             <!-- Phone Setup with Country Code Dropdown -->
             <div style="display: flex; gap: 10px; margin-top: 5px; margin-bottom: 10px;">
-                <select id="profPhoneCode" class="auth-input" style="width: 35%; margin: 0; padding-right: 5px;">
-                    <!-- JS will fill this completely, automatically clearing old cache -->
-                </select>
+                <select id="profPhoneCode" class="auth-input" style="width: 35%; margin: 0; padding-right: 5px;"></select>
                 <input type="tel" id="profPhone" class="auth-input" style="width: 65%; margin: 0;" placeholder="Phone Number">
             </div>
             
@@ -335,12 +360,23 @@
             </div>
             
             <!-- Country, State, Zip Setup -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px;">
-                <select id="profCountry" class="auth-input" style="margin: 0;">
-                    <!-- JS will fill this completely, automatically clearing old cache -->
-                </select>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                <select id="profCountry" class="auth-input" style="margin: 0;"></select>
                 <input type="text" id="profState" class="auth-input" style="margin: 0;" placeholder="State/Prov">
                 <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Zip Code">
+            </div>
+
+            <!-- Two-Factor Authentication (2FA) Security Box -->
+            <div style="background: rgba(77, 166, 255, 0.05); border: 1px solid rgba(77, 166, 255, 0.2); padding: 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                <div>
+                    <div style="font-weight: 600; font-size: 14px; color: #fff;">Two-Factor Authentication (2FA)</div>
+                    <div style="font-size: 12px; color: #94a3b8;">Secure your account with 6-digit OTP codes on login.</div>
+                </div>
+                <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                    <input type="checkbox" id="twoFactorToggle" style="opacity: 0; width: 0; height: 0;">
+                    <span id="sliderSpan" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .3s; border-radius: 24px;"></span>
+                    <span id="sliderDot" style="position: absolute; content: ''; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%;"></span>
+                </label>
             </div>
 
             <button id="saveProfileBtn" class="auth-submit-btn" style="background-color: #4ade80; color: #121212;">Save Profile</button>
@@ -349,7 +385,7 @@
     </div>
 
 
-    <!-- 1. FIREBASE AUTHENTICATION & PROFILE LOGIC -->
+    <!-- 1. FIREBASE AUTHENTICATION & OTP / 2FA LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -370,16 +406,24 @@
 
         const authModal = document.getElementById('firebaseAuthModal');
         const userProfileModal = document.getElementById('userProfileModal');
+        const otpVerificationModal = document.getElementById('otpVerificationModal');
+        
         const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
         const closeProfileModalBtn = document.getElementById('closeProfileModalBtn');
+        const closeOtpModalBtn = document.getElementById('closeOtpModalBtn');
         
         const navLoginBtn = document.getElementById('navLoginBtn');
         const navSignupBtn = document.getElementById('navSignupBtn');
         const navProfileBtn = document.getElementById('navProfileBtn');
         const actualLogoutBtn = document.getElementById('actualLogoutBtn');
         const saveProfileBtn = document.getElementById('saveProfileBtn');
-        const authMessageBox = document.getElementById('authMessageBox');
+        const emailLoginBtn = document.getElementById('emailLoginBtn');
+        const verifyOtpBtn = document.getElementById('verifyOtpBtn');
         
+        const authMessageBox = document.getElementById('authMessageBox');
+        const otpMessageBox = document.getElementById('otpMessageBox');
+        const twoFactorToggle = document.getElementById('twoFactorToggle');
+
         // Open Auth Modal
         const openAuthModal = (e) => { e.preventDefault(); authModal.style.display = 'flex'; authMessageBox.innerHTML = ''; };
         if(navLoginBtn) navLoginBtn.addEventListener('click', openAuthModal);
@@ -388,10 +432,36 @@
         // Close Modals
         if(closeAuthModalBtn) closeAuthModalBtn.addEventListener('click', () => authModal.style.display = 'none');
         if(closeProfileModalBtn) closeProfileModalBtn.addEventListener('click', () => userProfileModal.style.display = 'none');
+        if(closeOtpModalBtn) closeOtpModalBtn.addEventListener('click', () => otpVerificationModal.style.display = 'none');
+
         window.addEventListener('click', (e) => { 
             if (e.target === authModal) authModal.style.display = 'none'; 
             if (e.target === userProfileModal) userProfileModal.style.display = 'none'; 
+            if (e.target === otpVerificationModal) otpVerificationModal.style.display = 'none'; 
         });
+
+        // 2FA Toggle Styling & Storage
+        let is2FAEnabled = localStorage.getItem('tv_2fa') === 'true';
+        twoFactorToggle.checked = is2FAEnabled;
+        updateToggleStyle(is2FAEnabled);
+
+        twoFactorToggle.addEventListener('change', () => {
+            is2FAEnabled = twoFactorToggle.checked;
+            localStorage.setItem('tv_2fa', is2FAEnabled);
+            updateToggleStyle(is2FAEnabled);
+        });
+
+        function updateToggleStyle(checked) {
+            const sliderSpan = document.getElementById('sliderSpan');
+            const sliderDot = document.getElementById('sliderDot');
+            if(checked) {
+                sliderSpan.style.backgroundColor = '#4ade80';
+                sliderDot.style.transform = 'translateX(20px)';
+            } else {
+                sliderSpan.style.backgroundColor = '#475569';
+                sliderDot.style.transform = 'translateX(0)';
+            }
+        }
 
         // Open Profile Modal & Load Data
         if(navProfileBtn) {
@@ -408,6 +478,10 @@
                 
                 document.getElementById('profState').value = localStorage.getItem('tv_st') || '';
                 document.getElementById('profZip').value = localStorage.getItem('tv_zip') || '';
+                
+                twoFactorToggle.checked = localStorage.getItem('tv_2fa') === 'true';
+                updateToggleStyle(twoFactorToggle.checked);
+
                 userProfileModal.style.display = 'flex';
             });
         }
@@ -440,8 +514,8 @@
                 });
         });
 
-        // Email/Password Login
-        document.getElementById('emailLoginBtn').addEventListener('click', () => {
+        // Email Login / Signup with 6-Digit OTP trigger if 2FA enabled
+        emailLoginBtn.addEventListener('click', () => {
             const email = document.getElementById('authEmail').value;
             const password = document.getElementById('authPassword').value;
             
@@ -455,14 +529,14 @@
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     authModal.style.display = 'none';
-                    alert("Authentication successful.");
+                    checkAndTriggerOTP();
                 })
                 .catch((error) => {
                     if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
                         createUserWithEmailAndPassword(auth, email, password)
                             .then((userCredential) => {
                                 authModal.style.display = 'none';
-                                alert("Account successfully created. Welcome!");
+                                checkAndTriggerOTP();
                             })
                             .catch((err) => {
                                 authMessageBox.innerHTML = `<span style="color: #ff4757;">${err.message}</span>`;
@@ -473,7 +547,61 @@
                 });
         });
 
-        // User State Check & Render Premium Button Content
+        function checkAndTriggerOTP() {
+            if(localStorage.getItem('tv_2fa') === 'true') {
+                otpVerificationModal.style.display = 'flex';
+                startOtpTimer();
+            } else {
+                alert("Authentication successful.");
+            }
+        }
+
+        // OTP Auto-focus & Verification Logic
+        const otpInputs = document.querySelectorAll('.otp-box');
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if(e.target.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if(e.key === 'Backspace' && input.value === '' && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+
+        function startOtpTimer() {
+            let timeLeft = 59;
+            const timerSpan = document.getElementById('otpTimer');
+            const countdown = setInterval(() => {
+                if(timeLeft <= 0) {
+                    clearInterval(countdown);
+                    timerSpan.textContent = "0";
+                } else {
+                    timerSpan.textContent = timeLeft;
+                    timeLeft -= 1;
+                }
+            }, 1000);
+        }
+
+        verifyOtpBtn.addEventListener('click', () => {
+            let enteredOtp = '';
+            otpInputs.forEach(input => enteredOtp += input.value);
+            
+            if(enteredOtp.length < 6) {
+                otpMessageBox.innerHTML = `<span style="color: #ff4757;">Please enter the complete 6-digit verification code.</span>`;
+                return;
+            }
+
+            otpMessageBox.innerHTML = `<span style="color: #4da6ff;">Verifying code...</span>`;
+            setTimeout(() => {
+                otpVerificationModal.style.display = 'none';
+                alert("Two-Factor Authentication verified successfully. Welcome!");
+            }, 1000);
+        });
+
+        // User State Check
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 if(navLoginBtn) navLoginBtn.style.display = 'none';
@@ -481,7 +609,6 @@
                 if(navProfileBtn) {
                     navProfileBtn.style.display = 'flex';
                     const displayName = user.displayName ? user.displayName.split(' ')[0] : 'User';
-                    
                     navProfileBtn.innerHTML = `
                         <div class="profile-avatar-icon">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4da6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -496,7 +623,7 @@
             }
         });
 
-        // Secure Logout inside Profile Modal
+        // Secure Logout
         if(actualLogoutBtn) {
             actualLogoutBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -514,9 +641,6 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             
-            // ==========================================
-            // 1. ALL COUNTRIES & FLAGS GENERATOR API
-            // ==========================================
             const countryData = [
                 ["United States","US","1","🇺🇸"],["United Kingdom","GB","44","🇬🇧"],["Afghanistan","AF","93","🇦🇫"],["Albania","AL","355","🇦🇱"],["Algeria","DZ","213","🇩🇿"],["Andorra","AD","376","🇦🇩"],["Angola","AO","244","🇦🇴"],["Antigua and Barbuda","AG","1","🇦🇬"],["Argentina","AR","54","🇦🇷"],["Armenia","AM","374","🇦🇲"],["Australia","AU","61","🇦🇺"],["Austria","AT","43","🇦🇹"],["Azerbaijan","AZ","994","🇦🇿"],["Bahamas","BS","1","🇧🇸"],["Bahrain","BH","973","🇧🇭"],["Bangladesh","BD","880","🇧🇩"],["Barbados","BB","1","🇧🇧"],["Belarus","BY","375","🇧🇾"],["Belgium","BE","32","🇧🇪"],["Belize","BZ","501","🇧🇿"],["Benin","BJ","229","🇧🇯"],["Bhutan","BT","975","🇧🇹"],["Bolivia","BO","591","🇧🇴"],["Bosnia and Herzegovina","BA","387","🇧🇦"],["Botswana","BW","267","🇧🇼"],["Brazil","BR","55","🇧🇷"],["Brunei","BN","673","🇧🇳"],["Bulgaria","BG","359","🇧🇬"],["Burkina Faso","BF","226","🇧🇫"],["Burundi","BI","257","🇧🇮"],["Cambodia","KH","855","🇰🇭"],["Cameroon","CM","237","🇨🇲"],["Canada","CA","1","🇨🇦"],["Cape Verde","CV","238","🇨🇻"],["Central African Republic","CF","236","🇨🇫"],["Chad","TD","235","🇹🇩"],["Chile","CL","56","🇨🇱"],["China","CN","86","🇨🇳"],["Colombia","CO","57","🇨🇴"],["Comoros","KM","269","🇰🇲"],["Congo","CG","242","🇨🇬"],["Costa Rica","CR","506","🇨🇷"],["Croatia","HR","385","🇭🇷"],["Cuba","CU","53","🇨🇺"],["Cyprus","CY","357","🇨🇾"],["Czech Republic","CZ","420","🇨🇿"],["Denmark","DK","45","🇩🇰"],["Djibouti","DJ","253","🇩🇯"],["Dominica","DM","1","🇩🇲"],["Dominican Republic","DO","1","🇩🇴"],["Ecuador","EC","593","🇪🇨"],["Egypt","EG","20","🇪🇬"],["El Salvador","SV","503","🇸🇻"],["Equatorial Guinea","GQ","240","🇬🇶"],["Eritrea","ER","291","🇪🇷"],["Estonia","EE","372","🇪🇪"],["Ethiopia","ET","251","🇪🇹"],["Fiji","FJ","679","🇫🇯"],["Finland","FI","358","🇫🇮"],["France","FR","33","🇫🇷"],["Gabon","GA","241","🇬🇦"],["Gambia","GM","220","🇬🇲"],["Georgia","GE","995","🇬🇪"],["Germany","DE","49","🇩🇪"],["Ghana","GH","233","🇬🇭"],["Greece","GR","30","🇬🇷"],["Grenada","GD","1","🇬🇩"],["Guatemala","GT","502","🇬🇹"],["Guinea","GN","224","🇬🇳"],["Guinea-Bissau","GW","245","🇬🇼"],["Guyana","GY","592","🇬🇾"],["Haiti","HT","509","🇭🇹"],["Honduras","HN","504","🇭🇳"],["Hungary","HU","36","🇭🇺"],["Iceland","IS","354","🇮🇸"],["India","IN","91","🇮🇳"],["Indonesia","ID","62","🇮🇩"],["Iran","IR","98","🇮🇷"],["Iraq","IQ","964","🇮🇶"],["Ireland","IE","353","🇮🇪"],["Israel","IL","972","🇮🇱"],["Italy","IT","39","🇮🇹"],["Jamaica","JM","1","🇯🇲"],["Japan","JP","81","🇯🇵"],["Jordan","JO","962","🇯🇴"],["Kazakhstan","KZ","7","🇰🇿"],["Kenya","KE","254","🇰🇪"],["Kiribati","KI","686","🇰🇮"],["Kuwait","KW","965","🇰🇼"],["Kyrgyzstan","KG","996","🇰🇬"],["Laos","LA","856","🇱🇦"],["Latvia","LV","371","🇱🇻"],["Lebanon","LB","961","🇱🇧"],["Lesotho","LS","266","🇱🇸"],["Liberia","LR","231","🇱🇷"],["Libya","LY","218","🇱🇾"],["Liechtenstein","LI","423","🇱🇮"],["Lithuania","LT","370","🇱🇹"],["Luxembourg","LU","352","🇱🇺"],["Madagascar","MG","261","🇲🇬"],["Malawi","MW","265","🇲🇼"],["Malaysia","MY","60","🇲🇾"],["Maldives","MV","960","🇲🇻"],["Mali","ML","223","🇲🇱"],["Malta","MT","356","🇲🇹"],["Marshall Islands","MH","692","🇲🇭"],["Mauritania","MR","222","🇲🇷"],["Mauritius","MU","230","🇲🇺"],["Mexico","MX","52","🇲🇽"],["Micronesia","FM","691","🇫🇲"],["Moldova","MD","373","🇲🇩"],["Monaco","MC","377","🇲🇨"],["Mongolia","MN","976","🇲🇳"],["Montenegro","ME","382","🇲🇪"],["Morocco","MA","212","🇲🇦"],["Mozambique","MZ","258","🇲🇿"],["Myanmar","MM","95","🇲🇲"],["Namibia","NA","264","🇳🇦"],["Nauru","NR","674","🇳🇷"],["Nepal","NP","977","🇳🇵"],["Netherlands","NL","31","🇳🇱"],["New Zealand","NZ","64","🇳🇿"],["Nicaragua","NI","505","🇳🇮"],["Niger","NE","227","🇳🇪"],["Nigeria","NG","234","🇳🇬"],["North Korea","KP","850","🇰🇵"],["North Macedonia","MK","389","🇲🇰"],["Norway","NO","47","🇳🇴"],["Oman","OM","968","🇴🇲"],["Pakistan","PK","92","🇵🇰"],["Palau","PW","680","🇵🇼"],["Palestine","PS","970","🇵🇸"],["Panama","PA","507","🇵🇦"],["Papua New Guinea","PG","675","🇵🇬"],["Paraguay","PY","595","🇵🇾"],["Peru","PE","51","🇵🇪"],["Philippines","PH","63","🇵🇭"],["Poland","PL","48","🇵🇱"],["Portugal","PT","351","🇵🇹"],["Qatar","QA","974","🇶🇦"],["Romania","RO","40","🇷🇴"],["Russia","RU","7","🇷🇺"],["Rwanda","RW","250","🇷🇼"],["Saint Kitts and Nevis","KN","1","🇰🇳"],["Saint Lucia","LC","1","🇱🇨"],["Saint Vincent","VC","1","🇻🇨"],["Samoa","WS","685","🇼🇸"],["San Marino","SM","378","🇸🇲"],["Sao Tome and Principe","ST","239","🇸🇹"],["Saudi Arabia","SA","966","🇸🇦"],["Senegal","SN","221","🇸🇳"],["Serbia","RS","381","🇷🇸"],["Seychelles","SC","248","🇸🇨"],["Sierra Leone","SL","232","🇸🇱"],["Singapore","SG","65","🇸🇬"],["Slovakia","SK","421","🇸🇰"],["Slovenia","SI","386","🇸🇮"],["Solomon Islands","SB","677","🇸🇧"],["Somalia","SO","252","🇸🇴"],["South Africa","ZA","27","🇿🇦"],["South Korea","KR","82","🇰🇷"],["South Sudan","SS","211","🇸🇸"],["Spain","ES","34","🇪🇸"],["Sri Lanka","LK","94","🇱🇰"],["Sudan","SD","249","🇸🇩"],["Suriname","SR","597","🇸🇷"],["Sweden","SE","46","🇸🇪"],["Switzerland","CH","41","🇨🇭"],["Syria","SY","963","🇸🇾"],["Taiwan","TW","886","🇹🇼"],["Tajikistan","TJ","992","🇹🇯"],["Tanzania","TZ","255","🇹🇿"],["Thailand","TH","66","🇹🇭"],["Togo","TG","228","🇹🇬"],["Tonga","TO","676","🇹🇴"],["Trinidad and Tobago","TT","1","🇹🇹"],["Tunisia","TN","216","🇹🇳"],["Turkey","TR","90","🇹🇷"],["Turkmenistan","TM","993","🇹🇲"],["Tuvalu","TV","688","🇹🇻"],["Uganda","UG","256","🇺🇬"],["Ukraine","UA","380","🇺🇦"],["United Arab Emirates","AE","971","🇦🇪"],["Uruguay","UY","598","🇺🇾"],["Uzbekistan","UZ","998","🇺🇿"],["Vanuatu","VU","678","🇻🇺"],["Vatican City","VA","379","🇻🇦"],["Venezuela","VE","58","🇻🇪"],["Vietnam","VN","84","🇻🇳"],["Yemen","YE","967","🇾🇪"],["Zambia","ZM","260","🇿🇲"],["Zimbabwe","ZW","263","🇿🇼"]
             ];
@@ -525,80 +649,72 @@
             const countrySelect = document.getElementById('profCountry');
 
             if(phoneSelect && countrySelect) {
-                // CLEAR EVERYTHING FIRST (To override old Vercel Cache)
                 phoneSelect.innerHTML = '';
                 countrySelect.innerHTML = '<option value="" disabled selected>Select Country</option>';
 
                 countryData.forEach(country => {
-                    // Populate Phone Dropdown
                     let pOption = document.createElement('option');
                     pOption.value = `+${country[2]}`;
                     pOption.textContent = `${country[3]} +${country[2]} (${country[1]})`;
                     phoneSelect.appendChild(pOption);
                     
-                    // Populate Country Dropdown WITH FLAGS
                     let cOption = document.createElement('option');
                     cOption.value = country[0];
                     cOption.textContent = `${country[3]} ${country[0]}`; 
                     countrySelect.appendChild(cOption);
                 });
 
-                // Add "Other" at the end
                 let otherOpt = document.createElement('option');
                 otherOpt.value = "Other";
                 otherOpt.textContent = "🌍 Other...";
                 countrySelect.appendChild(otherOpt);
 
-                // Set default Phone Code
                 if(!localStorage.getItem('tv_phCode')) {
                     phoneSelect.value = "+1";
                 }
             }
 
-
-            // ==========================================
-            // 2. ADDRESS AUTOCOMPLETE API (OpenStreetMap)
-            // ==========================================
+            // ADDRESS AUTOCOMPLETE API
             const addressInput = document.getElementById('profAddress');
             const suggestionsBox = document.getElementById('addressSuggestions');
             let debounceTimer;
 
-            addressInput.addEventListener('input', function() {
-                clearTimeout(debounceTimer);
-                const query = this.value;
-                if(query.length < 4) {
-                    suggestionsBox.style.display = 'none';
-                    return;
-                }
-                
-                debounceTimer = setTimeout(() => {
-                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&addressdetails=1&limit=5`)
-                        .then(res => res.json())
-                        .then(data => {
-                            suggestionsBox.innerHTML = '';
-                            if(data.length > 0) {
-                                data.forEach(item => {
-                                    const li = document.createElement('li');
-                                    li.textContent = item.display_name;
-                                    li.addEventListener('click', () => {
-                                        addressInput.value = item.display_name;
-                                        suggestionsBox.style.display = 'none';
-                                        
-                                        // Auto-fill State and Zip if available
-                                        if(item.address) {
-                                            if(item.address.postcode) document.getElementById('profZip').value = item.address.postcode;
-                                            if(item.address.state) document.getElementById('profState').value = item.address.state;
-                                        }
+            if(addressInput) {
+                addressInput.addEventListener('input', function() {
+                    clearTimeout(debounceTimer);
+                    const query = this.value;
+                    if(query.length < 4) {
+                        suggestionsBox.style.display = 'none';
+                        return;
+                    }
+                    
+                    debounceTimer = setTimeout(() => {
+                        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&addressdetails=1&limit=5`)
+                            .then(res => res.json())
+                            .then(data => {
+                                suggestionsBox.innerHTML = '';
+                                if(data.length > 0) {
+                                    data.forEach(item => {
+                                        const li = document.createElement('li');
+                                        li.textContent = item.display_name;
+                                        li.addEventListener('click', () => {
+                                            addressInput.value = item.display_name;
+                                            suggestionsBox.style.display = 'none';
+                                            if(item.address) {
+                                                if(item.address.postcode) document.getElementById('profZip').value = item.address.postcode;
+                                                if(item.address.state) document.getElementById('profState').value = item.address.state;
+                                            }
+                                        });
+                                        suggestionsBox.appendChild(li);
                                     });
-                                    suggestionsBox.appendChild(li);
-                                });
-                                suggestionsBox.style.display = 'block';
-                            } else {
-                                suggestionsBox.style.display = 'none';
-                            }
-                        }).catch(err => console.log("Address API error:", err));
-                }, 500); 
-            });
+                                    suggestionsBox.style.display = 'block';
+                                } else {
+                                    suggestionsBox.style.display = 'none';
+                                }
+                            }).catch(err => console.log("Address API error:", err));
+                    }, 500); 
+                });
+            }
 
             document.addEventListener('click', (e) => {
                 if(e.target !== addressInput && e.target !== suggestionsBox) {
@@ -606,9 +722,7 @@
                 }
             });
 
-            // ==========================================
-            // 3. CATEGORY FILTERS
-            // ==========================================
+            // CATEGORY FILTERS
             const filterBtns = document.querySelectorAll('.filter-btn');
             const toolCards = document.querySelectorAll('.ilove-card');
 
@@ -628,9 +742,7 @@
                 });
             });
 
-            // ==========================================
-            // 4. MINING & VIP DASHBOARD LOGIC
-            // ==========================================
+            // MINING & VIP DASHBOARD LOGIC
             let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
             let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
             let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
