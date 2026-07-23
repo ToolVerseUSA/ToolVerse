@@ -25,6 +25,38 @@
         .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
         .header-container { display: flex; align-items: center; justify-content: space-between; }
         
+        /* PREMIUM PROFILE BUTTON UPGRADE */
+        .premium-profile-btn {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            color: #f8fafc !important;
+            font-weight: 600 !important;
+            font-size: 0.9rem !important;
+            padding: 6px 16px 6px 6px !important; 
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(77, 166, 255, 0.3);
+            transition: 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .premium-profile-btn:hover {
+            border-color: #4da6ff;
+            box-shadow: 0 4px 15px rgba(77, 166, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        .profile-avatar-icon {
+            background: rgba(77, 166, 255, 0.15);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .mining-widget {
             position: fixed; bottom: 30px; left: 30px;
             background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px);
@@ -56,13 +88,13 @@
         }
         .auth-modal-content {
             background-color: #1e1e1e; padding: 40px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.8);
-            text-align: center; width: 90%; max-width: 350px; position: relative; color: white;
+            text-align: center; width: 90%; max-width: 450px; position: relative; color: white;
             border: 1px solid #333; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
         .close-crypto, .close-auth {
-            position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s;
+            position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s; z-index: 1000;
         }
         .close-crypto:hover, .close-auth:hover { color: #ff4757; }
         
@@ -87,8 +119,29 @@
 
         .auth-title { margin-top: 0; color: #4da6ff; letter-spacing: 1px; font-size: 1.5rem; margin-bottom: 5px; }
         .auth-subtitle { color: #aaaaaa; font-size: 14px; margin-bottom: 25px; }
-        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #333; border-radius: 6px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit;}
+        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #333; border-radius: 6px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit; font-size: 14px;}
         .auth-input:focus { outline: none; border-color: #4da6ff; }
+        
+        select.auth-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 1em;
+            cursor: pointer;
+        }
+
+        .suggestions-box {
+            position: absolute; top: 100%; left: 0; width: 100%; background: #2a2a2a;
+            border: 1px solid #4da6ff; border-radius: 6px; z-index: 1000;
+            list-style: none; padding: 0; margin: 0; max-height: 160px; overflow-y: auto; display: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: left;
+        }
+        .suggestions-box li {
+            padding: 12px; cursor: pointer; color: #fff; font-size: 13px; border-bottom: 1px solid #3a3a3a; line-height: 1.4;
+        }
+        .suggestions-box li:hover { background: #4da6ff; color: #121212; font-weight: 600; }
+
         .auth-submit-btn { width: 100%; padding: 12px; margin: 15px 0 10px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 16px; transition: 0.3s; font-family: inherit;}
         .auth-submit-btn:hover { background-color: #3388dd; }
         .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
@@ -145,8 +198,10 @@
                 </div>
                 <a href="#" class="login-btn" id="navLoginBtn">Login</a>
                 <a href="#" class="signup-btn" id="navSignupBtn">Sign up</a>
-                <!-- Updated Nav Button for Profile -->
-                <a href="#" class="login-btn" id="navProfileBtn" style="display: none; background: #334155; color: white; border: 1px solid #475569;">👤 Profile</a>
+                <!-- NEW PREMIUM PROFILE BUTTON -->
+                <a href="#" id="navProfileBtn" class="premium-profile-btn" style="display: none;">
+                    <!-- JS injects the modern avatar icon and name here -->
+                </a>
             </div>
         </div>
     </header>
@@ -247,9 +302,9 @@
         </div>
     </div>
 
-    <!-- VIP USER PROFILE MODAL (NEW) -->
+    <!-- VIP USER PROFILE MODAL -->
     <div class="auth-modal" id="userProfileModal">
-        <div class="auth-modal-content" style="max-width: 500px; text-align: left;">
+        <div class="auth-modal-content" style="max-width: 500px; text-align: left; padding-top: 30px;">
             <span class="close-auth" id="closeProfileModalBtn">&times;</span>
             <h2 class="auth-title" style="text-align: center; font-size: 1.8rem; color: #fff;">Account Profile</h2>
             <p class="auth-subtitle" style="text-align: center;">Manage your personal information and billing details.</p>
@@ -259,18 +314,53 @@
                 <span style="font-size: 1.8rem; font-weight: 800; color: #fbbf24;">🪙 <span id="profileModalBal">0.000</span> $TOOL</span>
             </div>
 
+            <!-- Name Fields -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 10px;">
                 <input type="text" id="profFirstName" class="auth-input" style="margin: 0;" placeholder="First Name">
                 <input type="text" id="profLastName" class="auth-input" style="margin: 0;" placeholder="Last Name">
             </div>
             
-            <input type="tel" id="profPhone" class="auth-input" style="margin-top: 5px; margin-bottom: 10px;" placeholder="Phone Number (e.g., +1 234 567 8900)">
-            <input type="text" id="profAddress" class="auth-input" style="margin-top: 5px; margin-bottom: 15px;" placeholder="Street Address">
+            <!-- Phone Setup with Country Code Dropdown -->
+            <div style="display: flex; gap: 10px; margin-top: 5px; margin-bottom: 10px;">
+                <select id="profPhoneCode" class="auth-input" style="width: 35%; margin: 0; padding-right: 5px;">
+                    <option value="+1">🇺🇸 +1 (US)</option>
+                    <option value="+44">🇬🇧 +44 (UK)</option>
+                    <option value="+61">🇦🇺 +61 (AU)</option>
+                    <option value="+92">🇵🇰 +92 (PK)</option>
+                    <option value="+91">🇮🇳 +91 (IN)</option>
+                    <option value="+971">🇦🇪 +971 (UAE)</option>
+                    <option value="+966">🇸🇦 +966 (KSA)</option>
+                    <option value="+86">🇨🇳 +86 (CN)</option>
+                    <option value="+49">🇩🇪 +49 (DE)</option>
+                    <option value="+33">🇫🇷 +33 (FR)</option>
+                </select>
+                <input type="tel" id="profPhone" class="auth-input" style="width: 65%; margin: 0;" placeholder="Phone Number">
+            </div>
             
+            <!-- Address Autocomplete Field -->
+            <div style="position: relative;">
+                <input type="text" id="profAddress" class="auth-input" style="margin-top: 5px; margin-bottom: 15px;" placeholder="Start typing your street address..." autocomplete="off">
+                <ul id="addressSuggestions" class="suggestions-box"></ul>
+            </div>
+            
+            <!-- Country, State, Zip Setup -->
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px;">
-                <input type="text" id="profCountry" class="auth-input" style="margin: 0;" placeholder="Country">
-                <input type="text" id="profState" class="auth-input" style="margin: 0;" placeholder="State">
-                <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Postal Code">
+                <select id="profCountry" class="auth-input" style="margin: 0;">
+                    <option value="" disabled selected>Country</option>
+                    <option value="United States">United States</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Canada">Canada</option>
+                    <option value="France">France</option>
+                    <option value="Germany">Germany</option>
+                    <option value="India">India</option>
+                    <option value="Pakistan">Pakistan</option>
+                    <option value="Saudi Arabia">Saudi Arabia</option>
+                    <option value="United Arab Emirates">United Arab Emirates</option>
+                    <option value="Other">Other...</option>
+                </select>
+                <input type="text" id="profState" class="auth-input" style="margin: 0;" placeholder="State/Prov">
+                <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Zip Code">
             </div>
 
             <button id="saveProfileBtn" class="auth-submit-btn" style="background-color: #4ade80; color: #121212;">Save Profile</button>
@@ -308,7 +398,6 @@
         const navProfileBtn = document.getElementById('navProfileBtn');
         const actualLogoutBtn = document.getElementById('actualLogoutBtn');
         const saveProfileBtn = document.getElementById('saveProfileBtn');
-        
         const authMessageBox = document.getElementById('authMessageBox');
         
         // Open Auth Modal
@@ -330,6 +419,7 @@
                 e.preventDefault();
                 document.getElementById('profFirstName').value = localStorage.getItem('tv_fn') || '';
                 document.getElementById('profLastName').value = localStorage.getItem('tv_ln') || '';
+                document.getElementById('profPhoneCode').value = localStorage.getItem('tv_phCode') || '+1';
                 document.getElementById('profPhone').value = localStorage.getItem('tv_ph') || '';
                 document.getElementById('profAddress').value = localStorage.getItem('tv_ad') || '';
                 document.getElementById('profCountry').value = localStorage.getItem('tv_co') || '';
@@ -344,6 +434,7 @@
             saveProfileBtn.addEventListener('click', () => {
                 localStorage.setItem('tv_fn', document.getElementById('profFirstName').value);
                 localStorage.setItem('tv_ln', document.getElementById('profLastName').value);
+                localStorage.setItem('tv_phCode', document.getElementById('profPhoneCode').value);
                 localStorage.setItem('tv_ph', document.getElementById('profPhone').value);
                 localStorage.setItem('tv_ad', document.getElementById('profAddress').value);
                 localStorage.setItem('tv_co', document.getElementById('profCountry').value);
@@ -399,15 +490,23 @@
                 });
         });
 
-        // User State Check
+        // User State Check & Render Premium Button Content
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 if(navLoginBtn) navLoginBtn.style.display = 'none';
                 if(navSignupBtn) navSignupBtn.style.display = 'none';
-                if(navProfileBtn) navProfileBtn.style.display = 'flex';
-                
-                const displayName = user.displayName ? user.displayName.split(' ')[0] : 'User';
-                if(navProfileBtn) navProfileBtn.innerHTML = `👤 Profile (${displayName})`;
+                if(navProfileBtn) {
+                    navProfileBtn.style.display = 'flex';
+                    const displayName = user.displayName ? user.displayName.split(' ')[0] : 'User';
+                    
+                    // The dynamic injection for the Premium Profile Button
+                    navProfileBtn.innerHTML = `
+                        <div class="profile-avatar-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4da6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </div>
+                        <span>${displayName}</span>
+                    `;
+                }
             } else {
                 if(navLoginBtn) navLoginBtn.style.display = 'block';
                 if(navSignupBtn) navSignupBtn.style.display = 'block';
@@ -429,10 +528,60 @@
         }
     </script>
 
-    <!-- 2. FILTER & MINING LOGIC -->
+    <!-- 2. FILTER, MINING & ADDRESS AUTOCOMPLETE LOGIC -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             
+            // ADDRESS AUTOCOMPLETE API LOGIC (Free OpenStreetMap API)
+            const addressInput = document.getElementById('profAddress');
+            const suggestionsBox = document.getElementById('addressSuggestions');
+            let debounceTimer;
+
+            addressInput.addEventListener('input', function() {
+                clearTimeout(debounceTimer);
+                const query = this.value;
+                if(query.length < 4) {
+                    suggestionsBox.style.display = 'none';
+                    return;
+                }
+                
+                debounceTimer = setTimeout(() => {
+                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&addressdetails=1&limit=5`)
+                        .then(res => res.json())
+                        .then(data => {
+                            suggestionsBox.innerHTML = '';
+                            if(data.length > 0) {
+                                data.forEach(item => {
+                                    const li = document.createElement('li');
+                                    li.textContent = item.display_name;
+                                    li.addEventListener('click', () => {
+                                        addressInput.value = item.display_name;
+                                        suggestionsBox.style.display = 'none';
+                                        
+                                        // Auto-fill State and Zip if available
+                                        if(item.address) {
+                                            if(item.address.postcode) document.getElementById('profZip').value = item.address.postcode;
+                                            if(item.address.state) document.getElementById('profState').value = item.address.state;
+                                        }
+                                    });
+                                    suggestionsBox.appendChild(li);
+                                });
+                                suggestionsBox.style.display = 'block';
+                            } else {
+                                suggestionsBox.style.display = 'none';
+                            }
+                        }).catch(err => console.log("Address API error:", err));
+                }, 500); // 500ms debounce to prevent API blocking
+            });
+
+            // Hide suggestions if clicked outside
+            document.addEventListener('click', (e) => {
+                if(e.target !== addressInput && e.target !== suggestionsBox) {
+                    suggestionsBox.style.display = 'none';
+                }
+            });
+
+
             // FILTER LOGIC
             const filterBtns = document.querySelectorAll('.filter-btn');
             const toolCards = document.querySelectorAll('.ilove-card');
