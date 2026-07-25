@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Task Planner - ToolVerse</title>
+    <style>
+        /* Modern UI Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
+            text-align: center;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input[type="text"] {
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background-color: #1e293b;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        input[type="text"]:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+        }
+        button {
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(to right, #1d4ed8, #4338ca);
+        }
+        #planner-output {
+            margin-top: 30px;
+            display: none;
+        }
+        .task-card {
+            background-color: #1e293b;
+            border-left: 4px solid #38bdf8;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .task-card input[type="checkbox"] {
+            margin-top: 5px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>AI Task Planner</h1>
+    <p class="subtitle">Enter your big goal, and let AI break it down into actionable steps.</p>
+    
+    <div class="input-group">
+        <input type="text" id="user-goal" placeholder="e.g., Create a 10-minute faceless YouTube video..." autocomplete="off">
+        <button id="generate-btn" onclick="generatePlan()">Generate Action Plan ✨</button>
+    </div>
+
+    <div id="planner-output">
+        <!-- AI Generated Tasks will appear here -->
+    </div>
+</div>
+
+<script>
+    // JavaScript logic will be added here to connect with the Latest AI Model
+    function generatePlan() {
+        const goal = document.getElementById('user-goal').value;
+        const output = document.getElementById('planner-output');
+        const btn = document.getElementById('generate-btn');
+        
+        if(!goal) {
+            alert("Please enter a goal first!");
+            return;
+        }
+
+        btn.innerText = "Analyzing and Planning... ⏳";
+        
+        // Simulating AI loading time before we add the real logic
+        setTimeout(() => {
+            output.style.display = 'block';
+            output.innerHTML = `
+                <h3 style="color: #e2e8f0; margin-bottom: 20px;">Your Action Plan:</h3>
+                <div class="task-card">
+                    <input type="checkbox">
+                    <div>
+                        <strong style="color: #f8fafc;">Step 1: Research & Outline</strong>
+                        <p style="color: #94a3b8; margin: 5px 0 0 0; font-size: 14px;">Spend 30 mins researching the topic and drafting a basic outline.</p>
+                    </div>
+                </div>
+                <div class="task-card">
+                    <input type="checkbox">
+                    <div>
+                        <strong style="color: #f8fafc;">Step 2: Execution</strong>
+                        <p style="color: #94a3b8; margin: 5px 0 0 0; font-size: 14px;">Start working on the core components of your goal.</p>
+                    </div>
+                </div>
+            `;
+            btn.innerText = "Generate Action Plan ✨";
+        }, 1500);
+    }
+</script>
+
+</body>
+</html>
