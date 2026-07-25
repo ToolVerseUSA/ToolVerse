@@ -41,7 +41,6 @@ export default async function handler(req, res) {
         const content = data.choices[0].message.content;
         const parsedContent = JSON.parse(content);
         
-        // یہ لائن یقینی بنائے گی کہ چاہے 'steps' ہو یا ڈائریکٹ ارے، ڈیٹا بالکل ٹھیک پاس ہو
         const steps = parsedContent.steps || parsedContent.tasks || (Array.isArray(parsedContent) ? parsedContent : Object.values(parsedContent)[0]);
 
         return res.status(200).json({ steps: steps });
