@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: "API Key missing in environment variables." });
     }
 
-    const prompt = `Return a JSON object containing an array named 'steps' with 3 to 5 items. Each item must have 'title' and 'description' keys based on this goal: "${goal}".`;
+    const prompt = `Act as an expert growth strategist and senior content producer. Break down this goal into 4 to 5 elite, highly detailed, and actionable steps: "${goal}". For each step, provide a catchy title and a rich, professional, 2-sentence practical description focusing on high retention, modern workflows, and strategic optimization. Output strictly as a JSON object containing an array named 'steps' with 'title' and 'description' keys.`;
 
     try {
         const apiResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
