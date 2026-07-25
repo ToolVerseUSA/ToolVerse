@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Code Generator Pro - ToolVerse</title>
+    
+    <!-- PrismJS for Syntax Highlighting (Dark Theme) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(74, 222, 128, 0.2); /* Neon Green subtle border */
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 850px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        }
+        h1 {
+            text-align: center;
+            background: linear-gradient(to right, #4ade80, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            font-size: 2.2rem;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+        .input-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background-color: #1e293b;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            box-sizing: border-box;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        input[type="text"]:focus, textarea:focus {
+            border-color: #4ade80;
+            box-shadow: 0 0 12px rgba(74, 222, 128, 0.2);
+        }
+        textarea { height: 120px; resize: vertical; }
+        
+        .main-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        .main-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+        
+        /* IDE Window Styling */
+        #output-section { display: none; margin-top: 35px; }
+        .ide-header {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .ide-dots span {
+            display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 5px;
+        }
+        .lang-badge {
+            background: #334155; color: #4ade80; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; text-transform: uppercase;
+        }
+        .copy-code-btn {
+            background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+        .copy-code-btn:hover { background: #2563eb; }
+        
+        pre {
+            margin: 0 !important;
+            border-radius: 0 0 8px 8px !important;
+            border: 1px solid #334155 !important;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .meta-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        .meta-box h4 { margin: 0 0 8px 0; color: #60a5fa; }
+        .meta-box p { margin: 0; color: #cbd5e1; font-size: 14px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Code Generator Pro</h1>
+    <p class="subtitle">Describe what you want to build, and let the 10x AI Engineer write the perfect code.</p>
+    
+    <div class="input-row">
+        <input type="text" id="lang-input" placeholder="Language / Framework (e.g., Python, React, HTML) - Optional">
+    </div>
+    <textarea id="prompt-input" placeholder="e.g., Write a fully responsive navigation bar using HTML, CSS, and vanilla JS with a smooth mobile hamburger menu..."></textarea>
+    
+    <button id="generate-btn" class="main-btn" onclick="generateCode()">Generate Pro Code 🚀</button>
+
+    <div id="output-section">
+        
+        <div class="meta-box" style="margin-bottom: 20px; border-left-color: #4ade80; background: rgba(74, 222, 128, 0.05);">
+            <h4 style="color: #4ade80;">🧠 AI Thought Process:</h4>
+            <p id="out-thought"></p>
+        </div>
+
+        <!-- Fake IDE Window -->
+        <div class="ide-header">
+            <div class="ide-dots">
+                <span style="background: #ff5f56;"></span>
+                <span style="background: #ffbd2e;"></span>
+                <span style="background: #27c93f;"></span>
+            </div>
+            <div class="lang-badge" id="out-lang">Javascript</div>
+            <button class="copy-code-btn" onclick="copyCodeRaw()">📋 Copy Code</button>
+        </div>
+        <pre><code id="out-code" class="language-javascript"></code></pre>
+
+        <div class="meta-box">
+            <h4>⚙️ Implementation Instructions:</h4>
+            <p id="out-instructions"></p>
+        </div>
+    </div>
+</div>
+
+<!-- PrismJS for Syntax Highlighting -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<!-- Add standard languages -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+
+<script>
+    let rawGeneratedCode = ""; // Global variable to store raw code for copying
+
+    async function generateCode() {
+        const prompt = document.getElementById('prompt-input').value;
+        const language = document.getElementById('lang-input').value;
+        const btn = document.getElementById('generate-btn');
+        const outputSection = document.getElementById('output-section');
+        
+        if(!prompt.trim()) { alert("Please describe the code you want to generate!"); return; }
+
+        btn.innerText = "👨‍💻 Engineer is writing code... ⏳";
+        btn.disabled = true;
+        btn.style.opacity = "0.7";
+        outputSection.style.display = 'none';
+        
+        try {
+            const response = await fetch('/api/code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: prompt, language: language })
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error);
+
+            // Populate Text Areas
+            document.getElementById('out-thought').innerText = data.thought_process;
+            document.getElementById('out-instructions').innerText = data.instructions;
+            
+            // Set Language Badge
+            const detectedLang = data.language || 'javascript';
+            document.getElementById('out-lang').innerText = detectedLang;
+
+            // Handle Code & Syntax Highlighting
+            const codeElement = document.getElementById('out-code');
+            rawGeneratedCode = data.code; // Store for copying
+            
+            // Protect HTML tags from rendering as actual HTML in the pre block
+            codeElement.textContent = data.code; 
+            codeElement.className = `language-${detectedLang.toLowerCase()}`;
+            
+            // Trigger Prism to highlight the new code
+            Prism.highlightElement(codeElement);
+
+            outputSection.style.display = 'block';
+
+        } catch (error) {
+            alert("Error: " + error.message);
+        } finally {
+            btn.innerText = "Generate Pro Code 🚀";
+            btn.disabled = false;
+            btn.style.opacity = "1";
+        }
+    }
+
+    function copyCodeRaw() {
+        navigator.clipboard.writeText(rawGeneratedCode).then(() => {
+            const copyBtn = document.querySelector('.copy-code-btn');
+            const originalText = copyBtn.innerText;
+            copyBtn.innerText = "✅ Copied!";
+            copyBtn.style.background = "#10b981";
+            setTimeout(() => { 
+                copyBtn.innerText = originalText;
+                copyBtn.style.background = "#3b82f6";
+            }, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
