@@ -1,11 +1,9 @@
-// File: api/planner.js
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
     const { goal } = req.body;
-    // اب ہم نے ویری ایبل کا نام GROQ_API_KEY کر دیا ہے
     const apiKey = process.env.GROQ_API_KEY;
 
     if (!apiKey) {
@@ -42,14 +40,11 @@ export default async function handler(req, res) {
 
         const content = data.choices[0].message.content;
         const parsedContent = JSON.parse(content);
+        
+        // یہ لائن یقینی بنائے گی کہ چاہے 'steps' ہو یا ڈائریکٹ ارے، ڈیٹا بالکل ٹھیک پاس ہو
+        const steps = parsedContent.steps || parsedContent.tasks || (Array.isArray(parsedContent) ? parsedContent : Object.values(parsedContent)[0]);
 
-        return res.status(200).json({
-            candidates: [{
-                content: {
-                    parts: [{ text: JSON.stringify(parsedContent.steps || parsedContent) }]
-                }
-            }]
-        });
+        return res.status(200).json({ steps: steps });
 
     } catch (error) {
         return res.status(500).json({ error: "Internal Server Error during Groq processing." });
