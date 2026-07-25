@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: "API Key missing in environment variables." });
     }
 
-    const prompt = `Break down this goal into 3 to 5 highly actionable steps: "${goal}". For each step, provide a short title and a 1-sentence practical description. Output strictly as a JSON object containing an array named 'steps' with 'title' and 'description' keys.`;
+    const prompt = `Return a JSON object containing an array named 'steps' with 3 to 5 items. Each item must have 'title' and 'description' keys based on this goal: "${goal}".`;
 
     try {
         const apiResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -22,10 +22,9 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
                 messages: [
-                    { role: "system", content: "You are a helpful task planning assistant that outputs strict JSON." },
+                    { role: "system", content: "You are a helpful assistant that outputs valid JSON only, with no extra text." },
                     { role: "user", content: prompt }
                 ],
-                response_format: { type: "json_object" },
                 temperature: 0.7
             })
         });
@@ -39,13 +38,21 @@ export default async function handler(req, res) {
         }
 
         const content = data.choices[0].message.content;
-        const parsedContent = JSON.parse(content);
         
+        // صاف کرنے کا طریقہ تاکہ اگر ماڈل کے ساتھ اضافی ٹیکسٹ آئے تو وہ نکل جائے
+        let jsonString = content.trim();
+        if (jsonString.startsWith("```json")) {
+            jsonString = jsonString.replace(/^```json/, "").replace(/```$/, "").trim();
+        } else if (jsonString.startsWith("```")) {
+            jsonString = jsonString.replace(/^```/, "").replace(/```$/, "").trim();
+        }
+
+        const parsedContent = JSON.parse(jsonString);
         const steps = parsedContent.steps || parsedContent.tasks || (Array.isArray(parsedContent) ? parsedContent : Object.values(parsedContent)[0]);
 
         return res.status(200).json({ steps: steps });
 
     } catch (error) {
-        return res.status(500).json({ error: "Internal Server Error during Groq processing." });
+        return res.status(500).json({ error: "Failed to parse JSON response from AI." });
     }
 }
