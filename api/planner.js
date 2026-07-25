@@ -5,17 +5,16 @@ export default async function handler(req, res) {
     }
 
     const { goal } = req.body;
-    // ہم نے ویری ایبل وہی رکھا ہے تاکہ آپ کو ورسیل میں نام نہ بدلنا پڑے
-    const apiKey = process.env.GEMINI_API_KEY;
+    // اب ہم نے ویری ایبل کا نام GROQ_API_KEY کر دیا ہے
+    const apiKey = process.env.GROQ_API_KEY;
 
     if (!apiKey) {
         return res.status(500).json({ error: "API Key missing in environment variables." });
     }
 
-    const prompt = `Break down this goal into 3 to 5 highly actionable steps: "${goal}". For each step, provide a short title and a 1-sentence practical description. Output strictly as a JSON array with 'title' and 'description' keys.`;
+    const prompt = `Break down this goal into 3 to 5 highly actionable steps: "${goal}". For each step, provide a short title and a 1-sentence practical description. Output strictly as a JSON object containing an array named 'steps' with 'title' and 'description' keys.`;
 
     try {
-        // یہاں ہم نے گوگل کے بجائے Groq کا آفیشل اور 100% مفت تیز ترین اینڈ پوائنٹ لگایا ہے
         const apiResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -41,7 +40,6 @@ export default async function handler(req, res) {
             });
         }
 
-        // Groq کے رسپانس کو فارمیٹ کر کے فرنٹ اینڈ کو بھیجنا
         const content = data.choices[0].message.content;
         const parsedContent = JSON.parse(content);
 
