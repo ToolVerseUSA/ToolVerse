@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Task Planner - ToolVerse</title>
+    <!-- PDF لائبریری -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         /* Modern UI Styling */
         body {
@@ -58,7 +60,7 @@
             border-color: #38bdf8;
             box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
         }
-        button {
+        .main-btn {
             padding: 16px;
             border: none;
             border-radius: 8px;
@@ -69,13 +71,18 @@
             cursor: pointer;
             transition: transform 0.2s ease;
         }
-        button:hover {
+        .main-btn:hover {
             transform: translateY(-2px);
             background: linear-gradient(to right, #1d4ed8, #4338ca);
         }
         #planner-output {
             margin-top: 30px;
             display: none;
+        }
+        /* پرنٹ کے وقت بیک گراؤنڈ سیٹ کرنے کے لیے */
+        #pdf-content {
+            padding: 10px;
+            border-radius: 8px;
         }
         .task-card {
             background-color: #1e293b;
@@ -92,6 +99,31 @@
             transform: scale(1.2);
             cursor: pointer;
         }
+        /* نئے بٹنز کی اسٹائلنگ */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+        .copy-btn { background-color: #10b981; }
+        .copy-btn:hover { background-color: #059669; }
+        .pdf-btn { background-color: #ef4444; }
+        .pdf-btn:hover { background-color: #dc2626; }
     </style>
 </head>
 <body>
@@ -102,11 +134,19 @@
     
     <div class="input-group">
         <input type="text" id="user-goal" placeholder="e.g., Create a 10-minute faceless YouTube video..." autocomplete="off">
-        <button id="generate-btn" onclick="generatePlan()">Generate Action Plan ✨</button>
+        <button id="generate-btn" class="main-btn" onclick="generatePlan()">Generate Action Plan ✨</button>
     </div>
 
     <div id="planner-output">
-        <!-- AI Generated Tasks will appear here -->
+        <div id="pdf-content">
+            <h3 style="color: #e2e8f0; margin-bottom: 20px;">Your Action Plan:</h3>
+            <div id="tasks-container"></div>
+        </div>
+        
+        <div class="action-buttons" id="action-buttons-container">
+            <button class="action-btn copy-btn" onclick="copyPlan()">📋 Copy Plan</button>
+            <button class="action-btn pdf-btn" onclick="downloadPDF()">📄 Download PDF</button>
+        </div>
     </div>
 </div>
 
@@ -114,6 +154,7 @@
     async function generatePlan() {
         const goal = document.getElementById('user-goal').value;
         const output = document.getElementById('planner-output');
+        const tasksContainer = document.getElementById('tasks-container');
         const btn = document.getElementById('generate-btn');
         
         if(!goal) {
@@ -126,10 +167,10 @@
         btn.disabled = true;
         btn.style.opacity = "0.7";
         output.style.display = 'block';
-        output.innerHTML = '<p style="color: #38bdf8; text-align: center; font-weight: 500;">AI is analyzing your goal securely...</p>';
+        document.getElementById('action-buttons-container').style.display = 'none';
+        tasksContainer.innerHTML = '<p style="color: #38bdf8; text-align: center; font-weight: 500;">AI is analyzing your goal securely...</p>';
         
         try {
-            // اب یہ ہمارے محفوظ بیک اینڈ (`/api/planner`) کو کال کرے گا جو Groq سے جڑا ہوا ہے
             const response = await fetch('/api/planner', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -150,7 +191,7 @@
                 else tasks = Object.values(tasks)[0]; 
             }
 
-            let tasksHTML = '<h3 style="color: #e2e8f0; margin-bottom: 20px;">Your Action Plan:</h3>';
+            let tasksHTML = '';
             tasks.forEach((task, index) => {
                 tasksHTML += `
                     <div class="task-card">
@@ -163,11 +204,12 @@
                 `;
             });
 
-            output.innerHTML = tasksHTML;
+            tasksContainer.innerHTML = tasksHTML;
+            document.getElementById('action-buttons-container').style.display = 'flex';
 
         } catch (error) {
             console.error("Task Planner Error:", error);
-            output.innerHTML = `
+            tasksContainer.innerHTML = `
                 <div style="background: rgba(255, 71, 87, 0.1); border: 1px solid #ff4757; padding: 15px; border-radius: 8px; text-align: center;">
                     <p style="color: #ff4757; margin: 0; font-weight: bold;">⚠️ Error Details:</p>
                     <p style="color: #cbd5e1; font-size: 13px; margin-top: 5px;">${error.message}</p>
@@ -178,6 +220,53 @@
             btn.disabled = false;
             btn.style.opacity = "1";
         }
+    }
+
+    function copyPlan() {
+        const tasks = document.querySelectorAll('.task-card');
+        let planText = "My AI Action Plan:\n\n";
+        
+        tasks.forEach((task, index) => {
+            const title = task.querySelector('strong').innerText;
+            const desc = task.querySelector('p').innerText;
+            planText += `${title}\n${desc}\n\n`;
+        });
+
+        navigator.clipboard.writeText(planText).then(() => {
+            const copyBtn = document.querySelector('.copy-btn');
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = "✅ Copied Successfully!";
+            setTimeout(() => { copyBtn.innerHTML = originalText; }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+            alert("Copy failed. Please try again.");
+        });
+    }
+
+    function downloadPDF() {
+        const element = document.getElementById('pdf-content');
+        const pdfBtn = document.querySelector('.pdf-btn');
+        const originalText = pdfBtn.innerHTML;
+        
+        pdfBtn.innerHTML = "⏳ Generating...";
+        pdfBtn.disabled = true;
+
+        // PDF کی سیٹنگز تاکہ ڈارک موڈ کلرز ٹھیک سے پرنٹ ہوں
+        const opt = {
+            margin:       0.5,
+            filename:     'AI_Action_Plan.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, backgroundColor: '#0f172a' },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            pdfBtn.innerHTML = "✅ Downloaded!";
+            setTimeout(() => { 
+                pdfBtn.innerHTML = originalText;
+                pdfBtn.disabled = false;
+            }, 2000);
+        });
     }
 </script>
 
