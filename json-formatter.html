@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI JSON Formatter Pro - ToolVerse</title>
+    
+    <!-- PrismJS for Beautiful Syntax Highlighting -->
+    <link href="[https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css](https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css)" rel="stylesheet" />
+    <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap)" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b1120;
+            color: #f8fafc;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header-area { text-align: center; margin-bottom: 30px; }
+        .header-area h1 {
+            background: linear-gradient(to right, #f59e0b, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+        .header-area p { color: #94a3b8; font-size: 1rem; margin: 0; }
+        
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            background: rgba(30, 41, 59, 0.5);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .btn {
+            padding: 10px 20px; border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem;
+            cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;
+            font-family: inherit;
+        }
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-primary:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); }
+        .btn-secondary { background: #334155; color: white; border: 1px solid #475569; }
+        .btn-secondary:hover { background: #475569; }
+        .btn-ai { background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); color: white; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3); }
+        .btn-ai:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5); }
+        .btn-success { background: #10b981; color: white; }
+
+        .editor-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex: 1;
+            min-height: 500px;
+        }
+        @media (max-width: 800px) {
+            .editor-container { grid-template-columns: 1fr; }
+        }
+
+        .pane {
+            display: flex; flex-direction: column;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .pane-header {
+            background: #1e293b; padding: 12px 20px; font-weight: 700; color: #cbd5e1;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #334155;
+        }
+        
+        textarea.raw-input {
+            width: 100%; flex: 1; padding: 20px; border: none; background: transparent;
+            color: #e2e8f0; font-family: monospace; font-size: 14px; outline: none; resize: none; box-sizing: border-box;
+        }
+        
+        .output-wrapper { flex: 1; position: relative; background: #1d1f21; }
+        pre {
+            margin: 0 !important; border-radius: 0 !important; background: transparent !important;
+            padding: 20px !important; max-height: 100%; overflow: auto;
+            white-space: pre-wrap !important; word-wrap: break-word !important;
+        }
+
+        /* AI Explanation Modal */
+        #ai-explanation-box {
+            display: none; background: rgba(236, 72, 153, 0.1); border-left: 4px solid #ec4899;
+            padding: 15px; margin: 20px 0; border-radius: 0 8px 8px 0; color: #fdf2f8; font-size: 0.95rem; line-height: 1.6;
+        }
+        
+        /* Loader Overlay */
+        .loader-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.9); z-index: 10; display: none;
+            justify-content: center; align-items: center; flex-direction: column; color: #ec4899;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-area">
+        <h1>{ AI JSON Formatter Pro }</h1>
+        <p>Format, Validate, Minify, and Fix broken JSON files with AI intelligence.</p>
+    </div>
+
+    <div class="toolbar">
+        <button class="btn btn-primary" onclick="formatLocalJson()">🪄 Beautify JSON</button>
+        <button class="btn btn-secondary" onclick="minifyLocalJson()">🗜️ Minify</button>
+        <button class="btn btn-ai" id="fixAiBtn" onclick="processWithAI('fix')">✨ Fix Invalid JSON (AI)</button>
+        <button class="btn btn-ai" id="explainAiBtn" onclick="processWithAI('explain')" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);">🧠 Explain Schema (AI)</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('input-json').value = ''; renderOutput('');">🗑️ Clear</button>
+    </div>
+    
+    <div id="ai-explanation-box"></div>
+
+    <div class="editor-container">
+        
+        <!-- Left Pane: Input -->
+        <div class="pane">
+            <div class="pane-header">
+                <span>📥 Input Data (Raw)</span>
+            </div>
+            <textarea id="input-json" class="raw-input" placeholder="Paste your messy or broken JSON array/object here..."></textarea>
+        </div>
+
+        <!-- Right Pane: Output -->
+        <div class="pane">
+            <div class="pane-header">
+                <span>🚀 Output (Formatted)</span>
+                <div>
+                    <button class="btn btn-success" style="padding: 4px 10px; font-size: 12px;" onclick="copyOutput()">📋 Copy</button>
+                    <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px; margin-left: 5px;" onclick="downloadJson()">💾 Download</button>
+                </div>
+            </div>
+            <div class="output-wrapper">
+                <div class="loader-overlay" id="loading-overlay">
+                    <div style="font-size: 30px; animation: spin 1s infinite linear;">⚙️</div>
+                    <p style="margin-top: 10px; font-weight: 600;">AI is analyzing...</p>
+                </div>
+                <pre><code id="output-code" class="language-json"></code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- PrismJS Scripts -->
+    <script src="[https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js](https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js)"></script>
+    <script src="[https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js](https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js)"></script>
+
+    <script>
+        // Internal Fast Formatting (No API Call for valid JSON)
+        function formatLocalJson() {
+            const input = document.getElementById('input-json').value;
+            if(!input.trim()) return;
+            try {
+                const parsed = JSON.parse(input);
+                const beautified = JSON.stringify(parsed, null, 4);
+                renderOutput(beautified);
+                document.getElementById('ai-explanation-box').style.display = 'none';
+            } catch (e) {
+                alert("❌ Invalid JSON Detected! Click '✨ Fix Invalid JSON (AI)' to let the AI repair it automatically.");
+            }
+        }
+
+        function minifyLocalJson() {
+            const input = document.getElementById('input-json').value;
+            if(!input.trim()) return;
+            try {
+                const parsed = JSON.parse(input);
+                const minified = JSON.stringify(parsed);
+                renderOutput(minified);
+            } catch (e) {
+                alert("❌ Invalid JSON Detected! Fix it using AI first.");
+            }
+        }
+
+        function renderOutput(codeStr) {
+            const codeElement = document.getElementById('output-code');
+            codeElement.textContent = codeStr;
+            if (window.Prism) Prism.highlightElement(codeElement);
+        }
+
+        // External AI Call for Fixing or Explaining
+        async function processWithAI(action) {
+            const input = document.getElementById('input-json').value;
+            if(!input.trim()) { alert("Please paste some JSON data first!"); return; }
+
+            const overlay = document.getElementById('loading-overlay');
+            const explainBox = document.getElementById('ai-explanation-box');
+            
+            overlay.style.display = 'flex';
+            if(action === 'fix') explainBox.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/json-tool', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ rawJson: input, action: action })
+                });
+
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error);
+
+                if (action === "fix") {
+                    renderOutput(data.result);
+                } else if (action === "explain") {
+                    explainBox.innerHTML = `<strong>🤖 AI Analysis:</strong> <br> ${data.result}`;
+                    explainBox.style.display = 'block';
+                    formatLocalJson(); // Auto-format the code nicely if valid
+                }
+
+            } catch (error) {
+                alert("Error: " + error.message);
+            } finally {
+                overlay.style.display = 'none';
+            }
+        }
+
+        function copyOutput() {
+            const outputText = document.getElementById('output-code').textContent;
+            if(!outputText) return;
+            navigator.clipboard.writeText(outputText).then(() => {
+                alert("✅ JSON Copied to clipboard!");
+            });
+        }
+
+        function downloadJson() {
+            const outputText = document.getElementById('output-code').textContent;
+            if(!outputText) return;
+            const blob = new Blob([outputText], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "toolverse_formatted.json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Add subtle CSS animation for loader
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes spin { 100% { transform: rotate(360deg); } }`;
+        document.head.appendChild(style);
+    </script>
+
+</body>
+</html>
