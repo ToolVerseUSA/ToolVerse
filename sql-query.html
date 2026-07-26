@@ -32,11 +32,13 @@
         }
         h1 {
             text-align: center;
+            margin-bottom: 5px;
+            font-size: 2.4rem;
+        }
+        .gradient-text {
             background: linear-gradient(to right, #10b981, #3b82f6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-            font-size: 2.4rem;
         }
         p.subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; }
         
@@ -92,7 +94,7 @@
 <body>
 
 <div class="container">
-    <h1><span style="-webkit-text-fill-color: initial;">🗄️</span> SQL Query AI Pro</h1>
+    <h1>🗄️ <span class="gradient-text">SQL Query AI Pro</span></h1>
     <p class="subtitle">Generate complex, optimized database queries from simple English.</p>
     
     <div class="db-selector" id="db-selector">
