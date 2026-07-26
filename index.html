@@ -153,6 +153,36 @@
         .auth-google-btn:hover { background-color: #e2e2e2; }
         .auth-divider { color: #666; font-size: 12px; margin: 12px 0; }
         #authMessageBox { margin-top: 10px; font-size: 13px; min-height: 18px; font-weight: 500;}
+
+        /* --- Cookie Popup Styles --- */
+        .cookie-popup {
+            position: fixed; bottom: 20px; right: 20px; width: 330px;
+            background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px;
+            padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            z-index: 10000; display: none; flex-direction: column; gap: 12px;
+            font-family: 'Inter', sans-serif;
+            animation: slideUp 0.5s ease-out forwards;
+        }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .cookie-popup .cookie-icon { font-size: 20px; margin-bottom: -5px; }
+        .cookie-popup p { font-size: 13px; color: #475569; line-height: 1.5; margin: 0; text-align: left; }
+        .cookie-popup a { color: #64748b; text-decoration: underline; font-weight: 600; }
+        .cookie-btn { padding: 12px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 13px; border: 1px solid transparent; width: 100%; text-align: center; }
+        .accept-all { background: #b19cfd; color: #1e1e1e; font-weight: 700; }
+        .accept-all:hover { background: #9c83f9; }
+        .allow-selection, .reject-all { background: transparent; color: #475569; border: 1px solid #cbd5e1; }
+        .allow-selection:hover, .reject-all:hover { background: #f8fafc; border-color: #94a3b8; }
+        .manage-prefs { text-align: center; font-size: 12px; color: #64748b; text-decoration: none; margin-top: 5px; cursor: pointer; display: block;}
+        .manage-prefs:hover { color: #1e293b; }
+        
+        /* Hero Build Agent Button */
+        .hero-build-btn {
+            background: #b19cfd; color: #1e1e1e; padding: 16px 32px; border-radius: 30px; 
+            text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; 
+            gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(177, 156, 253, 0.4);
+            font-size: 1.1rem; border: none; cursor: pointer;
+        }
+        .hero-build-btn:hover { background: #9c83f9; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(177, 156, 253, 0.6); }
     </style>
 </head>
 <body>
@@ -208,9 +238,19 @@
         </div>
     </header>
 
-    <section class="ilove-hero" id="home">
-        <h1>Every AI tool you need to work faster in one place</h1>
+    <section class="ilove-hero" id="home" style="padding-bottom: 60px;">
+        <h1>Agents that work on your context,<br>and get smarter every run.</h1>
         <p>Every tool you need to use AI, at your fingertips. All are 100% FREE and easy to use! Write, generate, summarize, and automate with just a few clicks.</p>
+        
+        <!-- NEW BUILD YOUR AGENT BUTTON -->
+        <div style="margin-top: 35px; margin-bottom: 40px; text-align: center;">
+            <button onclick="window.location.href='ai-agent.html'" class="hero-build-btn">
+                Build your first agent ➔
+            </button>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 15px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600;">
+                2500 FREE CREDITS &nbsp;•&nbsp; NO CREDIT CARD REQUIRED &nbsp;•&nbsp; YOUR DATA STAYS YOURS
+            </div>
+        </div>
         
         <div class="category-filters">
             <button class="filter-btn active" data-filter="all">All</button>
@@ -251,9 +291,10 @@
         </div>
     </section>
 
+    <!-- PRICING SECTION UPDATED -->
     <section id="pricing" style="padding: 60px 20px; max-width: 1200px; margin: 0 auto; text-align: center;">
-        <h2 style="font-size: 2.2rem; font-weight: 800; color: #1e293b; margin-bottom: 10px;">Simple, Transparent Pricing</h2>
-        <p style="color: #64748b; font-size: 1rem; margin-bottom: 40px;">Choose the tier that fits your workflow. 100% Free during Public Beta!</p>
+        <h2 style="font-size: 2.2rem; font-weight: 800; color: #1e293b; margin-bottom: 10px;">Pricing that scales with your usage.</h2>
+        <p style="color: #64748b; font-size: 1rem; margin-bottom: 40px;">Start in a free sandbox, upgrade to monthly credits when you want more room.</p>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; align-items: stretch;">
             
@@ -264,7 +305,7 @@
                     <p style="color: #475569; font-size: 0.9rem; margin-bottom: 20px;">Ideal for casual creators exploring AI tools.</p>
                     <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; color: #475569; font-size: 0.9rem; line-height: 2;">
                         <li>✅ Access to All Basic AI Tools</li>
-                        <li>✅ Standard Speed Processing</li>
+                        <li>✅ 2,500 free credits</li>
                         <li>✅ Standard $TOOL Mining (+0.001/5s)</li>
                         <li>❌ Priority Support</li>
                     </ul>
@@ -272,35 +313,38 @@
                 <button style="width: 100%; padding: 12px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: 700; cursor: pointer;">Current Plan</button>
             </div>
 
-            <div style="background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.15);">
-                <div style="position: absolute; top: -14px; right: 20px; background: #fbbf24; color: #0f172a; font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 12px; text-transform: uppercase;">Most Popular</div>
+            <!-- THE $19 PAID PLAN (GIVEN FOR FREE) -->
+            <div style="background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #b19cfd; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-shadow: 0 10px 30px rgba(177, 156, 253, 0.2);">
+                <div style="position: absolute; top: -14px; right: 20px; background: #b19cfd; color: #1e1e1e; font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 12px; text-transform: uppercase;">Paid Sandbox (Free in Beta)</div>
                 <div>
-                    <div style="color: #fbbf24; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;">VIP Beta Pro</div>
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #fff; margin: 15px 0;">$0 <span style="font-size: 0.9rem; color: #4ade80; font-weight: 600;">(FREE in Beta)</span></div>
-                    <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 20px;">Unlocked automatically for active $TOOL miners.</p>
+                    <div style="color: #b19cfd; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;">Pro Agent Sandbox</div>
+                    <div style="font-size: 2.5rem; font-weight: 800; color: #fff; margin: 15px 0; display: flex; align-items: baseline;">
+                        <del style="color: #64748b; font-size: 1.5rem; margin-right: 10px;">$19</del>$0 <span style="font-size: 0.9rem; color: #4ade80; font-weight: 600; margin-left: 5px;">/ month</span>
+                    </div>
+                    <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 20px;">Unlocked automatically. Get 8,000 premium credits for free while in Beta.</p>
                     <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; color: #cbd5e1; font-size: 0.9rem; line-height: 2;">
-                        <li>⚡ Unlimited High-Speed AI Generations</li>
-                        <li>⚡ 3x Turbo $TOOL Mining Rate (+0.003/5s)</li>
-                        <li>⚡ Exclusive Faceless Video & Prompt Tools</li>
-                        <li>⚡ Priority 24/7 VIP Access</li>
+                        <li>[+] 8,000 Agent Credits / month</li>
+                        <li>[+] Unlimited members, agents, and apps</li>
+                        <li>[+] 3x Turbo $TOOL Mining Rate</li>
+                        <li>[+] All API integrations included</li>
                     </ul>
                 </div>
-                <button onclick="window.location.href='mining-node.html'" style="width: 100%; padding: 12px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #0f172a; border: none; border-radius: 8px; font-weight: 800; cursor: pointer;">Activate 3x VIP Boost</button>
+                <button onclick="window.upgradeToProAgent()" style="width: 100%; padding: 12px; background: #b19cfd; color: #1e1e1e; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#9c83f9'" onmouseout="this.style.background='#b19cfd'">Start free</button>
             </div>
 
             <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
                 <div>
-                    <div style="color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;">Custom / API Access</div>
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #1e293b; margin: 15px 0;">500 <span style="font-size: 1rem; color: #fbbf24; font-weight: 700;">$TOOL</span></div>
-                    <p style="color: #475569; font-size: 0.9rem; margin-bottom: 20px;">For power developers requiring API integration.</p>
+                    <div style="color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;">Enterprise</div>
+                    <div style="font-size: 2.5rem; font-weight: 800; color: #1e293b; margin: 15px 0;">Custom</div>
+                    <p style="color: #475569; font-size: 0.9rem; margin-bottom: 20px;">For orgs that need scale, security, and control.</p>
                     <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; color: #475569; font-size: 0.9rem; line-height: 2;">
-                        <li>🌐 Custom API Endpoints</li>
-                        <li>🌐 Bulk Script & Video Processing</li>
-                        <li>🌐 Dedicated Server Allocation</li>
-                        <li>🌐 1-on-1 Developer Support</li>
+                        <li>[+] Tailored number of workspaces</li>
+                        <li>[+] SSO, SAML, and audit logs</li>
+                        <li>[+] Dedicated model inference</li>
+                        <li>[+] SLA and dedicated support</li>
                     </ul>
                 </div>
-                <button onclick="alert('API Integration Key features will launch in Mainnet Phase 2!')" style="width: 100%; padding: 12px; background: #ffffff; color: #4da6ff; border: 1px solid #4da6ff; border-radius: 8px; font-weight: 700; cursor: pointer;">Request API Key</button>
+                <button onclick="alert('Enterprise plans will launch in Mainnet Phase 2!')" style="width: 100%; padding: 12px; background: #1e293b; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">Contact sales</button>
             </div>
 
         </div>
@@ -317,6 +361,16 @@
             <span class="mining-rate">Live <span class="pulse-dot"></span></span>
         </div>
         <div class="mining-balance" id="widgetBal">0.000</div>
+    </div>
+
+    <!-- NEW COOKIE CONSENT POPUP -->
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-icon">🍪</div>
+        <p>We use necessary cookies to make our website work. We would also like to use cookies to provide certain website functions, improve website performance and for analytics. To learn more, see our <a href="#">cookies policy</a>.</p>
+        <button class="cookie-btn accept-all" onclick="acceptCookies()">Accept all</button>
+        <button class="cookie-btn allow-selection" onclick="hideCookiePopup()">Allow selection</button>
+        <button class="cookie-btn reject-all" onclick="hideCookiePopup()">Reject All</button>
+        <a class="manage-prefs" onclick="hideCookiePopup()">Manage preferences</a>
     </div>
 
     <div class="crypto-modal" id="cryptoModal">
@@ -434,9 +488,24 @@
         </div>
     </div>
 
+    <!-- Small Script for Cookie Popup Buttons -->
+    <script>
+        function acceptCookies() {
+            localStorage.setItem('toolverse_cookies_accepted', 'true');
+            hideCookiePopup();
+        }
+        function hideCookiePopup() {
+            const popup = document.getElementById('cookie-consent');
+            if(popup) popup.style.display = 'none';
+        }
+    </script>
+
+    <!-- Firebase Scripts (Upgraded with Firestore Database for Credits) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        // Importing Firestore for Credit Management
+        import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
@@ -450,6 +519,7 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app); // Initialize Database
         const googleProvider = new GoogleAuthProvider();
 
         const authModal = document.getElementById('firebaseAuthModal');
@@ -471,6 +541,70 @@
         const authMessageBox = document.getElementById('authMessageBox');
         const otpMessageBox = document.getElementById('otpMessageBox');
         const twoFactorToggle = document.getElementById('twoFactorToggle');
+
+        // --- Database Logic for Credits ---
+        async function initializeUserInDB(user) {
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+            
+            if (!userSnap.exists()) {
+                // New user: Give 2500 Free Credits
+                await setDoc(userRef, {
+                    email: user.email,
+                    displayName: user.displayName || 'User',
+                    credits: 2500,
+                    plan: 'Sandbox',
+                    createdAt: new Date().toISOString()
+                });
+                console.log("New user initialized with 2500 credits.");
+            } else {
+                console.log("Existing user loaded.");
+            }
+            updateCreditDisplay(user.uid);
+        }
+
+        async function updateCreditDisplay(uid) {
+            const userRef = doc(db, "users", uid);
+            const userSnap = await getDoc(userRef);
+            if(userSnap.exists()) {
+                const userData = userSnap.data();
+                // Store globally so other tools can access it
+                localStorage.setItem('tv_agent_credits', userData.credits);
+                
+                // Show credits inside the profile button
+                if(navProfileBtn) {
+                    const displayName = userData.displayName ? userData.displayName.split(' ')[0] : 'User';
+                    navProfileBtn.innerHTML = `
+                        <div class="profile-avatar-icon">🤖</div>
+                        <span>${displayName} | ⚡ ${userData.credits}</span>
+                    `;
+                }
+            }
+        }
+
+        // Expose Pro Upgrade function globally so the Pricing button can call it
+        window.upgradeToProAgent = async function() {
+            const user = auth.currentUser;
+            if(!user) {
+                alert("Please login first to claim your 8,000 Pro Credits!");
+                authModal.style.display = 'flex';
+                return;
+            }
+            
+            const userRef = doc(db, "users", user.uid);
+            try {
+                await updateDoc(userRef, {
+                    credits: 8000,
+                    plan: 'Pro Sandbox'
+                });
+                alert("🎉 Success! Your account has been upgraded to the Pro Agent Sandbox. You now have 8,000 Credits!");
+                updateCreditDisplay(user.uid);
+                setTimeout(() => { window.location.href = 'ai-agent.html'; }, 1500);
+            } catch (error) {
+                console.error("Upgrade error:", error);
+                alert("Error upgrading account. Please try again.");
+            }
+        };
 
         const openAuthModal = (e) => { e.preventDefault(); authModal.style.display = 'flex'; authMessageBox.innerHTML = ''; };
         if(navLoginBtn) navLoginBtn.addEventListener('click', openAuthModal);
@@ -548,11 +682,11 @@
 
         document.getElementById('googleBtn').addEventListener('click', () => {
             signInWithPopup(auth, googleProvider)
-                .then((result) => {
+                .then(async (result) => {
                     authModal.style.display = 'none';
-                    alert(`Authentication successful. Welcome to ToolVerse, ${result.user.displayName}!`);
+                    await initializeUserInDB(result.user);
                 }).catch((error) => {
-                    authMessageBox.innerHTML = `<span style="color: #ff4757;">Authentication failed: ${error.message}</span>`;
+                    authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
                 });
         });
 
@@ -570,14 +704,14 @@
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     authModal.style.display = 'none';
-                    checkAndTriggerOTP();
+                    checkAndTriggerOTP(userCredential.user);
                 })
                 .catch((error) => {
                     if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
                         createUserWithEmailAndPassword(auth, email, password)
                             .then((userCredential) => {
                                 authModal.style.display = 'none';
-                                checkAndTriggerOTP();
+                                checkAndTriggerOTP(userCredential.user);
                             })
                             .catch((err) => {
                                 authMessageBox.innerHTML = `<span style="color: #ff4757;">${err.message}</span>`;
@@ -588,12 +722,13 @@
                 });
         });
 
-        function checkAndTriggerOTP() {
+        async function checkAndTriggerOTP(user) {
             if(localStorage.getItem('tv_2fa') === 'true') {
                 otpVerificationModal.style.display = 'flex';
                 startOtpTimer();
+                // We'll initialize DB after OTP is verified
             } else {
-                alert("Authentication successful.");
+                await initializeUserInDB(user);
             }
         }
 
@@ -625,7 +760,7 @@
             }, 1000);
         }
 
-        verifyOtpBtn.addEventListener('click', () => {
+        verifyOtpBtn.addEventListener('click', async () => {
             let enteredOtp = '';
             otpInputs.forEach(input => enteredOtp += input.value);
             
@@ -635,30 +770,25 @@
             }
 
             otpMessageBox.innerHTML = `<span style="color: #4da6ff;">Verifying code...</span>`;
-            setTimeout(() => {
+            setTimeout(async () => {
                 otpVerificationModal.style.display = 'none';
-                alert("Two-Factor Authentication verified successfully. Welcome!");
+                if(auth.currentUser) {
+                    await initializeUserInDB(auth.currentUser);
+                }
             }, 1000);
         });
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
                 if(navLoginBtn) navLoginBtn.style.display = 'none';
                 if(navSignupBtn) navSignupBtn.style.display = 'none';
-                if(navProfileBtn) {
-                    navProfileBtn.style.display = 'flex';
-                    const displayName = user.displayName ? user.displayName.split(' ')[0] : 'User';
-                    navProfileBtn.innerHTML = `
-                        <div class="profile-avatar-icon">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4da6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                        </div>
-                        <span>${displayName}</span>
-                    `;
-                }
+                if(navProfileBtn) navProfileBtn.style.display = 'flex';
+                await updateCreditDisplay(user.uid);
             } else {
                 if(navLoginBtn) navLoginBtn.style.display = 'block';
                 if(navSignupBtn) navSignupBtn.style.display = 'block';
                 if(navProfileBtn) navProfileBtn.style.display = 'none';
+                localStorage.removeItem('tv_agent_credits');
             }
         });
 
@@ -667,7 +797,6 @@
                 e.preventDefault();
                 signOut(auth).then(() => {
                     userProfileModal.style.display = 'none';
-                    alert("You have been securely signed out.");
                 }).catch((error) => {
                     console.error("Sign Out Error:", error);
                 });
@@ -677,6 +806,14 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+
+            // Show Cookie Popup if not accepted yet
+            if(!localStorage.getItem('toolverse_cookies_accepted')) {
+                setTimeout(() => {
+                    const popup = document.getElementById('cookie-consent');
+                    if(popup) popup.style.display = 'flex';
+                }, 1500); // 1.5 seconds delay before popping up
+            }
             
             const countryData = [
                 ["United States","US","1","🇺🇸"],["United Kingdom","GB","44","🇬🇧"],["Afghanistan","AF","93","🇦🇫"],["Albania","AL","355","🇦🇱"],["Algeria","DZ","213","🇩🇿"],["Andorra","AD","376","🇦🇩"],["Angola","AO","244","🇦🇴"],["Antigua and Barbuda","AG","1","🇦🇬"],["Argentina","AR","54","🇦🇷"],["Armenia","AM","374","🇦🇲"],["Australia","AU","61","🇦🇺"],["Austria","AT","43","🇦🇹"],["Azerbaijan","AZ","994","🇦🇿"],["Bahamas","BS","1","🇧🇸"],["Bahrain","BH","973","🇧🇭"],["Bangladesh","BD","880","🇧🇩"],["Barbados","BB","1","🇧🇧"],["Belarus","BY","375","🇧🇾"],["Belgium","BE","32","🇧🇪"],["Belize","BZ","501","🇧🇿"],["Benin","BJ","229","🇧🇯"],["Bhutan","BT","975","🇧🇹"],["Bolivia","BO","591","🇧🇴"],["Bosnia and Herzegovina","BA","387","🇧🇦"],["Botswana","BW","267","🇧🇼"],["Brazil","BR","55","🇧🇷"],["Brunei","BN","673","🇧🇳"],["Bulgaria","BG","359","🇧🇬"],["Burkina Faso","BF","226","🇧🇫"],["Burundi","BI","257","🇧🇮"],["Cambodia","KH","855","🇰🇭"],["Cameroon","CM","237","🇨🇲"],["Canada","CA","1","🇨🇦"],["Cape Verde","CV","238","🇨🇻"],["Central African Republic","CF","236","🇨🇫"],["Chad","TD","235","🇹🇩"],["Chile","CL","56","🇨🇱"],["China","CN","86","🇨🇳"],["Colombia","CO","57","🇨🇴"],["Comoros","KM","269","🇰🇲"],["Congo","CG","242","🇨🇬"],["Costa Rica","CR","506","🇨🇷"],["Croatia","HR","385","🇭🇷"],["Cuba","CU","53","🇨🇺"],["Cyprus","CY","357","🇨🇾"],["Czech Republic","CZ","420","🇨🇿"],["Denmark","DK","45","🇩🇰"],["Djibouti","DJ","253","🇩🇯"],["Dominica","DM","1","🇩🇲"],["Dominican Republic","DO","1","🇩🇴"],["Ecuador","EC","593","🇪🇨"],["Egypt","EG","20","🇪🇬"],["El Salvador","SV","503","🇸🇻"],["Equatorial Guinea","GQ","240","🇬🇶"],["Eritrea","ER","291","🇪🇷"],["Estonia","EE","372","🇪🇪"],["Ethiopia","ET","251","🇪🇹"],["Fiji","FJ","679","🇫🇯"],["Finland","FI","358","🇫🇮"],["France","FR","33","🇫🇷"],["Gabon","GA","241","🇬🇦"],["Gambia","GM","220","🇬🇲"],["Georgia","GE","995","🇬🇪"],["Germany","DE","49","🇩🇪"],["Ghana","GH","233","🇬🇭"],["Greece","GR","30","🇬🇷"],["Grenada","GD","1","🇬🇩"],["Guatemala","GT","502","🇬🇹"],["Guinea","GN","224","🇬🇳"],["Guinea-Bissau","GW","245","🇬🇼"],["Guyana","GY","592","🇬🇾"],["Haiti","HT","509","🇭🇹"],["Honduras","HN","504","🇭🇳"],["Hungary","HU","36","🇭🇺"],["Iceland","IS","354","🇮🇸"],["India","IN","91","🇮🇳"],["Indonesia","ID","62","🇮🇩"],["Iran","IR","98","🇮🇷"],["Iraq","IQ","964","🇮🇶"],["Ireland","IE","353","🇮🇪"],["Israel","IL","972","🇮🇱"],["Japan","JP","81","🇯🇵"],["Jordan","JO","962","🇯🇴"],["Kazakhstan","KZ","7","🇰🇿"],["Kenya","KE","254","🇰🇪"],["Kiribati","KI","686","🇰🇮"],["Kuwait","KW","965","🇰🇼"],["Kyrgyzstan","KG","996","🇰🇬"],["Laos","LA","856","🇱🇦"],["Latvia","LV","371","🇱🇻"],["Lebanon","LB","961","🇱🇧"],["Lesotho","LS","266","🇱🇸"],["Liberia","LR","231","🇱🇷"],["Libya","LY","218","🇱🇾"],["Liechtenstein","LI","423","🇱🇮"],["Lithuania","LT","370","🇱🇹"],["Luxembourg","LU","352","🇱🇺"],["Madagascar","MG","261","🇲🇬"],["Malawi","MW","265","🇲🇼"],["Malaysia","MY","60","🇲🇾"],["Maldives","MV","960","🇲🇻"],["Mali","ML","223","🇲🇱"],["Malta","MT","356","🇲🇹"],["Marshall Islands","MH","692","🇲🇭"],["Mauritania","MR","222","🇲🇷"],["Mauritius","MU","230","🇲🇺"],["Mexico","MX","52","🇲🇽"],["Micronesia","FM","691","🇫🇲"],["Moldova","MD","373","🇲🇩"],["Monaco","MC","377","🇲🇨"],["Mongolia","MN","976","🇲🇳"],["Montenegro","ME","382","🇲🇪"],["Morocco","MA","212","🇲🇦"],["Mozambique","MZ","258","🇲🇿"],["Myanmar","MM","95","🇲🇲"],["Namibia","NA","264","🇳🇦"],["Nauru","NR","674","🇳🇷"],["Nepal","NP","977","🇳🇵"],["Netherlands","NL","31","🇳🇱"],["New Zealand","NZ","64","🇳🇿"],["Nicaragua","NI","505","🇳🇮"],["Niger","NE","227","🇳🇪"],["Nigeria","NG","234","🇳🇬"],["North Korea","KP","850","🇰🇵"],["North Macedonia","MK","389","🇲🇰"],["Norway","NO","47","🇳🇴"],["Oman","OM","968","🇴🇲"],["Pakistan","PK","92","🇵🇰"],["Palau","PW","680","🇵🇼"],["Palestine","PS","970","🇵🇸"],["Panama","PA","507","🇵🇦"],["Papua New Guinea","PG","675","🇵🇬"],["Paraguay","PY","595","🇵🇾"],["Peru","PE","51","🇵🇪"],["Philippines","PH","63","🇵🇭"],["Poland","PL","48","🇵🇱"],["Portugal","PT","351","🇵🇹"],["Qatar","QA","974","🇶🇦"],["Romania","RO","40","🇷🇴"],["Russia","RU","7","🇷🇺"],["Rwanda","RW","250","🇷🇼"],["Saint Kitts and Nevis","KN","1","🇰🇳"],["Saint Lucia","LC","1","🇱🇨"],["Saint Vincent","VC","1","🇻🇨"],["Samoa","WS","685","🇼🇸"],["San Marino","SM","378","🇸🇲"],["Sao Tome and Principe","ST","239","🇸🇹"],["Saudi Arabia","SA","966","🇸🇦"],["Senegal","SN","221","🇸🇳"],["Serbia","RS","381","🇷🇸"],["Seychelles","SC","248","🇸🇨"],["Sierra Leone","SL","232","🇸🇱"],["Singapore","SG","65","🇸🇬"],["Slovakia","SK","421","🇸🇰"],["Slovenia","SI","386","🇸🇮"],["Solomon Islands","SB","677","🇸🇧"],["Somalia","SO","252","🇸🇴"],["South Africa","ZA","27","🇿🇦"],["South Korea","KR","82","🇰🇷"],["South Sudan","SS","211","🇸🇸"],["Spain","ES","34","🇪🇸"],["Sri Lanka","LK","94","🇱🇰"],["Sudan","SD","249","🇸🇩"],["Suriname","SR","597","🇸🇷"],["Sweden","SE","46","🇸🇪"],["Switzerland","CH","41","🇨🇭"],["Syria","SY","963","🇸🇾"],["Taiwan","TW","886","🇹🇼"],["Tajikistan","TJ","992","🇹🇯"],["Tanzania","TZ","255","🇹🇿"],["Thailand","TH","66","🇹🇭"],["Togo","TG","228","🇹🇬"],["Tonga","TO","676","🇹🇴"],["Trinidad and Tobago","TT","1","🇹🇹"],["Tunisia","TN","216","🇹🇳"],["Turkey","TR","90","🇹🇷"],["Turkmenistan","TM","993","🇹🇲"],["Tuvalu","TV","688","🇹🇻"],["Uganda","UG","256","🇺🇬"],["Ukraine","UA","380","🇺🇦"],["United Arab Emirates","AE","971","🇦🇪"],["Uruguay","UY","598","🇺🇾"],["Uzbekistan","UZ","998","🇺🇿"],["Vanuatu","VU","678","🇻🇺"],["Vatican City","VA","379","🇻🇦"],["Venezuela","VE","58","🇻🇪"],["Vietnam","VN","84","🇻🇳"],["Yemen","YE","967","🇾🇪"],["Zambia","ZM","260","🇿🇲"],["Zimbabwe","ZW","263","🇿🇼"]
