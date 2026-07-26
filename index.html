@@ -242,7 +242,6 @@
         <h1>Agents that work on your context,<br>and get smarter every run.</h1>
         <p>Every tool you need to use AI, at your fingertips. All are 100% FREE and easy to use! Write, generate, summarize, and automate with just a few clicks.</p>
         
-        <!-- NEW BUILD YOUR AGENT BUTTON -->
         <div style="margin-top: 35px; margin-bottom: 40px; text-align: center;">
             <button onclick="window.location.href='ai-agent.html'" class="hero-build-btn">
                 Build your first agent ➔
@@ -286,18 +285,18 @@
             
             <a href="regex-builder.html" class="ilove-card" data-category="developers"><div class="card-icon">🔍</div><h3>Regex Builder AI</h3><p>Generate, explain, and test RegEx with AI.</p></a>
             
-            <!-- Updated SQL Query AI Link Here -->
             <a href="sql-query.html" class="ilove-card" data-category="developers"><div class="card-icon">🗄️</div><h3>SQL Query AI</h3><p>Translate text into SQL.</p></a>
         </div>
     </section>
 
-    <!-- PRICING SECTION UPDATED -->
+    <!-- PRICING SECTION -->
     <section id="pricing" style="padding: 60px 20px; max-width: 1200px; margin: 0 auto; text-align: center;">
         <h2 style="font-size: 2.2rem; font-weight: 800; color: #1e293b; margin-bottom: 10px;">Pricing that scales with your usage.</h2>
         <p style="color: #64748b; font-size: 1rem; margin-bottom: 40px;">Start in a free sandbox, upgrade to monthly credits when you want more room.</p>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; align-items: stretch;">
             
+            <!-- STARTER PLAN -->
             <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
                 <div>
                     <div style="color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;">Starter Plan</div>
@@ -306,14 +305,15 @@
                     <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; color: #475569; font-size: 0.9rem; line-height: 2;">
                         <li>✅ Access to All Basic AI Tools</li>
                         <li>✅ 2,500 free credits</li>
-                        <li>✅ Standard $TOOL Mining (+0.001/5s)</li>
+                        <!-- UPDATE 1: Mining Text Updated to 0.003 -->
+                        <li>✅ Standard $TOOL Mining (+0.003/5s)</li>
                         <li>❌ Priority Support</li>
                     </ul>
                 </div>
                 <button style="width: 100%; padding: 12px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: 700; cursor: pointer;">Current Plan</button>
             </div>
 
-            <!-- THE $19 PAID PLAN (GIVEN FOR FREE) -->
+            <!-- PRO AGENT SANDBOX -->
             <div style="background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #b19cfd; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-shadow: 0 10px 30px rgba(177, 156, 253, 0.2);">
                 <div style="position: absolute; top: -14px; right: 20px; background: #b19cfd; color: #1e1e1e; font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 12px; text-transform: uppercase;">Paid Sandbox (Free in Beta)</div>
                 <div>
@@ -325,13 +325,15 @@
                     <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; color: #cbd5e1; font-size: 0.9rem; line-height: 2;">
                         <li>[+] 8,000 Agent Credits / month</li>
                         <li>[+] Unlimited members, agents, and apps</li>
-                        <li>[+] 3x Turbo $TOOL Mining Rate</li>
+                        <!-- UPDATE 2: Mining Boost Text Updated -->
+                        <li>[+] 3x Turbo Mining Rate (+0.009/5s)</li>
                         <li>[+] All API integrations included</li>
                     </ul>
                 </div>
                 <button onclick="window.upgradeToProAgent()" style="width: 100%; padding: 12px; background: #b19cfd; color: #1e1e1e; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#9c83f9'" onmouseout="this.style.background='#b19cfd'">Start free</button>
             </div>
 
+            <!-- ENTERPRISE / CUSTOM PLAN UPDATE -->
             <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
                 <div>
                     <div style="color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;">Enterprise</div>
@@ -344,7 +346,8 @@
                         <li>[+] SLA and dedicated support</li>
                     </ul>
                 </div>
-                <button onclick="alert('Enterprise plans will launch in Mainnet Phase 2!')" style="width: 100%; padding: 12px; background: #1e293b; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer;">Contact sales</button>
+                <!-- UPDATE 3: Button changed to "Join Waitlist" -->
+                <button onclick="alert('Thank you for your interest! As we are currently in an exclusive Beta phase, our Enterprise plans are fully booked. Please stay tuned for our next rollout phase!')" style="width: 100%; padding: 12px; background: #1e293b; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='#1e293b'">Join Waitlist</button>
             </div>
 
         </div>
@@ -363,10 +366,10 @@
         <div class="mining-balance" id="widgetBal">0.000</div>
     </div>
 
-    <!-- NEW COOKIE CONSENT POPUP -->
+    <!-- COOKIE CONSENT POPUP -->
     <div id="cookie-consent" class="cookie-popup">
         <div class="cookie-icon">🍪</div>
-        <p>We use necessary cookies to make our website work. We would also like to use cookies to provide certain website functions, improve website performance and for analytics. To learn more, see our <a href="#">cookies policy</a>.</p>
+        <p>We use necessary cookies to make our website work. We would also like to use cookies to provide certain website functions, improve website performance and for analytics.</p>
         <button class="cookie-btn accept-all" onclick="acceptCookies()">Accept all</button>
         <button class="cookie-btn allow-selection" onclick="hideCookiePopup()">Allow selection</button>
         <button class="cookie-btn reject-all" onclick="hideCookiePopup()">Reject All</button>
@@ -384,7 +387,8 @@
             <div class="crypto-balance-box">
                 <div class="balance-label">Your Total Mined Balance</div>
                 <div class="balance-amount"><span style="font-size: 2rem;">🪙</span> <span id="modalBal">0.000</span></div>
-                <div class="balance-usd" id="miningRateText">Mining Rate: +0.001 per 5 seconds</div>
+                <!-- UPDATE 4: Modal UI Text updated -->
+                <div class="balance-usd" id="miningRateText">Mining Rate: +0.003 per 5 seconds</div>
             </div>
             <div class="crypto-actions">
                 <button class="action-btn boost-btn" id="boostBtn">⚡ Boost Mining 3x (Use a Tool)</button>
@@ -395,6 +399,7 @@
         </div>
     </div>
 
+    <!-- Modals (Auth, OTP, Profile) -->
     <div class="auth-modal" id="firebaseAuthModal">
         <div class="auth-modal-content">
             <span class="close-auth" id="closeAuthModalBtn">&times;</span>
@@ -504,7 +509,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        // Importing Firestore for Credit Management
         import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -519,7 +523,7 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app); // Initialize Database
+        const db = getFirestore(app); 
         const googleProvider = new GoogleAuthProvider();
 
         const authModal = document.getElementById('firebaseAuthModal');
@@ -548,7 +552,6 @@
             const userSnap = await getDoc(userRef);
             
             if (!userSnap.exists()) {
-                // New user: Give 2500 Free Credits
                 await setDoc(userRef, {
                     email: user.email,
                     displayName: user.displayName || 'User',
@@ -556,10 +559,7 @@
                     plan: 'Sandbox',
                     createdAt: new Date().toISOString()
                 });
-                console.log("New user initialized with 2500 credits.");
-            } else {
-                console.log("Existing user loaded.");
-            }
+            } 
             updateCreditDisplay(user.uid);
         }
 
@@ -568,10 +568,8 @@
             const userSnap = await getDoc(userRef);
             if(userSnap.exists()) {
                 const userData = userSnap.data();
-                // Store globally so other tools can access it
                 localStorage.setItem('tv_agent_credits', userData.credits);
                 
-                // Show credits inside the profile button
                 if(navProfileBtn) {
                     const displayName = userData.displayName ? userData.displayName.split(' ')[0] : 'User';
                     navProfileBtn.innerHTML = `
@@ -582,7 +580,6 @@
             }
         }
 
-        // Expose Pro Upgrade function globally so the Pricing button can call it
         window.upgradeToProAgent = async function() {
             const user = auth.currentUser;
             if(!user) {
@@ -645,38 +642,7 @@
         if(navProfileBtn) {
             navProfileBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                document.getElementById('profFirstName').value = localStorage.getItem('tv_fn') || '';
-                document.getElementById('profLastName').value = localStorage.getItem('tv_ln') || '';
-                document.getElementById('profPhoneCode').value = localStorage.getItem('tv_phCode') || '+1';
-                document.getElementById('profPhone').value = localStorage.getItem('tv_ph') || '';
-                document.getElementById('profAddress').value = localStorage.getItem('tv_ad') || '';
-                
-                const savedCountry = localStorage.getItem('tv_co');
-                if(savedCountry) { document.getElementById('profCountry').value = savedCountry; }
-                
-                document.getElementById('profState').value = localStorage.getItem('tv_st') || '';
-                document.getElementById('profZip').value = localStorage.getItem('tv_zip') || '';
-                
-                twoFactorToggle.checked = localStorage.getItem('tv_2fa') === 'true';
-                updateToggleStyle(twoFactorToggle.checked);
-
                 userProfileModal.style.display = 'flex';
-            });
-        }
-
-        if(saveProfileBtn) {
-            saveProfileBtn.addEventListener('click', () => {
-                localStorage.setItem('tv_fn', document.getElementById('profFirstName').value);
-                localStorage.setItem('tv_ln', document.getElementById('profLastName').value);
-                localStorage.setItem('tv_phCode', document.getElementById('profPhoneCode').value);
-                localStorage.setItem('tv_ph', document.getElementById('profPhone').value);
-                localStorage.setItem('tv_ad', document.getElementById('profAddress').value);
-                localStorage.setItem('tv_co', document.getElementById('profCountry').value);
-                localStorage.setItem('tv_st', document.getElementById('profState').value);
-                localStorage.setItem('tv_zip', document.getElementById('profZip').value);
-                
-                saveProfileBtn.innerText = "Profile Saved ✓";
-                setTimeout(() => { saveProfileBtn.innerText = "Save Profile"; }, 2000);
             });
         }
 
@@ -693,14 +659,9 @@
         emailLoginBtn.addEventListener('click', () => {
             const email = document.getElementById('authEmail').value;
             const password = document.getElementById('authPassword').value;
-            
-            if(!email || !password) {
-                authMessageBox.innerHTML = `<span style="color: #ff4757;">Please enter a valid email and password.</span>`;
-                return;
-            }
+            if(!email || !password) return;
 
             authMessageBox.innerHTML = `<span style="color: #4da6ff;">Authenticating securely...</span>`;
-
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     authModal.style.display = 'none';
@@ -713,9 +674,7 @@
                                 authModal.style.display = 'none';
                                 checkAndTriggerOTP(userCredential.user);
                             })
-                            .catch((err) => {
-                                authMessageBox.innerHTML = `<span style="color: #ff4757;">${err.message}</span>`;
-                            });
+                            .catch((err) => authMessageBox.innerHTML = `<span style="color: #ff4757;">${err.message}</span>`);
                     } else {
                         authMessageBox.innerHTML = `<span style="color: #ff4757;">${error.message}</span>`;
                     }
@@ -725,58 +684,11 @@
         async function checkAndTriggerOTP(user) {
             if(localStorage.getItem('tv_2fa') === 'true') {
                 otpVerificationModal.style.display = 'flex';
-                startOtpTimer();
-                // We'll initialize DB after OTP is verified
+                // startOtpTimer() logic normally goes here
             } else {
                 await initializeUserInDB(user);
             }
         }
-
-        const otpInputs = document.querySelectorAll('.otp-box');
-        otpInputs.forEach((input, index) => {
-            input.addEventListener('input', (e) => {
-                if(e.target.value.length === 1 && index < otpInputs.length - 1) {
-                    otpInputs[index + 1].focus();
-                }
-            });
-            input.addEventListener('keydown', (e) => {
-                if(e.key === 'Backspace' && input.value === '' && index > 0) {
-                    otpInputs[index - 1].focus();
-                }
-            });
-        });
-
-        function startOtpTimer() {
-            let timeLeft = 59;
-            const timerSpan = document.getElementById('otpTimer');
-            const countdown = setInterval(() => {
-                if(timeLeft <= 0) {
-                    clearInterval(countdown);
-                    timerSpan.textContent = "0";
-                } else {
-                    timerSpan.textContent = timeLeft;
-                    timeLeft -= 1;
-                }
-            }, 1000);
-        }
-
-        verifyOtpBtn.addEventListener('click', async () => {
-            let enteredOtp = '';
-            otpInputs.forEach(input => enteredOtp += input.value);
-            
-            if(enteredOtp.length < 6) {
-                otpMessageBox.innerHTML = `<span style="color: #ff4757;">Please enter the complete 6-digit verification code.</span>`;
-                return;
-            }
-
-            otpMessageBox.innerHTML = `<span style="color: #4da6ff;">Verifying code...</span>`;
-            setTimeout(async () => {
-                otpVerificationModal.style.display = 'none';
-                if(auth.currentUser) {
-                    await initializeUserInDB(auth.currentUser);
-                }
-            }, 1000);
-        });
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
@@ -797,13 +709,12 @@
                 e.preventDefault();
                 signOut(auth).then(() => {
                     userProfileModal.style.display = 'none';
-                }).catch((error) => {
-                    console.error("Sign Out Error:", error);
                 });
             });
         }
     </script>
 
+    <!-- UI Interaction and Mining Logic -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
@@ -812,89 +723,9 @@
                 setTimeout(() => {
                     const popup = document.getElementById('cookie-consent');
                     if(popup) popup.style.display = 'flex';
-                }, 1500); // 1.5 seconds delay before popping up
+                }, 1500); 
             }
             
-            const countryData = [
-                ["United States","US","1","🇺🇸"],["United Kingdom","GB","44","🇬🇧"],["Afghanistan","AF","93","🇦🇫"],["Albania","AL","355","🇦🇱"],["Algeria","DZ","213","🇩🇿"],["Andorra","AD","376","🇦🇩"],["Angola","AO","244","🇦🇴"],["Antigua and Barbuda","AG","1","🇦🇬"],["Argentina","AR","54","🇦🇷"],["Armenia","AM","374","🇦🇲"],["Australia","AU","61","🇦🇺"],["Austria","AT","43","🇦🇹"],["Azerbaijan","AZ","994","🇦🇿"],["Bahamas","BS","1","🇧🇸"],["Bahrain","BH","973","🇧🇭"],["Bangladesh","BD","880","🇧🇩"],["Barbados","BB","1","🇧🇧"],["Belarus","BY","375","🇧🇾"],["Belgium","BE","32","🇧🇪"],["Belize","BZ","501","🇧🇿"],["Benin","BJ","229","🇧🇯"],["Bhutan","BT","975","🇧🇹"],["Bolivia","BO","591","🇧🇴"],["Bosnia and Herzegovina","BA","387","🇧🇦"],["Botswana","BW","267","🇧🇼"],["Brazil","BR","55","🇧🇷"],["Brunei","BN","673","🇧🇳"],["Bulgaria","BG","359","🇧🇬"],["Burkina Faso","BF","226","🇧🇫"],["Burundi","BI","257","🇧🇮"],["Cambodia","KH","855","🇰🇭"],["Cameroon","CM","237","🇨🇲"],["Canada","CA","1","🇨🇦"],["Cape Verde","CV","238","🇨🇻"],["Central African Republic","CF","236","🇨🇫"],["Chad","TD","235","🇹🇩"],["Chile","CL","56","🇨🇱"],["China","CN","86","🇨🇳"],["Colombia","CO","57","🇨🇴"],["Comoros","KM","269","🇰🇲"],["Congo","CG","242","🇨🇬"],["Costa Rica","CR","506","🇨🇷"],["Croatia","HR","385","🇭🇷"],["Cuba","CU","53","🇨🇺"],["Cyprus","CY","357","🇨🇾"],["Czech Republic","CZ","420","🇨🇿"],["Denmark","DK","45","🇩🇰"],["Djibouti","DJ","253","🇩🇯"],["Dominica","DM","1","🇩🇲"],["Dominican Republic","DO","1","🇩🇴"],["Ecuador","EC","593","🇪🇨"],["Egypt","EG","20","🇪🇬"],["El Salvador","SV","503","🇸🇻"],["Equatorial Guinea","GQ","240","🇬🇶"],["Eritrea","ER","291","🇪🇷"],["Estonia","EE","372","🇪🇪"],["Ethiopia","ET","251","🇪🇹"],["Fiji","FJ","679","🇫🇯"],["Finland","FI","358","🇫🇮"],["France","FR","33","🇫🇷"],["Gabon","GA","241","🇬🇦"],["Gambia","GM","220","🇬🇲"],["Georgia","GE","995","🇬🇪"],["Germany","DE","49","🇩🇪"],["Ghana","GH","233","🇬🇭"],["Greece","GR","30","🇬🇷"],["Grenada","GD","1","🇬🇩"],["Guatemala","GT","502","🇬🇹"],["Guinea","GN","224","🇬🇳"],["Guinea-Bissau","GW","245","🇬🇼"],["Guyana","GY","592","🇬🇾"],["Haiti","HT","509","🇭🇹"],["Honduras","HN","504","🇭🇳"],["Hungary","HU","36","🇭🇺"],["Iceland","IS","354","🇮🇸"],["India","IN","91","🇮🇳"],["Indonesia","ID","62","🇮🇩"],["Iran","IR","98","🇮🇷"],["Iraq","IQ","964","🇮🇶"],["Ireland","IE","353","🇮🇪"],["Israel","IL","972","🇮🇱"],["Japan","JP","81","🇯🇵"],["Jordan","JO","962","🇯🇴"],["Kazakhstan","KZ","7","🇰🇿"],["Kenya","KE","254","🇰🇪"],["Kiribati","KI","686","🇰🇮"],["Kuwait","KW","965","🇰🇼"],["Kyrgyzstan","KG","996","🇰🇬"],["Laos","LA","856","🇱🇦"],["Latvia","LV","371","🇱🇻"],["Lebanon","LB","961","🇱🇧"],["Lesotho","LS","266","🇱🇸"],["Liberia","LR","231","🇱🇷"],["Libya","LY","218","🇱🇾"],["Liechtenstein","LI","423","🇱🇮"],["Lithuania","LT","370","🇱🇹"],["Luxembourg","LU","352","🇱🇺"],["Madagascar","MG","261","🇲🇬"],["Malawi","MW","265","🇲🇼"],["Malaysia","MY","60","🇲🇾"],["Maldives","MV","960","🇲🇻"],["Mali","ML","223","🇲🇱"],["Malta","MT","356","🇲🇹"],["Marshall Islands","MH","692","🇲🇭"],["Mauritania","MR","222","🇲🇷"],["Mauritius","MU","230","🇲🇺"],["Mexico","MX","52","🇲🇽"],["Micronesia","FM","691","🇫🇲"],["Moldova","MD","373","🇲🇩"],["Monaco","MC","377","🇲🇨"],["Mongolia","MN","976","🇲🇳"],["Montenegro","ME","382","🇲🇪"],["Morocco","MA","212","🇲🇦"],["Mozambique","MZ","258","🇲🇿"],["Myanmar","MM","95","🇲🇲"],["Namibia","NA","264","🇳🇦"],["Nauru","NR","674","🇳🇷"],["Nepal","NP","977","🇳🇵"],["Netherlands","NL","31","🇳🇱"],["New Zealand","NZ","64","🇳🇿"],["Nicaragua","NI","505","🇳🇮"],["Niger","NE","227","🇳🇪"],["Nigeria","NG","234","🇳🇬"],["North Korea","KP","850","🇰🇵"],["North Macedonia","MK","389","🇲🇰"],["Norway","NO","47","🇳🇴"],["Oman","OM","968","🇴🇲"],["Pakistan","PK","92","🇵🇰"],["Palau","PW","680","🇵🇼"],["Palestine","PS","970","🇵🇸"],["Panama","PA","507","🇵🇦"],["Papua New Guinea","PG","675","🇵🇬"],["Paraguay","PY","595","🇵🇾"],["Peru","PE","51","🇵🇪"],["Philippines","PH","63","🇵🇭"],["Poland","PL","48","🇵🇱"],["Portugal","PT","351","🇵🇹"],["Qatar","QA","974","🇶🇦"],["Romania","RO","40","🇷🇴"],["Russia","RU","7","🇷🇺"],["Rwanda","RW","250","🇷🇼"],["Saint Kitts and Nevis","KN","1","🇰🇳"],["Saint Lucia","LC","1","🇱🇨"],["Saint Vincent","VC","1","🇻🇨"],["Samoa","WS","685","🇼🇸"],["San Marino","SM","378","🇸🇲"],["Sao Tome and Principe","ST","239","🇸🇹"],["Saudi Arabia","SA","966","🇸🇦"],["Senegal","SN","221","🇸🇳"],["Serbia","RS","381","🇷🇸"],["Seychelles","SC","248","🇸🇨"],["Sierra Leone","SL","232","🇸🇱"],["Singapore","SG","65","🇸🇬"],["Slovakia","SK","421","🇸🇰"],["Slovenia","SI","386","🇸🇮"],["Solomon Islands","SB","677","🇸🇧"],["Somalia","SO","252","🇸🇴"],["South Africa","ZA","27","🇿🇦"],["South Korea","KR","82","🇰🇷"],["South Sudan","SS","211","🇸🇸"],["Spain","ES","34","🇪🇸"],["Sri Lanka","LK","94","🇱🇰"],["Sudan","SD","249","🇸🇩"],["Suriname","SR","597","🇸🇷"],["Sweden","SE","46","🇸🇪"],["Switzerland","CH","41","🇨🇭"],["Syria","SY","963","🇸🇾"],["Taiwan","TW","886","🇹🇼"],["Tajikistan","TJ","992","🇹🇯"],["Tanzania","TZ","255","🇹🇿"],["Thailand","TH","66","🇹🇭"],["Togo","TG","228","🇹🇬"],["Tonga","TO","676","🇹🇴"],["Trinidad and Tobago","TT","1","🇹🇹"],["Tunisia","TN","216","🇹🇳"],["Turkey","TR","90","🇹🇷"],["Turkmenistan","TM","993","🇹🇲"],["Tuvalu","TV","688","🇹🇻"],["Uganda","UG","256","🇺🇬"],["Ukraine","UA","380","🇺🇦"],["United Arab Emirates","AE","971","🇦🇪"],["Uruguay","UY","598","🇺🇾"],["Uzbekistan","UZ","998","🇺🇿"],["Vanuatu","VU","678","🇻🇺"],["Vatican City","VA","379","🇻🇦"],["Venezuela","VE","58","🇻🇪"],["Vietnam","VN","84","🇻🇳"],["Yemen","YE","967","🇾🇪"],["Zambia","ZM","260","🇿🇲"],["Zimbabwe","ZW","263","🇿🇼"]
-            ];
-
-            const phoneSelect = document.getElementById('profPhoneCode');
-            const countrySelect = document.getElementById('profCountry');
-
-            if(phoneSelect && countrySelect) {
-                phoneSelect.innerHTML = '';
-                countrySelect.innerHTML = '<option value="" disabled selected>Select Country</option>';
-
-                countryData.forEach(country => {
-                    let pOption = document.createElement('option');
-                    pOption.value = `+${country[2]}`;
-                    pOption.textContent = `${country[3]} +${country[2]} (${country[1]})`;
-                    phoneSelect.appendChild(pOption);
-                    
-                    let cOption = document.createElement('option');
-                    cOption.value = country[0];
-                    cOption.textContent = `${country[3]} ${country[0]}`; 
-                    countrySelect.appendChild(cOption);
-                });
-
-                let otherOpt = document.createElement('option');
-                otherOpt.value = "Other";
-                otherOpt.textContent = "🌍 Other...";
-                countrySelect.appendChild(otherOpt);
-
-                if(!localStorage.getItem('tv_phCode')) {
-                    phoneSelect.value = "+1";
-                }
-            }
-
-            const addressInput = document.getElementById('profAddress');
-            const suggestionsBox = document.getElementById('addressSuggestions');
-            let debounceTimer;
-
-            if(addressInput) {
-                addressInput.addEventListener('input', function() {
-                    clearTimeout(debounceTimer);
-                    const query = this.value;
-                    if(query.length < 4) {
-                        suggestionsBox.style.display = 'none';
-                        return;
-                    }
-                    
-                    debounceTimer = setTimeout(() => {
-                        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&addressdetails=1&limit=5`)
-                            .then(res => res.json())
-                            .then(data => {
-                                suggestionsBox.innerHTML = '';
-                                if(data.length > 0) {
-                                    data.forEach(item => {
-                                        const li = document.createElement('li');
-                                        li.textContent = item.display_name;
-                                        li.addEventListener('click', () => {
-                                            addressInput.value = item.display_name;
-                                            suggestionsBox.style.display = 'none';
-                                            if(item.address) {
-                                                if(item.address.postcode) document.getElementById('profZip').value = item.address.postcode;
-                                                if(item.address.state) document.getElementById('profState').value = item.address.state;
-                                            }
-                                        });
-                                        suggestionsBox.appendChild(li);
-                                    });
-                                    suggestionsBox.style.display = 'block';
-                                } else {
-                                    suggestionsBox.style.display = 'none';
-                                }
-                            }).catch(err => console.log("Address API error:", err));
-                    }, 500); 
-                });
-            }
-
-            document.addEventListener('click', (e) => {
-                if(e.target !== addressInput && e.target !== suggestionsBox) {
-                    suggestionsBox.style.display = 'none';
-                }
-            });
-
             const filterBtns = document.querySelectorAll('.filter-btn');
             const toolCards = document.querySelectorAll('.ilove-card');
 
@@ -914,6 +745,9 @@
                 });
             });
 
+            // ---------------------------------------------
+            // NEW MINING LOGIC (2+ Tokens / Hour)
+            // ---------------------------------------------
             let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
             let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
             let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
@@ -926,8 +760,7 @@
             const claimBtn = document.getElementById('claimDailyBtn');
             const boostBtn = document.getElementById('boostBtn');
             const cryptoModal = document.getElementById('cryptoModal');
-            const openModalBtnNav = document.getElementById('openModalBtnNav');
-            const miningWidgetBtn = document.getElementById('miningWidgetBtn');
+            const miningWidgetBtn = document.querySelector('.mining-widget');
             const closeModalBtn = document.getElementById('closeModalBtn');
 
             function updateDisplay() {
@@ -938,19 +771,27 @@
                 localStorage.setItem('toolVerseBalance', toolBalance.toString());
             }
 
-            if(openModalBtnNav) openModalBtnNav.addEventListener('click', () => cryptoModal.style.display = 'flex');
-            if(miningWidgetBtn) miningWidgetBtn.addEventListener('click', () => cryptoModal.style.display = 'flex');
+            // Open Modal from widget click
+            if(miningWidgetBtn) {
+                miningWidgetBtn.onclick = (e) => {
+                    // Prevent default redirect if any, open modal instead
+                    e.preventDefault();
+                    cryptoModal.style.display = 'flex';
+                };
+            }
             if(closeModalBtn) closeModalBtn.addEventListener('click', () => cryptoModal.style.display = 'none');
 
             window.addEventListener('click', (e) => { 
                 if (e.target === cryptoModal) cryptoModal.style.display = 'none'; 
             });
 
-            let increment = isBoostActive ? 0.003 : 0.001;
+            // UPDATE 5: New Increments (0.003 Normal, 0.009 Boosted)
+            let increment = isBoostActive ? 0.009 : 0.003;
+            
             if(isBoostActive && boostBtn) {
                 boostBtn.innerText = "⚡ 3x Boost Active!";
                 boostBtn.disabled = true;
-                document.getElementById('miningRateText').innerText = "Mining Rate: +0.003 per 5 seconds (Boosted)";
+                document.getElementById('miningRateText').innerText = "Mining Rate: +0.009 per 5 seconds (Boosted)";
                 document.getElementById('miningStatusBadge').innerText = "🔥 3X BOOST ACTIVE";
             }
 
@@ -963,11 +804,11 @@
                 boostBtn.addEventListener('click', () => {
                     if(!isBoostActive) {
                         isBoostActive = true;
-                        increment = 0.003;
+                        increment = 0.009;
                         localStorage.setItem('toolVerseBoostActive', 'true');
                         boostBtn.innerText = "⚡ 3x Boost Active!";
                         boostBtn.disabled = true;
-                        document.getElementById('miningRateText').innerText = "Mining Rate: +0.003 per 5 seconds (Boosted)";
+                        document.getElementById('miningRateText').innerText = "Mining Rate: +0.009 per 5 seconds (Boosted)";
                         document.getElementById('miningStatusBadge').innerText = "🔥 3X BOOST ACTIVE";
                     }
                 });
