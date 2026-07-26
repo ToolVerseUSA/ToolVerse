@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://toolverse-usa.vercel.app/sitemap.xml
