@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Super AI Chat - ToolVerse</title>
     
-    <!-- Markdown Parser Library شامل کی گئی ہے -->
-    <script src="[https://cdn.jsdelivr.net/npm/marked/marked.min.js](https://cdn.jsdelivr.net/npm/marked/marked.min.js)"></script>
-
     <style>
-        /* Base Styling for Dark Theme */
         :root {
             --bg-color: #0b0c10;
             --chat-bg: #1f2833;
@@ -37,7 +33,6 @@
             overflow: hidden;
         }
 
-        /* Top Header Area */
         .chat-header {
             display: flex;
             justify-content: space-between;
@@ -72,7 +67,6 @@
             white-space: nowrap;
         }
 
-        /* Chat Display Area */
         .chat-container {
             flex-grow: 1;
             padding: 15px;
@@ -83,12 +77,14 @@
         }
 
         .message {
-            max-width: 85%;
-            padding: 12px 16px;
+            max-width: 88%;
+            padding: 14px 18px;
             border-radius: 12px;
             line-height: 1.6;
-            font-size: 16px; 
+            font-size: 15px; 
             word-wrap: break-word;
+            /* یہ وہ جادوئی لائن ہے جو جواب کو آپ کی مرضی کے مطابق دکھائے گی */
+            white-space: pre-wrap; 
         }
 
         .user-msg {
@@ -107,35 +103,10 @@
             border-radius: 2px 12px 12px 12px;
         }
 
-        /* AI Markdown Formatting Styles (یہ حصہ نیا ہے) */
-        .ai-msg p { margin-bottom: 10px; }
-        .ai-msg p:last-child { margin-bottom: 0; }
-        .ai-msg ul, .ai-msg ol { margin-left: 20px; margin-bottom: 10px; }
-        .ai-msg li { margin-bottom: 5px; }
-        .ai-msg strong { color: white; }
-        .ai-msg pre { 
-            background-color: #0b0c10; 
-            padding: 12px; 
-            border-radius: 8px; 
-            overflow-x: auto; 
-            margin: 10px 0; 
-            border: 1px solid #2a2e3d; 
-        }
-        .ai-msg code { 
-            font-family: 'Courier New', Courier, monospace; 
-            color: var(--accent-color); 
-            font-size: 14px; 
-            background-color: #0b0c10;
-            padding: 2px 5px;
-            border-radius: 4px;
-        }
-        .ai-msg pre code { padding: 0; background-color: transparent; }
-
-        /* Bottom Input Area */
         .input-area {
             padding: 12px 15px;
             background-color: #12141a;
-            border-top: 1px solid #2a2e3d;
+            border-bottom: 1px solid #2a2e3d;
             display: flex;
             gap: 10px;
             align-items: center;
@@ -154,7 +125,6 @@
             resize: none;
             height: 50px;
             overflow: hidden;
-            transition: all 0.3s ease;
         }
 
         .chat-input:focus {
@@ -172,13 +142,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
         }
 
         @media (max-width: 600px) {
             .message { max-width: 95%; }
-            .chat-header { padding: 10px; }
         }
     </style>
 </head>
@@ -197,9 +164,7 @@
     </header>
 
     <div class="chat-container" id="chatBox">
-        <div class="message ai-msg">
-            Hi! I am ToolVerse Super AI. How can I help you today?
-        </div>
+        <div class="message ai-msg">Hi! I am ToolVerse Super AI. How can I help you today?</div>
     </div>
 
     <footer class="input-area">
@@ -249,13 +214,13 @@
                 const data = await response.json();
                 
                 if (response.ok && data.reply) {
-                    // یہ لائن کھچڑی کو خوبصورت ڈیزائن میں بدلتی ہے
-                    aiDiv.innerHTML = marked.parse(data.reply); 
+                    // اب ہم جواب کو بالکل سادی ٹیکسٹ فارم میں دکھا رہے ہیں
+                    aiDiv.textContent = data.reply; 
                 } else {
                     aiDiv.textContent = 'Error: ' + (data.error || 'No response from server.');
                 }
             } catch (error) {
-                aiDiv.textContent = 'Error: Connection failed. Please check your internet or backend.';
+                aiDiv.textContent = 'Error: Connection failed.';
                 console.error('Chat Error:', error);
             }
             chatBox.scrollTop = chatBox.scrollHeight;
