@@ -151,13 +151,13 @@
 
     <header class="chat-header">
         <select class="model-selector" id="aiModel">
-            <option value="llama-3">Llama 3 (Ultra Fast - Free)</option>
+            <option value="llama-3">Llama 3 (Ultra Fast - 5 Credits)</option>
             <option value="claude-3-5" disabled>Claude 3.5 Sonnet 🔒</option>
             <option value="gpt-4o" disabled>GPT-4o 🔒</option>
         </select>
         
-        <div class="token-display">
-            Tokens: <span id="userTokens">0.00</span>
+        <div class="token-display" id="creditDisplayBox">
+            Credits: <span id="userTokens">Loading...</span>
         </div>
     </header>
 
@@ -175,6 +175,84 @@
         </button>
     </footer>
 
+    <!-- FIREBASE INITIALIZATION & CREDITS LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
+            measurementId: "G-6VX2WPNECZ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+        let userCredits = 0;
+        const COST_PER_MESSAGE = 5; // 5 Credits per prompt
+        
+        const userTokensDisplay = document.getElementById('userTokens');
+        const creditDisplayBox = document.getElementById('creditDisplayBox');
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if (userSnap.exists()) {
+                    userCredits = userSnap.data().credits || 0;
+                    userTokensDisplay.textContent = '⚡ ' + userCredits;
+                } else {
+                    userTokensDisplay.textContent = '⚡ 0';
+                }
+            } else {
+                currentUser = null;
+                userCredits = 0;
+                creditDisplayBox.innerHTML = `<a href="index.html" style="color: var(--accent-color); text-decoration: none;">Login Required ➔</a>`;
+            }
+        });
+
+        // Make deduction function available globally for the chat script
+        window.deductCredits = async function() {
+            if (!currentUser) {
+                alert("Please login from the home page to use Super AI.");
+                window.location.href = 'index.html';
+                return false;
+            }
+            if (userCredits < COST_PER_MESSAGE) {
+                alert(`Not enough credits! You need at least ${COST_PER_MESSAGE} credits to send a message. Please upgrade your plan or claim daily bonuses.`);
+                return false;
+            }
+
+            try {
+                // Deduct from Firestore
+                const userRef = doc(db, "users", currentUser.uid);
+                await updateDoc(userRef, {
+                    credits: increment(-COST_PER_MESSAGE)
+                });
+                
+                // Update local UI instantly
+                userCredits -= COST_PER_MESSAGE;
+                document.getElementById('userTokens').textContent = '⚡ ' + userCredits;
+                return true;
+            } catch (error) {
+                console.error("Credit deduction failed:", error);
+                alert("Error processing credits. Please check your connection.");
+                return false;
+            }
+        };
+    </script>
+
+    <!-- CHAT INTERFACE LOGIC -->
     <script>
         const chatBox = document.getElementById('chatBox');
         const userInput = document.getElementById('userInput');
@@ -185,6 +263,15 @@
             const message = userInput.value.trim();
             if (!message) return;
 
+            // 1. CREDIT CHECK & DEDUCTION BEFORE SENDING
+            if (typeof window.deductCredits === 'function') {
+                sendBtn.disabled = true; // Prevent double clicking
+                const canSend = await window.deductCredits();
+                sendBtn.disabled = false;
+                if (!canSend) return; // Stop if deduction failed (no credits/not logged in)
+            }
+
+            // 2. DISPLAY USER MESSAGE
             const userDiv = document.createElement('div');
             userDiv.className = 'message user-msg';
             userDiv.textContent = message;
@@ -193,12 +280,14 @@
             userInput.value = ''; 
             chatBox.scrollTop = chatBox.scrollHeight; 
 
+            // 3. SHOW 'THINKING...' STATE
             const aiDiv = document.createElement('div');
             aiDiv.className = 'message ai-msg';
             aiDiv.textContent = 'Thinking...';
             chatBox.appendChild(aiDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
 
+            // 4. CALL BACKEND API
             try {
                 const response = await fetch('/api/super-chat', {
                     method: 'POST',
@@ -212,14 +301,13 @@
                 const data = await response.json();
                 
                 if (response.ok && data.reply) {
-                    
                     // JAVASCRIPT MAGIC FILTER (Advanced)
                     let cleanText = data.reply
                         .replace(/\*\*/g, '')         // ڈبل سٹارز ختم
                         .replace(/\*/g, '')           // سنگل سٹارز ختم
                         .replace(/###/g, '')          // ہیش ختم
-                        .replace(/```[a-z]*\n/gi, '') // ```python یا کسی بھی زبان کا نام ختم
-                        .replace(/```/g, '')          // باقی بچے کوڈ بلاکس ختم
+                        .replace(/```[a-z]*\n/gi, '') // زبان کا نام ختم
+                        .replace(/```/g, '')          // کوڈ بلاکس ختم
                         .replace(/`/g, '');           // سنگل بیک ٹک ختم
                     
                     // ہر لائن بریک کو HTML کی نئی لائن میں بدل دے گا
