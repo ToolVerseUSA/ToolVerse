@@ -10,7 +10,6 @@ export default async function handler(req, res) {
     try {
         const groqApiKey = process.env.GROQ_API_KEY;
 
-        // چیک کریں کہ کیا Vercel کو API Key مل رہی ہے؟
         if (!groqApiKey) {
             return res.status(500).json({ error: 'API Key missing in Vercel settings.' });
         }
@@ -22,8 +21,8 @@ export default async function handler(req, res) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                // Groq کا سب سے لیٹسٹ اور فریٹائیر (Free tier) فرینڈلی ماڈل
-                model: "llama3-8b-8192", 
+                // Groq کا لیٹسٹ اور ایکٹو ماڈل (Llama 3.1)
+                model: "llama-3.1-8b-instant", 
                 messages: [
                     { role: "system", content: "You are ToolVerse Super AI, a highly advanced and helpful assistant. Provide clear and concise answers." },
                     { role: "user", content: message }
@@ -33,7 +32,6 @@ export default async function handler(req, res) {
 
         const data = await response.json();
         
-        // اگر Groq نے کوئی خاص ایرر بھیجا ہے تو اسے فرنٹ اینڈ پر دکھائیں
         if (data.error) {
             console.error("Groq API Error:", data.error);
             return res.status(500).json({ error: data.error.message || 'Groq API rejected the request.' });
