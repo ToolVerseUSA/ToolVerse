@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super AI Chat - ToolVerse</title>
+    <style>
+        /* Base Styling for Dark Theme */
+        :root {
+            --bg-color: #0b0c10;
+            --chat-bg: #1f2833;
+            --text-primary: #c5c6c7;
+            --accent-color: #66fcf1;
+            --accent-hover: #45a29e;
+            --message-user: #45a29e;
+            --message-ai: #1f2833;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Header Area */
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #12141a;
+            border-bottom: 1px solid #2a2e3d;
+        }
+
+        .model-selector {
+            background-color: var(--chat-bg);
+            color: white;
+            border: 1px solid #2a2e3d;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .model-selector option {
+            background-color: var(--chat-bg);
+        }
+
+        .token-display {
+            background-color: rgba(102, 252, 241, 0.1);
+            color: var(--accent-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid var(--accent-color);
+        }
+
+        /* Chat Display Area */
+        .chat-container {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+
+        .user-msg {
+            background-color: var(--message-user);
+            color: #0b0c10;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .ai-msg {
+            background-color: var(--message-ai);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+            border: 1px solid #2a2e3d;
+        }
+
+        /* Bottom Input Area */
+        .input-area {
+            padding: 15px 20px;
+            background-color: #12141a;
+            border-top: 1px solid #2a2e3d;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            background-color: var(--chat-bg);
+            border: 1px solid #2a2e3d;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 25px;
+            font-size: 15px;
+            outline: none;
+            resize: none;
+            height: 45px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .send-btn {
+            background-color: var(--accent-color);
+            color: #0b0c10;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .send-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .message {
+                max-width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header: Model Selection & Credits -->
+    <header class="chat-header">
+        <select class="model-selector" id="aiModel">
+            <option value="llama-3">Llama 3 (Ultra Fast - Free)</option>
+            <option value="claude-3-5" disabled>Claude 3.5 Sonnet 🔒 (15 Tokens)</option>
+            <option value="gpt-4o" disabled>GPT-4o 🔒 (20 Tokens)</option>
+        </select>
+        
+        <div class="token-display">
+            Tokens: <span id="userTokens">0.00</span>
+        </div>
+    </header>
+
+    <!-- Main Chat Window -->
+    <div class="chat-container" id="chatBox">
+        <!-- AI Welcome Message -->
+        <div class="message ai-msg">
+            Hi! I am ToolVerse Super AI. How can I help you today?
+        </div>
+    </div>
+
+    <!-- Input Footer -->
+    <footer class="input-area">
+        <input type="text" class="chat-input" id="userInput" placeholder="Message Super AI...">
+        <button class="send-btn" id="sendBtn">
+            <!-- Send Icon (SVG) -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+        </button>
+    </footer>
+
+</body>
+</html>
