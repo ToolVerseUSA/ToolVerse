@@ -213,14 +213,16 @@
                 
                 if (response.ok && data.reply) {
                     
-                    // JAVASCRIPT MAGIC FILTER (یہاں ہم نے اصل گیم کی ہے)
+                    // JAVASCRIPT MAGIC FILTER (Advanced)
                     let cleanText = data.reply
-                        .replace(/\*\*/g, '')  // سارے ڈبل سٹارز (**) اڑا دے گا
-                        .replace(/###/g, '')   // ساری ہیڈنگز کے ہیش (###) اڑا دے گا
-                        .replace(/\*/g, '')    // سارے سنگل سٹارز (*) اڑا دے گا
-                        .replace(/`/g, '');    // سارا کوڈ بلاک کا نشان (`) اڑا دے گا
+                        .replace(/\*\*/g, '')         // ڈبل سٹارز ختم
+                        .replace(/\*/g, '')           // سنگل سٹارز ختم
+                        .replace(/###/g, '')          // ہیش ختم
+                        .replace(/```[a-z]*\n/gi, '') // ```python یا کسی بھی زبان کا نام ختم
+                        .replace(/```/g, '')          // باقی بچے کوڈ بلاکس ختم
+                        .replace(/`/g, '');           // سنگل بیک ٹک ختم
                     
-                    // ہر لائن بریک (\n) کو زبردستی HTML کی نئی لائن (<br>) میں بدل دے گا
+                    // ہر لائن بریک کو HTML کی نئی لائن میں بدل دے گا
                     aiDiv.innerHTML = cleanText.replace(/\n/g, '<br>'); 
                     
                 } else {
