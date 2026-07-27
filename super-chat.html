@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Viewport updated to prevent auto-zooming and scale properly on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Super AI Chat - ToolVerse</title>
     <style>
         /* Base Styling for Dark Theme */
@@ -28,7 +29,9 @@
             color: var(--text-primary);
             display: flex;
             flex-direction: column;
+            /* Changed to 100dvh to fix mobile address bar hidden footer issue */
             height: 100vh;
+            height: 100dvh; 
             overflow: hidden;
         }
 
@@ -37,20 +40,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 15px;
             background-color: #12141a;
             border-bottom: 1px solid #2a2e3d;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .model-selector {
             background-color: var(--chat-bg);
             color: white;
             border: 1px solid #2a2e3d;
-            padding: 8px 12px;
+            padding: 10px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 15px;
             outline: none;
             cursor: pointer;
+            flex-grow: 1;
         }
 
         .model-selector option {
@@ -60,17 +66,18 @@
         .token-display {
             background-color: rgba(102, 252, 241, 0.1);
             color: var(--accent-color);
-            padding: 6px 12px;
+            padding: 8px 12px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: 600;
             border: 1px solid var(--accent-color);
+            white-space: nowrap;
         }
 
         /* Chat Display Area */
         .chat-container {
             flex-grow: 1;
-            padding: 20px;
+            padding: 15px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -78,11 +85,11 @@
         }
 
         .message {
-            max-width: 80%;
+            max-width: 85%;
             padding: 12px 16px;
             border-radius: 12px;
             line-height: 1.5;
-            font-size: 15px;
+            font-size: 16px; /* Increased font size for mobile readability */
         }
 
         .user-msg {
@@ -103,12 +110,13 @@
 
         /* Bottom Input Area */
         .input-area {
-            padding: 15px 20px;
+            padding: 12px 15px;
             background-color: #12141a;
             border-top: 1px solid #2a2e3d;
             display: flex;
             gap: 10px;
             align-items: center;
+            width: 100%;
         }
 
         .chat-input {
@@ -118,10 +126,10 @@
             color: white;
             padding: 12px 15px;
             border-radius: 25px;
-            font-size: 15px;
+            font-size: 16px; /* 16px prevents iOS auto-zoom */
             outline: none;
             resize: none;
-            height: 45px;
+            height: 50px;
             overflow: hidden;
             transition: all 0.3s ease;
         }
@@ -135,8 +143,8 @@
             color: #0b0c10;
             border: none;
             border-radius: 50%;
-            width: 45px;
-            height: 45px;
+            min-width: 50px;
+            height: 50px;
             cursor: pointer;
             display: flex;
             justify-content: center;
@@ -149,10 +157,13 @@
             background-color: var(--accent-hover);
         }
 
-        /* Responsive */
+        /* Responsive specific tweaks */
         @media (max-width: 600px) {
             .message {
                 max-width: 95%;
+            }
+            .chat-header {
+                padding: 10px;
             }
         }
     </style>
@@ -163,8 +174,8 @@
     <header class="chat-header">
         <select class="model-selector" id="aiModel">
             <option value="llama-3">Llama 3 (Ultra Fast - Free)</option>
-            <option value="claude-3-5" disabled>Claude 3.5 Sonnet 🔒 (15 Tokens)</option>
-            <option value="gpt-4o" disabled>GPT-4o 🔒 (20 Tokens)</option>
+            <option value="claude-3-5" disabled>Claude 3.5 Sonnet 🔒</option>
+            <option value="gpt-4o" disabled>GPT-4o 🔒</option>
         </select>
         
         <div class="token-display">
@@ -185,7 +196,7 @@
         <input type="text" class="chat-input" id="userInput" placeholder="Message Super AI...">
         <button class="send-btn" id="sendBtn">
             <!-- Send Icon (SVG) -->
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="22" y1="2" x2="11" y2="13"></line>
                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
             </svg>
