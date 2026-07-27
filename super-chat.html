@@ -83,8 +83,6 @@
             line-height: 1.6;
             font-size: 15px; 
             word-wrap: break-word;
-            /* یہ وہ جادوئی لائن ہے جو جواب کو آپ کی مرضی کے مطابق دکھائے گی */
-            white-space: pre-wrap; 
         }
 
         .user-msg {
@@ -106,7 +104,7 @@
         .input-area {
             padding: 12px 15px;
             background-color: #12141a;
-            border-bottom: 1px solid #2a2e3d;
+            border-top: 1px solid #2a2e3d;
             display: flex;
             gap: 10px;
             align-items: center;
@@ -214,8 +212,17 @@
                 const data = await response.json();
                 
                 if (response.ok && data.reply) {
-                    // اب ہم جواب کو بالکل سادی ٹیکسٹ فارم میں دکھا رہے ہیں
-                    aiDiv.textContent = data.reply; 
+                    
+                    // JAVASCRIPT MAGIC FILTER (یہاں ہم نے اصل گیم کی ہے)
+                    let cleanText = data.reply
+                        .replace(/\*\*/g, '')  // سارے ڈبل سٹارز (**) اڑا دے گا
+                        .replace(/###/g, '')   // ساری ہیڈنگز کے ہیش (###) اڑا دے گا
+                        .replace(/\*/g, '')    // سارے سنگل سٹارز (*) اڑا دے گا
+                        .replace(/`/g, '');    // سارا کوڈ بلاک کا نشان (`) اڑا دے گا
+                    
+                    // ہر لائن بریک (\n) کو زبردستی HTML کی نئی لائن (<br>) میں بدل دے گا
+                    aiDiv.innerHTML = cleanText.replace(/\n/g, '<br>'); 
+                    
                 } else {
                     aiDiv.textContent = 'Error: ' + (data.error || 'No response from server.');
                 }
