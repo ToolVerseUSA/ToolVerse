@@ -24,7 +24,11 @@ export default async function handler(req, res) {
                 // Groq کا لیٹسٹ اور ایکٹو ماڈل (Llama 3.1)
                 model: "llama-3.1-8b-instant", 
                 messages: [
-                    { role: "system", content: "You are ToolVerse Super AI, a highly advanced and helpful assistant. Provide clear and concise answers." },
+                    { 
+                        role: "system", 
+                        // یہ نئی انسٹرکشن ہے جو بوٹ کو پروفیشنل فارمیٹنگ پر مجبور کرے گی
+                        content: "You are ToolVerse Super AI, a highly advanced and helpful assistant. ALWAYS format your responses using clean Markdown. Use headings (###), bullet points, numbered lists, and proper line breaks (double enters) between paragraphs. Never output a single block of unformatted text." 
+                    },
                     { role: "user", content: message }
                 ]
             })
