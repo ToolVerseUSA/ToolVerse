@@ -1,7 +1,6 @@
 // api/super-chat.js
 
 export default async function handler(req, res) {
-    // صرف POST ریکویسٹ کو اجازت دیں
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
@@ -9,10 +8,13 @@ export default async function handler(req, res) {
     const { message, model } = req.body;
 
     try {
-        // Vercel Environment Variable سے Groq API Key لیں گے
-        const groqApiKey = process.env.GROQ_API_KEY; 
+        const groqApiKey = process.env.GROQ_API_KEY;
 
-        // Groq API (Llama-3) کو ریکویسٹ بھیج رہے ہیں
+        // چیک کریں کہ کیا Vercel کو API Key مل رہی ہے؟
+        if (!groqApiKey) {
+            return res.status(500).json({ error: 'API Key missing in Vercel settings.' });
+        }
+
         const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
             headers: {
@@ -20,9 +22,10 @@ export default async function handler(req, res) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "llama3-70b-8192", // Groq کا تیز ترین ماڈل
+                // Groq کا سب سے لیٹسٹ اور فریٹائیر (Free tier) فرینڈلی ماڈل
+                model: "llama3-8b-8192", 
                 messages: [
-                    { role: "system", content: "You are ToolVerse Super AI, an extremely smart, highly advanced, and helpful assistant. Provide clear and concise answers." },
+                    { role: "system", content: "You are ToolVerse Super AI, a highly advanced and helpful assistant. Provide clear and concise answers." },
                     { role: "user", content: message }
                 ]
             })
@@ -30,15 +33,20 @@ export default async function handler(req, res) {
 
         const data = await response.json();
         
-        // فرنٹ اینڈ کو جواب واپس بھیجیں
+        // اگر Groq نے کوئی خاص ایرر بھیجا ہے تو اسے فرنٹ اینڈ پر دکھائیں
+        if (data.error) {
+            console.error("Groq API Error:", data.error);
+            return res.status(500).json({ error: data.error.message || 'Groq API rejected the request.' });
+        }
+        
         if (data.choices && data.choices.length > 0) {
             res.status(200).json({ reply: data.choices[0].message.content });
         } else {
-            res.status(500).json({ error: 'Invalid response from AI provider' });
+            res.status(500).json({ error: 'Empty response from AI.' });
         }
 
     } catch (error) {
         console.error("Backend Error:", error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Internal Server Error check Vercel Logs.' });
     }
 }
