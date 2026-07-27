@@ -98,6 +98,7 @@
             align-self: flex-start;
             border-bottom-left-radius: 2px;
             border: 1px solid #2a2e3d;
+            border-radius: 2px 12px 12px 12px;
         }
 
         /* Bottom Input Area */
@@ -190,6 +191,69 @@
             </svg>
         </button>
     </footer>
+
+    <!-- JavaScript For Backend Connection -->
+    <script>
+        const chatBox = document.getElementById('chatBox');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const aiModel = document.getElementById('aiModel');
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // 1. Show User Message
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user-msg';
+            userDiv.textContent = message;
+            chatBox.appendChild(userDiv);
+            
+            userInput.value = ''; // Clear input field
+            chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to bottom
+
+            // 2. Show "Thinking..." Animation/Message
+            const aiDiv = document.createElement('div');
+            aiDiv.className = 'message ai-msg';
+            aiDiv.textContent = 'Thinking...';
+            chatBox.appendChild(aiDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // 3. Send Request to Vercel Backend
+            try {
+                const response = await fetch('/api/super-chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: message,
+                        model: aiModel.value // e.g., 'llama-3'
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok && data.reply) {
+                    aiDiv.textContent = data.reply; // Replace "Thinking..." with AI response
+                } else {
+                    aiDiv.textContent = 'Error: ' + (data.error || 'No response from server.');
+                }
+            } catch (error) {
+                aiDiv.textContent = 'Error: Connection failed. Please check your internet or backend.';
+                console.error('Chat Error:', error);
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Trigger on Send Button Click
+        sendBtn.addEventListener('click', sendMessage);
+        
+        // Trigger on "Enter" Key Press
+        userInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
 
 </body>
 </html>
