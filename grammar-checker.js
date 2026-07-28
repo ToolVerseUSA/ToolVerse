@@ -7,15 +7,12 @@ const clearBtn = document.getElementById('clearBtn');
 const outputText = document.getElementById('outputText');
 const statusBadge = document.getElementById('statusBadge');
 const copyBtn = document.getElementById('copyBtn');
+const fixMode = document.getElementById('fixMode'); // Added Tone Selection
 
 // Live Word & Character Count
 inputText.addEventListener('input', function() {
     const text = this.value;
-    
-    // Character Count
     charCount.innerText = `${text.length} characters`;
-    
-    // Word Count
     const words = text.trim().split(/\s+/).filter(word => word.length > 0);
     wordCount.innerText = `${words.length} words`;
 });
@@ -23,17 +20,18 @@ inputText.addEventListener('input', function() {
 // Check Grammar Button (VIP PREMIUM LOGIC)
 checkBtn.addEventListener('click', async function() {
     const text = inputText.value.trim();
+    const selectedMode = fixMode.value; // Get selected tone
     
     if (text === "") {
         outputText.innerHTML = `<span style="color:#ef4444;">Please enter some text to check!</span>`;
         return;
     }
 
-    // 1. Check if user is logged in (Firebase Auth)
+    // 1. Check if user is logged in
     const user = firebase.auth().currentUser;
     if (!user) {
         alert("🔒 VIP Premium Tool: Please login to use the AI Grammar Checker.");
-        // window.location.href = "login.html"; // Uncomment this if you have a login page
+        window.location.href = "index.html"; // Redirect to home/login
         return;
     }
 
@@ -60,14 +58,17 @@ checkBtn.addEventListener('click', async function() {
 
         statusBadge.innerText = "AI Analyzing...";
 
-        // 4. Call Vercel Groq API
+        // 4. Dynamic Prompt based on Tone Selection
+        const dynamicPrompt = `You are an expert English grammar and spelling checker. Review the following text and apply a '${selectedMode}' tone. Correct any grammatical, spelling, and punctuation errors. Return ONLY the fully corrected text. Do not include any explanations, greetings, or extra formatting.`;
+
+        // 5. Call Vercel Groq API
         const response = await fetch('/api/groq-handler', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                systemPrompt: "You are an expert English grammar and spelling checker. Review the following text. Correct any grammatical, spelling, and punctuation errors. Ensure the tone remains natural. Return ONLY the fully corrected text. Do not include any explanations, greetings, or formatting.",
+                systemPrompt: dynamicPrompt,
                 userPrompt: text
             })
         });
@@ -78,13 +79,13 @@ checkBtn.addEventListener('click', async function() {
             // Output Result
             outputText.innerText = data.result;
 
-            // 5. Deduct 1 Credit from Firebase
+            // 6. Deduct 1 Credit from Firebase
             await userRef.update({
                 credits: firebase.firestore.FieldValue.increment(-1)
             });
 
             // Update Badge for success
-            statusBadge.innerText = "💎 VIP Corrected";
+            statusBadge.innerText = `💎 ${selectedMode} Applied`;
             statusBadge.style.background = "#e5322d"; // Red badge for premium look
             
             console.log("1 Credit Deducted. Transaction Successful.");
