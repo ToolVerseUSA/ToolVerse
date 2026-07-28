@@ -3,120 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Resume Builder | ToolVerse</title>
+    <title>ATS Resume Builder | Premium ToolVerse</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* VVIP Specific Styles for Resume Builder */
+        .resume-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
+        .input-card { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eaeaea; align-self: start;}
+        .output-card { background: #0f172a; padding: 30px; border-radius: 16px; color: #f8fafc; box-shadow: 0 15px 40px rgba(0,0,0,0.15); position: relative; }
+        .output-card h3 { color: #38bdf8; margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #1e293b; padding-bottom: 15px; }
+        
+        .resume-content { font-family: 'Inter', sans-serif; line-height: 1.8; font-size: 15px; margin-top: 20px; white-space: pre-wrap; height: 550px; overflow-y: auto; background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #334155; font-size: 14px;}
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 14px; background: #fff;}
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #0284c7; box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1); }
+        .form-group textarea { resize: vertical; }
+        
+        .premium-btn { background: linear-gradient(135deg, #0284c7, #0369a1); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);}
+        .premium-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4); }
+        .premium-btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none;}
+        
+        .action-btns { display: flex; gap: 10px; position: absolute; top: 20px; right: 20px; }
+        .mini-btn { background: #334155; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.3s; }
+        .mini-btn:hover { background: #475569; }
+        .mini-btn.download { background: #10b981; }
+        .mini-btn.download:hover { background: #059669; }
+
+        @media (max-width: 768px) { .resume-container { grid-template-columns: 1fr; } .action-btns { position: static; margin-bottom: 15px; justify-content: flex-end; } }
+    </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <div class="logo">🚀 ToolVerse</div>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="index.html#tools">AI Tools</a>
-                <a href="index.html#contact">Contact</a>
-            </nav>
+        <div class="container" style="padding: 20px 0; display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo" style="font-weight:bold; font-size:24px;">🚀 ToolVerse</div>
+            <a href="index.html" style="text-decoration:none; color:#333; font-weight:500;">Back to Home</a>
         </div>
     </header>
 
-    <section class="tool-header">
-        <h1>ATS-Friendly AI Resume Builder</h1>
-        <p>Fill in the details below and watch your professional resume build in real-time.</p>
+    <section class="tool-header" style="text-align: center; padding: 60px 20px; background: linear-gradient(to right, #f0f9ff, #e0f2fe);">
+        <h1 style="font-size: 2.5rem; color: #0369a1; margin-bottom: 10px;">📄 ATS Resume Architect</h1>
+        <p style="color: #0284c7; font-size: 1.1rem;">Build a 100% ATS-friendly resume draft with high-impact keywords in just 10 seconds.</p>
     </section>
 
-    <section class="resume-builder">
-        <div class="container">
-            <div class="resume-grid">
-                
-                <!-- Left Side: Input Form -->
-                <div class="resume-form">
-                    <h2>Personal Information</h2>
-                    
-                    <label>Full Name</label>
-                    <input type="text" id="nameInput" placeholder="e.g. Imran Khan">
+    <div class="resume-container">
+        <!-- Left Side: Inputs -->
+        <div class="input-card">
+            <div class="form-group">
+                <label>Target Job Title</label>
+                <input type="text" id="jobTitle" placeholder="e.g. Senior SEO Expert, Frontend Developer...">
+            </div>
+            
+            <div class="form-group">
+                <label>Years of Experience</label>
+                <select id="experience">
+                    <option value="Entry Level (0-2 years)">Entry Level (0-2 years)</option>
+                    <option value="Mid Level (3-5 years)">Mid Level (3-5 years)</option>
+                    <option value="Senior Level (6+ years)">Senior Level (6+ years)</option>
+                </select>
+            </div>
 
-                    <label>Professional Title</label>
-                    <input type="text" id="titleInput" placeholder="e.g. Freelance Digital Media Specialist">
-                    
-                    <div class="input-row">
-                        <div class="input-half">
-                            <label>Email</label>
-                            <input type="email" id="emailInput" placeholder="you@email.com">
-                        </div>
-                        <div class="input-half">
-                            <label>Phone</label>
-                            <input type="text" id="phoneInput" placeholder="+92 300 0000000">
-                        </div>
-                    </div>
+            <div class="form-group">
+                <label>Core Skills (Comma separated)</label>
+                <input type="text" id="skills" placeholder="e.g. Content Marketing, JavaScript, Leadership...">
+            </div>
 
-                    <label>Address / Location</label>
-                    <input type="text" id="addressInput" placeholder="e.g. Hyderabad, Sindh, Pakistan">
+            <div class="form-group">
+                <label>Current / Past Roles & Main Duties</label>
+                <textarea id="workHistory" rows="5" placeholder="Briefly describe what you did. E.g., Managed social media, increased sales, wrote code... The AI will rewrite this professionally!"></textarea>
+            </div>
 
-                    <h2>Professional Summary</h2>
-                    <textarea id="summaryInput" rows="3" placeholder="A brief summary of your professional background and goals..."></textarea>
+            <button class="premium-btn" id="generateResumeBtn">✨ Generate ATS Draft</button>
+        </div>
 
-                    <h2>Skills</h2>
-                    <textarea id="skillsInput" rows="3" placeholder="e.g. YouTube SEO, Digital Graphic Design, AI Productivity Tools..."></textarea>
-
-                    <h2>Work Experience</h2>
-                    <textarea id="experienceInput" rows="5" placeholder="e.g. Managed online video channels and optimized digital media profiles..."></textarea>
-
-                    <h2>Education</h2>
-                    <textarea id="educationInput" rows="3" placeholder="e.g. Degree, University Name, Year..."></textarea>
-
-                    <button class="btn action-btn" id="downloadBtn" onclick="window.print()">
-                        📄 Download PDF
-                    </button>
-                </div>
-
-                <!-- Right Side: Live A4 Preview -->
-                <div class="resume-preview-container">
-                    <div class="preview-badge">🔴 Live Preview</div>
-                    <div class="a4-sheet" id="resumePreview">
-                        
-                        <div class="resume-header">
-                            <h1 id="previewName">Imran Khan</h1>
-                            <h3 id="previewTitle">Freelance Digital Media Specialist</h3>
-                            <div class="resume-contact">
-                                <span id="previewEmail">you@email.com</span> | 
-                                <span id="previewPhone">+92 300 0000000</span> | 
-                                <span id="previewAddress">Hyderabad, Sindh, Pakistan</span>
-                            </div>
-                        </div>
-
-                        <div class="resume-section">
-                            <h4 class="section-title">Professional Summary</h4>
-                            <p id="previewSummary">A brief summary of your professional background and goals will appear here.</p>
-                        </div>
-
-                        <div class="resume-section">
-                            <h4 class="section-title">Core Skills</h4>
-                            <p id="previewSkills">YouTube SEO, Digital Graphic Design, AI Productivity Tools</p>
-                        </div>
-
-                        <div class="resume-section">
-                            <h4 class="section-title">Work Experience</h4>
-                            <p id="previewExperience">Your detailed work experience will appear here as you type.</p>
-                        </div>
-
-                        <div class="resume-section">
-                            <h4 class="section-title">Education</h4>
-                            <p id="previewEducation">Your educational background will appear here.</p>
-                        </div>
-
-                    </div>
-                </div>
-
+        <!-- Right Side: Output Studio -->
+        <div class="output-card">
+            <div class="action-btns">
+                <button class="mini-btn" id="copyBtn">📋 Copy</button>
+                <button class="mini-btn download" id="downloadTxtBtn">📥 Download TXT</button>
+            </div>
+            <h3>🎯 Your ATS Resume Content</h3>
+            <div class="resume-content" id="outResume">
+                <span style="color: #64748b; font-style: italic;">Provide your details on the left. Our AI Coach will structure a professional summary, extract ATS keywords, and rewrite your duties into powerful, metric-driven bullet points...</span>
             </div>
         </div>
-    </section>
+    </div>
 
-    <footer>
-        © 2026 ToolVerse. All Rights Reserved.
-    </footer>
+    <!-- Firebase SDKs & Config -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
 
-    <!-- Link to JavaScript -->
+    <!-- App Logic -->
     <script src="resume-builder.js"></script>
 
 </body>
