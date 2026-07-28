@@ -1,4 +1,4 @@
-document.getElementById('generateEmailBtn').addEventListener('click', async function() {
+document.getElementById('generateEmailBtn').addEventListener('click', function() {
     
     // Get values from inputs
     const sender = document.getElementById('senderName').value.trim() || "[Your Name]";
@@ -17,85 +17,78 @@ document.getElementById('generateEmailBtn').addEventListener('click', async func
         return;
     }
 
-    // 1. Check if user is logged in
-    const user = firebase.auth().currentUser;
-    if (!user) {
-        alert("🔒 Please login to use the AI Email Writer.");
-        window.location.href = "index.html"; // Redirect to home/login
-        return;
-    }
-
-    // 2. Setup Firebase Firestore Reference
-    const db = firebase.firestore();
-    const userRef = db.collection('users').doc(user.uid);
+    const btn = this;
+    const originalBtnText = btn.innerHTML;
+    btn.innerHTML = "⏳ Authenticating...";
+    btn.disabled = true;
 
     // Update Header
     outRecipient.innerText = recipient;
     outSubject.innerText = subject;
 
-    // Loading State
-    const originalBtnText = this.innerHTML;
-    this.innerHTML = "⏳ Generating AI Email...";
-    this.disabled = true;
-
-    try {
-        // 3. Check Only FREE CREDITS (Mining Tokens Safe)
-        const userDoc = await userRef.get();
-        const userData = userDoc.data() || {};
-        const freeCredits = userData.free_credits || 0;
-
-        if (!userDoc.exists || freeCredits <= 0) {
-            alert("🎁 You have run out of Daily Free Credits! Please claim your daily free credits to continue.");
-            this.innerHTML = originalBtnText;
-            this.disabled = false;
+    // Bulletproof Firebase Auth Check
+    const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
+        unsubscribe(); // Run only once on click to prevent multiple triggers
+        
+        if (!user) {
+            alert("🔒 Please login to use the AI Email Writer.");
+            window.location.href = "index.html"; // Redirect to home/login
             return;
         }
 
+        btn.innerHTML = "⏳ Generating AI Email...";
         outBody.innerText = "Connecting to Llama-3... Please wait.";
 
-        // 4. Dynamic Prompts for Llama-3
-        const systemPrompt = `You are an expert professional email copywriter. Write a highly effective, well-structured, and engaging email. 
-        Tone: ${tone}. 
-        Do not include the subject line in the body. Do not include any explanations or intro text, just provide the actual email body.`;
-        
-        const userPrompt = `Sender Name: ${sender}\nRecipient Name: ${recipient}\nEmail Purpose: ${purpose}`;
-
-        // 5. Call Vercel Groq API
-        const response = await fetch('/api/groq-handler', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                systemPrompt: systemPrompt,
-                userPrompt: userPrompt
-            })
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.result) {
-            // Output the AI generated email
-            outBody.innerText = data.result;
-
-            // 6. Deduct ONLY 1 Free Credit (Mining Tokens Safe!)
-            await userRef.update({
-                free_credits: firebase.firestore.FieldValue.increment(-1)
-            });
+        try {
+            const db = firebase.firestore();
+            const userRef = db.collection('users').doc(user.uid);
             
-            console.log("1 Free Credit Deducted for Email Generation. Mining Tokens remain completely safe!");
-        } else {
-            throw new Error(data.error || "API error occurred");
-        }
+            // Check Only FREE CREDITS
+            const userDoc = await userRef.get();
+            const userData = userDoc.data() || {};
+            const freeCredits = userData.free_credits || 0;
 
-    } catch (error) {
-        console.error("Error:", error);
-        outBody.innerText = `⚠️ Something went wrong: ${error.message}`;
-    } finally {
-        // Reset Button
-        this.innerHTML = originalBtnText;
-        this.disabled = false;
-    }
+            if (!userDoc.exists || freeCredits <= 0) {
+                alert("🎁 You have run out of Daily Free Credits! Please claim your daily free credits to continue.");
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+                outBody.innerText = "Insufficient Free Credits. Mining tokens are safe!";
+                return;
+            }
+
+            // Prompt Setup
+            const systemPrompt = `You are an expert professional email copywriter. Write a highly effective, well-structured, and engaging email. Tone: ${tone}. Do not include the subject line in the body. Do not include any explanations or intro text, just provide the actual email body.`;
+            const userPrompt = `Sender Name: ${sender}\nRecipient Name: ${recipient}\nEmail Purpose: ${purpose}`;
+
+            // Call Groq API
+            const response = await fetch('/api/groq-handler', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ systemPrompt: systemPrompt, userPrompt: userPrompt })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.result) {
+                outBody.innerText = data.result;
+                
+                // Deduct ONLY 1 Free Credit (Mining Balance remains Safe!)
+                await userRef.update({
+                    free_credits: firebase.firestore.FieldValue.increment(-1)
+                });
+                console.log("1 Free Credit Deducted. Mining Tokens are Safe!");
+            } else {
+                throw new Error(data.error || "API error occurred");
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            outBody.innerText = `⚠️ Something went wrong: ${error.message}`;
+        } finally {
+            btn.innerHTML = originalBtnText;
+            btn.disabled = false;
+        }
+    });
 });
 
 // Copy to Clipboard Functionality
@@ -108,9 +101,7 @@ document.getElementById('copyBtn').addEventListener('click', function() {
         const status = document.getElementById('copyStatus');
         if(status) {
             status.classList.add('show');
-            setTimeout(() => {
-                status.classList.remove('show');
-            }, 2000);
+            setTimeout(() => { status.classList.remove('show'); }, 2000);
         } else {
             alert("Email Copied!");
         }
