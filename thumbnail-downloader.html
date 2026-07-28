@@ -3,156 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube 4K Thumbnail Downloader | ToolVerse</title>
-    <link rel="stylesheet" href="style.css?v=6">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>4K Thumbnail Downloader | Premium ToolVerse</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .tool-container {
-            max-width: 800px;
-            margin: 40px auto;
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            color: white;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-        }
-        .tool-header { text-align: center; margin-bottom: 30px; }
-        .tool-header h1 { font-size: 2.2rem; color: #fbbf24; margin-bottom: 10px; }
-        .tool-header p { color: #94a3b8; font-size: 0.95rem; }
+        /* VVIP Specific Styles */
+        .downloader-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
+        .input-card { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eaeaea; }
+        .output-card { background: #0f172a; padding: 30px; border-radius: 16px; color: #f8fafc; box-shadow: 0 15px 40px rgba(0,0,0,0.15); text-align: center; position: relative; }
+        .output-card h3 { color: #eab308; margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #1e293b; padding-bottom: 15px; text-align: left; }
+        .thumbnail-preview { margin-top: 20px; width: 100%; min-height: 300px; background: #1e293b; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px dashed #334155; }
+        .thumbnail-preview img { width: 100%; height: auto; border-radius: 10px; display: none; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #334155; font-size: 14px;}
+        .form-group input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 15px;}
+        .premium-btn { background: linear-gradient(135deg, #ca8a04, #a16207); color: white; border: none; padding: 14px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(202, 138, 4, 0.3);}
+        .premium-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4); }
+        .download-btn { display: none; background: #3b82f6; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; transition: 0.3s; margin-top: 20px; text-decoration: none; }
+        .download-btn:hover { background: #2563eb; }
         
-        .input-group {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-        .tool-input {
-            flex: 1;
-            padding: 15px 20px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            font-family: inherit;
-        }
-        .tool-input:focus { outline: none; border-color: #fbbf24; }
-        
-        .action-btn {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: #1e293b;
-            font-weight: 700;
-            padding: 0 25px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 1rem;
-        }
-        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4); }
-
-        .preview-section {
-            display: none;
-            text-align: center;
-            background: #1e293b;
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .thumbnail-preview {
-            width: 100%;
-            max-width: 600px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 2px solid #334155;
-        }
-        .download-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-        }
-        .dl-btn {
-            background: #3b82f6;
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: 0.3s;
-            display: inline-block;
-            text-align: center;
-        }
-        .dl-btn:hover { background: #2563eb; transform: translateY(-2px); }
-        .back-link { display: inline-block; margin-bottom: 20px; color: #94a3b8; text-decoration: none; font-weight: 500; }
-        .back-link:hover { color: #fbbf24; }
+        @media (max-width: 768px) { .downloader-container { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body style="background: #090d16; font-family: 'Inter', sans-serif; padding: 20px;">
+<body>
 
-    <div style="max-width: 800px; margin: 0 auto;">
-        <a href="index.html" class="back-link">← Back to ToolVerse</a>
-    </div>
-
-    <div class="tool-container">
-        <div class="tool-header">
-            <h1>🔴 YouTube 4K Thumbnail Downloader</h1>
-            <p>Paste any YouTube video link below to instantly extract and download its maximum resolution thumbnail.</p>
+    <header>
+        <div class="container" style="padding: 20px 0; display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo" style="font-weight:bold; font-size:24px;">🚀 ToolVerse</div>
+            <a href="index.html" style="text-decoration:none; color:#333; font-weight:500;">Back to Home</a>
         </div>
+    </header>
 
-        <div class="input-group">
-            <input type="text" id="ytUrlInput" class="tool-input" placeholder="Paste YouTube Video URL here (e.g., https://youtu.be/...)">
-            <button id="extractBtn" class="action-btn">Extract HD</button>
-        </div>
+    <section class="tool-header" style="text-align: center; padding: 60px 20px; background: linear-gradient(to right, #fefce8, #fef9c3);">
+        <h1 style="font-size: 2.5rem; color: #854d0e; margin-bottom: 10px;">🖼️ 4K Thumbnail Downloader</h1>
+        <p style="color: #a16207; font-size: 1.1rem;">Extract the highest quality (MaxRes) thumbnail from any YouTube video instantly.</p>
+    </section>
 
-        <div class="preview-section" id="previewSection">
-            <img id="thumbImage" class="thumbnail-preview" src="" alt="Thumbnail Preview">
-            <div class="download-options" id="dlOptions">
-                <!-- Dynamically generated download buttons will appear here -->
+    <div class="downloader-container">
+        <!-- Left Side: Input -->
+        <div class="input-card">
+            <div class="form-group">
+                <label>Paste YouTube Video Link</label>
+                <input type="text" id="ytUrl" placeholder="e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ">
             </div>
+
+            <button class="premium-btn" id="extractBtn">📸 Extract 4K Thumbnail</button>
+        </div>
+
+        <!-- Right Side: Output Studio -->
+        <div class="output-card">
+            <h3>✨ Extracted Thumbnail</h3>
+            
+            <div class="thumbnail-preview" id="previewBox">
+                <span id="placeholderText" style="color: #64748b; font-style: italic;">Your extracted thumbnail will appear here...</span>
+                <img id="thumbnailImg" src="" alt="YouTube Thumbnail">
+            </div>
+
+            <a href="#" id="downloadLink" class="download-btn" target="_blank">⬇️ Download High Quality Image</a>
         </div>
     </div>
 
-    <script>
-        document.getElementById('extractBtn').addEventListener('click', function() {
-            const url = document.getElementById('ytUrlInput').value.trim();
-            const videoId = extractYouTubeVideoId(url);
+    <!-- Firebase SDKs & Config -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
 
-            if (!videoId) {
-                alert('Please enter a valid YouTube video URL!');
-                return;
-            }
+    <!-- App Logic -->
+    <script src="thumbnail-downloader.js"></script>
 
-            // YouTube Thumbnail Quality URLs
-            const maxresUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-            const hqUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-            const mqUrl = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
-
-            const thumbImage = document.getElementById('thumbImage');
-            thumbImage.src = maxresUrl;
-
-            // Fallback if maxres doesn't exist, check standard hq
-            thumbImage.onerror = function() {
-                thumbImage.src = hqUrl;
-            };
-
-            const dlOptions = document.getElementById('dlOptions');
-            dlOptions.innerHTML = `
-                <a href="${maxresUrl}" target="_blank" download="youtube-thumbnail-max.jpg" class="dl-btn" style="background: #10b981;">Download Max/4K HD</a>
-                <a href="${hqUrl}" target="_blank" download="youtube-thumbnail-hq.jpg" class="dl-btn">Download High Quality</a>
-                <a href="${mqUrl}" target="_blank" download="youtube-thumbnail-mq.jpg" class="dl-btn" style="background: #64748b;">Download Medium Quality</a>
-            `;
-
-            document.getElementById('previewSection').style.display = 'block';
-        });
-
-        function extractYouTubeVideoId(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
-        }
-    </script>
 </body>
 </html>
-
