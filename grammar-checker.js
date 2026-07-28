@@ -20,8 +20,8 @@ inputText.addEventListener('input', function() {
     wordCount.innerText = `${words.length} words`;
 });
 
-// Check Grammar Button
-checkBtn.addEventListener('click', function() {
+// Check Grammar Button (VIP PREMIUM LOGIC)
+checkBtn.addEventListener('click', async function() {
     const text = inputText.value.trim();
     
     if (text === "") {
@@ -29,36 +29,79 @@ checkBtn.addEventListener('click', function() {
         return;
     }
 
+    // 1. Check if user is logged in (Firebase Auth)
+    const user = firebase.auth().currentUser;
+    if (!user) {
+        alert("🔒 VIP Premium Tool: Please login to use the AI Grammar Checker.");
+        // window.location.href = "login.html"; // Uncomment this if you have a login page
+        return;
+    }
+
+    // 2. Setup Firebase Firestore Reference
+    const db = firebase.firestore();
+    const userRef = db.collection('users').doc(user.uid);
+
     // Loading State
     const originalText = this.innerHTML;
-    this.innerHTML = "⏳ Checking...";
+    this.innerHTML = "⏳ Connecting to Llama-3...";
     this.disabled = true;
     
-    statusBadge.innerText = "Analyzing...";
-    statusBadge.style.background = "#f59e0b"; // Yellow/Orange processing
+    statusBadge.innerText = "Checking Credits...";
+    statusBadge.style.background = "#f59e0b"; // Yellow processing
 
-    // Simulate AI Processing (1.2 seconds)
-    setTimeout(() => {
-        
-        // Mock Grammar Fix: Capitalize first letter of string and add period if missing
-        let fixedText = text.charAt(0).toUpperCase() + text.slice(1);
-        if (!fixedText.match(/[.!?]$/)) {
-            fixedText += ".";
+    try {
+        // 3. Check User Credits
+        const userDoc = await userRef.get();
+        if (!userDoc.exists || userDoc.data().credits <= 0) {
+            alert("💎 Insufficient Credits! Please mine more credits to use this VIP tool.");
+            window.location.href = "mining-node.html"; // Redirect to mining node
+            return;
         }
 
-        // Output Result
-        outputText.innerText = fixedText;
+        statusBadge.innerText = "AI Analyzing...";
 
-        // Update Badge randomly for mock effect (e.g., "3 Issues Fixed")
-        const mockIssues = Math.floor(Math.random() * 4) + 1; 
-        statusBadge.innerText = `${mockIssues} Issues Fixed`;
-        statusBadge.style.background = "#e5322d"; // Red badge for fixed issues
+        // 4. Call Vercel Groq API
+        const response = await fetch('/api/groq-handler', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                systemPrompt: "You are an expert English grammar and spelling checker. Review the following text. Correct any grammatical, spelling, and punctuation errors. Ensure the tone remains natural. Return ONLY the fully corrected text. Do not include any explanations, greetings, or formatting.",
+                userPrompt: text
+            })
+        });
 
+        const data = await response.json();
+
+        if (response.ok && data.result) {
+            // Output Result
+            outputText.innerText = data.result;
+
+            // 5. Deduct 1 Credit from Firebase
+            await userRef.update({
+                credits: firebase.firestore.FieldValue.increment(-1)
+            });
+
+            // Update Badge for success
+            statusBadge.innerText = "💎 VIP Corrected";
+            statusBadge.style.background = "#e5322d"; // Red badge for premium look
+            
+            console.log("1 Credit Deducted. Transaction Successful.");
+        } else {
+            throw new Error(data.error || "API error occurred");
+        }
+
+    } catch (error) {
+        console.error("Error:", error);
+        outputText.innerHTML = `<span style="color:#ef4444;">⚠️ Something went wrong: ${error.message}</span>`;
+        statusBadge.innerText = "Error";
+        statusBadge.style.background = "#ef4444";
+    } finally {
         // Reset Button
         this.innerHTML = "✨ Fix Grammar";
         this.disabled = false;
-
-    }, 1200);
+    }
 });
 
 // Clear Button
@@ -67,19 +110,23 @@ clearBtn.addEventListener('click', function() {
     wordCount.innerText = "0 words";
     charCount.innerText = "0 characters";
     outputText.innerHTML = `<div class="empty-state">✍️ Your flawless, error-free text will appear here.</div>`;
-    statusBadge.innerText = "Perfect 💯";
-    statusBadge.style.background = "#10b981";
+    statusBadge.innerText = "Ready ✨";
+    statusBadge.style.background = "#10b981"; // Green
 });
 
 // Copy Text
 copyBtn.addEventListener('click', function() {
     const textToCopy = outputText.innerText;
     
-    if (textToCopy.includes("Your flawless, error-free text")) return;
+    if (textToCopy.includes("Your flawless, error-free text") || textToCopy.includes("⚠️ Something went wrong")) return;
 
     navigator.clipboard.writeText(textToCopy).then(() => {
         const status = document.getElementById('copyStatus');
-        status.classList.add('show');
-        setTimeout(() => { status.classList.remove('show'); }, 2000);
+        if(status) {
+            status.classList.add('show');
+            setTimeout(() => { status.classList.remove('show'); }, 2000);
+        } else {
+            alert("Copied to clipboard!");
+        }
     });
 });
