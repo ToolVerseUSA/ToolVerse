@@ -6,93 +6,136 @@
     <title>AI PDF Summarizer | Premium ToolVerse</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* VVIP Specific Styles for PDF Summarizer */
+        .summarizer-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
+        .input-card { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eaeaea; align-self: start;}
+        .output-card { background: #0f172a; padding: 30px; border-radius: 16px; color: #f8fafc; box-shadow: 0 15px 40px rgba(0,0,0,0.15); position: relative; }
+        .output-card h3 { color: #f87171; margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #1e293b; padding-bottom: 15px; }
+        
+        .summary-content { font-family: 'Inter', sans-serif; line-height: 1.8; font-size: 15px; margin-top: 20px; white-space: pre-wrap; height: 500px; overflow-y: auto; background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155; }
+        
+        /* Drag & Drop Zone */
+        .drag-drop-zone { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 30px 20px; text-align: center; background: #f8fafc; transition: 0.3s; margin-bottom: 20px; cursor: pointer;}
+        .drag-drop-zone:hover, .drag-drop-zone.dragover { border-color: #ef4444; background: #fef2f2; }
+        .drag-drop-zone h3 { margin: 10px 0 5px; color: #334155; font-size: 16px; }
+        .drag-drop-zone p { margin: 0; color: #64748b; font-size: 13px; margin-bottom: 15px;}
+        .file-icon { font-size: 40px; margin-bottom: 10px; display: block; }
+        .file-info { display: none; background: #fee2e2; border: 1px solid #fca5a5; padding: 12px; border-radius: 8px; color: #991b1b; font-weight: 500; font-size: 14px; margin-bottom: 20px; text-align: center; position: relative;}
+        .remove-file { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #ef4444; font-weight: bold; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #334155; font-size: 14px;}
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 14px; background: #fff;}
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1); }
+        
+        .row-inputs { display: flex; gap: 15px; }
+        .row-inputs .form-group { flex: 1; }
+
+        .premium-btn { background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);}
+        .premium-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4); }
+        .premium-btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none;}
+        
+        .action-btns { display: flex; gap: 10px; position: absolute; top: 20px; right: 20px; }
+        .mini-btn { background: #334155; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.3s; }
+        .mini-btn:hover { background: #475569; }
+        .mini-btn.download { background: #10b981; }
+        .mini-btn.download:hover { background: #059669; }
+
+        @media (max-width: 768px) { .summarizer-container { grid-template-columns: 1fr; } .row-inputs { flex-direction: column; gap: 0; } .action-btns { position: static; margin-bottom: 15px; justify-content: flex-end; } }
+    </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <div class="logo">🚀 ToolVerse</div>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="index.html#tools">AI Tools</a>
-                <a href="index.html#contact">Contact</a>
-            </nav>
+        <div class="container" style="padding: 20px 0; display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo" style="font-weight:bold; font-size:24px;">🚀 ToolVerse</div>
+            <a href="index.html" style="text-decoration:none; color:#333; font-weight:500;">Back to Home</a>
         </div>
     </header>
 
-    <section class="tool-header">
-        <h1>Smart AI PDF Summarizer</h1>
-        <p>Instantly extract key insights, bullet points, and summaries from any PDF document.</p>
+    <section class="tool-header" style="text-align: center; padding: 60px 20px; background: linear-gradient(to right, #fef2f2, #fee2e2);">
+        <h1 style="font-size: 2.5rem; color: #991b1b; margin-bottom: 10px;">📄 AI PDF Summarizer</h1>
+        <p style="color: #dc2626; font-size: 1.1rem;">Transform lengthy PDFs into clear, actionable summaries in seconds.</p>
     </section>
 
-    <section class="resume-builder">
-        <div class="container">
-            <div class="resume-grid">
-                
-                <!-- Left Side: Upload Form -->
-                <div class="resume-form">
-                    <h2>Upload Document</h2>
-                    
-                    <!-- Drag & Drop Zone -->
-                    <div class="drag-drop-zone" id="dropZone">
-                        <div class="upload-icon">📄</div>
-                        <h3>Drag & Drop your PDF here</h3>
-                        <p>or click to browse from your device</p>
-                        <input type="file" id="pdfFileInput" accept=".pdf" hidden>
-                        <button class="btn browse-btn" onclick="document.getElementById('pdfFileInput').click()">Browse File</button>
-                    </div>
+    <div class="summarizer-container">
+        <!-- Left Side: Inputs -->
+        <div class="input-card">
+            
+            <!-- File Upload -->
+            <div class="drag-drop-zone" id="dropZone">
+                <span class="file-icon">📑</span>
+                <h3>Upload your PDF document</h3>
+                <p>Drag & drop your file here, or click to browse</p>
+                <input type="file" id="pdfFileInput" accept="application/pdf" hidden>
+                <button class="mini-btn" style="background: #ef4444;" onclick="document.getElementById('pdfFileInput').click()">Select PDF</button>
+            </div>
+            <div class="file-info" id="fileInfo">
+                <span id="fileNameDisplay">document.pdf</span>
+                <span class="remove-file" id="removeFile">✖</span>
+            </div>
 
-                    <!-- File Info Display -->
-                    <div class="file-info" id="fileInfo" style="display: none;">
-                        <span id="fileNameDisplay">document.pdf</span>
-                        <span class="remove-file" id="removeFile">✖</span>
-                    </div>
+            <div class="form-group">
+                <label>Summary Focus (Optional)</label>
+                <input type="text" id="summaryFocus" placeholder="e.g. Focus on methodology, key findings, or risks...">
+            </div>
 
-                    <label style="margin-top: 25px;">Summary Format</label>
-                    <select id="summaryFormat">
-                        <option value="Executive">Executive Summary (Brief)</option>
-                        <option value="Bullets">Key Bullet Points</option>
-                        <option value="Detailed">Detailed Overview</option>
+            <div class="row-inputs">
+                <div class="form-group">
+                    <label>Summary Size</label>
+                    <select id="summarySize">
+                        <option value="Medium">Medium (Standard)</option>
+                        <option value="Short">Short (Executive Brief)</option>
+                        <option value="Long">Long (Detailed Overview)</option>
                     </select>
-
-                    <button class="btn action-btn" id="summarizeBtn" disabled style="background: #9ca3af; cursor: not-allowed;">
-                        ✨ Summarize PDF
-                    </button>
                 </div>
-
-                <!-- Right Side: Document Output Mockup -->
-                <div class="resume-preview-container">
-                    <div class="document-mockup">
-                        
-                        <div class="doc-header">
-                            <div class="doc-title">Document Summary</div>
-                            <div class="doc-badge" id="formatBadge">Executive Summary</div>
-                        </div>
-
-                        <div class="doc-body" id="summaryOutput">
-                            <div class="empty-state">
-                                🔍 Upload a PDF and click summarize to see the extracted AI insights here.
-                            </div>
-                        </div>
-
-                        <div class="mockup-footer">
-                            <button class="copy-btn" id="copyBtn">📋 Copy Text</button>
-                            <button class="copy-btn" id="downloadTxtBtn" style="margin-left: 10px;">⬇️ Download .txt</button>
-                            <span class="copy-status" id="copyStatus">Copied!</span>
-                        </div>
-
-                    </div>
+                <div class="form-group">
+                    <label>Language</label>
+                    <select id="summaryLang">
+                        <option value="English">English</option>
+                        <option value="Urdu">Urdu (اردو)</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="French">French</option>
+                    </select>
                 </div>
+            </div>
 
+            <div class="form-group">
+                <label>Format</label>
+                <select id="summaryFormat">
+                    <option value="Bullet Points">Bullet Points</option>
+                    <option value="Paragraphs">Paragraphs</option>
+                </select>
+            </div>
+
+            <button class="premium-btn" id="summarizeBtn" disabled style="background: #94a3b8; cursor: not-allowed;">✨ Get Summary</button>
+        </div>
+
+        <!-- Right Side: Output Studio -->
+        <div class="output-card">
+            <div class="action-btns">
+                <button class="mini-btn" id="copyBtn">📋 Copy</button>
+                <button class="mini-btn download" id="downloadTxtBtn">📥 Download TXT</button>
+            </div>
+            <h3>🔍 Extracted Insights</h3>
+            <div class="summary-content" id="outSummary">
+                <span style="color: #64748b; font-style: italic;">Select a PDF file on the left and choose your preferences. Our AI will read the document and provide a highly accurate summary right here...</span>
             </div>
         </div>
-    </section>
+    </div>
 
-    <footer>
-        © 2026 ToolVerse. All Rights Reserved.
-    </footer>
+    <!-- Firebase SDKs & Config -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
 
-    <!-- Link to JavaScript -->
+    <!-- PDF.js Library for reading PDF on the frontend -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';</script>
+
+    <!-- App Logic -->
     <script src="pdf-summarizer.js"></script>
 
 </body>
