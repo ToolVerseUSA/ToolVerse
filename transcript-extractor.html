@@ -3,281 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Transcript Extractor & Translator | ToolVerse</title>
-    <link rel="stylesheet" href="style.css?v=6">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>AI Transcript Extractor & Translator | Premium ToolVerse</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .tool-container {
-            max-width: 900px;
-            margin: 40px auto;
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            border-radius: 20px;
-            padding: 30px;
-            color: white;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-        }
-        .tool-header { text-align: center; margin-bottom: 30px; }
-        .tool-header h1 { font-size: 2.2rem; color: #fbbf24; margin-bottom: 10px; }
-        .tool-header p { color: #94a3b8; font-size: 0.95rem; }
+        /* VVIP Specific Styles for Transcript Tool */
+        .extractor-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
+        .input-card { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eaeaea; align-self: start; }
+        .output-card { background: #0f172a; padding: 30px; border-radius: 16px; color: #f8fafc; box-shadow: 0 15px 40px rgba(0,0,0,0.15); position: relative; }
+        .output-card h3 { color: #a78bfa; margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #1e293b; padding-bottom: 15px; }
         
-        .input-group {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .tool-input {
-            flex: 1;
-            min-width: 280px;
-            padding: 15px 20px;
-            background: #1e293b;
+        .transcript-content { 
+            font-family: 'Courier New', Courier, monospace; 
+            line-height: 1.8; 
+            font-size: 15px; 
+            margin-top: 20px; 
+            white-space: pre-wrap; 
+            height: 450px; 
+            overflow-y: auto; 
+            color: #e2e8f0; 
+            background: #1e293b; 
+            padding: 20px; 
+            border-radius: 12px; 
             border: 1px solid #334155;
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            font-family: inherit;
-        }
-        .tool-input:focus, .tool-select:focus { outline: none; border-color: #fbbf24; }
-        
-        .tool-select {
-            padding: 15px 20px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            font-family: inherit;
-            cursor: pointer;
+            direction: auto; /* Supports RTL for Urdu/Arabic */
         }
         
-        .action-btn {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: #1e293b;
-            font-weight: 700;
-            padding: 0 25px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 1rem;
-            width: 100%;
-            padding-top: 15px;
-            padding-bottom: 15px;
-        }
-        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #334155; font-size: 14px;}
+        .form-group input, .form-group select { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 15px; background: #fff;}
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1); }
+        
+        .premium-btn { background: linear-gradient(135deg, #7c3aed, #4f46e5); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);}
+        .premium-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4); }
+        .premium-btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none;}
+        
+        .action-btns { display: flex; gap: 10px; position: absolute; top: 20px; right: 20px; }
+        .mini-btn { background: #334155; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.3s; }
+        .mini-btn:hover { background: #475569; }
+        .mini-btn.download { background: #10b981; }
+        .mini-btn.download:hover { background: #059669; }
 
-        .result-section {
-            display: none;
-            background: #1e293b;
-            border-radius: 15px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-            margin-top: 20px;
-        }
-        .transcript-box {
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            padding: 20px;
-            max-height: 500px;
-            overflow-y: auto;
-            color: #cbd5e1;
-            font-size: 1.05rem;
-            line-height: 1.8;
-            white-space: pre-wrap;
-            margin-bottom: 20px;
-            direction: auto; /* Supports RTL languages like Urdu/Arabic */
-        }
-        .btn-row {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        .sec-btn {
-            background: #3b82f6;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .sec-btn:hover { background: #2563eb; }
-        .back-link { display: inline-block; margin-bottom: 20px; color: #94a3b8; text-decoration: none; font-weight: 500; }
-        .back-link:hover { color: #fbbf24; }
-        .loading { text-align: center; color: #fbbf24; font-weight: 600; display: none; margin: 20px 0; }
+        @media (max-width: 768px) { .extractor-container { grid-template-columns: 1fr; } .action-btns { position: static; margin-bottom: 15px; justify-content: flex-end; } }
     </style>
 </head>
-<body style="background: #090d16; font-family: 'Inter', sans-serif; padding: 20px;">
+<body>
 
-    <div style="max-width: 900px; margin: 0 auto;">
-        <a href="index.html" class="back-link">← Back to ToolVerse</a>
-    </div>
+    <header>
+        <div class="container" style="padding: 20px 0; display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo" style="font-weight:bold; font-size:24px;">🚀 ToolVerse</div>
+            <a href="index.html" style="text-decoration:none; color:#333; font-weight:500;">Back to Home</a>
+        </div>
+    </header>
 
-    <div class="tool-container">
-        <div class="tool-header">
-            <h1>📜 AI Transcript Extractor & Translator</h1>
-            <p>Extract and automatically translate YouTube transcripts into your local language.</p>
+    <section class="tool-header" style="text-align: center; padding: 60px 20px; background: linear-gradient(to right, #e0e7ff, #ede9fe);">
+        <h1 style="font-size: 2.5rem; color: #3730a3; margin-bottom: 10px;">📜 AI Transcript Extractor & Translator</h1>
+        <p style="color: #4f46e5; font-size: 1.1rem;">Extract and automatically translate YouTube transcripts into your local language instantly.</p>
+    </section>
+
+    <div class="extractor-container">
+        <!-- Left Side: Input -->
+        <div class="input-card">
+            <div class="form-group">
+                <label>Paste YouTube Video Link</label>
+                <input type="text" id="ytUrlInput" placeholder="e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+            </div>
+
+            <div class="form-group">
+                <label>Target Language</label>
+                <select id="langSelect">
+                    <option value="en">English (English)</option>
+                    <option value="ur">Urdu (اردو)</option>
+                    <option value="hi">Hindi (हिन्दी)</option>
+                    <option value="ar">Arabic (العربية)</option>
+                    <option value="fa">Persian (فارسی)</option>
+                    <option value="ps">Pashto (پښتو)</option>
+                    <option value="sd">Sindhi (سنڌي)</option>
+                    <option value="pa">Punjabi (ਪੰਜਾਬੀ)</option>
+                    <option value="tr">Turkish (Türkçe)</option>
+                    <option value="es">Spanish (Español)</option>
+                    <option value="zh">Chinese (中文)</option>
+                    <!-- Add more as needed -->
+                </select>
+            </div>
+
+            <button class="premium-btn" id="extractBtn">⚡ Extract & Translate</button>
         </div>
 
-        <div class="input-group">
-            <input type="text" id="ytUrlInput" class="tool-input" placeholder="Paste YouTube Video URL here...">
-            <select id="langSelect" class="tool-select">
-                <option value="ur">Urdu (اردو)</option>
-                <option value="en">English (English)</option>
-                <option value="hi">Hindi (हिन्दी)</option>
-                <option value="ar">Arabic (العربية)</option>
-                <option value="fa">Persian (فارسی)</option>
-                <option value="ps">Pashto (پښتو)</option>
-                <option value="sd">Sindhi (سنڌي)</option>
-                <option value="pa">Punjabi (ਪੰਜਾਬੀ)</option>
-                <option value="bn">Bengali (বাংলা)</option>
-                <option value="tr">Turkish (Türkçe)</option>
-                <option value="es">Spanish (Español)</option>
-                <option value="fr">French (Français)</option>
-                <option value="de">German (Deutsch)</option>
-                <option value="zh">Chinese (中文)</option>
-                <option value="ja">Japanese (日本語)</option>
-                <option value="ko">Korean (한국어)</option>
-                <option value="ru">Russian (Русский)</option>
-            </select>
-        </div>
-        <button id="extractBtn" class="action-btn">Extract & Translate Transcript</button>
-
-        <div class="loading" id="loadingText">Extracting and translating... This might take a few seconds...</div>
-
-        <div class="result-section" id="resultSection">
-            <h3 style="margin-bottom: 15px; color: #fbbf24;">Generated Transcript:</h3>
-            <div class="transcript-box" id="transcriptOutput"></div>
-            <div class="btn-row">
-                <button class="sec-btn" id="copyBtn">📋 Copy to Clipboard</button>
-                <button class="sec-btn" id="downloadTxtBtn" style="background: #10b981;">📥 Download as TXT</button>
+        <!-- Right Side: Output Studio -->
+        <div class="output-card">
+            <div class="action-btns">
+                <button class="mini-btn" id="copyBtn">📋 Copy</button>
+                <button class="mini-btn download" id="downloadTxtBtn">📥 Download TXT</button>
+            </div>
+            
+            <h3>📝 Extracted Content</h3>
+            <div class="transcript-content" id="transcriptOutput">
+                <span style="color: #94a3b8; font-style: italic;">Paste a YouTube link on the left, choose your language, and click extract. The translated text will appear here...</span>
             </div>
         </div>
     </div>
 
+    <!-- Firebase SDKs & Config -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+
+    <!-- App Logic -->
     <script>
-        // Function to chunk large text so free translation APIs don't fail
-        function chunkText(text, length) {
-            const chunks = [];
-            for (let i = 0; i < text.length; i += length) {
-                chunks.push(text.substring(i, i + length));
-            }
-            return chunks;
-        }
-
-        // Function to translate text using a free Google Translate proxy
-        async function translateText(text, targetLang) {
-            if (targetLang === 'en' || !targetLang) return text; // No translation needed if target is English
-            
-            // Clean up text format slightly before translation
-            text = text.replace(/\[\d+:\d+\]/g, ''); // Remove timestamps like [0:03] for cleaner translation
-
-            const chunks = chunkText(text, 4000); // Google API limit per request is usually 5000
-            let translatedFullText = "";
-
-            for (const chunk of chunks) {
-                try {
-                    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(chunk)}`;
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    
-                    let translatedChunk = "";
-                    data[0].forEach(item => {
-                        if (item[0]) translatedChunk += item[0];
-                    });
-                    
-                    translatedFullText += translatedChunk + " ";
-                } catch (e) {
-                    console.error("Translation Error: ", e);
-                    return "Translation failed midway. Here is the original text:\n\n" + text;
-                }
-            }
-            return translatedFullText;
-        }
-
-        document.getElementById('extractBtn').addEventListener('click', async function() {
-            const url = document.getElementById('ytUrlInput').value.trim();
-            const langSelectElem = document.getElementById('langSelect');
-            const lang = langSelectElem.value;
-            const langName = langSelectElem.options[langSelectElem.selectedIndex].text;
-            const videoId = extractYouTubeVideoId(url);
-
-            if (!videoId) {
-                alert('Please enter a valid YouTube video URL!');
-                return;
-            }
-
-            const loadingText = document.getElementById('loadingText');
-            const resultSection = document.getElementById('resultSection');
+        document.addEventListener('DOMContentLoaded', () => {
+            const extractBtn = document.getElementById('extractBtn');
             const transcriptOutput = document.getElementById('transcriptOutput');
-
-            loadingText.style.display = 'block';
-            resultSection.style.display = 'none';
-            transcriptOutput.innerText = '';
-
-            try {
-                // Step 1: Extract the base English transcript first
-                const apiUrl = `https://youtube-transcript.ai/transcript/${videoId}.txt`;
-                const response = await fetch(apiUrl);
-                
-                if (!response.ok) {
-                    throw new Error(`YouTube restricted captions for this video or they don't exist.`);
+            
+            // Text Chunking for Google Translate API
+            function chunkText(text, length) {
+                const chunks = [];
+                for (let i = 0; i < text.length; i += length) {
+                    chunks.push(text.substring(i, i + length));
                 }
-                
-                let rawText = await response.text();
-                
-                // Clean up the watermark from the external API
-                rawText = rawText.replace(/---\nGenerated by https:\/\/youtube-transcript\.ai[\s\S]*/g, '');
+                return chunks;
+            }
 
-                if (rawText && rawText.trim().length > 0) {
+            // Google Translate Proxy Logic
+            async function translateText(text, targetLang) {
+                if (targetLang === 'en' || !targetLang) return text; 
+                
+                text = text.replace(/\[\d+:\d+\]/g, ''); // Clean timestamps
+
+                const chunks = chunkText(text, 4000); 
+                let translatedFullText = "";
+
+                for (const chunk of chunks) {
+                    try {
+                        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(chunk)}`;
+                        const res = await fetch(url);
+                        const data = await res.json();
+                        
+                        let translatedChunk = "";
+                        data[0].forEach(item => { if (item[0]) translatedChunk += item[0]; });
+                        translatedFullText += translatedChunk + " ";
+                    } catch (e) {
+                        console.error("Translation Error: ", e);
+                        return "Translation failed midway. Original text:\n\n" + text;
+                    }
+                }
+                return translatedFullText;
+            }
+
+            // YouTube ID Extractor
+            function extractYouTubeVideoId(url) {
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                const match = url.match(regExp);
+                return (match && match[2].length === 11) ? match[2] : null;
+            }
+
+            // Main Execution
+            extractBtn.addEventListener('click', async () => {
+                const url = document.getElementById('ytUrlInput').value.trim();
+                const langSelectElem = document.getElementById('langSelect');
+                const lang = langSelectElem.value;
+                const langName = langSelectElem.options[langSelectElem.selectedIndex].text;
+                const videoId = extractYouTubeVideoId(url);
+
+                if (!videoId) {
+                    alert('Please enter a valid YouTube video URL!');
+                    return;
+                }
+
+                extractBtn.innerHTML = "⏳ Processing...";
+                extractBtn.disabled = true;
+                transcriptOutput.innerHTML = `<span style="color: #a78bfa;">Fetching transcript... This might take a few seconds.</span>`;
+
+                try {
+                    // 1. Firebase Verification
+                    if (typeof firebase === 'undefined' || !firebase.apps.length) throw new Error("Firebase is not initialized.");
                     
-                    // Step 2: Translate the extracted text to the user's selected language
-                    if(lang !== 'en') {
-                        loadingText.innerText = `Transcript found! Translating to ${langName}... Please wait.`;
-                        rawText = await translateText(rawText, lang);
+                    const user = firebase.auth().currentUser;
+                    if (!user) {
+                        alert("🔒 Please login to use Premium Tools.");
+                        window.location.href = "index.html"; return;
                     }
 
-                    transcriptOutput.innerText = `[Language: ${langName}]\n\n` + rawText.trim();
-                    loadingText.style.display = 'none';
-                    loadingText.innerText = "Extracting and translating... This might take a few seconds...";
-                    resultSection.style.display = 'block';
-                } else {
-                    throw new Error("Transcript file was empty.");
+                    // 2. Credit Check
+                    const db = firebase.firestore();
+                    const userRef = db.collection('users').doc(user.uid);
+                    const userDoc = await userRef.get();
+                    const freeCredits = userDoc.data()?.free_credits || 0;
+
+                    if (freeCredits <= 0) {
+                        alert("🎁 You have run out of Daily Free Credits!");
+                        transcriptOutput.innerHTML = `<span style="color: #ef4444;">Insufficient Free Credits. Your Mining tokens are safe!</span>`;
+                        extractBtn.innerHTML = "⚡ Extract & Translate";
+                        extractBtn.disabled = false;
+                        return; 
+                    }
+
+                    // 3. Fetch Transcript (Your API)
+                    const apiUrl = `https://youtube-transcript.ai/transcript/${videoId}.txt`;
+                    const response = await fetch(apiUrl);
+                    
+                    if (!response.ok) throw new Error(`YouTube restricted captions for this video or they don't exist.`);
+                    
+                    let rawText = await response.text();
+                    rawText = rawText.replace(/---\nGenerated by https:\/\/youtube-transcript\.ai[\s\S]*/g, '');
+
+                    if (rawText && rawText.trim().length > 0) {
+                        
+                        // 4. Translate if needed
+                        if(lang !== 'en') {
+                            transcriptOutput.innerHTML = `<span style="color: #fbbf24;">Transcript found! Translating to ${langName}...</span>`;
+                            rawText = await translateText(rawText, lang);
+                        }
+
+                        // 5. Deduct Credit upon success
+                        await userRef.update({
+                            free_credits: firebase.firestore.FieldValue.increment(-1)
+                        });
+
+                        // Display Final Result
+                        transcriptOutput.innerText = `[Language: ${langName}]\n\n` + rawText.trim();
+                        
+                    } else {
+                        throw new Error("Transcript file was empty.");
+                    }
+
+                } catch (error) {
+                    transcriptOutput.innerHTML = `<span style="color: #ef4444;">⚠️ Error: ${error.message}</span>`;
+                } finally {
+                    extractBtn.innerHTML = "⚡ Extract & Translate";
+                    extractBtn.disabled = false;
                 }
+            });
 
-            } catch (error) {
-                loadingText.style.display = 'none';
-                loadingText.innerText = "Extracting and translating... This might take a few seconds...";
-                transcriptOutput.innerText = `Error: Could not extract transcript.\n\nNote: Make sure the video has public subtitles enabled. Private videos or videos without any captions will not work.`;
-                resultSection.style.display = 'block';
-            }
-        });
+            // Copy & Download Functions
+            document.getElementById('copyBtn').addEventListener('click', () => {
+                const text = transcriptOutput.innerText;
+                if(text.includes("Paste a YouTube link") || text.includes("⚠️") || text.includes("Fetching")) return;
+                navigator.clipboard.writeText(text).then(() => {
+                    const btn = document.getElementById('copyBtn');
+                    btn.innerText = "✅ Copied!";
+                    setTimeout(() => btn.innerText = "📋 Copy", 2000);
+                });
+            });
 
-        document.getElementById('copyBtn').addEventListener('click', function() {
-            const text = document.getElementById('transcriptOutput').innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Transcript copied to clipboard!');
+            document.getElementById('downloadTxtBtn').addEventListener('click', () => {
+                const text = transcriptOutput.innerText;
+                if(text.includes("Paste a YouTube link") || text.includes("⚠️") || text.includes("Fetching")) return;
+                const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+                const anchor = document.createElement('a');
+                anchor.href = URL.createObjectURL(blob);
+                anchor.download = 'ToolVerse-Transcript.txt';
+                anchor.click();
             });
         });
-
-        document.getElementById('downloadTxtBtn').addEventListener('click', function() {
-            const text = document.getElementById('transcriptOutput').innerText;
-            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-            const anchor = document.createElement('a');
-            anchor.href = URL.createObjectURL(blob);
-            anchor.download = 'ToolVerse-Transcript.txt';
-            anchor.click();
-        });
-
-        function extractYouTubeVideoId(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
-        }
     </script>
 </body>
 </html>
