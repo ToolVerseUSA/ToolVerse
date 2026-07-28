@@ -88,6 +88,31 @@
         © 2026 ToolVerse. All Rights Reserved.
     </footer>
 
+    <!-- 1. Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <!-- 2. Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <!-- 3. Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <!-- 4. Initialize Firebase -->
+    <script>
+        // یہاں اپنی Firebase کی اصل Configuration پیسٹ کریں
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+    </script>
+
     <!-- Link to JavaScript -->
     <script src="grammar-checker.js"></script>
 
