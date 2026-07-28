@@ -89,36 +89,28 @@
         © 2026 ToolVerse. All Rights Reserved.
     </footer>
 
-    <!-- ========================================== -->
-    <!-- FIREBASE SETUP (REQUIRED FOR PREMIUM SYSTEM) -->
-    <!-- ========================================== -->
-    
-    <!-- 1. Firebase App (Core) -->
+    <!-- Firebase Setup -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <!-- 2. Firebase Auth (For checking user login) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <!-- 3. Firebase Firestore (For checking and deducting credits) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    <!-- 4. Initialize Firebase -->
+    <!-- Initialize Firebase with your actual config -->
     <script>
-        // عمران بھائی، یہاں نیچے 'YOUR_API_KEY' وغیرہ کی جگہ اپنے اصل فائر بیس کی ڈیٹیلز لازمی ڈالنی ہیں
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
         };
         
-        // Initialize Firebase safely
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
     </script>
 
-    <!-- Link to our updated JavaScript Logic -->
+    <!-- Link to JavaScript -->
     <script src="grammar-checker.js"></script>
 
 </body>
