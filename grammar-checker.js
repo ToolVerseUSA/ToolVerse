@@ -7,7 +7,7 @@ const clearBtn = document.getElementById('clearBtn');
 const outputText = document.getElementById('outputText');
 const statusBadge = document.getElementById('statusBadge');
 const copyBtn = document.getElementById('copyBtn');
-const fixMode = document.getElementById('fixMode'); // Added Tone Selection
+const fixMode = document.getElementById('fixMode');
 
 // Live Word & Character Count
 inputText.addEventListener('input', function() {
@@ -17,10 +17,10 @@ inputText.addEventListener('input', function() {
     wordCount.innerText = `${words.length} words`;
 });
 
-// Check Grammar Button (VIP PREMIUM LOGIC)
+// Check Grammar Button (FREE CREDITS ONLY LOGIC)
 checkBtn.addEventListener('click', async function() {
     const text = inputText.value.trim();
-    const selectedMode = fixMode.value; // Get selected tone
+    const selectedMode = fixMode.value;
     
     if (text === "") {
         outputText.innerHTML = `<span style="color:#ef4444;">Please enter some text to check!</span>`;
@@ -30,8 +30,8 @@ checkBtn.addEventListener('click', async function() {
     // 1. Check if user is logged in
     const user = firebase.auth().currentUser;
     if (!user) {
-        alert("🔒 VIP Premium Tool: Please login to use the AI Grammar Checker.");
-        window.location.href = "index.html"; // Redirect to home/login
+        alert("🔒 Please login to use the AI Grammar Checker.");
+        window.location.href = "index.html";
         return;
     }
 
@@ -40,25 +40,30 @@ checkBtn.addEventListener('click', async function() {
     const userRef = db.collection('users').doc(user.uid);
 
     // Loading State
-    const originalText = this.innerHTML;
     this.innerHTML = "⏳ Connecting to Llama-3...";
     this.disabled = true;
     
-    statusBadge.innerText = "Checking Credits...";
-    statusBadge.style.background = "#f59e0b"; // Yellow processing
+    statusBadge.innerText = "Checking Free Credits...";
+    statusBadge.style.background = "#f59e0b";
 
     try {
-        // 3. Check User Credits
+        // 3. Check Only FREE CREDITS
         const userDoc = await userRef.get();
-        if (!userDoc.exists || userDoc.data().credits <= 0) {
-            alert("💎 Insufficient Credits! Please mine more credits to use this VIP tool.");
-            window.location.href = "mining-node.html"; // Redirect to mining node
+        const userData = userDoc.data() || {};
+        const freeCredits = userData.free_credits || 0;
+
+        if (!userDoc.exists || freeCredits <= 0) {
+            alert("🎁 You have run out of Daily Free Credits! Please claim your daily free credits to continue.");
+            this.innerHTML = "✨ Fix Grammar";
+            this.disabled = false;
+            statusBadge.innerText = "No Free Credits";
+            statusBadge.style.background = "#ef4444";
             return;
         }
 
         statusBadge.innerText = "AI Analyzing...";
 
-        // 4. Dynamic Prompt based on Tone Selection
+        // 4. Dynamic Prompt based on Tone
         const dynamicPrompt = `You are an expert English grammar and spelling checker. Review the following text and apply a '${selectedMode}' tone. Correct any grammatical, spelling, and punctuation errors. Return ONLY the fully corrected text. Do not include any explanations, greetings, or extra formatting.`;
 
         // 5. Call Vercel Groq API
@@ -79,16 +84,16 @@ checkBtn.addEventListener('click', async function() {
             // Output Result
             outputText.innerText = data.result;
 
-            // 6. Deduct 1 Credit from Firebase
+            // 6. Deduct ONLY 1 Free Credit (Mining Tokens Safe)
             await userRef.update({
-                credits: firebase.firestore.FieldValue.increment(-1)
+                free_credits: firebase.firestore.FieldValue.increment(-1)
             });
 
-            // Update Badge for success
-            statusBadge.innerText = `💎 ${selectedMode} Applied`;
-            statusBadge.style.background = "#e5322d"; // Red badge for premium look
+            // Update Badge
+            statusBadge.innerText = `✨ ${selectedMode} Applied`;
+            statusBadge.style.background = "#10b981";
             
-            console.log("1 Credit Deducted. Transaction Successful.");
+            console.log("1 Free Credit Deducted. Mining Tokens are safe!");
         } else {
             throw new Error(data.error || "API error occurred");
         }
@@ -99,7 +104,6 @@ checkBtn.addEventListener('click', async function() {
         statusBadge.innerText = "Error";
         statusBadge.style.background = "#ef4444";
     } finally {
-        // Reset Button
         this.innerHTML = "✨ Fix Grammar";
         this.disabled = false;
     }
@@ -112,7 +116,7 @@ clearBtn.addEventListener('click', function() {
     charCount.innerText = "0 characters";
     outputText.innerHTML = `<div class="empty-state">✍️ Your flawless, error-free text will appear here.</div>`;
     statusBadge.innerText = "Ready ✨";
-    statusBadge.style.background = "#10b981"; // Green
+    statusBadge.style.background = "#10b981";
 });
 
 // Copy Text
