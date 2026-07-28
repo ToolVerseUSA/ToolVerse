@@ -287,7 +287,6 @@ body {
     line-height: 1.4;
 }
 
-/* Mobile specific tweaks to force 2 columns like iLovePDF */
 @media(max-width: 768px) {
     .header-container { flex-direction: column; gap: 15px; padding: 15px; }
     .nav-links { flex-wrap: wrap; justify-content: center; gap: 10px; }
@@ -324,12 +323,12 @@ body {
 .btn:hover { background: #c62828; }
 
 /* =========================================
-   VVIP PDF TOOLS GRID (New 31-Tools iLovePDF Inspired)
+   VVIP PDF TOOLS GRID (Solid Vibrant Colors & Icons)
    ========================================= */
 
 .pdf-tools-section {
     padding: 80px 20px;
-    background-color: #fafbfd; /* Very soft, premium off-white */
+    background-color: #fafbfd;
     font-family: 'Inter', sans-serif;
     text-align: center;
 }
@@ -406,28 +405,29 @@ body {
     border-color: #e2e8f0;
 }
 
-/* Icons Design (Pure CSS + Emojis for VVIP look) */
+/* High Quality Solid Vibrant Icons Design */
 .tool-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
-    margin-bottom: 16px;
-    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 18px;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* Colors matching the screenshot */
-.bg-red { background: #fee2e2; color: #ef4444; }
-.bg-green { background: #dcfce7; color: #22c55e; }
-.bg-blue { background: #dbeafe; color: #3b82f6; }
-.bg-orange { background: #ffedd5; color: #f97316; }
-.bg-yellow { background: #fef9c3; color: #eab308; }
-.bg-purple { background: #f3e8ff; color: #a855f7; }
-.bg-pink { background: #fce7f3; color: #ec4899; }
-.bg-dark { background: #e2e8f0; color: #475569; }
+/* EXACT iLovePDF Solid Vibrant Colors */
+.bg-red { background: #e5322d; color: #ffffff; }
+.bg-green { background: #66b646; color: #ffffff; }
+.bg-blue { background: #3583c7; color: #ffffff; }
+.bg-orange { background: #f19b38; color: #ffffff; }
+.bg-yellow { background: #f4cc44; color: #ffffff; }
+.bg-purple { background: #9968aa; color: #ffffff; }
+.bg-pink { background: #db5b94; color: #ffffff; }
+.bg-dark { background: #525864; color: #ffffff; }
 
 .tool-title {
     font-size: 1.1rem;
@@ -457,7 +457,6 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Responsive for New Grid */
 @media (max-width: 768px) {
     .pdf-grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); }
     .pdf-tools-section h1 { font-size: 2rem; }
