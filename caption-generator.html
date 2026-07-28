@@ -6,120 +6,104 @@
     <title>AI Caption Generator | Premium ToolVerse</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* VVIP Specific Styles for Caption Generator */
+        .caption-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
+        .input-card { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eaeaea; }
+        .output-card { background: #0f172a; padding: 30px; border-radius: 16px; color: #f8fafc; box-shadow: 0 15px 40px rgba(0,0,0,0.15); position: relative; }
+        .output-card h3 { color: #f472b6; margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #1e293b; padding-bottom: 15px; }
+        
+        .caption-content { font-family: 'Inter', sans-serif; line-height: 1.7; font-size: 15px; margin-top: 20px; white-space: pre-wrap; height: 500px; overflow-y: auto; background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155; }
+        
+        .copy-btn-dark { position: absolute; top: 20px; right: 20px; background: #db2777; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.3s; }
+        .copy-btn-dark:hover { background: #be185d; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #334155; font-size: 14px;}
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 14px; background: #fff;}
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #db2777; box-shadow: 0 0 0 3px rgba(219, 39, 119, 0.1); }
+        .form-group textarea { resize: vertical; }
+        
+        .premium-btn { background: linear-gradient(135deg, #ec4899, #be185d); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);}
+        .premium-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4); }
+        .premium-btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none;}
+        
+        @media (max-width: 768px) { .caption-container { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <div class="logo">🚀 ToolVerse</div>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="index.html#tools">AI Tools</a>
-                <a href="index.html#contact">Contact</a>
-            </nav>
+        <div class="container" style="padding: 20px 0; display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo" style="font-weight:bold; font-size:24px;">🚀 ToolVerse</div>
+            <a href="index.html" style="text-decoration:none; color:#333; font-weight:500;">Back to Home</a>
         </div>
     </header>
 
-    <section class="tool-header">
-        <h1>Viral AI Caption Generator</h1>
-        <p>Generate highly engaging, optimized captions with viral hashtags for any social media platform.</p>
+    <section class="tool-header" style="text-align: center; padding: 60px 20px; background: linear-gradient(to right, #fce7f3, #fbcfe8);">
+        <h1 style="font-size: 2.5rem; color: #9d174d; margin-bottom: 10px;">📱 AI Caption Generator</h1>
+        <p style="color: #be185d; font-size: 1.1rem;">Generate viral, engaging, and perfectly formatted captions for your social media posts.</p>
     </section>
 
-    <section class="resume-builder">
-        <div class="container">
-            <div class="resume-grid">
-                
-                <!-- Left Side: Input Form -->
-                <div class="resume-form">
-                    <h2>Post Details</h2>
-                    
-                    <label>Select Platform</label>
-                    <select id="platformInput">
-                        <option value="Instagram">📸 Instagram</option>
-                        <option value="LinkedIn">💼 LinkedIn</option>
-                        <option value="Facebook">👥 Facebook</option>
-                        <option value="Twitter">🐦 X (Twitter)</option>
-                        <option value="TikTok">🎵 TikTok</option>
-                    </select>
+    <div class="caption-container">
+        <!-- Left Side: Inputs -->
+        <div class="input-card">
+            <div class="form-group">
+                <label>What is your post/video about?</label>
+                <textarea id="postTopic" rows="3" placeholder="e.g. A behind-the-scenes look at my new web development project..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Target Platform</label>
+                <select id="platform">
+                    <option value="Instagram Reel / Post">Instagram (Reel/Post)</option>
+                    <option value="TikTok">TikTok</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="YouTube Shorts">YouTube Shorts</option>
+                    <option value="Facebook/Twitter">Facebook / X (Twitter)</option>
+                </select>
+            </div>
 
-                    <label>What is your post about?</label>
-                    <input type="text" id="topicInput" placeholder="e.g. 5 AI tools that will save you 10 hours a week">
+            <div class="form-group">
+                <label>Tone of Voice</label>
+                <select id="captionTone">
+                    <option value="Engaging & Ask a Question">Engaging (Ask a Question)</option>
+                    <option value="Witty & Humorous">Witty & Humorous</option>
+                    <option value="Professional & Value-Driven">Professional & Value-Driven</option>
+                    <option value="Inspirational & Storytelling">Inspirational & Storytelling</option>
+                    <option value="Short & Punchy">Short & Punchy</option>
+                </select>
+            </div>
 
-                    <label>Select Tone</label>
-                    <select id="toneInput">
-                        <option value="Engaging">🔥 Engaging & Viral</option>
-                        <option value="Professional">👔 Professional</option>
-                        <option value="Funny">😂 Funny & Witty</option>
-                        <option value="Motivational">🚀 Motivational</option>
-                        <option value="Educational">📚 Educational</option>
-                    </select>
+            <div class="form-group">
+                <label>Caption Length</label>
+                <select id="captionLength">
+                    <option value="Medium (Ideal for most posts)">Medium (Standard)</option>
+                    <option value="Short (Minimalist)">Short (Minimalist)</option>
+                    <option value="Long (Micro-blog style)">Long (Micro-blog style)</option>
+                </select>
+            </div>
 
-                    <label>Include Emojis?</label>
-                    <select id="emojiInput">
-                        <option value="Yes">Yes, lots of emojis! 🎉</option>
-                        <option value="Few">Just a few 🙂</option>
-                        <option value="No">No emojis, keep it clean.</option>
-                    </select>
+            <button class="premium-btn" id="generateCaptionBtn">✨ Generate Caption</button>
+        </div>
 
-                    <div class="input-row">
-                        <div class="input-half">
-                            <button class="btn action-btn" id="generateBtn">✨ Generate</button>
-                        </div>
-                        <div class="input-half">
-                            <button class="btn action-btn" id="clearBtn" style="background: #6b7280;">🗑️ Clear</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Side: Social Media Mockup -->
-                <div class="resume-preview-container">
-                    <div class="social-mockup">
-                        
-                        <!-- Mockup Header -->
-                        <div class="social-header">
-                            <div class="social-avatar"></div>
-                            <div class="social-user-info">
-                                <strong>YourBrandName</strong>
-                                <span>Just now • <span id="platformBadge">Instagram</span></span>
-                            </div>
-                            <div class="social-dots">•••</div>
-                        </div>
-
-                        <!-- Mockup Image Placeholder -->
-                        <div class="social-image">
-                            <span>Your Awesome Visual Here</span>
-                        </div>
-
-                        <!-- Mockup Actions (Like, Comment) -->
-                        <div class="social-actions">
-                            <span>❤️ 1.2k</span>
-                            <span>💬 45</span>
-                            <span>↗️ Share</span>
-                        </div>
-
-                        <!-- Mockup Caption -->
-                        <div class="social-caption">
-                            <strong>YourBrandName</strong> 
-                            <span id="outputCaption">Your generated caption will appear here. Select your options and hit generate!</span>
-                        </div>
-
-                        <div class="mockup-footer">
-                            <button class="copy-btn" id="copyBtn">📋 Copy Caption</button>
-                            <span class="copy-status" id="copyStatus">Copied!</span>
-                        </div>
-
-                    </div>
-                </div>
-
+        <!-- Right Side: Output Studio -->
+        <div class="output-card">
+            <button class="copy-btn-dark" id="copyBtn">📋 Copy</button>
+            <h3>✍️ Your Viral Caption</h3>
+            <div class="caption-content" id="outCaption">
+                <span style="color: #64748b; font-style: italic;">Tell us about your post on the left and hit generate. Watch the AI craft a caption with a perfect hook, emojis, and viral hashtags...</span>
             </div>
         </div>
-    </section>
+    </div>
 
-    <footer>
-        © 2026 ToolVerse. All Rights Reserved.
-    </footer>
+    <!-- Firebase SDKs & Config -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
 
-    <!-- Link to JavaScript -->
+    <!-- App Logic -->
     <script src="caption-generator.js"></script>
 
 </body>
