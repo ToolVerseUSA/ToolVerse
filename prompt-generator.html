@@ -3,121 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate AI Prompt Generator | ToolVerse</title>
+    <title>AI Prompt Generator | Premium ToolVerse</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* VVIP Specific Styles for Prompt Generator */
+        .prompt-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
+        .input-card { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eaeaea; }
+        .output-card { background: #0f172a; padding: 30px; border-radius: 16px; color: #f8fafc; box-shadow: 0 15px 40px rgba(0,0,0,0.15); position: relative; }
+        .output-card h3 { color: #22d3ee; margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #1e293b; padding-bottom: 15px; }
+        
+        .prompt-content { font-family: 'Courier New', Courier, monospace; line-height: 1.7; font-size: 15px; margin-top: 20px; white-space: pre-wrap; height: 500px; overflow-y: auto; background: #1e293b; padding: 20px; border-radius: 12px; border: 1px solid #334155; }
+        
+        .copy-btn-dark { position: absolute; top: 20px; right: 20px; background: #0891b2; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.3s; }
+        .copy-btn-dark:hover { background: #0e7490; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #334155; font-size: 14px;}
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 14px; background: #fff;}
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #06b6d4; box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1); }
+        .form-group textarea { resize: vertical; }
+        
+        .premium-btn { background: linear-gradient(135deg, #06b6d4, #0891b2); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);}
+        .premium-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4); }
+        .premium-btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none;}
+        
+        @media (max-width: 768px) { .prompt-container { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <div class="logo">🚀 ToolVerse</div>
-            <nav>
-                <a href="index.html">Home</a>
-                <a href="index.html#tools">AI Tools</a>
-                <a href="index.html#contact">Contact</a>
-            </nav>
+        <div class="container" style="padding: 20px 0; display:flex; justify-content:space-between; align-items:center;">
+            <div class="logo" style="font-weight:bold; font-size:24px;">🚀 ToolVerse</div>
+            <a href="index.html" style="text-decoration:none; color:#333; font-weight:500;">Back to Home</a>
         </div>
     </header>
 
-    <section class="tool-header">
-        <h1>Ultimate Prompt Generator</h1>
-        <p>Build master-level prompts for ChatGPT, Claude, Manus.ai, Midjourney, and Video models.</p>
+    <section class="tool-header" style="text-align: center; padding: 60px 20px; background: linear-gradient(to right, #ecfeff, #cffafe);">
+        <h1 style="font-size: 2.5rem; color: #164e63; margin-bottom: 10px;">💡 AI Prompt Generator</h1>
+        <p style="color: #0891b2; font-size: 1.1rem;">Turn your basic ideas into master-level, highly optimized prompts for any AI.</p>
     </section>
 
-    <section class="resume-builder">
-        <div class="container">
-            <div class="resume-grid">
-                
-                <!-- Left Side: Advanced Input Form -->
-                <div class="resume-form">
-                    
-                    <div class="input-row">
-                        <div class="input-half">
-                            <label>Target AI Model</label>
-                            <select id="aiModel">
-                                <option value="chatgpt">🤖 ChatGPT (GPT-4o / O1)</option>
-                                <option value="claude">🧠 Claude (3.5 Sonnet / Opus)</option>
-                                <option value="manus">⚙️ Manus.ai (Agentic AI)</option>
-                                <option value="midjourney">🎨 Midjourney / DALL-E (Image)</option>
-                                <option value="veo">🎥 Google Veo / Sora (Video)</option>
-                            </select>
-                        </div>
-                        <div class="input-half">
-                            <label>Act As (Role)</label>
-                            <select id="aiRole">
-                                <option value="Expert">Top-Tier Expert</option>
-                                <option value="Marketer">Digital Marketer</option>
-                                <option value="Developer">Senior Software Engineer</option>
-                                <option value="Copywriter">Direct Response Copywriter</option>
-                                <option value="Photographer">Professional Photographer / Director</option>
-                            </select>
-                        </div>
-                    </div>
+    <div class="prompt-container">
+        <!-- Left Side: Inputs -->
+        <div class="input-card">
+            <div class="form-group">
+                <label>What do you want the AI to do?</label>
+                <textarea id="promptIdea" rows="3" placeholder="e.g. Write a blog post about healthy eating, or Generate an image of a futuristic city..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Target AI Model</label>
+                <select id="aiModel">
+                    <option value="Text Generation (ChatGPT, Claude, Llama)">Text Generation (ChatGPT, Claude, Llama)</option>
+                    <option value="Image Generation (Midjourney, DALL-E, Stable Diffusion)">Image Generation (Midjourney, DALL-E)</option>
+                    <option value="Code Generation (GitHub Copilot, GPT-4)">Code Generation (Coding & Tech)</option>
+                </select>
+            </div>
 
-                    <label>Main Task / Subject (What do you want?)</label>
-                    <textarea id="taskInput" rows="4" class="premium-textarea" placeholder="Example: Write a landing page copy for a new AI tool OR A futuristic cyberpunk city at night..."></textarea>
-                    
-                    <div class="input-row" style="margin-top: 15px;">
-                        <div class="input-half">
-                            <label>Tone / Style</label>
-                            <select id="promptTone">
-                                <option value="Professional & Persuasive">Professional</option>
-                                <option value="Casual & Friendly">Friendly</option>
-                                <option value="Cinematic & Photorealistic">Cinematic (For Images/Video)</option>
-                                <option value="Humorous & Witty">Humorous</option>
-                            </select>
-                        </div>
-                        <div class="input-half">
-                            <label>Output Format</label>
-                            <select id="outputFormat">
-                                <option value="Detailed Markdown with Headings">Markdown / Structured</option>
-                                <option value="Bullet Points">Bullet Points</option>
-                                <option value="JSON Format">JSON</option>
-                                <option value="High-Resolution 16:9 Aspect Ratio">16:9 Aspect Ratio (Image/Video)</option>
-                            </select>
-                        </div>
-                    </div>
+            <div class="form-group">
+                <label>Act As (Persona)</label>
+                <select id="persona">
+                    <option value="Expert Consultant">Expert Consultant</option>
+                    <option value="Creative Storyteller">Creative Storyteller</option>
+                    <option value="Senior Software Engineer">Senior Software Engineer</option>
+                    <option value="Professional Copywriter">Professional Copywriter</option>
+                    <option value="Direct & Objective Assistant">Direct & Objective Assistant</option>
+                </select>
+            </div>
 
-                    <button class="btn action-btn" id="generatePromptBtn">
-                        ⚡ Engineer Prompt
-                    </button>
-                </div>
+            <div class="form-group">
+                <label>Output Tone</label>
+                <select id="promptTone">
+                    <option value="Professional and Authoritative">Professional & Authoritative</option>
+                    <option value="Engaging and Conversational">Engaging & Conversational</option>
+                    <option value="Creative and Imaginative">Creative & Imaginative</option>
+                    <option value="Highly Technical and Precise">Highly Technical</option>
+                </select>
+            </div>
 
-                <!-- Right Side: Pro Terminal Mockup -->
-                <div class="resume-preview-container">
-                    <div class="terminal-mockup">
-                        
-                        <div class="terminal-header">
-                            <div class="terminal-dots">
-                                <span></span><span></span><span></span>
-                            </div>
-                            <div class="terminal-title">Prompt_Terminal_v3.0</div>
-                        </div>
+            <button class="premium-btn" id="generatePromptBtn">✨ Generate Super Prompt</button>
+        </div>
 
-                        <div class="terminal-body" id="promptOutput">
-                            <div class="terminal-empty">
-                                > System ready.<br>
-                                > Awaiting parameters to engineer the perfect prompt...
-                            </div>
-                        </div>
-
-                        <div class="mockup-footer" style="background: #1e1e1e; border-top: 1px solid #333;">
-                            <button class="copy-btn" id="copyPromptBtn" style="background: #2ea043; color: white; border: none;">📋 Copy Prompt</button>
-                            <span class="copy-status" id="copyStatus">Copied to clipboard!</span>
-                        </div>
-
-                    </div>
-                </div>
-
+        <!-- Right Side: Output Studio -->
+        <div class="output-card">
+            <button class="copy-btn-dark" id="copyBtn">📋 Copy Prompt</button>
+            <h3>🎯 Your Engineered Prompt</h3>
+            <div class="prompt-content" id="outPrompt">
+                <span style="color: #64748b; font-style: italic;">Enter your basic idea on the left and click generate. Watch as we engineer a mega-prompt designed to get the perfect response from any AI...</span>
             </div>
         </div>
-    </section>
+    </div>
 
-    <footer>
-        © 2026 ToolVerse. All Rights Reserved.
-    </footer>
+    <!-- Firebase SDKs & Config -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
 
+    <!-- App Logic -->
     <script src="prompt-generator.js"></script>
 
 </body>
