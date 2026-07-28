@@ -34,6 +34,7 @@
                     
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                         <h2 style="margin: 0; border: none;">Enter Your Text</h2>
+                        <!-- Tone Selection Dropdown -->
                         <select id="fixMode" class="editor-select">
                             <option value="Standard">Standard Fix</option>
                             <option value="Fluency">Improve Fluency</option>
@@ -88,16 +89,20 @@
         © 2026 ToolVerse. All Rights Reserved.
     </footer>
 
-    <!-- 1. Firebase App (the core Firebase SDK) -->
+    <!-- ========================================== -->
+    <!-- FIREBASE SETUP (REQUIRED FOR PREMIUM SYSTEM) -->
+    <!-- ========================================== -->
+    
+    <!-- 1. Firebase App (Core) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <!-- 2. Firebase Auth -->
+    <!-- 2. Firebase Auth (For checking user login) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <!-- 3. Firebase Firestore -->
+    <!-- 3. Firebase Firestore (For checking and deducting credits) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <!-- 4. Initialize Firebase -->
     <script>
-        // یہاں اپنی Firebase کی اصل Configuration پیسٹ کریں
+        // عمران بھائی، یہاں نیچے 'YOUR_API_KEY' وغیرہ کی جگہ اپنے اصل فائر بیس کی ڈیٹیلز لازمی ڈالنی ہیں
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -107,13 +112,13 @@
             appId: "YOUR_APP_ID"
         };
         
-        // Initialize Firebase
+        // Initialize Firebase safely
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
     </script>
 
-    <!-- Link to JavaScript -->
+    <!-- Link to our updated JavaScript Logic -->
     <script src="grammar-checker.js"></script>
 
 </body>
