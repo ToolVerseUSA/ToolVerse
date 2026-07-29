@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF to PowerPoint (VVIP Edition) - ToolVerse</title>
+    <title>PDF to PowerPoint (Perfect Fit) - ToolVerse</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -75,17 +75,6 @@
         </div>
 
         <div class="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-orange-500">
-            
-            <!-- VVIP Feature: Smart Crop Toggle -->
-            <div class="mb-6 bg-orange-50 p-4 rounded-xl border border-orange-200 flex items-center justify-center space-x-3">
-                <input type="checkbox" id="cropBorders" class="w-6 h-6 text-orange-600 bg-white border-gray-300 rounded focus:ring-orange-500 cursor-pointer" checked>
-                <label for="cropBorders" class="text-gray-800 font-bold cursor-pointer select-none">
-                    ✂️ Auto-Crop White Margins & Make 16:9
-                    <span class="block text-xs font-normal text-gray-500 mt-1">(Keep this checked for beautiful edge-to-edge slides)</span>
-                </label>
-            </div>
-
-            <!-- Upload Box -->
             <div id="dropZone" class="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-orange-500 transition-colors cursor-pointer bg-gray-50 hover:bg-orange-50">
                 <svg class="mx-auto h-14 w-14 text-orange-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                 <p class="text-gray-700 font-semibold text-lg">Click to upload or drag & drop your PDF</p>
@@ -96,7 +85,7 @@
             <div id="progressArea" class="hidden mt-6 text-center py-8">
                 <div class="loader ease-linear rounded-full border-4 border-t-4 border-orange-500 h-16 w-16 mx-auto mb-6"></div>
                 <p id="statusText" class="text-xl font-bold text-gray-800 mb-2">Preparing your file...</p>
-                <p class="text-sm text-gray-500 mb-4">Creating your VVIP Presentation. Please wait.</p>
+                <p class="text-sm text-gray-500 mb-4">Applying perfect fit dimensions. Please wait.</p>
                 <div class="w-full bg-gray-200 rounded-full h-3">
                     <div id="progressBar" class="bg-orange-500 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
                 </div>
@@ -113,7 +102,6 @@
         const progressArea = document.getElementById('progressArea');
         const progressBar = document.getElementById('progressBar');
         const statusText = document.getElementById('statusText');
-        const cropBordersCheckbox = document.getElementById('cropBorders');
 
         dropZone.addEventListener('click', () => {
             if(window.isUserLoggedIn === false) return;
@@ -152,32 +140,31 @@
                 const totalPages = pdf.numPages;
                 
                 let pptx = new PptxGenJS();
-                let layoutDefined = false;
+
+                // ---------------------------------------------------------
+                // MAGIC FIX: Setup EXACT layout BEFORE creating any slides
+                // ---------------------------------------------------------
+                const firstPage = await pdf.getPage(1);
+                const baseViewport = firstPage.getViewport({ scale: 1.0 }); // Get original PDF size
                 
-                // Get user preference
-                const shouldCrop = cropBordersCheckbox.checked;
+                // Convert points to inches (1 inch = 72 points)
+                const slideWidth = baseViewport.width / 72;
+                const slideHeight = baseViewport.height / 72;
+
+                // Set layout globally for the whole presentation
+                pptx.defineLayout({ name: 'EXACT_PDF_SIZE', width: slideWidth, height: slideHeight });
+                pptx.layout = 'EXACT_PDF_SIZE';
+                // ---------------------------------------------------------
 
                 for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
                     statusText.innerText = `Processing Slide ${pageNum} of ${totalPages}...`;
                     progressBar.style.width = `${(pageNum / totalPages) * 100}%`;
 
                     const page = await pdf.getPage(pageNum);
+                    
+                    // Optimal scale (1.5) - Great quality, prevents mobile RAM from crashing (No blank screens)
                     const renderScale = 1.5; 
                     const viewport = page.getViewport({ scale: renderScale }); 
-                    
-                    const slideWidth = (viewport.width / renderScale) / 72;
-                    const slideHeight = (viewport.height / renderScale) / 72;
-
-                    // Apply Layout Settings based on Checkbox
-                    if (!layoutDefined) {
-                        if (shouldCrop) {
-                            pptx.layout = 'LAYOUT_16x9'; // Force Widescreen presentation
-                        } else {
-                            pptx.defineLayout({ name: 'EXACT_PDF_SIZE', width: slideWidth, height: slideHeight });
-                            pptx.layout = 'EXACT_PDF_SIZE'; // Keep Original PDF Size
-                        }
-                        layoutDefined = true;
-                    }
                     
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
@@ -185,32 +172,29 @@
                     canvas.height = viewport.height;
 
                     await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+                    
+                    // Standard JPEG to save memory overhead
                     const imgData = canvas.toDataURL('image/jpeg', 0.85);
                     
                     let slide = pptx.addSlide();
                     
-                    if (shouldCrop) {
-                        // SMART CROP: Zoom in to hide top/bottom white margins and fill 16:9 screen
-                        slide.addImage({ 
-                            data: imgData, 
-                            x: 0, y: 0, w: 10, h: 5.625, 
-                            sizing: { type: 'cover', w: 10, h: 5.625 } 
-                        });
-                    } else {
-                        // EXACT MATCH: Paste it exactly as the PDF is (with margins if they exist)
-                        slide.addImage({ 
-                            data: imgData, 
-                            x: 0, y: 0, w: slideWidth, h: slideHeight 
-                        });
-                    }
+                    // Add image precisely to the dimensions of the slide (Edge-to-Edge)
+                    slide.addImage({ 
+                        data: imgData, 
+                        x: 0, 
+                        y: 0, 
+                        w: slideWidth, 
+                        h: slideHeight 
+                    });
 
+                    // Clear RAM immediately
                     canvas.width = 0;
                     canvas.height = 0;
                 }
 
                 statusText.innerText = 'Finalizing Presentation...';
                 
-                const outputFileName = file.name.replace('.pdf', '_VVIP_ToolVerse.pptx');
+                const outputFileName = file.name.replace('.pdf', '_ToolVerse_Done.pptx');
                 await pptx.writeFile({ fileName: outputFileName });
 
                 statusText.innerText = 'Download Successful! 🎉';
