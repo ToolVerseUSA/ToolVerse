@@ -12,7 +12,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-        // Your specific Firebase credentials
         const firebaseConfig = {
             apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
             authDomain: "toolverstoken.firebaseapp.com",
@@ -25,7 +24,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Security Check: Lock screen if not logged in
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 document.getElementById('authOverlay').style.display = 'flex';
@@ -100,7 +98,6 @@
 
     <!-- Script / Logic -->
     <script>
-        // Set up PDF.js worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
         const dropZone = document.getElementById('dropZone');
@@ -110,7 +107,7 @@
         const statusText = document.getElementById('statusText');
 
         dropZone.addEventListener('click', () => {
-            if(window.isUserLoggedIn === false) return; // Blocked by lock screen anyway
+            if(window.isUserLoggedIn === false) return;
             fileInput.click();
         });
         
@@ -153,16 +150,12 @@
 
                     const page = await pdf.getPage(pageNum);
                     
-                    // ULTRA-HD Scale (3x) for crisp text and images
                     const scaleFactor = 3.0; 
                     const viewport = page.getViewport({ scale: scaleFactor }); 
                     
-                    // Calculate exact size of the PDF page in Inches to prevent stretching
-                    // 1 PDF point = 1/72 inch.
                     const widthInInches = (viewport.width / scaleFactor) / 72;
                     const heightInInches = (viewport.height / scaleFactor) / 72;
 
-                    // Set presentation layout EXACTLY matching the PDF size on the very first page
                     if (pageNum === 1) {
                         pptx.defineLayout({ name: 'EXACT_MATCH', width: widthInInches, height: heightInInches });
                         pptx.layout = 'EXACT_MATCH';
@@ -175,12 +168,17 @@
 
                     await page.render({ canvasContext: ctx, viewport: viewport }).promise;
                     
-                    // High quality JPEG format for the slide background
                     const imgData = canvas.toDataURL('image/jpeg', 0.95);
-                    
                     let slide = pptx.addSlide();
-                    // Image fills 100% of the perfectly matched slide without any stretching
-                    slide.addImage({ data: imgData, x: 0, y: 0, w: '100%', h: '100%' });
+                    
+                    // MAGIC FIX: Hardcoding EXACT inches instead of '100%' removes all white margins
+                    slide.addImage({ 
+                        data: imgData, 
+                        x: 0, 
+                        y: 0, 
+                        w: widthInInches, 
+                        h: heightInInches 
+                    });
                 }
 
                 statusText.innerText = 'Finalizing HD Presentation...';
