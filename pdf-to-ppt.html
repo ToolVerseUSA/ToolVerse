@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF to PowerPoint (Ultra HD) - ToolVerse</title>
+    <title>PDF to PowerPoint (Smart HD) - ToolVerse</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -72,7 +72,7 @@
         <div class="text-center mb-10">
             <span class="bg-green-100 text-green-700 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wide mb-3 inline-block">100% Secure & Client-Side</span>
             <h1 class="text-4xl font-extrabold text-gray-900 mb-4">PDF to PowerPoint</h1>
-            <p class="text-lg text-gray-600">Convert your PDF files into Ultra-HD PowerPoint (PPTX) presentations right in your browser. Lifetime Free.</p>
+            <p class="text-lg text-gray-600">Convert your PDF files into HD PowerPoint (PPTX) presentations right in your browser. Lifetime Free.</p>
         </div>
 
         <div class="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-orange-500">
@@ -88,7 +88,7 @@
             <div id="progressArea" class="hidden mt-6 text-center py-8">
                 <div class="loader ease-linear rounded-full border-4 border-t-4 border-orange-500 h-16 w-16 mx-auto mb-6"></div>
                 <p id="statusText" class="text-xl font-bold text-gray-800 mb-2">Preparing your file...</p>
-                <p class="text-sm text-gray-500 mb-4">Rendering pages in Ultra-HD. Please wait.</p>
+                <p class="text-sm text-gray-500 mb-4">Rendering pages in Smart HD. Please wait.</p>
                 <div class="w-full bg-gray-200 rounded-full h-3">
                     <div id="progressBar" class="bg-orange-500 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
                 </div>
@@ -143,22 +143,27 @@
                 const totalPages = pdf.numPages;
                 
                 let pptx = new PptxGenJS();
+                let layoutDefined = false;
 
                 for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
-                    statusText.innerText = `Rendering HD Slide ${pageNum} of ${totalPages}...`;
+                    statusText.innerText = `Optimizing Slide ${pageNum} of ${totalPages}...`;
                     progressBar.style.width = `${(pageNum / totalPages) * 100}%`;
 
                     const page = await pdf.getPage(pageNum);
                     
-                    const scaleFactor = 3.0; 
+                    // Smart HD Scale (2.0) - High quality but safe for mobile memory
+                    const scaleFactor = 2.0; 
                     const viewport = page.getViewport({ scale: scaleFactor }); 
                     
+                    // Calculate exact size of the PDF page in Inches
                     const widthInInches = (viewport.width / scaleFactor) / 72;
                     const heightInInches = (viewport.height / scaleFactor) / 72;
 
-                    if (pageNum === 1) {
+                    // Apply the precise dimensions to remove white borders
+                    if (!layoutDefined) {
                         pptx.defineLayout({ name: 'EXACT_MATCH', width: widthInInches, height: heightInInches });
                         pptx.layout = 'EXACT_MATCH';
+                        layoutDefined = true;
                     }
                     
                     const canvas = document.createElement('canvas');
@@ -168,10 +173,10 @@
 
                     await page.render({ canvasContext: ctx, viewport: viewport }).promise;
                     
-                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                    const imgData = canvas.toDataURL('image/jpeg', 0.85);
                     let slide = pptx.addSlide();
                     
-                    // MAGIC FIX: Hardcoding EXACT inches instead of '100%' removes all white margins
+                    // Edge-to-Edge Fill without any margins
                     slide.addImage({ 
                         data: imgData, 
                         x: 0, 
@@ -179,11 +184,15 @@
                         w: widthInInches, 
                         h: heightInInches 
                     });
+
+                    // MEMORY CLEANUP: Prevents mobile browsers from crashing on large PDFs
+                    canvas.width = 0;
+                    canvas.height = 0;
                 }
 
                 statusText.innerText = 'Finalizing HD Presentation...';
                 
-                const outputFileName = file.name.replace('.pdf', '_HD_ToolVerse.pptx');
+                const outputFileName = file.name.replace('.pdf', '_Perfect_ToolVerse.pptx');
                 await pptx.writeFile({ fileName: outputFileName });
 
                 statusText.innerText = 'Download Successful! 🎉';
