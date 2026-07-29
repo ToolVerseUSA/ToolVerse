@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerPoint to PDF (VVIP) - ToolVerse</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Firebase Security -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                window.isUserLoggedIn = false;
+            } else {
+                document.getElementById('authOverlay').style.display = 'none';
+                window.isUserLoggedIn = true;
+            }
+        });
+    </script>
+
+    <!-- JSZip & html2pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border-top-color: #e5322d; -webkit-animation: spinner 1s linear infinite; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        body { background-color: #f3f4f7; }
+
+        /* ENHANCED WIDE PULSE ANIMATION (Spreads much higher & wider like iLovePDF) */
+        @keyframes pulse-red-wide {
+            0% {
+                box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.8);
+            }
+            70% {
+                box-shadow: 0 0 0 50px rgba(229, 50, 45, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(229, 50, 45, 0);
+            }
+        }
+        .btn-pulse {
+            animation: pulse-red-wide 1.6s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        .slide-page {
+            background: white;
+            width: 100%;
+            min-height: 400px;
+            padding: 40px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            page-break-after: always;
+            border: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans relative overflow-x-hidden">
+    
+    <!-- VVIP LOCK SCREEN -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-red-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full ilovepdf-red text-white font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
+        </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">
+                    Tool<span class="ilovepdf-text">Verse</span>
+                </a>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700 hidden md:flex">
+                <a href="#" class="hover:ilovepdf-text transition">MERGE PDF</a>
+                <a href="#" class="hover:ilovepdf-text transition">SPLIT PDF</a>
+                <a href="index.html" class="hover:ilovepdf-text transition">ALL TOOLS</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN TOOL AREA -->
+    <div class="w-full flex-grow flex flex-col items-center justify-center pt-20 pb-10 px-4">
+        <input type="file" id="fileInput" accept=".ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation" class="hidden">
+
+        <!-- STEP 1: UPLOAD SCREEN -->
+        <div id="step1" class="w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">PowerPoint to PDF</h1>
+            <p class="text-xl text-gray-600 mb-10 hidden md:block">Make PPT and PPTX slideshows easy to view by converting them to PDF.</p>
+            
+            <div class="relative flex items-stretch justify-center dropZone group cursor-pointer" onclick="triggerFileInput()">
+                <div class="ilovepdf-red text-white text-2xl font-bold py-6 px-10 md:px-20 rounded-l-xl transition shadow-lg flex items-center justify-center h-24 whitespace-nowrap hover:bg-red-700">
+                    Select POWERPOINT files
+                </div>
+                <div class="flex flex-col space-y-[2px] ml-[2px]">
+                    <div class="ilovepdf-red w-14 h-[47px] rounded-tr-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M7 21h10l3.43-6H17L7 21zm3.43-18L7 9h10l3.43-6H10.43zM3.57 15L7 9H3.57L0 15h3.57z"/></svg>
+                    </div>
+                    <div class="ilovepdf-red w-14 h-[47px] rounded-br-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.2L4 6.3l8 4.1-8 4.1 8 4.1 8-4.1-8-4.1 8-4.1z"/></svg>
+                    </div>
+                </div>
+            </div>
+            <p class="mt-6 text-gray-500 font-medium">or drop POWERPOINT documents here</p>
+        </div>
+
+        <!-- STEP 2: PREVIEW SCREEN (With Wide Pulsing Button) -->
+        <div id="step2" class="hidden w-full h-[60vh] flex flex-col items-center justify-center relative">
+            
+            <div class="relative bg-white shadow-xl w-48 h-64 border border-gray-200 flex flex-col items-center p-3 rounded transform hover:scale-105 transition cursor-pointer">
+                <!-- PowerPoint Presentation Icon -->
+                <svg class="w-20 h-20 mt-8 text-orange-600" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V7h2v2zm6 8h-4v-6h4v6zm0-8h-4V7h4v2z"/></svg>
+                <p id="fileNameDisplay" class="mt-auto text-xs font-semibold text-gray-700 truncate w-full text-center pb-2 px-1">presentation.pptx</p>
+                <div class="absolute -right-3 top-1/2 transform -translate-y-1/2 ilovepdf-red rounded-full text-white w-7 h-7 flex items-center justify-center cursor-pointer border-2 border-white shadow-md font-bold">+</div>
+            </div>
+
+            <!-- Sticky Bottom Convert Button with WIDE PULSE EFFECT -->
+            <div class="fixed bottom-0 right-0 w-full md:w-auto md:bottom-10 md:right-10 bg-white md:bg-transparent p-4 md:p-0 z-10 flex justify-end">
+                <button onclick="startConversion()" class="btn-pulse w-full md:w-auto ilovepdf-red text-white font-bold py-5 px-10 md:rounded-xl text-xl flex items-center justify-center transition hover:bg-red-700">
+                    Convert to PDF
+                    <svg class="w-6 h-6 ml-3 border-2 border-white rounded-full p-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 3: LOADING SCREEN -->
+        <div id="step3" class="hidden w-full flex flex-col items-center justify-center mt-20">
+            <div class="loader rounded-full border-4 border-gray-200 h-20 w-20 mx-auto mb-8"></div>
+            <h3 id="loadingText" class="text-3xl font-bold text-gray-800">Converting PowerPoint to PDF...</h3>
+            <div class="w-72 bg-gray-300 rounded-full h-2 mt-6 overflow-hidden">
+                <div id="progressBar" class="ilovepdf-red h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- STEP 4: DOWNLOAD SCREEN -->
+        <div id="step4" class="hidden w-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center mt-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-12">PowerPoint file has been converted to PDF</h2>
+            
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-12">
+                <button onclick="resetTool()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition flex-shrink-0 hidden md:block">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                </button>
+
+                <button onclick="downloadPDF()" class="ilovepdf-red text-white font-bold py-6 px-12 rounded-xl text-2xl md:text-3xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
+                    <svg class="w-8 h-8 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    Download PDF
+                </button>
+
+                <div class="grid grid-cols-2 gap-2 mt-4 md:mt-0 flex-shrink-0">
+                    <button class="ilovepdf-red hover:bg-red-700 text-white p-3 rounded-full shadow-md"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7 21h10l3.43-6H17L7 21zm3.43-18L7 9h10l3.43-6H10.43zM3.57 15L7 9H3.57L0 15h3.57z"/></svg></button>
+                    <button class="ilovepdf-red hover:bg-red-700 text-white p-3 rounded-full shadow-md"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></button>
+                    <button class="ilovepdf-red hover:bg-red-700 text-white p-3 rounded-full shadow-md"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.2L4 6.3l8 4.1-8 4.1 8 4.1 8-4.1-8-4.1 8-4.1z"/></svg></button>
+                    <button onclick="resetTool()" class="ilovepdf-red hover:bg-red-700 text-white p-3 rounded-full shadow-md"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+                </div>
+            </div>
+
+            <!-- "Continue To..." Widget -->
+            <div class="bg-white rounded-xl shadow-md p-6 max-w-2xl w-full text-left border border-gray-100">
+                <h4 class="font-bold text-gray-800 mb-4">Continue to...</h4>
+                <div class="grid grid-cols-2 gap-4 text-sm font-semibold text-gray-700">
+                    <a href="compress-pdf.html" class="flex items-center justify-between hover:bg-gray-50 p-2 rounded transition">
+                        <span class="flex items-center gap-3"><svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg> Compress PDF</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="merge-pdf.html" class="flex items-center justify-between hover:bg-gray-50 p-2 rounded transition">
+                        <span class="flex items-center gap-3"><svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg> Merge PDF</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="split-pdf.html" class="flex items-center justify-between hover:bg-gray-50 p-2 rounded transition">
+                        <span class="flex items-center gap-3"><svg class="w-5 h-5 text-orange-500" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 9h-2V7h-2v5H6v2h2v5h2v-5h2v-2z"/></svg> Split PDF</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="#" class="flex items-center justify-between hover:bg-gray-50 p-2 rounded transition">
+                        <span class="flex items-center gap-3"><svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg> Protect PDF</span>
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+                <div class="text-right mt-2"><a href="index.html" class="text-xs text-gray-500 underline hover:text-gray-800">See more</a></div>
+            </div>
+            
+            <button onclick="resetTool()" class="mt-6 text-gray-500 font-bold underline md:hidden">Go Back</button>
+        </div>
+    </div>
+
+    <!-- Hidden Div to hold HTML for PDF generation -->
+    <div id="hidden-html-container" style="display:none; padding: 20px; font-family: Arial, sans-serif; background: #fff;"></div>
+
+    <!-- Script / Logic -->
+    <script>
+        let uploadedFile = null;
+        let generatedPdfBlob = null;
+        let finalFileName = '';
+
+        const fileInput = document.getElementById('fileInput');
+        
+        function triggerFileInput() {
+            if(window.isUserLoggedIn === false) return;
+            fileInput.click();
+        }
+
+        const dropZones = document.querySelectorAll('.dropZone');
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => { e.preventDefault(); document.body.style.opacity = "0.7"; });
+            zone.addEventListener('dragleave', () => { document.body.style.opacity = "1"; });
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault(); document.body.style.opacity = "1";
+                if (e.dataTransfer.files.length > 0 && window.isUserLoggedIn !== false) {
+                    handleFileSelection(e.dataTransfer.files[0]);
+                }
+            });
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleFileSelection(e.target.files[0]);
+        });
+
+        function showStep(stepNumber) {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById(`step${stepNumber}`).classList.remove('hidden');
+        }
+
+        function handleFileSelection(file) {
+            if (!file.name.endsWith('.ppt') && !file.name.endsWith('.pptx')) {
+                alert('براہ کرم صرف PowerPoint فائل (.ppt یا .pptx) منتخب کریں!');
+                return;
+            }
+            uploadedFile = file;
+            document.getElementById('fileNameDisplay').innerText = file.name;
+            showStep(2); 
+        }
+
+        function resetTool() {
+            uploadedFile = null;
+            generatedPdfBlob = null;
+            fileInput.value = '';
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('hidden-html-container').innerHTML = '';
+            showStep(1); 
+        }
+
+        async function startConversion() {
+            showStep(3); 
+            let progressBar = document.getElementById('progressBar');
+            progressBar.style.width = '20%';
+
+            try {
+                const arrayBuffer = await uploadedFile.arrayBuffer();
+                progressBar.style.width = '40%';
+
+                const zip = new JSZip();
+                const zipContent = await zip.loadAsync(arrayBuffer);
+                
+                progressBar.style.width = '60%';
+                let slideFiles = Object.keys(zipContent.files).filter(filename => filename.startsWith('ppt/slides/slide'));
+                
+                let container = document.getElementById('hidden-html-container');
+                container.innerHTML = '';
+                container.style.display = 'block';
+
+                if(slideFiles.length === 0) {
+                    container.innerHTML = `<div class="slide-page"><h2 style="font-size:28px; font-weight:bold; margin-bottom:20px;">${uploadedFile.name}</h2><p>PowerPoint presentation processed successfully.</p></div>`;
+                } else {
+                    for (let i = 0; i < slideFiles.length; i++) {
+                        let slideXml = await zipContent.files[slideFiles[i]].async('text');
+                        let matches = slideXml.match(/<a:t[^>]*>(.*?)<\/a:t>/g);
+                        let slideText = '';
+                        if (matches) {
+                            slideText = matches.map(m => m.replace(/<[^>]*>/g, '')).join('<br>');
+                        } else {
+                            slideText = 'Slide ' + (i + 1);
+                        }
+
+                        let slideDiv = document.createElement('div');
+                        slideDiv.className = 'slide-page';
+                        slideDiv.innerHTML = `
+                            <div style="display:flex; justify-content:space-between; border-bottom:2px solid #e5322d; padding-bottom:10px; margin-bottom:20px;">
+                                <span style="font-weight:bold; color:#e5322d; font-size:16px;">ToolVerse Presentation</span>
+                                <span style="color:#718096; font-size:14px;">Slide ${i + 1} of ${slideFiles.length}</span>
+                            </div>
+                            <div style="font-size: 20px; line-height: 1.6; color: #2d3748; word-break: break-word;">
+                                ${slideText}
+                            </div>
+                        `;
+                        container.appendChild(slideDiv);
+                    }
+                }
+
+                progressBar.style.width = '85%';
+
+                const opt = {
+                    margin:       0.4,
+                    filename:     uploadedFile.name.replace(/\.[^/.]+$/, "") + '_ToolVerse.pdf',
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { scale: 2 },
+                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+                };
+
+                html2pdf().set(opt).from(container).output('blob').then(function(pdfBlob) {
+                    generatedPdfBlob = pdfBlob;
+                    finalFileName = opt.filename;
+                    progressBar.style.width = '100%';
+                    container.style.display = 'none';
+                    
+                    setTimeout(() => { showStep(4); }, 600);
+                });
+
+            } catch (error) {
+                console.error(error);
+                alert('Conversion failed. Please try another PowerPoint file.');
+                resetTool();
+            }
+        }
+
+        function downloadPDF() {
+            if (generatedPdfBlob) {
+                const url = URL.createObjectURL(generatedPdfBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = finalFileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+    </script>
+</body>
+</html>
