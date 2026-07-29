@@ -13,63 +13,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        .crypto-nav-btn {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: #1e293b !important;
-            font-weight: 700 !important;
-            padding: 8px 16px !important;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
-            border: 2px solid #fff;
-            transition: 0.3s;
-            cursor: pointer;
-        }
+        .crypto-nav-btn { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #1e293b !important; font-weight: 700 !important; padding: 8px 16px !important; border-radius: 20px; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); border: 2px solid #fff; transition: 0.3s; cursor: pointer; }
         .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
         .header-container { display: flex; align-items: center; justify-content: space-between; }
-        
-        .premium-profile-btn {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            color: #f8fafc !important;
-            font-weight: 600 !important;
-            font-size: 0.9rem !important;
-            padding: 6px 16px 6px 6px !important; 
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(77, 166, 255, 0.3);
-            transition: 0.3s;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .premium-profile-btn:hover {
-            border-color: #4da6ff;
-            box-shadow: 0 4px 15px rgba(77, 166, 255, 0.2);
-            transform: translateY(-2px);
-        }
-        .profile-avatar-icon {
-            background: rgba(77, 166, 255, 0.15);
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .mining-widget {
-            position: fixed; bottom: 30px; left: 30px;
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px);
-            border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 12px;
-            padding: 12px 20px; display: flex; align-items: center; gap: 15px;
-            color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            cursor: pointer; z-index: 999; transition: 0.3s;
-            white-space: nowrap; 
-        }
+        .premium-profile-btn { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); color: #f8fafc !important; font-weight: 600 !important; font-size: 0.9rem !important; padding: 6px 16px 6px 6px !important; border-radius: 20px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(77, 166, 255, 0.3); transition: 0.3s; cursor: pointer; text-decoration: none; }
+        .premium-profile-btn:hover { border-color: #4da6ff; box-shadow: 0 4px 15px rgba(77, 166, 255, 0.2); transform: translateY(-2px); }
+        .profile-avatar-icon { background: rgba(77, 166, 255, 0.15); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .mining-widget { position: fixed; bottom: 30px; left: 30px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 12px; padding: 12px 20px; display: flex; align-items: center; gap: 15px; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.3); cursor: pointer; z-index: 999; transition: 0.3s; white-space: nowrap; }
         .mining-widget:hover { transform: scale(1.05); border-color: #fbbf24; }
         .mining-icon { font-size: 24px; animation: pickaxe 2s infinite; }
         @keyframes pickaxe { 0% { transform: rotate(0deg); } 50% { transform: rotate(-30deg); } 100% { transform: rotate(0deg); } }
@@ -79,29 +29,12 @@
         .pulse-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; animation: pulse 1s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
         .mining-balance { font-size: 1.2rem; font-weight: 800; color: #fbbf24; margin-left: 10px; white-space: nowrap; }
-
-        .crypto-modal, .auth-modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px);
-        }
-        .crypto-modal-content {
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24;
-            width: 90%; max-width: 450px; border-radius: 20px; padding: 30px; color: white; position: relative;
-            box-shadow: 0 20px 50px rgba(251, 191, 36, 0.2); text-align: center;
-            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .auth-modal-content {
-            background-color: #1e1e1e; padding: 35px 30px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-            text-align: center; width: 90%; max-width: 450px; position: relative; color: white;
-            border: 1px solid #333; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        .crypto-modal, .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .crypto-modal-content { background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24; width: 90%; max-width: 450px; border-radius: 20px; padding: 30px; color: white; position: relative; box-shadow: 0 20px 50px rgba(251, 191, 36, 0.2); text-align: center; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .auth-modal-content { background-color: #1e1e1e; padding: 35px 30px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.9); text-align: center; width: 90%; max-width: 450px; position: relative; color: white; border: 1px solid #333; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        .close-crypto, .close-auth {
-            position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s; z-index: 1000;
-        }
+        .close-crypto, .close-auth { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s; z-index: 1000; }
         .close-crypto:hover, .close-auth:hover { color: #ff4757; }
-        
         .crypto-badge { background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; display: inline-block; margin-bottom: 15px; border: 1px solid #fbbf24; }
         .crypto-header h2 { font-size: 1.8rem; margin-bottom: 5px; }
         .crypto-header p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 25px; }
@@ -120,51 +53,24 @@
         .invite-btn { background: #334155; color: white; border: 1px solid #475569; }
         .invite-btn:hover { background: #475569; }
         .status-note { font-size: 0.8rem; color: #64748b; margin-top: 15px; line-height: 1.5; }
-
         .auth-title { margin-top: 0; color: #4da6ff; letter-spacing: 1px; font-size: 1.5rem; margin-bottom: 5px; }
         .auth-subtitle { color: #aaaaaa; font-size: 13px; margin-bottom: 20px; }
         .auth-input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #333; border-radius: 6px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit; font-size: 14px;}
         .auth-input:focus { outline: none; border-color: #4da6ff; }
-        
-        select.auth-input {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 1em;
-            cursor: pointer;
-        }
-
+        select.auth-input { appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 10px center; background-size: 1em; cursor: pointer; }
         .otp-inputs { display: flex; justify-content: space-between; gap: 8px; margin: 20px 0; }
         .otp-box { width: 45px; height: 50px; text-align: center; font-size: 22px; font-weight: 700; background: #2a2a2a; border: 1px solid #444; color: #fff; border-radius: 8px; }
         .otp-box:focus { border-color: #4da6ff; outline: none; box-shadow: 0 0 10px rgba(77, 166, 255, 0.3); }
-
-        .suggestions-box {
-            position: absolute; top: 100%; left: 0; width: 100%; background: #2a2a2a;
-            border: 1px solid #4da6ff; border-radius: 6px; z-index: 1000;
-            list-style: none; padding: 0; margin: 0; max-height: 160px; overflow-y: auto; display: none;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: left;
-        }
-        .suggestions-box li {
-            padding: 12px; cursor: pointer; color: #fff; font-size: 13px; border-bottom: 1px solid #3a3a3a; line-height: 1.4;
-        }
+        .suggestions-box { position: absolute; top: 100%; left: 0; width: 100%; background: #2a2a2a; border: 1px solid #4da6ff; border-radius: 6px; z-index: 1000; list-style: none; padding: 0; margin: 0; max-height: 160px; overflow-y: auto; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: left; }
+        .suggestions-box li { padding: 12px; cursor: pointer; color: #fff; font-size: 13px; border-bottom: 1px solid #3a3a3a; line-height: 1.4; }
         .suggestions-box li:hover { background: #4da6ff; color: #121212; font-weight: 600; }
-
         .auth-submit-btn { width: 100%; padding: 12px; margin: 12px 0 8px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 15px; transition: 0.3s; font-family: inherit;}
         .auth-submit-btn:hover { background-color: #3388dd; }
         .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
         .auth-google-btn:hover { background-color: #e2e2e2; }
         .auth-divider { color: #666; font-size: 12px; margin: 12px 0; }
         #authMessageBox { margin-top: 10px; font-size: 13px; min-height: 18px; font-weight: 500;}
-
-        .cookie-popup {
-            position: fixed; bottom: 20px; right: 20px; width: 330px;
-            background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px;
-            padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            z-index: 10000; display: none; flex-direction: column; gap: 12px;
-            font-family: 'Inter', sans-serif;
-            animation: slideUp 0.5s ease-out forwards;
-        }
+        .cookie-popup { position: fixed; bottom: 20px; right: 20px; width: 330px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); z-index: 10000; display: none; flex-direction: column; gap: 12px; font-family: 'Inter', sans-serif; animation: slideUp 0.5s ease-out forwards; }
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .cookie-popup .cookie-icon { font-size: 20px; margin-bottom: -5px; }
         .cookie-popup p { font-size: 13px; color: #475569; line-height: 1.5; margin: 0; text-align: left; }
@@ -176,21 +82,9 @@
         .allow-selection:hover, .reject-all:hover { background: #f8fafc; border-color: #94a3b8; }
         .manage-prefs { text-align: center; font-size: 12px; color: #64748b; text-decoration: none; margin-top: 5px; cursor: pointer; display: block;}
         .manage-prefs:hover { color: #1e293b; }
-        
-        .hero-build-btn {
-            background: #b19cfd; color: #1e1e1e; padding: 16px 32px; border-radius: 30px; 
-            text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; 
-            gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(177, 156, 253, 0.4);
-            font-size: 1.1rem; border: none; cursor: pointer;
-        }
+        .hero-build-btn { background: #b19cfd; color: #1e1e1e; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(177, 156, 253, 0.4); font-size: 1.1rem; border: none; cursor: pointer; }
         .hero-build-btn:hover { background: #9c83f9; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(177, 156, 253, 0.6); }
-
-        .hero-secondary-btn {
-            background: #1e293b; color: #ffffff; padding: 16px 32px; border-radius: 30px; 
-            text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; 
-            gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.3);
-            font-size: 1.1rem; border: none; cursor: pointer;
-        }
+        .hero-secondary-btn { background: #1e293b; color: #ffffff; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.3); font-size: 1.1rem; border: none; cursor: pointer; }
         .hero-secondary-btn:hover { background: #334155; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30, 41, 59, 0.5); }
     </style>
 </head>
@@ -335,15 +229,15 @@
                 <div class="tool-desc">Separate one page or a whole set for easy conversion into independent PDF files.</div>
             </a>
 
-            <!-- 3. Compress PDF (UPDATED LINK) -->
+            <!-- 3. Compress PDF -->
             <a href="compress-pdf.html" class="pdf-card">
                 <div class="tool-icon bg-green"><i class="fa-solid fa-minimize"></i></div>
                 <div class="tool-title">Compress PDF</div>
                 <div class="tool-desc">Reduce file size while optimizing for maximal PDF quality.</div>
             </a>
 
-            <!-- 4. PDF to Word -->
-            <a href="#" class="pdf-card">
+            <!-- 4. PDF to Word (UPDATED LINK) -->
+            <a href="pdf-to-word.html" class="pdf-card">
                 <div class="tool-icon bg-blue"><i class="fa-solid fa-file-word"></i></div>
                 <div class="tool-title">PDF to Word</div>
                 <div class="tool-desc">Easily convert your PDF files into easy to edit DOC and DOCX documents.</div>
