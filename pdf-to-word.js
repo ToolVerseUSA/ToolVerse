@@ -9,9 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const convertBtn = document.getElementById('convertBtn');
     const resultBox = document.getElementById('resultBox');
     const pdfFileName = document.getElementById('pdfFileName');
+    
+    const standardBtn = document.getElementById('standardBtn');
+    const advancedBtn = document.getElementById('advancedBtn');
 
     let currentFile = null;
     let fileArrayBuffer = null;
+    let conversionMode = 'standard';
 
     // --- UPLOAD LOGIC ---
     dropZone.addEventListener('click', () => fileInput.click());
@@ -51,17 +55,28 @@ document.addEventListener('DOMContentLoaded', () => {
         dropZone.style.display = "block";
     };
 
+    window.selectMode = function(mode) {
+        conversionMode = mode;
+        if (mode === 'standard') {
+            standardBtn.classList.add('active');
+            advancedBtn.classList.remove('active');
+        } else {
+            advancedBtn.classList.add('active');
+            standardBtn.classList.remove('active');
+        }
+    };
+
     // --- CONVERSION LOGIC ---
     convertBtn.addEventListener('click', async () => {
         if (!fileArrayBuffer) return;
 
         const originalBtnText = convertBtn.innerHTML;
-        convertBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Extracting Text...`;
+        convertBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Analyzing Layout...`;
         convertBtn.disabled = true;
         resultBox.style.display = "none";
 
         try {
-            // Firebase Auth & Credit Check (ToolVerse Standard)
+            // Firebase Auth & Credit Check
             if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
                 const user = firebase.auth().currentUser;
                 if (!user) { alert("🔒 Please login to use Premium Tools."); window.location.href = "index.html"; return; }
@@ -75,54 +90,71 @@ document.addEventListener('DOMContentLoaded', () => {
                 await userRef.update({ free_credits: firebase.firestore.FieldValue.increment(-1) });
             }
 
-            // Step 1: Read PDF using PDF.js
+            // Read PDF using PDF.js
             const pdfDoc = await pdfjsLib.getDocument({ data: fileArrayBuffer }).promise;
-            let fullTextLines = [];
+            let docParagraphs = [];
+            const { Document, Packer, Paragraph, TextRun } = docx;
 
             for (let i = 1; i <= pdfDoc.numPages; i++) {
-                convertBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Processing Page ${i} of ${pdfDoc.numPages}...`;
+                convertBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Reading Page ${i} of ${pdfDoc.numPages}...`;
                 const page = await pdfDoc.getPage(i);
                 const textContent = await page.getTextContent();
                 
                 let lastY = -1;
                 let currentLine = "";
 
-                // Very basic line construction logic
+                // Advanced Layout tracking vs Standard
                 textContent.items.forEach((item) => {
-                    if (lastY !== item.transform[5] && currentLine !== "") {
-                        fullTextLines.push(currentLine);
+                    const currentY = item.transform[5];
+                    
+                    if (lastY !== currentY && currentLine.trim() !== "") {
+                        // Advanced mode adds empty spacing if there is a big gap between lines
+                        if (conversionMode === 'advanced' && lastY !== -1) {
+                            const gap = Math.abs(lastY - currentY);
+                            if (gap > 30) {
+                                docParagraphs.push(new Paragraph({ children: [new TextRun("")] })); // Empty Line
+                            }
+                        }
+                        
+                        docParagraphs.push(new Paragraph({ children: [new TextRun(currentLine)] }));
                         currentLine = "";
                     }
                     currentLine += item.str + " ";
-                    lastY = item.transform[5];
+                    lastY = currentY;
                 });
-                if (currentLine !== "") fullTextLines.push(currentLine);
-                fullTextLines.push(""); // Page break separation
+                
+                if (currentLine.trim() !== "") {
+                    docParagraphs.push(new Paragraph({ children: [new TextRun(currentLine)] }));
+                }
+                
+                // Add page break at the end of each page for Advanced mode
+                if (conversionMode === 'advanced' && i < pdfDoc.numPages) {
+                    docParagraphs.push(new Paragraph({ children: [new TextRun("--- Page Break ---")] }));
+                }
             }
 
-            // Step 2: Build Word Document using docx library
-            convertBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Generating DOCX...`;
+            // Build Word Document using docx library
+            convertBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Formatting DOCX...`;
             
-            const { Document, Packer, Paragraph, TextRun } = docx;
-            
-            // Map text lines to Word Paragraphs
-            const docParagraphs = fullTextLines.map(textLine => {
-                return new Paragraph({
-                    children: [ new TextRun(textLine) ],
-                });
-            });
+            // If the document is totally empty (Scanned images PDF)
+            if (docParagraphs.length === 0) {
+                docParagraphs.push(new Paragraph({ 
+                    children: [new TextRun("No readable text found. The original PDF might be a scanned image.")] 
+                }));
+            }
 
             const doc = new Document({
                 sections: [{ properties: {}, children: docParagraphs }]
             });
 
-            // Step 3: Export & Download
+            // Export & Download
             const blob = await Packer.toBlob(doc);
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             
             const baseName = currentFile.name.replace('.pdf', '');
-            link.download = `ToolVerse_Converted_${baseName}.docx`;
+            const modeSuffix = conversionMode === 'advanced' ? '_Advanced' : '';
+            link.download = `ToolVerse_Word${modeSuffix}_${baseName}.docx`;
             
             document.body.appendChild(link);
             link.click();
@@ -132,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("Conversion error:", error);
-            alert("An error occurred during conversion. PDF might be scanned (images only) or password protected.");
+            alert("An error occurred during conversion. PDF might be password protected.");
         } finally {
             convertBtn.innerHTML = originalBtnText;
             convertBtn.disabled = false;
