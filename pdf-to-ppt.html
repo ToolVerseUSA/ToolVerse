@@ -3,28 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF to PowerPoint - ToolVerse</title>
+    <title>PDF to PowerPoint (VVIP) - ToolVerse</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- PDF.js for Reading PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <!-- PptxGenJS for Creating PPTX -->
-    <script src="https://cdn.jsdelivr.net/gh/gitbrent/pptxgenjs@3.12.0/libs/jszip.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/gitbrent/pptxgenjs@3.12.0/dist/pptxgen.min.js"></script>
+    
+    <!-- Firebase Security -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                window.isUserLoggedIn = false;
+            } else {
+                document.getElementById('authOverlay').style.display = 'none';
+                window.isUserLoggedIn = true;
+            }
+        });
+    </script>
     <style>
-        .loader { 
-            border-top-color: #f97316; 
-            -webkit-animation: spinner 1.5s linear infinite; 
-            animation: spinner 1.5s linear infinite; 
-        }
-        @keyframes spinner { 
-            0% { transform: rotate(0deg); } 
-            100% { transform: rotate(360deg); } 
-        }
+        .loader { border-top-color: #f97316; -webkit-animation: spinner 1.5s linear infinite; animation: spinner 1.5s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen font-sans">
+<body class="bg-gray-50 min-h-screen font-sans relative">
     
+    <!-- VVIP LOCK SCREEN -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-orange-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl transition duration-300">
+                Go to Home to Login
+            </a>
+        </div>
+    </div>
+
     <!-- Navbar -->
     <nav class="bg-white shadow-sm">
         <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -36,135 +63,121 @@
     <!-- Main Content -->
     <div class="max-w-3xl mx-auto px-4 py-12">
         <div class="text-center mb-10">
-            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">PDF to PowerPoint</h1>
-            <p class="text-lg text-gray-600">Safely convert your PDF files into editable PowerPoint (PPTX) presentations right in your browser.</p>
+            <span class="bg-orange-100 text-orange-600 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wide mb-3 inline-block">Pro Cloud API</span>
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Premium PDF to PowerPoint</h1>
+            <p class="text-lg text-gray-600">Convert your PDF files into 100% fully editable PowerPoint presentations (Text, Shapes, and Images).</p>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-orange-500">
-            <!-- Upload Box -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-orange-500 relative overflow-hidden">
+            
             <div id="dropZone" class="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-orange-500 transition-colors cursor-pointer bg-gray-50 hover:bg-orange-50">
                 <svg class="mx-auto h-14 w-14 text-orange-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                <p class="text-gray-700 font-semibold text-lg">Click to upload or drag & drop your PDF</p>
-                <p class="text-sm text-gray-500 mt-2">100% Secure. Files are not uploaded to any server.</p>
+                <p class="text-gray-700 font-semibold text-lg">Click to upload your PDF</p>
+                <p class="text-sm text-gray-500 mt-2">Maximum file size: 10MB</p>
                 <input type="file" id="fileInput" accept="application/pdf" class="hidden">
             </div>
 
-            <!-- Progress Area -->
             <div id="progressArea" class="hidden mt-6 text-center py-8">
                 <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-16 w-16 mx-auto mb-6"></div>
-                <p id="statusText" class="text-xl font-bold text-gray-800 mb-2">Preparing your file...</p>
-                <p class="text-sm text-gray-500 mb-4">Please don't close this tab</p>
-                <div class="w-full bg-gray-200 rounded-full h-3">
-                    <div id="progressBar" class="bg-orange-500 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
-                </div>
+                <p id="statusText" class="text-xl font-bold text-gray-800 mb-2">Analyzing and Converting...</p>
+                <p class="text-sm text-orange-500 font-medium mb-4">Using VVIP Cloud Engine. This may take a minute.</p>
             </div>
         </div>
     </div>
 
-    <!-- Script / Logic -->
     <script>
-        // Set up PDF.js worker
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        // ==========================================
+        // VVIP API KEY (ConvertAPI)
+        // ==========================================
+        // عمران بھائی، یہاں آپ نے اپنی ConvertAPI کی سیکرٹ کی لگانی ہے
+        const CONVERT_API_SECRET = 'YOUR_CONVERT_API_SECRET_HERE'; 
+        // ==========================================
 
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
         const progressArea = document.getElementById('progressArea');
-        const progressBar = document.getElementById('progressBar');
         const statusText = document.getElementById('statusText');
 
-        // Click to upload
-        dropZone.addEventListener('click', () => fileInput.click());
-        
-        // Drag and drop styles
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('border-orange-500', 'bg-orange-50');
+        dropZone.addEventListener('click', () => {
+            if(window.isUserLoggedIn === false) return;
+            fileInput.click();
         });
 
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('border-orange-500', 'bg-orange-50');
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('border-orange-500', 'bg-orange-50');
-            if (e.dataTransfer.files.length > 0) {
-                processFile(e.dataTransfer.files[0]);
-            }
-        });
-
-        // File selected via click
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
-                processFile(e.target.files[0]);
+                if (CONVERT_API_SECRET === 'YOUR_CONVERT_API_SECRET_HERE') {
+                    alert("عمران بھائی! براہ کرم کوڈ میں ConvertAPI کی Secret Key شامل کریں تاکہ کلاؤڈ کنورژن کام کر سکے۔");
+                    return;
+                }
+                processFileAPI(e.target.files[0]);
             }
         });
 
-        async function processFile(file) {
+        async function processFileAPI(file) {
             if (file.type !== 'application/pdf') {
-                alert('عمران بھائی، براہ کرم صرف PDF فائل منتخب کریں!');
+                alert('براہ کرم صرف PDF فائل منتخب کریں!');
                 return;
             }
 
-            // UI Changes
             dropZone.classList.add('hidden');
             progressArea.classList.remove('hidden');
-            progressBar.style.width = '0%';
             
             try {
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-                const totalPages = pdf.numPages;
+                statusText.innerText = 'Uploading to Secure Cloud...';
                 
-                // Initialize PPTX Generator
-                let pptx = new PptxGenJS();
-                pptx.layout = 'LAYOUT_16x9'; // Standard modern PPT size
+                // Convert file to Base64
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = async function () {
+                    const base64File = reader.result.split(',')[1];
 
-                // Process each page
-                for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
-                    statusText.innerText = `Converting Slide ${pageNum} of ${totalPages}...`;
-                    progressBar.style.width = `${(pageNum / totalPages) * 100}%`;
+                    statusText.innerText = 'Extracting Editable Vectors & Text...';
 
-                    const page = await pdf.getPage(pageNum);
-                    // High quality render scale
-                    const viewport = page.getViewport({ scale: 2.5 }); 
-                    
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.width = viewport.width;
-                    canvas.height = viewport.height;
+                    // Request to ConvertAPI
+                    const response = await fetch(`https://v2.convertapi.com/convert/pdf/to/pptx?Secret=${CONVERT_API_SECRET}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            Parameters: [
+                                {
+                                    Name: 'File',
+                                    FileValue: {
+                                        Name: file.name,
+                                        Data: base64File
+                                    }
+                                }
+                            ]
+                        })
+                    });
 
-                    await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-                    
-                    // Convert canvas to image data
-                    const imgData = canvas.toDataURL('image/jpeg', 0.85);
-                    
-                    // Add slide and paste image
-                    let slide = pptx.addSlide();
-                    slide.addImage({ data: imgData, x: 0, y: 0, w: '100%', h: '100%' });
-                }
+                    const data = await response.json();
 
-                statusText.innerText = 'Finalizing PPTX File...';
-                
-                // Save the file
-                const outputFileName = file.name.replace('.pdf', '_ToolVerse.pptx');
-                await pptx.writeFile({ fileName: outputFileName });
+                    if (response.ok) {
+                        statusText.innerText = 'Conversion Complete! Downloading...';
+                        statusText.classList.add('text-green-600');
 
-                statusText.innerText = 'Download Successful! 🎉';
-                statusText.classList.add('text-green-600');
-                
-                // Reset UI after 3 seconds
-                setTimeout(() => {
-                    dropZone.classList.remove('hidden');
-                    progressArea.classList.add('hidden');
-                    statusText.classList.remove('text-green-600');
-                    progressBar.style.width = '0%';
-                    fileInput.value = '';
-                }, 3000);
+                        // Download the converted file
+                        const fileData = data.Files[0].FileData;
+                        const a = document.createElement('a');
+                        a.href = `data:application/vnd.openxmlformats-officedocument.presentationml.presentation;base64,${fileData}`;
+                        a.download = file.name.replace('.pdf', '_ToolVerse_VVIP.pptx');
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
 
+                        setTimeout(() => {
+                            dropZone.classList.remove('hidden');
+                            progressArea.classList.add('hidden');
+                            statusText.classList.remove('text-green-600');
+                            fileInput.value = '';
+                        }, 3000);
+                    } else {
+                        throw new Error(data.Message || 'Conversion API failed');
+                    }
+                };
             } catch (error) {
                 console.error(error);
-                alert('Conversion failed. Please try again.');
+                alert('Error: ' + error.message);
                 dropZone.classList.remove('hidden');
                 progressArea.classList.add('hidden');
                 fileInput.value = '';
