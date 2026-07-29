@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF to PowerPoint (Perfect Fit) - ToolVerse</title>
-    <!-- Tailwind CSS -->
+    <title>PDF to PowerPoint (Magic Zoom) - ToolVerse</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Firebase Security -->
@@ -34,7 +33,6 @@
         });
     </script>
 
-    <!-- PDF.js & PptxGenJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/pptxgenjs@3.12.0/libs/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/pptxgenjs@3.12.0/dist/pptxgen.min.js"></script>
@@ -42,6 +40,10 @@
     <style>
         .loader { border-top-color: #f97316; -webkit-animation: spinner 1.5s linear infinite; animation: spinner 1.5s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Custom Slider Style */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; width: 24px; height: 24px; border-radius: 50%; background: #f97316; cursor: pointer;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen font-sans relative">
@@ -52,9 +54,7 @@
             <div class="text-5xl mb-4">🔒</div>
             <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
             <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
-            <a href="index.html" class="block w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl transition duration-300">
-                Go to Home to Login
-            </a>
+            <a href="index.html" class="block w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
         </div>
     </div>
 
@@ -69,24 +69,40 @@
     <!-- Main Content -->
     <div class="max-w-3xl mx-auto px-4 py-12">
         <div class="text-center mb-10">
-            <span class="bg-green-100 text-green-700 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wide mb-3 inline-block">100% Client-Side Fixed</span>
+            <span class="bg-green-100 text-green-700 font-bold px-3 py-1 rounded-full text-xs uppercase tracking-wide mb-3 inline-block">Pro Feature Added</span>
             <h1 class="text-4xl font-extrabold text-gray-900 mb-4">PDF to PowerPoint</h1>
-            <p class="text-lg text-gray-600">Convert your PDF files into HD PowerPoint (PPTX) presentations right in your browser. Lifetime Free.</p>
+            <p class="text-lg text-gray-600">Convert PDFs exactly as they are, or zoom in to remove white borders!</p>
         </div>
 
         <div class="bg-white rounded-2xl shadow-xl p-8 border-t-4 border-orange-500">
-            <div id="dropZone" class="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-orange-500 transition-colors cursor-pointer bg-gray-50 hover:bg-orange-50">
+            
+            <!-- MAGIC ZOOM SLIDER -->
+            <div class="mb-8 bg-orange-50 p-6 rounded-xl border border-orange-200">
+                <div class="flex justify-between items-center mb-2">
+                    <label class="font-bold text-gray-800 text-lg">🔍 Magic Zoom (Remove Margins)</label>
+                    <span id="zoomValue" class="bg-orange-500 text-white px-3 py-1 rounded-full font-bold">100%</span>
+                </div>
+                <p class="text-sm text-gray-600 mb-4">If your PDF has white borders, increase zoom to push them off the slide! (No stretching)</p>
+                <input type="range" id="zoomSlider" min="100" max="150" value="100" class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer">
+                <div class="flex justify-between text-xs text-gray-500 mt-2 font-semibold">
+                    <span>100% (Original Size)</span>
+                    <span>125% (Medium Crop)</span>
+                    <span>150% (Max Crop)</span>
+                </div>
+            </div>
+
+            <!-- Upload Box -->
+            <div id="dropZone" class="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center hover:border-orange-500 transition-colors cursor-pointer bg-gray-50 hover:bg-orange-50">
                 <svg class="mx-auto h-14 w-14 text-orange-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                 <p class="text-gray-700 font-semibold text-lg">Click to upload or drag & drop your PDF</p>
-                <p class="text-sm text-gray-500 mt-2">No file size limits. Files are never uploaded to any server.</p>
                 <input type="file" id="fileInput" accept="application/pdf" class="hidden">
             </div>
 
+            <!-- Progress -->
             <div id="progressArea" class="hidden mt-6 text-center py-8">
                 <div class="loader ease-linear rounded-full border-4 border-t-4 border-orange-500 h-16 w-16 mx-auto mb-6"></div>
                 <p id="statusText" class="text-xl font-bold text-gray-800 mb-2">Preparing your file...</p>
-                <p class="text-sm text-gray-500 mb-4">Applying perfect fit dimensions. Please wait.</p>
-                <div class="w-full bg-gray-200 rounded-full h-3">
+                <div class="w-full bg-gray-200 rounded-full h-3 mt-4">
                     <div id="progressBar" class="bg-orange-500 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
                 </div>
             </div>
@@ -102,17 +118,24 @@
         const progressArea = document.getElementById('progressArea');
         const progressBar = document.getElementById('progressBar');
         const statusText = document.getElementById('statusText');
+        
+        // Slider Logic
+        const zoomSlider = document.getElementById('zoomSlider');
+        const zoomValueText = document.getElementById('zoomValue');
+        zoomSlider.addEventListener('input', function() {
+            zoomValueText.innerText = this.value + '%';
+        });
 
         dropZone.addEventListener('click', () => {
             if(window.isUserLoggedIn === false) return;
             fileInput.click();
         });
         
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-orange-500', 'bg-orange-50'); });
-        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-orange-500', 'bg-orange-50'); });
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-orange-500'); });
+        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-orange-500'); });
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
-            dropZone.classList.remove('border-orange-500', 'bg-orange-50');
+            dropZone.classList.remove('border-orange-500');
             if (e.dataTransfer.files.length > 0 && window.isUserLoggedIn !== false) {
                 processFile(e.dataTransfer.files[0]);
             }
@@ -140,21 +163,10 @@
                 const totalPages = pdf.numPages;
                 
                 let pptx = new PptxGenJS();
-
-                // ---------------------------------------------------------
-                // MAGIC FIX: Setup EXACT layout BEFORE creating any slides
-                // ---------------------------------------------------------
-                const firstPage = await pdf.getPage(1);
-                const baseViewport = firstPage.getViewport({ scale: 1.0 }); // Get original PDF size
+                let layoutDefined = false;
                 
-                // Convert points to inches (1 inch = 72 points)
-                const slideWidth = baseViewport.width / 72;
-                const slideHeight = baseViewport.height / 72;
-
-                // Set layout globally for the whole presentation
-                pptx.defineLayout({ name: 'EXACT_PDF_SIZE', width: slideWidth, height: slideHeight });
-                pptx.layout = 'EXACT_PDF_SIZE';
-                // ---------------------------------------------------------
+                // Get Zoom Level from Slider (e.g., 1.0 to 1.5)
+                const zoomFactor = parseInt(zoomSlider.value) / 100;
 
                 for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
                     statusText.innerText = `Processing Slide ${pageNum} of ${totalPages}...`;
@@ -162,9 +174,20 @@
 
                     const page = await pdf.getPage(pageNum);
                     
-                    // Optimal scale (1.5) - Great quality, prevents mobile RAM from crashing (No blank screens)
-                    const renderScale = 1.5; 
+                    // High Quality Render (2.0)
+                    const renderScale = 2.0; 
                     const viewport = page.getViewport({ scale: renderScale }); 
+                    
+                    // Base Slide Size exactly matches PDF original size
+                    const slideWidth = (viewport.width / renderScale) / 72;
+                    const slideHeight = (viewport.height / renderScale) / 72;
+
+                    // Set layout exact to prevent stretching
+                    if (!layoutDefined) {
+                        pptx.defineLayout({ name: 'EXACT_PDF_SIZE', width: slideWidth, height: slideHeight });
+                        pptx.layout = 'EXACT_PDF_SIZE';
+                        layoutDefined = true;
+                    }
                     
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
@@ -172,29 +195,33 @@
                     canvas.height = viewport.height;
 
                     await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-                    
-                    // Standard JPEG to save memory overhead
-                    const imgData = canvas.toDataURL('image/jpeg', 0.85);
+                    const imgData = canvas.toDataURL('image/jpeg', 0.90);
                     
                     let slide = pptx.addSlide();
                     
-                    // Add image precisely to the dimensions of the slide (Edge-to-Edge)
+                    // ----------------------------------------------------
+                    // MAGIC ZOOM ALGORITHM (Keeps center, crops borders)
+                    // ----------------------------------------------------
+                    const imgW = slideWidth * zoomFactor;
+                    const imgH = slideHeight * zoomFactor;
+                    const offsetX = (slideWidth - imgW) / 2;
+                    const offsetY = (slideHeight - imgH) / 2;
+
                     slide.addImage({ 
                         data: imgData, 
-                        x: 0, 
-                        y: 0, 
-                        w: slideWidth, 
-                        h: slideHeight 
+                        x: offsetX, 
+                        y: offsetY, 
+                        w: imgW, 
+                        h: imgH 
                     });
 
-                    // Clear RAM immediately
                     canvas.width = 0;
                     canvas.height = 0;
                 }
 
                 statusText.innerText = 'Finalizing Presentation...';
                 
-                const outputFileName = file.name.replace('.pdf', '_ToolVerse_Done.pptx');
+                const outputFileName = file.name.replace('.pdf', '_Zoomed_ToolVerse.pptx');
                 await pptx.writeFile({ fileName: outputFileName });
 
                 statusText.innerText = 'Download Successful! 🎉';
