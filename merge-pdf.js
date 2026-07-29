@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.files.length > 0) {
             handleFiles(e.target.files);
         }
-        // Reset input so same file can be selected again if needed
         fileInput.value = "";
     });
 
@@ -69,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
         card.className = 'pdf-item';
         card.setAttribute('data-id', id);
         
-        // Truncate long names
         let displayName = fileName;
         if(displayName.length > 15) displayName = displayName.substring(0, 15) + '...';
 
@@ -116,37 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
         statusMessage.style.display = "none";
 
         try {
-            // 1. Firebase Auth & Credit Check (Consistent with ToolVerse ecosystem)
-            if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
-                const user = firebase.auth().currentUser;
-                if (!user) {
-                    alert("🔒 Please login to use Premium Tools.");
-                    window.location.href = "index.html"; 
-                    return;
-                }
-                const db = firebase.firestore();
-                const userRef = db.collection('users').doc(user.uid);
-                const userDoc = await userRef.get();
-                const freeCredits = userDoc.data()?.free_credits || 0;
-
-                if (freeCredits <= 0) {
-                    alert("🎁 You have run out of Daily Free Credits!");
-                    mergeBtn.innerHTML = originalBtnText;
-                    mergeBtn.disabled = false;
-                    return; 
-                }
-                
-                // Deduct Credit
-                await userRef.update({
-                    free_credits: firebase.firestore.FieldValue.increment(-1)
-                });
-            }
-
-            // 2. Perform Client-Side Merge
+            // Client-Side Merge
             const { PDFDocument } = PDFLib;
             const mergedPdf = await PDFDocument.create();
 
-            // Get current order of files from the DOM
+            // Get current order of files from the DOM (after dragging)
             const domOrderIds = Array.from(fileGrid.children).map(card => card.getAttribute('data-id'));
 
             for (const id of domOrderIds) {
@@ -159,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // 3. Save and Download
+            // Save and Download
             const mergedPdfBytes = await mergedPdf.save();
             const blob = new Blob([mergedPdfBytes], { type: "application/pdf" });
             const link = document.createElement('a');
