@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to JPG (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Firebase Security for VVIP -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                window.isUserLoggedIn = false;
+            } else {
+                document.getElementById('authOverlay').style.display = 'none';
+                window.isUserLoggedIn = true;
+            }
+        });
+    </script>
+
+    <!-- PDF.js for rendering and JSZip for zipping images -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <style>
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border-top-color: #e5322d; -webkit-animation: spinner 1s linear infinite; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        body { background-color: #f3f4f7; }
+
+        @keyframes pulse-red-wide {
+            0% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.8); }
+            70% { box-shadow: 0 0 0 20px rgba(229, 50, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); }
+        }
+        .btn-pulse { animation: pulse-red-wide 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        
+        /* Thumbnail Shadow like Screenshot */
+        .thumb-shadow { box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; background: white; padding: 10px; }
+    </style>
+</head>
+<body class="min-h-screen font-sans relative flex flex-col overflow-x-hidden">
+    
+    <!-- VVIP LOCK SCREEN -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-red-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full ilovepdf-red text-white font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
+        </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">
+                    Tool<span class="ilovepdf-text">Verse</span>
+                </a>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700 hidden md:flex">
+                <a href="merge-pdf.html" class="hover:ilovepdf-text transition uppercase">Merge PDF</a>
+                <a href="split-pdf.html" class="hover:ilovepdf-text transition uppercase">Split PDF</a>
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STEP 1: UPLOAD SCREEN -->
+    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center text-center px-4 py-20">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">PDF to JPG</h1>
+        <p class="text-xl text-gray-600 mb-10 hidden md:block max-w-2xl">Convert each PDF page into a JPG or extract all images contained in a PDF.</p>
+        
+        <input type="file" id="fileInput" accept="application/pdf" class="hidden">
+        
+        <div class="relative flex items-stretch justify-center dropZone group cursor-pointer" onclick="triggerFileInput()">
+            <div class="ilovepdf-red text-white text-2xl font-bold py-6 px-10 md:px-20 rounded-l-xl transition shadow-lg flex items-center justify-center h-24 whitespace-nowrap hover:bg-red-700">
+                Select PDF file
+            </div>
+            <div class="flex flex-col space-y-[2px] ml-[2px]">
+                <div class="ilovepdf-red w-14 h-[47px] rounded-tr-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition">
+                    <i class="fa-brands fa-google-drive text-white text-xl"></i>
+                </div>
+                <div class="ilovepdf-red w-14 h-[47px] rounded-br-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition">
+                    <i class="fa-brands fa-dropbox text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+        <p class="mt-6 text-gray-500 font-medium">or drop PDF here</p>
+    </div>
+
+    <!-- STEP 2: WORKSPACE & OPTIONS -->
+    <div id="step2" class="hidden flex-grow flex flex-col md:flex-row h-[calc(100vh-65px)]">
+        
+        <!-- Left: Workspace with Thumbnail -->
+        <div class="flex-1 bg-[#f3f4f7] flex items-center justify-center p-10 relative overflow-auto">
+            <div class="relative thumb-shadow rounded-sm max-w-[250px] md:max-w-[300px]">
+                <canvas id="pdf-thumb" class="w-full"></canvas>
+                <!-- Red Badge for Page Count -->
+                <div class="absolute -top-3 -right-3 bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm shadow-md border border-white">
+                    <span id="pageCountBadge">1</span>
+                </div>
+                <p id="fileNameDisplay" class="text-center text-xs text-gray-500 mt-2 truncate w-full px-2"></p>
+            </div>
+            <!-- Add more button (visual only) -->
+            <button class="absolute top-1/2 right-4 md:right-10 transform -translate-y-1/2 bg-white text-red-500 rounded-full w-12 h-12 shadow-lg flex items-center justify-center text-2xl hover:bg-gray-50 border border-gray-100 hidden md:flex" onclick="triggerFileInput()">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+
+        <!-- Right: Settings Panel -->
+        <div class="w-full md:w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0">
+            <div class="p-5 font-bold text-gray-700 border-b border-gray-200 text-center text-lg bg-white">
+                PDF to JPG options
+            </div>
+            
+            <div class="p-4 flex-1 overflow-y-auto">
+                
+                <!-- Option 1: Page to JPG (Active) -->
+                <div class="border-2 border-red-500 bg-red-50 p-4 rounded flex items-start gap-3 cursor-pointer mb-3 relative">
+                    <i class="fa-regular fa-image text-3xl text-gray-700 mt-1"></i>
+                    <div>
+                        <h4 class="font-bold text-sm text-red-500 uppercase mb-1">Page to JPG</h4>
+                        <p class="text-xs text-gray-600 leading-tight">Every page of this PDF will be converted into a JPG file. <span id="pagesToCreate" class="font-bold"></span> JPG will be created.</p>
+                    </div>
+                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-500 text-lg">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                </div>
+
+                <!-- Option 2: Extract Images (Disabled/Mock) -->
+                <div class="border border-gray-200 p-4 rounded flex items-start gap-3 cursor-pointer opacity-50 hover:bg-gray-50 transition" onclick="alert('For 100% offline security and best quality, ToolVerse currently strictly converts full pages to JPGs.')">
+                    <i class="fa-solid fa-images text-3xl text-gray-700 mt-1"></i>
+                    <div>
+                        <h4 class="font-bold text-sm text-gray-700 uppercase mb-1">Extract Images</h4>
+                        <p class="text-xs text-gray-600 leading-tight">All embedded images inside the PDF will be extracted as JPG images.</p>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h4 class="font-bold text-sm text-gray-800 mb-3 text-center">Image quality</h4>
+                    <div class="flex gap-2">
+                        <button id="qual-normal" onclick="setQuality(1.5, 'normal')" class="flex-1 border-2 border-red-500 text-red-500 rounded py-2 flex flex-col items-center justify-center bg-red-50 transition">
+                            <span class="text-sm font-bold">Normal</span>
+                            <span class="text-[10px] font-normal mt-0.5">Recommended</span>
+                        </button>
+                        <button id="qual-high" onclick="setQuality(3.0, 'high')" class="flex-1 border border-gray-200 text-gray-600 rounded py-2 flex items-center justify-center hover:bg-gray-50 transition">
+                            <span class="text-sm font-bold">High</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Convert Button -->
+            <div class="p-4 bg-gray-50 border-t border-gray-200 pb-8 md:pb-4">
+                <button onclick="startConversion()" class="btn-pulse w-full ilovepdf-red text-white font-bold py-4 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
+                    Convert to JPG <i class="fa-solid fa-circle-arrow-right ml-2 text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 3: LOADING / PROCESSING -->
+    <div id="step3" class="hidden w-full flex-grow flex flex-col items-center justify-center pt-20 pb-10">
+        <div class="loader rounded-full border-4 border-gray-200 h-20 w-20 mx-auto mb-8"></div>
+        <h3 class="text-3xl font-bold text-gray-800 mb-2">Converting PDF...</h3>
+        <p id="processingStatus" class="text-gray-500 font-medium">Preparing pages 0%</p>
+    </div>
+
+    <!-- STEP 4: DOWNLOAD SCREEN -->
+    <div id="step4" class="hidden w-full flex-grow flex flex-col items-center justify-center text-center px-4 pt-16 pb-10 bg-white">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10">PDF has been converted to JPG images</h2>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+            <button onclick="resetTool()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block">
+                <i class="fa-solid fa-arrow-left text-xl"></i>
+            </button>
+
+            <button id="downloadBtn" class="ilovepdf-red text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
+                <i class="fa-solid fa-download mr-4 text-2xl"></i>
+                <span id="downloadText">Download JPG images</span>
+            </button>
+            
+            <div class="grid grid-cols-2 gap-1 md:ml-2">
+                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-tl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-google-drive"></i></div>
+                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-tr-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-link"></i></div>
+                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-bl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-dropbox"></i></div>
+                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-br-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-trash-can"></i></div>
+            </div>
+        </div>
+        
+        <div class="mt-12 bg-gray-50 border border-gray-200 rounded-lg p-6 max-w-2xl w-full flex items-center justify-between">
+            <span class="font-bold text-gray-700">Continue to...</span>
+            <a href="#" class="flex items-center gap-2 text-gray-600 hover:text-red-500 font-semibold transition">
+                <i class="fa-solid fa-file-image text-yellow-500 text-xl"></i> Image to PDF <i class="fa-solid fa-chevron-right text-xs"></i>
+            </a>
+        </div>
+        
+        <button onclick="resetTool()" class="mt-8 text-gray-500 font-bold underline md:hidden">Start Over</button>
+    </div>
+
+    <!-- Script / Logic -->
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        let uploadedFile = null;
+        let pdfDocument = null;
+        let pdfPagesCount = 0;
+        let finalUrl = null;
+        let isZip = false;
+        let selectedScale = 1.5; // Normal Quality default
+
+        const fileInput = document.getElementById('fileInput');
+        const thumbCanvas = document.getElementById('pdf-thumb');
+        const pageCountBadge = document.getElementById('pageCountBadge');
+        const pagesToCreate = document.getElementById('pagesToCreate');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const statusText = document.getElementById('processingStatus');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const downloadText = document.getElementById('downloadText');
+        
+        function triggerFileInput() {
+            if(window.isUserLoggedIn === false) return;
+            fileInput.click();
+        }
+
+        // Quality Toggle UI
+        window.setQuality = function(scale, type) {
+            selectedScale = scale;
+            const btnNormal = document.getElementById('qual-normal');
+            const btnHigh = document.getElementById('qual-high');
+            
+            if(type === 'normal') {
+                btnNormal.className = "flex-1 border-2 border-red-500 text-red-500 rounded py-2 flex flex-col items-center justify-center bg-red-50 transition";
+                btnHigh.className = "flex-1 border border-gray-200 text-gray-600 rounded py-2 flex items-center justify-center hover:bg-gray-50 transition";
+            } else {
+                btnHigh.className = "flex-1 border-2 border-red-500 text-red-500 rounded py-2 flex items-center justify-center bg-red-50 transition";
+                btnNormal.className = "flex-1 border border-gray-200 text-gray-600 rounded py-2 flex flex-col items-center justify-center hover:bg-gray-50 transition";
+            }
+        }
+
+        const dropZones = document.querySelectorAll('.dropZone');
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => { e.preventDefault(); document.body.style.opacity = "0.7"; });
+            zone.addEventListener('dragleave', () => { document.body.style.opacity = "1"; });
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault(); document.body.style.opacity = "1";
+                if (e.dataTransfer.files.length > 0 && window.isUserLoggedIn !== false) {
+                    handleFileSelection(e.dataTransfer.files[0]);
+                }
+            });
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleFileSelection(e.target.files[0]);
+        });
+
+        function showStep(stepNumber) {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById(`step${stepNumber}`).classList.remove('hidden');
+        }
+
+        async function handleFileSelection(file) {
+            if (file.type !== 'application/pdf') {
+                alert('براہ کرم صرف PDF فائل منتخب کریں!');
+                return;
+            }
+            uploadedFile = file;
+            showStep(3); 
+            statusText.innerText = "Loading PDF...";
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                pdfDocument = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                pdfPagesCount = pdfDocument.numPages;
+                
+                // Update UI Texts
+                pageCountBadge.innerText = pdfPagesCount;
+                pagesToCreate.innerText = pdfPagesCount;
+                fileNameDisplay.innerText = file.name;
+
+                // Render Thumbnail (Page 1)
+                const page = await pdfDocument.getPage(1);
+                const viewport = page.getViewport({ scale: 1.0 }); // low res for thumb
+                thumbCanvas.width = viewport.width;
+                thumbCanvas.height = viewport.height;
+                const ctx = thumbCanvas.getContext('2d');
+                ctx.fillStyle = "white"; // Solid white background
+                ctx.fillRect(0, 0, thumbCanvas.width, thumbCanvas.height);
+                await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+
+                showStep(2); 
+
+            } catch (error) {
+                console.error("Error loading PDF:", error);
+                alert("Could not load PDF. Please try another file.");
+                resetTool();
+            }
+        }
+
+        async function startConversion() {
+            showStep(3);
+            
+            try {
+                let zip = new JSZip();
+                let singleImgDataUrl = null;
+
+                for(let i = 1; i <= pdfPagesCount; i++) {
+                    statusText.innerText = `Converting page ${i} of ${pdfPagesCount}...`;
+                    
+                    const page = await pdfDocument.getPage(i);
+                    const viewport = page.getViewport({ scale: selectedScale }); // Normal(1.5) or High(3.0)
+                    
+                    const canvas = document.createElement('canvas');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    const ctx = canvas.getContext('2d');
+                    
+                    // CRITICAL: PDFs are transparent, JPGs are not. Fill white first.
+                    ctx.fillStyle = "#ffffff";
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+                    
+                    const imgData = canvas.toDataURL('image/jpeg', 0.92);
+                    
+                    if (pdfPagesCount === 1) {
+                        singleImgDataUrl = imgData;
+                    } else {
+                        // Remove "data:image/jpeg;base64," prefix for JSZip
+                        const base64Data = imgData.split(',')[1];
+                        // Pad filename with zeros (e.g., page_01.jpg)
+                        const pageNumStr = i.toString().padStart(pdfPagesCount.toString().length, '0');
+                        zip.file(`${uploadedFile.name.replace('.pdf', '')}_page_${pageNumStr}.jpg`, base64Data, {base64: true});
+                    }
+                }
+
+                statusText.innerText = "Finalizing file...";
+
+                if (pdfPagesCount === 1) {
+                    isZip = false;
+                    finalUrl = singleImgDataUrl;
+                    downloadText.innerText = "Download JPG image";
+                } else {
+                    isZip = true;
+                    const blob = await zip.generateAsync({type:"blob"});
+                    finalUrl = URL.createObjectURL(blob);
+                    downloadText.innerText = "Download JPG images (ZIP)";
+                }
+                
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = finalUrl;
+                    if (isZip) {
+                        a.download = `ToolVerse_pages-to-jpg.zip`;
+                    } else {
+                        a.download = uploadedFile.name.replace('.pdf', '_ToolVerse.jpg');
+                    }
+                    a.click();
+                };
+
+                setTimeout(() => { showStep(4); }, 500);
+
+            } catch(e) {
+                console.error("Conversion error:", e);
+                alert("Error during conversion.");
+                showStep(2);
+            }
+        }
+
+        function resetTool() {
+            uploadedFile = null;
+            pdfDocument = null;
+            fileInput.value = '';
+            if(finalUrl && isZip) URL.revokeObjectURL(finalUrl);
+            setQuality(1.5, 'normal'); // reset quality
+            showStep(1); 
+        }
+    </script>
+</body>
+</html>
