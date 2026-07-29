@@ -46,7 +46,7 @@
         .loader { border-top-color: #e5322d; -webkit-animation: spinner 1s linear infinite; animation: spinner 1s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        body { background-color: #f3f4f7; }
+        body { background-color: #f3f4f7; overscroll-behavior-y: none; }
 
         /* WIDE PULSE ANIMATION */
         @keyframes pulse-red-wide {
@@ -54,25 +54,31 @@
             70% { box-shadow: 0 0 0 40px rgba(229, 50, 45, 0); }
             100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); }
         }
-        .btn-pulse {
-            animation: pulse-red-wide 1.6s infinite cubic-bezier(0.4, 0, 0.6, 1);
-        }
+        .btn-pulse { animation: pulse-red-wide 1.6s infinite cubic-bezier(0.4, 0, 0.6, 1); }
 
-        /* Custom Scrollbar for Editor */
+        /* Mobile FAB Save Button Pulse */
+        @keyframes pulse-fab {
+            0% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.6); }
+            70% { box-shadow: 0 0 0 20px rgba(229, 50, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); }
+        }
+        .fab-pulse { animation: pulse-fab 1.5s infinite; }
+
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        .toolbar-btn { padding: 8px; border-radius: 6px; cursor: pointer; transition: 0.2s; color: #475569; display: flex; align-items: center; gap: 6px;}
+        .toolbar-btn { padding: 8px; border-radius: 6px; cursor: pointer; transition: 0.2s; color: #475569; display: flex; align-items: center; justify-content: center;}
         .toolbar-btn:hover { background-color: #f1f5f9; color: #0f172a; }
-        .toolbar-btn.active { background-color: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; }
+        .toolbar-btn.active { color: #2563eb; font-weight: bold; background-color: #eff6ff; }
         
-        .drawing-canvas { position: absolute; top: 0; left: 0; z-index: 10; cursor: crosshair; }
+        .drawing-canvas { position: absolute; top: 0; left: 0; z-index: 10; touch-action: none; }
         .pdf-page-container { position: relative; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); background: white; }
     </style>
 </head>
-<body class="min-h-screen font-sans relative overflow-x-hidden flex flex-col">
+<body class="min-h-screen font-sans relative flex flex-col">
     
     <!-- VVIP LOCK SCREEN -->
     <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
@@ -123,74 +129,77 @@
         <p class="mt-6 text-gray-500 font-medium">or drop PDF here</p>
     </div>
 
-    <!-- STEP 2: FULL WORKSPACE EDITOR (Like Screenshot 2) -->
-    <div id="step2" class="hidden flex-grow flex flex-col bg-gray-100 overflow-hidden h-[calc(100vh-65px)]">
+    <!-- STEP 2: FULL WORKSPACE EDITOR -->
+    <div id="step2" class="hidden flex-grow flex flex-col bg-gray-100 overflow-hidden h-[calc(100vh-65px)] relative">
         
         <!-- Top Toolbar -->
-        <div class="bg-white border-b border-gray-200 h-14 flex items-center justify-between px-4 shrink-0 shadow-sm z-20">
-            <div class="flex items-center gap-2 border border-gray-200 rounded-lg p-1 bg-gray-50">
-                <button class="toolbar-btn active text-sm font-semibold bg-white shadow-sm px-4">
+        <div class="bg-white border-b border-gray-200 h-14 flex items-center justify-between px-2 md:px-4 shrink-0 shadow-sm z-20 overflow-x-auto">
+            <div class="flex items-center gap-1 md:gap-2 border border-gray-200 rounded-lg p-1 bg-gray-50 shrink-0">
+                <button class="text-sm font-semibold bg-white shadow-sm px-3 md:px-4 py-1 rounded flex items-center gap-1">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg> Annotate
                 </button>
-                <button class="toolbar-btn text-sm font-semibold px-4 text-gray-400 cursor-not-allowed">
-                    Edit <svg class="w-3 h-3 text-yellow-500 ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                <button onclick="alert('Offline PDF Text modification is restricted. Please use the Text (T) tool to overlay new text onto the PDF document.')" class="text-sm font-semibold px-2 md:px-4 py-1 text-gray-400 cursor-pointer flex items-center gap-1">
+                    Edit <svg class="w-3 h-3 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                 </button>
             </div>
             
-            <div class="flex items-center gap-4 text-gray-500">
-                <button class="hover:text-gray-900" title="Pan"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/></svg></button>
+            <div class="flex items-center gap-2 md:gap-4 shrink-0 mx-2">
+                <!-- Pan Tool -->
+                <button id="tool-pan" onclick="setTool('pan')" class="toolbar-btn active w-10 h-10" title="Pan / Scroll"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/></svg></button>
                 <div class="w-px h-6 bg-gray-300"></div>
-                <button class="hover:text-gray-900" title="Add Text"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M3 6h18M3 18h18"/></svg></button>
-                <button class="hover:text-gray-900" title="Add Image"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></button>
-                <button class="text-blue-600 font-bold" title="Draw (Active Tool)"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
-                <button class="hover:text-gray-900" title="Add Shape"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"/></svg></button>
+                <!-- Text Tool -->
+                <button id="tool-text" onclick="setTool('text')" class="toolbar-btn w-10 h-10" title="Add Text"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+                <!-- Pen Tool -->
+                <button id="tool-draw" onclick="setTool('draw')" class="toolbar-btn w-10 h-10" title="Draw / Sign"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
             </div>
             
-            <div class="w-20"></div> <!-- Spacer for balance -->
+            <div class="w-10 md:w-20 shrink-0"></div>
         </div>
 
         <!-- Main Workspace Area -->
         <div class="flex flex-1 overflow-hidden">
             
             <!-- Left Sidebar (Thumbnails) -->
-            <div class="w-48 bg-white border-r border-gray-200 overflow-y-auto hidden md:flex flex-col items-center py-4 gap-4 z-10 shadow-[2px_0_5px_rgba(0,0,0,0.02)]" id="thumbnail-container">
+            <div class="w-24 md:w-48 bg-white border-r border-gray-200 overflow-y-auto hidden md:flex flex-col items-center py-4 gap-4 z-10 shadow-[2px_0_5px_rgba(0,0,0,0.02)]" id="thumbnail-container">
                 <!-- Thumbnails will be injected here -->
             </div>
 
             <!-- Center View (PDF Render) -->
-            <div class="flex-1 overflow-y-auto bg-gray-200 relative flex flex-col items-center py-10" id="pdf-render-container">
-                <!-- PDF Pages with drawing canvas will be injected here -->
-                
-                <!-- Bottom Floating Navigation -->
-                <div class="fixed bottom-6 bg-gray-800 text-white rounded-lg shadow-lg px-4 py-2 flex items-center gap-4 opacity-90 z-20">
-                    <button class="hover:text-gray-300"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg></button>
-                    <div class="text-sm font-semibold bg-gray-700 px-2 py-1 rounded">1 / <span id="totalPagesText">1</span></div>
-                    <button class="hover:text-gray-300"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
-                    <div class="w-px h-4 bg-gray-600"></div>
-                    <button class="hover:text-gray-300"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg></button>
-                    <span class="text-sm">100%</span>
-                    <button class="hover:text-gray-300"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"/></svg></button>
-                </div>
+            <div class="flex-1 overflow-y-auto bg-gray-200 relative flex flex-col items-center py-6 md:py-10 px-2" id="pdf-render-container">
+                <!-- PDF Pages -->
             </div>
 
-            <!-- Right Sidebar (Properties & Save) -->
+            <!-- Bottom Floating Navigation -->
+            <div class="fixed bottom-6 left-1/2 transform -translate-x-1/2 md:left-auto md:-translate-x-0 md:right-[300px] bg-gray-800 text-white rounded-lg shadow-lg px-4 py-2 flex items-center gap-4 opacity-95 z-20">
+                <button class="hover:text-gray-300"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg></button>
+                <div class="text-sm font-semibold bg-gray-700 px-2 py-1 rounded">1 / <span id="totalPagesText">1</span></div>
+                <button class="hover:text-gray-300"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+            </div>
+
+            <!-- Right Sidebar (Properties & Save - Hidden on Mobile) -->
             <div class="w-64 bg-white border-l border-gray-200 hidden lg:flex flex-col z-10 shadow-[-2px_0_5px_rgba(0,0,0,0.02)]">
                 <div class="p-4 border-b border-gray-100 flex-1">
                     <h3 class="font-bold text-gray-800 text-center mb-6">Edit PDF</h3>
                     <div class="bg-blue-50 border border-blue-100 rounded-lg p-3 text-sm text-blue-800 flex items-start gap-2">
                         <svg class="w-5 h-5 text-blue-500 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                        <p>Use the pen tool in the toolbar to draw and annotate with ease. 100% Offline.</p>
+                        <p>Use the Toolbar to Draw or Add Text. Select "Pan" to scroll. 100% Offline.</p>
                     </div>
                 </div>
-                
                 <div class="p-4 bg-gray-50 border-t border-gray-200">
-                    <button onclick="savePdf()" id="saveBtn" class="btn-pulse w-full ilovepdf-red text-white font-bold py-3 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
+                    <button onclick="savePdf()" class="btn-pulse w-full ilovepdf-red text-white font-bold py-3 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
                         Save changes 
                         <svg class="w-5 h-5 ml-2 border border-white rounded-full p-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </button>
                 </div>
             </div>
         </div>
+
+        <!-- MOBILE FLOATING SAVE BUTTON (Always visible on small screens) -->
+        <button id="mobileSaveBtn" onclick="savePdf()" class="lg:hidden fixed bottom-24 right-4 fab-pulse ilovepdf-red text-white font-bold py-3 px-6 rounded-full shadow-2xl z-50 flex items-center gap-2 border-2 border-white">
+            Save PDF
+            <svg class="w-5 h-5 bg-white text-red-600 rounded-full p-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+
     </div>
 
     <!-- STEP 3: LOADING / PROCESSING -->
@@ -218,13 +227,13 @@
 
     <!-- Script / Logic -->
     <script>
-        // Setup PDF.js worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
         let uploadedFile = null;
         let pdfDocument = null;
         let pdfPagesCount = 0;
         let finalPdfUrl = null;
+        let currentTool = 'pan'; // default tool
 
         const fileInput = document.getElementById('fileInput');
         const pdfRenderContainer = document.getElementById('pdf-render-container');
@@ -265,7 +274,7 @@
                 return;
             }
             uploadedFile = file;
-            showStep(3); // Loading
+            showStep(3); 
             document.getElementById('loadingText').innerText = "Loading PDF workspace...";
 
             try {
@@ -277,12 +286,16 @@
                 pdfRenderContainer.innerHTML = '';
                 thumbnailContainer.innerHTML = '';
 
-                // Render all pages
+                // Calculate scale based on screen width for mobile optimization
+                const screenWidth = window.innerWidth;
+                const scale = screenWidth < 768 ? 1.0 : 1.5;
+
                 for (let pageNum = 1; pageNum <= pdfPagesCount; pageNum++) {
-                    await renderPage(pageNum);
+                    await renderPage(pageNum, scale);
                 }
 
-                showStep(2); // Go to Editor Workspace
+                showStep(2); 
+                setTool('pan'); // Reset tool to Pan by default
 
             } catch (error) {
                 console.error("Error loading PDF:", error);
@@ -291,27 +304,21 @@
             }
         }
 
-        async function renderPage(pageNum) {
+        async function renderPage(pageNum, scale) {
             const page = await pdfDocument.getPage(pageNum);
-            
-            // Render Scale for Main View
-            let scale = 1.5; 
             const viewport = page.getViewport({ scale: scale });
 
-            // Main View Wrapper
             const pageWrapper = document.createElement('div');
             pageWrapper.className = 'pdf-page-container';
             pageWrapper.style.width = viewport.width + 'px';
             pageWrapper.style.height = viewport.height + 'px';
 
-            // Base Canvas (The PDF itself)
             const pdfCanvas = document.createElement('canvas');
             pdfCanvas.id = `pdf-canvas-${pageNum}`;
             pdfCanvas.width = viewport.width;
             pdfCanvas.height = viewport.height;
             const pdfCtx = pdfCanvas.getContext('2d');
 
-            // Draw Canvas (Transparent top layer for annotations)
             const drawCanvas = document.createElement('canvas');
             drawCanvas.id = `draw-canvas-${pageNum}`;
             drawCanvas.className = 'drawing-canvas';
@@ -320,78 +327,122 @@
 
             pageWrapper.appendChild(pdfCanvas);
             pageWrapper.appendChild(drawCanvas);
-            pdfRenderContainer.insertBefore(pageWrapper, pdfRenderContainer.lastElementChild); // Insert before floating nav
+            pdfRenderContainer.appendChild(pageWrapper);
 
-            // Render PDF onto Base Canvas
-            const renderContext = { canvasContext: pdfCtx, viewport: viewport };
-            await page.render(renderContext).promise;
+            await page.render({ canvasContext: pdfCtx, viewport: viewport }).promise;
 
-            // Setup Drawing Logic for this canvas
             setupDrawing(drawCanvas);
 
-            // Create Thumbnail
+            // Thumbnail
             const thumbViewport = page.getViewport({ scale: 0.25 });
             const thumbCanvas = document.createElement('canvas');
             thumbCanvas.width = thumbViewport.width;
             thumbCanvas.height = thumbViewport.height;
-            thumbCanvas.className = 'border border-gray-300 shadow-sm cursor-pointer hover:border-blue-500 bg-white';
+            thumbCanvas.className = 'border border-gray-300 shadow-sm cursor-pointer mb-2 bg-white';
             const thumbCtx = thumbCanvas.getContext('2d');
             
             await page.render({ canvasContext: thumbCtx, viewport: thumbViewport }).promise;
             
             const thumbWrapper = document.createElement('div');
-            thumbWrapper.className = 'flex flex-col items-center gap-1';
-            thumbWrapper.innerHTML = `<span class="text-xs text-gray-500">${pageNum}</span>`;
+            thumbWrapper.className = 'flex flex-col items-center';
+            thumbWrapper.innerHTML = `<span class="text-xs text-gray-500 font-bold mb-1">${pageNum}</span>`;
             thumbWrapper.insertBefore(thumbCanvas, thumbWrapper.firstChild);
             thumbnailContainer.appendChild(thumbWrapper);
         }
 
-        // Simple Drawing Implementation (Pen Tool)
+        // TOOLBAR LOGIC
+        window.setTool = function(tool) {
+            currentTool = tool;
+            
+            // UI Update
+            document.querySelectorAll('.toolbar-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`tool-${tool}`).classList.add('active');
+
+            // Canvas Pointer Events Update
+            document.querySelectorAll('.drawing-canvas').forEach(canvas => {
+                if(tool === 'pan') {
+                    canvas.style.pointerEvents = 'none'; // Allows natural scrolling on mobile
+                } else {
+                    canvas.style.pointerEvents = 'auto'; // Blocks scroll, enables drawing/clicking
+                    canvas.style.cursor = tool === 'text' ? 'text' : 'crosshair';
+                }
+            });
+        };
+
+        // DRAWING & TEXT LOGIC (With Touch Support)
         function setupDrawing(canvas) {
             const ctx = canvas.getContext('2d');
             let isDrawing = false;
-            let lastX = 0;
-            let lastY = 0;
+            let lastX = 0; let lastY = 0;
 
             ctx.lineWidth = 3;
             ctx.lineJoin = 'round';
             ctx.lineCap = 'round';
-            ctx.strokeStyle = '#e5322d'; // iLovePDF Red Pen
+            ctx.strokeStyle = '#e5322d'; // Red Pen
 
-            canvas.addEventListener('mousedown', (e) => {
-                isDrawing = true;
+            // Helper to get correct coordinates for Mouse & Touch
+            function getCoords(e) {
                 const rect = canvas.getBoundingClientRect();
-                lastX = e.clientX - rect.left;
-                lastY = e.clientY - rect.top;
-            });
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: clientX - rect.left, y: clientY - rect.top };
+            }
 
-            canvas.addEventListener('mousemove', (e) => {
-                if (!isDrawing) return;
-                const rect = canvas.getBoundingClientRect();
-                const currentX = e.clientX - rect.left;
-                const currentY = e.clientY - rect.top;
+            function startAction(e) {
+                if (currentTool === 'draw') {
+                    isDrawing = true;
+                    const coords = getCoords(e);
+                    lastX = coords.x; lastY = coords.y;
+                    if(e.touches && e.cancelable) e.preventDefault(); // Stop mobile scroll
+                }
+            }
 
+            function moveAction(e) {
+                if (!isDrawing || currentTool !== 'draw') return;
+                const coords = getCoords(e);
                 ctx.beginPath();
                 ctx.moveTo(lastX, lastY);
-                ctx.lineTo(currentX, currentY);
+                ctx.lineTo(coords.x, coords.y);
                 ctx.stroke();
+                lastX = coords.x; lastY = coords.y;
+                if(e.touches && e.cancelable) e.preventDefault();
+            }
 
-                lastX = currentX;
-                lastY = currentY;
+            function stopAction(e) {
+                if (isDrawing) isDrawing = false;
+            }
+
+            // Click action for Text Tool
+            canvas.addEventListener('click', (e) => {
+                if(currentTool === 'text') {
+                    const text = prompt("Enter text to add to PDF:");
+                    if(text) {
+                        const coords = getCoords(e);
+                        ctx.font = "bold 20px Arial";
+                        ctx.fillStyle = "#e5322d";
+                        ctx.fillText(text, coords.x, coords.y);
+                    }
+                }
             });
 
-            canvas.addEventListener('mouseup', () => isDrawing = false);
-            canvas.addEventListener('mouseout', () => isDrawing = false);
+            // Mouse Events
+            canvas.addEventListener('mousedown', startAction);
+            canvas.addEventListener('mousemove', moveAction);
+            canvas.addEventListener('mouseup', stopAction);
+            canvas.addEventListener('mouseout', stopAction);
+
+            // Touch Events for Mobile (Crucial for Infinix/Smartphones)
+            canvas.addEventListener('touchstart', startAction, {passive: false});
+            canvas.addEventListener('touchmove', moveAction, {passive: false});
+            canvas.addEventListener('touchend', stopAction);
+            canvas.addEventListener('touchcancel', stopAction);
         }
 
-        // Save PDF Logic
         async function savePdf() {
             showStep(3);
-            document.getElementById('loadingText').innerText = "Merging Annotations & Saving PDF...";
+            document.getElementById('loadingText').innerText = "Saving your edits...";
 
             try {
-                // Initialize jsPDF
-                // Note: We use points/pixels and match canvas size roughly
                 const { jsPDF } = window.jspdf;
                 let finalDoc = null;
 
@@ -399,19 +450,16 @@
                     const pdfCanvas = document.getElementById(`pdf-canvas-${i}`);
                     const drawCanvas = document.getElementById(`draw-canvas-${i}`);
                     
-                    // Create a temporary merged canvas
                     const mergeCanvas = document.createElement('canvas');
                     mergeCanvas.width = pdfCanvas.width;
                     mergeCanvas.height = pdfCanvas.height;
                     const mergeCtx = mergeCanvas.getContext('2d');
                     
-                    // Draw PDF then Draw Annotations on top
+                    // Merge Base + Edits
                     mergeCtx.drawImage(pdfCanvas, 0, 0);
                     mergeCtx.drawImage(drawCanvas, 0, 0);
 
                     const imgData = mergeCanvas.toDataURL('image/jpeg', 0.95);
-                    
-                    // Determine Orientation
                     const orientation = mergeCanvas.width > mergeCanvas.height ? 'l' : 'p';
                     
                     if (i === 1) {
@@ -423,7 +471,6 @@
                     finalDoc.addImage(imgData, 'JPEG', 0, 0, mergeCanvas.width, mergeCanvas.height);
                 }
 
-                // Generate Blob URL
                 const pdfBlob = finalDoc.output('blob');
                 finalPdfUrl = URL.createObjectURL(pdfBlob);
                 
@@ -435,7 +482,7 @@
                     a.click();
                 };
 
-                setTimeout(() => { showStep(4); }, 800);
+                setTimeout(() => { showStep(4); }, 600);
 
             } catch(e) {
                 console.error("Save error:", e);
