@@ -67,13 +67,14 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
-        .pdf-page-container { position: relative; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); background: white; overflow: hidden;}
+        /* Removed overflow:hidden so drag spans across pages visually */
+        .pdf-page-container { position: relative; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); background: white; z-index: 10; border: 1px solid #e2e8f0;}
         
         /* Signature Overlay Element */
-        .sig-overlay { position: absolute; border: 2px dashed transparent; cursor: grab; user-select: none; touch-action: none;}
+        .sig-overlay { position: absolute; border: 2px dashed transparent; cursor: grab; user-select: none; touch-action: none; z-index: 50;}
         .sig-overlay:hover, .sig-overlay.active { border-color: #3b82f6; background: rgba(59, 130, 246, 0.05); }
         .sig-overlay:active { cursor: grabbing; }
-        .sig-delete { position: absolute; top: -12px; right: -12px; background: #e5322d; color: white; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; z-index: 20;}
+        .sig-delete { position: absolute; top: -12px; right: -12px; background: #e5322d; color: white; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; z-index: 60;}
         .sig-overlay:hover .sig-delete, .sig-overlay.active .sig-delete { display: flex; }
         
         /* Modal Popup Animation */
@@ -146,57 +147,58 @@
         </div>
 
         <!-- Right: Settings Panel -->
-        <div class="w-full md:w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0">
+        <div class="w-full md:w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0 relative">
             <div class="p-5 font-bold text-gray-700 border-b border-gray-200 text-center text-lg bg-white">
                 Signing options
             </div>
             
             <div class="p-4 flex-1 overflow-y-auto">
                 <h4 class="font-semibold text-sm text-gray-800 mb-2">Type</h4>
-                <div class="flex gap-2 mb-6">
+                <div class="flex gap-2 mb-4">
                     <button class="flex-1 border-2 border-red-500 text-red-500 bg-red-50 rounded py-2 flex flex-col items-center justify-center shadow-sm">
                         <i class="fa-solid fa-pen-nib text-xl mb-1"></i>
                         <span class="text-[11px] font-bold">Simple Signature</span>
                     </button>
-                    <!-- FIX: Added Alert to Digital Signature -->
                     <button onclick="alert('Digital Signatures (PKI Authentication) require a server connection. Since ToolVerse processes files 100% offline to protect your privacy, this feature will be available in the upcoming Pro version!')" class="flex-1 border border-gray-200 text-gray-400 bg-gray-50 rounded py-2 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition">
                         <i class="fa-solid fa-certificate text-xl mb-1 text-gray-300"></i>
                         <span class="text-[11px] text-gray-500">Digital Signature <i class="fa-solid fa-crown text-yellow-500"></i></span>
                     </button>
                 </div>
 
+                <!-- ADDED EXPLICIT INSTRUCTION FOR USER -->
+                <div class="bg-yellow-50 border border-yellow-200 rounded p-2 mb-4 text-center">
+                    <p class="text-xs font-bold text-yellow-700">👇 Tap below to place on document</p>
+                </div>
+
                 <h4 class="font-semibold text-sm text-gray-800 mb-2">Required fields</h4>
-                <!-- FIX: Changed Grip Icon to Plus icon and text to indicate "Click to Add" -->
-                <div id="dragSignatureBtn" onclick="addSignatureToPage()" class="border-2 border-blue-200 bg-blue-50 p-3 rounded flex items-center justify-between cursor-pointer mb-6 hover:bg-blue-100 transition shadow-sm group" title="Tap to add to document">
+                
+                <!-- Bouncing Tap Me Tag added -->
+                <div id="dragSignatureBtn" onclick="addSignatureToPage()" class="relative border-2 border-red-500 bg-red-50 p-3 rounded flex items-center justify-between cursor-pointer mb-6 hover:bg-red-100 transition shadow-sm group" title="Tap to add to document">
+                    <div class="absolute -top-3 -right-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-bounce shadow">Tap me!</div>
                     <div class="flex items-center gap-3">
-                        <div class="text-blue-400 text-lg"><i class="fa-solid fa-circle-plus"></i></div>
-                        <div class="bg-blue-500 text-white w-8 h-8 rounded flex items-center justify-center"><i class="fa-solid fa-signature"></i></div>
-                        <span id="sidebarSigPreview" class="font-bold text-gray-700 text-sm">Signature</span>
+                        <div class="text-red-500 text-lg"><i class="fa-solid fa-hand-pointer"></i></div>
+                        <div class="bg-red-500 text-white w-8 h-8 rounded flex items-center justify-center"><i class="fa-solid fa-signature"></i></div>
+                        <span id="sidebarSigPreview" class="font-bold text-gray-800 text-sm">Signature</span>
                     </div>
-                    <i class="fa-solid fa-pen text-blue-500 opacity-50 group-hover:opacity-100" title="Edit Signature" onclick="event.stopPropagation(); openSigModal();"></i>
+                    <i class="fa-solid fa-pen text-red-500 opacity-60 group-hover:opacity-100" title="Edit Signature" onclick="event.stopPropagation(); openSigModal();"></i>
                 </div>
 
                 <h4 class="font-semibold text-sm text-gray-800 mb-2">Optional fields (Tap to add)</h4>
                 <div class="space-y-2">
-                    <div onclick="addTextToPage('IK')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition shadow-sm">
-                        <div class="text-green-500"><i class="fa-solid fa-circle-plus"></i></div>
+                    <div onclick="addTextToPage('IK')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition shadow-sm">
+                        <div class="text-blue-500 text-sm"><i class="fa-solid fa-plus"></i></div>
                         <div class="bg-blue-100 text-blue-600 w-8 h-8 rounded flex items-center justify-center font-bold text-xs">AC</div>
                         <span class="text-gray-600 text-sm font-medium">Initials</span>
                     </div>
-                    <div onclick="addTextToPage('Imran Khan')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition shadow-sm">
-                        <div class="text-green-500"><i class="fa-solid fa-circle-plus"></i></div>
+                    <div onclick="addTextToPage('Imran Khan')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition shadow-sm">
+                        <div class="text-blue-500 text-sm"><i class="fa-solid fa-plus"></i></div>
                         <div class="bg-blue-100 text-blue-600 w-8 h-8 rounded flex items-center justify-center"><i class="fa-regular fa-address-book"></i></div>
                         <span class="text-gray-600 text-sm font-medium">Name</span>
                     </div>
-                    <div onclick="addTextToPage(new Date().toLocaleDateString())" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition shadow-sm">
-                        <div class="text-green-500"><i class="fa-solid fa-circle-plus"></i></div>
+                    <div onclick="addTextToPage(new Date().toLocaleDateString())" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition shadow-sm">
+                        <div class="text-blue-500 text-sm"><i class="fa-solid fa-plus"></i></div>
                         <div class="bg-blue-100 text-blue-600 w-8 h-8 rounded flex items-center justify-center"><i class="fa-regular fa-calendar"></i></div>
                         <span class="text-gray-600 text-sm font-medium">Date</span>
-                    </div>
-                    <div onclick="addTextToPage('Sample Text')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition shadow-sm">
-                        <div class="text-green-500"><i class="fa-solid fa-circle-plus"></i></div>
-                        <div class="bg-blue-100 text-blue-600 w-8 h-8 rounded flex items-center justify-center"><i class="fa-solid fa-t"></i></div>
-                        <span class="text-gray-600 text-sm font-medium">Text</span>
                     </div>
                 </div>
             </div>
@@ -484,15 +486,31 @@
             await page.render({ canvasContext: pdfCtx, viewport: viewport }).promise;
         }
 
-        // --- FIX: Add Signature/Text with auto-scroll ---
-        
+        // --- SMART ADD TO CURRENT VISIBLE PAGE ---
+        function getVisiblePageWrapper() {
+            const wrappers = document.querySelectorAll('.pdf-page-container');
+            if(wrappers.length === 0) return null;
+            
+            let visibleWrapper = wrappers[0];
+            let minDistance = Infinity;
+            // Center point of the viewing area
+            const viewportCenterY = window.innerHeight / 2;
+            
+            wrappers.forEach(w => {
+                const rect = w.getBoundingClientRect();
+                const wrapperCenterY = rect.top + (rect.height / 2);
+                const distance = Math.abs(viewportCenterY - wrapperCenterY);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    visibleWrapper = w;
+                }
+            });
+            return visibleWrapper;
+        }
+
         window.addSignatureToPage = function() {
             if(!currentSigDataUrl) { openSigModal(); return; }
             createOverlayElement(currentSigDataUrl, true);
-            // Auto scroll to document on mobile
-            if(window.innerWidth < 768) {
-                pdfRenderContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
         };
 
         window.addTextToPage = function(textStr) {
@@ -509,23 +527,27 @@
             ctx.fillText(textStr, 10, canvas.height/2);
             
             createOverlayElement(canvas.toDataURL('image/png'), false);
-            if(window.innerWidth < 768) {
-                pdfRenderContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
         };
 
         function createOverlayElement(imgSrc, isSig) {
-            // ہوم پیج (Page 1) پر شامل کریں جہاں یوزر دیکھ سکے
-            const wrapper = document.getElementById('page-wrapper-1'); 
+            // Find the page currently in the middle of the screen
+            const wrapper = getVisiblePageWrapper(); 
             if(!wrapper) return;
 
             const overlay = document.createElement('div');
             overlay.className = 'sig-overlay active';
             
-            // سکرین کے وسط میں شامل کریں
-            const scrollTop = pdfRenderContainer.scrollTop;
-            overlay.style.top = (scrollTop + 150) + 'px';
-            overlay.style.left = '50px';
+            // Calculate center position relative to this specific wrapper
+            const wrapperRect = wrapper.getBoundingClientRect();
+            // Center vertically based on screen viewport
+            let relativeTop = (window.innerHeight / 2) - wrapperRect.top - (isSig ? 40 : 20);
+            
+            // Fallback if calculated center is off-screen
+            if(relativeTop < 0) relativeTop = 50;
+            if(relativeTop > wrapper.offsetHeight) relativeTop = wrapper.offsetHeight - 100;
+
+            overlay.style.top = relativeTop + 'px';
+            overlay.style.left = (wrapper.offsetWidth / 2 - 75) + 'px'; // horizontally centered
             
             const img = document.createElement('img');
             img.src = imgSrc;
@@ -542,17 +564,22 @@
             wrapper.appendChild(overlay);
 
             makeDraggable(overlay, wrapper);
+            
+            // Soft scroll to ensure it's in view (for mobile)
+            if(window.innerWidth < 768) {
+                overlay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
 
-        // --- FIX: Robust Mobile Touch/Drag Logic ---
-        function makeDraggable(element, container) {
+        // --- CROSS-PAGE DRAGGING LOGIC ---
+        function makeDraggable(element, initialContainer) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             
             element.onmousedown = dragMouseDown;
             element.ontouchstart = dragMouseDown;
 
             function dragMouseDown(e) {
-                e.preventDefault(); // Prevents page scrolling while dragging
+                e.preventDefault();
                 document.querySelectorAll('.sig-overlay').forEach(el => el.classList.remove('active'));
                 element.classList.add('active');
 
@@ -587,15 +614,16 @@
                 pos3 = clientX;
                 pos4 = clientY;
                 
+                let currentContainer = element.parentElement;
+                
                 let newTop = element.offsetTop - pos2;
                 let newLeft = element.offsetLeft - pos1;
                 
-                // Boundaries (تاکہ سگنیچر پی ڈی ایف سے باہر نہ جائے)
-                if(newTop < 0) newTop = 0;
+                // Only strict restriction on Left/Right
                 if(newLeft < 0) newLeft = 0;
-                if(newLeft + element.offsetWidth > container.offsetWidth) newLeft = container.offsetWidth - element.offsetWidth;
-                if(newTop + element.offsetHeight > container.offsetHeight) newTop = container.offsetHeight - element.offsetHeight;
-
+                if(newLeft + element.offsetWidth > currentContainer.offsetWidth) newLeft = currentContainer.offsetWidth - element.offsetWidth;
+                
+                // Free Y movement (allows visual dragging outside container)
                 element.style.top = newTop + "px";
                 element.style.left = newLeft + "px";
             }
@@ -605,6 +633,36 @@
                 document.ontouchend = null;
                 document.onmousemove = null;
                 document.ontouchmove = null;
+
+                // When drag ends, check which page the signature is currently overlapping
+                const sigRect = element.getBoundingClientRect();
+                const sigCenterY = sigRect.top + (sigRect.height / 2);
+                
+                const wrappers = document.querySelectorAll('.pdf-page-container');
+                let targetWrapper = element.parentElement; 
+                
+                wrappers.forEach(w => {
+                    const wRect = w.getBoundingClientRect();
+                    // If signature center is within this page's vertical bounds
+                    if (sigCenterY >= wRect.top && sigCenterY <= wRect.bottom) {
+                        targetWrapper = w;
+                    }
+                });
+
+                // If it moved to a new page, transfer it in the DOM
+                if (targetWrapper !== element.parentElement) {
+                    const newRect = targetWrapper.getBoundingClientRect();
+                    const newTop = sigRect.top - newRect.top; // Calculate relative top for new page
+                    targetWrapper.appendChild(element);
+                    element.style.top = newTop + "px";
+                }
+                
+                // Final safety bounds check for the target container
+                let finalTop = parseInt(element.style.top, 10);
+                if (finalTop < 0) element.style.top = '0px';
+                if (finalTop + element.offsetHeight > targetWrapper.offsetHeight) {
+                    element.style.top = (targetWrapper.offsetHeight - element.offsetHeight) + 'px';
+                }
             }
         }
 
