@@ -154,45 +154,47 @@
             <div class="p-4 flex-1 overflow-y-auto">
                 <h4 class="font-semibold text-sm text-gray-800 mb-2">Type</h4>
                 <div class="flex gap-2 mb-6">
-                    <button class="flex-1 border-2 border-red-500 text-red-500 bg-red-50 rounded py-2 flex flex-col items-center justify-center">
+                    <button class="flex-1 border-2 border-red-500 text-red-500 bg-red-50 rounded py-2 flex flex-col items-center justify-center shadow-sm">
                         <i class="fa-solid fa-pen-nib text-xl mb-1"></i>
-                        <span class="text-xs font-bold">Simple Signature</span>
+                        <span class="text-[11px] font-bold">Simple Signature</span>
                     </button>
-                    <button class="flex-1 border border-gray-200 text-gray-400 bg-gray-50 rounded py-2 flex flex-col items-center justify-center cursor-not-allowed">
+                    <!-- FIX: Added Alert to Digital Signature -->
+                    <button onclick="alert('Digital Signatures (PKI Authentication) require a server connection. Since ToolVerse processes files 100% offline to protect your privacy, this feature will be available in the upcoming Pro version!')" class="flex-1 border border-gray-200 text-gray-400 bg-gray-50 rounded py-2 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition">
                         <i class="fa-solid fa-certificate text-xl mb-1 text-gray-300"></i>
-                        <span class="text-xs">Digital Signature <i class="fa-solid fa-crown text-yellow-500"></i></span>
+                        <span class="text-[11px] text-gray-500">Digital Signature <i class="fa-solid fa-crown text-yellow-500"></i></span>
                     </button>
                 </div>
 
                 <h4 class="font-semibold text-sm text-gray-800 mb-2">Required fields</h4>
-                <div id="dragSignatureBtn" onclick="addSignatureToPage()" class="border-2 border-blue-200 bg-blue-50 p-3 rounded flex items-center justify-between cursor-pointer mb-6 hover:bg-blue-100 transition shadow-sm group">
+                <!-- FIX: Changed Grip Icon to Plus icon and text to indicate "Click to Add" -->
+                <div id="dragSignatureBtn" onclick="addSignatureToPage()" class="border-2 border-blue-200 bg-blue-50 p-3 rounded flex items-center justify-between cursor-pointer mb-6 hover:bg-blue-100 transition shadow-sm group" title="Tap to add to document">
                     <div class="flex items-center gap-3">
-                        <div class="text-gray-400"><i class="fa-solid fa-grip-vertical"></i></div>
+                        <div class="text-blue-400 text-lg"><i class="fa-solid fa-circle-plus"></i></div>
                         <div class="bg-blue-500 text-white w-8 h-8 rounded flex items-center justify-center"><i class="fa-solid fa-signature"></i></div>
-                        <span id="sidebarSigPreview" class="font-bold text-gray-700">Signature</span>
+                        <span id="sidebarSigPreview" class="font-bold text-gray-700 text-sm">Signature</span>
                     </div>
-                    <i class="fa-solid fa-pen text-blue-500 opacity-50 group-hover:opacity-100" onclick="event.stopPropagation(); openSigModal();"></i>
+                    <i class="fa-solid fa-pen text-blue-500 opacity-50 group-hover:opacity-100" title="Edit Signature" onclick="event.stopPropagation(); openSigModal();"></i>
                 </div>
 
-                <h4 class="font-semibold text-sm text-gray-800 mb-2">Optional fields</h4>
+                <h4 class="font-semibold text-sm text-gray-800 mb-2">Optional fields (Tap to add)</h4>
                 <div class="space-y-2">
-                    <div onclick="addTextToPage('IK')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition">
-                        <div class="text-gray-300"><i class="fa-solid fa-grip-vertical"></i></div>
+                    <div onclick="addTextToPage('IK')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition shadow-sm">
+                        <div class="text-green-500"><i class="fa-solid fa-circle-plus"></i></div>
                         <div class="bg-blue-100 text-blue-600 w-8 h-8 rounded flex items-center justify-center font-bold text-xs">AC</div>
                         <span class="text-gray-600 text-sm font-medium">Initials</span>
                     </div>
-                    <div onclick="addTextToPage('Imran Khan')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition">
-                        <div class="text-gray-300"><i class="fa-solid fa-grip-vertical"></i></div>
+                    <div onclick="addTextToPage('Imran Khan')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition shadow-sm">
+                        <div class="text-green-500"><i class="fa-solid fa-circle-plus"></i></div>
                         <div class="bg-blue-100 text-blue-600 w-8 h-8 rounded flex items-center justify-center"><i class="fa-regular fa-address-book"></i></div>
                         <span class="text-gray-600 text-sm font-medium">Name</span>
                     </div>
-                    <div onclick="addTextToPage(new Date().toLocaleDateString())" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition">
-                        <div class="text-gray-300"><i class="fa-solid fa-grip-vertical"></i></div>
+                    <div onclick="addTextToPage(new Date().toLocaleDateString())" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition shadow-sm">
+                        <div class="text-green-500"><i class="fa-solid fa-circle-plus"></i></div>
                         <div class="bg-blue-100 text-blue-600 w-8 h-8 rounded flex items-center justify-center"><i class="fa-regular fa-calendar"></i></div>
                         <span class="text-gray-600 text-sm font-medium">Date</span>
                     </div>
-                    <div onclick="addTextToPage('Sample Text')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition">
-                        <div class="text-gray-300"><i class="fa-solid fa-grip-vertical"></i></div>
+                    <div onclick="addTextToPage('Sample Text')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition shadow-sm">
+                        <div class="text-green-500"><i class="fa-solid fa-circle-plus"></i></div>
                         <div class="bg-blue-100 text-blue-600 w-8 h-8 rounded flex items-center justify-center"><i class="fa-solid fa-t"></i></div>
                         <span class="text-gray-600 text-sm font-medium">Text</span>
                     </div>
@@ -325,9 +327,8 @@
         
         let sigColor = 'black';
         let sigFont = 'font-dancing';
-        let currentSigDataUrl = null; // Generated transparent PNG of signature
+        let currentSigDataUrl = null; 
         
-        // Fonts array for the modal
         const fonts = ['font-caveat', 'font-dancing', 'font-pacifico', 'font-satisfy', 'font-greatvibes'];
 
         const fileInput = document.getElementById('fileInput');
@@ -364,7 +365,6 @@
             uploadedFile = file;
             document.getElementById('modalFileName').innerText = "Uploaded document: " + file.name;
             
-            // Show Initial Modal
             document.getElementById('step1').classList.add('hidden');
             document.getElementById('whoSignModal').classList.remove('hidden');
             document.getElementById('whoSignModal').style.display = 'flex';
@@ -373,12 +373,12 @@
         window.selectSigner = function(type) {
             document.getElementById('whoSignModal').style.display = 'none';
             document.getElementById('sigSetupModal').style.display = 'flex';
-            generateSignatures(); // Populate fonts
+            generateSignatures(); 
         };
 
         window.closeSigModal = function() {
             document.getElementById('sigSetupModal').style.display = 'none';
-            loadPdfToWorkspace(); // Proceed to workspace even without applying (can open later)
+            loadPdfToWorkspace(); 
         };
 
         window.openSigModal = function() {
@@ -396,7 +396,7 @@
             const list = document.getElementById('sigList');
             list.innerHTML = '';
             
-            fonts.forEach((font, index) => {
+            fonts.forEach((font) => {
                 const isChecked = font === sigFont ? 'checked' : '';
                 const bgClass = isChecked ? 'bg-blue-50 border-blue-200' : 'border-transparent';
                 
@@ -412,12 +412,9 @@
 
         window.applySignatureSettings = function() {
             const name = document.getElementById('sigNameInput').value || 'Signature';
-            
-            // Generate PNG using Offscreen Canvas
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             
-            // Map Tailwind font class to real font-family
             let fontFamily = 'Dancing Script';
             if(sigFont.includes('caveat')) fontFamily = 'Caveat';
             else if(sigFont.includes('pacifico')) fontFamily = 'Pacifico';
@@ -429,23 +426,19 @@
             canvas.width = textMetrics.width + 40;
             canvas.height = 100;
             
-            // Re-apply font after resize
             ctx.font = `60px "${fontFamily}"`;
             ctx.fillStyle = sigColor;
             ctx.textBaseline = 'middle';
             ctx.fillText(name, 20, canvas.height / 2 + 10);
 
             currentSigDataUrl = canvas.toDataURL('image/png');
-            
-            // Update Sidebar Preview
             document.getElementById('sidebarSigPreview').innerHTML = `<img src="${currentSigDataUrl}" class="h-8 object-contain">`;
-            
             document.getElementById('sigSetupModal').style.display = 'none';
             if(!pdfDocument) loadPdfToWorkspace();
         };
 
         async function loadPdfToWorkspace() {
-            showStep(3); // Loading screen briefly
+            showStep(3);
             document.querySelector('#step3 h3').innerText = "Loading PDF...";
             
             try {
@@ -454,15 +447,12 @@
                 pdfPagesCount = pdfDocument.numPages;
                 
                 pdfRenderContainer.innerHTML = '';
-
-                // Screen logic for zoom
                 const screenWidth = window.innerWidth;
                 const scale = screenWidth < 768 ? 1.0 : 1.3;
 
                 for (let pageNum = 1; pageNum <= pdfPagesCount; pageNum++) {
                     await renderPage(pageNum, scale);
                 }
-
                 showStep(2); 
 
             } catch (error) {
@@ -494,15 +484,18 @@
             await page.render({ canvasContext: pdfCtx, viewport: viewport }).promise;
         }
 
-        // --- Drag & Drop Overlay Logic ---
+        // --- FIX: Add Signature/Text with auto-scroll ---
         
         window.addSignatureToPage = function() {
             if(!currentSigDataUrl) { openSigModal(); return; }
             createOverlayElement(currentSigDataUrl, true);
+            // Auto scroll to document on mobile
+            if(window.innerWidth < 768) {
+                pdfRenderContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         };
 
         window.addTextToPage = function(textStr) {
-            // Convert text to image for easy dragging/resizing exactly like signature
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             ctx.font = "bold 40px Arial";
@@ -516,24 +509,29 @@
             ctx.fillText(textStr, 10, canvas.height/2);
             
             createOverlayElement(canvas.toDataURL('image/png'), false);
+            if(window.innerWidth < 768) {
+                pdfRenderContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         };
 
         function createOverlayElement(imgSrc, isSig) {
-            const wrapper = document.getElementById('page-wrapper-1'); // Always drop on page 1 initially
+            // ہوم پیج (Page 1) پر شامل کریں جہاں یوزر دیکھ سکے
+            const wrapper = document.getElementById('page-wrapper-1'); 
             if(!wrapper) return;
 
             const overlay = document.createElement('div');
             overlay.className = 'sig-overlay active';
-            overlay.style.top = '100px';
+            
+            // سکرین کے وسط میں شامل کریں
+            const scrollTop = pdfRenderContainer.scrollTop;
+            overlay.style.top = (scrollTop + 150) + 'px';
             overlay.style.left = '50px';
             
-            // Image
             const img = document.createElement('img');
             img.src = imgSrc;
             img.style.height = isSig ? '80px' : '40px';
-            img.style.pointerEvents = 'none'; // let div handle drag
+            img.style.pointerEvents = 'none'; 
             
-            // Delete button
             const delBtn = document.createElement('div');
             delBtn.className = 'sig-delete';
             delBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
@@ -546,6 +544,7 @@
             makeDraggable(overlay, wrapper);
         }
 
+        // --- FIX: Robust Mobile Touch/Drag Logic ---
         function makeDraggable(element, container) {
             let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
             
@@ -553,13 +552,17 @@
             element.ontouchstart = dragMouseDown;
 
             function dragMouseDown(e) {
-                e.preventDefault();
-                // Deactivate others
+                e.preventDefault(); // Prevents page scrolling while dragging
                 document.querySelectorAll('.sig-overlay').forEach(el => el.classList.remove('active'));
                 element.classList.add('active');
 
-                pos3 = e.clientX || e.touches[0].clientX;
-                pos4 = e.clientY || e.touches[0].clientY;
+                if (e.type === 'touchstart') {
+                    pos3 = e.touches[0].clientX;
+                    pos4 = e.touches[0].clientY;
+                } else {
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                }
                 
                 document.onmouseup = closeDragElement;
                 document.ontouchend = closeDragElement;
@@ -569,18 +572,25 @@
 
             function elementDrag(e) {
                 e.preventDefault();
-                const clientX = e.clientX || e.touches[0].clientX;
-                const clientY = e.clientY || e.touches[0].clientY;
+                let clientX, clientY;
+                
+                if (e.type === 'touchmove') {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
 
                 pos1 = pos3 - clientX;
                 pos2 = pos4 - clientY;
                 pos3 = clientX;
                 pos4 = clientY;
                 
-                // Bounds checking
                 let newTop = element.offsetTop - pos2;
                 let newLeft = element.offsetLeft - pos1;
                 
+                // Boundaries (تاکہ سگنیچر پی ڈی ایف سے باہر نہ جائے)
                 if(newTop < 0) newTop = 0;
                 if(newLeft < 0) newLeft = 0;
                 if(newLeft + element.offsetWidth > container.offsetWidth) newLeft = container.offsetWidth - element.offsetWidth;
@@ -616,18 +626,13 @@
                     mergeCanvas.height = pdfCanvas.height;
                     const mergeCtx = mergeCanvas.getContext('2d');
                     
-                    // Draw PDF base
                     mergeCtx.drawImage(pdfCanvas, 0, 0);
 
-                    // Draw Overlays (Signatures) for this page
                     const overlays = wrapper.querySelectorAll('.sig-overlay');
                     overlays.forEach(overlay => {
                         const img = overlay.querySelector('img');
-                        // Calculate exact coordinates based on scale
                         const left = parseInt(overlay.style.left, 10);
                         const top = parseInt(overlay.style.top, 10);
-                        
-                        // Draw onto merge canvas
                         mergeCtx.drawImage(img, left, top, img.width, img.height);
                     });
 
@@ -658,7 +663,7 @@
 
                 setTimeout(() => { 
                     showStep(4); 
-                    btn.click(); // Auto download
+                    btn.click(); 
                 }, 800);
 
             } catch(e) {
@@ -679,7 +684,6 @@
             showStep(1); 
         }
         
-        // Hide overlay active borders when clicking outside
         document.addEventListener('click', (e) => {
             if(!e.target.closest('.sig-overlay') && !e.target.closest('#dragSignatureBtn') && !e.target.closest('.border-gray-200')) {
                 document.querySelectorAll('.sig-overlay').forEach(el => el.classList.remove('active'));
