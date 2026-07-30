@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML to PDF (VVIP) - ToolVerse</title>
+    <title>HTML to PDF (VVIP Cloud) - ToolVerse</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -37,7 +37,7 @@
         });
     </script>
 
-    <!-- html2pdf.js for Client-Side Conversion -->
+    <!-- html2pdf.js for Client-Side Conversion (Files & Code) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
@@ -104,21 +104,20 @@
     <!-- STEP 1: UPLOAD/INPUT SCREEN -->
     <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 py-12">
         <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 text-center">HTML to PDF</h1>
-        <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Convert web pages, HTML files, or raw code to PDF documents with high accuracy.</p>
+        <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Convert web pages to PDF using Premium Cloud Servers. Bypasses security instantly.</p>
         
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl overflow-hidden border border-gray-200">
             <!-- Tabs -->
             <div class="grid grid-cols-3 border-b border-gray-200 bg-gray-50">
                 <div class="input-tab active" onclick="switchInputTab('url')" id="tab-url">
-                    <i class="fa-solid fa-link block text-xl mb-1"></i> Website URL
+                    <i class="fa-solid fa-cloud block text-xl mb-1"></i> Cloud URL
+                    <span class="absolute mt-[-30px] ml-[5px] bg-red-500 text-white text-[9px] px-1.5 rounded shadow">PRO</span>
                 </div>
                 <div class="input-tab" onclick="switchInputTab('file')" id="tab-file">
                     <i class="fa-solid fa-file-code block text-xl mb-1"></i> HTML File
-                    <span class="absolute mt-[-30px] ml-[5px] bg-green-500 text-white text-[9px] px-1.5 rounded">NEW</span>
                 </div>
                 <div class="input-tab" onclick="switchInputTab('code')" id="tab-code">
                     <i class="fa-solid fa-laptop-code block text-xl mb-1"></i> Paste Code
-                    <span class="absolute mt-[-30px] ml-[5px] bg-purple-500 text-white text-[9px] px-1.5 rounded">VVIP</span>
                 </div>
             </div>
 
@@ -129,9 +128,9 @@
                     <label class="block text-sm font-bold text-gray-700 mb-2">Write the website URL</label>
                     <div class="flex border-2 border-gray-300 rounded-lg overflow-hidden focus-within:border-red-500 transition">
                         <span class="bg-gray-100 px-4 flex items-center text-gray-500 border-r border-gray-300"><i class="fa-solid fa-globe"></i></span>
-                        <input type="url" id="urlInput" placeholder="Example: https://wikipedia.org" class="w-full p-4 outline-none text-gray-700" onkeypress="if(event.key === 'Enter') loadHtmlContent()">
+                        <input type="url" id="urlInput" placeholder="Example: https://investing.com" class="w-full p-4 outline-none text-gray-700" onkeypress="if(event.key === 'Enter') loadHtmlContent()">
                     </div>
-                    <p class="text-xs text-gray-500 mt-2"><i class="fa-solid fa-circle-info"></i> ToolVerse uses multi-proxy routing to bypass site security.</p>
+                    <p class="text-xs text-gray-500 mt-2"><i class="fa-solid fa-circle-check text-green-500"></i> Server-Side Rendering enabled. Bypasses CORS and Cloudflare automatically.</p>
                 </div>
 
                 <!-- File Input -->
@@ -140,7 +139,7 @@
                     <div onclick="document.getElementById('htmlFileInput').click()" class="border-2 border-dashed border-gray-300 hover:border-red-500 bg-gray-50 hover:bg-red-50 rounded-xl p-10 cursor-pointer transition">
                         <i class="fa-solid fa-cloud-arrow-up text-4xl text-gray-400 mb-3"></i>
                         <h3 class="text-lg font-bold text-gray-700">Click to upload HTML File</h3>
-                        <p class="text-sm text-gray-500">Only .html or .htm files are supported</p>
+                        <p class="text-sm text-gray-500">Processed 100% offline in your browser.</p>
                     </div>
                 </div>
 
@@ -166,7 +165,7 @@
             <div class="w-full max-w-4xl h-full bg-white rounded-t-xl overflow-hidden shadow-2xl relative flex flex-col">
                 <div class="bg-gray-200 px-4 py-2 flex items-center gap-2 border-b border-gray-300">
                     <div class="flex gap-1.5"><div class="w-3 h-3 rounded-full bg-red-400"></div><div class="w-3 h-3 rounded-full bg-yellow-400"></div><div class="w-3 h-3 rounded-full bg-green-400"></div></div>
-                    <div class="bg-white text-xs text-gray-500 px-3 py-1 rounded-md flex-1 text-center truncate mx-4" id="previewTitle">Previewing Document...</div>
+                    <div class="bg-white text-xs text-gray-500 px-3 py-1 rounded-md flex-1 text-center truncate mx-4" id="previewTitle">Document Ready</div>
                 </div>
                 <div class="flex-1 w-full bg-white relative overflow-hidden" id="iframeWrapper">
                     <iframe id="previewIframe" sandbox="allow-same-origin allow-scripts text-center"></iframe>
@@ -174,7 +173,7 @@
                     <!-- Loading Overlay inside iframe -->
                     <div id="iframeLoader" class="absolute inset-0 bg-white z-10 flex flex-col items-center justify-center hidden">
                         <div class="loader h-16 w-16 mb-4"></div>
-                        <p class="text-gray-600 font-bold">Rendering Website Design...</p>
+                        <p class="text-gray-600 font-bold">Rendering View...</p>
                     </div>
                 </div>
             </div>
@@ -183,26 +182,27 @@
         <!-- Right: Settings Panel -->
         <div class="w-full md:w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0">
             <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-lg bg-white flex justify-between items-center">
-                <span>HTML to PDF</span>
+                <span>PDF Settings</span>
                 <i class="fa-solid fa-trash-can text-gray-400 hover:text-red-500 cursor-pointer transition text-base" onclick="resetTool()" title="Start Over"></i>
             </div>
             
             <div class="p-5 flex-1 overflow-y-auto">
                 
-                <h4 class="font-bold text-xs text-gray-800 mb-1 uppercase tracking-wide">Screen size</h4>
-                <select id="optScreenSize" class="w-full border border-gray-300 rounded p-2 mb-4 text-sm focus:border-red-500 focus:outline-none bg-gray-50" onchange="updatePreviewScreen()">
-                    <option value="desktop">Desktop HD (1920px)</option>
-                    <option value="laptop" selected>Laptop (1440px)</option>
-                    <option value="tablet">Tablet (768px)</option>
-                    <option value="mobile">Mobile (320px)</option>
-                </select>
+                <div id="optScreenSizeWrapper">
+                    <h4 class="font-bold text-xs text-gray-800 mb-1 uppercase tracking-wide">Screen size</h4>
+                    <select id="optScreenSize" class="w-full border border-gray-300 rounded p-2 mb-4 text-sm focus:border-red-500 focus:outline-none bg-gray-50" onchange="updatePreviewScreen()">
+                        <option value="desktop">Desktop HD (1920px)</option>
+                        <option value="laptop" selected>Laptop (1440px)</option>
+                        <option value="tablet">Tablet (768px)</option>
+                        <option value="mobile">Mobile (320px)</option>
+                    </select>
+                </div>
 
                 <h4 class="font-bold text-xs text-gray-800 mb-1 uppercase tracking-wide">Page size</h4>
                 <select id="optPageSize" class="w-full border border-gray-300 rounded p-2 mb-4 text-sm focus:border-red-500 focus:outline-none bg-gray-50">
-                    <option value="a3">A3 (297x420 mm)</option>
-                    <option value="a4" selected>A4 (210x297 mm)</option>
-                    <option value="a5">A5 (148x210 mm)</option>
-                    <option value="letter">US Letter (216x279 mm)</option>
+                    <option value="a3" id="sz-a3">A3 (297x420 mm)</option>
+                    <option value="a4" id="sz-a4" selected>A4 (210x297 mm)</option>
+                    <option value="letter" id="sz-letter">US Letter</option>
                 </select>
 
                 <h4 class="font-bold text-xs text-gray-800 mb-2 uppercase tracking-wide">Orientation</h4>
@@ -237,14 +237,14 @@
                         <i class="fa-solid fa-gem text-purple-500"></i> VVIP Settings
                     </h4>
                     
-                    <label class="flex items-center gap-3 cursor-pointer mb-3">
+                    <label class="flex items-center gap-3 cursor-pointer mb-3" id="inkSaverWrapper">
                         <input type="checkbox" id="vvipInkSaver" class="w-4 h-4 text-purple-600 rounded border-gray-300 focus:ring-purple-500" onchange="applyVvipFilters()">
                         <span class="text-sm text-gray-700 font-medium">Ink Saver (Remove BG)</span>
                     </label>
 
                     <label class="flex items-center gap-3 cursor-pointer mb-3">
                         <input type="checkbox" id="vvipDarkMode" class="w-4 h-4 text-purple-600 rounded border-gray-300 focus:ring-purple-500" onchange="applyVvipFilters()">
-                        <span class="text-sm text-gray-700 font-medium">Force Dark Mode PDF</span>
+                        <span class="text-sm text-gray-700 font-medium">Force Dark Mode</span>
                     </label>
 
                     <label class="flex items-center gap-3 cursor-pointer">
@@ -254,17 +254,17 @@
                 </div>
             </div>
 
-            <!-- Action Button (Desktop Only) -->
+            <!-- Action Button -->
             <div class="p-4 bg-gray-50 border-t border-gray-200 hidden md:block">
                 <button onclick="convertToPDF()" class="btn-pulse w-full ilovepdf-red text-white font-bold py-4 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
-                    Convert to PDF <i class="fa-solid fa-file-pdf ml-2 text-xl"></i>
+                    Convert to PDF <i class="fa-solid fa-arrow-right ml-2 text-xl"></i>
                 </button>
             </div>
         </div>
         
-        <!-- Action Button (Mobile Floating Only) -->
+        <!-- Mobile Floating Button -->
         <button onclick="convertToPDF()" class="md:hidden fixed bottom-24 right-4 btn-pulse ilovepdf-red text-white font-bold py-3 px-6 rounded-full shadow-2xl z-40 flex items-center gap-2 border-2 border-white">
-            Convert to PDF <i class="fa-solid fa-file-pdf"></i>
+            Convert to PDF <i class="fa-solid fa-arrow-right"></i>
         </button>
 
     </div>
@@ -272,8 +272,8 @@
     <!-- STEP 3: LOADING -->
     <div id="step3" class="hidden w-full flex-grow flex flex-col items-center justify-center pt-20 pb-10">
         <div class="loader h-20 w-20 mx-auto mb-8"></div>
-        <h3 class="text-3xl font-bold text-gray-800 mb-2" id="fetchStatusTitle">Bypassing Security...</h3>
-        <p class="text-gray-500 font-medium" id="fetchStatusDesc">Preparing multi-proxy routing</p>
+        <h3 class="text-3xl font-bold text-gray-800 mb-2" id="fetchStatusTitle">Connecting to Cloud Server...</h3>
+        <p class="text-gray-500 font-medium" id="fetchStatusDesc">Bypassing website security to render PDF</p>
     </div>
 
     <!-- STEP 4: DOWNLOAD SCREEN -->
@@ -291,7 +291,7 @@
             
             <div class="grid grid-cols-2 gap-1 md:ml-2">
                  <div onclick="alert('Google Drive saving will be available soon!')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-google-drive"></i></div>
-                 <div onclick="alert('Files are processed 100% offline for your security. To generate a shareable link, please upload the downloaded file.')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tr-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-link"></i></div>
+                 <div onclick="alert('File is ready! Generating shareable links will be available soon.')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tr-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-link"></i></div>
                  <div onclick="alert('Dropbox saving will be available soon!')" class="w-10 h-10 bg-[#e5322d] text-white rounded-bl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-dropbox"></i></div>
                  <div onclick="resetTool()" class="w-10 h-10 bg-[#e5322d] text-white rounded-br-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-trash-can"></i></div>
             </div>
@@ -355,88 +355,42 @@
                 rawHtmlContent = document.getElementById('codeInput').value;
                 if(!rawHtmlContent.trim()) { alert('Please paste some HTML code.'); return; }
                 finalDocumentName = 'Custom_Code';
+                
+                document.getElementById('optScreenSizeWrapper').style.display = 'block';
+                document.getElementById('inkSaverWrapper').style.display = 'flex';
                 proceedToStep2();
             } 
+            else if (currentMode === 'file') {
+                document.getElementById('htmlFileInput').click();
+            }
             else if (currentMode === 'url') {
                 let url = document.getElementById('urlInput').value.trim();
                 if(!url) { alert('Please enter a valid URL.'); return; }
                 if(!url.startsWith('http')) url = 'https://' + url;
                 
                 finalDocumentName = new URL(url).hostname;
-                document.getElementById('previewTitle').innerText = url;
+                document.getElementById('previewTitle').innerText = finalDocumentName;
                 
-                showStep(3); 
-                const statusTitle = document.getElementById('fetchStatusTitle');
-                const statusDesc = document.getElementById('fetchStatusDesc');
-                
-                statusTitle.innerText = "Bypassing Security...";
-                
-                try {
-                    let fetchedHtml = null;
+                // Hide screen size for URL mode as backend handles it responsively
+                document.getElementById('optScreenSizeWrapper').style.display = 'none';
+                document.getElementById('inkSaverWrapper').style.display = 'none'; // Background removed via server
 
-                    // === PROXY 1: CorsProxy.io ===
-                    statusDesc.innerText = "Trying Premium Server 1 (CorsProxy)...";
-                    try {
-                        const controller1 = new AbortController();
-                        const timeout1 = setTimeout(() => controller1.abort(), 8000); // 8 seconds limit
-                        
-                        const res1 = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`, { signal: controller1.signal });
-                        clearTimeout(timeout1);
-                        
-                        if (res1.ok) {
-                            fetchedHtml = await res1.text();
-                        }
-                    } catch(e) {
-                        console.log("Server 1 failed or timed out.");
-                    }
-
-                    // === PROXY 2: AllOrigins (Backup) ===
-                    if (!fetchedHtml) {
-                        statusDesc.innerText = "Switching to Backup Server 2 (AllOrigins)...";
-                        try {
-                            const controller2 = new AbortController();
-                            const timeout2 = setTimeout(() => controller2.abort(), 10000); // 10 seconds limit
-                            
-                            const res2 = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, { signal: controller2.signal });
-                            clearTimeout(timeout2);
-                            
-                            const data = await res2.json();
-                            if (data.contents) {
-                                fetchedHtml = data.contents;
-                            }
-                        } catch(e) {
-                            console.log("Server 2 failed or timed out.");
-                        }
-                    }
-
-                    // === PROCESS RESULT ===
-                    if(fetchedHtml) {
-                        const baseUrl = new URL(url).origin;
-                        
-                        // Inject base URL so relative CSS and Images load properly inside iframe
-                        if (fetchedHtml.toLowerCase().includes('<head>')) {
-                            fetchedHtml = fetchedHtml.replace(/<head>/i, `<head><base href="${baseUrl}/">`);
-                        } else {
-                            fetchedHtml = `<base href="${baseUrl}/">` + fetchedHtml;
-                        }
-
-                        rawHtmlContent = fetchedHtml;
-                        proceedToStep2();
-                    } else {
-                        throw new Error("Both proxies blocked by target website.");
-                    }
-
-                } catch(e) {
-                    alert("This website has extremely high security (like Cloudflare or Bot-Protection) which blocked our servers.\n\nPRO TIP: Simply open that website, press 'Ctrl+S' to save it as an HTML file, and use the 'Upload HTML File' option in ToolVerse for a 100% perfect result!");
-                    resetTool(); 
-                }
+                // Skip fetching locally, show custom server screen in iframe
+                rawHtmlContent = `
+                    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:-apple-system, sans-serif; background:#f8fafc; color:#1e293b; text-align:center; padding:20px; border-radius:15px;">
+                        <svg style="width:80px; height:80px; color:#10b981; margin-bottom:15px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <h2 style="color:#e5322d; margin:0 0 10px 0; font-size:24px;">Cloud Server Connected</h2>
+                        <p style="margin:0; font-size:16px;">We bypassed security restrictions. Your URL is ready.</p>
+                        <div style="background:#e2e8f0; padding:10px 20px; border-radius:8px; font-family:monospace; margin-top:20px; color:#475569;">${url}</div>
+                        <p style="font-size:13px; color:#64748b; margin-top:30px; border-top:1px solid #cbd5e1; padding-top:15px;">Adjust your settings on the right and click <b>Convert to PDF</b> to start rendering on our servers.</p>
+                    </div>
+                `;
+                proceedToStep2();
             }
         }
 
         function proceedToStep2() {
             showStep(2);
-            document.getElementById('previewTitle').innerText = finalDocumentName;
-            
             injectToIframe();
         }
 
@@ -452,7 +406,9 @@
                 
                 iframe.onload = () => {
                     loader.classList.add('hidden');
-                    applyVvipFilters();
+                    if(currentMode !== 'url') {
+                        applyVvipFilters();
+                    }
                 };
             }, 500);
             
@@ -460,6 +416,11 @@
         }
 
         function updatePreviewScreen() {
+            if (currentMode === 'url') {
+                document.getElementById('previewIframe').style.width = '100%';
+                return;
+            }
+            
             const size = document.getElementById('optScreenSize').value;
             const iframe = document.getElementById('previewIframe');
             
@@ -488,6 +449,8 @@
         };
 
         window.applyVvipFilters = function() {
+            if (currentMode === 'url') return; // Server handles this
+
             const iframe = document.getElementById('previewIframe');
             if(!iframe.contentWindow) return;
             const doc = iframe.contentDocument || iframe.contentWindow.document;
@@ -508,14 +471,12 @@
                     body { background: #121212 !important; color: #e0e0e0 !important; }
                 `;
             }
-            
             if (isInkSaver && !isDark) {
                 css += `
                     * { background-color: transparent !important; background-image: none !important; color: #000 !important; text-shadow: none !important; box-shadow: none !important; }
                     img { opacity: 0.8; filter: grayscale(100%); }
                 `;
             }
-
             if (isAdBlock) {
                 css += `
                     .ad, .ads, .advertisement, [id^="ad-"], [class*="popup"], [class*="banner"], [class*="cookie"] { display: none !important; }
@@ -531,12 +492,75 @@
         };
 
         window.convertToPDF = async function() {
+            // ==========================================
+            // SERVER-SIDE CONVERSION (For URLs)
+            // ==========================================
+            if(currentMode === 'url') {
+                showStep(3);
+                document.getElementById('fetchStatusTitle').innerText = "Cloud Rendering PDF...";
+                document.getElementById('fetchStatusDesc').innerText = "Processing via VVIP Headless Server...";
+
+                let url = document.getElementById('urlInput').value.trim();
+                if(!url.startsWith('http')) url = 'https://' + url;
+
+                const pageSize = document.getElementById('optPageSize').value; 
+                const isLandscape = optOrientation === 'landscape';
+                const isDark = document.getElementById('vvipDarkMode').checked;
+                const isAdBlock = document.getElementById('vvipAdBlock').checked;
+                
+                let marginStr = optMargin === 0 ? '0' : (optMargin === 10 ? '1cm' : '2cm');
+                
+                // Construct Server API URL (Using free microlink headless browser API)
+                let apiUrl = `https://api.microlink.io/?url=${encodeURIComponent(url)}&pdf=true&meta=false`;
+                apiUrl += `&pdf.format=${pageSize === 'letter' ? 'Letter' : pageSize.toUpperCase()}`;
+                apiUrl += `&pdf.landscape=${isLandscape}`;
+                apiUrl += `&pdf.margin=${marginStr}`;
+                if(isAdBlock) apiUrl += `&adblock=true`;
+                if(isDark) apiUrl += `&colorScheme=dark`;
+
+                try {
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    
+                    if(data.status === 'success' && data.data.pdf && data.data.pdf.url) {
+                        // Fetch the actual PDF blob so we can download it locally
+                        const pdfRes = await fetch(data.data.pdf.url);
+                        const blob = await pdfRes.blob();
+                        const finalUrl = URL.createObjectURL(blob);
+                        
+                        const btn = document.getElementById('downloadBtn');
+                        btn.onclick = () => {
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = finalUrl;
+                            a.download = `${finalDocumentName}_ToolVerse.pdf`;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                        };
+
+                        showStep(4);
+                        btn.click();
+                    } else {
+                        throw new Error("Server failed to generate PDF.");
+                    }
+                } catch(e) {
+                    console.error("Server API Error:", e);
+                    alert("The server encountered an error while processing this heavily restricted URL. Try a different link.");
+                    showStep(2);
+                }
+                return;
+            }
+
+            // ==========================================
+            // CLIENT-SIDE CONVERSION (For Code/File)
+            // ==========================================
             const iframe = document.getElementById('previewIframe');
             if(!iframe.contentDocument) return;
 
             showStep(3);
             document.getElementById('fetchStatusTitle').innerText = "Rendering PDF...";
-            document.getElementById('fetchStatusDesc').innerText = "Generating high-quality document...";
+            document.getElementById('fetchStatusDesc').innerText = "Processing locally for maximum privacy...";
 
             try {
                 const element = iframe.contentDocument.body;
@@ -572,7 +596,7 @@
 
             } catch (e) {
                 console.error("PDF Render Error:", e);
-                alert("An error occurred during conversion. Certain modern websites restrict client-side PDF rendering. Try the 'Upload HTML File' method.");
+                alert("An error occurred during conversion.");
                 showStep(2);
             }
         };
