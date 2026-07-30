@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign PDF (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Signature Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Dancing+Script:wght@600&family=Great+Vibes&family=Pacifico&family=Satisfy&display=swap" rel="stylesheet">
+    
+    <!-- Firebase Security -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                window.isUserLoggedIn = false;
+            } else {
+                document.getElementById('authOverlay').style.display = 'none';
+                window.isUserLoggedIn = true;
+            }
+        });
+    </script>
+
+    <!-- PDF.js & jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border-top-color: #e5322d; -webkit-animation: spinner 1s linear infinite; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        body { background-color: #f3f4f7; overscroll-behavior-y: none;}
+
+        @keyframes pulse-red-wide {
+            0% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.8); }
+            70% { box-shadow: 0 0 0 20px rgba(229, 50, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); }
+        }
+        .btn-pulse { animation: pulse-red-wide 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .pdf-page-container { position: relative; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); background: white; overflow: hidden;}
+        
+        /* Signature Overlay Element */
+        .sig-overlay { position: absolute; border: 2px dashed transparent; cursor: grab; user-select: none; touch-action: none;}
+        .sig-overlay:hover, .sig-overlay.active { border-color: #3b82f6; background: rgba(59, 130, 246, 0.05); }
+        .sig-overlay:active { cursor: grabbing; }
+        .sig-delete { position: absolute; top: -12px; right: -12px; background: #e5322d; color: white; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; z-index: 20;}
+        .sig-overlay:hover .sig-delete, .sig-overlay.active .sig-delete { display: flex; }
+        
+        /* Modal Popup Animation */
+        .modal-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Signature Fonts */
+        .font-caveat { font-family: 'Caveat', cursive; }
+        .font-dancing { font-family: 'Dancing Script', cursive; }
+        .font-pacifico { font-family: 'Pacifico', cursive; }
+        .font-satisfy { font-family: 'Satisfy', cursive; }
+        .font-greatvibes { font-family: 'Great Vibes', cursive; }
+    </style>
+</head>
+<body class="min-h-screen font-sans relative flex flex-col overflow-x-hidden">
+    
+    <!-- VVIP LOCK SCREEN -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-red-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full ilovepdf-red text-white font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
+        </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700 hidden md:flex">
+                <a href="merge-pdf.html" class="hover:ilovepdf-text transition uppercase">Merge PDF</a>
+                <a href="split-pdf.html" class="hover:ilovepdf-text transition uppercase">Split PDF</a>
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STEP 1: UPLOAD SCREEN -->
+    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center text-center px-4 py-20">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Sign PDF</h1>
+        <p class="text-xl text-gray-600 mb-10 hidden md:block max-w-2xl">Your tool to eSign documents. Sign a document yourself or send a signature request to others.</p>
+        
+        <input type="file" id="fileInput" accept="application/pdf" class="hidden">
+        
+        <div class="relative flex items-stretch justify-center dropZone group cursor-pointer" onclick="triggerFileInput()">
+            <div class="ilovepdf-red text-white text-2xl font-bold py-6 px-10 md:px-20 rounded-l-xl transition shadow-lg flex items-center justify-center h-24 whitespace-nowrap hover:bg-red-700">
+                Select PDF file
+            </div>
+            <div class="flex flex-col space-y-[2px] ml-[2px]">
+                <div class="ilovepdf-red w-14 h-[47px] rounded-tr-xl flex items-center justify-center hover:bg-red-700 transition">
+                    <i class="fa-brands fa-google-drive text-white text-xl"></i>
+                </div>
+                <div class="ilovepdf-red w-14 h-[47px] rounded-br-xl flex items-center justify-center hover:bg-red-700 transition">
+                    <i class="fa-brands fa-dropbox text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+        <p class="mt-6 text-gray-500 font-medium">or drop PDF here</p>
+    </div>
+
+    <!-- STEP 2: WORKSPACE & OPTIONS -->
+    <div id="step2" class="hidden flex-grow flex flex-col md:flex-row h-[calc(100vh-65px)] relative">
+        
+        <!-- Left: Workspace (PDF Pages) -->
+        <div class="flex-1 bg-[#f3f4f7] flex flex-col items-center py-10 px-2 overflow-y-auto relative" id="pdf-render-container">
+            <!-- PDF Canvas Wrappers injected here -->
+        </div>
+
+        <!-- Right: Settings Panel -->
+        <div class="w-full md:w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0">
+            <div class="p-5 font-bold text-gray-700 border-b border-gray-200 text-center text-lg bg-white">
+                Signing options
+            </div>
+            
+            <div class="p-4 flex-1 overflow-y-auto">
+                <h4 class="font-semibold text-sm text-gray-800 mb-2">Type</h4>
+                <div class="flex gap-2 mb-6">
+                    <button class="flex-1 border-2 border-red-500 text-red-500 bg-red-50 rounded py-2 flex flex-col items-center justify-center">
+                        <i class="fa-solid fa-pen-nib text-xl mb-1"></i>
+                        <span class="text-xs font-bold">Simple Signature</span>
+                    </button>
+                    <button class="flex-1 border border-gray-200 text-gray-400 bg-gray-50 rounded py-2 flex flex-col items-center justify-center cursor-not-allowed">
+                        <i class="fa-solid fa-certificate text-xl mb-1 text-gray-300"></i>
+                        <span class="text-xs">Digital Signature <i class="fa-solid fa-crown text-yellow-500"></i></span>
+                    </button>
+                </div>
+
+                <h4 class="font-semibold text-sm text-gray-800 mb-2">Required fields</h4>
+                <div id="dragSignatureBtn" onclick="addSignatureToPage()" class="border-2 border-blue-200 bg-blue-50 p-3 rounded flex items-center justify-between cursor-pointer mb-6 hover:bg-blue-100 transition shadow-sm group">
+                    <div class="flex items-center gap-3">
+                        <div class="text-gray-400"><i class="fa-solid fa-grip-vertical"></i></div>
+                        <div class="bg-blue-500 text-white w-8 h-8 rounded flex items-center justify-center"><i class="fa-solid fa-signature"></i></div>
+                        <span id="sidebarSigPreview" class="font-bold text-gray-700">Signature</span>
+                    </div>
+                    <i class="fa-solid fa-pen text-blue-500 opacity-50 group-hover:opacity-100" onclick="event.stopPropagation(); openSigModal();"></i>
+                </div>
+
+                <h4 class="font-semibold text-sm text-gray-800 mb-2">Optional fields</h4>
+                <div class="space-y-2">
+                    <div onclick="addTextToPage('IK')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition">
+                        <div class="text-gray-300"><i class="fa-solid fa-grip-vertical"></i></div>
+                        <div class="bg-blue-100 text-blue-600 w-8 h-8 rounded flex items-center justify-center font-bold text-xs">AC</div>
+                        <span class="text-gray-600 text-sm font-medium">Initials</span>
+                    </div>
+                    <div onclick="addTextToPage('Imran Khan')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition">
+                        <div class="text-gray-300"><i class="fa-solid fa-grip-vertical"></i></div>
+                        <div class="bg-blue-100 text-blue-600 w-8 h-8 rounded flex items-center justify-center"><i class="fa-regular fa-address-book"></i></div>
+                        <span class="text-gray-600 text-sm font-medium">Name</span>
+                    </div>
+                    <div onclick="addTextToPage(new Date().toLocaleDateString())" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition">
+                        <div class="text-gray-300"><i class="fa-solid fa-grip-vertical"></i></div>
+                        <div class="bg-blue-100 text-blue-600 w-8 h-8 rounded flex items-center justify-center"><i class="fa-regular fa-calendar"></i></div>
+                        <span class="text-gray-600 text-sm font-medium">Date</span>
+                    </div>
+                    <div onclick="addTextToPage('Sample Text')" class="border border-gray-200 p-2 rounded flex items-center gap-3 cursor-pointer hover:bg-gray-50 transition">
+                        <div class="text-gray-300"><i class="fa-solid fa-grip-vertical"></i></div>
+                        <div class="bg-blue-100 text-blue-600 w-8 h-8 rounded flex items-center justify-center"><i class="fa-solid fa-t"></i></div>
+                        <span class="text-gray-600 text-sm font-medium">Text</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sign Button -->
+            <div class="p-4 bg-gray-50 border-t border-gray-200 pb-8 md:pb-4">
+                <button onclick="savePdf()" class="btn-pulse w-full ilovepdf-red text-white font-bold py-4 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
+                    Sign <i class="fa-solid fa-circle-arrow-right ml-2 text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Floating Sign Button -->
+        <button onclick="savePdf()" class="lg:hidden fixed bottom-24 right-4 btn-pulse ilovepdf-red text-white font-bold py-3 px-8 rounded-full shadow-2xl z-40 flex items-center gap-2 border-2 border-white">
+            Sign PDF <i class="fa-solid fa-circle-arrow-right"></i>
+        </button>
+
+    </div>
+
+    <!-- MODAL 1: WHO WILL SIGN? -->
+    <div id="whoSignModal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden flex-col justify-center items-center backdrop-blur-sm p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 text-center modal-pop relative">
+            <h2 class="text-xl font-bold text-gray-800 mb-6">Who will sign this document?</h2>
+            <div class="flex gap-4 justify-center mb-4">
+                <div onclick="selectSigner('me')" class="flex-1 border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-red-500 hover:bg-red-50 transition group">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1004/1004733.png" class="w-20 mx-auto mb-4 opacity-80 group-hover:opacity-100">
+                    <div class="bg-red-500 text-white font-bold py-2 rounded-lg text-sm mb-1">Only me</div>
+                    <span class="text-xs text-gray-500">Sign this document</span>
+                </div>
+                <div onclick="alert('Sending requests is a premium feature. For now, use Only Me!')" class="flex-1 border-2 border-gray-200 rounded-xl p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition group opacity-70">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1182/1182811.png" class="w-20 mx-auto mb-4 opacity-80 group-hover:opacity-100">
+                    <div class="bg-red-500 text-white font-bold py-2 rounded-lg text-sm mb-1">Several people</div>
+                    <span class="text-xs text-gray-500">Invite others to sign</span>
+                </div>
+            </div>
+            <p class="text-xs text-gray-400 mt-2 truncate" id="modalFileName">Uploaded document: </p>
+        </div>
+    </div>
+
+    <!-- MODAL 2: SET SIGNATURE DETAILS -->
+    <div id="sigSetupModal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden flex-col justify-center items-center backdrop-blur-sm p-4">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-0 text-left modal-pop relative overflow-hidden flex flex-col">
+            <div class="bg-gray-50 p-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-lg font-bold text-gray-800">Set your signature details</h2>
+                <button class="text-gray-400 hover:text-red-500" onclick="closeSigModal()"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            
+            <div class="p-6">
+                <div class="flex gap-4 mb-6">
+                    <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 text-2xl shrink-0"><i class="fa-regular fa-user"></i></div>
+                    <div class="flex-1 flex gap-2">
+                        <div class="flex-1">
+                            <label class="block text-xs font-bold text-gray-600 mb-1">Full name:</label>
+                            <input type="text" id="sigNameInput" onkeyup="generateSignatures()" value="Imran Khan" class="w-full border border-gray-300 rounded p-2 text-sm focus:border-red-500 focus:outline-none">
+                        </div>
+                        <div class="w-20">
+                            <label class="block text-xs font-bold text-gray-600 mb-1">Initials:</label>
+                            <input type="text" id="sigInitialsInput" value="IK" class="w-full border border-gray-300 rounded p-2 text-sm focus:border-red-500 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="flex border-b border-gray-200 mb-4">
+                    <button class="px-4 py-2 border-b-2 border-red-500 text-red-500 font-bold text-sm"><i class="fa-solid fa-keyboard mr-1"></i> Type</button>
+                    <button class="px-4 py-2 text-gray-500 font-medium text-sm hover:text-red-500" onclick="alert('Drawing signature is available in the Edit PDF tool.')"><i class="fa-solid fa-pen mr-1"></i> Draw</button>
+                </div>
+
+                <!-- Signature List -->
+                <div class="h-48 overflow-y-auto border border-gray-200 rounded-lg p-2 mb-4 space-y-1" id="sigList">
+                    <!-- Injected by JS -->
+                </div>
+
+                <!-- Colors -->
+                <div class="flex items-center gap-3">
+                    <span class="text-sm font-bold text-gray-700">Color:</span>
+                    <button onclick="setSigColor('black')" class="w-5 h-5 rounded-full bg-black ring-2 ring-offset-1 ring-gray-300"></button>
+                    <button onclick="setSigColor('#e5322d')" class="w-5 h-5 rounded-full bg-[#e5322d] ring-2 ring-offset-1 ring-transparent hover:ring-gray-300"></button>
+                    <button onclick="setSigColor('#2563eb')" class="w-5 h-5 rounded-full bg-blue-600 ring-2 ring-offset-1 ring-transparent hover:ring-gray-300"></button>
+                    <button onclick="setSigColor('#16a34a')" class="w-5 h-5 rounded-full bg-green-600 ring-2 ring-offset-1 ring-transparent hover:ring-gray-300"></button>
+                </div>
+            </div>
+
+            <div class="p-4 bg-gray-50 border-t border-gray-200 flex justify-end">
+                <button onclick="applySignatureSettings()" class="bg-[#e5322d] hover:bg-red-700 text-white font-bold py-2 px-8 rounded shadow transition">Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 3: LOADING -->
+    <div id="step3" class="hidden w-full flex-grow flex flex-col items-center justify-center pt-20 pb-10">
+        <div class="loader rounded-full border-4 border-gray-200 h-20 w-20 mx-auto mb-8"></div>
+        <h3 class="text-3xl font-bold text-gray-800 mb-2">Burning Signature...</h3>
+        <p class="text-gray-500 font-medium">Securing PDF offline</p>
+    </div>
+
+    <!-- STEP 4: DOWNLOAD SCREEN -->
+    <div id="step4" class="hidden w-full flex-grow flex flex-col items-center justify-center text-center px-4 pt-16 pb-10 bg-white">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10">PDF has been signed!</h2>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+            <button onclick="resetTool()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block">
+                <i class="fa-solid fa-arrow-left text-xl"></i>
+            </button>
+
+            <button id="downloadBtn" class="ilovepdf-red text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
+                <i class="fa-solid fa-download mr-4 text-2xl"></i> Download Signed PDF
+            </button>
+            
+            <div class="grid grid-cols-2 gap-1 md:ml-2">
+                 <div onclick="alert('Google Drive saving will be available soon!')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-google-drive"></i></div>
+                 <div onclick="alert('Files are processed 100% offline for your security. To generate a shareable link, please upload the downloaded file.')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tr-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-link"></i></div>
+                 <div onclick="alert('Dropbox saving will be available soon!')" class="w-10 h-10 bg-[#e5322d] text-white rounded-bl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-dropbox"></i></div>
+                 <div onclick="resetTool()" class="w-10 h-10 bg-[#e5322d] text-white rounded-br-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-trash-can"></i></div>
+            </div>
+        </div>
+        <button onclick="resetTool()" class="mt-8 text-gray-500 font-bold underline md:hidden">Start Over</button>
+    </div>
+
+    <!-- Script / Logic -->
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        let uploadedFile = null;
+        let pdfDocument = null;
+        let pdfPagesCount = 0;
+        let finalUrl = null;
+        
+        let sigColor = 'black';
+        let sigFont = 'font-dancing';
+        let currentSigDataUrl = null; // Generated transparent PNG of signature
+        
+        // Fonts array for the modal
+        const fonts = ['font-caveat', 'font-dancing', 'font-pacifico', 'font-satisfy', 'font-greatvibes'];
+
+        const fileInput = document.getElementById('fileInput');
+        const pdfRenderContainer = document.getElementById('pdf-render-container');
+        
+        function triggerFileInput() { if(window.isUserLoggedIn !== false) fileInput.click(); }
+
+        const dropZones = document.querySelectorAll('.dropZone');
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => { e.preventDefault(); document.body.style.opacity = "0.7"; });
+            zone.addEventListener('dragleave', () => { document.body.style.opacity = "1"; });
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault(); document.body.style.opacity = "1";
+                if (e.dataTransfer.files.length > 0 && window.isUserLoggedIn !== false) {
+                    handleFileSelection(e.dataTransfer.files[0]);
+                }
+            });
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleFileSelection(e.target.files[0]);
+        });
+
+        function showStep(stepNumber) {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById(`step${stepNumber}`).classList.remove('hidden');
+        }
+
+        async function handleFileSelection(file) {
+            if (file.type !== 'application/pdf') { alert('Please select a PDF file.'); return; }
+            uploadedFile = file;
+            document.getElementById('modalFileName').innerText = "Uploaded document: " + file.name;
+            
+            // Show Initial Modal
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('whoSignModal').classList.remove('hidden');
+            document.getElementById('whoSignModal').style.display = 'flex';
+        }
+
+        window.selectSigner = function(type) {
+            document.getElementById('whoSignModal').style.display = 'none';
+            document.getElementById('sigSetupModal').style.display = 'flex';
+            generateSignatures(); // Populate fonts
+        };
+
+        window.closeSigModal = function() {
+            document.getElementById('sigSetupModal').style.display = 'none';
+            loadPdfToWorkspace(); // Proceed to workspace even without applying (can open later)
+        };
+
+        window.openSigModal = function() {
+            document.getElementById('sigSetupModal').style.display = 'flex';
+            generateSignatures();
+        };
+
+        window.setSigColor = function(color) {
+            sigColor = color;
+            generateSignatures();
+        };
+
+        window.generateSignatures = function() {
+            const name = document.getElementById('sigNameInput').value || 'Signature';
+            const list = document.getElementById('sigList');
+            list.innerHTML = '';
+            
+            fonts.forEach((font, index) => {
+                const isChecked = font === sigFont ? 'checked' : '';
+                const bgClass = isChecked ? 'bg-blue-50 border-blue-200' : 'border-transparent';
+                
+                const item = document.createElement('label');
+                item.className = `flex items-center gap-4 p-3 rounded cursor-pointer border hover:bg-gray-50 transition ${bgClass}`;
+                item.innerHTML = `
+                    <input type="radio" name="sigStyle" value="${font}" class="w-4 h-4 text-red-600" ${isChecked} onchange="sigFont='${font}'; generateSignatures();">
+                    <span class="${font} text-3xl" style="color: ${sigColor}; line-height: 1;">${name}</span>
+                `;
+                list.appendChild(item);
+            });
+        };
+
+        window.applySignatureSettings = function() {
+            const name = document.getElementById('sigNameInput').value || 'Signature';
+            
+            // Generate PNG using Offscreen Canvas
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Map Tailwind font class to real font-family
+            let fontFamily = 'Dancing Script';
+            if(sigFont.includes('caveat')) fontFamily = 'Caveat';
+            else if(sigFont.includes('pacifico')) fontFamily = 'Pacifico';
+            else if(sigFont.includes('satisfy')) fontFamily = 'Satisfy';
+            else if(sigFont.includes('greatvibes')) fontFamily = 'Great Vibes';
+
+            ctx.font = `60px "${fontFamily}"`;
+            const textMetrics = ctx.measureText(name);
+            canvas.width = textMetrics.width + 40;
+            canvas.height = 100;
+            
+            // Re-apply font after resize
+            ctx.font = `60px "${fontFamily}"`;
+            ctx.fillStyle = sigColor;
+            ctx.textBaseline = 'middle';
+            ctx.fillText(name, 20, canvas.height / 2 + 10);
+
+            currentSigDataUrl = canvas.toDataURL('image/png');
+            
+            // Update Sidebar Preview
+            document.getElementById('sidebarSigPreview').innerHTML = `<img src="${currentSigDataUrl}" class="h-8 object-contain">`;
+            
+            document.getElementById('sigSetupModal').style.display = 'none';
+            if(!pdfDocument) loadPdfToWorkspace();
+        };
+
+        async function loadPdfToWorkspace() {
+            showStep(3); // Loading screen briefly
+            document.querySelector('#step3 h3').innerText = "Loading PDF...";
+            
+            try {
+                const arrayBuffer = await uploadedFile.arrayBuffer();
+                pdfDocument = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                pdfPagesCount = pdfDocument.numPages;
+                
+                pdfRenderContainer.innerHTML = '';
+
+                // Screen logic for zoom
+                const screenWidth = window.innerWidth;
+                const scale = screenWidth < 768 ? 1.0 : 1.3;
+
+                for (let pageNum = 1; pageNum <= pdfPagesCount; pageNum++) {
+                    await renderPage(pageNum, scale);
+                }
+
+                showStep(2); 
+
+            } catch (error) {
+                console.error("Error loading PDF:", error);
+                alert("Could not load PDF.");
+                resetTool();
+            }
+        }
+
+        async function renderPage(pageNum, scale) {
+            const page = await pdfDocument.getPage(pageNum);
+            const viewport = page.getViewport({ scale: scale });
+
+            const pageWrapper = document.createElement('div');
+            pageWrapper.className = 'pdf-page-container';
+            pageWrapper.id = `page-wrapper-${pageNum}`;
+            pageWrapper.style.width = viewport.width + 'px';
+            pageWrapper.style.height = viewport.height + 'px';
+
+            const pdfCanvas = document.createElement('canvas');
+            pdfCanvas.id = `pdf-canvas-${pageNum}`;
+            pdfCanvas.width = viewport.width;
+            pdfCanvas.height = viewport.height;
+            const pdfCtx = pdfCanvas.getContext('2d');
+
+            pageWrapper.appendChild(pdfCanvas);
+            pdfRenderContainer.appendChild(pageWrapper);
+
+            await page.render({ canvasContext: pdfCtx, viewport: viewport }).promise;
+        }
+
+        // --- Drag & Drop Overlay Logic ---
+        
+        window.addSignatureToPage = function() {
+            if(!currentSigDataUrl) { openSigModal(); return; }
+            createOverlayElement(currentSigDataUrl, true);
+        };
+
+        window.addTextToPage = function(textStr) {
+            // Convert text to image for easy dragging/resizing exactly like signature
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.font = "bold 40px Arial";
+            const metrics = ctx.measureText(textStr);
+            canvas.width = metrics.width + 20;
+            canvas.height = 60;
+            
+            ctx.font = "bold 40px Arial";
+            ctx.fillStyle = "black";
+            ctx.textBaseline = 'middle';
+            ctx.fillText(textStr, 10, canvas.height/2);
+            
+            createOverlayElement(canvas.toDataURL('image/png'), false);
+        };
+
+        function createOverlayElement(imgSrc, isSig) {
+            const wrapper = document.getElementById('page-wrapper-1'); // Always drop on page 1 initially
+            if(!wrapper) return;
+
+            const overlay = document.createElement('div');
+            overlay.className = 'sig-overlay active';
+            overlay.style.top = '100px';
+            overlay.style.left = '50px';
+            
+            // Image
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.style.height = isSig ? '80px' : '40px';
+            img.style.pointerEvents = 'none'; // let div handle drag
+            
+            // Delete button
+            const delBtn = document.createElement('div');
+            delBtn.className = 'sig-delete';
+            delBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            delBtn.onclick = (e) => { e.stopPropagation(); wrapper.removeChild(overlay); };
+
+            overlay.appendChild(img);
+            overlay.appendChild(delBtn);
+            wrapper.appendChild(overlay);
+
+            makeDraggable(overlay, wrapper);
+        }
+
+        function makeDraggable(element, container) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            
+            element.onmousedown = dragMouseDown;
+            element.ontouchstart = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e.preventDefault();
+                // Deactivate others
+                document.querySelectorAll('.sig-overlay').forEach(el => el.classList.remove('active'));
+                element.classList.add('active');
+
+                pos3 = e.clientX || e.touches[0].clientX;
+                pos4 = e.clientY || e.touches[0].clientY;
+                
+                document.onmouseup = closeDragElement;
+                document.ontouchend = closeDragElement;
+                document.onmousemove = elementDrag;
+                document.ontouchmove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e.preventDefault();
+                const clientX = e.clientX || e.touches[0].clientX;
+                const clientY = e.clientY || e.touches[0].clientY;
+
+                pos1 = pos3 - clientX;
+                pos2 = pos4 - clientY;
+                pos3 = clientX;
+                pos4 = clientY;
+                
+                // Bounds checking
+                let newTop = element.offsetTop - pos2;
+                let newLeft = element.offsetLeft - pos1;
+                
+                if(newTop < 0) newTop = 0;
+                if(newLeft < 0) newLeft = 0;
+                if(newLeft + element.offsetWidth > container.offsetWidth) newLeft = container.offsetWidth - element.offsetWidth;
+                if(newTop + element.offsetHeight > container.offsetHeight) newTop = container.offsetHeight - element.offsetHeight;
+
+                element.style.top = newTop + "px";
+                element.style.left = newLeft + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.ontouchend = null;
+                document.onmousemove = null;
+                document.ontouchmove = null;
+            }
+        }
+
+        // --- Save Signed PDF ---
+        async function savePdf() {
+            showStep(3);
+            document.querySelector('#step3 h3').innerText = "Burning Signature...";
+
+            try {
+                const { jsPDF } = window.jspdf;
+                let finalDoc = null;
+
+                for (let i = 1; i <= pdfPagesCount; i++) {
+                    const pdfCanvas = document.getElementById(`pdf-canvas-${i}`);
+                    const wrapper = document.getElementById(`page-wrapper-${i}`);
+                    
+                    const mergeCanvas = document.createElement('canvas');
+                    mergeCanvas.width = pdfCanvas.width;
+                    mergeCanvas.height = pdfCanvas.height;
+                    const mergeCtx = mergeCanvas.getContext('2d');
+                    
+                    // Draw PDF base
+                    mergeCtx.drawImage(pdfCanvas, 0, 0);
+
+                    // Draw Overlays (Signatures) for this page
+                    const overlays = wrapper.querySelectorAll('.sig-overlay');
+                    overlays.forEach(overlay => {
+                        const img = overlay.querySelector('img');
+                        // Calculate exact coordinates based on scale
+                        const left = parseInt(overlay.style.left, 10);
+                        const top = parseInt(overlay.style.top, 10);
+                        
+                        // Draw onto merge canvas
+                        mergeCtx.drawImage(img, left, top, img.width, img.height);
+                    });
+
+                    const imgData = mergeCanvas.toDataURL('image/jpeg', 0.95);
+                    const orientation = mergeCanvas.width > mergeCanvas.height ? 'l' : 'p';
+                    
+                    if (i === 1) {
+                        finalDoc = new jsPDF(orientation, 'pt', [mergeCanvas.width, mergeCanvas.height]);
+                    } else {
+                        finalDoc.addPage([mergeCanvas.width, mergeCanvas.height], orientation);
+                    }
+                    finalDoc.addImage(imgData, 'JPEG', 0, 0, mergeCanvas.width, mergeCanvas.height);
+                }
+
+                const pdfBlob = finalDoc.output('blob');
+                finalUrl = URL.createObjectURL(pdfBlob);
+                
+                const btn = document.getElementById('downloadBtn');
+                btn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = finalUrl;
+                    a.download = uploadedFile.name.replace('.pdf', '_Signed_ToolVerse.pdf');
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+
+                setTimeout(() => { 
+                    showStep(4); 
+                    btn.click(); // Auto download
+                }, 800);
+
+            } catch(e) {
+                console.error("Save error:", e);
+                alert("Error saving PDF.");
+                showStep(2);
+            }
+        }
+
+        function resetTool() {
+            uploadedFile = null;
+            pdfDocument = null;
+            currentSigDataUrl = null;
+            fileInput.value = '';
+            pdfRenderContainer.innerHTML = '';
+            if(finalUrl) URL.revokeObjectURL(finalUrl);
+            document.getElementById('sidebarSigPreview').innerHTML = 'Signature';
+            showStep(1); 
+        }
+        
+        // Hide overlay active borders when clicking outside
+        document.addEventListener('click', (e) => {
+            if(!e.target.closest('.sig-overlay') && !e.target.closest('#dragSignatureBtn') && !e.target.closest('.border-gray-200')) {
+                document.querySelectorAll('.sig-overlay').forEach(el => el.classList.remove('active'));
+            }
+        });
+    </script>
+</body>
+</html>
