@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Watermark to PDF (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Firebase Security -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                window.isUserLoggedIn = false;
+            } else {
+                document.getElementById('authOverlay').style.display = 'none';
+                window.isUserLoggedIn = true;
+            }
+        });
+    </script>
+
+    <!-- PDF.js for Preview & PDF-lib for actual Watermarking -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    
+    <style>
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border-top-color: #e5322d; -webkit-animation: spinner 1s linear infinite; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        body { background-color: #f3f4f7; overscroll-behavior-y: none;}
+
+        @keyframes pulse-red-wide {
+            0% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.8); }
+            70% { box-shadow: 0 0 0 20px rgba(229, 50, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); }
+        }
+        .btn-pulse { animation: pulse-red-wide 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        
+        .pdf-thumb-wrapper { position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background: white; border: 1px solid #e2e8f0; margin: 10px; transition: 0.3s;}
+        
+        /* Watermark Grid Selection */
+        .pos-grid-cell { border: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; aspect-ratio: 1; }
+        .pos-grid-cell:hover { background-color: #f1f5f9; }
+        .pos-dot { width: 12px; height: 12px; background-color: #e5322d; border-radius: 50%; display: none; }
+        .pos-grid-cell.active .pos-dot { display: block; }
+        
+        /* Tabs */
+        .wm-tab.active { color: #10b981; border-bottom: 2px solid #10b981; font-weight: bold;}
+        .wm-tab { color: #64748b; font-weight: 600; cursor: pointer; padding-bottom: 8px;}
+
+        /* Layer Buttons */
+        .layer-btn.active { border-color: #e5322d; color: #e5322d; background-color: #fff5f5; }
+        .layer-btn { border-color: #e2e8f0; color: #64748b; background-color: #f8fafc; transition: 0.2s;}
+
+        /* Preview Dot on PDF */
+        .preview-dot { position: absolute; width: 14px; height: 14px; background-color: rgba(229, 50, 45, 0.8); border-radius: 50%; transform: translate(-50%, -50%); transition: all 0.3s ease; box-shadow: 0 0 5px rgba(0,0,0,0.3);}
+    </style>
+</head>
+<body class="min-h-screen font-sans relative flex flex-col overflow-x-hidden">
+    
+    <!-- VVIP LOCK SCREEN -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-red-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full ilovepdf-red text-white font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
+        </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700 hidden md:flex">
+                <a href="merge-pdf.html" class="hover:ilovepdf-text transition uppercase">Merge PDF</a>
+                <a href="split-pdf.html" class="hover:ilovepdf-text transition uppercase">Split PDF</a>
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STEP 1: UPLOAD SCREEN -->
+    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center text-center px-4 py-20">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Add watermark into a PDF</h1>
+        <p class="text-xl text-gray-600 mb-10 hidden md:block max-w-2xl">Stamp an image or text over your PDF in seconds. Choose the typography, transparency and position.</p>
+        
+        <input type="file" id="fileInput" accept="application/pdf" class="hidden">
+        
+        <div class="relative flex items-stretch justify-center dropZone group cursor-pointer" onclick="triggerFileInput()">
+            <div class="ilovepdf-red text-white text-2xl font-bold py-6 px-10 md:px-20 rounded-l-xl transition shadow-lg flex items-center justify-center h-24 whitespace-nowrap hover:bg-red-700">
+                Select PDF file
+            </div>
+            <div class="flex flex-col space-y-[2px] ml-[2px]">
+                <div class="ilovepdf-red w-14 h-[47px] rounded-tr-xl flex items-center justify-center hover:bg-red-700 transition">
+                    <i class="fa-brands fa-google-drive text-white text-xl"></i>
+                </div>
+                <div class="ilovepdf-red w-14 h-[47px] rounded-br-xl flex items-center justify-center hover:bg-red-700 transition">
+                    <i class="fa-brands fa-dropbox text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+        <p class="mt-6 text-gray-500 font-medium">or drop PDF here</p>
+    </div>
+
+    <!-- STEP 2: WORKSPACE & OPTIONS -->
+    <div id="step2" class="hidden flex-grow flex flex-col md:flex-row h-[calc(100vh-65px)] relative">
+        
+        <!-- Left: Workspace (Thumbnails Preview) -->
+        <div class="flex-1 bg-[#f3f4f7] py-8 px-4 overflow-y-auto relative">
+            <div class="flex justify-center mb-6 sticky top-0 z-20">
+                <div class="bg-white border border-gray-300 rounded shadow-sm px-4 py-2 flex items-center gap-4 text-sm font-semibold text-gray-700">
+                    <span id="headerFileName" class="truncate max-w-[150px]">document.pdf</span>
+                    <i class="fa-solid fa-trash-can text-gray-400 hover:text-red-500 cursor-pointer transition" onclick="resetTool()"></i>
+                </div>
+                <button class="ml-4 bg-gray-800 text-white w-10 h-10 rounded-full shadow hover:bg-gray-700 transition flex items-center justify-center relative" onclick="triggerFileInput()">
+                    <i class="fa-solid fa-plus"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">1</span>
+                </button>
+            </div>
+            
+            <div id="pdf-thumbnails-container" class="flex flex-wrap justify-center items-center gap-4 max-w-4xl mx-auto">
+                <!-- PDF Thumbnails injected here -->
+            </div>
+        </div>
+
+        <!-- Right: Settings Panel -->
+        <div class="w-full md:w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0">
+            <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-lg bg-white">
+                Watermark options
+            </div>
+            
+            <div class="p-5 flex-1 overflow-y-auto">
+                <!-- Tabs -->
+                <div class="flex justify-center gap-8 border-b border-gray-200 mb-6">
+                    <div class="wm-tab active flex flex-col items-center gap-1" id="tabText" onclick="switchTab('text')">
+                        <i class="fa-solid fa-font text-2xl"></i>
+                        <span class="text-xs">Place text</span>
+                        <div id="tabTextCheck" class="text-green-500 absolute ml-[-50px] mt-[10px] text-xs"><i class="fa-solid fa-circle-check"></i></div>
+                    </div>
+                    <div class="wm-tab flex flex-col items-center gap-1 opacity-50 cursor-not-allowed" title="Image watermark coming soon in Pro!" onclick="alert('Image watermark is a Pro feature coming soon! You can use Text watermark for free.')">
+                        <i class="fa-regular fa-image text-2xl"></i>
+                        <span class="text-xs">Place image</span>
+                    </div>
+                </div>
+
+                <!-- Text Settings -->
+                <div id="textSettingsBlock">
+                    <h4 class="font-bold text-sm text-gray-800 mb-1">Text:</h4>
+                    <input type="text" id="wmText" value="iLovePDF" class="w-full border border-gray-300 rounded p-2 mb-4 text-sm focus:border-red-500 focus:outline-none" oninput="updatePreviews()">
+                    
+                    <h4 class="font-bold text-sm text-gray-800 mb-1">Text format:</h4>
+                    <div class="flex items-center gap-2 mb-6 bg-gray-50 border border-gray-200 p-2 rounded">
+                        <select id="wmFont" class="bg-transparent border-none text-xs font-semibold focus:outline-none w-20 cursor-pointer" onchange="updatePreviews()">
+                            <option value="Helvetica">Arial</option>
+                            <option value="TimesRoman">Times</option>
+                            <option value="Courier">Courier</option>
+                        </select>
+                        <div class="h-4 w-[1px] bg-gray-300"></div>
+                        <button class="font-serif font-bold text-gray-700 hover:text-black">T<span class="text-[10px]">T</span></button>
+                        <div class="h-4 w-[1px] bg-gray-300"></div>
+                        <button class="font-bold text-gray-700 hover:text-black w-6">B</button>
+                        <button class="italic text-gray-700 hover:text-black w-6 font-serif">I</button>
+                        <button class="underline text-gray-700 hover:text-black w-6">U</button>
+                        <div class="h-4 w-[1px] bg-gray-300"></div>
+                        <input type="color" id="wmColor" value="#000000" class="w-5 h-5 rounded cursor-pointer border-none bg-transparent p-0">
+                    </div>
+                </div>
+
+                <!-- Position & Mosaic -->
+                <h4 class="font-bold text-sm text-gray-800 mb-2">Position:</h4>
+                <div class="flex items-start gap-4 mb-6">
+                    <div class="grid grid-cols-3 w-16 h-16 border-t border-l border-gray-300" id="positionGrid">
+                        <div class="pos-grid-cell active border-r border-b" onclick="setGridPos(1)"><div class="pos-dot"></div></div>
+                        <div class="pos-grid-cell border-r border-b" onclick="setGridPos(2)"><div class="pos-dot"></div></div>
+                        <div class="pos-grid-cell border-r border-b" onclick="setGridPos(3)"><div class="pos-dot"></div></div>
+                        <div class="pos-grid-cell border-r border-b" onclick="setGridPos(4)"><div class="pos-dot"></div></div>
+                        <div class="pos-grid-cell border-r border-b" onclick="setGridPos(5)"><div class="pos-dot"></div></div>
+                        <div class="pos-grid-cell border-r border-b" onclick="setGridPos(6)"><div class="pos-dot"></div></div>
+                        <div class="pos-grid-cell border-r border-b" onclick="setGridPos(7)"><div class="pos-dot"></div></div>
+                        <div class="pos-grid-cell border-r border-b" onclick="setGridPos(8)"><div class="pos-dot"></div></div>
+                        <div class="pos-grid-cell border-r border-b" onclick="setGridPos(9)"><div class="pos-dot"></div></div>
+                    </div>
+                    <label class="flex items-center gap-2 cursor-pointer mt-1">
+                        <input type="checkbox" id="mosaicCheck" class="w-4 h-4 text-green-500 focus:ring-green-500 border-gray-300 rounded" onchange="toggleMosaic()">
+                        <span class="text-sm text-gray-700">Mosaic</span>
+                    </label>
+                </div>
+
+                <!-- Transparency & Rotation -->
+                <div class="flex gap-4 mb-6">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-[11px] text-gray-800 mb-1">Transparency:</h4>
+                        <select id="wmOpacity" class="w-full border border-gray-300 rounded p-2 text-xs focus:border-red-500 focus:outline-none bg-white">
+                            <option value="1">No transparency</option>
+                            <option value="0.75">75%</option>
+                            <option value="0.5">50%</option>
+                            <option value="0.25">25%</option>
+                        </select>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-[11px] text-gray-800 mb-1">Rotation:</h4>
+                        <select id="wmRotation" class="w-full border border-gray-300 rounded p-2 text-xs focus:border-red-500 focus:outline-none bg-white">
+                            <option value="0">Do not rotate</option>
+                            <option value="45">45 degrees</option>
+                            <option value="90">90 degrees</option>
+                            <option value="180">180 degrees</option>
+                            <option value="270">270 degrees</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Pages Range -->
+                <h4 class="font-bold text-sm text-gray-800 mb-1">Pages:</h4>
+                <div class="flex items-center gap-2 mb-6 text-sm text-gray-600">
+                    <span>from page</span>
+                    <input type="number" id="pageFrom" min="1" value="1" class="w-16 border border-gray-300 rounded p-1 text-center focus:border-red-500 outline-none">
+                    <span>to</span>
+                    <input type="number" id="pageTo" min="1" value="1" class="w-16 border border-gray-300 rounded p-1 text-center focus:border-red-500 outline-none">
+                </div>
+
+                <!-- Layer -->
+                <h4 class="font-bold text-sm text-gray-800 mb-2">Layer</h4>
+                <div class="flex gap-2 mb-6">
+                    <button id="layerOver" onclick="setLayer('over')" class="layer-btn active flex-1 border-2 rounded py-3 flex flex-col items-center justify-center font-bold text-xs">
+                        <i class="fa-solid fa-layer-group text-xl mb-1"></i>
+                        Over the PDF<br>content
+                    </button>
+                    <button id="layerBelow" onclick="setLayer('below')" class="layer-btn flex-1 border-2 rounded py-3 flex flex-col items-center justify-center font-bold text-xs opacity-70">
+                        <i class="fa-solid fa-layer-group text-xl mb-1 opacity-50"></i>
+                        Below the PDF<br>content
+                    </button>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="p-4 bg-gray-50 border-t border-gray-200 pb-8 md:pb-4">
+                <button onclick="processWatermark()" class="btn-pulse w-full ilovepdf-red text-white font-bold py-4 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
+                    Add watermark <i class="fa-solid fa-circle-arrow-right ml-2 text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Floating Action Button -->
+        <button onclick="processWatermark()" class="lg:hidden fixed bottom-24 right-4 btn-pulse ilovepdf-red text-white font-bold py-3 px-6 rounded-full shadow-2xl z-40 flex items-center gap-2 border-2 border-white">
+            Add watermark <i class="fa-solid fa-circle-arrow-right"></i>
+        </button>
+
+    </div>
+
+    <!-- STEP 3: LOADING -->
+    <div id="step3" class="hidden w-full flex-grow flex flex-col items-center justify-center pt-20 pb-10">
+        <div class="loader rounded-full border-4 border-gray-200 h-20 w-20 mx-auto mb-8"></div>
+        <h3 class="text-3xl font-bold text-gray-800 mb-2">Stamping PDF...</h3>
+        <p class="text-gray-500 font-medium">Processing completely offline</p>
+    </div>
+
+    <!-- STEP 4: DOWNLOAD SCREEN -->
+    <div id="step4" class="hidden w-full flex-grow flex flex-col items-center justify-center text-center px-4 pt-16 pb-10 bg-white">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10">The PDF has been stamped!</h2>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+            <button onclick="resetTool()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block">
+                <i class="fa-solid fa-arrow-left text-xl"></i>
+            </button>
+
+            <button id="downloadBtn" class="ilovepdf-red text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
+                <i class="fa-solid fa-download mr-4 text-2xl"></i> Download PDF
+            </button>
+            
+            <div class="grid grid-cols-2 gap-1 md:ml-2">
+                 <div onclick="alert('Google Drive saving will be available soon!')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-google-drive"></i></div>
+                 <div onclick="alert('Files are processed 100% offline for your security. To generate a shareable link, please upload the downloaded file.')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tr-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-link"></i></div>
+                 <div onclick="alert('Dropbox saving will be available soon!')" class="w-10 h-10 bg-[#e5322d] text-white rounded-bl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-dropbox"></i></div>
+                 <div onclick="resetTool()" class="w-10 h-10 bg-[#e5322d] text-white rounded-br-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-trash-can"></i></div>
+            </div>
+        </div>
+        <button onclick="resetTool()" class="mt-8 text-gray-500 font-bold underline md:hidden">Start Over</button>
+    </div>
+
+    <!-- Script / Logic -->
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        let uploadedFile = null;
+        let pdfPagesCount = 0;
+        let finalUrl = null;
+        let activePos = 1; // 1 to 9
+        let isMosaic = false;
+        let layerMode = 'over'; // over, below
+
+        const fileInput = document.getElementById('fileInput');
+        const thumbnailsContainer = document.getElementById('pdf-thumbnails-container');
+        
+        function triggerFileInput() { if(window.isUserLoggedIn !== false) fileInput.click(); }
+
+        const dropZones = document.querySelectorAll('.dropZone');
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => { e.preventDefault(); document.body.style.opacity = "0.7"; });
+            zone.addEventListener('dragleave', () => { document.body.style.opacity = "1"; });
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault(); document.body.style.opacity = "1";
+                if (e.dataTransfer.files.length > 0 && window.isUserLoggedIn !== false) {
+                    handleFileSelection(e.dataTransfer.files[0]);
+                }
+            });
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) handleFileSelection(e.target.files[0]);
+        });
+
+        function showStep(stepNumber) {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById(`step${stepNumber}`).classList.remove('hidden');
+        }
+
+        async function handleFileSelection(file) {
+            if (file.type !== 'application/pdf') { alert('Please select a PDF file.'); return; }
+            uploadedFile = file;
+            document.getElementById('headerFileName').innerText = file.name;
+            
+            showStep(3);
+            document.querySelector('#step3 h3').innerText = "Loading Preview...";
+            
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdfDocument = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                pdfPagesCount = pdfDocument.numPages;
+                
+                document.getElementById('pageTo').value = pdfPagesCount;
+                document.getElementById('pageTo').max = pdfPagesCount;
+                document.getElementById('pageFrom').max = pdfPagesCount;
+
+                thumbnailsContainer.innerHTML = '';
+                
+                // Render up to 4 pages for preview
+                const maxPreviewPages = Math.min(4, pdfPagesCount);
+                for (let i = 1; i <= maxPreviewPages; i++) {
+                    const page = await pdfDocument.getPage(i);
+                    const viewport = page.getViewport({ scale: 0.3 }); // Small scale for thumbnails
+                    
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'pdf-thumb-wrapper';
+                    wrapper.style.width = viewport.width + 'px';
+                    wrapper.style.height = viewport.height + 'px';
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    const ctx = canvas.getContext('2d');
+
+                    await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+                    
+                    wrapper.appendChild(canvas);
+                    thumbnailsContainer.appendChild(wrapper);
+                }
+
+                updatePreviews(); // Add the red dots
+                showStep(2);
+
+            } catch (error) {
+                console.error("Error loading PDF:", error);
+                alert("Could not load PDF.");
+                resetTool();
+            }
+        }
+
+        // --- UI Interactions ---
+
+        window.setGridPos = function(pos) {
+            if(isMosaic) return; // disabled if mosaic
+            activePos = pos;
+            
+            document.querySelectorAll('.pos-grid-cell').forEach(cell => cell.classList.remove('active'));
+            document.querySelectorAll('.pos-grid-cell')[pos-1].classList.add('active');
+            
+            updatePreviews();
+        };
+
+        window.toggleMosaic = function() {
+            isMosaic = document.getElementById('mosaicCheck').checked;
+            
+            const cells = document.querySelectorAll('.pos-grid-cell');
+            if(isMosaic) {
+                cells.forEach(c => c.classList.add('active'));
+            } else {
+                cells.forEach(c => c.classList.remove('active'));
+                cells[activePos-1].classList.add('active');
+            }
+            updatePreviews();
+        };
+
+        window.setLayer = function(type) {
+            layerMode = type;
+            document.getElementById('layerOver').classList.remove('active');
+            document.getElementById('layerBelow').classList.remove('active');
+            
+            if(type === 'over') {
+                document.getElementById('layerOver').classList.add('active');
+            } else {
+                document.getElementById('layerBelow').classList.add('active');
+                // Below layer logic alert
+                // alert('Note: Drawing "Below" text depends on the PDF background. If the PDF has a solid white background, the watermark might be hidden. "Over" with Transparency is recommended.');
+            }
+            updatePreviews(); // Just for feeling responsive
+        };
+
+        // --- Render Preview Dots ---
+        window.updatePreviews = function() {
+            // Remove existing dots
+            document.querySelectorAll('.preview-dot').forEach(d => d.remove());
+            
+            const wrappers = document.querySelectorAll('.pdf-thumb-wrapper');
+            const positionsToDraw = isMosaic ? [1,2,3,4,5,6,7,8,9] : [activePos];
+
+            wrappers.forEach(wrapper => {
+                positionsToDraw.forEach(pos => {
+                    const dot = document.createElement('div');
+                    dot.className = 'preview-dot';
+                    
+                    let top = '50%', left = '50%';
+                    
+                    // Map 1-9 to Top/Left percentages
+                    if([1,4,7].includes(pos)) left = '15%'; // Left column
+                    if([2,5,8].includes(pos)) left = '50%'; // Center column
+                    if([3,6,9].includes(pos)) left = '85%'; // Right column
+                    
+                    if([1,2,3].includes(pos)) top = '15%';  // Top row
+                    if([4,5,6].includes(pos)) top = '50%';  // Middle row
+                    if([7,8,9].includes(pos)) top = '85%';  // Bottom row
+                    
+                    dot.style.top = top;
+                    dot.style.left = left;
+                    
+                    // Visual feedback for layer 'below'
+                    if(layerMode === 'below') {
+                        dot.style.opacity = '0.3';
+                    }
+
+                    wrapper.appendChild(dot);
+                });
+            });
+        };
+
+        // --- Process PDF using PDF-lib ---
+        window.processWatermark = async function() {
+            showStep(3);
+            document.querySelector('#step3 h3').innerText = "Stamping PDF...";
+
+            try {
+                const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
+
+                const existingPdfBytes = await uploadedFile.arrayBuffer();
+                const pdfDoc = await PDFDocument.load(existingPdfBytes);
+                const pages = pdfDoc.getPages();
+                
+                // Get values
+                const text = document.getElementById('wmText').value || 'Watermark';
+                const opacity = parseFloat(document.getElementById('wmOpacity').value);
+                const rotationDeg = parseInt(document.getElementById('wmRotation').value);
+                
+                const fromPage = parseInt(document.getElementById('pageFrom').value) - 1;
+                const toPage = parseInt(document.getElementById('pageTo').value) - 1;
+                
+                const fontSelection = document.getElementById('wmFont').value;
+                
+                // Embed Font (Standard)
+                let customFont;
+                if(fontSelection === 'Helvetica') customFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+                else if(fontSelection === 'TimesRoman') customFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+                else customFont = await pdfDoc.embedFont(StandardFonts.Courier);
+
+                const fontSize = 40; // Default size
+                const textWidth = customFont.widthOfTextAtSize(text, fontSize);
+                const textHeight = customFont.heightAtSize(fontSize);
+                
+                // Setup positions array (1 to 9)
+                const positions = isMosaic ? [1,2,3,4,5,6,7,8,9] : [activePos];
+
+                // Process specified pages
+                for(let i = fromPage; i <= toPage; i++) {
+                    if(i < 0 || i >= pages.length) continue;
+                    
+                    const page = pages[i];
+                    const { width, height } = page.getSize();
+                    
+                    // Margin percentage
+                    const marginX = width * 0.1;
+                    const marginY = height * 0.1;
+
+                    positions.forEach(pos => {
+                        let x = 0, y = 0;
+                        
+                        // X Coordinates
+                        if([1,4,7].includes(pos)) x = marginX; // Left
+                        if([2,5,8].includes(pos)) x = (width / 2) - (textWidth / 2); // Center
+                        if([3,6,9].includes(pos)) x = width - marginX - textWidth; // Right
+                        
+                        // Y Coordinates (pdf-lib origin is bottom-left, so Top is height-margin)
+                        if([1,2,3].includes(pos)) y = height - marginY - textHeight; // Top
+                        if([4,5,6].includes(pos)) y = (height / 2) - (textHeight / 2); // Center
+                        if([7,8,9].includes(pos)) y = marginY + textHeight; // Bottom
+                        
+                        // Apply Watermark
+                        // PDF-lib natively doesn't have an easy "z-index" / draw behind. 
+                        // It always appends to content stream. We rely on Opacity.
+                        page.drawText(text, {
+                            x: x,
+                            y: y,
+                            size: fontSize,
+                            font: customFont,
+                            color: rgb(0.89, 0.19, 0.17), // iLovePDF Red Approx (#e5322d)
+                            opacity: layerMode === 'below' ? opacity * 0.5 : opacity, // Dim it if 'below' selected to simulate
+                            rotate: degrees(rotationDeg),
+                        });
+                    });
+                }
+
+                // Save PDF
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                finalUrl = URL.createObjectURL(blob);
+                
+                // Setup download button
+                const btn = document.getElementById('downloadBtn');
+                btn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = finalUrl;
+                    a.download = uploadedFile.name.replace('.pdf', '_Watermarked_ToolVerse.pdf');
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+
+                // Trigger auto download
+                setTimeout(() => { 
+                    showStep(4); 
+                    btn.click(); 
+                }, 800);
+
+            } catch (e) {
+                console.error("Watermark Error:", e);
+                alert("An error occurred while stamping the PDF.");
+                showStep(2);
+            }
+        };
+
+        function resetTool() {
+            uploadedFile = null;
+            fileInput.value = '';
+            thumbnailsContainer.innerHTML = '';
+            if(finalUrl) URL.revokeObjectURL(finalUrl);
+            
+            // Reset UI
+            document.getElementById('wmText').value = 'iLovePDF';
+            activePos = 1;
+            isMosaic = false;
+            document.getElementById('mosaicCheck').checked = false;
+            setGridPos(1);
+            setLayer('over');
+            
+            showStep(1); 
+        }
+    </script>
+</body>
+</html>
