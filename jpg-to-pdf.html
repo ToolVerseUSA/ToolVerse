@@ -394,12 +394,10 @@
                 const { jsPDF } = window.jspdf;
                 let zip = new JSZip();
 
-                // Helper to get PDF dimensions
                 const getPageDimensions = (format, orient) => {
-                    if(format === 'fit') return null; // Dynamic
-                    // Standard mm dimensions
-                    let w = format === 'a4' ? 210 : 215.9; // letter width
-                    let h = format === 'a4' ? 297 : 279.4; // letter height
+                    if(format === 'fit') return null;
+                    let w = format === 'a4' ? 210 : 215.9;
+                    let h = format === 'a4' ? 297 : 279.4;
                     if(orient === 'l') { let temp = w; w = h; h = temp; }
                     return { w, h };
                 };
@@ -413,14 +411,10 @@
                     const imgW = item.img.width;
                     const imgH = item.img.height;
                     
-                    // Determine page size for this specific image
                     let pgW, pgH;
                     if(config.size === 'fit') {
-                        // Fit to image, keeping proportion. Convert px to mm roughly.
-                        // Assuming 72 DPI for web standard. 1 inch = 25.4 mm.
                         pgW = (imgW / 72) * 25.4; 
                         pgH = (imgH / 72) * 25.4;
-                        // Minimum size guard
                         if(pgW < 10) pgW = 10;
                         if(pgH < 10) pgH = 10;
                     } else {
@@ -428,7 +422,6 @@
                         pgW = dims.w; pgH = dims.h;
                     }
 
-                    // Create new doc or add page
                     if(config.merge) {
                         if(i === 0) {
                             doc = new jsPDF({ orientation: pgW > pgH ? 'l' : 'p', unit: 'mm', format: [pgW, pgH] });
@@ -436,27 +429,22 @@
                             doc.addPage([pgW, pgH], pgW > pgH ? 'l' : 'p');
                         }
                     } else {
-                        // Creating individual PDF per image
                         doc = new jsPDF({ orientation: pgW > pgH ? 'l' : 'p', unit: 'mm', format: [pgW, pgH] });
                     }
 
-                    // Calculation for placing image with margins
                     const m = config.margin;
                     const availW = pgW - (m * 2);
                     const availH = pgH - (m * 2);
 
-                    // Fit image into available space maintaining aspect ratio
                     const ratio = Math.min(availW / imgW, availH / imgH);
                     const finalW = imgW * ratio;
                     const finalH = imgH * ratio;
                     
-                    // Center the image
                     const x = m + (availW - finalW) / 2;
                     const y = m + (availH - finalH) / 2;
 
                     doc.addImage(item.dataUrl, 'JPEG', x, y, finalW, finalH);
 
-                    // If not merging, zip it
                     if(!config.merge) {
                         const pdfBlob = doc.output('blob');
                         zip.file(`${item.file.name.split('.')[0]}_ToolVerse.pdf`, pdfBlob);
@@ -473,7 +461,6 @@
                 } else {
                     isZip = true;
                     if(uploadedImages.length === 1) {
-                        // Edge case: Unchecked merge but only 1 file. Just download the PDF, no zip needed.
                         isZip = false;
                         const blob = doc.output('blob');
                         finalUrl = URL.createObjectURL(blob);
@@ -487,17 +474,30 @@
                 
                 downloadBtn.onclick = () => {
                     const a = document.createElement('a');
+                    a.style.display = 'none';
                     a.href = finalUrl;
+                    
                     if (isZip) {
                         a.download = `ToolVerse_Images-to-PDFs.zip`;
                     } else {
-                        a.download = uploadedFile ? uploadedFile.name.replace(/\.[^/.]+$/, "") + '_ToolVerse.pdf' : 'ToolVerse_Merged.pdf';
-                        if(uploadedImages.length > 1) a.download = 'ToolVerse_Images.pdf';
+                        if (uploadedImages.length === 1) {
+                            const origName = uploadedImages[0].file.name.replace(/\.[^/.]+$/, "");
+                            a.download = origName + '_ToolVerse.pdf';
+                        } else {
+                            a.download = 'ToolVerse_Merged_Images.pdf';
+                        }
                     }
+                    
+                    document.body.appendChild(a); // Append for mobile browsers
                     a.click();
+                    document.body.removeChild(a); // Clean up
                 };
 
-                setTimeout(() => { showStep(4); }, 600);
+                // Auto-Download Trigger
+                setTimeout(() => { 
+                    showStep(4); 
+                    downloadBtn.click(); // Trigger auto download
+                }, 600);
 
             } catch(e) {
                 console.error("Conversion error:", e);
