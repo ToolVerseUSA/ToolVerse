@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPG to PDF (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Firebase Security for VVIP -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                window.isUserLoggedIn = false;
+            } else {
+                document.getElementById('authOverlay').style.display = 'none';
+                window.isUserLoggedIn = true;
+            }
+        });
+    </script>
+
+    <!-- jsPDF for creating PDF offline -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- JSZip in case they uncheck "Merge" and want separate PDFs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <style>
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border-top-color: #e5322d; -webkit-animation: spinner 1s linear infinite; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        body { background-color: #f3f4f7; }
+
+        @keyframes pulse-red-wide {
+            0% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.8); }
+            70% { box-shadow: 0 0 0 20px rgba(229, 50, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); }
+        }
+        .btn-pulse { animation: pulse-red-wide 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        
+        /* Thumbnail Shadow like Screenshot */
+        .thumb-shadow { box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; background: white; padding: 10px; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .option-btn.active { border-color: #e5322d; color: #e5322d; background-color: #fff5f5; font-weight: 700;}
+        .option-btn { border-color: #e2e8f0; color: #64748b; background-color: white; transition: 0.2s;}
+        .option-btn:hover:not(.active) { background-color: #f8fafc; }
+    </style>
+</head>
+<body class="min-h-screen font-sans relative flex flex-col overflow-x-hidden">
+    
+    <!-- VVIP LOCK SCREEN -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-red-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full ilovepdf-red text-white font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
+        </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">
+                    Tool<span class="ilovepdf-text">Verse</span>
+                </a>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700 hidden md:flex">
+                <a href="merge-pdf.html" class="hover:ilovepdf-text transition uppercase">Merge PDF</a>
+                <a href="split-pdf.html" class="hover:ilovepdf-text transition uppercase">Split PDF</a>
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STEP 1: UPLOAD SCREEN -->
+    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center text-center px-4 py-20">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">JPG to PDF</h1>
+        <p class="text-xl text-gray-600 mb-10 hidden md:block max-w-2xl">Convert JPG images to PDF in seconds. Easily adjust orientation and margins.</p>
+        
+        <!-- Multiple files allowed -->
+        <input type="file" id="fileInput" accept="image/jpeg, image/png, image/webp" multiple class="hidden">
+        
+        <div class="relative flex items-stretch justify-center dropZone group cursor-pointer" onclick="triggerFileInput()">
+            <div class="ilovepdf-red text-white text-2xl font-bold py-6 px-10 md:px-20 rounded-l-xl transition shadow-lg flex items-center justify-center h-24 whitespace-nowrap hover:bg-red-700">
+                Select JPG images
+            </div>
+            <div class="flex flex-col space-y-[2px] ml-[2px]">
+                <div class="ilovepdf-red w-14 h-[47px] rounded-tr-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition">
+                    <i class="fa-brands fa-google-drive text-white text-xl"></i>
+                </div>
+                <div class="ilovepdf-red w-14 h-[47px] rounded-br-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition">
+                    <i class="fa-brands fa-dropbox text-white text-xl"></i>
+                </div>
+            </div>
+        </div>
+        <p class="mt-6 text-gray-500 font-medium">or drop JPG images here</p>
+    </div>
+
+    <!-- STEP 2: WORKSPACE & OPTIONS -->
+    <div id="step2" class="hidden flex-grow flex flex-col md:flex-row h-[calc(100vh-65px)]">
+        
+        <!-- Left: Workspace with Thumbnails -->
+        <div class="flex-1 bg-[#f3f4f7] p-6 overflow-y-auto relative">
+            <div id="imageGrid" class="flex flex-wrap justify-center gap-6 mt-4">
+                <!-- Image thumbnails will be injected here -->
+            </div>
+            
+            <!-- Add more button -->
+            <button class="fixed md:absolute bottom-6 right-6 md:top-1/2 md:right-10 md:transform md:-translate-y-1/2 bg-white text-red-500 rounded-full w-14 h-14 shadow-[0_5px_15px_rgba(0,0,0,0.2)] flex items-center justify-center text-2xl hover:bg-gray-50 border border-gray-100 z-30" onclick="triggerFileInput()">
+                <i class="fa-solid fa-plus"></i>
+                <div class="absolute -top-1 -right-2 bg-gray-800 text-white text-[10px] px-2 py-0.5 rounded-full whitespace-nowrap shadow">Add more files</div>
+            </button>
+        </div>
+
+        <!-- Right: Settings Panel -->
+        <div class="w-full md:w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0">
+            <div class="p-5 font-bold text-gray-700 border-b border-gray-200 text-center text-lg bg-white">
+                Image to PDF options
+            </div>
+            
+            <div class="p-4 flex-1 overflow-y-auto">
+                
+                <!-- Orientation -->
+                <div class="mb-6">
+                    <h4 class="font-semibold text-sm text-gray-800 mb-2">Page orientation</h4>
+                    <div class="flex gap-2">
+                        <button id="opt-portrait" onclick="setOption('orientation', 'p')" class="option-btn active flex-1 border-2 rounded py-3 flex flex-col items-center justify-center">
+                            <i class="fa-regular fa-file-lines text-2xl mb-1"></i>
+                            <span class="text-xs uppercase">Portrait</span>
+                        </button>
+                        <button id="opt-landscape" onclick="setOption('orientation', 'l')" class="option-btn flex-1 border-2 rounded py-3 flex flex-col items-center justify-center">
+                            <i class="fa-regular fa-file-lines text-2xl mb-1 rotate-90"></i>
+                            <span class="text-xs uppercase">Landscape</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Page Size -->
+                <div class="mb-6">
+                    <h4 class="font-semibold text-sm text-gray-800 mb-2">Page size</h4>
+                    <select id="pageSizeSelect" onchange="setOption('size', this.value)" class="w-full border border-gray-300 rounded p-2 text-sm text-gray-700 focus:outline-none focus:border-red-500 appearance-none bg-white cursor-pointer" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23131313%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right .7rem top 50%; background-size: .65rem auto;">
+                        <option value="a4">A4 (297x210 mm)</option>
+                        <option value="letter">US Letter (215x279 mm)</option>
+                        <option value="fit">FIT (Same as image)</option>
+                    </select>
+                </div>
+
+                <!-- Margin -->
+                <div class="mb-6">
+                    <h4 class="font-semibold text-sm text-gray-800 mb-2">Margin</h4>
+                    <div class="flex gap-2">
+                        <button id="opt-margin-0" onclick="setOption('margin', 0)" class="option-btn active flex-1 border-2 rounded py-2 flex flex-col items-center justify-center">
+                            <i class="fa-solid fa-image text-xl mb-1"></i>
+                            <span class="text-[10px] uppercase font-semibold">No margin</span>
+                        </button>
+                        <button id="opt-margin-10" onclick="setOption('margin', 10)" class="option-btn flex-1 border-2 rounded py-2 flex flex-col items-center justify-center">
+                            <i class="fa-regular fa-image text-xl mb-1"></i>
+                            <span class="text-[10px] uppercase font-semibold">Small</span>
+                        </button>
+                        <button id="opt-margin-20" onclick="setOption('margin', 20)" class="option-btn flex-1 border-2 rounded py-2 flex flex-col items-center justify-center">
+                            <div class="border border-dashed border-gray-400 p-0.5 mb-1"><i class="fa-regular fa-image text-sm"></i></div>
+                            <span class="text-[10px] uppercase font-semibold">Big</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Merge Checkbox -->
+                <div class="flex items-center gap-2 mt-4 cursor-pointer" onclick="toggleMerge()">
+                    <div id="mergeCheck" class="w-5 h-5 rounded border border-green-500 bg-green-500 flex items-center justify-center text-white transition">
+                        <i class="fa-solid fa-check text-xs"></i>
+                    </div>
+                    <span class="text-sm text-gray-700 font-medium">Merge all images in one PDF file</span>
+                </div>
+
+            </div>
+
+            <!-- Convert Button -->
+            <div class="p-4 bg-gray-50 border-t border-gray-200 pb-8 md:pb-4">
+                <button onclick="startConversion()" class="btn-pulse w-full ilovepdf-red text-white font-bold py-4 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
+                    Convert to PDF <i class="fa-solid fa-circle-arrow-right ml-2 text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 3: LOADING / PROCESSING -->
+    <div id="step3" class="hidden w-full flex-grow flex flex-col items-center justify-center pt-20 pb-10">
+        <div class="loader rounded-full border-4 border-gray-200 h-20 w-20 mx-auto mb-8"></div>
+        <h3 class="text-3xl font-bold text-gray-800 mb-2">Creating PDF...</h3>
+        <p id="processingStatus" class="text-gray-500 font-medium">Arranging images 0%</p>
+    </div>
+
+    <!-- STEP 4: DOWNLOAD SCREEN -->
+    <div id="step4" class="hidden w-full flex-grow flex flex-col items-center justify-center text-center px-4 pt-16 pb-10 bg-white">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10">Images have been converted to PDF</h2>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+            <button onclick="resetTool()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block">
+                <i class="fa-solid fa-arrow-left text-xl"></i>
+            </button>
+
+            <button id="downloadBtn" class="ilovepdf-red text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
+                <i class="fa-solid fa-download mr-4 text-2xl"></i>
+                <span id="downloadText">Download PDF</span>
+            </button>
+            
+            <div class="grid grid-cols-2 gap-1 md:ml-2">
+                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-tl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-google-drive"></i></div>
+                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-tr-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-link"></i></div>
+                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-bl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-dropbox"></i></div>
+                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-br-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-trash-can"></i></div>
+            </div>
+        </div>
+        
+        <div class="mt-12 bg-gray-50 border border-gray-200 rounded-lg p-6 max-w-2xl w-full flex items-center justify-between">
+            <span class="font-bold text-gray-700">Continue to...</span>
+            <a href="compress-pdf.html" class="flex items-center gap-2 text-gray-600 hover:text-red-500 font-semibold transition">
+                <i class="fa-solid fa-minimize text-green-500 text-xl"></i> Compress PDF <i class="fa-solid fa-chevron-right text-xs"></i>
+            </a>
+        </div>
+        
+        <button onclick="resetTool()" class="mt-8 text-gray-500 font-bold underline md:hidden">Start Over</button>
+    </div>
+
+    <!-- Script / Logic -->
+    <script>
+        let uploadedImages = []; // stores objects: { file: File, dataUrl: string, img: Image }
+        let config = {
+            orientation: 'p', // 'p' or 'l'
+            size: 'a4', // 'a4', 'letter', 'fit'
+            margin: 0, // 0, 10, 20 (in mm)
+            merge: true
+        };
+        let finalUrl = null;
+        let isZip = false;
+
+        const fileInput = document.getElementById('fileInput');
+        const imageGrid = document.getElementById('imageGrid');
+        const statusText = document.getElementById('processingStatus');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const downloadText = document.getElementById('downloadText');
+
+        // Configuration UI Logic
+        window.setOption = function(key, value) {
+            config[key] = value;
+            if(key === 'orientation') {
+                document.getElementById('opt-portrait').classList.remove('active');
+                document.getElementById('opt-landscape').classList.remove('active');
+                document.getElementById(`opt-${value === 'p' ? 'portrait' : 'landscape'}`).classList.add('active');
+            }
+            if(key === 'margin') {
+                document.getElementById('opt-margin-0').classList.remove('active');
+                document.getElementById('opt-margin-10').classList.remove('active');
+                document.getElementById('opt-margin-20').classList.remove('active');
+                document.getElementById(`opt-margin-${value}`).classList.add('active');
+            }
+        };
+
+        window.toggleMerge = function() {
+            config.merge = !config.merge;
+            const check = document.getElementById('mergeCheck');
+            if(config.merge) {
+                check.classList.add('bg-green-500', 'border-green-500');
+                check.innerHTML = '<i class="fa-solid fa-check text-xs"></i>';
+            } else {
+                check.classList.remove('bg-green-500', 'border-green-500');
+                check.innerHTML = '';
+            }
+        };
+        
+        function triggerFileInput() {
+            if(window.isUserLoggedIn === false) return;
+            fileInput.click();
+        }
+
+        // Drag and Drop
+        const dropZones = document.querySelectorAll('.dropZone');
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => { e.preventDefault(); document.body.style.opacity = "0.7"; });
+            zone.addEventListener('dragleave', () => { document.body.style.opacity = "1"; });
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault(); document.body.style.opacity = "1";
+                if (e.dataTransfer.files.length > 0 && window.isUserLoggedIn !== false) {
+                    processFiles(e.dataTransfer.files);
+                }
+            });
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) processFiles(e.target.files);
+        });
+
+        function showStep(stepNumber) {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById(`step${stepNumber}`).classList.remove('hidden');
+        }
+
+        async function processFiles(files) {
+            showStep(3);
+            statusText.innerText = "Reading images...";
+
+            let validFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
+            if(validFiles.length === 0) {
+                alert('Please select valid image files (JPG, PNG).');
+                showStep(uploadedImages.length > 0 ? 2 : 1);
+                return;
+            }
+
+            for(let file of validFiles) {
+                const data = await loadImage(file);
+                uploadedImages.push(data);
+            }
+
+            renderThumbnails();
+            showStep(2);
+        }
+
+        function loadImage(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => resolve({ img: img, dataUrl: e.target.result, file: file });
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderThumbnails() {
+            imageGrid.innerHTML = '';
+            uploadedImages.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = "relative thumb-shadow rounded-sm w-40 flex flex-col items-center bg-white";
+                div.innerHTML = `
+                    <div class="h-40 w-full flex items-center justify-center overflow-hidden mb-2">
+                        <img src="${item.dataUrl}" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="absolute -top-3 -right-3 bg-gray-800 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md border border-white cursor-pointer hover:bg-red-600 transition" onclick="removeImage(${index})">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                    <p class="text-center text-[10px] text-gray-500 truncate w-full px-2">${item.file.name}</p>
+                `;
+                imageGrid.appendChild(div);
+            });
+        }
+
+        window.removeImage = function(index) {
+            uploadedImages.splice(index, 1);
+            if(uploadedImages.length === 0) {
+                resetTool();
+            } else {
+                renderThumbnails();
+            }
+        }
+
+        async function startConversion() {
+            showStep(3);
+            statusText.innerText = "Building PDF document...";
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                let zip = new JSZip();
+
+                // Helper to get PDF dimensions
+                const getPageDimensions = (format, orient) => {
+                    if(format === 'fit') return null; // Dynamic
+                    // Standard mm dimensions
+                    let w = format === 'a4' ? 210 : 215.9; // letter width
+                    let h = format === 'a4' ? 297 : 279.4; // letter height
+                    if(orient === 'l') { let temp = w; w = h; h = temp; }
+                    return { w, h };
+                };
+
+                let doc = null;
+
+                for (let i = 0; i < uploadedImages.length; i++) {
+                    statusText.innerText = `Adding image ${i+1} of ${uploadedImages.length}...`;
+                    
+                    const item = uploadedImages[i];
+                    const imgW = item.img.width;
+                    const imgH = item.img.height;
+                    
+                    // Determine page size for this specific image
+                    let pgW, pgH;
+                    if(config.size === 'fit') {
+                        // Fit to image, keeping proportion. Convert px to mm roughly.
+                        // Assuming 72 DPI for web standard. 1 inch = 25.4 mm.
+                        pgW = (imgW / 72) * 25.4; 
+                        pgH = (imgH / 72) * 25.4;
+                        // Minimum size guard
+                        if(pgW < 10) pgW = 10;
+                        if(pgH < 10) pgH = 10;
+                    } else {
+                        const dims = getPageDimensions(config.size, config.orientation);
+                        pgW = dims.w; pgH = dims.h;
+                    }
+
+                    // Create new doc or add page
+                    if(config.merge) {
+                        if(i === 0) {
+                            doc = new jsPDF({ orientation: pgW > pgH ? 'l' : 'p', unit: 'mm', format: [pgW, pgH] });
+                        } else {
+                            doc.addPage([pgW, pgH], pgW > pgH ? 'l' : 'p');
+                        }
+                    } else {
+                        // Creating individual PDF per image
+                        doc = new jsPDF({ orientation: pgW > pgH ? 'l' : 'p', unit: 'mm', format: [pgW, pgH] });
+                    }
+
+                    // Calculation for placing image with margins
+                    const m = config.margin;
+                    const availW = pgW - (m * 2);
+                    const availH = pgH - (m * 2);
+
+                    // Fit image into available space maintaining aspect ratio
+                    const ratio = Math.min(availW / imgW, availH / imgH);
+                    const finalW = imgW * ratio;
+                    const finalH = imgH * ratio;
+                    
+                    // Center the image
+                    const x = m + (availW - finalW) / 2;
+                    const y = m + (availH - finalH) / 2;
+
+                    doc.addImage(item.dataUrl, 'JPEG', x, y, finalW, finalH);
+
+                    // If not merging, zip it
+                    if(!config.merge) {
+                        const pdfBlob = doc.output('blob');
+                        zip.file(`${item.file.name.split('.')[0]}_ToolVerse.pdf`, pdfBlob);
+                    }
+                }
+
+                statusText.innerText = "Finalizing file...";
+
+                if(config.merge) {
+                    isZip = false;
+                    const blob = doc.output('blob');
+                    finalUrl = URL.createObjectURL(blob);
+                    downloadText.innerText = "Download PDF";
+                } else {
+                    isZip = true;
+                    if(uploadedImages.length === 1) {
+                        // Edge case: Unchecked merge but only 1 file. Just download the PDF, no zip needed.
+                        isZip = false;
+                        const blob = doc.output('blob');
+                        finalUrl = URL.createObjectURL(blob);
+                        downloadText.innerText = "Download PDF";
+                    } else {
+                        const blob = await zip.generateAsync({type:"blob"});
+                        finalUrl = URL.createObjectURL(blob);
+                        downloadText.innerText = "Download PDFs (ZIP)";
+                    }
+                }
+                
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = finalUrl;
+                    if (isZip) {
+                        a.download = `ToolVerse_Images-to-PDFs.zip`;
+                    } else {
+                        a.download = uploadedFile ? uploadedFile.name.replace(/\.[^/.]+$/, "") + '_ToolVerse.pdf' : 'ToolVerse_Merged.pdf';
+                        if(uploadedImages.length > 1) a.download = 'ToolVerse_Images.pdf';
+                    }
+                    a.click();
+                };
+
+                setTimeout(() => { showStep(4); }, 600);
+
+            } catch(e) {
+                console.error("Conversion error:", e);
+                alert("Error during conversion.");
+                showStep(2);
+            }
+        }
+
+        function resetTool() {
+            uploadedImages = [];
+            fileInput.value = '';
+            if(finalUrl) URL.revokeObjectURL(finalUrl);
+            showStep(1); 
+        }
+    </script>
+</body>
+</html>
