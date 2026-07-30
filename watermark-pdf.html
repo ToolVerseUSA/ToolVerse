@@ -154,12 +154,12 @@
         </div>
 
         <!-- Right: Settings Panel -->
-        <div class="w-full md:w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0">
+        <div class="w-full md:w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0 relative">
             <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-lg bg-white">
                 Watermark options
             </div>
             
-            <div class="p-5 flex-1 overflow-y-auto">
+            <div class="p-5 flex-1 overflow-y-auto pb-10">
                 <!-- Tabs -->
                 <div class="flex justify-center gap-8 border-b border-gray-200 mb-6">
                     <div class="wm-tab active flex flex-col items-center gap-1" id="tabText" onclick="switchTab('text')">
@@ -179,20 +179,36 @@
                     <input type="text" id="wmText" value="iLovePDF" class="w-full border border-gray-300 rounded p-2 mb-4 text-sm focus:border-red-500 focus:outline-none" oninput="updatePreviews()">
                     
                     <h4 class="font-bold text-sm text-gray-800 mb-1">Text format:</h4>
-                    <div class="flex items-center gap-2 mb-6 bg-gray-50 border border-gray-200 p-2 rounded">
-                        <select id="wmFont" class="bg-transparent border-none text-xs font-semibold focus:outline-none w-20 cursor-pointer" onchange="updatePreviews()">
-                            <option value="Helvetica">Arial</option>
-                            <option value="TimesRoman">Times</option>
-                            <option value="Courier">Courier</option>
+                    <div class="flex items-center justify-between gap-1 mb-6 bg-gray-50 border border-gray-200 p-2 rounded">
+                        
+                        <!-- MULTIPLE FONTS DROPDOWN -->
+                        <select id="wmFont" class="bg-transparent border-none text-[11px] font-semibold focus:outline-none w-20 cursor-pointer" onchange="updatePreviews()">
+                            <optgroup label="Standard">
+                                <option value="Helvetica">Arial</option>
+                                <option value="TimesRoman">Times</option>
+                                <option value="Courier">Courier</option>
+                            </optgroup>
+                            <optgroup label="Stylish (VVIP)">
+                                <option value="Roboto">Roboto</option>
+                                <option value="DancingScript">Dancing Script</option>
+                                <option value="Pacifico">Pacifico</option>
+                                <option value="Caveat">Caveat</option>
+                                <option value="Satisfy">Satisfy</option>
+                                <option value="GreatVibes">Great Vibes</option>
+                            </optgroup>
                         </select>
+
                         <div class="h-4 w-[1px] bg-gray-300"></div>
-                        <button class="font-serif font-bold text-gray-700 hover:text-black">T<span class="text-[10px]">T</span></button>
+                        <!-- Font Size Button -->
+                        <button id="btn-size" onclick="toggleFontSize()" title="Change Font Size" class="font-serif font-bold text-gray-700 hover:text-red-500 text-[10px] w-8">40px</button>
                         <div class="h-4 w-[1px] bg-gray-300"></div>
-                        <button class="font-bold text-gray-700 hover:text-black w-6">B</button>
-                        <button class="italic text-gray-700 hover:text-black w-6 font-serif">I</button>
-                        <button class="underline text-gray-700 hover:text-black w-6">U</button>
+                        <!-- Formatting Buttons -->
+                        <button id="btn-bold" onclick="toggleFormat('bold')" title="Bold" class="font-bold text-gray-700 hover:text-black w-6 rounded transition">B</button>
+                        <button id="btn-italic" onclick="toggleFormat('italic')" title="Italic" class="italic text-gray-700 hover:text-black w-6 font-serif rounded transition">I</button>
+                        <button id="btn-underline" onclick="toggleFormat('underline')" title="Underline" class="underline text-gray-700 hover:text-black w-6 rounded transition">U</button>
                         <div class="h-4 w-[1px] bg-gray-300"></div>
-                        <input type="color" id="wmColor" value="#000000" class="w-5 h-5 rounded cursor-pointer border-none bg-transparent p-0">
+                        <!-- Color Picker -->
+                        <input type="color" id="wmColor" value="#e5322d" title="Change Color" class="w-5 h-5 rounded cursor-pointer border-none bg-transparent p-0">
                     </div>
                 </div>
 
@@ -250,7 +266,7 @@
 
                 <!-- Layer -->
                 <h4 class="font-bold text-sm text-gray-800 mb-2">Layer</h4>
-                <div class="flex gap-2 mb-6">
+                <div class="flex gap-2 mb-2">
                     <button id="layerOver" onclick="setLayer('over')" class="layer-btn active flex-1 border-2 rounded py-3 flex flex-col items-center justify-center font-bold text-xs">
                         <i class="fa-solid fa-layer-group text-xl mb-1"></i>
                         Over the PDF<br>content
@@ -262,26 +278,20 @@
                 </div>
             </div>
 
-            <!-- Action Button -->
-            <div class="p-4 bg-gray-50 border-t border-gray-200 pb-8 md:pb-4">
+            <!-- Single Action Button (Fixed duplicate issue) -->
+            <div class="p-4 bg-gray-50 border-t border-gray-200">
                 <button onclick="processWatermark()" class="btn-pulse w-full ilovepdf-red text-white font-bold py-4 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
                     Add watermark <i class="fa-solid fa-circle-arrow-right ml-2 text-xl"></i>
                 </button>
             </div>
         </div>
-        
-        <!-- Mobile Floating Action Button -->
-        <button onclick="processWatermark()" class="lg:hidden fixed bottom-24 right-4 btn-pulse ilovepdf-red text-white font-bold py-3 px-6 rounded-full shadow-2xl z-40 flex items-center gap-2 border-2 border-white">
-            Add watermark <i class="fa-solid fa-circle-arrow-right"></i>
-        </button>
-
     </div>
 
     <!-- STEP 3: LOADING -->
     <div id="step3" class="hidden w-full flex-grow flex flex-col items-center justify-center pt-20 pb-10">
         <div class="loader rounded-full border-4 border-gray-200 h-20 w-20 mx-auto mb-8"></div>
         <h3 class="text-3xl font-bold text-gray-800 mb-2">Stamping PDF...</h3>
-        <p class="text-gray-500 font-medium">Processing completely offline</p>
+        <p class="text-gray-500 font-medium" id="loadingSubtext">Processing completely offline</p>
     </div>
 
     <!-- STEP 4: DOWNLOAD SCREEN -->
@@ -314,9 +324,26 @@
         let uploadedFile = null;
         let pdfPagesCount = 0;
         let finalUrl = null;
-        let activePos = 1; // 1 to 9
+        
+        let activePos = 1; 
         let isMosaic = false;
-        let layerMode = 'over'; // over, below
+        let layerMode = 'over'; 
+        
+        // Formatting States
+        let isBold = false;
+        let isItalic = false;
+        let isUnderline = false;
+        let currentFontSize = 40;
+
+        // Custom Font URLs from Google Fonts (Secure & Fast)
+        const customFontUrls = {
+            'Roboto': 'https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Me5Q.ttf',
+            'DancingScript': 'https://fonts.gstatic.com/s/dancingscript/v24/IfsqZncZQzT8M4NDOSFWeGZhZldb1Q.ttf',
+            'Pacifico': 'https://fonts.gstatic.com/s/pacifico/v22/FwZY7-Qmy14u9lezJ-6H6MmBp0u-.ttf',
+            'Caveat': 'https://fonts.gstatic.com/s/caveat/v17/Wnz6HAc5bAfYB2Q7Yj8w0xM.ttf',
+            'Satisfy': 'https://fonts.gstatic.com/s/satisfy/v17/rP2Hp2yn6NdG300TDyA.ttf',
+            'GreatVibes': 'https://fonts.gstatic.com/s/greatvibes/v14/RWmMoKWR9v4ksMfaWd_JN9XFiaQ.ttf'
+        };
 
         const fileInput = document.getElementById('fileInput');
         const thumbnailsContainer = document.getElementById('pdf-thumbnails-container');
@@ -354,6 +381,7 @@
             
             showStep(3);
             document.querySelector('#step3 h3').innerText = "Loading Preview...";
+            document.getElementById('loadingSubtext').innerText = "Processing completely offline";
             
             try {
                 const arrayBuffer = await file.arrayBuffer();
@@ -366,11 +394,10 @@
 
                 thumbnailsContainer.innerHTML = '';
                 
-                // Render up to 4 pages for preview
                 const maxPreviewPages = Math.min(4, pdfPagesCount);
                 for (let i = 1; i <= maxPreviewPages; i++) {
                     const page = await pdfDocument.getPage(i);
-                    const viewport = page.getViewport({ scale: 0.3 }); // Small scale for thumbnails
+                    const viewport = page.getViewport({ scale: 0.3 }); 
                     
                     const wrapper = document.createElement('div');
                     wrapper.className = 'pdf-thumb-wrapper';
@@ -388,7 +415,7 @@
                     thumbnailsContainer.appendChild(wrapper);
                 }
 
-                updatePreviews(); // Add the red dots
+                updatePreviews(); 
                 showStep(2);
 
             } catch (error) {
@@ -401,7 +428,7 @@
         // --- UI Interactions ---
 
         window.setGridPos = function(pos) {
-            if(isMosaic) return; // disabled if mosaic
+            if(isMosaic) return; 
             activePos = pos;
             
             document.querySelectorAll('.pos-grid-cell').forEach(cell => cell.classList.remove('active'));
@@ -432,53 +459,86 @@
                 document.getElementById('layerOver').classList.add('active');
             } else {
                 document.getElementById('layerBelow').classList.add('active');
-                // Below layer logic alert
-                // alert('Note: Drawing "Below" text depends on the PDF background. If the PDF has a solid white background, the watermark might be hidden. "Over" with Transparency is recommended.');
             }
-            updatePreviews(); // Just for feeling responsive
+            updatePreviews();
         };
 
-        // --- Render Preview Dots ---
-        window.updatePreviews = function() {
-            // Remove existing dots
-            document.querySelectorAll('.preview-dot').forEach(d => d.remove());
+        window.toggleFormat = function(format) {
+            if(format === 'bold') {
+                isBold = !isBold;
+                document.getElementById('btn-bold').classList.toggle('text-red-500', isBold);
+                document.getElementById('btn-bold').classList.toggle('bg-red-50', isBold);
+            }
+            if(format === 'italic') {
+                isItalic = !isItalic;
+                document.getElementById('btn-italic').classList.toggle('text-red-500', isItalic);
+                document.getElementById('btn-italic').classList.toggle('bg-red-50', isItalic);
+            }
+            if(format === 'underline') {
+                isUnderline = !isUnderline;
+                document.getElementById('btn-underline').classList.toggle('text-red-500', isUnderline);
+                document.getElementById('btn-underline').classList.toggle('bg-red-50', isUnderline);
+            }
+        };
+
+        window.toggleFontSize = function() {
+            if (currentFontSize === 40) currentFontSize = 60;
+            else if (currentFontSize === 60) currentFontSize = 80;
+            else if (currentFontSize === 80) currentFontSize = 24;
+            else currentFontSize = 40;
             
+            document.getElementById('btn-size').innerText = currentFontSize + "px";
+        };
+
+        function hexToRgbPdf(hex) {
+            let r = 0, g = 0, b = 0;
+            if (hex.length === 7) {
+                r = parseInt(hex.substring(1,3), 16) / 255;
+                g = parseInt(hex.substring(3,5), 16) / 255;
+                b = parseInt(hex.substring(5,7), 16) / 255;
+            }
+            return {r, g, b};
+        }
+
+        window.updatePreviews = function() {
+            document.querySelectorAll('.preview-dot').forEach(d => d.remove());
             const wrappers = document.querySelectorAll('.pdf-thumb-wrapper');
             const positionsToDraw = isMosaic ? [1,2,3,4,5,6,7,8,9] : [activePos];
+
+            const previewColor = document.getElementById('wmColor').value;
 
             wrappers.forEach(wrapper => {
                 positionsToDraw.forEach(pos => {
                     const dot = document.createElement('div');
                     dot.className = 'preview-dot';
+                    dot.style.backgroundColor = previewColor; 
                     
                     let top = '50%', left = '50%';
                     
-                    // Map 1-9 to Top/Left percentages
-                    if([1,4,7].includes(pos)) left = '15%'; // Left column
-                    if([2,5,8].includes(pos)) left = '50%'; // Center column
-                    if([3,6,9].includes(pos)) left = '85%'; // Right column
+                    if([1,4,7].includes(pos)) left = '15%'; 
+                    if([2,5,8].includes(pos)) left = '50%'; 
+                    if([3,6,9].includes(pos)) left = '85%'; 
                     
-                    if([1,2,3].includes(pos)) top = '15%';  // Top row
-                    if([4,5,6].includes(pos)) top = '50%';  // Middle row
-                    if([7,8,9].includes(pos)) top = '85%';  // Bottom row
+                    if([1,2,3].includes(pos)) top = '15%';  
+                    if([4,5,6].includes(pos)) top = '50%';  
+                    if([7,8,9].includes(pos)) top = '85%';  
                     
                     dot.style.top = top;
                     dot.style.left = left;
                     
-                    // Visual feedback for layer 'below'
-                    if(layerMode === 'below') {
-                        dot.style.opacity = '0.3';
-                    }
+                    if(layerMode === 'below') dot.style.opacity = '0.3';
 
                     wrapper.appendChild(dot);
                 });
             });
         };
 
+        document.getElementById('wmColor').addEventListener('input', updatePreviews);
+
         // --- Process PDF using PDF-lib ---
         window.processWatermark = async function() {
             showStep(3);
-            document.querySelector('#step3 h3').innerText = "Stamping PDF...";
+            document.querySelector('#step3 h3').innerText = "Preparing Engine...";
 
             try {
                 const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
@@ -487,7 +547,6 @@
                 const pdfDoc = await PDFDocument.load(existingPdfBytes);
                 const pages = pdfDoc.getPages();
                 
-                // Get values
                 const text = document.getElementById('wmText').value || 'Watermark';
                 const opacity = parseFloat(document.getElementById('wmOpacity').value);
                 const rotationDeg = parseInt(document.getElementById('wmRotation').value);
@@ -496,65 +555,106 @@
                 const toPage = parseInt(document.getElementById('pageTo').value) - 1;
                 
                 const fontSelection = document.getElementById('wmFont').value;
+                const colorHex = document.getElementById('wmColor').value;
+                const {r, g, b} = hexToRgbPdf(colorHex);
                 
-                // Embed Font (Standard)
                 let customFont;
-                if(fontSelection === 'Helvetica') customFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-                else if(fontSelection === 'TimesRoman') customFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-                else customFont = await pdfDoc.embedFont(StandardFonts.Courier);
+                
+                // Smart Font Fetcher Logic
+                if (['Helvetica', 'TimesRoman', 'Courier'].includes(fontSelection)) {
+                    document.querySelector('#step3 h3').innerText = "Stamping PDF...";
+                    let fontName = StandardFonts.Helvetica;
+                    if (fontSelection === 'Helvetica') {
+                        if (isBold && isItalic) fontName = StandardFonts.HelveticaBoldOblique;
+                        else if (isBold) fontName = StandardFonts.HelveticaBold;
+                        else if (isItalic) fontName = StandardFonts.HelveticaOblique;
+                    } else if (fontSelection === 'TimesRoman') {
+                        if (isBold && isItalic) fontName = StandardFonts.TimesRomanBoldItalic;
+                        else if (isBold) fontName = StandardFonts.TimesRomanBold;
+                        else if (isItalic) fontName = StandardFonts.TimesRomanItalic;
+                    } else if (fontSelection === 'Courier') {
+                        if (isBold && isItalic) fontName = StandardFonts.CourierBoldOblique;
+                        else if (isBold) fontName = StandardFonts.CourierBold;
+                        else if (isItalic) fontName = StandardFonts.CourierOblique;
+                    }
+                    customFont = await pdfDoc.embedFont(fontName);
+                } else {
+                    // Fetch VVIP Custom Fonts securely from Google CDN
+                    document.querySelector('#step3 h3').innerText = "Downloading Font...";
+                    document.getElementById('loadingSubtext').innerText = "Fetching premium typography";
+                    
+                    const fontUrl = customFontUrls[fontSelection];
+                    const fontBytes = await fetch(fontUrl).then(res => res.arrayBuffer());
+                    customFont = await pdfDoc.embedFont(fontBytes);
+                    
+                    document.querySelector('#step3 h3').innerText = "Stamping PDF...";
+                    document.getElementById('loadingSubtext').innerText = "Processing completely offline";
+                }
 
-                const fontSize = 40; // Default size
+                const fontSize = currentFontSize;
                 const textWidth = customFont.widthOfTextAtSize(text, fontSize);
                 const textHeight = customFont.heightAtSize(fontSize);
                 
-                // Setup positions array (1 to 9)
                 const positions = isMosaic ? [1,2,3,4,5,6,7,8,9] : [activePos];
 
-                // Process specified pages
                 for(let i = fromPage; i <= toPage; i++) {
                     if(i < 0 || i >= pages.length) continue;
                     
                     const page = pages[i];
                     const { width, height } = page.getSize();
                     
-                    // Margin percentage
                     const marginX = width * 0.1;
                     const marginY = height * 0.1;
 
                     positions.forEach(pos => {
                         let x = 0, y = 0;
                         
-                        // X Coordinates
-                        if([1,4,7].includes(pos)) x = marginX; // Left
-                        if([2,5,8].includes(pos)) x = (width / 2) - (textWidth / 2); // Center
-                        if([3,6,9].includes(pos)) x = width - marginX - textWidth; // Right
+                        if([1,4,7].includes(pos)) x = marginX; 
+                        if([2,5,8].includes(pos)) x = (width / 2) - (textWidth / 2); 
+                        if([3,6,9].includes(pos)) x = width - marginX - textWidth; 
                         
-                        // Y Coordinates (pdf-lib origin is bottom-left, so Top is height-margin)
-                        if([1,2,3].includes(pos)) y = height - marginY - textHeight; // Top
-                        if([4,5,6].includes(pos)) y = (height / 2) - (textHeight / 2); // Center
-                        if([7,8,9].includes(pos)) y = marginY + textHeight; // Bottom
+                        if([1,2,3].includes(pos)) y = height - marginY - textHeight; 
+                        if([4,5,6].includes(pos)) y = (height / 2) - (textHeight / 2); 
+                        if([7,8,9].includes(pos)) y = marginY + textHeight; 
                         
-                        // Apply Watermark
-                        // PDF-lib natively doesn't have an easy "z-index" / draw behind. 
-                        // It always appends to content stream. We rely on Opacity.
+                        const finalOpacity = layerMode === 'below' ? opacity * 0.5 : opacity;
+
                         page.drawText(text, {
                             x: x,
                             y: y,
                             size: fontSize,
                             font: customFont,
-                            color: rgb(0.89, 0.19, 0.17), // iLovePDF Red Approx (#e5322d)
-                            opacity: layerMode === 'below' ? opacity * 0.5 : opacity, // Dim it if 'below' selected to simulate
+                            color: rgb(r, g, b),
+                            opacity: finalOpacity,
                             rotate: degrees(rotationDeg),
                         });
+
+                        // Draw Underline with complex angle calculations
+                        if (isUnderline) {
+                            const rad = rotationDeg * Math.PI / 180;
+                            const lineOffsetY = - (fontSize * 0.15); 
+                            
+                            const startX = x - lineOffsetY * Math.sin(rad);
+                            const startY = y + lineOffsetY * Math.cos(rad);
+                            
+                            const endX = startX + textWidth * Math.cos(rad);
+                            const endY = startY + textWidth * Math.sin(rad);
+                            
+                            page.drawLine({
+                                start: { x: startX, y: startY },
+                                end: { x: endX, y: endY },
+                                thickness: Math.max(1, fontSize * 0.05),
+                                color: rgb(r, g, b),
+                                opacity: finalOpacity,
+                            });
+                        }
                     });
                 }
 
-                // Save PDF
                 const pdfBytes = await pdfDoc.save();
                 const blob = new Blob([pdfBytes], { type: 'application/pdf' });
                 finalUrl = URL.createObjectURL(blob);
                 
-                // Setup download button
                 const btn = document.getElementById('downloadBtn');
                 btn.onclick = () => {
                     const a = document.createElement('a');
@@ -566,7 +666,6 @@
                     document.body.removeChild(a);
                 };
 
-                // Trigger auto download
                 setTimeout(() => { 
                     showStep(4); 
                     btn.click(); 
@@ -574,7 +673,7 @@
 
             } catch (e) {
                 console.error("Watermark Error:", e);
-                alert("An error occurred while stamping the PDF.");
+                alert("An error occurred while stamping the PDF. Please try a different font or file.");
                 showStep(2);
             }
         };
@@ -585,14 +684,20 @@
             thumbnailsContainer.innerHTML = '';
             if(finalUrl) URL.revokeObjectURL(finalUrl);
             
-            // Reset UI
             document.getElementById('wmText').value = 'iLovePDF';
             activePos = 1;
             isMosaic = false;
             document.getElementById('mosaicCheck').checked = false;
+            
+            // Reset Formats
+            isBold = false; isItalic = false; isUnderline = false; currentFontSize = 40;
+            document.getElementById('btn-bold').className = "font-bold text-gray-700 hover:text-black w-6 rounded transition";
+            document.getElementById('btn-italic').className = "italic text-gray-700 hover:text-black w-6 font-serif rounded transition";
+            document.getElementById('btn-underline').className = "underline text-gray-700 hover:text-black w-6 rounded transition";
+            document.getElementById('btn-size').innerText = "40px";
+            
             setGridPos(1);
             setLayer('over');
-            
             showStep(1); 
         }
     </script>
