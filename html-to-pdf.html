@@ -45,7 +45,7 @@
         .ilovepdf-red:hover { background-color: #cc2a26; }
         .ilovepdf-text { color: #e5322d; }
         
-        .loader { border-top-color: #e5322d; -webkit-animation: spinner 1s linear infinite; animation: spinner 1s linear infinite; }
+        .loader { border: 4px solid #e2e8f0; border-top-color: #e5322d; border-radius: 50%; animation: spinner 1s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
         body { background-color: #f3f4f7; overscroll-behavior-y: none;}
@@ -73,10 +73,6 @@
         .opt-btn:hover:not(.active) { border-color: #cbd5e1; color: #1e293b; }
 
         #previewIframe { width: 100%; height: 100%; background: white; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: 0.3s;}
-        
-        /* VVIP Features Switch */
-        .toggle-checkbox:checked { right: 0; border-color: #68D391; }
-        .toggle-checkbox:checked + .toggle-label { background-color: #68D391; }
     </style>
 </head>
 <body class="min-h-screen font-sans relative flex flex-col overflow-x-hidden">
@@ -135,7 +131,7 @@
                         <span class="bg-gray-100 px-4 flex items-center text-gray-500 border-r border-gray-300"><i class="fa-solid fa-globe"></i></span>
                         <input type="url" id="urlInput" placeholder="Example: https://google.com" class="w-full p-4 outline-none text-gray-700">
                     </div>
-                    <p class="text-xs text-gray-500 mt-2"><i class="fa-solid fa-circle-info"></i> Note: Highly complex modern websites might have CORS protections. For best results, use standard websites or upload the HTML file.</p>
+                    <p class="text-xs text-gray-500 mt-2"><i class="fa-solid fa-circle-info"></i> Note: For best results, use standard websites. If a site blocks fetching, download its HTML file and use the Upload option.</p>
                 </div>
 
                 <!-- File Input -->
@@ -173,12 +169,12 @@
                     <div class="bg-white text-xs text-gray-500 px-3 py-1 rounded-md flex-1 text-center truncate mx-4" id="previewTitle">Previewing Document...</div>
                 </div>
                 <div class="flex-1 w-full bg-white relative overflow-hidden" id="iframeWrapper">
-                    <iframe id="previewIframe" sandbox="allow-same-origin allow-scripts"></iframe>
+                    <iframe id="previewIframe" sandbox="allow-same-origin allow-scripts text-center"></iframe>
                     
                     <!-- Loading Overlay inside iframe -->
                     <div id="iframeLoader" class="absolute inset-0 bg-white z-10 flex flex-col items-center justify-center hidden">
-                        <div class="loader rounded-full border-4 border-gray-200 h-16 w-16 mb-4 border-t-red-500"></div>
-                        <p class="text-gray-600 font-bold">Creating preview...</p>
+                        <div class="loader h-16 w-16 mb-4"></div>
+                        <p class="text-gray-600 font-bold">Rendering Website...</p>
                     </div>
                 </div>
             </div>
@@ -258,16 +254,16 @@
                 </div>
             </div>
 
-            <!-- Action Button -->
-            <div class="p-4 bg-gray-50 border-t border-gray-200 pb-8 md:pb-4">
+            <!-- Action Button (Desktop Only) -->
+            <div class="p-4 bg-gray-50 border-t border-gray-200 hidden md:block">
                 <button onclick="convertToPDF()" class="btn-pulse w-full ilovepdf-red text-white font-bold py-4 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
                     Convert to PDF <i class="fa-solid fa-file-pdf ml-2 text-xl"></i>
                 </button>
             </div>
         </div>
         
-        <!-- Mobile Floating Action Button -->
-        <button onclick="convertToPDF()" class="lg:hidden fixed bottom-24 right-4 btn-pulse ilovepdf-red text-white font-bold py-3 px-6 rounded-full shadow-2xl z-40 flex items-center gap-2 border-2 border-white">
+        <!-- Action Button (Mobile Floating Only) -->
+        <button onclick="convertToPDF()" class="md:hidden fixed bottom-24 right-4 btn-pulse ilovepdf-red text-white font-bold py-3 px-6 rounded-full shadow-2xl z-40 flex items-center gap-2 border-2 border-white">
             Convert to PDF <i class="fa-solid fa-file-pdf"></i>
         </button>
 
@@ -275,9 +271,9 @@
 
     <!-- STEP 3: LOADING -->
     <div id="step3" class="hidden w-full flex-grow flex flex-col items-center justify-center pt-20 pb-10">
-        <div class="loader rounded-full border-4 border-gray-200 h-20 w-20 mx-auto mb-8"></div>
-        <h3 class="text-3xl font-bold text-gray-800 mb-2">Rendering Document...</h3>
-        <p class="text-gray-500 font-medium">Processing client-side via html2pdf Engine</p>
+        <div class="loader h-20 w-20 mx-auto mb-8"></div>
+        <h3 class="text-3xl font-bold text-gray-800 mb-2">Processing...</h3>
+        <p class="text-gray-500 font-medium">This may take a moment depending on the site</p>
     </div>
 
     <!-- STEP 4: DOWNLOAD SCREEN -->
@@ -305,7 +301,7 @@
 
     <!-- Script / Logic -->
     <script>
-        let currentMode = 'url'; // url, file, code
+        let currentMode = 'url'; 
         let rawHtmlContent = ''; 
         let finalDocumentName = 'Document';
         
@@ -331,7 +327,6 @@
         function switchInputTab(tab) {
             currentMode = tab;
             
-            // UI Toggle
             document.querySelectorAll('.input-tab').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${tab}`).classList.add('active');
             
@@ -362,7 +357,6 @@
                 finalDocumentName = new URL(url).hostname;
                 document.getElementById('previewTitle').innerText = url;
                 
-                // Fetch using AllOrigins CORS proxy
                 try {
                     document.getElementById('step1').classList.add('hidden');
                     document.getElementById('step3').classList.remove('hidden');
@@ -372,17 +366,23 @@
                     const data = await response.json();
                     
                     if(data.contents) {
-                        // Basic fix for relative paths (Best Effort)
                         let html = data.contents;
                         const baseUrl = new URL(url).origin;
-                        html = html.replace(/(href|src|action)=["']\/(?!\/)(.*?)["']/g, `$1="${baseUrl}/$2"`);
+                        
+                        // MAGIC VVIP FIX: Inject base URL so relative CSS and Images load properly inside iframe!
+                        if (html.toLowerCase().includes('<head>')) {
+                            html = html.replace(/<head>/i, `<head><base href="${baseUrl}/">`);
+                        } else {
+                            html = `<base href="${baseUrl}/">` + html;
+                        }
+
                         rawHtmlContent = html;
                         proceedToStep2(true);
                     } else {
                         throw new Error("Empty response");
                     }
                 } catch(e) {
-                    alert("Could not fetch the website due to CORS or security blocks. Please download the page as an HTML file and use the 'Upload File' option.");
+                    alert("Could not fetch the website due to strict CORS or security blocks. Please open the website, save it as an HTML file, and use the 'Upload HTML File' option for a perfect 100% result.");
                     resetTool();
                 }
             }
@@ -402,14 +402,11 @@
             const loader = document.getElementById('iframeLoader');
             
             loader.classList.remove('hidden');
-            
-            // Clear previous
             iframe.srcdoc = '';
             
             setTimeout(() => {
                 iframe.srcdoc = rawHtmlContent;
                 
-                // Wait for iframe to load then apply filters
                 iframe.onload = () => {
                     loader.classList.add('hidden');
                     applyVvipFilters();
@@ -428,12 +425,9 @@
             if(size === 'tablet') iframe.style.width = '768px';
             if(size === 'mobile') iframe.style.width = '375px';
             
-            // Center the iframe if it's smaller than wrapper
             iframe.style.margin = "0 auto";
             iframe.style.display = "block";
         }
-
-        // --- Settings Logic ---
 
         window.setOrientation = function(mode) {
             optOrientation = mode;
@@ -450,7 +444,6 @@
             document.getElementById(`btn-margin-${val}`).classList.add('active');
         };
 
-        // --- VVIP Filters Engine ---
         window.applyVvipFilters = function() {
             const iframe = document.getElementById('previewIframe');
             if(!iframe.contentWindow) return;
@@ -460,7 +453,6 @@
             const isInkSaver = document.getElementById('vvipInkSaver').checked;
             const isAdBlock = document.getElementById('vvipAdBlock').checked;
             
-            // Reset existing injected styles
             const existingStyle = doc.getElementById('vvip-styles');
             if(existingStyle) existingStyle.remove();
             
@@ -495,19 +487,18 @@
             }
         };
 
-        // --- Core PDF Generation (html2pdf.js) ---
         window.convertToPDF = async function() {
             const iframe = document.getElementById('previewIframe');
             if(!iframe.contentDocument) return;
 
             showStep(3);
             document.querySelector('#step3 h3').innerText = "Rendering PDF...";
+            document.querySelector('#step3 p').innerText = "Generating high-quality document...";
 
             try {
                 const element = iframe.contentDocument.body;
                 const pageSize = document.getElementById('optPageSize').value;
                 
-                // Configure Options
                 const opt = {
                     margin:       optMargin,
                     filename:     `${finalDocumentName}_ToolVerse.pdf`,
@@ -516,7 +507,6 @@
                     jsPDF:        { unit: 'mm', format: pageSize, orientation: optOrientation }
                 };
 
-                // Generate and get Blob
                 const pdfWorker = html2pdf().set(opt).from(element);
                 
                 pdfWorker.outputPdf('blob').then((blob) => {
@@ -534,12 +524,12 @@
                     };
 
                     showStep(4);
-                    btn.click(); // Auto Trigger
+                    btn.click(); 
                 });
 
             } catch (e) {
                 console.error("PDF Render Error:", e);
-                alert("An error occurred. Complex websites with cross-origin elements might fail client-side.");
+                alert("An error occurred during conversion. Certain modern websites restrict client-side PDF rendering. Try the 'Upload HTML File' method.");
                 showStep(2);
             }
         };
@@ -551,7 +541,6 @@
             document.getElementById('htmlFileInput').value = '';
             document.getElementById('previewIframe').srcdoc = '';
             
-            // Reset Options
             document.getElementById('optScreenSize').value = 'laptop';
             document.getElementById('optPageSize').value = 'a4';
             setOrientation('portrait');
