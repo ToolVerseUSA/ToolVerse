@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR PDF (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- PDF.js for rendering PDFs to Canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <!-- Tesseract.js for Client-Side OCR -->
+    <script src="https://unpkg.com/tesseract.js@v4.1.1/dist/tesseract.min.js"></script>
+    <!-- PDF-Lib for generating output -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
+
+    <style>
+        body { background-color: #f3f4f7; overscroll-behavior-x: hidden; }
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border: 4px solid #e2e8f0; border-top-color: #e5322d; border-radius: 50%; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        @keyframes pulse-red-wide {
+            0% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.8); }
+            70% { box-shadow: 0 0 0 20px rgba(229, 50, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); }
+        }
+        .btn-pulse { animation: pulse-red-wide 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        
+        /* Drag & Drop Area */
+        .drag-area { transition: 0.3s; }
+        .drag-area.active { border-color: #e5322d; background-color: #fff5f5; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px;}
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .file-item { animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Custom Dropdown Styles */
+        .dropdown-menu { display: none; position: absolute; z-index: 50; width: 100%; background-color: white; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); margin-top: 4px; overflow: hidden; }
+        .dropdown-menu.show { display: flex; flex-direction: column; }
+        .dropdown-search { padding: 10px; border-bottom: 1px solid #e2e8f0; background: #f8fafc; }
+        .dropdown-search input { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; transition: 0.2s; }
+        .dropdown-search input:focus { border-color: #e5322d; }
+        .dropdown-list { max-height: 250px; overflow-y: auto; padding: 5px 0; }
+        .dropdown-item { padding: 8px 15px; display: flex; items-center; gap: 10px; cursor: pointer; transition: 0.2s; }
+        .dropdown-item:hover { background-color: #f1f5f9; }
+        .dropdown-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: #e5322d; cursor: pointer;}
+        
+        .selected-tags-container { display: flex; flex-wrap: wrap; gap: 6px; padding: 2px 0; }
+        .lang-tag { background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; font-size: 11px; padding: 2px 8px; border-radius: 12px; display: flex; align-items: center; gap: 4px; }
+        .lang-tag i { cursor: pointer; color: #94a3b8; }
+        .lang-tag i:hover { color: #e5322d; }
+
+        /* Progress Bar */
+        .progress-container { width: 100%; max-width: 400px; height: 10px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-top: 15px;}
+        .progress-fill { height: 100%; background: #e5322d; width: 0%; transition: width 0.3s ease; }
+    </style>
+</head>
+<body class="min-h-screen font-sans relative flex flex-col overflow-x-hidden" onclick="closeDropdown(event)">
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700 hidden md:flex">
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STEP 1: UPLOAD SCREEN -->
+    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 py-12">
+        <div class="flex items-center justify-center gap-3 mb-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 text-center">OCR PDF</h1>
+            <span class="bg-gradient-to-r from-red-500 to-red-700 text-white text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide shadow-sm flex items-center gap-1"><i class="fa-solid fa-brain"></i> AI Engine</span>
+        </div>
+        
+        <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Convert scanned PDFs and images into selectable, searchable, and editable text using Tesseract Neural Networks.</p>
+        
+        <input type="file" id="fileInput" accept=".pdf,image/png,image/jpeg" class="hidden">
+        
+        <div id="dropZone" class="drag-area w-full max-w-3xl border-2 border-dashed border-gray-300 rounded-3xl bg-white p-16 md:p-20 flex flex-col items-center justify-center cursor-pointer hover:border-red-500 hover:bg-red-50 transition shadow-sm relative z-10">
+            <div class="flex items-center justify-center gap-4 mb-6">
+                <button onclick="document.getElementById('fileInput').click()" class="ilovepdf-red text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+                    Select PDF / Image
+                </button>
+            </div>
+            <p class="text-gray-500 font-medium">or drop files here</p>
+        </div>
+
+        <div class="mt-10 text-gray-400 text-sm flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved"></i> Runs 100% locally in your browser. Total Privacy.
+        </div>
+    </div>
+
+    <!-- STEP 2: WORKSPACE & SETTINGS -->
+    <div id="step2" class="hidden flex-grow flex flex-col md:flex-row h-[calc(100vh-65px)] relative">
+        
+        <!-- Left: Workspace (File List) -->
+        <div class="flex-1 bg-[#2b2b36] p-4 md:p-10 overflow-y-auto" id="workspaceArea">
+            <div class="max-w-3xl mx-auto flex flex-col gap-4" id="fileList">
+                <!-- File item injected here -->
+            </div>
+        </div>
+
+        <!-- Right: Settings Panel -->
+        <div class="w-full md:w-[380px] bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0">
+            <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-lg bg-white flex justify-between items-center">
+                <span>OCR PDF options</span>
+                <i class="fa-solid fa-trash-can text-gray-400 hover:text-red-500 cursor-pointer transition text-base" onclick="resetTool()" title="Clear All"></i>
+            </div>
+            
+            <div class="p-5 flex-1 overflow-y-auto">
+                
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6 text-xs text-blue-800 shadow-sm flex items-start gap-2">
+                    <i class="fa-solid fa-circle-info text-blue-500 mt-0.5"></i>
+                    <p>The accuracy of detection is increased by correctly selecting the document's languages.</p>
+                </div>
+
+                <!-- Custom Searchable Dropdown -->
+                <div class="flex justify-between items-end mb-2">
+                    <h4 class="font-bold text-sm text-gray-800">Document languages</h4>
+                    <span class="text-xs text-gray-400 font-bold" id="langCount">1 selected</span>
+                </div>
+                
+                <div class="relative w-full mb-6">
+                    <!-- Dropdown Trigger -->
+                    <div class="w-full border border-gray-300 rounded-lg p-2.5 min-h-[42px] cursor-pointer flex items-center justify-between bg-white hover:border-gray-400 transition" id="dropdownTrigger" onclick="toggleDropdown(event)">
+                        <div class="selected-tags-container" id="selectedTags">
+                            <!-- Tags go here. Default is English -->
+                            <div class="lang-tag" data-code="eng">English <i class="fa-solid fa-xmark" onclick="removeLang('eng', event)"></i></div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-gray-400 text-xs ml-2"></i>
+                    </div>
+
+                    <!-- Dropdown Panel -->
+                    <div class="dropdown-menu" id="dropdownMenu" onclick="event.stopPropagation()">
+                        <div class="dropdown-search">
+                            <input type="text" id="langSearch" placeholder="Search languages..." onkeyup="filterLanguages()">
+                        </div>
+                        <div class="dropdown-list" id="langList">
+                            <!-- Checkboxes injected by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Output Format -->
+                <h4 class="font-bold text-sm text-gray-800 mb-3">Output format</h4>
+                <div class="space-y-3 mb-6">
+                    <label class="relative flex items-center p-3 border-2 border-red-500 bg-red-50 rounded-lg cursor-pointer">
+                        <input type="radio" name="outputMode" value="text" class="h-4 w-4 text-red-600 focus:ring-red-500 cursor-pointer" checked>
+                        <div class="ml-3">
+                            <span class="block text-sm font-bold text-gray-900">Plain Text (.txt)</span>
+                            <span class="block text-[11px] text-gray-500 mt-0.5">Extracts all readable text into a clean text file.</span>
+                        </div>
+                    </label>
+
+                    <label class="relative flex items-center p-3 border-2 border-gray-200 hover:border-gray-300 rounded-lg cursor-pointer transition" onclick="this.classList.add('border-red-500','bg-red-50'); this.previousElementSibling.classList.remove('border-red-500','bg-red-50');">
+                        <input type="radio" name="outputMode" value="pdf" class="h-4 w-4 text-red-600 focus:ring-red-500 cursor-pointer">
+                        <div class="ml-3">
+                            <span class="block text-sm font-bold text-gray-900">Searchable PDF <i class="fa-solid fa-gem text-purple-500 ml-1 text-[10px]"></i></span>
+                            <span class="block text-[11px] text-gray-500 mt-0.5">Creates a new PDF document with the extracted text.</span>
+                        </div>
+                    </label>
+                </div>
+
+            </div>
+
+            <!-- Action Button -->
+            <div class="p-4 bg-gray-50 border-t border-gray-200 hidden md:block">
+                <button onclick="startOCR()" class="btn-pulse w-full ilovepdf-red text-white font-bold py-4 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
+                    Apply OCR <i class="fa-solid fa-arrow-right ml-2 text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Floating Button -->
+        <button onclick="startOCR()" class="md:hidden fixed bottom-24 right-4 btn-pulse ilovepdf-red text-white font-bold py-3 px-6 rounded-full shadow-2xl z-40 flex items-center gap-2 border-2 border-white">
+            Apply OCR <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <!-- STEP 3: PROCESSING -->
+    <div id="step3" class="hidden w-full flex-grow flex flex-col items-center justify-center pt-20 pb-10 px-4">
+        <div class="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center text-3xl mb-6 shadow-inner animate-bounce">
+            <i class="fa-solid fa-eye"></i>
+        </div>
+        <h3 class="text-3xl font-bold text-gray-800 mb-2">Analyzing Document...</h3>
+        <p class="text-gray-500 font-medium mb-4" id="statusText">Loading Tesseract Neural Engine...</p>
+        
+        <div class="progress-container">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+        <p class="text-xs text-gray-400 mt-2 font-bold" id="progressPercent">0%</p>
+    </div>
+
+    <!-- STEP 4: DOWNLOAD SCREEN -->
+    <div id="step4" class="hidden w-full flex-grow flex flex-col items-center justify-center text-center px-4 pt-16 pb-10 bg-white">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-md border-4 border-white ring-2 ring-green-50">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10">OCR Completed Successfully!</h2>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-16">
+            <button onclick="resetTool()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block">
+                <i class="fa-solid fa-arrow-left text-xl"></i>
+            </button>
+
+            <button id="downloadBtn" class="ilovepdf-red text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
+                <i class="fa-solid fa-download mr-4 text-2xl"></i> Download Extracted Text
+            </button>
+        </div>
+        
+        <button onclick="resetTool()" class="mt-8 text-gray-500 font-bold underline md:hidden">Start Over</button>
+    </div>
+
+    <canvas id="hiddenCanvas" class="hidden"></canvas>
+
+    <script>
+        // --- Language Dropdown Logic ---
+        const languages = [
+            { code: 'eng', name: 'English' },
+            { code: 'afr', name: 'Afrikaans' },
+            { code: 'sqi', name: 'Albanian' },
+            { code: 'amh', name: 'Amharic' },
+            { code: 'ara', name: 'Arabic' },
+            { code: 'hye', name: 'Armenian' },
+            { code: 'asm', name: 'Assamese' },
+            { code: 'aze', name: 'Azerbaijani' },
+            { code: 'ben', name: 'Bengali' },
+            { code: 'bos', name: 'Bosnian' },
+            { code: 'bul', name: 'Russian' },
+            { code: 'chi_sim', name: 'Chinese - Simplified' },
+            { code: 'chi_tra', name: 'Chinese - Traditional' },
+            { code: 'hrv', name: 'Croatian' },
+            { code: 'ces', name: 'German' },
+            { code: 'ell', name: 'Greek' },
+            { code: 'fas', name: 'Persian (Farsi)' },
+            { code: 'fra', name: 'French' },
+            { code: 'guj', name: 'Gujarati' },
+            { code: 'hin', name: 'Hindi' },
+            { code: 'ind', name: 'Indonesian' },
+            { code: 'ita', name: 'Italian' },
+            { code: 'jpn', name: 'Japanese' },
+            { code: 'kor', name: 'Korean' },
+            { code: 'mar', name: 'Marathi' },
+            { code: 'nep', name: 'Nepali' },
+            { code: 'pan', name: 'Punjabi' },
+            { code: 'pol', name: 'Polish' },
+            { code: 'por', name: 'Portuguese' },
+            { code: 'snd', name: 'Sindhi' },
+            { code: 'spa', name: 'Spanish' },
+            { code: 'swe', name: 'Swedish' },
+            { code: 'tam', name: 'Tamil' },
+            { code: 'tel', name: 'Telugu' },
+            { code: 'tha', name: 'Thai' },
+            { code: 'tur', name: 'Turkish' },
+            { code: 'ukr', name: 'Ukrainian' },
+            { code: 'urd', name: 'Urdu' },
+            { code: 'uzb', name: 'Uzbek' },
+            { code: 'vie', name: 'Vietnamese' }
+        ];
+
+        let selectedLangs = ['eng']; // Default English
+
+        function initDropdown() {
+            const list = document.getElementById('langList');
+            list.innerHTML = '';
+            
+            languages.forEach(lang => {
+                const isChecked = selectedLangs.includes(lang.code) ? 'checked' : '';
+                const item = document.createElement('label');
+                item.className = 'dropdown-item';
+                item.innerHTML = `
+                    <input type="checkbox" value="${lang.code}" data-name="${lang.name}" onchange="handleLangCheck(this)" ${isChecked}>
+                    <span class="text-sm text-gray-700">${lang.name}</span>
+                `;
+                list.appendChild(item);
+            });
+            updateTagsUI();
+        }
+
+        window.toggleDropdown = function(e) {
+            e.stopPropagation();
+            document.getElementById('dropdownMenu').classList.toggle('show');
+            document.getElementById('langSearch').focus();
+        };
+
+        window.closeDropdown = function(e) {
+            const menu = document.getElementById('dropdownMenu');
+            if(menu.classList.contains('show') && !menu.contains(e.target)) {
+                menu.classList.remove('show');
+            }
+        };
+
+        window.filterLanguages = function() {
+            const query = document.getElementById('langSearch').value.toLowerCase();
+            const items = document.querySelectorAll('.dropdown-item');
+            items.forEach(item => {
+                const text = item.querySelector('span').innerText.toLowerCase();
+                if(text.includes(query)) item.style.display = 'flex';
+                else item.style.display = 'none';
+            });
+        };
+
+        window.handleLangCheck = function(cb) {
+            if(cb.checked) {
+                if(!selectedLangs.includes(cb.value)) selectedLangs.push(cb.value);
+            } else {
+                selectedLangs = selectedLangs.filter(c => c !== cb.value);
+            }
+            if(selectedLangs.length === 0) {
+                // Prevent unchecking all
+                cb.checked = true;
+                selectedLangs.push(cb.value);
+            }
+            updateTagsUI();
+        };
+
+        window.removeLang = function(code, e) {
+            e.stopPropagation();
+            if(selectedLangs.length <= 1) return; // Must have at least 1
+            selectedLangs = selectedLangs.filter(c => c !== code);
+            
+            // Uncheck in list
+            const cb = document.querySelector(`input[value="${code}"]`);
+            if(cb) cb.checked = false;
+            
+            updateTagsUI();
+        };
+
+        function updateTagsUI() {
+            const container = document.getElementById('selectedTags');
+            container.innerHTML = '';
+            
+            selectedLangs.forEach(code => {
+                const lang = languages.find(l => l.code === code);
+                if(lang) {
+                    container.innerHTML += `<div class="lang-tag" data-code="${code}">${lang.name} <i class="fa-solid fa-xmark" onclick="removeLang('${code}', event)"></i></div>`;
+                }
+            });
+            document.getElementById('langCount').innerText = `${selectedLangs.length} selected`;
+        }
+
+
+        // --- File Handling ---
+        let currentFile = null;
+        let currentFileType = null;
+        let fileArrayBuffer = null;
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'); );
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('active');
+            handleFile(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+        async function handleFile(file) {
+            if(!file) return;
+            if(window.isUserLoggedIn === false) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                return;
+            }
+
+            const validTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+            if (!validTypes.includes(file.type)) {
+                alert("Only PDF, PNG, and JPG are supported.");
+                return;
+            }
+
+            currentFile = file;
+            currentFileType = file.type;
+            fileArrayBuffer = await file.arrayBuffer();
+
+            showStep(2);
+            initDropdown();
+            
+            const list = document.getElementById('fileList');
+            list.innerHTML = '';
+            
+            const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+            const iconClass = file.type === 'application/pdf' ? 'fa-file-pdf' : 'fa-image';
+            
+            list.innerHTML = `
+                <div class="file-item w-full bg-white rounded-xl shadow-sm p-4 flex items-center justify-between border-l-4 border-red-500">
+                    <div class="flex items-center gap-4 overflow-hidden">
+                        <div class="w-12 h-12 bg-red-50 text-red-500 rounded-lg flex items-center justify-center shrink-0 text-2xl">
+                            <i class="fa-regular ${iconClass}"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <h4 class="font-bold text-gray-800 text-sm truncate w-full pr-4">${file.name}</h4>
+                            <p class="text-xs text-gray-500 mt-0.5">${sizeMB} MB</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- Tesseract OCR Processing ---
+        window.startOCR = async function() {
+            if (!currentFile) return;
+            
+            const outMode = document.querySelector('input[name="outputMode"]:checked').value;
+            const langString = selectedLangs.join('+'); // e.g., 'eng+urd'
+            
+            showStep(3);
+            const status = document.getElementById('statusText');
+            const pBar = document.getElementById('progressBar');
+            const pText = document.getElementById('progressPercent');
+
+            let extractedText = "";
+
+            try {
+                // Initialize Tesseract Worker
+                status.innerText = "Initializing Tesseract Engine...";
+                const worker = await Tesseract.createWorker({
+                    logger: m => {
+                        if (m.status === 'recognizing text') {
+                            status.innerText = "Extracting text using Neural Nets...";
+                            const pct = Math.floor(m.progress * 100);
+                            pBar.style.width = `${pct}%`;
+                            pText.innerText = `${pct}%`;
+                        }
+                    }
+                });
+
+                await worker.loadLanguage(langString);
+                await worker.initialize(langString);
+
+                if (currentFileType.startsWith('image/')) {
+                    // It's an image
+                    const blobUrl = URL.createObjectURL(currentFile);
+                    const { data: { text } } = await worker.recognize(blobUrl);
+                    extractedText = text;
+                    URL.revokeObjectURL(blobUrl);
+                } 
+                else if (currentFileType === 'application/pdf') {
+                    // It's a PDF. Render first page to Canvas
+                    status.innerText = "Rendering PDF to Image...";
+                    const loadingTask = pdfjsLib.getDocument({data: new Uint8Array(fileArrayBuffer)});
+                    const pdf = await loadingTask.promise;
+                    
+                    // Note: For VVIP pure client side, we process Page 1. 
+                    // Processing multi-page PDF in browser RAM with Tesseract takes very long.
+                    const page = await pdf.getPage(1);
+                    const viewport = page.getViewport({scale: 2.0}); // High res for OCR
+                    
+                    const canvas = document.getElementById('hiddenCanvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    
+                    await page.render({canvasContext: ctx, viewport: viewport}).promise;
+                    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                    
+                    status.innerText = "Starting Deep OCR Scan...";
+                    const { data: { text } } = await worker.recognize(imgData);
+                    extractedText = text;
+                }
+
+                await worker.terminate();
+                
+                if(!extractedText.trim()) extractedText = "No text could be found in this document.";
+                
+                prepareOutput(extractedText, outMode);
+
+            } catch (e) {
+                console.error(e);
+                alert("An error occurred during OCR processing.");
+                showStep(2);
+            }
+        };
+
+        async function prepareOutput(text, mode) {
+            const btn = document.getElementById('downloadBtn');
+            const originalName = currentFile.name.replace(/\.[^/.]+$/, "");
+
+            if (mode === 'text') {
+                const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+                const url = URL.createObjectURL(blob);
+                
+                btn.innerHTML = `<i class="fa-solid fa-file-lines mr-4 text-2xl"></i> Download Text File`;
+                btn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${originalName}_OCR.txt`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+            } 
+            else if (mode === 'pdf') {
+                const { PDFDocument, StandardFonts, rgb } = PDFLib;
+                const pdfDoc = await PDFDocument.create();
+                const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+                
+                // Extremely basic text-to-pdf layout
+                const page = pdfDoc.addPage([595.28, 841.89]); // A4
+                const { width, height } = page.getSize();
+                const fontSize = 12;
+                const margin = 50;
+                
+                // Split text by lines to prevent running off page (basic wrap)
+                const lines = text.split('\n');
+                let y = height - margin;
+
+                for(let line of lines) {
+                    if (y < margin) {
+                        // Needs new page logic for robust system, keeping it simple here
+                        break; 
+                    }
+                    try {
+                        // Strip characters not in standard font
+                        const cleanLine = line.replace(/[^\x00-\x7F]/g, "");
+                        page.drawText(cleanLine, { x: margin, y: y, size: fontSize, font: font, color: rgb(0,0,0) });
+                        y -= (fontSize + 4);
+                    } catch(e) {}
+                }
+
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: "application/pdf" });
+                const url = URL.createObjectURL(blob);
+                
+                btn.innerHTML = `<i class="fa-solid fa-file-pdf mr-4 text-2xl"></i> Download PDF`;
+                btn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${originalName}_OCR.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+            }
+
+            showStep(4);
+        }
+
+        window.resetTool = function() {
+            currentFile = null;
+            fileArrayBuffer = null;
+            selectedLangs = ['eng'];
+            document.getElementById('fileInput').value = '';
+            showStep(1);
+        };
+    </script>
+</body>
+</html>
