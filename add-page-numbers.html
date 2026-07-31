@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Page Numbers (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Firebase Security -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                window.isUserLoggedIn = false;
+            } else {
+                document.getElementById('authOverlay').style.display = 'none';
+                window.isUserLoggedIn = true;
+            }
+        });
+    </script>
+
+    <!-- PDF-Lib for Client Side Processing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <!-- JSZip for Batch Downloads -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <style>
+        body { background-color: #f3f4f7; overscroll-behavior-y: none; }
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border: 4px solid #e2e8f0; border-top-color: #e5322d; border-radius: 50%; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        @keyframes pulse-red-wide {
+            0% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.8); }
+            70% { box-shadow: 0 0 0 20px rgba(229, 50, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); }
+        }
+        .btn-pulse { animation: pulse-red-wide 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        
+        /* Drag & Drop Area */
+        .drag-area { transition: 0.3s; }
+        .drag-area.active { border-color: #e5322d; background-color: #fff5f5; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+
+        /* Position Grid Styles */
+        .pos-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 2px; width: 80px; height: 100px; border: 2px solid #cbd5e1; background-color: #cbd5e1; }
+        .pos-cell { background-color: white; cursor: pointer; transition: 0.2s; position: relative; }
+        .pos-cell:hover { background-color: #f1f5f9; }
+        .pos-cell.active { background-color: #fee2e2; }
+        .pos-cell.active::after { content: ''; position: absolute; width: 12px; height: 12px; background-color: #e5322d; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 5px rgba(229, 50, 45, 0.5); }
+
+        /* Page Preview Map */
+        .page-preview { width: 200px; height: 282px; background: white; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); position: relative; margin: 0 auto; transition: 0.3s;}
+        .preview-dot { position: absolute; width: 16px; height: 16px; background-color: #e5322d; border-radius: 50%; box-shadow: 0 3px 8px rgba(229, 50, 45, 0.6); transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .preview-lines { width: 80%; height: 8px; background: #f1f5f9; margin: 15px auto 10px; border-radius: 4px; }
+        .preview-lines.short { width: 60%; }
+        
+        /* Select & Inputs */
+        .custom-input { appearance: none; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; font-size: 13px; color: #334155; transition: 0.2s; width: 100%; outline: none;}
+        .custom-input:focus { border-color: #e5322d; background-color: white; box-shadow: 0 0 0 3px rgba(229,50,45,0.1); }
+    </style>
+</head>
+<body class="min-h-screen font-sans relative flex flex-col overflow-x-hidden">
+
+    <!-- VVIP LOCK SCREEN -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-red-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full ilovepdf-red text-white font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
+        </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700 hidden md:flex">
+                <a href="merge-pdf.html" class="hover:ilovepdf-text transition uppercase">Merge PDF</a>
+                <a href="split-pdf.html" class="hover:ilovepdf-text transition uppercase">Split PDF</a>
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STEP 1: UPLOAD SCREEN -->
+    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 py-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 text-center">Add PDF page numbers</h1>
+        <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Add page numbers into PDFs with ease. Choose your positions, dimensions, and typography dynamically.</p>
+        
+        <input type="file" id="fileInput" accept=".pdf" multiple class="hidden">
+        
+        <div id="dropZone" class="drag-area w-full max-w-3xl border-2 border-dashed border-gray-300 rounded-3xl bg-white p-16 md:p-20 flex flex-col items-center justify-center cursor-pointer hover:border-red-500 hover:bg-red-50 transition shadow-sm relative z-10">
+            <div class="flex items-center justify-center gap-4 mb-6">
+                <button onclick="document.getElementById('fileInput').click()" class="ilovepdf-red text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+                    Select PDF files
+                </button>
+                <div class="flex flex-col gap-2">
+                    <div class="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 shadow-md" title="Google Drive (Coming Soon)"><i class="fa-brands fa-google-drive"></i></div>
+                    <div class="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 shadow-md" title="Dropbox (Coming Soon)"><i class="fa-brands fa-dropbox"></i></div>
+                </div>
+            </div>
+            <p class="text-gray-500 font-medium">or drop PDFs here</p>
+        </div>
+
+        <div class="mt-16 w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center">
+                <div class="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-xl"><i class="fa-solid fa-crosshairs"></i></div>
+                <h3 class="font-bold text-gray-800 mb-2">9-Point Tracking</h3>
+                <p class="text-xs text-gray-500">Easily place numbers anywhere on the page using our interactive visual grid system.</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center">
+                <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 text-xl"><i class="fa-solid fa-code"></i></div>
+                <h3 class="font-bold text-gray-800 mb-2">Dynamic Tags</h3>
+                <p class="text-xs text-gray-500">Use {n} for current page and {p} for total pages to create completely custom numbering formats.</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center">
+                <div class="w-12 h-12 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-xl"><i class="fa-solid fa-bolt"></i></div>
+                <h3 class="font-bold text-gray-800 mb-2">Lightning Fast</h3>
+                <p class="text-xs text-gray-500">Numbers are injected directly into the PDF streams locally, processing 1000 pages in milliseconds.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 2: WORKSPACE & SETTINGS -->
+    <div id="step2" class="hidden flex-grow flex flex-col md:flex-row h-[calc(100vh-65px)] relative">
+        
+        <!-- Left: Workspace (Live Preview) -->
+        <div class="flex-1 bg-[#2b2b36] p-4 md:p-10 flex flex-col items-center justify-center overflow-y-auto" id="workspaceArea">
+            <h3 class="text-white font-bold text-xl mb-8">Live Position Preview</h3>
+            
+            <div class="page-preview" id="pagePreview">
+                <div class="pt-8">
+                    <div class="preview-lines"></div>
+                    <div class="preview-lines"></div>
+                    <div class="preview-lines short"></div>
+                    
+                    <div class="preview-lines mt-10"></div>
+                    <div class="preview-lines"></div>
+                    <div class="preview-lines"></div>
+                </div>
+                <!-- Red dot moves based on grid selection -->
+                <div class="preview-dot" id="previewDot" style="bottom: 20px; right: 20px;"></div>
+            </div>
+            
+            <div class="mt-8 text-gray-400 text-sm" id="fileStatsInfo">1 file selected</div>
+            
+            <button onclick="document.getElementById('fileInput').click()" class="mt-8 flex items-center justify-center w-12 h-12 bg-gray-700 hover:bg-gray-600 text-white rounded-full transition shadow-lg border border-dashed border-gray-400 hover:border-white">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+
+        <!-- Right: Settings Panel -->
+        <div class="w-full md:w-96 bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0">
+            <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-lg bg-white flex justify-between items-center">
+                <span>Page Number options</span>
+                <i class="fa-solid fa-trash-can text-gray-400 hover:text-red-500 cursor-pointer transition text-base" onclick="resetTool()" title="Clear All"></i>
+            </div>
+            
+            <div class="p-5 flex-1 overflow-y-auto">
+                
+                <!-- Position & Margin -->
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h4 class="font-bold text-xs text-gray-500 mb-2 uppercase">Position</h4>
+                        <div class="pos-grid" id="positionGrid">
+                            <div class="pos-cell" data-pos="top-left" onclick="selectPos(this)"></div>
+                            <div class="pos-cell" data-pos="top-center" onclick="selectPos(this)"></div>
+                            <div class="pos-cell" data-pos="top-right" onclick="selectPos(this)"></div>
+                            
+                            <div class="pos-cell" data-pos="mid-left" onclick="selectPos(this)"></div>
+                            <div class="pos-cell" data-pos="mid-center" onclick="selectPos(this)"></div>
+                            <div class="pos-cell" data-pos="mid-right" onclick="selectPos(this)"></div>
+                            
+                            <div class="pos-cell" data-pos="bottom-left" onclick="selectPos(this)"></div>
+                            <div class="pos-cell" data-pos="bottom-center" onclick="selectPos(this)"></div>
+                            <div class="pos-cell active" data-pos="bottom-right" onclick="selectPos(this)"></div>
+                        </div>
+                    </div>
+                    <div class="w-1/2 ml-4">
+                        <h4 class="font-bold text-xs text-gray-500 mb-2 uppercase">Margin</h4>
+                        <select id="marginSelect" class="custom-input cursor-pointer" onchange="updatePreview()">
+                            <option value="10">Small</option>
+                            <option value="20" selected>Recommended</option>
+                            <option value="40">Big</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Pages Config -->
+                <h4 class="font-bold text-xs text-gray-500 mb-2 uppercase">Pages Setup</h4>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="text-[11px] font-semibold text-gray-600 block mb-1">First number</label>
+                        <input type="number" id="startNumber" value="1" min="1" class="custom-input">
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-3 rounded-lg border border-gray-200 mb-6">
+                    <label class="text-[11px] font-semibold text-gray-600 block mb-2">Which pages do you want to number?</label>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-gray-500">From</span>
+                        <input type="number" id="pageFrom" value="1" min="1" class="custom-input w-20 text-center">
+                        <span class="text-xs text-gray-500">to</span>
+                        <input type="number" id="pageTo" value="1" min="1" class="custom-input w-20 text-center" title="Leave blank for last page">
+                    </div>
+                </div>
+
+                <!-- Text Format -->
+                <h4 class="font-bold text-xs text-gray-500 mb-2 uppercase">Text Format</h4>
+                <select id="textFormatSelect" class="custom-input cursor-pointer mb-3" onchange="toggleCustomFormat()">
+                    <option value="{n}">Insert only page number</option>
+                    <option value="Page {n}">Page {n}</option>
+                    <option value="Page {n} of {p}">Page {n} of {p}</option>
+                    <option value="custom">Custom Format...</option>
+                </select>
+                
+                <div id="customFormatBox" class="hidden mb-6 bg-purple-50 p-3 rounded-lg border border-purple-200">
+                    <label class="text-[11px] font-semibold text-purple-700 block mb-1">Type custom tags</label>
+                    <input type="text" id="customFormatInput" value="- {n} -" class="custom-input border-purple-300 focus:border-purple-500">
+                    <p class="text-[10px] text-purple-500 mt-1">Use <b>{n}</b> for current number, <b>{p}</b> for total.</p>
+                </div>
+
+                <!-- Typography -->
+                <h4 class="font-bold text-xs text-gray-500 mb-2 uppercase">Typography</h4>
+                <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-lg border border-gray-200">
+                    <select id="fontSizeSelect" class="custom-input w-auto cursor-pointer border-none shadow-sm py-1.5 px-2">
+                        <option value="10">10</option>
+                        <option value="12">12</option>
+                        <option value="14" selected>14</option>
+                        <option value="18">18</option>
+                        <option value="24">24</option>
+                    </select>
+                    
+                    <div class="h-6 w-px bg-gray-300 mx-1"></div>
+                    
+                    <input type="color" id="fontColor" value="#000000" class="w-6 h-6 p-0 border-0 rounded cursor-pointer bg-transparent">
+                </div>
+
+            </div>
+
+            <!-- Action Button -->
+            <div class="p-4 bg-gray-50 border-t border-gray-200 hidden md:block">
+                <button onclick="startProcessing()" class="btn-pulse w-full ilovepdf-red text-white font-bold py-4 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
+                    Add page numbers <i class="fa-solid fa-arrow-right ml-2 text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Floating Button -->
+        <button onclick="startProcessing()" class="md:hidden fixed bottom-24 right-4 btn-pulse ilovepdf-red text-white font-bold py-3 px-6 rounded-full shadow-2xl z-40 flex items-center gap-2 border-2 border-white">
+            Add Numbers <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <!-- STEP 3: PROCESSING -->
+    <div id="step3" class="hidden w-full flex-grow flex flex-col items-center justify-center pt-20 pb-10">
+        <div class="loader h-20 w-20 mx-auto mb-8"></div>
+        <h3 class="text-3xl font-bold text-gray-800 mb-2">Numbering Pages...</h3>
+        <p class="text-gray-500 font-medium">Injecting dynamic typography directly into the PDF</p>
+    </div>
+
+    <!-- STEP 4: DOWNLOAD SCREEN -->
+    <div id="step4" class="hidden w-full flex-grow flex flex-col items-center justify-center text-center px-4 pt-16 pb-10 bg-white">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-md border-4 border-white ring-2 ring-green-50">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10">Page numbers added successfully!</h2>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-16">
+            <button onclick="resetTool()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block">
+                <i class="fa-solid fa-arrow-left text-xl"></i>
+            </button>
+
+            <button id="downloadBtn" class="ilovepdf-red text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
+                <i class="fa-solid fa-download mr-4 text-2xl"></i> Download PDF
+            </button>
+            
+            <div class="grid grid-cols-2 gap-1 md:ml-2">
+                 <div onclick="alert('Google Drive saving will be available soon!')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-google-drive"></i></div>
+                 <div onclick="alert('Shareable links will be available soon.')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tr-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-link"></i></div>
+                 <div onclick="alert('Dropbox saving will be available soon!')" class="w-10 h-10 bg-[#e5322d] text-white rounded-bl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-dropbox"></i></div>
+                 <div onclick="resetTool()" class="w-10 h-10 bg-[#e5322d] text-white rounded-br-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-trash-can"></i></div>
+            </div>
+        </div>
+        
+        <button onclick="resetTool()" class="mt-8 text-gray-500 font-bold underline md:hidden">Start Over</button>
+    </div>
+
+    <script>
+        let pdfFiles = [];
+        let processedBlobs = [];
+        let selectedPosition = 'bottom-right';
+
+        function showStep(stepNumber) {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById(`step${stepNumber}`).classList.remove('hidden');
+        }
+
+        // --- UI Interactions ---
+        window.selectPos = function(element) {
+            document.querySelectorAll('.pos-cell').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            selectedPosition = element.dataset.pos;
+            updatePreview();
+        };
+
+        window.updatePreview = function() {
+            const dot = document.getElementById('previewDot');
+            const marginVal = parseInt(document.getElementById('marginSelect').value);
+            // Preview is scaled, so we map 10,20,40 to small visual values
+            const marginVisual = marginVal === 10 ? 8 : (marginVal === 20 ? 16 : 28);
+            
+            // Reset positioning
+            dot.style.top = 'auto'; dot.style.bottom = 'auto';
+            dot.style.left = 'auto'; dot.style.right = 'auto';
+            dot.style.transform = 'none';
+
+            // Y-Axis
+            if (selectedPosition.includes('top')) dot.style.top = `${marginVisual}px`;
+            else if (selectedPosition.includes('bottom')) dot.style.bottom = `${marginVisual}px`;
+            else { dot.style.top = '50%'; dot.style.transform = 'translateY(-50%)'; }
+
+            // X-Axis
+            if (selectedPosition.includes('left')) dot.style.left = `${marginVisual}px`;
+            else if (selectedPosition.includes('right')) dot.style.right = `${marginVisual}px`;
+            else { 
+                dot.style.left = '50%'; 
+                dot.style.transform = dot.style.transform ? 'translate(-50%, -50%)' : 'translateX(-50%)'; 
+            }
+        };
+
+        window.toggleCustomFormat = function() {
+            const val = document.getElementById('textFormatSelect').value;
+            const box = document.getElementById('customFormatBox');
+            if (val === 'custom') box.classList.remove('hidden');
+            else box.classList.add('hidden');
+        };
+
+        // --- File Handling ---
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('active');
+            handleFiles(e.dataTransfer.files);
+        });
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+        async function handleFiles(files) {
+            if(window.isUserLoggedIn === false) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                return;
+            }
+
+            const validFiles = Array.from(files).filter(file => file.type === 'application/pdf');
+            if (validFiles.length === 0) return;
+
+            showStep(2);
+            
+            for (let file of validFiles) {
+                const arrayBuffer = await file.arrayBuffer();
+                const id = Math.random().toString(36).substring(7);
+                pdfFiles.push({ id, file, arrayBuffer });
+            }
+            
+            document.getElementById('fileStatsInfo').innerText = `${pdfFiles.length} file(s) selected`;
+            
+            // Try to set dynamic max page count based on first file
+            try {
+                const { PDFDocument } = PDFLib;
+                const doc = await PDFDocument.load(pdfFiles[0].arrayBuffer);
+                document.getElementById('pageTo').value = doc.getPageCount();
+            } catch(e) {}
+        }
+
+        // --- Processing Engine ---
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16) / 255,
+                g: parseInt(result[2], 16) / 255,
+                b: parseInt(result[3], 16) / 255
+            } : { r: 0, g: 0, b: 0 };
+        }
+
+        window.startProcessing = async function() {
+            if (pdfFiles.length === 0) return;
+            
+            showStep(3);
+            processedBlobs = [];
+            
+            const { PDFDocument, StandardFonts, rgb } = PDFLib;
+
+            // Get Settings
+            const margin = parseInt(document.getElementById('marginSelect').value);
+            const startNumBase = parseInt(document.getElementById('startNumber').value);
+            const pFrom = parseInt(document.getElementById('pageFrom').value);
+            let pToInput = document.getElementById('pageTo').value;
+            
+            let formatMode = document.getElementById('textFormatSelect').value;
+            if(formatMode === 'custom') formatMode = document.getElementById('customFormatInput').value;
+
+            const fontSize = parseInt(document.getElementById('fontSizeSelect').value);
+            const colorHex = document.getElementById('fontColor').value;
+            const pdfColor = rgb(hexToRgb(colorHex).r, hexToRgb(colorHex).g, hexToRgb(colorHex).b);
+
+            for (let pdfObj of pdfFiles) {
+                try {
+                    const pdfDoc = await PDFDocument.load(pdfObj.arrayBuffer);
+                    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+                    const totalPages = pdfDoc.getPageCount();
+                    
+                    const actualTo = pToInput ? Math.min(parseInt(pToInput), totalPages) : totalPages;
+                    const actualFrom = Math.max(1, pFrom);
+
+                    let currentNum = startNumBase;
+
+                    for (let i = actualFrom - 1; i < actualTo; i++) {
+                        const page = pdfDoc.getPage(i);
+                        const { width, height } = page.getSize();
+                        
+                        // Parse String
+                        const textStr = formatMode.replace('{n}', currentNum).replace('{p}', totalPages);
+                        const textWidth = font.widthOfTextAtSize(textStr, fontSize);
+                        
+                        let x = 0; let y = 0;
+
+                        // Calculate Y
+                        if (selectedPosition.includes('top')) y = height - margin - fontSize;
+                        else if (selectedPosition.includes('bottom')) y = margin;
+                        else y = (height / 2) - (fontSize / 2); // mid
+
+                        // Calculate X
+                        if (selectedPosition.includes('left')) x = margin;
+                        else if (selectedPosition.includes('right')) x = width - margin - textWidth;
+                        else x = (width / 2) - (textWidth / 2); // center
+
+                        page.drawText(textStr, {
+                            x: x, y: y, size: fontSize, font: font, color: pdfColor,
+                        });
+
+                        currentNum++;
+                    }
+                    
+                    pdfDoc.setProducer('ToolVerse Advanced PDF Engine');
+                    const pdfBytes = await pdfDoc.save();
+                    
+                    processedBlobs.push({
+                        name: pdfObj.file.name.replace('.pdf', '_Numbered.pdf'),
+                        blob: new Blob([pdfBytes], { type: 'application/pdf' })
+                    });
+                } catch (e) {
+                    console.error("Error processing file", e);
+                }
+            }
+
+            if (processedBlobs.length > 0) prepareDownload();
+            else resetTool();
+        };
+
+        async function prepareDownload() {
+            const btn = document.getElementById('downloadBtn');
+            
+            if (processedBlobs.length === 1) {
+                const url = URL.createObjectURL(processedBlobs[0].blob);
+                btn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = processedBlobs[0].name;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+            } else {
+                const zip = new JSZip();
+                processedBlobs.forEach(file => { zip.file(file.name, file.blob); });
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+                const url = URL.createObjectURL(zipBlob);
+                
+                btn.innerHTML = `<i class="fa-solid fa-file-zipper mr-4 text-2xl"></i> Download ZIP`;
+                btn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'ToolVerse_Numbered_PDFs.zip';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+            }
+
+            showStep(4);
+            btn.click();
+        }
+
+        window.resetTool = function() {
+            pdfFiles = [];
+            processedBlobs = [];
+            document.getElementById('fileInput').value = '';
+            document.getElementById('fileStatsInfo').innerText = '0 files selected';
+            showStep(1);
+        };
+        
+        // Init preview
+        updatePreview();
+    </script>
+</body>
+</html>
