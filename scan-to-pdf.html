@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan to PDF (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- QR Code Generator JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- PDF-Lib for Client Side Processing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+    <!-- Firebase System for Live Sync -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, doc, setDoc, onSnapshot, query, orderBy, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        window.db = getFirestore(app);
+        window.collection = collection; window.doc = doc; window.setDoc = setDoc; 
+        window.onSnapshot = onSnapshot; window.query = query; window.orderBy = orderBy; window.addDoc = addDoc;
+    </script>
+
+    <style>
+        body { background-color: #f3f4f7; overscroll-behavior-x: hidden; }
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        @keyframes pulse-red-wide {
+            0% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.8); }
+            70% { box-shadow: 0 0 0 20px rgba(229, 50, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); }
+        }
+        .btn-pulse { animation: pulse-red-wide 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+
+        /* QR Scanner Animation */
+        .scanner-laser { position: absolute; width: 100%; height: 2px; background-color: #22c55e; box-shadow: 0 0 10px #22c55e; animation: scan 2s linear infinite; }
+        @keyframes scan { 0% { top: 0; } 50% { top: 100%; } 100% { top: 0; } }
+
+        /* Image Gallery */
+        .scan-item { animation: scaleIn 0.3s ease-out; transition: 0.2s; }
+        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        /* Mobile Camera UI */
+        #mobileUI { display: none; position: fixed; inset: 0; background: #000; z-index: 9999; flex-direction: column; }
+        #cameraView { width: 100%; height: 100%; object-fit: cover; }
+        .cam-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 30px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); display: flex; justify-content: space-around; align-items: center; }
+        .capture-btn { width: 70px; height: 70px; border-radius: 50%; background: white; border: 4px solid #cbd5e1; outline: 3px solid white; cursor: pointer; transition: 0.2s; }
+        .capture-btn:active { transform: scale(0.9); background: #e2e8f0; }
+        
+        /* Select & Inputs */
+        .custom-input { appearance: none; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; font-size: 13px; color: #334155; transition: 0.2s; width: 100%; outline: none;}
+        .custom-input:focus { border-color: #e5322d; }
+    </style>
+</head>
+<body class="min-h-screen font-sans relative flex flex-col">
+
+    <!-- DESKTOP UI: Navbar -->
+    <nav id="desktopNav" class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700 hidden md:flex">
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- DESKTOP UI: Step 1 (QR Code Connection) -->
+    <div id="desktopStep1" class="w-full flex-grow flex flex-col items-center justify-center px-4 py-10">
+        <div class="flex items-center justify-center gap-3 mb-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 text-center">Scan to PDF</h1>
+            <span class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide shadow-sm flex items-center gap-1"><i class="fa-solid fa-mobile-screen"></i> Live Sync</span>
+        </div>
+        <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Scan documents directly from your smartphone camera to your browser in real-time.</p>
+
+        <div class="flex flex-col md:flex-row items-stretch justify-center gap-8 w-full max-w-4xl">
+            
+            <!-- Step 1 Card -->
+            <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 flex-1 flex flex-col items-center justify-center relative overflow-hidden">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Step 1</h3>
+                <p class="text-sm text-gray-500 mb-6 text-center">Use your smartphone's camera to scan this QR code to establish a secure link.</p>
+                
+                <div class="relative p-2 border-4 border-gray-100 rounded-xl bg-white shadow-inner">
+                    <div id="qrcode"></div>
+                    <div class="scanner-laser"></div>
+                </div>
+                
+                <div class="mt-6 flex items-center gap-2 text-xs font-bold text-green-500 bg-green-50 px-3 py-1.5 rounded-full">
+                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div> Session Ready
+                </div>
+            </div>
+
+            <!-- Step 2 Card (Waiting) -->
+            <div class="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-200 flex-1 flex flex-col items-center justify-center opacity-70">
+                <h3 class="text-lg font-bold text-gray-400 mb-2">Step 2</h3>
+                <p class="text-sm text-gray-400 mb-8 text-center">Once connected, your mobile scans will magically appear here.</p>
+                <i class="fa-solid fa-wifi text-6xl text-gray-300"></i>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- DESKTOP UI: Step 2 (Workspace / Gallery) -->
+    <div id="desktopStep2" class="hidden flex-grow flex flex-col md:flex-row h-[calc(100vh-65px)] relative">
+        
+        <!-- Left: Image Gallery -->
+        <div class="flex-1 bg-[#2b2b36] p-4 md:p-10 overflow-y-auto" id="workspaceArea">
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-white font-bold text-xl"><i class="fa-solid fa-mobile-screen text-green-400 mr-2"></i> Device Connected</h3>
+                <span class="bg-green-500 bg-opacity-20 text-green-400 text-xs px-3 py-1 rounded-full border border-green-500 border-opacity-30">Receiving Live Scans...</span>
+            </div>
+            
+            <div id="imageGrid" class="flex flex-wrap justify-center gap-6 items-start">
+                <!-- Live images from mobile will appear here -->
+            </div>
+            
+            <div id="emptyGalleryMsg" class="text-center mt-20">
+                <i class="fa-solid fa-camera text-6xl text-gray-600 mb-4"></i>
+                <p class="text-gray-400 font-medium">Use your phone to capture documents.</p>
+            </div>
+        </div>
+
+        <!-- Right: Settings Panel -->
+        <div class="w-full md:w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0">
+            <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-lg bg-white flex justify-between items-center">
+                <span>PDF Settings</span>
+                <i class="fa-solid fa-power-off text-gray-400 hover:text-red-500 cursor-pointer transition text-base" onclick="window.location.reload()" title="Disconnect Session"></i>
+            </div>
+            
+            <div class="p-5 flex-1 overflow-y-auto">
+                <h4 class="font-bold text-xs text-gray-500 mb-2 uppercase">Page Size</h4>
+                <select id="pageSize" class="custom-input mb-6">
+                    <option value="fit" selected>Fit (Same as image)</option>
+                    <option value="A4">A4 Standard</option>
+                    <option value="letter">US Letter</option>
+                </select>
+
+                <h4 class="font-bold text-xs text-gray-500 mb-2 uppercase">Margin</h4>
+                <select id="pageMargin" class="custom-input mb-6">
+                    <option value="0" selected>No Margin</option>
+                    <option value="20">Small Margin</option>
+                    <option value="40">Big Margin</option>
+                </select>
+                
+                <!-- VVIP Feature: Magic Filters -->
+                <div class="bg-purple-50 border border-purple-200 rounded-xl p-4 mb-2 shadow-sm relative overflow-hidden">
+                    <div class="absolute -right-2 -top-2 text-purple-100 opacity-50 transform rotate-12 text-5xl"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h4 class="font-bold text-xs text-purple-800 mb-3 uppercase tracking-wide flex items-center gap-2 relative z-10">
+                        <i class="fa-solid fa-palette text-purple-500"></i> Magic Filters
+                    </h4>
+                    
+                    <div class="flex flex-col gap-2 relative z-10">
+                        <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                            <input type="radio" name="imgFilter" value="none" checked class="accent-purple-600"> Original
+                        </label>
+                        <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                            <input type="radio" name="imgFilter" value="grayscale" class="accent-purple-600"> Grayscale (Standard)
+                        </label>
+                        <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                            <input type="radio" name="imgFilter" value="bw" class="accent-purple-600"> B&W Document (Scanner Look)
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="p-4 bg-gray-50 border-t border-gray-200 hidden md:block">
+                <button onclick="generatePDF()" class="btn-pulse w-full ilovepdf-red text-white font-bold py-4 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
+                    Generate PDF <i class="fa-solid fa-file-pdf ml-2 text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Floating Button (Desktop View) -->
+        <button onclick="generatePDF()" class="md:hidden fixed bottom-24 right-4 btn-pulse ilovepdf-red text-white font-bold py-3 px-6 rounded-full shadow-2xl z-40 flex items-center gap-2 border-2 border-white">
+            Generate PDF <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <!-- DESKTOP UI: Step 3 (Download) -->
+    <div id="desktopStep3" class="hidden w-full flex-grow flex flex-col items-center justify-center text-center px-4 pt-16 pb-10 bg-white">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-md border-4 border-white ring-2 ring-green-50">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10">Scanned PDF is ready!</h2>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-16">
+            <button onclick="window.location.reload()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block">
+                <i class="fa-solid fa-home text-xl"></i>
+            </button>
+
+            <button id="downloadBtn" class="ilovepdf-red text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
+                <i class="fa-solid fa-download mr-4 text-2xl"></i> Download PDF
+            </button>
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- MOBILE UI (CAMERA SCANNER)                 -->
+    <!-- ========================================== -->
+    <div id="mobileUI">
+        <!-- Live Video Feed -->
+        <video id="cameraView" autoplay playsinline></video>
+        
+        <!-- Top Bar -->
+        <div class="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black to-transparent flex justify-between items-center text-white z-10">
+            <div class="font-bold text-lg">Tool<span class="text-red-500">Verse</span> Scanner</div>
+            <div class="bg-green-500 text-xs px-2 py-1 rounded-md font-bold animate-pulse">Live Sync</div>
+        </div>
+
+        <!-- Scanning Overlay Guides -->
+        <div class="absolute inset-0 pointer-events-none border-[40px] border-black border-opacity-30 z-0">
+            <div class="w-full h-full border-2 border-dashed border-white border-opacity-50"></div>
+        </div>
+
+        <!-- Flash Effect -->
+        <div id="flashEffect" class="absolute inset-0 bg-white opacity-0 pointer-events-none transition-opacity duration-100 z-20"></div>
+
+        <!-- Bottom Controls -->
+        <div class="cam-overlay z-10">
+            <button onclick="switchCamera()" class="text-white text-2xl w-12 h-12 bg-gray-800 bg-opacity-50 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-camera-rotate"></i>
+            </button>
+            
+            <button onclick="captureImage()" class="capture-btn"></button>
+            
+            <button onclick="closeMobileSession()" class="text-white text-sm font-bold bg-red-500 px-4 py-2 rounded-lg">
+                Done
+            </button>
+        </div>
+    </div>
+
+    <!-- Hidden Canvas for Processing -->
+    <canvas id="processCanvas" class="hidden"></canvas>
+
+
+    <script>
+        // --- Core Logic ---
+        let roomId = null;
+        let imagesArray = [];
+        let videoStream = null;
+        let isFrontCamera = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if URL has ?room=XYZ (Means Mobile Mode)
+            const urlParams = new URLSearchParams(window.location.search);
+            const roomParam = urlParams.get('room');
+            
+            // Wait for Firebase to initialize
+            setTimeout(() => {
+                if (roomParam) {
+                    initMobileScanner(roomParam);
+                } else {
+                    initDesktopHost();
+                }
+            }, 1000);
+        });
+
+        // ==========================================
+        // DESKTOP HOST LOGIC
+        // ==========================================
+        function initDesktopHost() {
+            // Generate Random Room ID
+            roomId = Math.random().toString(36).substring(2, 10);
+            
+            // Generate QR Code URL
+            const mobileUrl = window.location.href.split('?')[0] + '?room=' + roomId;
+            
+            new QRCode(document.getElementById("qrcode"), {
+                text: mobileUrl,
+                width: 200,
+                height: 200,
+                colorDark: "#1e293b",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            // Create Firestore Room & Listen for Scans
+            listenToRoom(roomId);
+        }
+
+        function listenToRoom(id) {
+            const scansRef = window.collection(window.db, "scans", id, "images");
+            const q = window.query(scansRef, window.orderBy("timestamp", "asc"));
+
+            window.onSnapshot(q, (snapshot) => {
+                snapshot.docChanges().forEach((change) => {
+                    if (change.type === "added") {
+                        // Switch UI on first scan
+                        if(imagesArray.length === 0) {
+                            document.getElementById('desktopStep1').style.display = 'none';
+                            document.getElementById('desktopStep2').classList.remove('hidden');
+                            document.getElementById('desktopStep2').style.display = 'flex';
+                            document.getElementById('emptyGalleryMsg').style.display = 'none';
+                        }
+                        
+                        const data = change.doc.data();
+                        imagesArray.push({ id: change.doc.id, dataUrl: data.dataUrl });
+                        renderThumbnail(change.doc.id, data.dataUrl);
+                    }
+                });
+            });
+        }
+
+        function renderThumbnail(id, dataUrl) {
+            const grid = document.getElementById('imageGrid');
+            const div = document.createElement('div');
+            div.className = 'scan-item relative w-40 h-56 bg-white border-2 border-gray-300 rounded-lg p-2 flex items-center justify-center shadow-md group';
+            div.id = `img-${id}`;
+            
+            div.innerHTML = `
+                <button class="absolute -top-3 -right-3 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition shadow-lg z-10" onclick="removeImage('${id}')">
+                    <i class="fa-solid fa-trash text-xs"></i>
+                </button>
+                <img src="${dataUrl}" class="max-w-full max-h-full object-contain rounded">
+            `;
+            grid.appendChild(div);
+        }
+
+        window.removeImage = function(id) {
+            imagesArray = imagesArray.filter(img => img.id !== id);
+            document.getElementById(`img-${id}`).remove();
+            if(imagesArray.length === 0) {
+                document.getElementById('emptyGalleryMsg').style.display = 'block';
+            }
+        }
+
+        // --- Apply Image Filters & Generate PDF ---
+        async function applyFilterToImage(imgDataUrl, filterType) {
+            return new Promise((resolve) => {
+                if(filterType === 'none') { resolve(imgDataUrl); return; }
+                
+                const img = new Image();
+                img.onload = () => {
+                    const cvs = document.getElementById('processCanvas');
+                    const ctx = cvs.getContext('2d');
+                    cvs.width = img.width; cvs.height = img.height;
+                    
+                    ctx.drawImage(img, 0, 0);
+                    const imageData = ctx.getImageData(0, 0, cvs.width, cvs.height);
+                    const data = imageData.data;
+                    
+                    for (let i = 0; i < data.length; i += 4) {
+                        // Grayscale
+                        const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                        
+                        if(filterType === 'bw') {
+                            // High Contrast B&W (Document look)
+                            const threshold = 140; 
+                            const val = avg > threshold ? 255 : 0;
+                            data[i] = val; data[i + 1] = val; data[i + 2] = val;
+                        } else {
+                            // Standard Grayscale
+                            data[i] = avg; data[i + 1] = avg; data[i + 2] = avg;
+                        }
+                    }
+                    
+                    ctx.putImageData(imageData, 0, 0);
+                    resolve(cvs.toDataURL('image/jpeg', 0.8));
+                };
+                img.src = imgDataUrl;
+            });
+        }
+
+        window.generatePDF = async function() {
+            if(imagesArray.length === 0) return;
+            
+            document.getElementById('desktopStep2').style.display = 'none';
+            document.getElementById('desktopStep2').classList.add('hidden');
+            document.getElementById('desktopStep3').classList.remove('hidden');
+            document.getElementById('desktopStep3').style.display = 'flex';
+
+            const { PDFDocument } = PDFLib;
+            const pdfDoc = await PDFDocument.create();
+            pdfDoc.setProducer('ToolVerse Mobile Scanner Engine');
+
+            const pageSize = document.getElementById('pageSize').value;
+            const margin = parseInt(document.getElementById('pageMargin').value);
+            const filterType = document.querySelector('input[name="imgFilter"]:checked').value;
+
+            for (let imgObj of imagesArray) {
+                // Apply VVIP Filters
+                const filteredDataUrl = await applyFilterToImage(imgObj.dataUrl, filterType);
+                
+                const imgBytes = await fetch(filteredDataUrl).then((res) => res.arrayBuffer());
+                const pdfImage = await pdfDoc.embedJpg(imgBytes);
+                
+                let dims = pdfImage.scale(1);
+                let page;
+
+                if (pageSize === 'fit') {
+                    page = pdfDoc.addPage([dims.width + (margin*2), dims.height + (margin*2)]);
+                    page.drawImage(pdfImage, { x: margin, y: margin, width: dims.width, height: dims.height });
+                } else {
+                    const A4 = [595.28, 841.89];
+                    const LETTER = [612, 792];
+                    const pSize = pageSize === 'A4' ? A4 : LETTER;
+                    page = pdfDoc.addPage(pSize);
+                    
+                    // Scale to fit page constraints
+                    const maxWidth = pSize[0] - (margin*2);
+                    const maxHeight = pSize[1] - (margin*2);
+                    const scale = Math.min(maxWidth / dims.width, maxHeight / dims.height);
+                    
+                    const scaledW = dims.width * scale;
+                    const scaledH = dims.height * scale;
+                    
+                    // Center image
+                    const x = (pSize[0] - scaledW) / 2;
+                    const y = (pSize[1] - scaledH) / 2;
+
+                    page.drawImage(pdfImage, { x: x, y: y, width: scaledW, height: scaledH });
+                }
+            }
+
+            const pdfBytes = await pdfDoc.save();
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            
+            const btn = document.getElementById('downloadBtn');
+            btn.onclick = () => {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ToolVerse_Scan_${Date.now()}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+
+            document.getElementById('desktopStep3').style.display = 'none';
+            document.getElementById('desktopStep3').classList.add('hidden');
+            document.getElementById('desktopStep4').classList.remove('hidden');
+            document.getElementById('desktopStep4').style.display = 'flex';
+        }
+
+
+        // ==========================================
+        // MOBILE SCANNER LOGIC
+        // ==========================================
+        function initMobileScanner(id) {
+            roomId = id;
+            document.getElementById('desktopNav').style.display = 'none';
+            document.getElementById('desktopStep1').style.display = 'none';
+            document.getElementById('mobileUI').style.display = 'flex';
+            
+            startCamera();
+        }
+
+        async function startCamera() {
+            const constraints = {
+                video: { facingMode: isFrontCamera ? "user" : "environment" }
+            };
+            
+            try {
+                videoStream = await navigator.mediaDevices.getUserMedia(constraints);
+                const video = document.getElementById('cameraView');
+                video.srcObject = videoStream;
+            } catch (err) {
+                alert("Camera access is required to scan documents.");
+            }
+        }
+
+        window.switchCamera = function() {
+            if(videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+            }
+            isFrontCamera = !isFrontCamera;
+            startCamera();
+        }
+
+        window.captureImage = async function() {
+            const video = document.getElementById('cameraView');
+            const cvs = document.getElementById('processCanvas');
+            const ctx = cvs.getContext('2d');
+            
+            // Flash Effect
+            const flash = document.getElementById('flashEffect');
+            flash.style.opacity = '1';
+            setTimeout(() => flash.style.opacity = '0', 100);
+
+            // Compress Image directly on mobile to save bandwidth (VVIP Optimizaton)
+            const MAX_WIDTH = 1200;
+            let scale = Math.min(MAX_WIDTH / video.videoWidth, 1);
+            cvs.width = video.videoWidth * scale;
+            cvs.height = video.videoHeight * scale;
+            
+            ctx.drawImage(video, 0, 0, cvs.width, cvs.height);
+            const base64Data = cvs.toDataURL('image/jpeg', 0.6); // 60% quality is perfect for docs
+
+            // Upload to Firestore Live Bridge
+            try {
+                const docRef = await window.addDoc(window.collection(window.db, "scans", roomId, "images"), {
+                    dataUrl: base64Data,
+                    timestamp: Date.now()
+                });
+                
+                // Show tiny success badge
+                const toast = document.createElement('div');
+                toast.className = 'fixed top-16 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-full font-bold shadow-lg z-50 text-sm transition-opacity duration-300';
+                toast.innerText = 'Sent to Desktop!';
+                document.getElementById('mobileUI').appendChild(toast);
+                setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 1500);
+
+            } catch (e) {
+                alert("Error sending scan to desktop. Check internet connection.");
+            }
+        }
+
+        window.closeMobileSession = function() {
+            if(videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+            }
+            document.getElementById('mobileUI').innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full text-white px-6 text-center">
+                    <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-4xl mb-6 shadow-lg shadow-green-500/50">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-2">Session Closed</h2>
+                    <p class="text-gray-400">Return to your desktop to generate the PDF.</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
