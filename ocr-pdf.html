@@ -17,7 +17,39 @@
     <!-- PDF-Lib for generating output -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 
-    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
+    <script>
+        // Setup PDF.js Worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+        // Default login state to prevent blocking before Firebase loads
+        window.isUserLoggedIn = true; 
+    </script>
+
+    <!-- Firebase Security Module -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                window.isUserLoggedIn = false;
+            } else {
+                document.getElementById('authOverlay').style.display = 'none';
+                window.isUserLoggedIn = true;
+            }
+        });
+    </script>
 
     <style>
         body { background-color: #f3f4f7; overscroll-behavior-x: hidden; }
@@ -55,7 +87,7 @@
         .dropdown-search input { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; transition: 0.2s; }
         .dropdown-search input:focus { border-color: #e5322d; }
         .dropdown-list { max-height: 250px; overflow-y: auto; padding: 5px 0; }
-        .dropdown-item { padding: 8px 15px; display: flex; items-center; gap: 10px; cursor: pointer; transition: 0.2s; }
+        .dropdown-item { padding: 8px 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.2s; }
         .dropdown-item:hover { background-color: #f1f5f9; }
         .dropdown-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: #e5322d; cursor: pointer;}
         
@@ -88,8 +120,6 @@
                 <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
             </div>
             <div class="flex space-x-6 text-sm font-semibold text-gray-700 hidden md:flex">
-                <a href="merge-pdf.html" class="hover:ilovepdf-text transition uppercase">Merge PDF</a>
-                <a href="split-pdf.html" class="hover:ilovepdf-text transition uppercase">Split PDF</a>
                 <a href="index.html" class="hover:ilovepdf-text transition uppercase">All Tools</a>
             </div>
         </div>
@@ -111,10 +141,6 @@
                 <button onclick="document.getElementById('fileInput').click()" class="ilovepdf-red text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
                     Select PDF / Image
                 </button>
-                <div class="flex flex-col gap-2">
-                    <div class="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 shadow-md" title="Google Drive (Coming Soon)"><i class="fa-brands fa-google-drive"></i></div>
-                    <div class="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 shadow-md" title="Dropbox (Coming Soon)"><i class="fa-brands fa-dropbox"></i></div>
-                </div>
             </div>
             <p class="text-gray-500 font-medium">or drop files here</p>
         </div>
@@ -254,26 +280,8 @@
 
     <canvas id="hiddenCanvas" class="hidden"></canvas>
 
+    <!-- Core Tool Logic Scripts -->
     <script>
-        // --- Firebase Auth Check (Placeholder for UI toggle) ---
-        window.isUserLoggedIn = true; // Assume true for direct testing if Auth script is delayed
-
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        document.addEventListener("DOMContentLoaded", () => {
-            try {
-                const auth = getAuth();
-                onAuthStateChanged(auth, (user) => {
-                    if (!user) {
-                        document.getElementById('authOverlay').style.display = 'flex';
-                        window.isUserLoggedIn = false;
-                    } else {
-                        document.getElementById('authOverlay').style.display = 'none';
-                        window.isUserLoggedIn = true;
-                    }
-                });
-            } catch(e) {}
-        });
-
         // --- Language Dropdown Logic ---
         const languages = [
             { code: 'eng', name: 'English' },
@@ -345,7 +353,7 @@
 
         window.closeDropdown = function(e) {
             const menu = document.getElementById('dropdownMenu');
-            if(menu.classList.contains('show') && !menu.contains(e.target)) {
+            if(menu && menu.classList.contains('show') && !menu.contains(e.target)) {
                 menu.classList.remove('show');
             }
         };
@@ -399,7 +407,6 @@
             document.getElementById('langCount').innerText = `${selectedLangs.length} selected`;
         }
 
-
         // --- File Handling ---
         let currentFile = null;
         let currentFileType = null;
@@ -417,8 +424,18 @@
         });
         fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
 
+        function showStep(stepNumber) {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById(`step${stepNumber}`).classList.remove('hidden');
+        }
+
         async function handleFile(file) {
             if(!file) return;
+            
+            // Check auth state properly
             if(window.isUserLoggedIn === false) {
                 document.getElementById('authOverlay').style.display = 'flex';
                 return;
@@ -473,7 +490,6 @@
             let extractedText = "";
 
             try {
-                // Initialize Tesseract Worker
                 status.innerText = "Initializing Tesseract Engine...";
                 const worker = await Tesseract.createWorker({
                     logger: m => {
@@ -490,22 +506,18 @@
                 await worker.initialize(langString);
 
                 if (currentFileType.startsWith('image/')) {
-                    // It's an image
                     const blobUrl = URL.createObjectURL(currentFile);
                     const { data: { text } } = await worker.recognize(blobUrl);
                     extractedText = text;
                     URL.revokeObjectURL(blobUrl);
                 } 
                 else if (currentFileType === 'application/pdf') {
-                    // It's a PDF. Render first page to Canvas
                     status.innerText = "Rendering PDF to Image...";
                     const loadingTask = pdfjsLib.getDocument({data: new Uint8Array(fileArrayBuffer)});
                     const pdf = await loadingTask.promise;
                     
-                    // Note: For VVIP pure client side, we process Page 1. 
-                    // Processing multi-page PDF in browser RAM with Tesseract takes very long.
                     const page = await pdf.getPage(1);
-                    const viewport = page.getViewport({scale: 2.0}); // High res for OCR
+                    const viewport = page.getViewport({scale: 2.0}); 
                     
                     const canvas = document.getElementById('hiddenCanvas');
                     const ctx = canvas.getContext('2d');
@@ -556,24 +568,20 @@
                 const pdfDoc = await PDFDocument.create();
                 const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
                 
-                // Extremely basic text-to-pdf layout
                 const page = pdfDoc.addPage([595.28, 841.89]); // A4
                 const { width, height } = page.getSize();
                 const fontSize = 12;
                 const margin = 50;
                 
-                // Split text by lines to prevent running off page (basic wrap)
                 const lines = text.split('\n');
                 let y = height - margin;
 
                 for(let line of lines) {
                     if (y < margin) {
-                        // Needs new page logic for robust system, keeping it simple here
                         break; 
                     }
                     try {
-                        // Strip characters not in standard font
-                        const cleanLine = line.replace(/[^\x00-\x7F]/g, "");
+                        const cleanLine = line.replace(/[^\x00-\x7F]/g, ""); 
                         page.drawText(cleanLine, { x: margin, y: y, size: fontSize, font: font, color: rgb(0,0,0) });
                         y -= (fontSize + 4);
                     } catch(e) {}
