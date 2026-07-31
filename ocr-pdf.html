@@ -71,6 +71,16 @@
 </head>
 <body class="min-h-screen font-sans relative flex flex-col overflow-x-hidden" onclick="closeDropdown(event)">
 
+    <!-- VVIP LOCK SCREEN -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-red-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full ilovepdf-red text-white font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
+        </div>
+    </div>
+
     <!-- Header Navbar -->
     <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
@@ -78,6 +88,8 @@
                 <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
             </div>
             <div class="flex space-x-6 text-sm font-semibold text-gray-700 hidden md:flex">
+                <a href="merge-pdf.html" class="hover:ilovepdf-text transition uppercase">Merge PDF</a>
+                <a href="split-pdf.html" class="hover:ilovepdf-text transition uppercase">Split PDF</a>
                 <a href="index.html" class="hover:ilovepdf-text transition uppercase">All Tools</a>
             </div>
         </div>
@@ -99,6 +111,10 @@
                 <button onclick="document.getElementById('fileInput').click()" class="ilovepdf-red text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
                     Select PDF / Image
                 </button>
+                <div class="flex flex-col gap-2">
+                    <div class="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 shadow-md" title="Google Drive (Coming Soon)"><i class="fa-brands fa-google-drive"></i></div>
+                    <div class="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 shadow-md" title="Dropbox (Coming Soon)"><i class="fa-brands fa-dropbox"></i></div>
+                </div>
             </div>
             <p class="text-gray-500 font-medium">or drop files here</p>
         </div>
@@ -224,6 +240,13 @@
             <button id="downloadBtn" class="ilovepdf-red text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
                 <i class="fa-solid fa-download mr-4 text-2xl"></i> Download Extracted Text
             </button>
+            
+            <div class="grid grid-cols-2 gap-1 md:ml-2">
+                 <div onclick="alert('Google Drive saving will be available soon!')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-google-drive"></i></div>
+                 <div onclick="alert('Shareable links will be available soon.')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tr-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-link"></i></div>
+                 <div onclick="alert('Dropbox saving will be available soon!')" class="w-10 h-10 bg-[#e5322d] text-white rounded-bl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-dropbox"></i></div>
+                 <div onclick="resetTool()" class="w-10 h-10 bg-[#e5322d] text-white rounded-br-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-trash-can"></i></div>
+            </div>
         </div>
         
         <button onclick="resetTool()" class="mt-8 text-gray-500 font-bold underline md:hidden">Start Over</button>
@@ -232,6 +255,25 @@
     <canvas id="hiddenCanvas" class="hidden"></canvas>
 
     <script>
+        // --- Firebase Auth Check (Placeholder for UI toggle) ---
+        window.isUserLoggedIn = true; // Assume true for direct testing if Auth script is delayed
+
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        document.addEventListener("DOMContentLoaded", () => {
+            try {
+                const auth = getAuth();
+                onAuthStateChanged(auth, (user) => {
+                    if (!user) {
+                        document.getElementById('authOverlay').style.display = 'flex';
+                        window.isUserLoggedIn = false;
+                    } else {
+                        document.getElementById('authOverlay').style.display = 'none';
+                        window.isUserLoggedIn = true;
+                    }
+                });
+            } catch(e) {}
+        });
+
         // --- Language Dropdown Logic ---
         const languages = [
             { code: 'eng', name: 'English' },
@@ -367,7 +409,7 @@
         const fileInput = document.getElementById('fileInput');
 
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'); );
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropZone.classList.remove('active');
