@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organize PDF (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Firebase Security -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                window.isUserLoggedIn = false;
+            } else {
+                document.getElementById('authOverlay').style.display = 'none';
+                window.isUserLoggedIn = true;
+            }
+        });
+    </script>
+
+    <!-- PDF-Lib for Client Side Processing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <!-- PDF.js for rendering thumbnails -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <!-- SortableJS for Smooth Drag & Drop -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+    <script>
+        // Setup PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
+
+    <style>
+        body { background-color: #f3f4f7; overscroll-behavior-y: none; }
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border: 4px solid #e2e8f0; border-top-color: #e5322d; border-radius: 50%; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        @keyframes pulse-red-wide {
+            0% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.8); }
+            70% { box-shadow: 0 0 0 20px rgba(229, 50, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); }
+        }
+        .btn-pulse { animation: pulse-red-wide 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        
+        /* Drag & Drop Area */
+        .drag-area { transition: 0.3s; }
+        .drag-area.active { border-color: #e5322d; background-color: #fff5f5; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+
+        .page-item { animation: scaleIn 0.3s ease-out; transition: transform 0.2s; cursor: grab;}
+        .page-item:active { cursor: grabbing; }
+        .sortable-ghost { opacity: 0.4; }
+        .sortable-drag { transform: scale(1.05); box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 50;}
+
+        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .opt-btn { border: 1px solid #e2e8f0; color: #64748b; background-color: #ffffff; transition: 0.2s; cursor: pointer; padding: 10px; border-radius: 6px; text-align: center; font-size: 12px; font-weight: bold;}
+        .opt-btn:hover { border-color: #cbd5e1; color: #1e293b; background-color: #f8fafc;}
+        .opt-btn:active { transform: scale(0.98); }
+    </style>
+</head>
+<body class="min-h-screen font-sans relative flex flex-col overflow-x-hidden">
+
+    <!-- VVIP LOCK SCREEN -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-red-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full ilovepdf-red text-white font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
+        </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700 hidden md:flex">
+                <a href="merge-pdf.html" class="hover:ilovepdf-text transition uppercase">Merge PDF</a>
+                <a href="split-pdf.html" class="hover:ilovepdf-text transition uppercase">Split PDF</a>
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STEP 1: UPLOAD SCREEN -->
+    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 py-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 text-center">Organize PDF (Premium)</h1>
+        <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Sort, add, delete, and rotate PDF pages interactively. Build your perfect document entirely offline.</p>
+        
+        <input type="file" id="fileInput" accept=".pdf" class="hidden">
+        
+        <div id="dropZone" class="drag-area w-full max-w-3xl border-2 border-dashed border-gray-300 rounded-3xl bg-white p-16 md:p-20 flex flex-col items-center justify-center cursor-pointer hover:border-red-500 hover:bg-red-50 transition shadow-sm relative z-10">
+            <div class="flex items-center justify-center gap-4 mb-6">
+                <button onclick="document.getElementById('fileInput').click()" class="ilovepdf-red text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+                    Select PDF file
+                </button>
+                <div class="flex flex-col gap-2">
+                    <div class="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 shadow-md" title="Google Drive (Coming Soon)"><i class="fa-brands fa-google-drive"></i></div>
+                    <div class="w-10 h-10 bg-gray-800 text-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-900 shadow-md" title="Dropbox (Coming Soon)"><i class="fa-brands fa-dropbox"></i></div>
+                </div>
+            </div>
+            <p class="text-gray-500 font-medium">or drop PDF here</p>
+        </div>
+
+        <!-- NEW: VVIP Features Showcase -->
+        <div class="mt-16 w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+            
+            <!-- Feature 1 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:border-red-200 transition transform hover:-translate-y-1">
+                <div class="w-14 h-14 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-red-100">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 mb-2 text-lg">Visual Canvas</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">See high-quality previews of every single page. Drag and drop them precisely where you want.</p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:border-purple-200 transition transform hover:-translate-y-1">
+                <div class="w-14 h-14 bg-purple-50 text-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-purple-100">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 mb-2 text-lg">Smart Operations</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Reverse order instantly, extract only odd/even pages, or insert fresh blank pages anywhere.</p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center hover:shadow-md hover:border-green-200 transition transform hover:-translate-y-1">
+                <div class="w-14 h-14 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl border border-green-100">
+                    <i class="fa-solid fa-shield-check"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 mb-2 text-lg">100% Client-Side</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Your document never leaves your browser. Safe, fast, and entirely private local processing.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- STEP 2: WORKSPACE & SETTINGS -->
+    <div id="step2" class="hidden flex-grow flex flex-col md:flex-row h-[calc(100vh-65px)] relative">
+        
+        <!-- Left: Workspace (Grid) -->
+        <div class="flex-1 bg-[#2b2b36] p-4 md:p-10 overflow-y-auto relative" id="workspaceArea">
+            
+            <div class="absolute top-4 left-4 z-20 bg-gray-900 bg-opacity-70 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">
+                <i class="fa-solid fa-arrows-up-down-left-right mr-1"></i> Drag pages to reorder
+            </div>
+
+            <!-- Grid Container -->
+            <div id="pagesGrid" class="flex flex-wrap justify-center gap-6 items-start mt-8 pb-20">
+                <!-- Pages will be generated here -->
+            </div>
+            
+            <!-- Loading Overlay for Rendering -->
+            <div id="renderOverlay" class="absolute inset-0 bg-[#2b2b36] bg-opacity-90 z-30 flex flex-col items-center justify-center hidden">
+                <div class="loader h-16 w-16 mb-4 border-t-red-500"></div>
+                <p class="text-white font-bold" id="renderText">Extracting Pages...</p>
+            </div>
+        </div>
+
+        <!-- Right: Settings Panel -->
+        <div class="w-full md:w-80 bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] z-10 shrink-0">
+            <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-lg bg-white flex justify-between items-center">
+                <span>Organize PDF</span>
+                <i class="fa-solid fa-trash-can text-gray-400 hover:text-red-500 cursor-pointer transition text-base" onclick="resetTool()" title="Clear All"></i>
+            </div>
+            
+            <div class="p-5 flex-1 overflow-y-auto">
+                
+                <!-- Trust Badge -->
+                <div class="bg-green-50 border border-green-200 rounded-lg p-3 mb-6 flex items-start gap-3 shadow-sm">
+                    <i class="fa-solid fa-shield-check text-green-600 mt-1 text-lg"></i>
+                    <div>
+                        <h4 class="font-bold text-xs text-green-800 uppercase tracking-wide">Secure Sandbox</h4>
+                        <p class="text-[10px] text-green-700 mt-1 leading-tight">Pages are rendered locally.</p>
+                    </div>
+                </div>
+
+                <h4 class="font-bold text-xs text-gray-800 mb-3 uppercase tracking-wide">Smart Sort Actions</h4>
+                
+                <div class="grid grid-cols-2 gap-2 mb-6">
+                    <button class="opt-btn flex flex-col items-center justify-center gap-1" onclick="actionReverse()">
+                        <i class="fa-solid fa-arrow-down-z-a text-lg"></i> Reverse
+                    </button>
+                    <button class="opt-btn flex flex-col items-center justify-center gap-1 text-red-500 hover:border-red-300 hover:bg-red-50" onclick="actionRemoveAll()">
+                        <i class="fa-solid fa-trash text-lg"></i> Delete All
+                    </button>
+                </div>
+
+                <h4 class="font-bold text-xs text-gray-800 mb-3 uppercase tracking-wide">Filter Pages</h4>
+                <div class="grid grid-cols-2 gap-2 mb-6">
+                    <button class="opt-btn flex flex-col items-center justify-center gap-1" onclick="actionKeepOdd()">
+                        <i class="fa-solid fa-filter text-lg"></i> Keep Odd
+                    </button>
+                    <button class="opt-btn flex flex-col items-center justify-center gap-1" onclick="actionKeepEven()">
+                        <i class="fa-solid fa-filter text-lg"></i> Keep Even
+                    </button>
+                </div>
+
+                <!-- VVIP Premium Features -->
+                <div class="bg-purple-50 border border-purple-200 rounded-xl p-4 mb-2 shadow-sm relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 text-purple-100 opacity-50 transform rotate-12 text-6xl"><i class="fa-solid fa-gem"></i></div>
+                    
+                    <h4 class="font-bold text-xs text-purple-800 mb-4 uppercase tracking-wide flex items-center gap-2 relative z-10">
+                        <i class="fa-solid fa-plus-square text-purple-500"></i> Add Content
+                    </h4>
+                    
+                    <button onclick="actionAddBlankPage()" class="w-full bg-white border border-purple-300 text-purple-700 font-bold py-2 rounded-lg text-sm hover:bg-purple-100 transition relative z-10 shadow-sm flex items-center justify-center gap-2">
+                        <i class="fa-regular fa-file"></i> Insert Blank Page
+                    </button>
+                    <p class="text-[10px] text-purple-600 mt-2 relative z-10 text-center">Blank pages are added at the end. Drag them anywhere.</p>
+                </div>
+
+            </div>
+
+            <!-- Action Button -->
+            <div class="p-4 bg-gray-50 border-t border-gray-200 hidden md:block">
+                <button onclick="generateFinalPDF()" class="btn-pulse w-full ilovepdf-red text-white font-bold py-4 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-lg">
+                    Organize <i class="fa-solid fa-arrow-right ml-2 text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Floating Button -->
+        <button onclick="generateFinalPDF()" class="md:hidden fixed bottom-24 right-4 btn-pulse ilovepdf-red text-white font-bold py-3 px-6 rounded-full shadow-2xl z-40 flex items-center gap-2 border-2 border-white">
+            Organize <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <!-- STEP 3: PROCESSING -->
+    <div id="step3" class="hidden w-full flex-grow flex flex-col items-center justify-center pt-20 pb-10">
+        <div class="loader h-20 w-20 mx-auto mb-8"></div>
+        <h3 class="text-3xl font-bold text-gray-800 mb-2">Rebuilding PDF...</h3>
+        <p class="text-gray-500 font-medium">Applying custom sorting and transformations</p>
+    </div>
+
+    <!-- STEP 4: DOWNLOAD SCREEN -->
+    <div id="step4" class="hidden w-full flex-grow flex flex-col items-center justify-center text-center px-4 pt-16 pb-10 bg-white">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-md border-4 border-white ring-2 ring-green-50">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10">PDF successfully organized!</h2>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-16">
+            <button onclick="resetTool()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block">
+                <i class="fa-solid fa-arrow-left text-xl"></i>
+            </button>
+
+            <button id="downloadBtn" class="ilovepdf-red text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
+                <i class="fa-solid fa-download mr-4 text-2xl"></i> Download File
+            </button>
+            
+            <div class="grid grid-cols-2 gap-1 md:ml-2">
+                 <div onclick="alert('Google Drive saving will be available soon!')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-google-drive"></i></div>
+                 <div onclick="alert('Shareable links will be available soon.')" class="w-10 h-10 bg-[#e5322d] text-white rounded-tr-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-link"></i></div>
+                 <div onclick="alert('Dropbox saving will be available soon!')" class="w-10 h-10 bg-[#e5322d] text-white rounded-bl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-dropbox"></i></div>
+                 <div onclick="resetTool()" class="w-10 h-10 bg-[#e5322d] text-white rounded-br-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-trash-can"></i></div>
+            </div>
+        </div>
+        
+        <button onclick="resetTool()" class="mt-8 text-gray-500 font-bold underline md:hidden">Start Over</button>
+    </div>
+
+    <script>
+        let originalPdfBytes = null;
+        let originalFileName = "Document";
+        let blankPageCounter = 1;
+        let sortableInstance = null;
+
+        function showStep(stepNumber) {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById(`step${stepNumber}`).classList.remove('hidden');
+        }
+
+        // Drag and Drop Handlers
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('active');
+            handleFile(e.dataTransfer.files[0]);
+        });
+        fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+        async function handleFile(file) {
+            if(!file || file.type !== 'application/pdf') return;
+            if(window.isUserLoggedIn === false) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                return;
+            }
+
+            originalFileName = file.name.replace('.pdf', '');
+            showStep(2);
+            document.getElementById('renderOverlay').classList.remove('hidden');
+            
+            originalPdfBytes = await file.arrayBuffer();
+            
+            try {
+                // Render PDF to Thumbnails using PDF.js
+                const loadingTask = pdfjsLib.getDocument({data: new Uint8Array(originalPdfBytes)});
+                const pdf = await loadingTask.promise;
+                
+                const grid = document.getElementById('pagesGrid');
+                grid.innerHTML = '';
+
+                // Generate thumbnails
+                for(let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const viewport = page.getViewport({scale: 0.5}); // Lower scale for performance
+                    
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    
+                    await page.render({canvasContext: ctx, viewport: viewport}).promise;
+                    const imgData = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    createThumbnailDOM(i, imgData);
+                }
+
+                initSortable();
+                document.getElementById('renderOverlay').classList.add('hidden');
+                
+            } catch(e) {
+                console.error(e);
+                alert("Failed to render PDF. The file might be corrupted or heavily encrypted.");
+                resetTool();
+            }
+        }
+
+        function createThumbnailDOM(pageNum, imgData, isBlank = false) {
+            const grid = document.getElementById('pagesGrid');
+            const div = document.createElement('div');
+            
+            // Core attributes for PDF building later
+            div.className = 'page-item relative w-36 h-48 bg-white border border-gray-300 rounded-md flex flex-col shadow-sm group';
+            div.dataset.origPage = pageNum;
+            div.dataset.isBlank = isBlank;
+            div.dataset.rotation = 0;
+            
+            div.innerHTML = `
+                <!-- Top Actions (Rotate / Delete) -->
+                <div class="absolute -top-3 -right-3 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition z-10">
+                    <button class="w-7 h-7 bg-white border border-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-100 shadow-md" onclick="rotatePage(this)" title="Rotate Right">
+                        <i class="fa-solid fa-rotate-right text-xs"></i>
+                    </button>
+                    <button class="w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 shadow-md" onclick="deletePage(this)" title="Delete Page">
+                        <i class="fa-solid fa-xmark text-xs"></i>
+                    </button>
+                </div>
+                
+                <!-- Image Wrapper for Rotation -->
+                <div class="flex-1 w-full h-full overflow-hidden rounded-t-md bg-gray-100 flex items-center justify-center p-2">
+                    <img src="${imgData}" class="max-w-full max-h-full object-contain transition-transform duration-300 page-img" style="transform: rotate(0deg);">
+                </div>
+                
+                <!-- Label -->
+                <div class="w-full bg-white text-center text-xs py-1.5 font-bold text-gray-600 border-t border-gray-200 rounded-b-md">
+                    ${isBlank ? 'Blank Page' : pageNum}
+                </div>
+            `;
+            grid.appendChild(div);
+        }
+
+        function initSortable() {
+            const grid = document.getElementById('pagesGrid');
+            if (sortableInstance) sortableInstance.destroy();
+            sortableInstance = new Sortable(grid, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                dragClass: 'sortable-drag'
+            });
+        }
+
+        // --- Interaction Functions ---
+        window.rotatePage = function(btn) {
+            const item = btn.closest('.page-item');
+            let rotation = parseInt(item.dataset.rotation);
+            rotation = (rotation + 90) % 360;
+            item.dataset.rotation = rotation;
+            
+            const img = item.querySelector('.page-img');
+            img.style.transform = `rotate(${rotation}deg)`;
+        };
+
+        window.deletePage = function(btn) {
+            const item = btn.closest('.page-item');
+            item.remove();
+        };
+
+        // --- Smart Sort Actions ---
+        window.actionReverse = function() {
+            const grid = document.getElementById('pagesGrid');
+            const items = Array.from(grid.children);
+            items.reverse().forEach(item => grid.appendChild(item));
+        };
+
+        window.actionRemoveAll = function() {
+            if(confirm("Are you sure you want to clear all pages?")) {
+                document.getElementById('pagesGrid').innerHTML = '';
+            }
+        };
+
+        window.actionKeepOdd = function() {
+            const items = document.querySelectorAll('.page-item');
+            items.forEach((item, index) => {
+                // Index is 0-based visually, actual page is index + 1
+                if ((index + 1) % 2 === 0) item.remove(); 
+            });
+        };
+
+        window.actionKeepEven = function() {
+            const items = document.querySelectorAll('.page-item');
+            items.forEach((item, index) => {
+                if ((index + 1) % 2 !== 0) item.remove(); 
+            });
+        };
+
+        window.actionAddBlankPage = function() {
+            // Generate a simple white blank thumbnail
+            const canvas = document.createElement('canvas');
+            canvas.width = 300; canvas.height = 424; // A4 ratio approx
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const imgData = canvas.toDataURL();
+            
+            createThumbnailDOM(`B${blankPageCounter++}`, imgData, true);
+        };
+
+        // --- Core PDF Generation (PDF-Lib) ---
+        window.generateFinalPDF = async function() {
+            const items = document.querySelectorAll('.page-item');
+            if(items.length === 0) {
+                alert("Please leave at least one page to generate a PDF.");
+                return;
+            }
+
+            showStep(3);
+
+            try {
+                const { PDFDocument, degrees } = PDFLib;
+                
+                // Create a completely new document
+                const finalPdf = await PDFDocument.create();
+                
+                // Load original to copy from
+                const sourcePdf = await PDFDocument.load(originalPdfBytes);
+                
+                for(let item of items) {
+                    const isBlank = item.dataset.isBlank === "true";
+                    const rotation = parseInt(item.dataset.rotation);
+                    
+                    if(isBlank) {
+                        // VVIP: Insert a standard A4 blank page
+                        const newPage = finalPdf.addPage([595.28, 841.89]); 
+                        if(rotation !== 0) newPage.setRotation(degrees(rotation));
+                    } else {
+                        // Subtract 1 because pdf-lib pages are 0-indexed
+                        const origPageIdx = parseInt(item.dataset.origPage) - 1;
+                        
+                        // Extract specific page
+                        const [copiedPage] = await finalPdf.copyPages(sourcePdf, [origPageIdx]);
+                        
+                        // Apply extra rotation applied by user
+                        if(rotation !== 0) {
+                            const currentRot = copiedPage.getRotation().angle;
+                            copiedPage.setRotation(degrees(currentRot + rotation));
+                        }
+                        
+                        finalPdf.addPage(copiedPage);
+                    }
+                }
+
+                // Add footprint
+                finalPdf.setProducer('ToolVerse Advanced PDF Engine');
+                finalPdf.setCreator('ToolVerse VVIP Organize Tool');
+
+                const pdfBytes = await finalPdf.save();
+                
+                // Download
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                
+                const btn = document.getElementById('downloadBtn');
+                btn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${originalFileName}_ToolVerse_Organized.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+
+                showStep(4);
+                btn.click();
+
+            } catch (e) {
+                console.error(e);
+                alert("An error occurred while generating the PDF.");
+                showStep(2);
+            }
+        };
+
+        function resetTool() {
+            originalPdfBytes = null;
+            blankPageCounter = 1;
+            document.getElementById('pagesGrid').innerHTML = '';
+            document.getElementById('fileInput').value = '';
+            showStep(1);
+        }
+    </script>
+</body>
+</html>
