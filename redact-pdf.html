@@ -76,9 +76,13 @@
         /* PDF Viewer Canvases & Drawing Layers */
         .pdf-page-container { position: relative; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; background: white;}
         .pdf-canvas { display: block; }
-        .draw-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; cursor: crosshair; z-index: 10; }
+        .draw-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; touch-action: none;}
+        
+        .draw-layer.cursor-crosshair { cursor: crosshair; }
+        .draw-layer.cursor-grab { cursor: grab; touch-action: pan-y; }
+
         .redact-box { position: absolute; background-color: rgba(0, 0, 0, 0.85); border: 1px solid #000; box-shadow: 0 0 5px rgba(229,50,45,0.5); z-index: 20; pointer-events: none; transition: background-color 0.2s;}
-        .redact-box:hover { background-color: rgba(229, 50, 45, 0.85); border-color: #e5322d; } /* Visual feedback */
+        .redact-box:hover { background-color: rgba(229, 50, 45, 0.85); border-color: #e5322d; }
 
         .toolbar-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 8px; color: #64748b; cursor: pointer; transition: 0.2s; border: 1px solid transparent;}
         .toolbar-btn:hover { background-color: #f1f5f9; color: #0f172a;}
@@ -298,13 +302,13 @@
                 canvas.height = viewport.height;
                 
                 const drawLayer = document.createElement('div');
-                drawLayer.className = 'draw-layer';
+                drawLayer.className = `draw-layer cursor-${currentTool === 'redact' ? 'crosshair' : 'grab'}`;
                 drawLayer.dataset.page = i;
 
                 // Re-draw existing redactions for this page if scaling changed
                 redrawSavedBoxes(i, drawLayer, viewport);
 
-                // Setup Drawing Events
+                // Setup Mobile & Mouse Drawing Events
                 setupDrawingEvents(drawLayer, i);
 
                 wrapper.appendChild(canvas);
@@ -323,66 +327,79 @@
             document.getElementById('toolRedact').classList.toggle('active', tool === 'redact');
             
             const layers = document.querySelectorAll('.draw-layer');
-            layers.forEach(l => l.style.cursor = tool === 'pan' ? 'grab' : 'crosshair');
+            layers.forEach(l => {
+                l.className = `draw-layer cursor-${tool === 'pan' ? 'grab' : 'crosshair'}`;
+            });
         }
 
         window.zoomIn = function() { currentScale += 0.2; renderAllPages(); }
         window.zoomOut = function() { if(currentScale > 0.6) { currentScale -= 0.2; renderAllPages(); } }
 
         function setupDrawingEvents(layer, pageNum) {
-            layer.addEventListener('mousedown', (e) => {
-                if(currentTool !== 'redact') return;
-                isDrawing = true;
+            const getPos = (e) => {
                 const rect = layer.getBoundingClientRect();
-                startX = e.clientX - rect.left;
-                startY = e.clientY - rect.top;
+                let clientX = e.clientX;
+                let clientY = e.clientY;
+                if (e.touches && e.touches.length > 0) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else if (e.changedTouches && e.changedTouches.length > 0) {
+                    clientX = e.changedTouches[0].clientX;
+                    clientY = e.changedTouches[0].clientY;
+                }
+                return { x: clientX - rect.left, y: clientY - rect.top };
+            };
 
+            const onStart = (e) => {
+                if(currentTool !== 'redact') return; // Allow panning/scrolling
+                if(e.type === 'touchstart') e.preventDefault(); // Stop mobile scroll if redacting
+                
+                isDrawing = true;
+                const pos = getPos(e);
+                startX = pos.x;
+                startY = pos.y;
+                
                 tempBox = document.createElement('div');
                 tempBox.className = 'redact-box';
                 tempBox.style.left = startX + 'px';
                 tempBox.style.top = startY + 'px';
-                
                 const color = document.getElementById('redactColor').value;
                 tempBox.style.backgroundColor = hexToRgba(color, 0.85);
-
                 layer.appendChild(tempBox);
-            });
+            };
 
-            layer.addEventListener('mousemove', (e) => {
+            const onMove = (e) => {
                 if(!isDrawing || currentTool !== 'redact') return;
-                const rect = layer.getBoundingClientRect();
-                const currX = e.clientX - rect.left;
-                const currY = e.clientY - rect.top;
+                if(e.type === 'touchmove') e.preventDefault(); // Stop mobile scroll while drawing
+                
+                const pos = getPos(e);
+                const width = Math.abs(pos.x - startX);
+                const height = Math.abs(pos.y - startY);
+                const left = Math.min(pos.x, startX);
+                const top = Math.min(pos.y, startY);
+                
+                if(tempBox) {
+                    tempBox.style.width = width + 'px';
+                    tempBox.style.height = height + 'px';
+                    tempBox.style.left = left + 'px';
+                    tempBox.style.top = top + 'px';
+                }
+            };
 
-                const width = Math.abs(currX - startX);
-                const height = Math.abs(currY - startY);
-                const left = Math.min(currX, startX);
-                const top = Math.min(currY, startY);
-
-                tempBox.style.width = width + 'px';
-                tempBox.style.height = height + 'px';
-                tempBox.style.left = left + 'px';
-                tempBox.style.top = top + 'px';
-            });
-
-            window.addEventListener('mouseup', () => {
+            const onEnd = (e) => {
                 if(!isDrawing) return;
                 isDrawing = false;
                 
                 if(tempBox) {
-                    const w = parseFloat(tempBox.style.width);
-                    const h = parseFloat(tempBox.style.height);
+                    const w = parseFloat(tempBox.style.width) || 0;
+                    const h = parseFloat(tempBox.style.height) || 0;
                     
                     if(w > 5 && h > 5) {
-                        // Valid Box
                         boxCounter++;
                         const boxId = `redact_${Date.now()}_${boxCounter}`;
                         tempBox.id = boxId;
                         
                         const color = document.getElementById('redactColor').value;
-                        
-                        // Save Absolute coordinates mapped to standard scale (1.0)
-                        // This ensures zoom in/out works properly
                         const stdLeft = parseFloat(tempBox.style.left) / currentScale;
                         const stdTop = parseFloat(tempBox.style.top) / currentScale;
                         const stdW = w / currentScale;
@@ -397,15 +414,25 @@
                             h: stdH,
                             color: color
                         });
-
                         updateRightPanel();
                     } else {
-                        // Click without drag, discard
                         tempBox.remove();
                     }
                     tempBox = null;
                 }
-            }, { once: true });
+            };
+
+            // Mouse Events
+            layer.addEventListener('mousedown', onStart);
+            layer.addEventListener('mousemove', onMove);
+            layer.addEventListener('mouseup', onEnd);
+            layer.addEventListener('mouseleave', onEnd);
+
+            // Touch Events (Mobile)
+            layer.addEventListener('touchstart', onStart, {passive: false});
+            layer.addEventListener('touchmove', onMove, {passive: false});
+            layer.addEventListener('touchend', onEnd);
+            layer.addEventListener('touchcancel', onEnd);
         }
 
         function hexToRgba(hex, alpha) {
@@ -514,33 +541,27 @@
                 const pdfModDoc = await PDFDocument.load(pdfArrayBuffer);
                 const pages = pdfModDoc.getPages();
 
-                // To map coordinates properly, we need the original unscaled viewport of each page
                 for(let i=1; i<=pdfDoc.numPages; i++) {
                     const pageBoxes = redactions.filter(r => r.pageNum === i);
                     if(pageBoxes.length === 0) continue;
 
-                    // PDF.js rendering info
                     const jsPage = await pdfDoc.getPage(i);
-                    const vp1_0 = jsPage.getViewport({scale: 1.0}); // Standard unscaled viewport
+                    const vp1_0 = jsPage.getViewport({scale: 1.0}); 
                     
                     const pdfPage = pages[i-1];
                     const { width: pdfWidth, height: pdfHeight } = pdfPage.getSize();
 
-                    // Calculate mapping scale (usually 1.0, but just in case PDF-Lib and PDF.js differ slightly in pts)
                     const scaleX = pdfWidth / vp1_0.width;
                     const scaleY = pdfHeight / vp1_0.height;
 
                     pageBoxes.forEach(box => {
                         const rgbColor = hexToRgbForPdfLib(box.color);
                         
-                        // Map coordinates
                         const rectX = box.x * scaleX;
                         const rectW = box.w * scaleX;
                         const rectH = box.h * scaleY;
                         
-                        // PDF.js Canvas origin is Top-Left. 
-                        // PDF-Lib Page origin is Bottom-Left.
-                        // So, Y must be inverted.
+                        // Invert Y for PDF-Lib coordinates
                         const rectY = pdfHeight - ((box.y + box.h) * scaleY);
 
                         pdfPage.drawRectangle({
@@ -549,7 +570,7 @@
                             width: rectW,
                             height: rectH,
                             color: rgb(rgbColor.r, rgbColor.g, rgbColor.b),
-                            opacity: 1, // 100% solid redaction
+                            opacity: 1,
                         });
                     });
                 }
