@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop PDF (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- PDF.js for rendering PDFs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- PDF-Lib for processing the crop -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        window.isUserLoggedIn = true; 
+    </script>
+
+    <!-- Firebase Security Module -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                window.isUserLoggedIn = false;
+            } else {
+                document.getElementById('authOverlay').style.display = 'none';
+                window.isUserLoggedIn = true;
+            }
+        });
+    </script>
+
+    <style>
+        body { background-color: #f3f4f7; overscroll-behavior: none; }
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border: 4px solid #e2e8f0; border-top-color: #e5322d; border-radius: 50%; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        @keyframes pulse-red-wide {
+            0% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.8); }
+            70% { box-shadow: 0 0 0 20px rgba(229, 50, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); }
+        }
+        .btn-pulse { animation: pulse-red-wide 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        
+        .drag-area { transition: 0.3s; border: 2px dashed #cbd5e1; background-color: #f8fafc; cursor: pointer; }
+        .drag-area:hover, .drag-area.active { border-color: #e5322d; background-color: #fff5f5; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px;}
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* VVIP Cropper UI */
+        .crop-workspace { position: relative; display: inline-block; box-shadow: 0 10px 30px rgba(0,0,0,0.15); background: white; user-select: none; touch-action: none; margin: 20px;}
+        .pdf-canvas { display: block; max-width: 100%; height: auto; }
+        
+        /* The Magic Overlay trick: using a massive box-shadow on the crop box to darken everything outside it */
+        .crop-box { position: absolute; border: 2px dashed #ffffff; box-shadow: 0 0 0 9999px rgba(0,0,0,0.65); z-index: 20; touch-action: none; cursor: move; display: flex; align-items: center; justify-content: center;}
+        
+        .crop-handle { position: absolute; width: 24px; height: 24px; background: #e5322d; border: 3px solid white; border-radius: 50%; z-index: 30; touch-action: none; box-shadow: 0 2px 5px rgba(0,0,0,0.3);}
+        .crop-handle.tl { top: -12px; left: -12px; cursor: nwse-resize; }
+        .crop-handle.tr { top: -12px; right: -12px; cursor: nesw-resize; }
+        .crop-handle.bl { bottom: -12px; left: -12px; cursor: nesw-resize; }
+        .crop-handle.br { bottom: -12px; right: -12px; cursor: nwse-resize; }
+        
+        /* Center Handle for mobile dragging */
+        .crop-handle.center { width: 30px; height: 30px; background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.5); cursor: move; }
+        
+        .pagination-btn { width: 35px; height: 35px; border-radius: 50%; bg-white; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;}
+        .pagination-btn:hover:not(:disabled) { background: #e5322d; color: white; border-color: #e5322d;}
+        .pagination-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    </style>
+</head>
+<body class="min-h-screen font-sans relative flex flex-col overflow-hidden h-screen bg-gray-50">
+
+    <!-- VVIP LOCK SCREEN -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-red-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full ilovepdf-red text-white font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
+        </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative h-[65px] flex items-center">
+        <div class="w-full px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
+                <div class="h-6 w-px bg-gray-300 hidden md:block"></div>
+                <span class="text-sm font-bold text-gray-600 hidden md:block"><i class="fa-solid fa-crop-simple mr-1"></i> Crop PDF</span>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700">
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase hidden md:block">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STEP 1: UPLOAD SCREEN -->
+    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 bg-white z-10 absolute inset-0 top-[65px]">
+        <div class="flex items-center justify-center gap-3 mb-4 mt-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 text-center">Crop PDF</h1>
+            <span class="bg-purple-100 text-purple-600 border border-purple-200 text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide shadow-sm"><i class="fa-solid fa-scissors"></i> Smart Cropper</span>
+        </div>
+        <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Trim PDF margins in seconds. Easily resize PDF pages with the interactive visual PDF cropper.</p>
+        
+        <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
+        
+        <div id="dropZone" class="drag-area w-full max-w-3xl border-2 border-dashed border-gray-300 rounded-3xl bg-white p-16 md:p-20 flex flex-col items-center justify-center cursor-pointer hover:border-red-500 hover:bg-red-50 transition shadow-sm" onclick="document.getElementById('fileInput').click()">
+            <button class="ilovepdf-red text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 mb-4">
+                Select PDF file
+            </button>
+            <p class="text-gray-500 font-medium text-sm">or drop PDF here</p>
+        </div>
+    </div>
+
+    <!-- STEP 2: WORKSPACE -->
+    <div id="step2" class="hidden flex-grow flex flex-col md:flex-row relative h-[calc(100vh-65px)] w-full">
+        
+        <!-- Left Area: PDF Viewer & Cropper -->
+        <div class="flex-1 flex flex-col bg-[#e9ecef] relative overflow-hidden h-full">
+            
+            <!-- Top Toolbar -->
+            <div class="h-14 bg-white border-b border-gray-200 flex items-center px-4 justify-between shadow-sm z-10 shrink-0">
+                <div class="flex items-center gap-4">
+                    <button class="pagination-btn" id="prevPageBtn" onclick="changePage(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span class="text-sm font-bold text-gray-600">Page <span id="pageNumDisplay">1</span> of <span id="pageTotalDisplay">1</span></span>
+                    <button class="pagination-btn" id="nextPageBtn" onclick="changePage(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Cropper Workspace Container -->
+            <div class="flex-1 overflow-auto flex items-center justify-center p-4 relative" id="workspaceContainer">
+                <div class="crop-workspace" id="cropWorkspace">
+                    <canvas id="pdfCanvas" class="pdf-canvas"></canvas>
+                    
+                    <!-- Interactive Crop Box -->
+                    <div id="cropBox" class="crop-box">
+                        <div class="crop-handle tl" data-handle="tl"></div>
+                        <div class="crop-handle tr" data-handle="tr"></div>
+                        <div class="crop-handle bl" data-handle="bl"></div>
+                        <div class="crop-handle br" data-handle="br"></div>
+                        <div class="crop-handle center" data-handle="move" title="Drag to move"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Overlay -->
+            <div id="parsingOverlay" class="absolute inset-0 bg-white bg-opacity-90 z-20 flex flex-col items-center justify-center hidden">
+                <div class="loader w-12 h-12 mb-4"></div>
+                <p class="font-bold text-gray-700">Cropping PDF Pages...</p>
+            </div>
+        </div>
+
+        <!-- Right Area: Settings Panel -->
+        <div class="w-full md:w-[320px] bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] shrink-0 h-1/3 md:h-full overflow-hidden z-20">
+            <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-lg bg-white flex justify-between items-center shrink-0">
+                <span>Crop PDF</span>
+                <i class="fa-solid fa-xmark text-gray-400 hover:text-red-500 cursor-pointer transition text-base" onclick="resetTool()" title="Start Over"></i>
+            </div>
+            
+            <div class="p-4 flex-1 overflow-y-auto bg-gray-50 flex flex-col relative">
+                
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6 text-xs text-blue-800 shadow-sm flex items-start gap-2">
+                    <i class="fa-solid fa-circle-info text-blue-500 mt-0.5"></i>
+                    <p>Click and drag to select the area you want to keep. Resize if needed.</p>
+                </div>
+
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="font-bold text-sm text-gray-800">Pages:</h4>
+                    <button onclick="resetCropBox()" class="text-xs font-bold text-red-500 hover:underline">Reset all</button>
+                </div>
+                
+                <div class="flex flex-col gap-3">
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="radio" name="applyMode" value="all" checked class="w-4 h-4 accent-[#e5322d] cursor-pointer"> 
+                        <span class="text-sm font-medium text-gray-700">All pages</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="radio" name="applyMode" value="current" class="w-4 h-4 accent-[#e5322d] cursor-pointer"> 
+                        <span class="text-sm font-medium text-gray-700">Current page</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="p-4 bg-white border-t border-gray-200 shrink-0">
+                <button onclick="applyCrop()" id="actionBtn" class="w-full ilovepdf-red text-white font-bold py-4 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-md btn-pulse">
+                    Crop PDF <i class="fa-solid fa-arrow-right ml-2 text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 4: DOWNLOAD SCREEN -->
+    <div id="step4" class="hidden w-full flex-grow flex flex-col items-center justify-center text-center px-4 pt-16 pb-10 bg-white z-10 absolute inset-0 top-[65px]">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-md border-4 border-white ring-2 ring-green-50">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10">PDF Cropped Successfully!</h2>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-16">
+            <button onclick="resetTool()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block" title="Start Over">
+                <i class="fa-solid fa-arrow-left text-xl"></i>
+            </button>
+
+            <button id="downloadBtn" class="ilovepdf-red text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
+                <i class="fa-solid fa-download mr-4 text-2xl"></i> Download cropped PDF
+            </button>
+        </div>
+        
+        <button onclick="resetTool()" class="mt-8 text-gray-500 font-bold underline md:hidden">Start Over</button>
+    </div>
+
+    <script>
+        let currentFile = null;
+        let pdfDoc = null;
+        let pdfArrayBuffer = null;
+        let currentPageNum = 1;
+        let totalPages = 1;
+        
+        // Crop State in Percentages (0 to 1) for resolution independence
+        let cropState = { left: 0.1, top: 0.1, width: 0.8, height: 0.8 }; 
+        let pageCropStates = {}; // Stores individual crop states if 'Current page' is used
+
+        // DOM Elements
+        const workspace = document.getElementById('cropWorkspace');
+        const cropBox = document.getElementById('cropBox');
+
+        // --- Drag & Drop Init ---
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault(); dropZone.classList.remove('active');
+            if(e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+        });
+
+        async function handleFile(fileOrInput) {
+            const file = fileOrInput instanceof File ? fileOrInput : fileOrInput.files[0];
+            if(file && file.type === 'application/pdf') {
+                currentFile = file;
+                pdfArrayBuffer = await file.arrayBuffer();
+                
+                document.getElementById('step1').classList.add('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+                
+                loadPDF();
+            }
+        }
+
+        async function loadPDF() {
+            try {
+                pdfDoc = await pdfjsLib.getDocument({data: new Uint8Array(pdfArrayBuffer)}).promise;
+                totalPages = pdfDoc.numPages;
+                document.getElementById('pageTotalDisplay').innerText = totalPages;
+                
+                // Initialize default crop for all pages
+                for(let i=1; i<=totalPages; i++) {
+                    pageCropStates[i] = { ...cropState };
+                }
+
+                renderPage(currentPageNum);
+                initCropperEvents();
+            } catch (error) {
+                alert("Error rendering PDF.");
+                console.error(error);
+            }
+        }
+
+        async function renderPage(num) {
+            currentPageNum = num;
+            document.getElementById('pageNumDisplay').innerText = num;
+            
+            document.getElementById('prevPageBtn').disabled = (num <= 1);
+            document.getElementById('nextPageBtn').disabled = (num >= totalPages);
+
+            const page = await pdfDoc.getPage(num);
+            const viewport = page.getViewport({scale: 1.5}); // Good resolution for preview
+            
+            const canvas = document.getElementById('pdfCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            
+            // Adjust workspace dimensions
+            workspace.style.width = `${viewport.width}px`;
+            workspace.style.height = `${viewport.height}px`;
+
+            await page.render({canvasContext: ctx, viewport: viewport}).promise;
+
+            // Load saved crop state for this page
+            cropState = { ...pageCropStates[num] };
+            updateCropBoxUI();
+        }
+
+        window.changePage = function(dir) {
+            let newPage = currentPageNum + dir;
+            if(newPage >= 1 && newPage <= totalPages) {
+                // Save current state before switching
+                const mode = document.querySelector('input[name="applyMode"]:checked').value;
+                if(mode === 'all') {
+                    for(let i=1; i<=totalPages; i++) pageCropStates[i] = { ...cropState };
+                } else {
+                    pageCropStates[currentPageNum] = { ...cropState };
+                }
+                renderPage(newPage);
+            }
+        }
+
+        window.resetCropBox = function() {
+            cropState = { left: 0.1, top: 0.1, width: 0.8, height: 0.8 };
+            const mode = document.querySelector('input[name="applyMode"]:checked').value;
+            if(mode === 'all') {
+                for(let i=1; i<=totalPages; i++) pageCropStates[i] = { ...cropState };
+            } else {
+                pageCropStates[currentPageNum] = { ...cropState };
+            }
+            updateCropBoxUI();
+        }
+
+        // --- CROPPER ENGINE (Bulletproof Mobile & Desktop) ---
+        function updateCropBoxUI() {
+            cropBox.style.left = `${cropState.left * 100}%`;
+            cropBox.style.top = `${cropState.top * 100}%`;
+            cropBox.style.width = `${cropState.width * 100}%`;
+            cropBox.style.height = `${cropState.height * 100}%`;
+        }
+
+        function initCropperEvents() {
+            let isDragging = false;
+            let activeHandle = null;
+            let startX, startY;
+            let initialCrop = {};
+
+            const getEventPos = (e) => {
+                if (e.touches && e.touches.length > 0) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                if (e.changedTouches && e.changedTouches.length > 0) return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+                return { x: e.clientX, y: e.clientY };
+            };
+
+            const onStart = (e) => {
+                if(e.target.dataset.handle) {
+                    isDragging = true;
+                    activeHandle = e.target.dataset.handle;
+                    const pos = getEventPos(e);
+                    startX = pos.x; startY = pos.y;
+                    initialCrop = { ...cropState };
+                    if(e.cancelable) e.preventDefault(); // Stop scrolling
+                }
+            };
+
+            const onMove = (e) => {
+                if(!isDragging) return;
+                if(e.cancelable) e.preventDefault();
+                
+                const pos = getEventPos(e);
+                const dx = pos.x - startX;
+                const dy = pos.y - startY;
+
+                const wsRect = workspace.getBoundingClientRect();
+                // Convert pixel movement to percentages
+                const dpX = dx / wsRect.width;
+                const dpY = dy / wsRect.height;
+
+                let newLeft = initialCrop.left;
+                let newTop = initialCrop.top;
+                let newWidth = initialCrop.width;
+                let newHeight = initialCrop.height;
+
+                if (activeHandle === 'move') {
+                    newLeft += dpX;
+                    newTop += dpY;
+                } else {
+                    if (activeHandle.includes('l')) { newLeft += dpX; newWidth -= dpX; }
+                    if (activeHandle.includes('r')) { newWidth += dpX; }
+                    if (activeHandle.includes('t')) { newTop += dpY; newHeight -= dpY; }
+                    if (activeHandle.includes('b')) { newHeight += dpY; }
+                }
+
+                // Constraints (Min size 5%, Max bounds 0-1)
+                const MIN_SIZE = 0.05;
+                if(newWidth < MIN_SIZE) { newWidth = MIN_SIZE; if(activeHandle.includes('l')) newLeft = initialCrop.left + initialCrop.width - MIN_SIZE; }
+                if(newHeight < MIN_SIZE) { newHeight = MIN_SIZE; if(activeHandle.includes('t')) newTop = initialCrop.top + initialCrop.height - MIN_SIZE; }
+                
+                if(newLeft < 0) newLeft = 0;
+                if(newTop < 0) newTop = 0;
+                if(newLeft + newWidth > 1) { if(activeHandle==='move') newLeft = 1 - newWidth; else newWidth = 1 - newLeft; }
+                if(newTop + newHeight > 1) { if(activeHandle==='move') newTop = 1 - newHeight; else newHeight = 1 - newTop; }
+
+                cropState = { left: newLeft, top: newTop, width: newWidth, height: newHeight };
+                updateCropBoxUI();
+            };
+
+            const onEnd = () => {
+                if(isDragging) {
+                    isDragging = false;
+                    activeHandle = null;
+                    // Auto save state for current page
+                    const mode = document.querySelector('input[name="applyMode"]:checked').value;
+                    if(mode === 'all') {
+                        for(let i=1; i<=totalPages; i++) pageCropStates[i] = { ...cropState };
+                    } else {
+                        pageCropStates[currentPageNum] = { ...cropState };
+                    }
+                }
+            };
+
+            // Attach to workspace to catch events easily
+            workspace.addEventListener('mousedown', onStart);
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('mouseup', onEnd);
+
+            workspace.addEventListener('touchstart', onStart, {passive: false});
+            window.addEventListener('touchmove', onMove, {passive: false});
+            window.addEventListener('touchend', onEnd);
+        }
+
+
+        // --- PDF-LIB PROCESSING ---
+        window.applyCrop = async function() {
+            document.getElementById('parsingOverlay').classList.remove('hidden');
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const pdfModDoc = await PDFDocument.load(pdfArrayBuffer);
+                const pages = pdfModDoc.getPages();
+
+                // Ensure latest state is saved
+                const mode = document.querySelector('input[name="applyMode"]:checked').value;
+                if(mode === 'all') {
+                    for(let i=1; i<=totalPages; i++) pageCropStates[i] = { ...cropState };
+                } else {
+                    pageCropStates[currentPageNum] = { ...cropState };
+                }
+
+                for(let i=0; i<pages.length; i++) {
+                    const page = pages[i];
+                    const state = pageCropStates[i+1];
+                    const { width, height } = page.getSize();
+
+                    // Map percentages to PDF Coordinates
+                    // PDF-Lib Origin (0,0) is Bottom-Left. Browser DOM is Top-Left.
+                    const cropX = width * state.left;
+                    const cropW = width * state.width;
+                    const cropH = height * state.height;
+                    const cropY = height * (1 - state.top - state.height); // Invert Y axis
+
+                    page.setCropBox(cropX, cropY, cropW, cropH);
+                    // Also set MediaBox for better compatibility with some viewers
+                    page.setMediaBox(cropX, cropY, cropW, cropH);
+                }
+
+                pdfModDoc.setProducer('ToolVerse Advanced PDF Engine');
+                const pdfBytes = await pdfModDoc.save();
+                
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                
+                const btn = document.getElementById('downloadBtn');
+                btn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = currentFile.name.replace('.pdf', '_Cropped.pdf');
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('step4').classList.remove('hidden');
+                document.getElementById('parsingOverlay').classList.add('hidden');
+
+            } catch (error) {
+                console.error("Crop Error:", error);
+                alert("An error occurred while cropping the PDF.");
+                document.getElementById('parsingOverlay').classList.add('hidden');
+            }
+        }
+
+        window.resetTool = function() {
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
