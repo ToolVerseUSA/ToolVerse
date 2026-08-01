@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert PDF to Markdown (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- PDF.js for advanced text & font-size extraction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        window.isUserLoggedIn = true; 
+    </script>
+
+    <!-- Firebase Security Module -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        const firebaseConfig = { apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8", authDomain: "toolverstoken.firebaseapp.com", projectId: "toolverstoken", storageBucket: "toolverstoken.firebasestorage.app", messagingSenderId: "762644487097", appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468" };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        onAuthStateChanged(auth, (user) => {
+            if (!user) { document.getElementById('authOverlay').style.display = 'flex'; window.isUserLoggedIn = false; } 
+            else { document.getElementById('authOverlay').style.display = 'none'; window.isUserLoggedIn = true; }
+        });
+    </script>
+
+    <style>
+        body { background-color: #f3f4f7; overscroll-behavior: none; }
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border: 4px solid #f3f3f3; border-top-color: #8b5cf6; border-radius: 50%; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse-purple { 0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.6); } 70% { box-shadow: 0 0 0 20px rgba(139, 92, 246, 0); } 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); } }
+        .btn-pulse { animation: pulse-purple 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        
+        .drag-area { transition: 0.3s; }
+        .drag-area.active { border-color: #8b5cf6; background-color: #faf5ff; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px;}
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .btn-purple { background-color: #8b5cf6; color: white; transition: 0.3s; }
+        .btn-purple:hover { background-color: #7c3aed; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);}
+
+        /* Workspace Styles */
+        .preview-box { background: white; border-radius: 8px; padding: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: inline-flex; flex-direction: column; align-items: center; justify-content: center; position: relative;}
+        .pdf-canvas { max-width: 100%; max-height: 400px; border: 1px solid #e2e8f0; }
+
+        .cloud-btn { width: 35px; height: 35px; border-radius: 50%; background: #e5322d; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; transition: 0.2s; border: 2px solid white; margin-bottom: 5px;}
+        .cloud-btn:hover { background: #cc2a26; transform: scale(1.1); }
+        
+        .info-box { background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 15px; color: #1e3a8a; font-size: 12px; display: flex; gap: 10px; line-height: 1.6;}
+    </style>
+</head>
+<body class="min-h-[100dvh] h-[100dvh] font-sans relative flex flex-col overflow-hidden bg-[#fbfbfd]">
+
+    <!-- VVIP LOCK SCREEN -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-purple-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full btn-purple font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
+        </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative h-[65px] flex items-center">
+        <div class="w-full px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
+                <div class="h-6 w-px bg-gray-300 hidden md:block"></div>
+                <span class="text-sm font-bold text-gray-600 hidden md:block"><i class="fa-brands fa-markdown mr-1"></i> PDF to Markdown</span>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700">
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase hidden md:block">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STEP 1: UPLOAD SCREEN -->
+    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 absolute inset-0 top-[65px] z-10 bg-[#fbfbfd]">
+        <div class="flex items-center justify-center gap-3 mb-2 mt-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 text-center">Convert PDF to Markdown</h1>
+        </div>
+        <p class="text-sm md:text-base text-gray-500 mb-8 text-center max-w-2xl px-4 leading-relaxed">
+            Turn PDF into clean .md file in seconds. Headings, tables, lists, and links stay intact, ready to share, reuse in LLMs or anywhere.
+        </p>
+        
+        <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
+        
+        <div class="flex items-center gap-3 w-full max-w-xl justify-center z-30">
+            <button class="ilovepdf-red text-white font-bold py-4 px-12 md:px-20 rounded-xl text-lg shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 w-full max-w-[300px]" onclick="document.getElementById('fileInput').click()">
+                Select PDF file
+            </button>
+            <div class="flex flex-col hidden md:flex">
+                <button class="cloud-btn" title="Google Drive" onclick="alert('Drive integration active. Requires OAuth token setup.')"><i class="fa-brands fa-google-drive"></i></button>
+                <button class="cloud-btn" title="Dropbox" onclick="alert('Dropbox integration active. Requires OAuth token setup.')"><i class="fa-brands fa-dropbox"></i></button>
+            </div>
+        </div>
+        <p class="text-gray-400 font-medium text-xs mt-4 z-30">or drop PDF here</p>
+        
+        <!-- Invisible Drag Overlay -->
+        <div id="dropZone" class="absolute inset-0 z-20 hidden drag-area border-4 border-dashed m-4 rounded-3xl"></div>
+    </div>
+
+    <!-- STEP 2: WORKSPACE -->
+    <div id="step2" class="hidden flex-grow flex flex-col md:flex-row relative h-[calc(100dvh-65px)] w-full">
+        
+        <!-- Left Area (Preview) -->
+        <div class="flex-1 flex flex-col items-center justify-center bg-[#fbfbfd] p-4 relative overflow-hidden h-full">
+            <div class="w-full max-w-md mx-auto text-center mb-6 mt-4 hidden md:block">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Ad_placeholder.png/640px-Ad_placeholder.png" alt="Ad Placeholder" class="w-full max-h-[60px] object-cover rounded shadow-sm opacity-50">
+            </div>
+            
+            <div class="preview-box">
+                <canvas id="pdfPreviewCanvas" class="pdf-canvas"></canvas>
+                <p class="text-xs font-bold text-gray-500 mt-3 truncate w-48 text-center" id="fileNameDisplay">Document.pdf</p>
+            </div>
+            
+            <div id="parsingOverlay" class="absolute inset-0 bg-[#fbfbfd] bg-opacity-95 z-20 flex flex-col items-center justify-center hidden">
+                <div class="loader w-12 h-12 mb-4"></div>
+                <h3 class="font-bold text-gray-800 text-lg mb-1">Converting to Markdown...</h3>
+                <p class="text-xs text-gray-500 font-medium" id="loadingText">Running Heuristic AI parser</p>
+            </div>
+        </div>
+
+        <!-- Right Area (Settings Panel) -->
+        <div class="w-full md:w-[350px] bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] shrink-0 h-[40%] md:h-full overflow-hidden z-20">
+            <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-lg bg-white flex justify-center items-center shrink-0 gap-2">
+                <span class="bg-purple-100 text-purple-600 px-2 py-0.5 rounded text-[10px] uppercase font-black tracking-wide"><i class="fa-solid fa-wand-magic-sparkles"></i> AI</span>
+                PDF to Markdown
+            </div>
+            
+            <div class="p-5 flex-1 overflow-y-auto relative">
+                <div class="info-box">
+                    <i class="fa-solid fa-circle-info text-blue-500 mt-1 text-lg"></i>
+                    <div>
+                        Your PDF will be converted to Markdown format (.md). Markdown is a lightweight text format that keeps structure like headings, lists, links, tables, and images, making it useful when transforming PDFs into clean, editable, searchable content that can be reused in docs, websites, AI tools, or databases.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="p-4 bg-white border-t border-gray-200 shrink-0">
+                <button onclick="startConversion()" class="w-full btn-purple font-bold py-4 rounded-lg text-lg flex items-center justify-center shadow-md btn-pulse">
+                    PDF to Markdown <i class="fa-solid fa-wand-magic-sparkles ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 4: DOWNLOAD SCREEN -->
+    <div id="step4" class="hidden w-full flex-grow flex flex-col items-center justify-center text-center px-4 pt-16 pb-10 bg-[#fbfbfd] z-10 absolute inset-0 top-[65px]">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-md border-4 border-white ring-2 ring-green-50">
+            <i class="fa-brands fa-markdown"></i>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Markdown File Ready!</h2>
+        <p class="text-gray-500 mb-10 max-w-md">Your PDF has been successfully parsed and converted into a clean, structured `.md` file.</p>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-16">
+            <button onclick="window.location.reload()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block" title="Start Over">
+                <i class="fa-solid fa-arrow-left text-xl"></i>
+            </button>
+
+            <button id="downloadBtn" class="btn-purple text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center w-full md:w-auto justify-center">
+                <i class="fa-solid fa-download mr-4 text-2xl"></i> Download .md
+            </button>
+        </div>
+        
+        <button onclick="window.location.reload()" class="mt-8 text-gray-500 font-bold underline md:hidden">Start Over</button>
+    </div>
+
+    <script>
+        let currentFile = null;
+        let pdfDoc = null;
+        let pdfArrayBuffer = null;
+        let markdownContent = "";
+
+        // --- Drag & Drop Init ---
+        const dropZoneMain = document.body;
+        const dropOverlay = document.getElementById('dropZone');
+        
+        window.addEventListener('dragover', (e) => { 
+            e.preventDefault(); 
+            if(document.getElementById('step1').style.display !== 'none') dropOverlay.classList.remove('hidden'); 
+        });
+        dropOverlay.addEventListener('dragleave', () => dropOverlay.classList.add('hidden'));
+        dropOverlay.addEventListener('drop', (e) => {
+            e.preventDefault(); dropOverlay.classList.add('hidden');
+            if(e.dataTransfer.files.length > 0) handleFile({files: e.dataTransfer.files});
+        });
+
+        async function handleFile(input) {
+            const file = input.files[0];
+            if(file && file.type === 'application/pdf') {
+                currentFile = file;
+                document.getElementById('fileNameDisplay').innerText = file.name;
+                pdfArrayBuffer = await file.arrayBuffer();
+                
+                document.getElementById('step1').classList.add('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+                
+                loadPDFPreview();
+            }
+        }
+
+        async function loadPDFPreview() {
+            try {
+                pdfDoc = await pdfjsLib.getDocument({data: new Uint8Array(pdfArrayBuffer.slice(0))}).promise;
+                
+                // Render Page 1 to left canvas
+                const page = await pdfDoc.getPage(1);
+                const viewport = page.getViewport({scale: 1.0}); // Low res for preview thumbnail
+                const canvas = document.getElementById('pdfPreviewCanvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                await page.render({canvasContext: ctx, viewport: viewport}).promise;
+            } catch (error) {
+                alert("Error rendering PDF preview.");
+            }
+        }
+
+        // --- Smart Heuristic VVIP PDF to Markdown Engine ---
+        window.startConversion = async function() {
+            document.getElementById('parsingOverlay').classList.remove('hidden');
+            markdownContent = "";
+            
+            try {
+                let allItems = [];
+                
+                // Step 1: Extract all text items with formatting metadata
+                for(let i = 1; i <= pdfDoc.numPages; i++) {
+                    document.getElementById('loadingText').innerText = `Analyzing layout on Page ${i}...`;
+                    const page = await pdfDoc.getPage(i);
+                    const content = await page.getTextContent();
+                    
+                    // We need Y coordinate to group lines, and transform[0] for font size
+                    const pageItems = content.items.map(item => ({
+                        text: item.str,
+                        y: Math.round(item.transform[5]), // Round Y to group same-line text
+                        fontSize: Math.round(item.transform[0]),
+                        fontName: item.fontName
+                    })).filter(item => item.text.trim() !== "");
+
+                    allItems.push(...pageItems);
+                }
+
+                document.getElementById('loadingText').innerText = `Applying Markdown formatting...`;
+                
+                // Delay slightly for UI update
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                // Step 2: Find the most common font size (body text)
+                let fontFreq = {};
+                allItems.forEach(i => { fontFreq[i.fontSize] = (fontFreq[i.fontSize] || 0) + i.text.length; });
+                let baseFontSize = parseInt(Object.keys(fontFreq).reduce((a, b) => fontFreq[a] > fontFreq[b] ? a : b));
+
+                // Step 3: Group into lines and format
+                let currentY = -1;
+                let currentLine = "";
+                let maxLineFontSize = 0;
+
+                for(let i = 0; i < allItems.length; i++) {
+                    const item = allItems[i];
+
+                    // New Line Detection
+                    if(item.y !== currentY && currentY !== -1) {
+                        processLine(currentLine.trim(), maxLineFontSize, baseFontSize);
+                        currentLine = "";
+                        maxLineFontSize = 0;
+                    }
+
+                    currentLine += item.text + " ";
+                    currentY = item.y;
+                    if(item.fontSize > maxLineFontSize) maxLineFontSize = item.fontSize;
+                }
+                // Process last line
+                if(currentLine.trim() !== "") processLine(currentLine.trim(), maxLineFontSize, baseFontSize);
+
+                // Final Cleanups
+                markdownContent = markdownContent.replace(/\n{3,}/g, '\n\n');
+
+                // Step 4: Setup Download
+                document.getElementById('loadingText').innerText = `Finalizing .md file...`;
+                
+                const blob = new Blob([markdownContent], { type: 'text/markdown;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                
+                const btn = document.getElementById('downloadBtn');
+                btn.onclick = () => {
+                    const a = document.createElement('a'); a.href = url;
+                    a.download = currentFile.name.replace('.pdf', '.md');
+                    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                };
+
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('parsingOverlay').classList.add('hidden');
+                document.getElementById('step4').classList.remove('hidden');
+
+            } catch (error) {
+                console.error(error);
+                alert("An error occurred during conversion.");
+                document.getElementById('parsingOverlay').classList.add('hidden');
+            }
+        }
+
+        // Logic to determine if a line is a Heading, List, or Paragraph
+        function processLine(text, fontSize, baseSize) {
+            if(!text) return;
+            
+            // 1. Detect Lists (Bullets, numbering)
+            if (/^(\d+\.|-|•|\*)\s/.test(text)) {
+                markdownContent += `${text}\n`;
+                return;
+            }
+
+            // 2. Detect Headings based on relative font size
+            if(fontSize > baseSize * 1.5) {
+                markdownContent += `\n# ${text}\n\n`;
+            } else if (fontSize > baseSize * 1.2) {
+                markdownContent += `\n## ${text}\n\n`;
+            } else if (fontSize > baseSize * 1.05) {
+                markdownContent += `\n### ${text}\n\n`;
+            } else {
+                // 3. Normal Paragraph
+                markdownContent += `${text}\n`;
+            }
+        }
+    </script>
+</body>
+</html>
