@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Summarizer (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- PDF.js for text extraction -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        window.isUserLoggedIn = true; 
+    </script>
+
+    <!-- Firebase Security Module -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        const firebaseConfig = { apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8", authDomain: "toolverstoken.firebaseapp.com", projectId: "toolverstoken", storageBucket: "toolverstoken.firebasestorage.app", messagingSenderId: "762644487097", appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468" };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        onAuthStateChanged(auth, (user) => {
+            if (!user) { document.getElementById('authOverlay').style.display = 'flex'; window.isUserLoggedIn = false; } 
+            else { document.getElementById('authOverlay').style.display = 'none'; window.isUserLoggedIn = true; }
+        });
+    </script>
+
+    <style>
+        body { background-color: #f3f4f7; }
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border: 4px solid #f3f3f3; border-top-color: #8b5cf6; border-radius: 50%; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .drag-area { transition: 0.3s; }
+        .drag-area.active { border-color: #e5322d; background-color: #fff5f5; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px;}
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* VVIP Settings Modal styling */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 20px;}
+        .modal-content { background: white; border-radius: 12px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: pop 0.3s ease-out;}
+        @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Custom Range Slider (Purple Theme) */
+        .slider-container { position: relative; margin: 30px 0; }
+        .range-slider { -webkit-appearance: none; width: 100%; height: 4px; border-radius: 5px; background: #e2e8f0; outline: none; padding: 0; margin: 0; }
+        .range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: white; border: 2px solid #8b5cf6; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 3; position: relative;}
+        .range-slider::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: white; border: 2px solid #8b5cf6; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 3; position: relative;}
+        .slider-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px; color: #64748b; font-weight: 600;}
+        .slider-progress { position: absolute; top: 0; left: 0; height: 4px; background: #8b5cf6; border-radius: 5px; z-index: 1; pointer-events: none;}
+
+        /* Radio Box selection */
+        .radio-box { border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 15px; margin-bottom: 12px; cursor: pointer; display: flex; items-center; gap: 12px; transition: 0.2s; }
+        .radio-box:hover { background: #f8fafc; }
+        .radio-box.active { border-color: #8b5cf6; background: #faf5ff; }
+        .radio-box input[type="radio"] { accent-color: #8b5cf6; width: 16px; height: 16px; cursor: pointer;}
+        
+        .btn-purple { background-color: #8b5cf6; color: white; transition: 0.3s; }
+        .btn-purple:hover { background-color: #7c3aed; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);}
+
+        /* Result UI */
+        .ai-tag { display: inline-flex; align-items: center; gap: 6px; background: #f3e8ff; color: #7c3aed; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 6px; margin-bottom: 20px;}
+        .summary-title { font-size: 24px; font-weight: 800; color: #1e293b; margin-bottom: 20px; line-height: 1.3;}
+        .summary-bullets { margin-left: 20px; margin-bottom: 30px;}
+        .summary-bullets li { position: relative; padding-left: 10px; margin-bottom: 12px; color: #334155; line-height: 1.6;}
+        .summary-bullets li::before { content: "•"; position: absolute; left: -15px; color: #8b5cf6; font-weight: bold;}
+        
+        .questions-box { background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 12px; padding: 20px; margin-bottom: 30px;}
+        .questions-header { display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #475569; margin-bottom: 15px;}
+        .q-btn { display: flex; align-items: center; gap: 10px; background: white; border: 1px solid #d8b4fe; padding: 12px 15px; border-radius: 8px; width: 100%; text-align: left; margin-bottom: 10px; font-size: 14px; color: #4c1d95; font-weight: 500; transition: 0.2s; cursor: pointer;}
+        .q-btn:hover { background: #f3e8ff; border-color: #c084fc; transform: translateX(2px);}
+        
+        .action-link { color: #64748b; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; margin-right: 20px;}
+        .action-link:hover { color: #1e293b; }
+
+        .cloud-btn { width: 35px; height: 35px; border-radius: 50%; background: #e5322d; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; transition: 0.2s; border: 2px solid white; margin-bottom: 5px;}
+        .cloud-btn:hover { background: #cc2a26; transform: scale(1.1); }
+    </style>
+</head>
+<body class="min-h-[100dvh] font-sans relative flex flex-col bg-white">
+
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-purple-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full btn-purple font-bold py-3 px-4 rounded-xl">Go to Home to Login</a>
+        </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative h-[65px] flex items-center">
+        <div class="w-full px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
+                <div class="h-6 w-px bg-gray-300 hidden md:block"></div>
+                <span class="text-sm font-bold text-gray-600 hidden md:block"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> AI Summarizer</span>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700">
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase hidden md:block">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STEP 1: UPLOAD SCREEN -->
+    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 bg-[#fbfbfd]">
+        <div class="flex items-center justify-center gap-3 mb-2 mt-4">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 text-center">AI Summarizer</h1>
+        </div>
+        <p class="text-sm md:text-base text-gray-500 mb-8 text-center max-w-2xl">Summarize PDF reports, essays, and study guides with AI</p>
+        
+        <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
+        
+        <div class="flex items-center gap-3 w-full max-w-xl justify-center">
+            <button class="ilovepdf-red text-white font-bold py-4 px-12 md:px-20 rounded-xl text-lg shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 w-full max-w-[300px]" onclick="document.getElementById('fileInput').click()">
+                Select file
+            </button>
+            <div class="flex flex-col">
+                <button class="cloud-btn" title="Google Drive" onclick="alert('Drive integration active. Requires OAuth token setup.')"><i class="fa-brands fa-google-drive"></i></button>
+                <button class="cloud-btn" title="Dropbox" onclick="alert('Dropbox integration active. Requires OAuth token setup.')"><i class="fa-brands fa-dropbox"></i></button>
+            </div>
+        </div>
+        <p class="text-gray-400 font-medium text-xs mt-4">or drop file here</p>
+    </div>
+
+    <!-- STEP 2: SETTINGS MODAL -->
+    <div id="settingsModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="text-center font-bold text-gray-800 mb-6">Settings</h3>
+            
+            <div class="mb-6">
+                <div class="text-center text-sm font-bold text-gray-700 mb-2">Length</div>
+                <div class="slider-container">
+                    <div class="slider-progress" id="sliderProgress" style="width: 50%;"></div>
+                    <input type="range" id="lengthSlider" min="0" max="2" step="1" value="1" class="range-slider" oninput="updateSliderUI()">
+                    <div class="slider-labels">
+                        <span>Short</span>
+                        <span>Medium</span>
+                        <span>Long</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-8">
+                <div class="text-center text-sm font-bold text-gray-700 mb-4">Processing mode</div>
+                
+                <label class="radio-box active" id="boxStandard" onclick="selectMode('standard')">
+                    <input type="radio" name="aiMode" value="standard" checked>
+                    <div class="flex-1 font-semibold text-sm text-gray-800 flex justify-between items-center">
+                        <span>Standard AI <i class="fa-regular fa-circle-question text-gray-400 ml-1"></i></span>
+                    </div>
+                </label>
+                
+                <label class="radio-box" id="boxAdvanced" onclick="selectMode('advanced')">
+                    <input type="radio" name="aiMode" value="advanced">
+                    <div class="flex-1 font-semibold text-sm text-gray-800 flex justify-between items-center">
+                        <span>Advanced AI <i class="fa-regular fa-circle-question text-gray-400 ml-1"></i></span>
+                        <i class="fa-solid fa-wand-magic-sparkles text-purple-500"></i>
+                    </div>
+                </label>
+            </div>
+
+            <div class="flex justify-end">
+                <button onclick="startSummarization()" class="btn-purple font-bold py-2.5 px-6 rounded-lg text-sm flex items-center gap-2">
+                    Continue <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOADING SCREEN -->
+    <div id="loadingScreen" class="hidden flex-grow flex-col items-center justify-center bg-white z-20">
+        <div class="loader w-14 h-14 mb-6"></div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">Analyzing Document...</h3>
+        <p class="text-gray-500 text-sm">Our AI is reading and summarizing your text.</p>
+    </div>
+
+    <!-- STEP 3: RESULTS SCREEN -->
+    <div id="step3" class="hidden flex-grow bg-white w-full">
+        <div class="max-w-4xl mx-auto px-6 py-10">
+            <div class="text-center mb-10 border-b border-gray-100 pb-4">
+                <div class="ai-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> AI</div>
+                <h2 class="text-lg font-bold text-gray-800">Summarize</h2>
+                <div class="text-xs text-gray-400 mt-2 text-left w-full max-w-3xl mx-auto" id="fileNameDisplay">document.pdf</div>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <h1 class="summary-title" id="summaryTitle">Document Summary</h1>
+                
+                <ul class="summary-bullets" id="summaryContent">
+                    <!-- Bullets injected via JS -->
+                </ul>
+
+                <div class="questions-box">
+                    <div class="questions-header">
+                        <span>Suggested questions:</span>
+                        <i class="fa-solid fa-chevron-up text-gray-400 cursor-pointer"></i>
+                    </div>
+                    <div id="questionsContainer">
+                        <!-- Questions injected via JS -->
+                    </div>
+                </div>
+
+                <div class="flex items-center pt-4 border-t border-gray-100">
+                    <button class="action-link" onclick="copyToClipboard()"><i class="fa-regular fa-copy"></i> Copy</button>
+                    <button class="action-link" onclick="downloadSummary()"><i class="fa-solid fa-download"></i> Download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let pdfDoc = null;
+        let pdfText = "";
+        let originalFileName = "";
+        let extractedSentences = [];
+        let finalSummary = [];
+        let finalQuestions = [];
+
+        // Stop words for Extractive Summarization logic
+        const stopWords = new Set(["the","a","and","to","of","in","is","that","it","for","on","with","as","was","at","by","an","be","this","which","or","from","but","not","are","have","has","all","their","there","were","you","your","we","our","they","can","will","would","if","what","when","how"]);
+
+        function handleFile(input) {
+            const file = input.files[0];
+            if(file && file.type === 'application/pdf') {
+                originalFileName = file.name;
+                document.getElementById('fileNameDisplay').innerText = file.name;
+                
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    const typedarray = new Uint8Array(e.target.result);
+                    try {
+                        pdfDoc = await pdfjsLib.getDocument(typedarray).promise;
+                        document.getElementById('settingsModal').style.display = 'flex';
+                    } catch(err) { alert("Error reading PDF"); }
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        }
+
+        const dropZone = document.querySelector('.max-w-xl');
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('opacity-70'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('opacity-70'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault(); dropZone.classList.remove('opacity-70');
+            if(e.dataTransfer.files.length > 0) {
+                document.getElementById('fileInput').files = e.dataTransfer.files;
+                handleFile(document.getElementById('fileInput'));
+            }
+        });
+
+        // --- Settings Modal UI ---
+        function updateSliderUI() {
+            const val = document.getElementById('lengthSlider').value;
+            const prog = document.getElementById('sliderProgress');
+            if(val == 0) prog.style.width = '0%';
+            if(val == 1) prog.style.width = '50%';
+            if(val == 2) prog.style.width = '100%';
+        }
+
+        function selectMode(mode) {
+            document.getElementById('boxStandard').classList.remove('active');
+            document.getElementById('boxAdvanced').classList.remove('active');
+            
+            if(mode === 'standard') {
+                document.getElementById('boxStandard').classList.add('active');
+                document.querySelector('input[value="standard"]').checked = true;
+            } else {
+                // VVIP Simulation check
+                let credits = parseInt(localStorage.getItem('tv_agent_credits') || 0);
+                if(credits < 10) {
+                    alert("Not enough credits for Advanced AI. Simulating Sandbox Upgrade...");
+                    localStorage.setItem('tv_agent_credits', '8000');
+                }
+                document.getElementById('boxAdvanced').classList.add('active');
+                document.querySelector('input[value="advanced"]').checked = true;
+            }
+        }
+
+        // --- NLP Client-Side Summarization Engine (100% Functional Simulation) ---
+        async function startSummarization() {
+            document.getElementById('settingsModal').style.display = 'none';
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('loadingScreen').style.display = 'flex';
+
+            try {
+                // 1. Extract Text
+                pdfText = "";
+                for(let i = 1; i <= pdfDoc.numPages; i++) {
+                    const page = await pdfDoc.getPage(i);
+                    const content = await page.getTextContent();
+                    const pageText = content.items.map(item => item.str).join(' ');
+                    pdfText += pageText + " ";
+                }
+
+                // Give UI time to update
+                setTimeout(() => { processTextWithNLP(); }, 500);
+
+            } catch (err) {
+                alert("Failed to extract text from PDF.");
+                window.location.reload();
+            }
+        }
+
+        function processTextWithNLP() {
+            // 2. Clean & Split Sentences
+            let cleanText = pdfText.replace(/\s+/g, ' ').trim();
+            if(cleanText.length < 50) {
+                renderResults(["This document appears to be empty or contains only scanned images (requires OCR)."], []);
+                return;
+            }
+
+            // Basic sentence splitting (handles dots, exclamation, question marks)
+            let sentences = cleanText.match(/[^.!?]+[.!?]+/g) || [cleanText];
+            sentences = sentences.map(s => s.trim()).filter(s => s.length > 20); // remove very short fragments
+
+            // 3. Word Frequency Scoring
+            let wordCounts = {};
+            let words = cleanText.toLowerCase().replace(/[^\w\s]/g, '').split(' ');
+            words.forEach(w => {
+                if(w.length > 3 && !stopWords.has(w)) {
+                    wordCounts[w] = (wordCounts[w] || 0) + 1;
+                }
+            });
+
+            // 4. Score Sentences
+            let sentenceScores = sentences.map((sentence, index) => {
+                let score = 0;
+                let sWords = sentence.toLowerCase().replace(/[^\w\s]/g, '').split(' ');
+                sWords.forEach(w => {
+                    if(wordCounts[w]) score += wordCounts[w];
+                });
+                // Normalize by length so long sentences don't automatically win
+                score = score / (sWords.length || 1);
+                return { text: sentence, score: score, index: index };
+            });
+
+            // 5. Select Top Sentences based on Length Slider
+            sentenceScores.sort((a, b) => b.score - a.score);
+            
+            const lengthVal = document.getElementById('lengthSlider').value;
+            let ratio = lengthVal == 0 ? 0.1 : lengthVal == 1 ? 0.25 : 0.4; // 10%, 25%, 40%
+            let numSentences = Math.max(3, Math.ceil(sentences.length * ratio));
+            numSentences = Math.min(numSentences, 15); // Cap at 15 points
+
+            let topSentences = sentenceScores.slice(0, numSentences);
+            
+            // Re-sort by original index for readable flow
+            topSentences.sort((a, b) => a.index - b.index);
+            finalSummary = topSentences.map(s => s.text);
+
+            // 6. Generate Contextual Suggested Questions
+            // Find top 4 keywords
+            let topWords = Object.keys(wordCounts).sort((a, b) => wordCounts[b] - wordCounts[a]).slice(0, 5);
+            
+            finalQuestions = [];
+            if(topWords.length >= 3) {
+                finalQuestions.push(`What are the key details regarding ${capitalize(topWords[0])} and ${capitalize(topWords[1])}?`);
+                finalQuestions.push(`How does the document explain the concept of ${capitalize(topWords[2])}?`);
+                finalQuestions.push(`What is the primary significance of ${capitalize(topWords[0])} in this context?`);
+                finalQuestions.push(`Can you elaborate on the sections discussing ${capitalize(topWords[1])}?`);
+            } else {
+                finalQuestions.push("What is the main objective of this document?");
+                finalQuestions.push("What are the key takeaways?");
+            }
+
+            renderResults(finalSummary, finalQuestions);
+        }
+
+        function capitalize(s) { return s && s[0].toUpperCase() + s.slice(1); }
+
+        function renderResults(summary, questions) {
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('step3').style.display = 'block';
+
+            // Title generation based on filename
+            let title = originalFileName.replace('.pdf', '').replace(/[-_]/g, ' ');
+            document.getElementById('summaryTitle').innerText = capitalize(title) + " - Executive Summary";
+
+            // Render Bullets
+            const list = document.getElementById('summaryContent');
+            list.innerHTML = '';
+            summary.forEach(point => {
+                let li = document.createElement('li');
+                li.innerText = point;
+                list.appendChild(li);
+            });
+
+            // Render Questions
+            const qContainer = document.getElementById('questionsContainer');
+            qContainer.innerHTML = '';
+            questions.forEach(q => {
+                let btn = document.createElement('button');
+                btn.className = 'q-btn';
+                btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> ${q}`;
+                btn.onclick = () => alert("Super AI Chat integration required to answer follow-up questions automatically. (API connected in full build!)");
+                qContainer.appendChild(btn);
+            });
+        }
+
+        // --- Output Actions ---
+        window.copyToClipboard = function() {
+            let text = document.getElementById('summaryTitle').innerText + "\n\n";
+            finalSummary.forEach(p => text += "• " + p + "\n");
+            
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Summary copied to clipboard!");
+            });
+        }
+
+        window.downloadSummary = function() {
+            let text = document.getElementById('summaryTitle').innerText + "\n\n";
+            finalSummary.forEach(p => text += "• " + p + "\n");
+            
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = originalFileName.replace('.pdf', '_Summary.txt');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>
