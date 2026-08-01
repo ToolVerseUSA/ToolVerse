@@ -413,9 +413,10 @@
                     const card = document.createElement('div');
                     card.className = `border border-gray-200 bg-white rounded-lg p-3 shadow-sm`;
                     
+                    // Fixed Height Constraint: Removed 'max-h-32 overflow-y-auto' and adjusted padding/text size
                     card.innerHTML = `
                         <div class="text-[10px] uppercase font-bold text-gray-400 mb-2">${typeStr}</div>
-                        <div class="${colorClass} border border-opacity-50 border-gray-300 rounded p-2 text-[11px] leading-relaxed max-h-32 overflow-y-auto">
+                        <div class="${colorClass} border border-opacity-50 border-gray-300 rounded p-3 text-[12px] leading-relaxed">
                             <span class="font-bold mr-1 inline-block bg-white px-1 border rounded ${part.added ? 'border-green-300 text-green-700' : 'border-red-300 text-red-700'}">${badge}</span>
                             <span class="${tagClass}">${escapeHtml(part.value)}</span>
                         </div>
