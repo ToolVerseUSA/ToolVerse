@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redact PDF (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- PDF.js for rendering PDFs to Canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- PDF-Lib for modifying and saving the PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        window.isUserLoggedIn = true; 
+    </script>
+
+    <!-- Firebase Security Module -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                window.isUserLoggedIn = false;
+            } else {
+                document.getElementById('authOverlay').style.display = 'none';
+                window.isUserLoggedIn = true;
+            }
+        });
+    </script>
+
+    <style>
+        body { background-color: #f3f4f7; overscroll-behavior: none; }
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border: 4px solid #e2e8f0; border-top-color: #e5322d; border-radius: 50%; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        @keyframes pulse-red-wide {
+            0% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.8); }
+            70% { box-shadow: 0 0 0 20px rgba(229, 50, 45, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); }
+        }
+        .btn-pulse { animation: pulse-red-wide 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        
+        /* Drag & Drop Area */
+        .drag-area { transition: 0.3s; }
+        .drag-area.active { border-color: #e5322d; background-color: #fff5f5; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px;}
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* PDF Viewer Canvases & Drawing Layers */
+        .pdf-page-container { position: relative; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; background: white;}
+        .pdf-canvas { display: block; }
+        .draw-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; cursor: crosshair; z-index: 10; }
+        .redact-box { position: absolute; background-color: rgba(0, 0, 0, 0.85); border: 1px solid #000; box-shadow: 0 0 5px rgba(229,50,45,0.5); z-index: 20; pointer-events: none; transition: background-color 0.2s;}
+        .redact-box:hover { background-color: rgba(229, 50, 45, 0.85); border-color: #e5322d; } /* Visual feedback */
+
+        .toolbar-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 8px; color: #64748b; cursor: pointer; transition: 0.2s; border: 1px solid transparent;}
+        .toolbar-btn:hover { background-color: #f1f5f9; color: #0f172a;}
+        .toolbar-btn.active { background-color: #fee2e2; color: #e5322d; border-color: #fca5a5;}
+    </style>
+</head>
+<body class="min-h-screen font-sans relative flex flex-col overflow-hidden h-screen bg-gray-50">
+
+    <!-- VVIP LOCK SCREEN -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-red-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full ilovepdf-red text-white font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
+        </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative h-[65px] flex items-center">
+        <div class="w-full px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
+                <div class="h-6 w-px bg-gray-300 hidden md:block"></div>
+                <span class="text-sm font-bold text-gray-600 hidden md:block"><i class="fa-solid fa-eraser mr-1"></i> Redact PDF</span>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700">
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase hidden md:block">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STEP 1: UPLOAD SCREEN -->
+    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 bg-white z-10 absolute inset-0 top-[65px]">
+        <div class="flex items-center justify-center gap-3 mb-4 mt-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 text-center">Redact PDF</h1>
+            <span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide shadow-sm"><i class="fa-solid fa-shield-halved"></i> SECURE</span>
+        </div>
+        <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Remove sensitive content from PDFs permanently using interactive visual masking.</p>
+        
+        <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
+        
+        <div id="dropZone" class="drag-area w-full max-w-3xl border-2 border-dashed border-gray-300 rounded-3xl bg-white p-16 md:p-20 flex flex-col items-center justify-center cursor-pointer hover:border-red-500 hover:bg-red-50 transition shadow-sm" onclick="document.getElementById('fileInput').click()">
+            <button class="ilovepdf-red text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 mb-4">
+                Select PDF file
+            </button>
+            <p class="text-gray-500 font-medium text-sm">or drop PDF here</p>
+        </div>
+        
+        <div class="mt-8 text-xs text-gray-400 font-medium"><i class="fa-solid fa-lock"></i> 100% Client-Side Processing. No files are uploaded to any server.</div>
+    </div>
+
+    <!-- STEP 2: WORKSPACE -->
+    <div id="step2" class="hidden flex-grow flex flex-col md:flex-row relative h-[calc(100vh-65px)] w-full">
+        
+        <!-- Left Area: PDF Viewer & Drawing Tools -->
+        <div class="flex-1 flex flex-col bg-[#e9ecef] relative overflow-hidden h-full">
+            
+            <!-- Top Toolbar -->
+            <div class="h-14 bg-white border-b border-gray-200 flex items-center px-4 justify-between shadow-sm z-10 shrink-0">
+                <div class="flex items-center gap-2">
+                    <button id="toolPan" class="toolbar-btn" onclick="setTool('pan')" title="Pan / View"><i class="fa-solid fa-hand"></i></button>
+                    <div class="h-6 w-px bg-gray-300 mx-1"></div>
+                    <button id="toolRedact" class="toolbar-btn active" onclick="setTool('redact')" title="Draw Redaction Box">
+                        <i class="fa-solid fa-vector-square text-red-500"></i> <span class="ml-2 text-xs font-bold hidden md:inline text-gray-800">Redact</span>
+                    </button>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 mr-4">
+                        <span class="text-xs font-bold text-gray-500 hidden md:inline">Color:</span>
+                        <input type="color" id="redactColor" value="#000000" class="w-6 h-6 border-0 rounded cursor-pointer" title="Redaction Color">
+                    </div>
+                    <button class="w-8 h-8 rounded hover:bg-gray-100 text-gray-600 flex items-center justify-center transition" onclick="zoomIn()"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                    <button class="w-8 h-8 rounded hover:bg-gray-100 text-gray-600 flex items-center justify-center transition" onclick="zoomOut()"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                </div>
+            </div>
+
+            <!-- PDF Scrollable Container -->
+            <div id="pdfViewerContainer" class="flex-1 overflow-auto p-4 md:p-8 flex flex-col items-center">
+                <!-- Pages injected here -->
+            </div>
+            
+            <!-- Loading Overlay -->
+            <div id="parsingOverlay" class="absolute inset-0 bg-white bg-opacity-90 z-20 flex flex-col items-center justify-center hidden">
+                <div class="loader w-12 h-12 mb-4"></div>
+                <p class="font-bold text-gray-700" id="loadingText">Applying Permanent Redactions...</p>
+            </div>
+        </div>
+
+        <!-- Right Area: Settings & List -->
+        <div class="w-full md:w-[320px] bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] shrink-0 h-1/3 md:h-full overflow-hidden z-20">
+            <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-lg bg-white flex justify-between items-center shrink-0">
+                <span>Redact PDF</span>
+                <i class="fa-solid fa-xmark text-gray-400 hover:text-red-500 cursor-pointer transition text-base" onclick="resetTool()" title="Start Over"></i>
+            </div>
+            
+            <div class="p-4 flex-1 overflow-y-auto bg-gray-50 flex flex-col relative">
+                
+                <div class="relative mb-6">
+                    <i class="fa-solid fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
+                    <input type="text" placeholder="Search text" class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-md text-sm outline-none focus:border-red-500 transition cursor-not-allowed bg-gray-100" title="VVIP Auto-Search coming soon. Use manual draw." disabled>
+                </div>
+
+                <h4 class="font-bold text-sm text-gray-800 mb-3 flex justify-between items-center">
+                    Marked for redaction <span class="bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full text-[10px] font-bold" id="markCount">0</span>
+                </h4>
+
+                <div id="emptyState" class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-xs text-blue-800 shadow-sm text-center mb-4">
+                    Select and draw boxes over text or images on the PDF pages to start redacting sensitive content.
+                </div>
+
+                <!-- List of redactions -->
+                <div id="redactionList" class="flex-1 overflow-y-auto space-y-2 pb-4">
+                    <!-- Items injected here -->
+                </div>
+
+            </div>
+
+            <!-- Action Button -->
+            <div class="p-4 bg-white border-t border-gray-200 shrink-0">
+                <div class="bg-orange-50 border border-orange-200 rounded-md p-3 mb-4 flex items-start gap-2">
+                    <i class="fa-solid fa-triangle-exclamation text-orange-400 mt-0.5 text-sm"></i>
+                    <p class="text-[10px] text-orange-800 font-medium leading-tight">Remember to review the result of your document before sending private information.</p>
+                </div>
+                <button onclick="applyRedactions()" id="redactBtn" class="w-full ilovepdf-red text-white font-bold py-3.5 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-md btn-pulse">
+                    Redact <i class="fa-solid fa-arrow-right ml-2 text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 4: DOWNLOAD SCREEN -->
+    <div id="step4" class="hidden w-full flex-grow flex flex-col items-center justify-center text-center px-4 pt-16 pb-10 bg-white z-10 absolute inset-0 top-[65px]">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-md border-4 border-white ring-2 ring-green-50">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10">PDF Redacted Successfully!</h2>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-16">
+            <button onclick="resetTool()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block">
+                <i class="fa-solid fa-arrow-left text-xl"></i>
+            </button>
+
+            <button id="downloadBtn" class="ilovepdf-red text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
+                <i class="fa-solid fa-download mr-4 text-2xl"></i> Download PDF
+            </button>
+        </div>
+        
+        <button onclick="resetTool()" class="mt-8 text-gray-500 font-bold underline md:hidden">Start Over</button>
+    </div>
+
+    <script>
+        let currentFile = null;
+        let pdfDoc = null;
+        let pdfArrayBuffer = null;
+        let currentScale = 1.2;
+        let currentTool = 'redact'; // 'pan' or 'redact'
+        
+        // Store redactions: { id, pageNum, x, y, width, height, color }
+        let redactions = []; 
+        let boxCounter = 0;
+
+        // Interaction Variables
+        let isDrawing = false;
+        let startX = 0, startY = 0;
+        let tempBox = null;
+
+        // --- Drag & Drop Initialization ---
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault(); dropZone.classList.remove('active');
+            if(e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+        });
+
+        async function handleFile(fileOrInput) {
+            const file = fileOrInput instanceof File ? fileOrInput : fileOrInput.files[0];
+            if(file && file.type === 'application/pdf') {
+                currentFile = file;
+                pdfArrayBuffer = await file.arrayBuffer();
+                
+                document.getElementById('step1').classList.add('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+                
+                loadPDF();
+            }
+        }
+
+        async function loadPDF() {
+            try {
+                pdfDoc = await pdfjsLib.getDocument({data: new Uint8Array(pdfArrayBuffer)}).promise;
+                renderAllPages();
+            } catch (error) {
+                alert("Error rendering PDF.");
+                console.error(error);
+            }
+        }
+
+        async function renderAllPages() {
+            const container = document.getElementById('pdfViewerContainer');
+            container.innerHTML = '';
+            
+            for(let i = 1; i <= pdfDoc.numPages; i++) {
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({scale: currentScale});
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = 'pdf-page-container';
+                wrapper.id = `page-container-${i}`;
+                wrapper.style.width = `${viewport.width}px`;
+                wrapper.style.height = `${viewport.height}px`;
+
+                const canvas = document.createElement('canvas');
+                canvas.className = 'pdf-canvas';
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                
+                const drawLayer = document.createElement('div');
+                drawLayer.className = 'draw-layer';
+                drawLayer.dataset.page = i;
+
+                // Re-draw existing redactions for this page if scaling changed
+                redrawSavedBoxes(i, drawLayer, viewport);
+
+                // Setup Drawing Events
+                setupDrawingEvents(drawLayer, i);
+
+                wrapper.appendChild(canvas);
+                wrapper.appendChild(drawLayer);
+                container.appendChild(wrapper);
+
+                const ctx = canvas.getContext('2d');
+                await page.render({canvasContext: ctx, viewport: viewport}).promise;
+            }
+        }
+
+        // --- Drawing Interactions ---
+        window.setTool = function(tool) {
+            currentTool = tool;
+            document.getElementById('toolPan').classList.toggle('active', tool === 'pan');
+            document.getElementById('toolRedact').classList.toggle('active', tool === 'redact');
+            
+            const layers = document.querySelectorAll('.draw-layer');
+            layers.forEach(l => l.style.cursor = tool === 'pan' ? 'grab' : 'crosshair');
+        }
+
+        window.zoomIn = function() { currentScale += 0.2; renderAllPages(); }
+        window.zoomOut = function() { if(currentScale > 0.6) { currentScale -= 0.2; renderAllPages(); } }
+
+        function setupDrawingEvents(layer, pageNum) {
+            layer.addEventListener('mousedown', (e) => {
+                if(currentTool !== 'redact') return;
+                isDrawing = true;
+                const rect = layer.getBoundingClientRect();
+                startX = e.clientX - rect.left;
+                startY = e.clientY - rect.top;
+
+                tempBox = document.createElement('div');
+                tempBox.className = 'redact-box';
+                tempBox.style.left = startX + 'px';
+                tempBox.style.top = startY + 'px';
+                
+                const color = document.getElementById('redactColor').value;
+                tempBox.style.backgroundColor = hexToRgba(color, 0.85);
+
+                layer.appendChild(tempBox);
+            });
+
+            layer.addEventListener('mousemove', (e) => {
+                if(!isDrawing || currentTool !== 'redact') return;
+                const rect = layer.getBoundingClientRect();
+                const currX = e.clientX - rect.left;
+                const currY = e.clientY - rect.top;
+
+                const width = Math.abs(currX - startX);
+                const height = Math.abs(currY - startY);
+                const left = Math.min(currX, startX);
+                const top = Math.min(currY, startY);
+
+                tempBox.style.width = width + 'px';
+                tempBox.style.height = height + 'px';
+                tempBox.style.left = left + 'px';
+                tempBox.style.top = top + 'px';
+            });
+
+            window.addEventListener('mouseup', () => {
+                if(!isDrawing) return;
+                isDrawing = false;
+                
+                if(tempBox) {
+                    const w = parseFloat(tempBox.style.width);
+                    const h = parseFloat(tempBox.style.height);
+                    
+                    if(w > 5 && h > 5) {
+                        // Valid Box
+                        boxCounter++;
+                        const boxId = `redact_${Date.now()}_${boxCounter}`;
+                        tempBox.id = boxId;
+                        
+                        const color = document.getElementById('redactColor').value;
+                        
+                        // Save Absolute coordinates mapped to standard scale (1.0)
+                        // This ensures zoom in/out works properly
+                        const stdLeft = parseFloat(tempBox.style.left) / currentScale;
+                        const stdTop = parseFloat(tempBox.style.top) / currentScale;
+                        const stdW = w / currentScale;
+                        const stdH = h / currentScale;
+
+                        redactions.push({
+                            id: boxId,
+                            pageNum: pageNum,
+                            x: stdLeft,
+                            y: stdTop,
+                            w: stdW,
+                            h: stdH,
+                            color: color
+                        });
+
+                        updateRightPanel();
+                    } else {
+                        // Click without drag, discard
+                        tempBox.remove();
+                    }
+                    tempBox = null;
+                }
+            }, { once: true });
+        }
+
+        function hexToRgba(hex, alpha) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        function hexToRgbForPdfLib(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16) / 255,
+                g: parseInt(result[2], 16) / 255,
+                b: parseInt(result[3], 16) / 255
+            } : { r: 0, g: 0, b: 0 };
+        }
+
+        function redrawSavedBoxes(pageNum, layer, viewport) {
+            const pageRedactions = redactions.filter(r => r.pageNum === pageNum);
+            pageRedactions.forEach(r => {
+                const box = document.createElement('div');
+                box.className = 'redact-box';
+                box.id = r.id;
+                box.style.left = (r.x * currentScale) + 'px';
+                box.style.top = (r.y * currentScale) + 'px';
+                box.style.width = (r.w * currentScale) + 'px';
+                box.style.height = (r.h * currentScale) + 'px';
+                box.style.backgroundColor = hexToRgba(r.color, 0.85);
+                layer.appendChild(box);
+            });
+        }
+
+        // --- UI Updates ---
+        function updateRightPanel() {
+            const list = document.getElementById('redactionList');
+            const emptyState = document.getElementById('emptyState');
+            const countBadge = document.getElementById('markCount');
+
+            countBadge.innerText = redactions.length;
+            
+            if(redactions.length > 0) {
+                emptyState.style.display = 'none';
+                list.innerHTML = '';
+                
+                // Group by page
+                const grouped = {};
+                redactions.forEach(r => {
+                    if(!grouped[r.pageNum]) grouped[r.pageNum] = [];
+                    grouped[r.pageNum].push(r);
+                });
+
+                Object.keys(grouped).forEach(pageStr => {
+                    const pageNum = parseInt(pageStr);
+                    const groupDiv = document.createElement('div');
+                    groupDiv.innerHTML = `<h5 class="text-xs font-bold text-gray-500 mb-1 mt-3 border-b border-gray-200 pb-1">Page ${pageNum}</h5>`;
+                    
+                    grouped[pageNum].forEach((r, idx) => {
+                        const item = document.createElement('div');
+                        item.className = 'flex items-center justify-between bg-white border border-gray-200 rounded p-2 shadow-sm text-xs group transition hover:border-red-300';
+                        item.innerHTML = `
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full border border-gray-300" style="background-color: ${r.color}"></div>
+                                <span class="font-bold text-gray-700">Redaction Box ${idx+1}</span>
+                            </div>
+                            <button class="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition" onclick="deleteRedaction('${r.id}')"><i class="fa-solid fa-trash"></i></button>
+                        `;
+                        // Hover to highlight box on canvas
+                        item.addEventListener('mouseenter', () => {
+                            const domBox = document.getElementById(r.id);
+                            if(domBox) { domBox.style.borderColor = '#e5322d'; domBox.style.boxShadow = '0 0 10px rgba(229,50,45,1)'; }
+                        });
+                        item.addEventListener('mouseleave', () => {
+                            const domBox = document.getElementById(r.id);
+                            if(domBox) { domBox.style.borderColor = '#000'; domBox.style.boxShadow = '0 0 5px rgba(229,50,45,0.5)'; }
+                        });
+
+                        groupDiv.appendChild(item);
+                    });
+                    list.appendChild(groupDiv);
+                });
+            } else {
+                emptyState.style.display = 'block';
+                list.innerHTML = '';
+            }
+        }
+
+        window.deleteRedaction = function(id) {
+            redactions = redactions.filter(r => r.id !== id);
+            const domBox = document.getElementById(id);
+            if(domBox) domBox.remove();
+            updateRightPanel();
+        }
+
+        // --- Apply Redactions (PDF-Lib Core Logic) ---
+        window.applyRedactions = async function() {
+            if(redactions.length === 0) {
+                alert("Please draw at least one redaction box to proceed.");
+                return;
+            }
+
+            document.getElementById('parsingOverlay').classList.remove('hidden');
+
+            try {
+                const { PDFDocument, rgb } = PDFLib;
+                const pdfModDoc = await PDFDocument.load(pdfArrayBuffer);
+                const pages = pdfModDoc.getPages();
+
+                // To map coordinates properly, we need the original unscaled viewport of each page
+                for(let i=1; i<=pdfDoc.numPages; i++) {
+                    const pageBoxes = redactions.filter(r => r.pageNum === i);
+                    if(pageBoxes.length === 0) continue;
+
+                    // PDF.js rendering info
+                    const jsPage = await pdfDoc.getPage(i);
+                    const vp1_0 = jsPage.getViewport({scale: 1.0}); // Standard unscaled viewport
+                    
+                    const pdfPage = pages[i-1];
+                    const { width: pdfWidth, height: pdfHeight } = pdfPage.getSize();
+
+                    // Calculate mapping scale (usually 1.0, but just in case PDF-Lib and PDF.js differ slightly in pts)
+                    const scaleX = pdfWidth / vp1_0.width;
+                    const scaleY = pdfHeight / vp1_0.height;
+
+                    pageBoxes.forEach(box => {
+                        const rgbColor = hexToRgbForPdfLib(box.color);
+                        
+                        // Map coordinates
+                        const rectX = box.x * scaleX;
+                        const rectW = box.w * scaleX;
+                        const rectH = box.h * scaleY;
+                        
+                        // PDF.js Canvas origin is Top-Left. 
+                        // PDF-Lib Page origin is Bottom-Left.
+                        // So, Y must be inverted.
+                        const rectY = pdfHeight - ((box.y + box.h) * scaleY);
+
+                        pdfPage.drawRectangle({
+                            x: rectX,
+                            y: rectY,
+                            width: rectW,
+                            height: rectH,
+                            color: rgb(rgbColor.r, rgbColor.g, rgbColor.b),
+                            opacity: 1, // 100% solid redaction
+                        });
+                    });
+                }
+
+                pdfModDoc.setProducer('ToolVerse Advanced PDF Engine');
+                const pdfBytes = await pdfModDoc.save();
+                
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                
+                const btn = document.getElementById('downloadBtn');
+                btn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = currentFile.name.replace('.pdf', '_Redacted.pdf');
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                };
+
+                document.getElementById('step2').style.display = 'none';
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('step4').classList.remove('hidden');
+                document.getElementById('step4').style.display = 'flex';
+
+            } catch (error) {
+                console.error("Redaction Error:", error);
+                alert("An error occurred while applying redactions.");
+                document.getElementById('parsingOverlay').classList.add('hidden');
+            }
+        }
+
+        window.resetTool = function() {
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
