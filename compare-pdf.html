@@ -80,11 +80,15 @@
         .diff-added { background-color: #dcfce7; color: #166534; padding: 2px 4px; border-radius: 3px; font-size: 13px;}
         .diff-removed { background-color: #fee2e2; color: #991b1b; padding: 2px 4px; border-radius: 3px; text-decoration: line-through; font-size: 13px;}
         
-        .tab-btn { flex: 1; padding: 12px 0; text-align: center; font-weight: bold; color: #64748b; border-bottom: 3px solid transparent; cursor: pointer; transition: 0.2s;}
+        .tab-btn { flex: 1; padding: 12px 0; text-align: center; font-weight: bold; color: #64748b; border-bottom: 3px solid transparent; cursor: pointer; transition: 0.2s; position: relative;}
         .tab-btn.active { color: #0f172a; border-bottom-color: #10b981; background: #f8fafc;}
+        .tab-btn.active::after { content: '\f058'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: #10b981; position: absolute; top: 8px; left: 10%; font-size: 12px; }
+
+        .overlay-file-box { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
+        .overlay-file-box select { border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 8px; text-align: center; font-size: 12px; outline: none; cursor: pointer; width: 60px;}
     </style>
 </head>
-<body class="min-h-screen font-sans relative flex flex-col overflow-x-hidden">
+<body class="min-h-screen font-sans relative flex flex-col overflow-x-hidden bg-gray-50">
 
     <!-- VVIP LOCK SCREEN -->
     <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
@@ -146,7 +150,7 @@
         </button>
     </div>
 
-    <!-- STEP 2: WORKSPACE (SPLIT VIEW) -->
+    <!-- STEP 2: WORKSPACE (SPLIT & OVERLAY VIEW) -->
     <div id="step2" class="hidden flex-grow flex flex-col md:flex-row relative h-[calc(100vh-65px)] w-full">
         
         <!-- Left Area: PDF Viewers -->
@@ -154,50 +158,57 @@
             
             <!-- Top Toolbar -->
             <div class="h-12 bg-white border-b border-gray-200 flex items-center px-4 justify-between shadow-sm z-10 shrink-0">
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4" id="syncToolbar">
                     <button id="syncToggleBtn" class="flex items-center gap-2 bg-blue-50 text-blue-600 border border-blue-200 px-3 py-1.5 rounded-md text-xs font-bold shadow-sm transition hover:bg-blue-100" onclick="toggleSync()">
                         <i class="fa-solid fa-link"></i> Scroll Sync: ON
                     </button>
                     <span class="text-xs text-gray-400 font-medium hidden md:inline"><i class="fa-solid fa-info-circle"></i> Viewers are locked together</span>
                 </div>
+                <div class="flex items-center gap-4 hidden" id="overlayToolbar">
+                    <span class="text-xs text-gray-500 font-bold"><i class="fa-solid fa-eye text-red-500"></i> Pixel Overlay Active</span>
+                </div>
+                
                 <div class="flex gap-2">
                     <button class="w-8 h-8 rounded hover:bg-gray-100 text-gray-600 flex items-center justify-center transition" onclick="zoomIn()"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
                     <button class="w-8 h-8 rounded hover:bg-gray-100 text-gray-600 flex items-center justify-center transition" onclick="zoomOut()"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
                 </div>
             </div>
 
-            <!-- Split View Panes -->
-            <div class="flex-1 flex overflow-hidden">
-                <!-- Pane 1 (Original) -->
-                <div id="pane1" class="flex-1 overflow-auto p-4 border-r-2 border-gray-300 relative flex flex-col items-center" onscroll="syncScroll(1)">
-                    <!-- Canvases injected here -->
-                </div>
-                <!-- Pane 2 (Modified) -->
-                <div id="pane2" class="flex-1 overflow-auto p-4 relative flex flex-col items-center" onscroll="syncScroll(2)">
-                    <!-- Canvases injected here -->
-                </div>
+            <!-- View Containers -->
+            <div id="splitViewContainer" class="flex-1 flex overflow-hidden">
+                <div id="pane1" class="flex-1 overflow-auto p-4 border-r-2 border-gray-300 relative flex flex-col items-center" onscroll="syncScroll(1)"></div>
+                <div id="pane2" class="flex-1 overflow-auto p-4 relative flex flex-col items-center" onscroll="syncScroll(2)"></div>
+            </div>
+
+            <div id="overlayViewContainer" class="hidden flex-1 overflow-auto p-4 flex flex-col items-center">
+                <canvas id="overlayCanvas" class="pdf-page-canvas"></canvas>
             </div>
 
             <!-- Loading Overlay for parsing -->
             <div id="parsingOverlay" class="absolute inset-0 bg-white bg-opacity-90 z-20 flex flex-col items-center justify-center">
                 <div class="loader w-12 h-12 mb-4"></div>
-                <p class="font-bold text-gray-700">AI Semantic Comparison running...</p>
+                <p class="font-bold text-gray-700" id="loadingText">AI Semantic Comparison running...</p>
             </div>
         </div>
 
         <!-- Right Area: Report Panel -->
-        <div class="w-full md:w-[350px] bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] shrink-0 h-1/2 md:h-full overflow-hidden">
+        <div class="w-full md:w-[360px] bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] shrink-0 h-[50vh] md:h-full overflow-hidden z-20">
             <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-lg bg-white flex justify-between items-center shrink-0">
                 <span>Compare PDF</span>
                 <i class="fa-solid fa-xmark text-gray-400 hover:text-red-500 cursor-pointer transition text-base" onclick="resetTool()" title="Close"></i>
             </div>
             
             <div class="flex border-b border-gray-200 shrink-0">
-                <div class="tab-btn active"><i class="fa-solid fa-file-lines block text-xl mb-1"></i> Semantic Text</div>
-                <div class="tab-btn" onclick="alert('Content Overlay visually merges pixels. VVIP uses Semantic Text for precise data extraction.')"><i class="fa-regular fa-clone block text-xl mb-1"></i> Overlay</div>
+                <div id="tabSem" class="tab-btn active" onclick="switchTab('semantic')">
+                    <i class="fa-solid fa-file-lines block text-xl mb-1 mt-1 text-gray-400"></i> Semantic Text
+                </div>
+                <div id="tabOvl" class="tab-btn" onclick="switchTab('overlay')">
+                    <i class="fa-regular fa-clone block text-xl mb-1 mt-1 text-gray-400"></i> Content Overlay
+                </div>
             </div>
 
-            <div class="p-4 flex-1 overflow-y-auto bg-gray-50 relative">
+            <!-- Panel 1: Semantic -->
+            <div id="panelSemantic" class="p-4 flex-1 overflow-y-auto bg-gray-50 relative">
                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 text-xs text-blue-800 shadow-sm text-center">
                     Compare text changes between two PDFs.
                 </div>
@@ -208,12 +219,40 @@
                 </div>
 
                 <h4 class="font-bold text-sm text-gray-800 mb-3 flex justify-between items-center">
-                    Change report <span class="bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full text-[10px]" id="changeCount">0</span>
+                    Change report <span class="bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full text-[10px] font-bold" id="changeCount">0</span>
                 </h4>
                 
-                <!-- Diff Results Container -->
-                <div id="diffResults" class="space-y-4">
-                    <!-- Results injected here -->
+                <div id="diffResults"></div>
+            </div>
+
+            <!-- Panel 2: Overlay -->
+            <div id="panelOverlay" class="hidden p-4 flex-1 overflow-y-auto bg-gray-50 relative">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-6 text-xs text-blue-800 shadow-sm text-center">
+                    Overlay content from two files and display any changes in a separate color.
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <div class="overlay-file-box">
+                        <i class="fa-solid fa-file-pdf text-gray-400 text-xl"></i>
+                        <div class="flex-1 overflow-hidden">
+                            <p class="text-xs font-bold text-gray-700 truncate" id="ovlName1">File 1</p>
+                            <div class="mt-1 flex justify-between items-center">
+                                <select id="ovlPage1" onchange="renderOverlay()"></select>
+                                <i class="fa-solid fa-upload text-gray-400 text-xs cursor-pointer hover:text-red-500"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overlay-file-box">
+                        <i class="fa-solid fa-file-pdf text-gray-400 text-xl"></i>
+                        <div class="flex-1 overflow-hidden">
+                            <p class="text-xs font-bold text-gray-700 truncate" id="ovlName2">File 2</p>
+                            <div class="mt-1 flex justify-between items-center">
+                                <select id="ovlPage2" onchange="renderOverlay()"></select>
+                                <i class="fa-solid fa-upload text-gray-400 text-xs cursor-pointer hover:text-red-500"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -227,15 +266,13 @@
     </div>
 
     <script>
-        let file1 = null;
-        let file2 = null;
-        let pdfDoc1 = null;
-        let pdfDoc2 = null;
+        let file1 = null, file2 = null;
+        let pdfDoc1 = null, pdfDoc2 = null;
         let currentScale = 1.0;
         let isSyncOn = true;
-        let diffData = [];
+        let diffDataByPage = [];
+        let currentMode = 'semantic'; // 'semantic' or 'overlay'
 
-        // File Selection Logic
         function handleFile(input, num) {
             const file = input.files[0];
             if(file && file.type === 'application/pdf') {
@@ -261,16 +298,42 @@
             }
         }
 
+        window.switchTab = function(tab) {
+            currentMode = tab;
+            const tabSem = document.getElementById('tabSem');
+            const tabOvl = document.getElementById('tabOvl');
+            const panelSem = document.getElementById('panelSemantic');
+            const panelOvl = document.getElementById('panelOverlay');
+            const splitCont = document.getElementById('splitViewContainer');
+            const ovlCont = document.getElementById('overlayViewContainer');
+            
+            const syncTool = document.getElementById('syncToolbar');
+            const ovlTool = document.getElementById('overlayToolbar');
+
+            if(tab === 'semantic') {
+                tabSem.classList.add('active'); tabOvl.classList.remove('active');
+                panelSem.classList.remove('hidden'); panelOvl.classList.add('hidden');
+                splitCont.classList.remove('hidden'); ovlCont.classList.add('hidden');
+                syncTool.classList.remove('hidden'); ovlTool.classList.add('hidden');
+            } else {
+                tabOvl.classList.add('active'); tabSem.classList.remove('active');
+                panelOvl.classList.remove('hidden'); panelSem.classList.add('hidden');
+                ovlCont.classList.remove('hidden'); splitCont.classList.add('hidden');
+                syncTool.classList.add('hidden'); ovlTool.classList.remove('hidden');
+                
+                initOverlayUI();
+                renderOverlay();
+            }
+        }
+
         async function startComparison() {
             document.getElementById('step1').classList.add('hidden');
             document.getElementById('step2').classList.remove('hidden');
             
             try {
-                // Load PDF 1
                 const buffer1 = await file1.arrayBuffer();
                 pdfDoc1 = await pdfjsLib.getDocument({data: new Uint8Array(buffer1)}).promise;
                 
-                // Load PDF 2
                 const buffer2 = await file2.arrayBuffer();
                 pdfDoc2 = await pdfjsLib.getDocument({data: new Uint8Array(buffer2)}).promise;
 
@@ -283,34 +346,44 @@
             }
         }
 
-        // --- Rendering Logic ---
+        // --- View Zooming ---
+        window.zoomIn = function() { 
+            currentScale += 0.2; 
+            if(currentMode === 'semantic') renderAllPages(); 
+            else renderOverlay();
+        }
+        window.zoomOut = function() { 
+            if(currentScale > 0.5) { 
+                currentScale -= 0.2; 
+                if(currentMode === 'semantic') renderAllPages(); 
+                else renderOverlay();
+            } 
+        }
+
+        // --- SPLIT RENDER LOGIC ---
         async function renderAllPages() {
             const pane1 = document.getElementById('pane1');
             const pane2 = document.getElementById('pane2');
             pane1.innerHTML = ''; pane2.innerHTML = '';
 
             const maxPages = Math.max(pdfDoc1.numPages, pdfDoc2.numPages);
-
             for(let i = 1; i <= maxPages; i++) {
                 if (i <= pdfDoc1.numPages) await renderPageToPane(pdfDoc1, i, pane1);
-                else addBlankPage(pane1); // Placeholder if doc2 has more pages
+                else addBlankPage(pane1);
 
                 if (i <= pdfDoc2.numPages) await renderPageToPane(pdfDoc2, i, pane2);
-                else addBlankPage(pane2); // Placeholder if doc1 has more pages
+                else addBlankPage(pane2);
             }
         }
 
         async function renderPageToPane(pdfDoc, pageNum, container) {
             const page = await pdfDoc.getPage(pageNum);
             const viewport = page.getViewport({scale: currentScale});
-            
             const wrapper = document.createElement('div');
             wrapper.className = 'relative mb-4';
-            
             const canvas = document.createElement('canvas');
             canvas.className = 'pdf-page-canvas';
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
+            canvas.width = viewport.width; canvas.height = viewport.height;
             wrapper.appendChild(canvas);
             container.appendChild(wrapper);
 
@@ -320,20 +393,15 @@
 
         function addBlankPage(container) {
             const div = document.createElement('div');
-            div.className = 'pdf-page-canvas bg-gray-100 flex items-center justify-center text-gray-400 font-bold';
-            div.style.width = (595 * currentScale) + 'px'; // A4 approx
+            div.className = 'pdf-page-canvas bg-gray-100 flex items-center justify-center text-gray-400 font-bold mb-4';
+            div.style.width = (595 * currentScale) + 'px'; 
             div.style.height = (842 * currentScale) + 'px';
             div.innerText = "No corresponding page";
             container.appendChild(div);
         }
 
-        window.zoomIn = function() { currentScale += 0.2; renderAllPages(); }
-        window.zoomOut = function() { if(currentScale > 0.5) { currentScale -= 0.2; renderAllPages(); } }
-
-        // --- Scroll Sync Logic ---
-        let isScrolling1 = false;
-        let isScrolling2 = false;
-
+        // --- Scroll Sync ---
+        let isScrolling1 = false, isScrolling2 = false;
         window.toggleSync = function() {
             isSyncOn = !isSyncOn;
             const btn = document.getElementById('syncToggleBtn');
@@ -350,43 +418,36 @@
             if(!isSyncOn) return;
             const p1 = document.getElementById('pane1');
             const p2 = document.getElementById('pane2');
-
             if(sourcePane === 1) {
-                if(!isScrolling2) {
-                    isScrolling1 = true;
-                    p2.scrollTop = p1.scrollTop;
-                    setTimeout(() => isScrolling1 = false, 50);
-                }
+                if(!isScrolling2) { isScrolling1 = true; p2.scrollTop = p1.scrollTop; setTimeout(() => isScrolling1 = false, 50); }
             } else {
-                if(!isScrolling1) {
-                    isScrolling2 = true;
-                    p1.scrollTop = p2.scrollTop;
-                    setTimeout(() => isScrolling2 = false, 50);
-                }
+                if(!isScrolling1) { isScrolling2 = true; p1.scrollTop = p2.scrollTop; setTimeout(() => isScrolling2 = false, 50); }
             }
         }
 
-        // --- Semantic Diff Logic (VVIP AI) ---
-        async function extractAllText(pdfDoc) {
-            let fullText = '';
-            for(let i=1; i<=pdfDoc.numPages; i++) {
-                const page = await pdfDoc.getPage(i);
+        // --- SEMANTIC DIFF LOGIC ---
+        async function extractPageText(pdfDoc, pageNum) {
+            try {
+                const page = await pdfDoc.getPage(pageNum);
                 const content = await page.getTextContent();
-                const strings = content.items.map(item => item.str);
-                fullText += strings.join(' ') + '\n';
-            }
-            return fullText;
+                return content.items.map(item => item.str).join(' ') + '\n';
+            } catch(e) { return ""; }
         }
 
         async function runSemanticDiff() {
             try {
-                const text1 = await extractAllText(pdfDoc1);
-                const text2 = await extractAllText(pdfDoc2);
+                diffDataByPage = [];
+                let maxPages = Math.max(pdfDoc1.numPages, pdfDoc2.numPages);
                 
-                // Using JsDiff library
-                diffData = Diff.diffWords(text1, text2);
+                for(let i=1; i<=maxPages; i++) {
+                    document.getElementById('loadingText').innerText = `Analyzing Page ${i} of ${maxPages}...`;
+                    let text1 = i <= pdfDoc1.numPages ? await extractPageText(pdfDoc1, i) : "";
+                    let text2 = i <= pdfDoc2.numPages ? await extractPageText(pdfDoc2, i) : "";
+                    let diff = Diff.diffWords(text1, text2);
+                    diffDataByPage.push({ page: i, diff: diff });
+                }
                 
-                buildReportUI();
+                buildSemanticUI();
                 document.getElementById('parsingOverlay').style.display = 'none';
 
             } catch (e) {
@@ -395,68 +456,162 @@
             }
         }
 
-        function buildReportUI() {
+        function buildSemanticUI() {
             const container = document.getElementById('diffResults');
             container.innerHTML = '';
-            let changesCount = 0;
+            let totalChanges = 0;
 
-            diffData.forEach((part) => {
-                if(part.added || part.removed) {
-                    changesCount++;
-                    const typeStr = part.added ? "Addition" : "Deletion";
-                    const colorClass = part.added ? "text-green-600 bg-green-50" : "text-red-600 bg-red-50";
-                    const tagClass = part.added ? "diff-added" : "diff-removed";
-                    const badge = part.added ? "New" : "Removed";
+            diffDataByPage.forEach(pageData => {
+                let pageHtml = '';
+                let pageChanges = 0;
 
-                    const card = document.createElement('div');
-                    card.className = `border border-gray-200 bg-white rounded-lg p-3 shadow-sm`;
-                    
-                    card.innerHTML = `
-                        <div class="text-[10px] uppercase font-bold text-gray-400 mb-2">${typeStr}</div>
-                        <div class="${colorClass} border border-opacity-50 border-gray-300 rounded p-3 text-[12px] leading-relaxed">
-                            <span class="font-bold mr-1 inline-block bg-white px-1 border rounded ${part.added ? 'border-green-300 text-green-700' : 'border-red-300 text-red-700'}">${badge}</span>
-                            <span class="${tagClass}">${escapeHtml(part.value)}</span>
-                        </div>
-                    `;
-                    container.appendChild(card);
+                pageData.diff.forEach(part => {
+                    if(part.added || part.removed) {
+                        pageChanges++; totalChanges++;
+                        const typeStr = part.added ? "Addition" : "Deletion";
+                        const colorClass = part.added ? "text-green-600 bg-green-50" : "text-red-600 bg-red-50";
+                        const tagClass = part.added ? "diff-added" : "diff-removed";
+                        const badge = part.added ? "New" : "Removed";
+
+                        pageHtml += `
+                            <div class="border border-gray-200 bg-white rounded-lg p-3 shadow-sm mb-3">
+                                <div class="text-[10px] flex justify-between uppercase font-bold text-gray-400 mb-2">
+                                    <span>${typeStr}</span>
+                                    <span class="text-gray-300">#${totalChanges}</span>
+                                </div>
+                                <div class="${colorClass} border border-opacity-50 border-gray-300 rounded p-3 text-[12px] leading-relaxed">
+                                    <span class="font-bold mr-1 inline-block bg-white px-1 border rounded ${part.added ? 'border-green-300 text-green-700' : 'border-red-300 text-red-700'}">${badge}</span>
+                                    <span class="${tagClass}">${escapeHtml(part.value)}</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                if(pageChanges > 0) {
+                    const pageHeader = document.createElement('div');
+                    pageHeader.innerHTML = `<h5 class="text-xs font-bold text-gray-500 mt-5 mb-2 px-1 border-b border-gray-200 pb-1">Page ${pageData.page}</h5>${pageHtml}`;
+                    container.appendChild(pageHeader);
                 }
             });
 
-            if(changesCount === 0) {
+            if(totalChanges === 0) {
                 container.innerHTML = `<div class="text-center text-gray-500 py-10"><i class="fa-solid fa-check-circle text-4xl text-green-400 mb-2"></i><br>Files are identical!</div>`;
             }
-            document.getElementById('changeCount').innerText = changesCount;
+            document.getElementById('changeCount').innerText = totalChanges;
         }
 
-        function escapeHtml(unsafe) {
-            return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        function escapeHtml(unsafe) { return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+        // --- CONTENT OVERLAY LOGIC (VVIP Pixel Diff) ---
+        function initOverlayUI() {
+            const sel1 = document.getElementById('ovlPage1');
+            const sel2 = document.getElementById('ovlPage2');
+            if(sel1.options.length === 0) {
+                for(let i=1; i<=pdfDoc1.numPages; i++) sel1.add(new Option(i, i));
+                for(let i=1; i<=pdfDoc2.numPages; i++) sel2.add(new Option(i, i));
+                document.getElementById('ovlName1').innerText = file1.name;
+                document.getElementById('ovlName2').innerText = file2.name;
+            }
+        }
+
+        async function renderOverlay() {
+            if(!pdfDoc1 || !pdfDoc2) return;
+            const p1Num = parseInt(document.getElementById('ovlPage1').value) || 1;
+            const p2Num = parseInt(document.getElementById('ovlPage2').value) || 1;
+
+            const ovlCanvas = document.getElementById('overlayCanvas');
+            const ctxOut = ovlCanvas.getContext('2d');
+            
+            document.getElementById('parsingOverlay').style.display = 'flex';
+            document.getElementById('loadingText').innerText = "Generating Visual Pixel Overlay...";
+
+            // Delay slighty to let UI update loader
+            await new Promise(r => setTimeout(r, 50));
+
+            try {
+                const page1 = await pdfDoc1.getPage(p1Num);
+                const page2 = await pdfDoc2.getPage(p2Num);
+                const vp1 = page1.getViewport({scale: currentScale});
+                const vp2 = page2.getViewport({scale: currentScale});
+
+                const w = Math.floor(Math.max(vp1.width, vp2.width));
+                const h = Math.floor(Math.max(vp1.height, vp2.height));
+
+                ovlCanvas.width = w; ovlCanvas.height = h;
+
+                // Render File 1 (Offscreen)
+                const c1 = document.createElement('canvas'); c1.width=w; c1.height=h;
+                const ctx1 = c1.getContext('2d');
+                ctx1.fillStyle = 'white'; ctx1.fillRect(0,0,w,h); 
+                await page1.render({canvasContext: ctx1, viewport: vp1}).promise;
+
+                // Render File 2 (Offscreen)
+                const c2 = document.createElement('canvas'); c2.width=w; c2.height=h;
+                const ctx2 = c2.getContext('2d');
+                ctx2.fillStyle = 'white'; ctx2.fillRect(0,0,w,h);
+                await page2.render({canvasContext: ctx2, viewport: vp2}).promise;
+
+                const img1 = ctx1.getImageData(0,0,w,h).data;
+                const img2 = ctx2.getImageData(0,0,w,h).data;
+                const imgOut = ctxOut.createImageData(w, h);
+
+                // Pixel manipulation: If diff, make RED. Else, fade Original.
+                for(let i=0; i<img1.length; i+=4) {
+                    let r1 = img1[i], g1 = img1[i+1], b1 = img1[i+2];
+                    let r2 = img2[i], g2 = img2[i+1], b2 = img2[i+2];
+
+                    let diff = Math.abs(r1-r2) + Math.abs(g1-g2) + Math.abs(b1-b2);
+
+                    if(diff > 40) {
+                        // Change detected -> Make pure Red
+                        imgOut.data[i]=255; imgOut.data[i+1]=0; imgOut.data[i+2]=0; imgOut.data[i+3]=255;
+                    } else {
+                        // Same -> Fade original (simulate watermark/background)
+                        imgOut.data[i] = Math.min(255, r1 + 90);
+                        imgOut.data[i+1] = Math.min(255, g1 + 90);
+                        imgOut.data[i+2] = Math.min(255, b1 + 90);
+                        imgOut.data[i+3] = 255;
+                    }
+                }
+                ctxOut.putImageData(imgOut, 0, 0);
+
+            } catch(e) {
+                console.error("Overlay error", e);
+            }
+            
+            document.getElementById('parsingOverlay').style.display = 'none';
         }
 
         window.downloadReport = function() {
-            if(diffData.length === 0) { alert("No report generated yet."); return; }
+            if(diffDataByPage.length === 0) { alert("No report generated yet."); return; }
             
             let reportTxt = `--- ToolVerse Compare PDF Report ---\n`;
-            reportTxt += `Original: ${file1.name}\nModified: ${file2.name}\n\n--- Changes ---\n\n`;
+            reportTxt += `Original: ${file1.name}\nModified: ${file2.name}\n\n`;
             
-            let count = 1;
-            diffData.forEach(part => {
-                if(part.added) { reportTxt += `[${count}] ADDED:\n${part.value}\n\n`; count++; }
-                else if (part.removed) { reportTxt += `[${count}] REMOVED:\n${part.value}\n\n`; count++; }
+            diffDataByPage.forEach(pageData => {
+                let hasChanges = pageData.diff.some(p => p.added || p.removed);
+                if(hasChanges) {
+                    reportTxt += `\n====== PAGE ${pageData.page} ======\n\n`;
+                    let count = 1;
+                    pageData.diff.forEach(part => {
+                        if(part.added) { reportTxt += `[+] ADDED:\n${part.value}\n\n`; count++; }
+                        else if (part.removed) { reportTxt += `[-] REMOVED:\n${part.value}\n\n`; count++; }
+                    });
+                }
             });
 
             const blob = new Blob([reportTxt], { type: "text/plain;charset=utf-8" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `Comparison_Report_${Date.now()}.txt`;
+            a.download = `ToolVerse_Comparison_Report_${Date.now()}.txt`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
         }
 
-        window.resetTool = function() {
-            window.location.reload();
-        }
+        window.resetTool = function() { window.location.reload(); }
     </script>
 </body>
 </html>
