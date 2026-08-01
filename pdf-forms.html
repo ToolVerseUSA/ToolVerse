@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Forms (VVIP) - ToolVerse</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- PDF.js for rendering PDFs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- PDF-Lib for creating Interactive AcroForms -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        window.isUserLoggedIn = true; 
+    </script>
+
+    <!-- Firebase Security Module -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        const firebaseConfig = { apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8", authDomain: "toolverstoken.firebaseapp.com", projectId: "toolverstoken", storageBucket: "toolverstoken.firebasestorage.app", messagingSenderId: "762644487097", appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468" };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        onAuthStateChanged(auth, (user) => {
+            if (!user) { document.getElementById('authOverlay').style.display = 'flex'; window.isUserLoggedIn = false; } 
+            else { document.getElementById('authOverlay').style.display = 'none'; window.isUserLoggedIn = true; }
+        });
+    </script>
+
+    <style>
+        body { background-color: #f3f4f7; overscroll-behavior: none; }
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        
+        .loader { border: 4px solid #e2e8f0; border-top-color: #e5322d; border-radius: 50%; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse-red-wide { 0% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0.8); } 70% { box-shadow: 0 0 0 20px rgba(229, 50, 45, 0); } 100% { box-shadow: 0 0 0 0 rgba(229, 50, 45, 0); } }
+        .btn-pulse { animation: pulse-red-wide 1.5s infinite cubic-bezier(0.4, 0, 0.6, 1); }
+        
+        .drag-area { transition: 0.3s; }
+        .drag-area.active { border-color: #e5322d; background-color: #fff5f5; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px;}
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .pdf-page-container { position: relative; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; background: white;}
+        .pdf-canvas { display: block; }
+        
+        .draw-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; touch-action: none; -webkit-user-select: none; user-select: none; }
+        .draw-layer.cursor-crosshair { cursor: crosshair; }
+        .draw-layer.cursor-grab { cursor: grab; touch-action: pan-y; }
+
+        /* Form Field Visual Styles */
+        .form-field-box { position: absolute; border: 2px solid #3b82f6; background-color: rgba(59, 130, 246, 0.1); box-shadow: 0 0 5px rgba(59, 130, 246, 0.3); z-index: 20; pointer-events: none; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 2px;}
+        .form-field-box.type-checkbox { border-radius: 4px; border-color: #10b981; background-color: rgba(16, 185, 129, 0.1); }
+        .form-field-box.type-radio { border-radius: 50%; border-color: #f59e0b; background-color: rgba(245, 158, 11, 0.1); }
+        .field-label { font-size: 10px; color: #1e293b; font-weight: bold; background: rgba(255,255,255,0.8); padding: 2px 4px; border-radius: 2px;}
+
+        .toolbar-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 6px; color: #64748b; cursor: pointer; transition: 0.2s; border: 1px solid transparent; font-size: 14px;}
+        .toolbar-btn:hover { background-color: #f1f5f9; color: #0f172a;}
+        .toolbar-btn.active { background-color: #eff6ff; color: #3b82f6; border-color: #bfdbfe;}
+
+        .mode-tab { padding: 8px 16px; font-weight: 700; font-size: 13px; color: #64748b; border-bottom: 3px solid transparent; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 6px;}
+        .mode-tab.active { color: #0f172a; border-bottom-color: #3b82f6; background: #f8fafc; }
+
+        /* Detection Modal Animation */
+        .detect-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(3px);}
+        .detect-content { background: white; border-radius: 12px; padding: 30px; max-width: 450px; width: 90%; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: pop 0.3s ease-out;}
+        @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body class="min-h-[100dvh] h-[100dvh] font-sans relative flex flex-col overflow-hidden bg-gray-50">
+
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-red-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full ilovepdf-red text-white font-bold py-3 px-4 rounded-xl transition duration-300">Go to Home to Login</a>
+        </div>
+    </div>
+
+    <!-- Header Navbar -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative h-[65px] flex items-center">
+        <div class="w-full px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
+                <div class="h-6 w-px bg-gray-300 hidden md:block"></div>
+                <span class="text-sm font-bold text-gray-600 hidden md:block"><i class="fa-solid fa-list-check mr-1"></i> PDF Forms</span>
+            </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700">
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase hidden md:block">All Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- STEP 1: UPLOAD SCREEN -->
+    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 bg-white z-10 absolute inset-0 top-[65px]">
+        <div class="flex items-center justify-center gap-3 mb-4 mt-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 text-center">PDF Forms</h1>
+        </div>
+        <p class="text-lg text-gray-600 mb-10 text-center max-w-2xl">Automatically create fillable PDFs or fill PDF forms with editable and interactive text fields, checkboxes, and radio buttons.</p>
+        
+        <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
+        
+        <div id="dropZone" class="drag-area w-full max-w-2xl border-2 border-dashed border-gray-300 rounded-3xl bg-white p-16 md:p-20 flex flex-col items-center justify-center cursor-pointer hover:border-red-500 hover:bg-red-50 transition shadow-sm" onclick="document.getElementById('fileInput').click()">
+            <button class="ilovepdf-red text-white font-bold py-5 px-12 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 mb-4">
+                Select PDF file
+            </button>
+            <p class="text-gray-500 font-medium text-sm">or drop PDF here</p>
+        </div>
+    </div>
+
+    <!-- Detection Modal (Matches Image 2) -->
+    <div id="detectModal" class="detect-modal">
+        <div class="detect-content">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">File does not contain fillable fields</h3>
+            <p class="text-sm text-gray-500 mb-8">It may be a scanned or a flattened PDF. Choose an option below.</p>
+            
+            <div class="flex gap-4 justify-center">
+                <button id="detectBtnAuto" class="flex-1 flex items-center justify-center gap-2 border-2 border-purple-600 text-purple-700 font-bold py-3 px-4 rounded-lg hover:bg-purple-50 transition" onclick="runFakeDetection()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Detect automatically
+                </button>
+                <button class="flex-1 flex items-center justify-center border-2 border-red-500 text-red-500 font-bold py-3 px-4 rounded-lg hover:bg-red-50 transition" onclick="closeDetectModal()">
+                    Edit/add manually
+                </button>
+            </div>
+            <div id="detectProgress" class="hidden mt-4 text-sm font-bold text-purple-600 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-circle-notch fa-spin"></i> Scanning document with AI...
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 2: WORKSPACE -->
+    <div id="step2" class="hidden flex-grow flex flex-col md:flex-row relative h-[calc(100dvh-65px)] w-full">
+        
+        <!-- Left Area -->
+        <div class="flex-1 flex flex-col bg-[#e9ecef] relative overflow-hidden h-full">
+            
+            <!-- Top Mode Tabs -->
+            <div class="flex bg-white border-b border-gray-200 shrink-0 px-2">
+                <div class="mode-tab" onclick="alert('Form filling mode is active when opening a file with existing fields.')"><i class="fa-solid fa-pen-nib"></i> Fill Form</div>
+                <div class="mode-tab active"><i class="fa-solid fa-table-list"></i> Edit Form</div>
+            </div>
+
+            <!-- Top Toolbar (Matches Image 3 perfectly) -->
+            <div class="h-14 bg-white border-b border-gray-200 flex items-center px-4 justify-between shadow-sm z-10 shrink-0">
+                <div class="flex items-center gap-1">
+                    <button class="toolbar-btn" onclick="setTool('pan')" title="Pan / Scroll" id="toolPan"><i class="fa-solid fa-hand"></i></button>
+                    <div class="h-6 w-px bg-gray-300 mx-1"></div>
+                    
+                    <!-- Form Field Tools -->
+                    <button class="toolbar-btn active" onclick="setTool('text')" title="Add Text Field" id="toolText"><i class="fa-solid fa-t text-blue-600"></i></button>
+                    <button class="toolbar-btn" onclick="setTool('checkbox')" title="Add Checkbox" id="toolCheck"><i class="fa-regular fa-square-check text-green-600"></i></button>
+                    <button class="toolbar-btn" onclick="setTool('radio')" title="Add Radio Button" id="toolRadio"><i class="fa-regular fa-circle-dot text-orange-500"></i></button>
+                    <button class="toolbar-btn" onclick="alert('Dropdown fields are supported via API. Visual builder coming soon!')" title="Add Dropdown"><i class="fa-solid fa-square-caret-down text-purple-500"></i></button>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <!-- Pagination -->
+                    <button class="toolbar-btn text-gray-400 hover:text-gray-700" onclick="changePage(-1)" id="prevPageBtn"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span class="text-xs font-bold text-gray-500 px-2"><span id="pageNumDisplay">1</span> / <span id="pageTotalDisplay">1</span></span>
+                    <button class="toolbar-btn text-gray-400 hover:text-gray-700" onclick="changePage(1)" id="nextPageBtn"><i class="fa-solid fa-chevron-right"></i></button>
+                    
+                    <div class="h-6 w-px bg-gray-300 mx-1"></div>
+                    <!-- Zoom -->
+                    <button class="toolbar-btn" onclick="zoomIn()"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                    <button class="toolbar-btn" onclick="zoomOut()"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                </div>
+            </div>
+
+            <!-- PDF Viewer -->
+            <div id="pdfViewerContainer" class="flex-1 overflow-auto p-4 md:p-8 flex flex-col items-center">
+            </div>
+            
+            <div id="parsingOverlay" class="absolute inset-0 bg-white bg-opacity-90 z-20 flex flex-col items-center justify-center hidden">
+                <div class="loader w-12 h-12 mb-4"></div>
+                <p class="font-bold text-gray-700" id="loadingText">Processing PDF Form...</p>
+            </div>
+        </div>
+
+        <!-- Right Settings Panel (Fixed Height Mobile) -->
+        <div class="w-full md:w-[320px] bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] shrink-0 h-[40%] md:h-full overflow-hidden z-20">
+            <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-sm bg-white flex justify-between items-center shrink-0">
+                <span class="flex items-center gap-2">Form Field List (<span id="fieldCount">0</span>)</span>
+                <button class="text-blue-500 hover:underline text-xs" onclick="resetTool()">Start Over</button>
+            </div>
+            
+            <div class="p-4 flex-1 overflow-y-auto bg-gray-50 flex flex-col relative">
+                
+                <div id="emptyState" class="flex flex-col items-center justify-center h-full text-center text-gray-400 opacity-60">
+                    <i class="fa-solid fa-file-invoice text-4xl mb-3"></i>
+                    <p class="text-xs font-bold">This document has no<br>form fields</p>
+                </div>
+
+                <div id="fieldList" class="flex-1 overflow-y-auto space-y-2 pb-4 w-full">
+                    <!-- Fields injected here -->
+                </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="p-4 bg-white border-t border-gray-200 shrink-0">
+                <button onclick="applyFormFields()" id="actionBtn" class="w-full ilovepdf-red text-white font-bold py-3.5 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-md btn-pulse">
+                    Download <i class="fa-solid fa-arrow-right ml-2 text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 4: DOWNLOAD SCREEN -->
+    <div id="step4" class="hidden w-full flex-grow flex flex-col items-center justify-center text-center px-4 pt-16 pb-10 bg-white z-10 absolute inset-0 top-[65px]">
+        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-md border-4 border-white ring-2 ring-green-50">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10">Form Created Successfully!</h2>
+        <p class="text-gray-600 mb-10">Your PDF now contains interactive AcroForm fields.</p>
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-16">
+            <button onclick="resetTool()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block">
+                <i class="fa-solid fa-arrow-left text-xl"></i>
+            </button>
+            <button id="downloadBtn" class="ilovepdf-red text-white font-bold py-5 px-10 md:px-14 rounded-xl text-xl md:text-2xl shadow-2xl transition flex items-center hover:bg-red-700 w-full md:w-auto justify-center">
+                <i class="fa-solid fa-download mr-4 text-2xl"></i> Download PDF
+            </button>
+        </div>
+        <button onclick="resetTool()" class="mt-8 text-gray-500 font-bold underline md:hidden">Start Over</button>
+    </div>
+
+    <script>
+        let currentFile = null;
+        let pdfDoc = null;
+        let pdfArrayBuffer = null;
+        let currentScale = 1.2;
+        let currentTool = 'text'; // 'pan', 'text', 'checkbox', 'radio'
+        
+        // Store Fields: { id, pageNum, type, name, x, y, w, h }
+        let formFields = []; 
+        let fieldCounter = 0;
+
+        let isDrawing = false;
+        let startX = 0, startY = 0;
+        let tempBox = null;
+        let activeLayer = null;
+        let activePageNum = null;
+        let globalDrawingAttached = false;
+        let totalPages = 1;
+
+        // --- Drag & Drop Init ---
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault(); dropZone.classList.remove('active');
+            if(e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+        });
+
+        async function handleFile(fileOrInput) {
+            const file = fileOrInput instanceof File ? fileOrInput : fileOrInput.files[0];
+            if(file && file.type === 'application/pdf') {
+                currentFile = file;
+                pdfArrayBuffer = await file.arrayBuffer();
+                document.getElementById('step1').classList.add('hidden');
+                
+                checkExistingFields();
+            }
+        }
+
+        async function checkExistingFields() {
+            document.getElementById('parsingOverlay').classList.remove('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+            
+            try {
+                // Check with PDF-Lib
+                const { PDFDocument } = PDFLib;
+                const tempDoc = await PDFDocument.load(new Uint8Array(pdfArrayBuffer.slice(0)));
+                const form = tempDoc.getForm();
+                const fields = form.getFields();
+
+                document.getElementById('parsingOverlay').classList.add('hidden');
+
+                if(fields.length === 0) {
+                    document.getElementById('detectModal').style.display = 'flex';
+                }
+                
+                loadPDFVisuals();
+
+            } catch(e) {
+                console.error(e);
+                loadPDFVisuals();
+            }
+        }
+
+        window.runFakeDetection = function() {
+            const btn = document.getElementById('detectBtnAuto');
+            const prog = document.getElementById('detectProgress');
+            btn.disabled = true;
+            prog.classList.remove('hidden');
+            
+            setTimeout(() => {
+                prog.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-500"></i> No fields found. Switching to manual mode.';
+                setTimeout(() => { closeDetectModal(); }, 1500);
+            }, 2000);
+        }
+
+        window.closeDetectModal = function() {
+            document.getElementById('detectModal').style.display = 'none';
+        }
+
+        async function loadPDFVisuals() {
+            try {
+                pdfDoc = await pdfjsLib.getDocument({data: new Uint8Array(pdfArrayBuffer.slice(0))}).promise;
+                totalPages = pdfDoc.numPages;
+                document.getElementById('pageTotalDisplay').innerText = totalPages;
+                renderAllPages();
+            } catch (error) {
+                alert("Error rendering PDF.");
+            }
+        }
+
+        async function renderAllPages() {
+            const container = document.getElementById('pdfViewerContainer');
+            container.innerHTML = '';
+            
+            for(let i = 1; i <= pdfDoc.numPages; i++) {
+                const page = await pdfDoc.getPage(i);
+                const viewport = page.getViewport({scale: currentScale});
+                
+                const wrapper = document.createElement('div');
+                wrapper.className = 'pdf-page-container';
+                wrapper.style.width = `${viewport.width}px`;
+                wrapper.style.height = `${viewport.height}px`;
+
+                const canvas = document.createElement('canvas');
+                canvas.className = 'pdf-canvas';
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                
+                const drawLayer = document.createElement('div');
+                drawLayer.className = `draw-layer cursor-${currentTool === 'pan' ? 'grab' : 'crosshair'}`;
+                drawLayer.dataset.page = i;
+
+                redrawSavedBoxes(i, drawLayer);
+
+                drawLayer.addEventListener('mousedown', (e) => startDraw(e, drawLayer, i));
+                drawLayer.addEventListener('touchstart', (e) => startDraw(e, drawLayer, i), {passive: false});
+
+                wrapper.appendChild(canvas);
+                wrapper.appendChild(drawLayer);
+                container.appendChild(wrapper);
+
+                const ctx = canvas.getContext('2d');
+                await page.render({canvasContext: ctx, viewport: viewport}).promise;
+            }
+
+            if(!globalDrawingAttached) {
+                window.addEventListener('mousemove', moveDraw);
+                window.addEventListener('touchmove', moveDraw, {passive: false});
+                window.addEventListener('mouseup', endDraw);
+                window.addEventListener('touchend', endDraw);
+                window.addEventListener('touchcancel', endDraw);
+                globalDrawingAttached = true;
+            }
+        }
+
+        // --- Toolbar & Interactions ---
+        window.setTool = function(tool) {
+            currentTool = tool;
+            document.querySelectorAll('.toolbar-btn').forEach(btn => btn.classList.remove('active'));
+            
+            if(tool === 'pan') document.getElementById('toolPan').classList.add('active');
+            if(tool === 'text') document.getElementById('toolText').classList.add('active');
+            if(tool === 'checkbox') document.getElementById('toolCheck').classList.add('active');
+            if(tool === 'radio') document.getElementById('toolRadio').classList.add('active');
+
+            const layers = document.querySelectorAll('.draw-layer');
+            layers.forEach(l => l.className = `draw-layer cursor-${tool === 'pan' ? 'grab' : 'crosshair'}`);
+        }
+
+        window.zoomIn = function() { currentScale += 0.2; renderAllPages(); }
+        window.zoomOut = function() { if(currentScale > 0.6) { currentScale -= 0.2; renderAllPages(); } }
+        
+        window.changePage = function(dir) {
+            const container = document.getElementById('pdfViewerContainer');
+            // Basic scroll logic for pagination simulation
+            if(dir > 0) container.scrollTop += 500;
+            else container.scrollTop -= 500;
+        }
+
+        // --- Drawing Engine ---
+        function getPos(e, layer) {
+            const rect = layer.getBoundingClientRect();
+            let clientX = e.clientX, clientY = e.clientY;
+            if (e.touches && e.touches.length > 0) { clientX = e.touches[0].clientX; clientY = e.touches[0].clientY; } 
+            else if (e.changedTouches && e.changedTouches.length > 0) { clientX = e.changedTouches[0].clientX; clientY = e.changedTouches[0].clientY; }
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+
+        window.startDraw = function(e, layer, pageNum) {
+            if(currentTool === 'pan') return;
+            if(e.type === 'touchstart' && e.cancelable) e.preventDefault();
+            isDrawing = true; activeLayer = layer; activePageNum = pageNum;
+            const pos = getPos(e, layer);
+            startX = pos.x; startY = pos.y;
+
+            tempBox = document.createElement('div');
+            tempBox.className = `form-field-box type-${currentTool}`;
+            tempBox.style.left = startX + 'px';
+            tempBox.style.top = startY + 'px';
+            layer.appendChild(tempBox);
+        };
+
+        window.moveDraw = function(e) {
+            if(!isDrawing || currentTool === 'pan' || !activeLayer || !tempBox) return;
+            if(e.type === 'touchmove' && e.cancelable) e.preventDefault();
+
+            const pos = getPos(e, activeLayer);
+            const width = Math.abs(pos.x - startX);
+            const height = Math.abs(pos.y - startY);
+            const left = Math.min(pos.x, startX);
+            const top = Math.min(pos.y, startY);
+
+            // If radio or checkbox, try to keep it square for better UI feel
+            if(currentTool === 'checkbox' || currentTool === 'radio') {
+                const size = Math.max(width, height);
+                tempBox.style.width = size + 'px'; tempBox.style.height = size + 'px';
+            } else {
+                tempBox.style.width = width + 'px'; tempBox.style.height = height + 'px';
+            }
+            tempBox.style.left = left + 'px'; tempBox.style.top = top + 'px';
+        };
+
+        window.endDraw = function(e) {
+            if(!isDrawing) return;
+            isDrawing = false;
+            if(tempBox && activeLayer) {
+                const w = parseFloat(tempBox.style.width) || 0;
+                const h = parseFloat(tempBox.style.height) || 0;
+                
+                // Minimum size check to prevent accidental clicks
+                if(w > 10 && h > 10) {
+                    fieldCounter++;
+                    let prefix = currentTool === 'text' ? 'Text' : currentTool === 'checkbox' ? 'Check' : 'Radio';
+                    const fieldName = `${prefix}_${fieldCounter}`;
+                    const boxId = `field_${Date.now()}`;
+                    tempBox.id = boxId;
+                    
+                    tempBox.innerHTML = `<span class="field-label">${fieldName}</span>`;
+
+                    formFields.push({
+                        id: boxId, 
+                        pageNum: activePageNum,
+                        type: currentTool,
+                        name: fieldName,
+                        x: parseFloat(tempBox.style.left) / currentScale, 
+                        y: parseFloat(tempBox.style.top) / currentScale,
+                        w: w / currentScale, 
+                        h: h / currentScale
+                    });
+                    updateRightPanel();
+                } else {
+                    tempBox.remove();
+                }
+                tempBox = null; activeLayer = null; activePageNum = null;
+            }
+        };
+
+        function redrawSavedBoxes(pageNum, layer) {
+            formFields.filter(f => f.pageNum === pageNum).forEach(f => {
+                const box = document.createElement('div');
+                box.className = `form-field-box type-${f.type}`; 
+                box.id = f.id;
+                box.style.left = (f.x * currentScale) + 'px'; box.style.top = (f.y * currentScale) + 'px';
+                box.style.width = (f.w * currentScale) + 'px'; box.style.height = (f.h * currentScale) + 'px';
+                box.innerHTML = `<span class="field-label">${f.name}</span>`;
+                layer.appendChild(box);
+            });
+        }
+
+        // --- UI Updates ---
+        function updateRightPanel() {
+            const list = document.getElementById('fieldList');
+            const emptyState = document.getElementById('emptyState');
+            document.getElementById('fieldCount').innerText = formFields.length;
+            
+            if(formFields.length > 0) {
+                emptyState.style.display = 'none'; list.innerHTML = '';
+                
+                // Sort by page num
+                const sortedFields = [...formFields].sort((a,b) => a.pageNum - b.pageNum);
+                
+                sortedFields.forEach((f) => {
+                    let icon = f.type === 'text' ? '<i class="fa-solid fa-t text-blue-500"></i>' : 
+                               f.type === 'checkbox' ? '<i class="fa-regular fa-square-check text-green-500"></i>' : 
+                               '<i class="fa-regular fa-circle-dot text-orange-500"></i>';
+
+                    const item = document.createElement('div');
+                    item.className = 'flex flex-col bg-white border border-gray-200 rounded p-2 shadow-sm group';
+                    item.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3 text-xs">
+                                ${icon}
+                                <div>
+                                    <div class="font-bold text-gray-700">${f.name}</div>
+                                    <div class="text-[10px] text-gray-400">Page ${f.pageNum}</div>
+                                </div>
+                            </div>
+                            <button class="text-gray-400 hover:text-red-500 transition px-2 py-1" onclick="deleteField('${f.id}')" title="Delete Field"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    `;
+                    
+                    // Hover effect to locate field on canvas
+                    item.addEventListener('mouseenter', () => { 
+                        const b = document.getElementById(f.id); 
+                        if(b) b.style.boxShadow = '0 0 15px rgba(229,50,45,0.8)'; 
+                    });
+                    item.addEventListener('mouseleave', () => { 
+                        const b = document.getElementById(f.id); 
+                        if(b) b.style.boxShadow = ''; 
+                    });
+
+                    list.appendChild(item);
+                });
+            } else {
+                emptyState.style.display = 'flex'; list.innerHTML = '';
+            }
+        }
+
+        window.deleteField = function(id) {
+            formFields = formFields.filter(f => f.id !== id);
+            const domBox = document.getElementById(id); if(domBox) domBox.remove();
+            updateRightPanel();
+        }
+
+        // --- Apply Form Fields (PDF-Lib Core Logic VVIP) ---
+        window.applyFormFields = async function() {
+            if(formFields.length === 0) { 
+                alert("Please add at least one form field to generate the document."); return; 
+            }
+            
+            document.getElementById('parsingOverlay').classList.remove('hidden');
+            document.getElementById('loadingText').innerText = "Generating Interactive AcroForms...";
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const freshBuffer = await currentFile.arrayBuffer();
+                const pdfModDoc = await PDFDocument.load(new Uint8Array(freshBuffer));
+                
+                // Get or Create Form
+                const form = pdfModDoc.getForm();
+                const pages = pdfModDoc.getPages();
+
+                for(let i=1; i<=pdfDoc.numPages; i++) {
+                    const pageFields = formFields.filter(f => f.pageNum === i);
+                    if(pageFields.length === 0) continue;
+                    
+                    const jsPage = await pdfDoc.getPage(i);
+                    const vp1_0 = jsPage.getViewport({scale: 1.0}); 
+                    const pdfPage = pages[i-1];
+                    const { width: pdfWidth, height: pdfHeight } = pdfPage.getSize();
+                    
+                    const scaleX = pdfWidth / vp1_0.width; 
+                    const scaleY = pdfHeight / vp1_0.height;
+
+                    pageFields.forEach(f => {
+                        const rectX = f.x * scaleX;
+                        const rectW = f.w * scaleX;
+                        const rectH = f.h * scaleY;
+                        // PDF-Lib Origin is Bottom-Left. Invert Y.
+                        const rectY = pdfHeight - ((f.y + f.h) * scaleY);
+
+                        const widgetOptions = { x: rectX, y: rectY, width: rectW, height: rectH };
+
+                        if(f.type === 'text') {
+                            const textField = form.createTextField(f.name);
+                            textField.addToPage(pdfPage, widgetOptions);
+                        } 
+                        else if(f.type === 'checkbox') {
+                            const checkBox = form.createCheckBox(f.name);
+                            checkBox.addToPage(pdfPage, widgetOptions);
+                        }
+                        else if(f.type === 'radio') {
+                            // Radio groups normally have options, keeping it simple as a standalone boolean equivalent here for VVIP visual matching
+                            const radioGroup = form.createRadioGroup(f.name);
+                            radioGroup.addOptionToPage('Choice1', pdfPage, widgetOptions);
+                        }
+                    });
+                }
+
+                pdfModDoc.setProducer('ToolVerse Form Generator');
+                const pdfBytes = await pdfModDoc.save();
+                
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const btn = document.getElementById('downloadBtn');
+                btn.onclick = () => {
+                    const a = document.createElement('a'); a.href = url;
+                    a.download = currentFile.name.replace('.pdf', '_Form.pdf');
+                    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                };
+
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('step4').classList.remove('hidden');
+                document.getElementById('parsingOverlay').classList.add('hidden');
+            } catch (error) {
+                alert("An error occurred while creating the form: " + error.message);
+                document.getElementById('parsingOverlay').classList.add('hidden');
+            }
+        }
+        window.resetTool = function() { window.location.reload(); }
+    </script>
+</body>
+</html>
