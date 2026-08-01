@@ -7,7 +7,6 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
     <script>
@@ -19,7 +18,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         
-        // VVIP Fast Unlocker
         if(localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true') {
             document.addEventListener("DOMContentLoaded", () => {
                 const overlay = document.getElementById('authOverlay');
@@ -50,51 +48,36 @@
         .ilovepdf-red { background-color: #e5322d; }
         .ilovepdf-red:hover { background-color: #cc2a26; }
         .ilovepdf-text { color: #e5322d; }
-        
         .loader { border: 4px solid #f3f3f3; border-top-color: #8b5cf6; border-radius: 50%; animation: spinner 1s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        .drag-area { transition: 0.3s; }
-        .drag-area.active { border-color: #e5322d; background-color: #fff5f5; }
-
         ::-webkit-scrollbar { width: 6px; height: 6px;}
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 20px;}
         .modal-content { background: white; border-radius: 12px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: pop 0.3s ease-out;}
         @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
         .slider-container { position: relative; margin: 30px 0; }
         .range-slider { -webkit-appearance: none; width: 100%; height: 4px; border-radius: 5px; background: #e2e8f0; outline: none; padding: 0; margin: 0; }
         .range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: white; border: 2px solid #8b5cf6; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 3; position: relative;}
-        .range-slider::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: white; border: 2px solid #8b5cf6; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 3; position: relative;}
         .slider-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px; color: #64748b; font-weight: 600;}
         .slider-progress { position: absolute; top: 0; left: 0; height: 4px; background: #8b5cf6; border-radius: 5px; z-index: 1; pointer-events: none;}
-
         .radio-box { border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 15px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
         .radio-box:hover { background: #f8fafc; }
         .radio-box.active { border-color: #8b5cf6; background: #faf5ff; }
         .radio-box input[type="radio"] { accent-color: #8b5cf6; width: 16px; height: 16px; cursor: pointer;}
-        
         .btn-purple { background-color: #8b5cf6; color: white; transition: 0.3s; }
         .btn-purple:hover { background-color: #7c3aed; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);}
-
         .ai-tag { display: inline-flex; align-items: center; gap: 6px; background: #f3e8ff; color: #7c3aed; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 6px; margin-bottom: 20px;}
         .summary-title { font-size: 24px; font-weight: 800; color: #1e293b; margin-bottom: 20px; line-height: 1.3;}
         .summary-bullets { margin-left: 20px; margin-bottom: 30px;}
         .summary-bullets li { position: relative; padding-left: 10px; margin-bottom: 12px; color: #334155; line-height: 1.6;}
-        .summary-bullets li::before { content: "•"; position: absolute; left: -15px; color: #8b5cf6; font-weight: bold;}
-        
         .questions-box { background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 12px; padding: 20px; margin-bottom: 30px;}
         .questions-header { display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #475569; margin-bottom: 15px;}
         .q-btn { display: flex; align-items: center; gap: 10px; background: white; border: 1px solid #d8b4fe; padding: 12px 15px; border-radius: 8px; width: 100%; text-align: left; margin-bottom: 10px; font-size: 14px; color: #4c1d95; font-weight: 500; transition: 0.2s; cursor: pointer;}
         .q-btn:hover { background: #f3e8ff; border-color: #c084fc; transform: translateX(2px);}
-        
         .action-link { color: #64748b; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; margin-right: 20px;}
         .action-link:hover { color: #1e293b; }
-
         .cloud-btn { width: 35px; height: 35px; border-radius: 50%; background: #e5322d; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; transition: 0.2s; border: 2px solid white; margin-bottom: 5px;}
         .cloud-btn:hover { background: #cc2a26; transform: scale(1.1); }
     </style>
@@ -149,30 +132,22 @@
     <div id="settingsModal" class="modal-overlay">
         <div class="modal-content">
             <h3 class="text-center font-bold text-gray-800 mb-6">Settings</h3>
-            
             <div class="mb-6">
                 <div class="text-center text-sm font-bold text-gray-700 mb-2">Length</div>
                 <div class="slider-container">
                     <div class="slider-progress" id="sliderProgress" style="width: 50%;"></div>
                     <input type="range" id="lengthSlider" min="0" max="2" step="1" value="1" class="range-slider" oninput="updateSliderUI()">
-                    <div class="slider-labels">
-                        <span>Short</span>
-                        <span>Medium</span>
-                        <span>Long</span>
-                    </div>
+                    <div class="slider-labels"><span>Short</span><span>Medium</span><span>Long</span></div>
                 </div>
             </div>
-
             <div class="mb-8">
                 <div class="text-center text-sm font-bold text-gray-700 mb-4">Processing mode</div>
-                
                 <label class="radio-box active" id="boxStandard" onclick="selectMode('standard')">
                     <input type="radio" name="aiMode" value="standard" checked>
                     <div class="flex-1 font-semibold text-sm text-gray-800 flex justify-between items-center">
                         <span>Standard AI <i class="fa-regular fa-circle-question text-gray-400 ml-1"></i></span>
                     </div>
                 </label>
-                
                 <label class="radio-box" id="boxAdvanced" onclick="selectMode('advanced')">
                     <input type="radio" name="aiMode" value="advanced">
                     <div class="flex-1 font-semibold text-sm text-gray-800 flex justify-between items-center">
@@ -181,7 +156,6 @@
                     </div>
                 </label>
             </div>
-
             <div class="flex justify-end">
                 <button onclick="startSummarization()" class="btn-purple font-bold py-2.5 px-6 rounded-lg text-sm flex items-center gap-2">
                     Continue <i class="fa-solid fa-arrow-right"></i>
@@ -208,19 +182,14 @@
 
             <div class="max-w-3xl mx-auto">
                 <h1 class="summary-title" id="summaryTitle">Document Summary</h1>
-                
-                <ul class="summary-bullets" id="summaryContent">
-                </ul>
-
+                <ul class="summary-bullets" id="summaryContent" style="list-style-type: disc;"></ul>
                 <div class="questions-box">
                     <div class="questions-header">
                         <span>Suggested questions:</span>
                         <i class="fa-solid fa-chevron-up text-gray-400 cursor-pointer"></i>
                     </div>
-                    <div id="questionsContainer">
-                    </div>
+                    <div id="questionsContainer"></div>
                 </div>
-
                 <div class="flex items-center pt-4 border-t border-gray-100">
                     <button class="action-link" onclick="copyToClipboard()"><i class="fa-regular fa-copy"></i> Copy</button>
                     <button class="action-link" onclick="downloadSummary()"><i class="fa-solid fa-download"></i> Download</button>
@@ -234,7 +203,6 @@
         let pdfText = "";
         let originalFileName = "";
         let finalSummary = [];
-        let finalQuestions = [];
 
         const stopWords = new Set(["the","a","and","to","of","in","is","that","it","for","on","with","as","was","at","by","an","be","this","which","or","from","but","not","are","have","has","all","their","there","were","you","your","we","our","they","can","will","would","if","what","when","how"]);
 
@@ -243,7 +211,6 @@
             if(file && file.type === 'application/pdf') {
                 originalFileName = file.name;
                 document.getElementById('fileNameDisplay').innerText = file.name;
-                
                 const reader = new FileReader();
                 reader.onload = async function(e) {
                     const typedarray = new Uint8Array(e.target.result);
@@ -255,17 +222,6 @@
                 reader.readAsArrayBuffer(file);
             }
         }
-
-        const dropZone = document.querySelector('.max-w-xl');
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('opacity-70'); });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('opacity-70'));
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault(); dropZone.classList.remove('opacity-70');
-            if(e.dataTransfer.files.length > 0) {
-                document.getElementById('fileInput').files = e.dataTransfer.files;
-                handleFile(document.getElementById('fileInput'));
-            }
-        });
 
         function updateSliderUI() {
             const val = document.getElementById('lengthSlider').value;
@@ -283,11 +239,6 @@
                 document.getElementById('boxStandard').classList.add('active');
                 document.querySelector('input[value="standard"]').checked = true;
             } else {
-                let credits = parseInt(localStorage.getItem('tv_agent_credits') || 0);
-                if(credits < 10) {
-                    alert("Not enough credits for Advanced AI. Simulating Sandbox Upgrade...");
-                    localStorage.setItem('tv_agent_credits', '8000');
-                }
                 document.getElementById('boxAdvanced').classList.add('active');
                 document.querySelector('input[value="advanced"]').checked = true;
             }
@@ -315,13 +266,11 @@
 
         function processTextWithNLP() {
             let cleanText = pdfText.replace(/\s+/g, ' ').trim();
-            
-            // Lowered threshold and improved message for flattened/scanned PDFs
             if(cleanText.length < 15) {
                 renderResults([
                     "We couldn't extract any text from this document.",
-                    "This usually happens when a PDF is a scanned image, or when it has been flattened/redacted (like your current file).",
-                    "To see the AI Summarizer magic, please upload a standard text-based PDF (like an article, essay, or report)."
+                    "This usually happens when a PDF is a scanned image, or when it has been flattened/redacted.",
+                    "To see the AI Summarizer magic, please upload a standard text-based PDF."
                 ], []);
                 return;
             }
@@ -332,9 +281,7 @@
             let wordCounts = {};
             let words = cleanText.toLowerCase().replace(/[^\w\s]/g, '').split(' ');
             words.forEach(w => {
-                if(w.length > 3 && !stopWords.has(w)) {
-                    wordCounts[w] = (wordCounts[w] || 0) + 1;
-                }
+                if(w.length > 3 && !stopWords.has(w)) { wordCounts[w] = (wordCounts[w] || 0) + 1; }
             });
 
             let sentenceScores = sentences.map((sentence, index) => {
@@ -346,7 +293,6 @@
             });
 
             sentenceScores.sort((a, b) => b.score - a.score);
-            
             const lengthVal = document.getElementById('lengthSlider').value;
             let ratio = lengthVal == 0 ? 0.1 : lengthVal == 1 ? 0.25 : 0.4;
             let numSentences = Math.max(3, Math.ceil(sentences.length * ratio));
@@ -357,8 +303,7 @@
             finalSummary = topSentences.map(s => s.text);
 
             let topWords = Object.keys(wordCounts).sort((a, b) => wordCounts[b] - wordCounts[a]).slice(0, 5);
-            
-            finalQuestions = [];
+            let finalQuestions = [];
             if(topWords.length >= 3) {
                 finalQuestions.push(`What are the key details regarding ${capitalize(topWords[0])} and ${capitalize(topWords[1])}?`);
                 finalQuestions.push(`How does the document explain the concept of ${capitalize(topWords[2])}?`);
@@ -399,7 +344,15 @@
                     let btn = document.createElement('button');
                     btn.className = 'q-btn';
                     btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> ${q}`;
-                    btn.onclick = () => alert("Super AI Chat integration required to answer follow-up questions automatically. (API connected in full build!)");
+                    btn.onclick = () => {
+                        // VVIP FEATURE: Redirect seamlessly to Super AI Chat with Context!
+                        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Loading Super Chat...`;
+                        localStorage.setItem('tv_chat_question', q);
+                        localStorage.setItem('tv_chat_context', summary.join(' ')); // Share summary context
+                        setTimeout(() => {
+                            window.location.href = 'super-chat.html';
+                        }, 800);
+                    };
                     qContainer.appendChild(btn);
                 });
             }
