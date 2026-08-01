@@ -10,9 +10,9 @@
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- PDF.js for rendering PDFs -->
+    <!-- PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <!-- PDF-Lib for creating Interactive AcroForms -->
+    <!-- PDF-Lib -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 
     <script>
@@ -20,7 +20,7 @@
         window.isUserLoggedIn = true; 
     </script>
 
-    <!-- Firebase Security Module -->
+    <!-- Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -63,19 +63,25 @@
         .form-field-box { position: absolute; border: 2px solid #3b82f6; background-color: rgba(59, 130, 246, 0.1); box-shadow: 0 0 5px rgba(59, 130, 246, 0.3); z-index: 20; pointer-events: none; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 2px;}
         .form-field-box.type-checkbox { border-radius: 4px; border-color: #10b981; background-color: rgba(16, 185, 129, 0.1); }
         .form-field-box.type-radio { border-radius: 50%; border-color: #f59e0b; background-color: rgba(245, 158, 11, 0.1); }
+        .form-field-box.type-dropdown { border-color: #8b5cf6; background-color: rgba(139, 92, 246, 0.1); }
         .field-label { font-size: 10px; color: #1e293b; font-weight: bold; background: rgba(255,255,255,0.8); padding: 2px 4px; border-radius: 2px;}
 
         .toolbar-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 6px; color: #64748b; cursor: pointer; transition: 0.2s; border: 1px solid transparent; font-size: 14px;}
         .toolbar-btn:hover { background-color: #f1f5f9; color: #0f172a;}
         .toolbar-btn.active { background-color: #eff6ff; color: #3b82f6; border-color: #bfdbfe;}
+        .toolbar-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
         .mode-tab { padding: 8px 16px; font-weight: 700; font-size: 13px; color: #64748b; border-bottom: 3px solid transparent; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 6px;}
         .mode-tab.active { color: #0f172a; border-bottom-color: #3b82f6; background: #f8fafc; }
 
-        /* Detection Modal Animation */
         .detect-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(3px);}
         .detect-content { background: white; border-radius: 12px; padding: 30px; max-width: 450px; width: 90%; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: pop 0.3s ease-out;}
         @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* Fill Mode Inputs */
+        .fill-input { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; outline: none; margin-top: 4px; }
+        .fill-input:focus { border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); }
+        .fill-checkbox { width: 18px; height: 18px; accent-color: #3b82f6; cursor: pointer; }
     </style>
 </head>
 <body class="min-h-[100dvh] h-[100dvh] font-sans relative flex flex-col overflow-hidden bg-gray-50">
@@ -120,7 +126,7 @@
         </div>
     </div>
 
-    <!-- Detection Modal (Matches Image 2) -->
+    <!-- Detection Modal -->
     <div id="detectModal" class="detect-modal">
         <div class="detect-content">
             <h3 class="text-xl font-bold text-gray-800 mb-2">File does not contain fillable fields</h3>
@@ -148,31 +154,34 @@
             
             <!-- Top Mode Tabs -->
             <div class="flex bg-white border-b border-gray-200 shrink-0 px-2">
-                <div class="mode-tab" onclick="alert('Form filling mode is active when opening a file with existing fields.')"><i class="fa-solid fa-pen-nib"></i> Fill Form</div>
-                <div class="mode-tab active"><i class="fa-solid fa-table-list"></i> Edit Form</div>
+                <div class="mode-tab" id="tabFill" onclick="switchAppMode('fill')"><i class="fa-solid fa-pen-nib"></i> Fill Form</div>
+                <div class="mode-tab active" id="tabEdit" onclick="switchAppMode('edit')"><i class="fa-solid fa-table-list"></i> Edit Form</div>
             </div>
 
-            <!-- Top Toolbar (Matches Image 3 perfectly) -->
+            <!-- Top Toolbar -->
             <div class="h-14 bg-white border-b border-gray-200 flex items-center px-4 justify-between shadow-sm z-10 shrink-0">
-                <div class="flex items-center gap-1">
+                <div class="flex items-center gap-1" id="drawToolbar">
                     <button class="toolbar-btn" onclick="setTool('pan')" title="Pan / Scroll" id="toolPan"><i class="fa-solid fa-hand"></i></button>
                     <div class="h-6 w-px bg-gray-300 mx-1"></div>
                     
-                    <!-- Form Field Tools -->
                     <button class="toolbar-btn active" onclick="setTool('text')" title="Add Text Field" id="toolText"><i class="fa-solid fa-t text-blue-600"></i></button>
                     <button class="toolbar-btn" onclick="setTool('checkbox')" title="Add Checkbox" id="toolCheck"><i class="fa-regular fa-square-check text-green-600"></i></button>
                     <button class="toolbar-btn" onclick="setTool('radio')" title="Add Radio Button" id="toolRadio"><i class="fa-regular fa-circle-dot text-orange-500"></i></button>
-                    <button class="toolbar-btn" onclick="alert('Dropdown fields are supported via API. Visual builder coming soon!')" title="Add Dropdown"><i class="fa-solid fa-square-caret-down text-purple-500"></i></button>
+                    <!-- Dropdown tool is now completely functional -->
+                    <button class="toolbar-btn" onclick="setTool('dropdown')" title="Add Dropdown" id="toolDropdown"><i class="fa-solid fa-square-caret-down text-purple-500"></i></button>
+                </div>
+                
+                <!-- Notice shown when in Fill Mode -->
+                <div class="hidden items-center text-sm font-bold text-blue-600 gap-2" id="fillModeNotice">
+                    <i class="fa-solid fa-pen-nib"></i> Form Filling Active
                 </div>
                 
                 <div class="flex items-center gap-2">
-                    <!-- Pagination -->
                     <button class="toolbar-btn text-gray-400 hover:text-gray-700" onclick="changePage(-1)" id="prevPageBtn"><i class="fa-solid fa-chevron-left"></i></button>
                     <span class="text-xs font-bold text-gray-500 px-2"><span id="pageNumDisplay">1</span> / <span id="pageTotalDisplay">1</span></span>
                     <button class="toolbar-btn text-gray-400 hover:text-gray-700" onclick="changePage(1)" id="nextPageBtn"><i class="fa-solid fa-chevron-right"></i></button>
                     
                     <div class="h-6 w-px bg-gray-300 mx-1"></div>
-                    <!-- Zoom -->
                     <button class="toolbar-btn" onclick="zoomIn()"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
                     <button class="toolbar-btn" onclick="zoomOut()"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
                 </div>
@@ -188,28 +197,41 @@
             </div>
         </div>
 
-        <!-- Right Settings Panel (Fixed Height Mobile) -->
+        <!-- Right Settings Panel -->
         <div class="w-full md:w-[320px] bg-white border-l border-gray-200 flex flex-col shadow-[-5px_0_15px_rgba(0,0,0,0.03)] shrink-0 h-[40%] md:h-full overflow-hidden z-20">
             <div class="p-4 font-bold text-gray-800 border-b border-gray-200 text-center text-sm bg-white flex justify-between items-center shrink-0">
-                <span class="flex items-center gap-2">Form Field List (<span id="fieldCount">0</span>)</span>
+                <span class="flex items-center gap-2" id="panelTitle">Form Field List (<span id="fieldCount">0</span>)</span>
                 <button class="text-blue-500 hover:underline text-xs" onclick="resetTool()">Start Over</button>
             </div>
             
             <div class="p-4 flex-1 overflow-y-auto bg-gray-50 flex flex-col relative">
                 
-                <div id="emptyState" class="flex flex-col items-center justify-center h-full text-center text-gray-400 opacity-60">
-                    <i class="fa-solid fa-file-invoice text-4xl mb-3"></i>
-                    <p class="text-xs font-bold">This document has no<br>form fields</p>
+                <!-- EDIT MODE PANEL -->
+                <div id="editPanel" class="flex flex-col h-full w-full">
+                    <div id="emptyState" class="flex flex-col items-center justify-center h-full text-center text-gray-400 opacity-60">
+                        <i class="fa-solid fa-file-invoice text-4xl mb-3"></i>
+                        <p class="text-xs font-bold">This document has no<br>form fields</p>
+                    </div>
+                    <div id="fieldList" class="flex-1 overflow-y-auto space-y-2 pb-4 w-full">
+                    </div>
                 </div>
 
-                <div id="fieldList" class="flex-1 overflow-y-auto space-y-2 pb-4 w-full">
-                    <!-- Fields injected here -->
+                <!-- FILL MODE PANEL -->
+                <div id="fillPanel" class="hidden flex-col h-full w-full">
+                    <div id="fillEmptyState" class="flex flex-col items-center justify-center h-full text-center text-gray-400 opacity-60">
+                        <i class="fa-solid fa-check-double text-4xl mb-3"></i>
+                        <p class="text-xs font-bold">No existing fields to fill.<br>Switch to Edit Form to add fields.</p>
+                    </div>
+                    <div id="fillInputsList" class="flex-1 overflow-y-auto space-y-4 pb-4 w-full px-1">
+                        <!-- Dynamic inputs for existing fields will go here -->
+                    </div>
                 </div>
+
             </div>
 
             <!-- Action Button -->
             <div class="p-4 bg-white border-t border-gray-200 shrink-0">
-                <button onclick="applyFormFields()" id="actionBtn" class="w-full ilovepdf-red text-white font-bold py-3.5 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-md btn-pulse">
+                <button onclick="applyAction()" id="actionBtn" class="w-full ilovepdf-red text-white font-bold py-3.5 rounded-lg text-lg flex items-center justify-center transition hover:bg-red-700 shadow-md btn-pulse">
                     Download <i class="fa-solid fa-arrow-right ml-2 text-lg"></i>
                 </button>
             </div>
@@ -221,8 +243,8 @@
         <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-md border-4 border-white ring-2 ring-green-50">
             <i class="fa-solid fa-check"></i>
         </div>
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10">Form Created Successfully!</h2>
-        <p class="text-gray-600 mb-10">Your PDF now contains interactive AcroForm fields.</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-10" id="successTitle">Form Created Successfully!</h2>
+        <p class="text-gray-600 mb-10" id="successSubtitle">Your PDF now contains interactive AcroForm fields.</p>
         
         <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-16">
             <button onclick="resetTool()" class="bg-gray-700 hover:bg-gray-900 text-white p-5 rounded-full shadow-lg transition hidden md:block">
@@ -240,10 +262,11 @@
         let pdfDoc = null;
         let pdfArrayBuffer = null;
         let currentScale = 1.2;
-        let currentTool = 'text'; // 'pan', 'text', 'checkbox', 'radio'
+        let currentTool = 'text'; // 'pan', 'text', 'checkbox', 'radio', 'dropdown'
+        let appMode = 'edit'; // 'edit' or 'fill'
         
-        // Store Fields: { id, pageNum, type, name, x, y, w, h }
-        let formFields = []; 
+        let formFields = []; // Fields drawn by user in Edit mode
+        let existingFieldsData = []; // Fields extracted from uploaded PDF for Fill mode
         let fieldCounter = 0;
 
         let isDrawing = false;
@@ -254,7 +277,6 @@
         let globalDrawingAttached = false;
         let totalPages = 1;
 
-        // --- Drag & Drop Init ---
         const dropZone = document.getElementById('dropZone');
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
@@ -274,13 +296,13 @@
             }
         }
 
+        // --- Core VVIP Logic: Check existing fields ---
         async function checkExistingFields() {
             document.getElementById('parsingOverlay').classList.remove('hidden');
             document.getElementById('step2').classList.remove('hidden');
             
             try {
-                // Check with PDF-Lib
-                const { PDFDocument } = PDFLib;
+                const { PDFDocument, PDFTextField, PDFCheckBox, PDFDropdown, PDFRadioGroup } = PDFLib;
                 const tempDoc = await PDFDocument.load(new Uint8Array(pdfArrayBuffer.slice(0)));
                 const form = tempDoc.getForm();
                 const fields = form.getFields();
@@ -289,12 +311,29 @@
 
                 if(fields.length === 0) {
                     document.getElementById('detectModal').style.display = 'flex';
+                    switchAppMode('edit');
+                } else {
+                    // Extract fields for Fill Mode
+                    existingFieldsData = fields.map(f => {
+                        let type = 'unknown';
+                        let val = '';
+                        if (f instanceof PDFTextField) { type = 'text'; val = f.getText() || ''; }
+                        else if (f instanceof PDFCheckBox) { type = 'checkbox'; val = f.isChecked(); }
+                        else if (f instanceof PDFDropdown) { type = 'dropdown'; val = f.getSelected() || []; }
+                        else if (f instanceof PDFRadioGroup) { type = 'radio'; val = f.getSelected() || ''; }
+                        
+                        return { name: f.getName(), type: type, value: val };
+                    });
+                    
+                    switchAppMode('fill'); // Auto switch if fields exist
                 }
                 
                 loadPDFVisuals();
 
             } catch(e) {
                 console.error(e);
+                document.getElementById('parsingOverlay').classList.add('hidden');
+                switchAppMode('edit');
                 loadPDFVisuals();
             }
         }
@@ -313,6 +352,89 @@
 
         window.closeDetectModal = function() {
             document.getElementById('detectModal').style.display = 'none';
+        }
+
+        // --- App Mode Switcher ---
+        window.switchAppMode = function(mode) {
+            appMode = mode;
+            document.getElementById('tabFill').classList.toggle('active', mode === 'fill');
+            document.getElementById('tabEdit').classList.toggle('active', mode === 'edit');
+            
+            const drawToolbar = document.getElementById('drawToolbar');
+            const fillNotice = document.getElementById('fillModeNotice');
+            const editPanel = document.getElementById('editPanel');
+            const fillPanel = document.getElementById('fillPanel');
+            const actionBtn = document.getElementById('actionBtn');
+
+            if(mode === 'fill') {
+                drawToolbar.classList.add('hidden');
+                fillNotice.classList.remove('hidden');
+                fillNotice.classList.add('flex');
+                
+                editPanel.style.display = 'none';
+                fillPanel.style.display = 'flex';
+                
+                document.getElementById('panelTitle').innerHTML = `Fill Fields (<span id="fillFieldCount">${existingFieldsData.length}</span>)`;
+                actionBtn.innerHTML = `Fill & Download <i class="fa-solid fa-arrow-right ml-2 text-lg"></i>`;
+                
+                setTool('pan'); // Disable drawing
+                renderFillPanel();
+                
+            } else {
+                drawToolbar.classList.remove('hidden');
+                fillNotice.classList.add('hidden');
+                fillNotice.classList.remove('flex');
+                
+                fillPanel.style.display = 'none';
+                editPanel.style.display = 'flex';
+                
+                document.getElementById('panelTitle').innerHTML = `Form Field List (<span id="fieldCount">${formFields.length}</span>)`;
+                actionBtn.innerHTML = `Create & Download <i class="fa-solid fa-arrow-right ml-2 text-lg"></i>`;
+                
+                setTool('text'); // Re-enable drawing
+                updateRightPanel();
+            }
+        }
+
+        function renderFillPanel() {
+            const list = document.getElementById('fillInputsList');
+            const empty = document.getElementById('fillEmptyState');
+            
+            if(existingFieldsData.length === 0) {
+                empty.style.display = 'flex'; list.innerHTML = '';
+            } else {
+                empty.style.display = 'none'; list.innerHTML = '';
+                
+                existingFieldsData.forEach(f => {
+                    const wrap = document.createElement('div');
+                    wrap.className = 'bg-white p-3 rounded shadow-sm border border-gray-200';
+                    
+                    const label = document.createElement('label');
+                    label.className = 'text-xs font-bold text-gray-700 block mb-1';
+                    label.innerText = f.name;
+                    wrap.appendChild(label);
+
+                    if(f.type === 'text') {
+                        const inp = document.createElement('input');
+                        inp.type = 'text'; inp.className = 'fill-input';
+                        inp.id = `val_${f.name}`; inp.value = f.value;
+                        wrap.appendChild(inp);
+                    } else if (f.type === 'checkbox' || f.type === 'radio') {
+                        const inp = document.createElement('input');
+                        inp.type = 'checkbox'; inp.className = 'fill-checkbox';
+                        inp.id = `val_${f.name}`; inp.checked = f.value === true;
+                        wrap.appendChild(inp);
+                    } else {
+                        // Dropdown or unknown fallback to text for filling purpose
+                        const inp = document.createElement('input');
+                        inp.type = 'text'; inp.className = 'fill-input';
+                        inp.id = `val_${f.name}`; inp.value = Array.isArray(f.value) ? f.value.join(', ') : f.value;
+                        inp.placeholder = "Enter value...";
+                        wrap.appendChild(inp);
+                    }
+                    list.appendChild(wrap);
+                });
+            }
         }
 
         async function loadPDFVisuals() {
@@ -341,8 +463,7 @@
 
                 const canvas = document.createElement('canvas');
                 canvas.className = 'pdf-canvas';
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
+                canvas.width = viewport.width; canvas.height = viewport.height;
                 
                 const drawLayer = document.createElement('div');
                 drawLayer.className = `draw-layer cursor-${currentTool === 'pan' ? 'grab' : 'crosshair'}`;
@@ -380,6 +501,7 @@
             if(tool === 'text') document.getElementById('toolText').classList.add('active');
             if(tool === 'checkbox') document.getElementById('toolCheck').classList.add('active');
             if(tool === 'radio') document.getElementById('toolRadio').classList.add('active');
+            if(tool === 'dropdown') document.getElementById('toolDropdown').classList.add('active');
 
             const layers = document.querySelectorAll('.draw-layer');
             layers.forEach(l => l.className = `draw-layer cursor-${tool === 'pan' ? 'grab' : 'crosshair'}`);
@@ -390,9 +512,7 @@
         
         window.changePage = function(dir) {
             const container = document.getElementById('pdfViewerContainer');
-            // Basic scroll logic for pagination simulation
-            if(dir > 0) container.scrollTop += 500;
-            else container.scrollTop -= 500;
+            if(dir > 0) container.scrollTop += 500; else container.scrollTop -= 500;
         }
 
         // --- Drawing Engine ---
@@ -405,7 +525,7 @@
         }
 
         window.startDraw = function(e, layer, pageNum) {
-            if(currentTool === 'pan') return;
+            if(currentTool === 'pan' || appMode === 'fill') return; // Prevent draw in fill mode
             if(e.type === 'touchstart' && e.cancelable) e.preventDefault();
             isDrawing = true; activeLayer = layer; activePageNum = pageNum;
             const pos = getPos(e, layer);
@@ -413,13 +533,12 @@
 
             tempBox = document.createElement('div');
             tempBox.className = `form-field-box type-${currentTool}`;
-            tempBox.style.left = startX + 'px';
-            tempBox.style.top = startY + 'px';
+            tempBox.style.left = startX + 'px'; tempBox.style.top = startY + 'px';
             layer.appendChild(tempBox);
         };
 
         window.moveDraw = function(e) {
-            if(!isDrawing || currentTool === 'pan' || !activeLayer || !tempBox) return;
+            if(!isDrawing || currentTool === 'pan' || appMode === 'fill' || !activeLayer || !tempBox) return;
             if(e.type === 'touchmove' && e.cancelable) e.preventDefault();
 
             const pos = getPos(e, activeLayer);
@@ -428,7 +547,7 @@
             const left = Math.min(pos.x, startX);
             const top = Math.min(pos.y, startY);
 
-            // If radio or checkbox, try to keep it square for better UI feel
+            // VVIP Radio/Checkbox circular/square snapping
             if(currentTool === 'checkbox' || currentTool === 'radio') {
                 const size = Math.max(width, height);
                 tempBox.style.width = size + 'px'; tempBox.style.height = size + 'px';
@@ -445,10 +564,9 @@
                 const w = parseFloat(tempBox.style.width) || 0;
                 const h = parseFloat(tempBox.style.height) || 0;
                 
-                // Minimum size check to prevent accidental clicks
                 if(w > 10 && h > 10) {
                     fieldCounter++;
-                    let prefix = currentTool === 'text' ? 'Text' : currentTool === 'checkbox' ? 'Check' : 'Radio';
+                    let prefix = currentTool === 'text' ? 'Text' : currentTool === 'checkbox' ? 'Check' : currentTool === 'dropdown' ? 'Dropdown' : 'Radio';
                     const fieldName = `${prefix}_${fieldCounter}`;
                     const boxId = `field_${Date.now()}`;
                     tempBox.id = boxId;
@@ -456,14 +574,9 @@
                     tempBox.innerHTML = `<span class="field-label">${fieldName}</span>`;
 
                     formFields.push({
-                        id: boxId, 
-                        pageNum: activePageNum,
-                        type: currentTool,
-                        name: fieldName,
-                        x: parseFloat(tempBox.style.left) / currentScale, 
-                        y: parseFloat(tempBox.style.top) / currentScale,
-                        w: w / currentScale, 
-                        h: h / currentScale
+                        id: boxId, pageNum: activePageNum, type: currentTool, name: fieldName,
+                        x: parseFloat(tempBox.style.left) / currentScale, y: parseFloat(tempBox.style.top) / currentScale,
+                        w: w / currentScale, h: h / currentScale
                     });
                     updateRightPanel();
                 } else {
@@ -476,8 +589,7 @@
         function redrawSavedBoxes(pageNum, layer) {
             formFields.filter(f => f.pageNum === pageNum).forEach(f => {
                 const box = document.createElement('div');
-                box.className = `form-field-box type-${f.type}`; 
-                box.id = f.id;
+                box.className = `form-field-box type-${f.type}`; box.id = f.id;
                 box.style.left = (f.x * currentScale) + 'px'; box.style.top = (f.y * currentScale) + 'px';
                 box.style.width = (f.w * currentScale) + 'px'; box.style.height = (f.h * currentScale) + 'px';
                 box.innerHTML = `<span class="field-label">${f.name}</span>`;
@@ -485,21 +597,21 @@
             });
         }
 
-        // --- UI Updates ---
+        // --- Edit Mode Right Panel Update ---
         function updateRightPanel() {
+            if(appMode === 'fill') return; // Don't update this if in fill mode
             const list = document.getElementById('fieldList');
             const emptyState = document.getElementById('emptyState');
             document.getElementById('fieldCount').innerText = formFields.length;
             
             if(formFields.length > 0) {
                 emptyState.style.display = 'none'; list.innerHTML = '';
-                
-                // Sort by page num
                 const sortedFields = [...formFields].sort((a,b) => a.pageNum - b.pageNum);
                 
                 sortedFields.forEach((f) => {
                     let icon = f.type === 'text' ? '<i class="fa-solid fa-t text-blue-500"></i>' : 
                                f.type === 'checkbox' ? '<i class="fa-regular fa-square-check text-green-500"></i>' : 
+                               f.type === 'dropdown' ? '<i class="fa-solid fa-square-caret-down text-purple-500"></i>' :
                                '<i class="fa-regular fa-circle-dot text-orange-500"></i>';
 
                     const item = document.createElement('div');
@@ -516,17 +628,8 @@
                             <button class="text-gray-400 hover:text-red-500 transition px-2 py-1" onclick="deleteField('${f.id}')" title="Delete Field"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     `;
-                    
-                    // Hover effect to locate field on canvas
-                    item.addEventListener('mouseenter', () => { 
-                        const b = document.getElementById(f.id); 
-                        if(b) b.style.boxShadow = '0 0 15px rgba(229,50,45,0.8)'; 
-                    });
-                    item.addEventListener('mouseleave', () => { 
-                        const b = document.getElementById(f.id); 
-                        if(b) b.style.boxShadow = ''; 
-                    });
-
+                    item.addEventListener('mouseenter', () => { const b = document.getElementById(f.id); if(b) b.style.boxShadow = '0 0 15px rgba(229,50,45,0.8)'; });
+                    item.addEventListener('mouseleave', () => { const b = document.getElementById(f.id); if(b) b.style.boxShadow = ''; });
                     list.appendChild(item);
                 });
             } else {
@@ -540,12 +643,15 @@
             updateRightPanel();
         }
 
-        // --- Apply Form Fields (PDF-Lib Core Logic VVIP) ---
-        window.applyFormFields = async function() {
-            if(formFields.length === 0) { 
-                alert("Please add at least one form field to generate the document."); return; 
-            }
-            
+        // --- Action Dispatcher ---
+        window.applyAction = async function() {
+            if(appMode === 'edit') await createFormFields();
+            else await fillFormFields();
+        }
+
+        // --- 1. Edit Mode: Create Fields ---
+        async function createFormFields() {
+            if(formFields.length === 0) { alert("Please add at least one form field to generate the document."); return; }
             document.getElementById('parsingOverlay').classList.remove('hidden');
             document.getElementById('loadingText').innerText = "Generating Interactive AcroForms...";
 
@@ -554,7 +660,6 @@
                 const freshBuffer = await currentFile.arrayBuffer();
                 const pdfModDoc = await PDFDocument.load(new Uint8Array(freshBuffer));
                 
-                // Get or Create Form
                 const form = pdfModDoc.getForm();
                 const pages = pdfModDoc.getPages();
 
@@ -567,54 +672,82 @@
                     const pdfPage = pages[i-1];
                     const { width: pdfWidth, height: pdfHeight } = pdfPage.getSize();
                     
-                    const scaleX = pdfWidth / vp1_0.width; 
-                    const scaleY = pdfHeight / vp1_0.height;
+                    const scaleX = pdfWidth / vp1_0.width; const scaleY = pdfHeight / vp1_0.height;
 
                     pageFields.forEach(f => {
-                        const rectX = f.x * scaleX;
-                        const rectW = f.w * scaleX;
-                        const rectH = f.h * scaleY;
-                        // PDF-Lib Origin is Bottom-Left. Invert Y.
-                        const rectY = pdfHeight - ((f.y + f.h) * scaleY);
-
+                        const rectX = f.x * scaleX; const rectW = f.w * scaleX; const rectH = f.h * scaleY;
+                        const rectY = pdfHeight - ((f.y + f.h) * scaleY); // PDF-Lib Origin is Bottom-Left.
                         const widgetOptions = { x: rectX, y: rectY, width: rectW, height: rectH };
 
-                        if(f.type === 'text') {
-                            const textField = form.createTextField(f.name);
-                            textField.addToPage(pdfPage, widgetOptions);
-                        } 
-                        else if(f.type === 'checkbox') {
-                            const checkBox = form.createCheckBox(f.name);
-                            checkBox.addToPage(pdfPage, widgetOptions);
+                        if(f.type === 'text') { form.createTextField(f.name).addToPage(pdfPage, widgetOptions); } 
+                        else if(f.type === 'checkbox') { form.createCheckBox(f.name).addToPage(pdfPage, widgetOptions); }
+                        else if(f.type === 'dropdown') { 
+                            const dd = form.createDropdown(f.name);
+                            dd.addOptions(['Option 1', 'Option 2', 'Option 3']); // Default options for VVIP demo
+                            dd.addToPage(pdfPage, widgetOptions);
                         }
-                        else if(f.type === 'radio') {
-                            // Radio groups normally have options, keeping it simple as a standalone boolean equivalent here for VVIP visual matching
-                            const radioGroup = form.createRadioGroup(f.name);
-                            radioGroup.addOptionToPage('Choice1', pdfPage, widgetOptions);
-                        }
+                        else if(f.type === 'radio') { form.createRadioGroup(f.name).addOptionToPage('Choice1', pdfPage, widgetOptions); }
                     });
                 }
 
                 pdfModDoc.setProducer('ToolVerse Form Generator');
-                const pdfBytes = await pdfModDoc.save();
-                
-                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                const btn = document.getElementById('downloadBtn');
-                btn.onclick = () => {
-                    const a = document.createElement('a'); a.href = url;
-                    a.download = currentFile.name.replace('.pdf', '_Form.pdf');
-                    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-                };
-
-                document.getElementById('step2').classList.add('hidden');
-                document.getElementById('step4').classList.remove('hidden');
-                document.getElementById('parsingOverlay').classList.add('hidden');
+                downloadFinal(await pdfModDoc.save(), '_Form_Template.pdf', 'Form Created Successfully!', 'Your PDF now contains interactive AcroForm fields ready to be filled.');
             } catch (error) {
-                alert("An error occurred while creating the form: " + error.message);
+                alert("An error occurred while creating the form.");
                 document.getElementById('parsingOverlay').classList.add('hidden');
             }
         }
+
+        // --- 2. Fill Mode: Fill Fields ---
+        async function fillFormFields() {
+            if(existingFieldsData.length === 0) { alert("No fields to fill."); return; }
+            document.getElementById('parsingOverlay').classList.remove('hidden');
+            document.getElementById('loadingText').innerText = "Filling and Securing Form...";
+
+            try {
+                const { PDFDocument } = PDFLib;
+                const freshBuffer = await currentFile.arrayBuffer();
+                const pdfModDoc = await PDFDocument.load(new Uint8Array(freshBuffer));
+                const form = pdfModDoc.getForm();
+
+                existingFieldsData.forEach(f => {
+                    const inp = document.getElementById(`val_${f.name}`);
+                    if(inp) {
+                        const field = form.getField(f.name);
+                        if(field) {
+                            if(f.type === 'text' || f.type === 'dropdown') field.setText(inp.value);
+                            if(f.type === 'checkbox' || f.type === 'radio') {
+                                if(inp.checked) field.check(); else field.uncheck();
+                            }
+                        }
+                    }
+                });
+
+                pdfModDoc.setProducer('ToolVerse Form Filler');
+                downloadFinal(await pdfModDoc.save(), '_Filled.pdf', 'Form Filled Successfully!', 'Your PDF data has been inserted into the form fields.');
+            } catch (error) {
+                alert("An error occurred while filling the form.");
+                document.getElementById('parsingOverlay').classList.add('hidden');
+            }
+        }
+
+        function downloadFinal(pdfBytes, suffix, title, sub) {
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const btn = document.getElementById('downloadBtn');
+            btn.onclick = () => {
+                const a = document.createElement('a'); a.href = url;
+                a.download = currentFile.name.replace('.pdf', suffix);
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            };
+
+            document.getElementById('successTitle').innerText = title;
+            document.getElementById('successSubtitle').innerText = sub;
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step4').classList.remove('hidden');
+            document.getElementById('parsingOverlay').classList.add('hidden');
+        }
+
         window.resetTool = function() { window.location.reload(); }
     </script>
 </body>
