@@ -7,6 +7,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
     <script>
@@ -50,6 +51,8 @@
         .ilovepdf-text { color: #e5322d; }
         .loader { border: 4px solid #f3f3f3; border-top-color: #8b5cf6; border-radius: 50%; animation: spinner 1s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .drag-area { transition: 0.3s; }
+        .drag-area.active { border-color: #e5322d; background-color: #fff5f5; }
         ::-webkit-scrollbar { width: 6px; height: 6px;}
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
@@ -93,7 +96,6 @@
         </div>
     </div>
 
-    <!-- Header Navbar -->
     <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative h-[65px] flex items-center">
         <div class="w-full px-4 flex justify-between items-center">
             <div class="flex items-center space-x-4">
@@ -107,7 +109,6 @@
         </div>
     </nav>
 
-    <!-- STEP 1: UPLOAD SCREEN -->
     <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 bg-[#fbfbfd]">
         <div class="flex items-center justify-center gap-3 mb-2 mt-4">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-800 text-center">AI Summarizer</h1>
@@ -128,7 +129,6 @@
         <p class="text-gray-400 font-medium text-xs mt-4">or drop file here</p>
     </div>
 
-    <!-- STEP 2: SETTINGS MODAL -->
     <div id="settingsModal" class="modal-overlay">
         <div class="modal-content">
             <h3 class="text-center font-bold text-gray-800 mb-6">Settings</h3>
@@ -164,14 +164,12 @@
         </div>
     </div>
 
-    <!-- LOADING SCREEN -->
     <div id="loadingScreen" class="hidden flex-grow flex-col items-center justify-center bg-white z-20">
         <div class="loader w-14 h-14 mb-6"></div>
         <h3 class="text-xl font-bold text-gray-800 mb-2">Analyzing Document...</h3>
         <p class="text-gray-500 text-sm">Our AI is reading and summarizing your text.</p>
     </div>
 
-    <!-- STEP 3: RESULTS SCREEN -->
     <div id="step3" class="hidden flex-grow bg-white w-full">
         <div class="max-w-4xl mx-auto px-6 py-10">
             <div class="text-center mb-10 border-b border-gray-100 pb-4">
@@ -239,6 +237,11 @@
                 document.getElementById('boxStandard').classList.add('active');
                 document.querySelector('input[value="standard"]').checked = true;
             } else {
+                let credits = parseInt(localStorage.getItem('tv_agent_credits') || 0);
+                if(credits < 10) {
+                    alert("Not enough credits for Advanced AI. Simulating Sandbox Upgrade...");
+                    localStorage.setItem('tv_agent_credits', '8000');
+                }
                 document.getElementById('boxAdvanced').classList.add('active');
                 document.querySelector('input[value="advanced"]').checked = true;
             }
@@ -343,15 +346,16 @@
                 questions.forEach(q => {
                     let btn = document.createElement('button');
                     btn.className = 'q-btn';
-                    btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> ${q}`;
+                    
+                    // VVIP REDIRECT TO SUPER CHAT
+                    btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> ' + q;
                     btn.onclick = () => {
-                        // VVIP FEATURE: Redirect seamlessly to Super AI Chat with Context!
-                        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Loading Super Chat...`;
+                        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading Super Chat...';
                         localStorage.setItem('tv_chat_question', q);
-                        localStorage.setItem('tv_chat_context', summary.join(' ')); // Share summary context
+                        localStorage.setItem('tv_chat_context', summary.join(' ')); 
                         setTimeout(() => {
                             window.location.href = 'super-chat.html';
-                        }, 800);
+                        }, 500);
                     };
                     qContainer.appendChild(btn);
                 });
