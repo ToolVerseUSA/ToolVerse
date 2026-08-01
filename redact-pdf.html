@@ -76,7 +76,9 @@
         /* PDF Viewer Canvases & Drawing Layers */
         .pdf-page-container { position: relative; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: inline-block; background: white;}
         .pdf-canvas { display: block; }
-        .draw-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; touch-action: none;}
+        
+        /* Strict Mobile Touch handling to prevent orphans */
+        .draw-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; touch-action: none; -webkit-user-select: none; user-select: none; }
         
         .draw-layer.cursor-crosshair { cursor: crosshair; }
         .draw-layer.cursor-grab { cursor: grab; touch-action: pan-y; }
@@ -241,16 +243,17 @@
         let currentScale = 1.2;
         let currentTool = 'redact'; // 'pan' or 'redact'
         
-        // Store redactions: { id, pageNum, x, y, width, height, color }
         let redactions = []; 
         let boxCounter = 0;
 
-        // Interaction Variables
+        // VVIP Mobile Fixed Variables
         let isDrawing = false;
         let startX = 0, startY = 0;
         let tempBox = null;
+        let activeLayer = null;
+        let activePageNum = null;
+        let globalDrawingAttached = false;
 
-        // --- Drag & Drop Initialization ---
         const dropZone = document.getElementById('dropZone');
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'));
@@ -274,7 +277,8 @@
 
         async function loadPDF() {
             try {
-                pdfDoc = await pdfjsLib.getDocument({data: new Uint8Array(pdfArrayBuffer)}).promise;
+                // Ensure fresh copy for PDF.js to avoid detach issues later
+                pdfDoc = await pdfjsLib.getDocument({data: new Uint8Array(pdfArrayBuffer.slice(0))}).promise;
                 renderAllPages();
             } catch (error) {
                 alert("Error rendering PDF.");
@@ -305,11 +309,11 @@
                 drawLayer.className = `draw-layer cursor-${currentTool === 'redact' ? 'crosshair' : 'grab'}`;
                 drawLayer.dataset.page = i;
 
-                // Re-draw existing redactions for this page if scaling changed
-                redrawSavedBoxes(i, drawLayer, viewport);
+                redrawSavedBoxes(i, drawLayer);
 
-                // Setup Mobile & Mouse Drawing Events
-                setupDrawingEvents(drawLayer, i);
+                // Attach ONLY START events to the layer to prevent overlaps
+                drawLayer.addEventListener('mousedown', (e) => startDraw(e, drawLayer, i));
+                drawLayer.addEventListener('touchstart', (e) => startDraw(e, drawLayer, i), {passive: false});
 
                 wrapper.appendChild(canvas);
                 wrapper.appendChild(drawLayer);
@@ -318,9 +322,18 @@
                 const ctx = canvas.getContext('2d');
                 await page.render({canvasContext: ctx, viewport: viewport}).promise;
             }
+
+            // Attach Global Move and End Events exactly once
+            if(!globalDrawingAttached) {
+                window.addEventListener('mousemove', moveDraw);
+                window.addEventListener('touchmove', moveDraw, {passive: false});
+                window.addEventListener('mouseup', endDraw);
+                window.addEventListener('touchend', endDraw);
+                window.addEventListener('touchcancel', endDraw);
+                globalDrawingAttached = true;
+            }
         }
 
-        // --- Drawing Interactions ---
         window.setTool = function(tool) {
             currentTool = tool;
             document.getElementById('toolPan').classList.toggle('active', tool === 'pan');
@@ -335,105 +348,99 @@
         window.zoomIn = function() { currentScale += 0.2; renderAllPages(); }
         window.zoomOut = function() { if(currentScale > 0.6) { currentScale -= 0.2; renderAllPages(); } }
 
-        function setupDrawingEvents(layer, pageNum) {
-            const getPos = (e) => {
-                const rect = layer.getBoundingClientRect();
-                let clientX = e.clientX;
-                let clientY = e.clientY;
-                if (e.touches && e.touches.length > 0) {
-                    clientX = e.touches[0].clientX;
-                    clientY = e.touches[0].clientY;
-                } else if (e.changedTouches && e.changedTouches.length > 0) {
-                    clientX = e.changedTouches[0].clientX;
-                    clientY = e.changedTouches[0].clientY;
-                }
-                return { x: clientX - rect.left, y: clientY - rect.top };
-            };
-
-            const onStart = (e) => {
-                if(currentTool !== 'redact') return; // Allow panning/scrolling
-                if(e.type === 'touchstart') e.preventDefault(); // Stop mobile scroll if redacting
-                
-                isDrawing = true;
-                const pos = getPos(e);
-                startX = pos.x;
-                startY = pos.y;
-                
-                tempBox = document.createElement('div');
-                tempBox.className = 'redact-box';
-                tempBox.style.left = startX + 'px';
-                tempBox.style.top = startY + 'px';
-                const color = document.getElementById('redactColor').value;
-                tempBox.style.backgroundColor = hexToRgba(color, 0.85);
-                layer.appendChild(tempBox);
-            };
-
-            const onMove = (e) => {
-                if(!isDrawing || currentTool !== 'redact') return;
-                if(e.type === 'touchmove') e.preventDefault(); // Stop mobile scroll while drawing
-                
-                const pos = getPos(e);
-                const width = Math.abs(pos.x - startX);
-                const height = Math.abs(pos.y - startY);
-                const left = Math.min(pos.x, startX);
-                const top = Math.min(pos.y, startY);
-                
-                if(tempBox) {
-                    tempBox.style.width = width + 'px';
-                    tempBox.style.height = height + 'px';
-                    tempBox.style.left = left + 'px';
-                    tempBox.style.top = top + 'px';
-                }
-            };
-
-            const onEnd = (e) => {
-                if(!isDrawing) return;
-                isDrawing = false;
-                
-                if(tempBox) {
-                    const w = parseFloat(tempBox.style.width) || 0;
-                    const h = parseFloat(tempBox.style.height) || 0;
-                    
-                    if(w > 5 && h > 5) {
-                        boxCounter++;
-                        const boxId = `redact_${Date.now()}_${boxCounter}`;
-                        tempBox.id = boxId;
-                        
-                        const color = document.getElementById('redactColor').value;
-                        const stdLeft = parseFloat(tempBox.style.left) / currentScale;
-                        const stdTop = parseFloat(tempBox.style.top) / currentScale;
-                        const stdW = w / currentScale;
-                        const stdH = h / currentScale;
-
-                        redactions.push({
-                            id: boxId,
-                            pageNum: pageNum,
-                            x: stdLeft,
-                            y: stdTop,
-                            w: stdW,
-                            h: stdH,
-                            color: color
-                        });
-                        updateRightPanel();
-                    } else {
-                        tempBox.remove();
-                    }
-                    tempBox = null;
-                }
-            };
-
-            // Mouse Events
-            layer.addEventListener('mousedown', onStart);
-            layer.addEventListener('mousemove', onMove);
-            layer.addEventListener('mouseup', onEnd);
-            layer.addEventListener('mouseleave', onEnd);
-
-            // Touch Events (Mobile)
-            layer.addEventListener('touchstart', onStart, {passive: false});
-            layer.addEventListener('touchmove', onMove, {passive: false});
-            layer.addEventListener('touchend', onEnd);
-            layer.addEventListener('touchcancel', onEnd);
+        // --- BULLETPROOF DRAWING ENGINE ---
+        function getPos(e, layer) {
+            const rect = layer.getBoundingClientRect();
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else if (e.changedTouches && e.changedTouches.length > 0) {
+                clientX = e.changedTouches[0].clientX;
+                clientY = e.changedTouches[0].clientY;
+            }
+            return { x: clientX - rect.left, y: clientY - rect.top };
         }
+
+        window.startDraw = function(e, layer, pageNum) {
+            if(currentTool !== 'redact') return;
+            if(e.type === 'touchstart' && e.cancelable) e.preventDefault();
+
+            isDrawing = true;
+            activeLayer = layer;
+            activePageNum = pageNum;
+
+            const pos = getPos(e, layer);
+            startX = pos.x;
+            startY = pos.y;
+
+            tempBox = document.createElement('div');
+            tempBox.className = 'redact-box';
+            tempBox.style.left = startX + 'px';
+            tempBox.style.top = startY + 'px';
+            
+            const color = document.getElementById('redactColor').value;
+            tempBox.style.backgroundColor = hexToRgba(color, 0.85);
+
+            layer.appendChild(tempBox);
+        };
+
+        window.moveDraw = function(e) {
+            if(!isDrawing || currentTool !== 'redact' || !activeLayer || !tempBox) return;
+            if(e.type === 'touchmove' && e.cancelable) e.preventDefault();
+
+            const pos = getPos(e, activeLayer);
+            const width = Math.abs(pos.x - startX);
+            const height = Math.abs(pos.y - startY);
+            const left = Math.min(pos.x, startX);
+            const top = Math.min(pos.y, startY);
+
+            tempBox.style.width = width + 'px';
+            tempBox.style.height = height + 'px';
+            tempBox.style.left = left + 'px';
+            tempBox.style.top = top + 'px';
+        };
+
+        window.endDraw = function(e) {
+            if(!isDrawing) return;
+            isDrawing = false;
+
+            if(tempBox && activeLayer) {
+                const w = parseFloat(tempBox.style.width) || 0;
+                const h = parseFloat(tempBox.style.height) || 0;
+
+                if(w > 5 && h > 5) {
+                    boxCounter++;
+                    const boxId = `redact_${Date.now()}_${boxCounter}`;
+                    tempBox.id = boxId;
+
+                    const color = document.getElementById('redactColor').value;
+                    const stdLeft = parseFloat(tempBox.style.left) / currentScale;
+                    const stdTop = parseFloat(tempBox.style.top) / currentScale;
+                    const stdW = w / currentScale;
+                    const stdH = h / currentScale;
+
+                    redactions.push({
+                        id: boxId,
+                        pageNum: activePageNum,
+                        x: stdLeft,
+                        y: stdTop,
+                        w: stdW,
+                        h: stdH,
+                        color: color
+                    });
+
+                    updateRightPanel();
+                } else {
+                    tempBox.remove();
+                }
+                
+                tempBox = null;
+                activeLayer = null;
+                activePageNum = null;
+            }
+        };
 
         function hexToRgba(hex, alpha) {
             const r = parseInt(hex.slice(1, 3), 16);
@@ -451,7 +458,7 @@
             } : { r: 0, g: 0, b: 0 };
         }
 
-        function redrawSavedBoxes(pageNum, layer, viewport) {
+        function redrawSavedBoxes(pageNum, layer) {
             const pageRedactions = redactions.filter(r => r.pageNum === pageNum);
             pageRedactions.forEach(r => {
                 const box = document.createElement('div');
@@ -466,7 +473,6 @@
             });
         }
 
-        // --- UI Updates ---
         function updateRightPanel() {
             const list = document.getElementById('redactionList');
             const emptyState = document.getElementById('emptyState');
@@ -478,7 +484,6 @@
                 emptyState.style.display = 'none';
                 list.innerHTML = '';
                 
-                // Group by page
                 const grouped = {};
                 redactions.forEach(r => {
                     if(!grouped[r.pageNum]) grouped[r.pageNum] = [];
@@ -498,9 +503,8 @@
                                 <div class="w-3 h-3 rounded-full border border-gray-300" style="background-color: ${r.color}"></div>
                                 <span class="font-bold text-gray-700">Redaction Box ${idx+1}</span>
                             </div>
-                            <button class="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition" onclick="deleteRedaction('${r.id}')"><i class="fa-solid fa-trash"></i></button>
+                            <button class="text-gray-400 hover:text-red-500 opacity-100 transition" onclick="deleteRedaction('${r.id}')"><i class="fa-solid fa-trash"></i></button>
                         `;
-                        // Hover to highlight box on canvas
                         item.addEventListener('mouseenter', () => {
                             const domBox = document.getElementById(r.id);
                             if(domBox) { domBox.style.borderColor = '#e5322d'; domBox.style.boxShadow = '0 0 10px rgba(229,50,45,1)'; }
@@ -527,7 +531,7 @@
             updateRightPanel();
         }
 
-        // --- Apply Redactions (PDF-Lib Core Logic) ---
+        // --- Apply Redactions (PDF-Lib Core Logic VVIP Safe) ---
         window.applyRedactions = async function() {
             if(redactions.length === 0) {
                 alert("Please draw at least one redaction box to proceed.");
@@ -538,7 +542,10 @@
 
             try {
                 const { PDFDocument, rgb } = PDFLib;
-                const pdfModDoc = await PDFDocument.load(pdfArrayBuffer);
+                
+                // VVIP Safety: Extract fresh array buffer to avoid detachment crashes
+                const freshBuffer = await currentFile.arrayBuffer();
+                const pdfModDoc = await PDFDocument.load(new Uint8Array(freshBuffer), { ignoreEncryption: true });
                 const pages = pdfModDoc.getPages();
 
                 for(let i=1; i<=pdfDoc.numPages; i++) {
@@ -561,7 +568,7 @@
                         const rectW = box.w * scaleX;
                         const rectH = box.h * scaleY;
                         
-                        // Invert Y for PDF-Lib coordinates
+                        // PDF.js origin is Top-Left. PDF-Lib origin is Bottom-Left. Invert Y!
                         const rectY = pdfHeight - ((box.y + box.h) * scaleY);
 
                         pdfPage.drawRectangle({
@@ -569,13 +576,12 @@
                             y: rectY,
                             width: rectW,
                             height: rectH,
-                            color: rgb(rgbColor.r, rgbColor.g, rgbColor.b),
-                            opacity: 1,
+                            color: rgb(rgbColor.r, rgbColor.g, rgbColor.b)
                         });
                     });
                 }
 
-                pdfModDoc.setProducer('ToolVerse Advanced PDF Engine');
+                // Explicitly omitted setProducer to avoid signing/encryption metadata errors
                 const pdfBytes = await pdfModDoc.save();
                 
                 const blob = new Blob([pdfBytes], { type: 'application/pdf' });
@@ -591,14 +597,13 @@
                     document.body.removeChild(a);
                 };
 
-                document.getElementById('step2').style.display = 'none';
                 document.getElementById('step2').classList.add('hidden');
                 document.getElementById('step4').classList.remove('hidden');
-                document.getElementById('step4').style.display = 'flex';
+                document.getElementById('parsingOverlay').classList.add('hidden');
 
             } catch (error) {
                 console.error("Redaction Error:", error);
-                alert("An error occurred while applying redactions.");
+                alert("An error occurred while applying redactions: " + error.message);
                 document.getElementById('parsingOverlay').classList.add('hidden');
             }
         }
