@@ -5,28 +5,37 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (!extractBtn) return;
 
-    // 1. Text Chunking for Google Translate API (To avoid limits)
-    function chunkText(text, length) {
+    // 1. Smart Text Chunking (Preserves words, smaller chunks for safe GET requests)
+    function chunkText(text, maxLength) {
         const chunks = [];
-        for (let i = 0; i < text.length; i += length) {
-            chunks.push(text.substring(i, i + length));
+        let currentChunk = "";
+        const words = text.split(" ");
+        
+        for (let word of words) {
+            if ((currentChunk + word).length > maxLength) {
+                chunks.push(currentChunk.trim());
+                currentChunk = word + " ";
+            } else {
+                currentChunk += word + " ";
+            }
         }
+        if (currentChunk) chunks.push(currentChunk.trim());
         return chunks;
     }
 
-    // 2. Google Translate Proxy Logic (ALWAYS translate now)
+    // 2. Google Translate Proxy Logic (ALWAYS translate to handle multi-lingual sources)
     async function translateText(text, targetLang) {
         if (!targetLang) return text; 
         
         // Clean timestamps [0:00] for better translation accuracy
         text = text.replace(/\[\d+:\d+\]/g, ''); 
 
-        const chunks = chunkText(text, 4000); 
+        // Reduced chunk size to 800 to prevent URI Too Long (414) errors on complex scripts
+        const chunks = chunkText(text, 800); 
         let translatedFullText = "";
 
         for (const chunk of chunks) {
             try {
-                // sl=auto allows Google to auto-detect the source language (e.g., Hindi)
                 const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(chunk)}`;
                 const res = await fetch(url);
                 const data = await res.json();
@@ -36,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 translatedFullText += translatedChunk + " ";
             } catch (e) {
                 console.error("Translation Error: ", e);
-                return "Translation failed midway. Original text:\n\n" + text;
+                return "Translation failed midway. Please try again. Partial text:\n\n" + translatedFullText;
             }
         }
         return translatedFullText;
@@ -103,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (rawText && rawText.trim().length > 0) {
                 
-                // NO MORE BYPASS: We always translate so auto-detect can catch Hindi to English
                 transcriptOutput.innerHTML = `<span style="color: #fbbf24;">Transcript found! Processing and translating to ${langName}...</span>`;
                 rawText = await translateText(rawText, lang);
 
