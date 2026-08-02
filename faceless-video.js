@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const length = document.getElementById('videoLength').value;
         const tone = document.getElementById('videoTone').value;
         const details = document.getElementById('videoDetails').value.trim();
-
         const outScript = document.getElementById('outScript');
 
         if (topic === "") {
@@ -18,35 +17,32 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // ==========================================
+        // NEW VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
+        // ==========================================
+        const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (!isAuth) {
+            alert("🔒 Please login from the Dashboard to use Premium Tools.");
+            window.location.href = "index.html"; 
+            return;
+        }
+
+        let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
+        if (currentCredits <= 0) {
+            alert("🎁 You have run out of Credits!");
+            outScript.innerHTML = "<span style='color: #ef4444;'>Insufficient Credits. Please upgrade in Dashboard.</span>";
+            return; 
+        }
+
         const originalBtnText = generateBtn.innerHTML;
         generateBtn.innerHTML = "⏳ Structuring Blueprint...";
         generateBtn.disabled = true;
-
         outScript.innerHTML = "<span style='color: #38bdf8;'>Connecting to Llama-3... Crafting your masterpiece. Please wait.</span>";
 
         try {
-            if (typeof firebase === 'undefined' || !firebase.apps.length) {
-                throw new Error("Firebase is not initialized.");
-            }
-
-            const user = firebase.auth().currentUser;
-            if (!user) {
-                alert("🔒 Please login to use Premium Tools.");
-                window.location.href = "index.html"; 
-                return;
-            }
-
-            const db = firebase.firestore();
-            const userRef = db.collection('users').doc(user.uid);
-            
-            const userDoc = await userRef.get();
-            const freeCredits = userDoc.data()?.free_credits || 0;
-
-            if (freeCredits <= 0) {
-                alert("🎁 You have run out of Daily Free Credits!");
-                outScript.innerHTML = "<span style='color: #ef4444;'>Insufficient Free Credits. Your Mining tokens are safe!</span>";
-                return; 
-            }
+            // Deduct 5 Credits instantly on UI
+            currentCredits -= 5; // You can change this deduction amount if you want
+            localStorage.setItem('tv_agent_credits', currentCredits);
 
             // VVIP Level Prompt Engineering for Faceless Videos
             const systemPrompt = `You are an elite YouTube Strategist and Scriptwriter for Faceless Channels. 
@@ -82,11 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     .replace(/\[.*?\]/g, match => `<span style="color: #facc15; font-weight: bold;">${match}</span>`);
 
                 outScript.innerHTML = formattedText;
-                
-                // Deduct 1 Free Credit
-                await userRef.update({
-                    free_credits: firebase.firestore.FieldValue.increment(-1)
-                });
             } else {
                 throw new Error(data.error || "API error occurred");
             }
