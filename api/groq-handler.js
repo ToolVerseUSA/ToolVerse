@@ -1,14 +1,12 @@
 export default async function handler(req, res) {
-    // 1. CORS اور میتھڈ چیک
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
     const { systemPrompt, userPrompt } = req.body;
 
-    // 2. چیک کریں کہ کیا Vercel کو API Key مل رہی ہے؟
     if (!process.env.GROQ_API_KEY) {
-        console.error("🚨 Missing GROQ_API_KEY in Vercel Environment Variables");
+        console.error("🚨 Missing GROQ_API_KEY");
         return res.status(500).json({ error: 'API Key is missing in Vercel settings.' });
     }
 
@@ -20,7 +18,8 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: "llama3-8b-8192", // Groq کا سب سے تیز اور سٹیبل ماڈل
+                // 👇 یہاں میں نے Groq کا لیٹسٹ اور فاسٹ ماڈل اپڈیٹ کر دیا ہے 👇
+                model: "llama-3.3-70b-versatile", 
                 messages: [
                     { role: "system", content: systemPrompt },
                     { role: "user", content: userPrompt }
@@ -32,16 +31,13 @@ export default async function handler(req, res) {
 
         const data = await response.json();
 
-        // 3. اگر Groq نے کوئی ایرر دیا (جیسے لمٹ ختم ہونا یا Key غلط ہونا)
         if (!response.ok) {
             console.error("🚨 Groq API Error:", data);
-            // یہ اصل ایرر آپ کی ویب سائٹ کی سکرین پر بھیجے گا
             return res.status(response.status).json({ 
                 error: data.error?.message || 'Error from Groq API server' 
             });
         }
 
-        // 4. اگر سب کچھ پرفیکٹ ہے تو جواب بھیجیں
         if (data.choices && data.choices.length > 0) {
             res.status(200).json({ result: data.choices[0].message.content });
         } else {
