@@ -17,38 +17,34 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // ==========================================
+        // VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
+        // ==========================================
+        const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (!isAuth) {
+            alert("🔒 Please login from the Dashboard to use Premium Tools.");
+            window.location.href = "index.html"; 
+            return;
+        }
+
+        let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
+        if (currentCredits <= 0) {
+            alert("🎁 You have run out of Credits!");
+            outResume.innerHTML = "<span style='color: #ef4444;'>Insufficient Credits. Please upgrade in Dashboard.</span>";
+            return; 
+        }
+
         generateBtn.innerHTML = "⏳ AI Coach is Writing...";
         generateBtn.disabled = true;
 
         outResume.innerHTML = "<span style='color: #38bdf8;'>Scanning ATS Algorithms... Crafting perfect bullet points. Please wait.</span>";
 
         try {
-            // 1. Firebase Auth Check
-            if (typeof firebase === 'undefined' || !firebase.apps.length) {
-                throw new Error("Firebase is not initialized.");
-            }
+            // Deduct 3 Credits instantly on UI for Premium Resume Builder
+            currentCredits -= 3; 
+            localStorage.setItem('tv_agent_credits', currentCredits);
 
-            const user = firebase.auth().currentUser;
-            if (!user) {
-                alert("🔒 Please login to use Premium Tools.");
-                window.location.href = "index.html"; 
-                return;
-            }
-
-            // 2. Database Credit Check
-            const db = firebase.firestore();
-            const userRef = db.collection('users').doc(user.uid);
-            
-            const userDoc = await userRef.get();
-            const freeCredits = userDoc.data()?.free_credits || 0;
-
-            if (freeCredits <= 0) {
-                alert("🎁 You have run out of Daily Free Credits!");
-                outResume.innerHTML = "<span style='color: #ef4444;'>Insufficient Free Credits. Your Mining tokens are safe!</span>";
-                return; 
-            }
-
-            // 3. Expert AI Prompt for ATS Resume
+            // Expert AI Prompt for ATS Resume
             const systemPrompt = `You are an Elite Executive Resume Writer and an Expert in ATS (Applicant Tracking Systems). 
             Your job is to take the user's rough inputs and transform them into a highly professional, 100% ATS-compliant resume draft.
             
@@ -71,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const userPrompt = `Target Job Title: ${jobTitle}\nExperience Level: ${experience}\nProvided Skills: ${skills}\nRough Work History: ${workHistory}`;
 
-            // 4. Fetch from Vercel Backend
+            // Fetch from Vercel Backend
             const response = await fetch('/api/groq-handler', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -97,10 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 outResume.innerHTML = formattedText;
                 
-                // 5. Deduct 1 Free Credit
-                await userRef.update({
-                    free_credits: firebase.firestore.FieldValue.increment(-1)
-                });
             } else {
                 throw new Error(data.error || "API error occurred while drafting resume.");
             }
@@ -114,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 6. Copy and Download Functionality
+    // Copy and Download Functionality
     const copyBtn = document.getElementById('copyBtn');
     if (copyBtn) {
         copyBtn.addEventListener('click', () => {
