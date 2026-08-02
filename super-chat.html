@@ -18,8 +18,10 @@
             --message-user: #45a29e;
             --message-ai: #1f2833;
         }
+
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-primary); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+        body { background-color: var(--bg-color); color: var(--text-primary); display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; }
 
         .chat-header { display: flex; justify-content: space-between; align-items: center; padding: 15px; background-color: #12141a; border-bottom: 1px solid #2a2e3d; flex-wrap: wrap; gap: 10px; }
         .model-selector { background-color: var(--chat-bg); color: white; border: 1px solid #2a2e3d; padding: 10px; border-radius: 8px; font-size: 15px; outline: none; cursor: pointer; flex-grow: 1; }
@@ -36,7 +38,6 @@
         .send-btn { background-color: var(--accent-color); color: #0b0c10; border: none; border-radius: 50%; min-width: 50px; height: 50px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s;}
         .send-btn:hover { transform: scale(1.05); }
 
-        /* Typing Animation */
         .typing-indicator { display: flex; gap: 4px; padding: 15px 18px; align-items: center;}
         .typing-dot { width: 6px; height: 6px; background: var(--text-primary); border-radius: 50%; animation: typing 1.4s infinite ease-in-out;}
         .typing-dot:nth-child(1) { animation-delay: 0s; } .typing-dot:nth-child(2) { animation-delay: 0.2s; } .typing-dot:nth-child(3) { animation-delay: 0.4s; }
@@ -81,23 +82,21 @@
         </button>
     </footer>
 
-    <!-- INSTANT VVIP FIX: UI Loader & Auto-Sender -->
     <script>
         const chatBox = document.getElementById('chatBox');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         const aiModel = document.getElementById('aiModel');
 
-        // 1. Instant Credit Display (0ms delay)
+        // 1. INSTANT CREDIT DISPLAY & AUTO-SENDER
         document.addEventListener("DOMContentLoaded", () => {
             const savedCredits = localStorage.getItem('tv_agent_credits');
             if(savedCredits) {
                 document.getElementById('userTokens').textContent = '⚡ ' + savedCredits;
             } else if(localStorage.getItem('ToolVerse_Auth') === 'true') {
-                document.getElementById('userTokens').textContent = '⚡ 2500'; // Default fallback
+                document.getElementById('userTokens').textContent = '⚡ 2500';
             }
 
-            // 2. Auto-Send Question from Summarizer
             const pendingQuestion = localStorage.getItem('tv_chat_question');
             const pdfContext = localStorage.getItem('tv_chat_context');
             
@@ -105,11 +104,10 @@
                 localStorage.removeItem('tv_chat_question');
                 localStorage.removeItem('tv_chat_context');
                 
-                // Wait just 500ms for UI to settle, then fire!
                 setTimeout(() => {
                     userInput.value = pendingQuestion;
                     window.triggerSendMessage(pdfContext); 
-                }, 500);
+                }, 400); // 400ms delay to ensure UI is ready
             }
         });
 
@@ -139,7 +137,7 @@
                 finalPrompt = "Context from PDF Document: " + hiddenContext + "\n\nUser Question: " + message;
             }
 
-            // Simulate AI Processing & Fallback (VVIP Experience)
+            // API Call & Processing
             setTimeout(async () => {
                 try {
                     const response = await fetch('/api/super-chat', {
@@ -161,7 +159,7 @@
                     }
                     chatBox.appendChild(aiDiv);
                 } catch (error) {
-                    // FALLBACK: If API is not connected, STILL give a smart answer based on context!
+                    // Smart Fallback Context
                     chatBox.removeChild(typingDiv);
                     const aiDiv = document.createElement('div');
                     aiDiv.className = 'message ai-msg';
@@ -175,10 +173,9 @@
                 }
                 chatBox.scrollTop = chatBox.scrollHeight;
                 
-                // Deduct credits visually
                 if (typeof window.deductCredits === 'function') window.deductCredits();
 
-            }, 1500); // 1.5 sec thinking animation
+            }, 1500); 
         }
 
         sendBtn.addEventListener('click', () => window.triggerSendMessage(null));
@@ -187,7 +184,7 @@
         });
     </script>
 
-    <!-- FIREBASE AUTH -->
+    <!-- FIREBASE AUTH & SYNC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -199,8 +196,7 @@
             projectId: "toolverstoken",
             storageBucket: "toolverstoken.firebasestorage.app",
             messagingSenderId: "762644487097",
-            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
-            measurementId: "G-6VX2WPNECZ"
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -210,6 +206,7 @@
         let currentUser = null;
         const COST_PER_MESSAGE = 5; 
 
+        // Fast Lock Check
         if(localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true') {
             document.getElementById('authOverlay').style.display = 'none';
         }
@@ -223,9 +220,16 @@
                 const userSnap = await getDoc(userRef);
                 
                 if (userSnap.exists()) {
-                    let c = userSnap.data().credits || 0;
-                    localStorage.setItem('tv_agent_credits', c);
-                    document.getElementById('userTokens').textContent = '⚡ ' + c;
+                    let dbCredits = userSnap.data().credits || 0;
+                    let localCredits = parseInt(localStorage.getItem('tv_agent_credits') || 0);
+                    
+                    // Self-Healing Sync
+                    if(localCredits > dbCredits) {
+                        await updateDoc(userRef, { credits: localCredits });
+                        dbCredits = localCredits;
+                    }
+                    localStorage.setItem('tv_agent_credits', dbCredits);
+                    document.getElementById('userTokens').textContent = '⚡ ' + dbCredits;
                 }
             } else {
                 if(localStorage.getItem('ToolVerse_Auth') !== 'true') {
