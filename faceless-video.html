@@ -93,14 +93,28 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs & Config -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <script src="firebase-config.js"></script>
-
     <!-- App Logic -->
     <script src="faceless-video.js"></script>
 
+    <!-- VVIP UNIVERSAL UNLOCK SCRIPT -->
+    <script>
+        const isVVIPAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (isVVIPAuth) {
+            const unlockStyle = document.createElement('style');
+            unlockStyle.innerHTML = `
+                #authOverlay, #firebaseAuthModal, .auth-modal, #loginModal { 
+                    display: none !important; opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important; visibility: hidden !important;
+                }
+                body { overflow: auto !important; }
+            `;
+            document.head.appendChild(unlockStyle);
+            window.isUserLoggedIn = true;
+            setInterval(() => {
+                const lockScreens = document.querySelectorAll('#authOverlay, #firebaseAuthModal, .auth-modal, #loginModal');
+                lockScreens.forEach(lock => { if(lock) lock.style.display = 'none'; });
+                window.isUserLoggedIn = true;
+            }, 200);
+        }
+    </script>
 </body>
 </html>
