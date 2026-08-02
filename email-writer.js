@@ -20,48 +20,40 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // ==========================================
+        // VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
+        // ==========================================
+        const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (!isAuth) {
+            alert("🔒 Please login from the Dashboard to use Premium Tools.");
+            window.location.href = "index.html"; 
+            return;
+        }
+
+        let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
+        if (currentCredits <= 0) {
+            alert("🎁 You have run out of Credits!");
+            outBody.innerText = "Insufficient Credits. Please upgrade in Dashboard.";
+            return; 
+        }
+
         const originalBtnText = generateBtn.innerHTML;
         generateBtn.innerHTML = "⏳ Generating AI Email...";
         generateBtn.disabled = true;
 
         outRecipient.innerText = recipient;
         outSubject.innerText = subject;
-        outBody.innerText = "Connecting to Llama-3... Please wait.";
+        outBody.innerText = "Connecting to high-speed AI... Please wait.";
 
         try {
-            // Safety Check for Firebase
-            if (typeof firebase === 'undefined') {
-                throw new Error("Firebase SDK is not loaded.");
-            }
-
-            // Ensure Firebase app is initialized
-            if (!firebase.apps.length) {
-                throw new Error("Firebase App is not initialized. Check firebase-config.js");
-            }
-
-            const user = firebase.auth().currentUser;
-            
-            if (!user) {
-                alert("🔒 Please login to use the AI Email Writer.");
-                window.location.href = "index.html"; 
-                return;
-            }
-
-            const db = firebase.firestore();
-            const userRef = db.collection('users').doc(user.uid);
-            
-            const userDoc = await userRef.get();
-            const freeCredits = userDoc.data()?.free_credits || 0;
-
-            if (freeCredits <= 0) {
-                alert("🎁 You have run out of Daily Free Credits!");
-                outBody.innerText = "Insufficient Free Credits. Your Mining tokens are safe!";
-                return; 
-            }
+            // Deduct 1 Credit instantly on UI for Email Generation
+            currentCredits -= 1; 
+            localStorage.setItem('tv_agent_credits', currentCredits);
 
             const systemPrompt = `You are an expert professional email copywriter. Write a highly effective, well-structured, and engaging email. Tone: ${tone}. Do not include the subject line in the body. Do not include any explanations or intro text, just provide the actual email body.`;
             const userPrompt = `Sender Name: ${sender}\nRecipient Name: ${recipient}\nEmail Purpose: ${purpose}`;
 
+            // Fetch from your Groq Handler API
             const response = await fetch('/api/groq-handler', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -72,11 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok && data.result) {
                 outBody.innerText = data.result;
-                
-                // Deduct ONLY 1 Free Credit (Mining Tokens Safe!)
-                await userRef.update({
-                    free_credits: firebase.firestore.FieldValue.increment(-1)
-                });
             } else {
                 throw new Error(data.error || "API error occurred");
             }
