@@ -17,6 +17,23 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // ==========================================
+        // VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
+        // ==========================================
+        const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (!isAuth) {
+            alert("🔒 Please login from the Dashboard to use Premium Tools.");
+            window.location.href = "index.html"; 
+            return;
+        }
+
+        let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
+        if (currentCredits <= 0) {
+            alert("🎁 You have run out of Credits!");
+            outCaption.innerHTML = "<span style='color: #ef4444;'>Insufficient Credits. Please upgrade in Dashboard.</span>";
+            return; 
+        }
+
         const originalBtnText = generateBtn.innerHTML;
         generateBtn.innerHTML = "⏳ Crafting Caption...";
         generateBtn.disabled = true;
@@ -24,32 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
         outCaption.innerHTML = "<span style='color: #f472b6;'>Analyzing platform algorithms... Writing your caption. Please wait.</span>";
 
         try {
-            // 1. Firebase Auth Check
-            if (typeof firebase === 'undefined' || !firebase.apps.length) {
-                throw new Error("Firebase is not initialized.");
-            }
+            // Deduct 2 Credits instantly on UI for Caption Generation
+            currentCredits -= 2; 
+            localStorage.setItem('tv_agent_credits', currentCredits);
 
-            const user = firebase.auth().currentUser;
-            if (!user) {
-                alert("🔒 Please login to use Premium Tools.");
-                window.location.href = "index.html"; 
-                return;
-            }
-
-            // 2. Database Credit Check
-            const db = firebase.firestore();
-            const userRef = db.collection('users').doc(user.uid);
-            
-            const userDoc = await userRef.get();
-            const freeCredits = userDoc.data()?.free_credits || 0;
-
-            if (freeCredits <= 0) {
-                alert("🎁 You have run out of Daily Free Credits!");
-                outCaption.innerHTML = "<span style='color: #ef4444;'>Insufficient Free Credits. Your Mining tokens are safe!</span>";
-                return; 
-            }
-
-            // 3. System Prompt for Groq (Llama-3)
+            // System Prompt for Groq (Llama-3)
             const systemPrompt = `You are a highly sought-after Social Media Manager and Viral Copywriter.
             Write a highly engaging caption based on the user's input.
             
@@ -63,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const userPrompt = `Platform: ${platform}\nTone: ${tone}\nLength: ${length}\nTopic: ${topic}`;
 
-            // 4. Fetch from your Groq Handler API
+            // Fetch from your Groq Handler API
             const response = await fetch('/api/groq-handler', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -84,10 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 outCaption.innerHTML = formattedText;
                 
-                // 5. Deduct 1 Free Credit
-                await userRef.update({
-                    free_credits: firebase.firestore.FieldValue.increment(-1)
-                });
             } else {
                 throw new Error(data.error || "API error occurred while generating caption.");
             }
@@ -101,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 6. Copy to Clipboard Functionality
+    // Copy to Clipboard Functionality
     const copyBtn = document.getElementById('copyBtn');
     if (copyBtn) {
         copyBtn.addEventListener('click', () => {
