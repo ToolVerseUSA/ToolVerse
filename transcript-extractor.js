@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return chunks;
     }
 
-    // 2. Google Translate Proxy Logic
+    // 2. Google Translate Proxy Logic (ALWAYS translate now)
     async function translateText(text, targetLang) {
-        if (targetLang === 'en' || !targetLang) return text; 
+        if (!targetLang) return text; 
         
         // Clean timestamps [0:00] for better translation accuracy
         text = text.replace(/\[\d+:\d+\]/g, ''); 
@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (const chunk of chunks) {
             try {
+                // sl=auto allows Google to auto-detect the source language (e.g., Hindi)
                 const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(chunk)}`;
                 const res = await fetch(url);
                 const data = await res.json();
@@ -62,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // ==========================================
-        // NEW VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
+        // VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
         // ==========================================
         const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
         if (!isAuth) {
@@ -102,11 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (rawText && rawText.trim().length > 0) {
                 
-                // Translate if language is not English
-                if(lang !== 'en') {
-                    transcriptOutput.innerHTML = `<span style="color: #fbbf24;">Transcript found! Translating to ${langName}...</span>`;
-                    rawText = await translateText(rawText, lang);
-                }
+                // NO MORE BYPASS: We always translate so auto-detect can catch Hindi to English
+                transcriptOutput.innerHTML = `<span style="color: #fbbf24;">Transcript found! Processing and translating to ${langName}...</span>`;
+                rawText = await translateText(rawText, lang);
 
                 // Display Final Result
                 transcriptOutput.innerText = `[Language: ${langName}]\n\n` + rawText.trim();
