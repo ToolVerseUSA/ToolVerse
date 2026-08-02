@@ -36,7 +36,7 @@
                     <div class="input-row">
                         <div class="input-half">
                             <label>Your Name (Sender)</label>
-                            <input type="text" id="senderName" placeholder="e.g. Imran Khan">
+                            <input type="text" id="senderName" placeholder="e.g. John Doe">
                         </div>
                         <div class="input-half">
                             <label>Recipient Name / Title</label>
@@ -99,16 +99,28 @@
         © 2026 ToolVerse. All Rights Reserved.
     </footer>
 
-    <!-- Firebase SDKs (Added Automatically) -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    
-    <!-- Firebase Config -->
-    <script src="firebase-config.js"></script>
-
-    <!-- Link to JavaScript -->
+    <!-- App Logic -->
     <script src="email-writer.js"></script>
 
+    <!-- VVIP UNIVERSAL UNLOCK SCRIPT -->
+    <script>
+        const isVVIPAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (isVVIPAuth) {
+            const unlockStyle = document.createElement('style');
+            unlockStyle.innerHTML = `
+                #authOverlay, #firebaseAuthModal, .auth-modal, #loginModal { 
+                    display: none !important; opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important; visibility: hidden !important;
+                }
+                body { overflow: auto !important; }
+            `;
+            document.head.appendChild(unlockStyle);
+            window.isUserLoggedIn = true;
+            setInterval(() => {
+                const lockScreens = document.querySelectorAll('#authOverlay, #firebaseAuthModal, .auth-modal, #loginModal');
+                lockScreens.forEach(lock => { if(lock) lock.style.display = 'none'; });
+                window.isUserLoggedIn = true;
+            }, 200);
+        }
+    </script>
 </body>
 </html>
