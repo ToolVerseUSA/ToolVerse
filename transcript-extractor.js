@@ -61,38 +61,33 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // ==========================================
+        // NEW VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
+        // ==========================================
+        const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (!isAuth) {
+            alert("🔒 Please login from the Dashboard to use Premium Tools.");
+            window.location.href = "index.html"; 
+            return;
+        }
+
+        let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
+        if (currentCredits <= 0) {
+            alert("🎁 You have run out of Credits!");
+            transcriptOutput.innerHTML = `<span style="color: #ef4444;">Insufficient Credits. Please upgrade in Dashboard.</span>`;
+            return; 
+        }
+
         extractBtn.innerHTML = "⏳ Processing...";
         extractBtn.disabled = true;
         transcriptOutput.innerHTML = `<span style="color: #a78bfa;">Fetching transcript... This might take a few seconds.</span>`;
 
         try {
-            // Step A: Firebase Verification
-            if (typeof firebase === 'undefined' || !firebase.apps.length) {
-                throw new Error("Firebase is not initialized.");
-            }
-            
-            const user = firebase.auth().currentUser;
-            if (!user) {
-                alert("🔒 Please login to use Premium Tools.");
-                window.location.href = "index.html"; 
-                return;
-            }
+            // Deduct 1 Credit instantly on UI
+            currentCredits -= 1; 
+            localStorage.setItem('tv_agent_credits', currentCredits);
 
-            // Step B: Credit Check from Firestore
-            const db = firebase.firestore();
-            const userRef = db.collection('users').doc(user.uid);
-            const userDoc = await userRef.get();
-            const freeCredits = userDoc.data()?.free_credits || 0;
-
-            if (freeCredits <= 0) {
-                alert("🎁 You have run out of Daily Free Credits!");
-                transcriptOutput.innerHTML = `<span style="color: #ef4444;">Insufficient Free Credits. Your Mining tokens are safe!</span>`;
-                extractBtn.innerHTML = "⚡ Extract & Translate";
-                extractBtn.disabled = false;
-                return; 
-            }
-
-            // Step C: Fetch External Transcript API
+            // Fetch External Transcript API
             const apiUrl = `https://youtube-transcript.ai/transcript/${videoId}.txt`;
             const response = await fetch(apiUrl);
             
@@ -107,16 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (rawText && rawText.trim().length > 0) {
                 
-                // Step D: Translate if language is not English
+                // Translate if language is not English
                 if(lang !== 'en') {
                     transcriptOutput.innerHTML = `<span style="color: #fbbf24;">Transcript found! Translating to ${langName}...</span>`;
                     rawText = await translateText(rawText, lang);
                 }
-
-                // Step E: Deduct 1 Credit upon success
-                await userRef.update({
-                    free_credits: firebase.firestore.FieldValue.increment(-1)
-                });
 
                 // Display Final Result
                 transcriptOutput.innerText = `[Language: ${langName}]\n\n` + rawText.trim();
