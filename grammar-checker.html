@@ -89,29 +89,28 @@
         © 2026 ToolVerse. All Rights Reserved.
     </footer>
 
-    <!-- Firebase Setup -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-    <!-- Initialize Firebase with your actual config -->
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
-            authDomain: "toolverstoken.firebaseapp.com",
-            projectId: "toolverstoken",
-            storageBucket: "toolverstoken.firebasestorage.app",
-            messagingSenderId: "762644487097",
-            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
-        };
-        
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-    </script>
-
-    <!-- Link to JavaScript -->
+    <!-- App Logic -->
     <script src="grammar-checker.js"></script>
 
+    <!-- VVIP UNIVERSAL UNLOCK SCRIPT -->
+    <script>
+        const isVVIPAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (isVVIPAuth) {
+            const unlockStyle = document.createElement('style');
+            unlockStyle.innerHTML = `
+                #authOverlay, #firebaseAuthModal, .auth-modal, #loginModal { 
+                    display: none !important; opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important; visibility: hidden !important;
+                }
+                body { overflow: auto !important; }
+            `;
+            document.head.appendChild(unlockStyle);
+            window.isUserLoggedIn = true;
+            setInterval(() => {
+                const lockScreens = document.querySelectorAll('#authOverlay, #firebaseAuthModal, .auth-modal, #loginModal');
+                lockScreens.forEach(lock => { if(lock) lock.style.display = 'none'; });
+                window.isUserLoggedIn = true;
+            }, 200);
+        }
+    </script>
 </body>
 </html>
