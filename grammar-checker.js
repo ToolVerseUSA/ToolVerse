@@ -17,7 +17,7 @@ inputText.addEventListener('input', function() {
     wordCount.innerText = `${words.length} words`;
 });
 
-// Check Grammar Button (FREE CREDITS ONLY LOGIC)
+// Check Grammar Button (FAST LOCALSTORAGE CREDITS)
 checkBtn.addEventListener('click', async function() {
     const text = inputText.value.trim();
     const selectedMode = fixMode.value;
@@ -27,46 +27,45 @@ checkBtn.addEventListener('click', async function() {
         return;
     }
 
-    // 1. Check if user is logged in
-    const user = firebase.auth().currentUser;
-    if (!user) {
-        alert("🔒 Please login to use the AI Grammar Checker.");
+    // ==========================================
+    // VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
+    // ==========================================
+    const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+    if (!isAuth) {
+        alert("🔒 Please login from the Dashboard to use Premium Tools.");
         window.location.href = "index.html";
         return;
     }
 
-    // 2. Setup Firebase Firestore Reference
-    const db = firebase.firestore();
-    const userRef = db.collection('users').doc(user.uid);
+    let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
+    if (currentCredits <= 0) {
+        alert("🎁 You have run out of Credits!");
+        outputText.innerHTML = `<span style="color:#ef4444;">Insufficient Credits. Please upgrade in Dashboard.</span>`;
+        statusBadge.innerText = "No Credits";
+        statusBadge.style.background = "#ef4444";
+        this.innerHTML = "✨ Fix Grammar";
+        this.disabled = false;
+        return; 
+    }
 
     // Loading State
-    this.innerHTML = "⏳ Connecting to Llama-3...";
+    this.innerHTML = "⏳ AI Analyzing...";
     this.disabled = true;
     
-    statusBadge.innerText = "Checking Free Credits...";
+    statusBadge.innerText = "Processing...";
     statusBadge.style.background = "#f59e0b";
 
     try {
-        // 3. Check Only FREE CREDITS
-        const userDoc = await userRef.get();
-        const userData = userDoc.data() || {};
-        const freeCredits = userData.free_credits || 0;
+        // Deduct 1 Credit instantly on UI
+        currentCredits -= 1; 
+        localStorage.setItem('tv_agent_credits', currentCredits);
+        
+        statusBadge.innerText = "AI Fixing Grammar...";
 
-        if (!userDoc.exists || freeCredits <= 0) {
-            alert("🎁 You have run out of Daily Free Credits! Please claim your daily free credits to continue.");
-            this.innerHTML = "✨ Fix Grammar";
-            this.disabled = false;
-            statusBadge.innerText = "No Free Credits";
-            statusBadge.style.background = "#ef4444";
-            return;
-        }
-
-        statusBadge.innerText = "AI Analyzing...";
-
-        // 4. Dynamic Prompt based on Tone
+        // Dynamic Prompt based on Tone
         const dynamicPrompt = `You are an expert English grammar and spelling checker. Review the following text and apply a '${selectedMode}' tone. Correct any grammatical, spelling, and punctuation errors. Return ONLY the fully corrected text. Do not include any explanations, greetings, or extra formatting.`;
 
-        // 5. Call Vercel Groq API
+        // Call Vercel Groq API
         const response = await fetch('/api/groq-handler', {
             method: 'POST',
             headers: {
@@ -84,16 +83,10 @@ checkBtn.addEventListener('click', async function() {
             // Output Result
             outputText.innerText = data.result;
 
-            // 6. Deduct ONLY 1 Free Credit (Mining Tokens Safe)
-            await userRef.update({
-                free_credits: firebase.firestore.FieldValue.increment(-1)
-            });
-
             // Update Badge
             statusBadge.innerText = `✨ ${selectedMode} Applied`;
             statusBadge.style.background = "#10b981";
             
-            console.log("1 Free Credit Deducted. Mining Tokens are safe!");
         } else {
             throw new Error(data.error || "API error occurred");
         }
