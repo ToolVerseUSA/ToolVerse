@@ -1,90 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4K Thumbnail Downloader | Premium ToolVerse</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* VVIP Specific Styles */
-        .downloader-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
-        .input-card { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eaeaea; }
-        .output-card { background: #0f172a; padding: 30px; border-radius: 16px; color: #f8fafc; box-shadow: 0 15px 40px rgba(0,0,0,0.15); text-align: center; position: relative; }
-        .output-card h3 { color: #eab308; margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #1e293b; padding-bottom: 15px; text-align: left; }
-        .thumbnail-preview { margin-top: 20px; width: 100%; min-height: 300px; background: #1e293b; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px dashed #334155; }
-        .thumbnail-preview img { width: 100%; height: auto; border-radius: 10px; display: none; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #334155; font-size: 14px;}
-        .form-group input { width: 100%; padding: 15px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 15px;}
-        .premium-btn { background: linear-gradient(135deg, #ca8a04, #a16207); color: white; border: none; padding: 14px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(202, 138, 4, 0.3);}
-        .premium-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(202, 138, 4, 0.4); }
-        .download-btn { display: none; background: #3b82f6; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; transition: 0.3s; margin-top: 20px; text-decoration: none; }
-        .download-btn:hover { background: #2563eb; }
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const extractBtn = document.getElementById('extractBtn');
+    if (!extractBtn) return;
+
+    extractBtn.addEventListener('click', async () => {
         
-        @media (max-width: 768px) { .downloader-container { grid-template-columns: 1fr; } }
-    </style>
-</head>
-<body>
+        const urlInput = document.getElementById('ytUrl').value.trim();
+        const previewBox = document.getElementById('previewBox');
+        const placeholderText = document.getElementById('placeholderText');
+        const thumbnailImg = document.getElementById('thumbnailImg');
+        const downloadLink = document.getElementById('downloadLink');
 
-    <header>
-        <div class="container" style="padding: 20px 0; display:flex; justify-content:space-between; align-items:center;">
-            <div class="logo" style="font-weight:bold; font-size:24px;">🚀 ToolVerse</div>
-            <a href="index.html" style="text-decoration:none; color:#333; font-weight:500;">Back to Home</a>
-        </div>
-    </header>
-
-    <section class="tool-header" style="text-align: center; padding: 60px 20px; background: linear-gradient(to right, #fefce8, #fef9c3);">
-        <h1 style="font-size: 2.5rem; color: #854d0e; margin-bottom: 10px;">🖼️ 4K Thumbnail Downloader</h1>
-        <p style="color: #a16207; font-size: 1.1rem;">Extract the highest quality (MaxRes) thumbnail from any YouTube video instantly.</p>
-    </section>
-
-    <div class="downloader-container">
-        <!-- Left Side: Input -->
-        <div class="input-card">
-            <div class="form-group">
-                <label>Paste YouTube Video Link</label>
-                <input type="text" id="ytUrl" placeholder="e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ">
-            </div>
-
-            <button class="premium-btn" id="extractBtn">📸 Extract 4K Thumbnail</button>
-        </div>
-
-        <!-- Right Side: Output Studio -->
-        <div class="output-card">
-            <h3>✨ Extracted Thumbnail</h3>
-            
-            <div class="thumbnail-preview" id="previewBox">
-                <span id="placeholderText" style="color: #64748b; font-style: italic;">Your extracted thumbnail will appear here...</span>
-                <img id="thumbnailImg" src="" alt="YouTube Thumbnail">
-            </div>
-
-            <a href="#" id="downloadLink" class="download-btn" target="_blank">⬇️ Download High Quality Image</a>
-        </div>
-    </div>
-
-    <!-- App Logic -->
-    <script src="thumbnail-downloader.js"></script>
-
-    <!-- VVIP UNIVERSAL UNLOCK SCRIPT -->
-    <script>
-        const isVVIPAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
-        if (isVVIPAuth) {
-            const unlockStyle = document.createElement('style');
-            unlockStyle.innerHTML = `
-                #authOverlay, #firebaseAuthModal, .auth-modal, #loginModal { 
-                    display: none !important; opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important; visibility: hidden !important;
-                }
-                body { overflow: auto !important; }
-            `;
-            document.head.appendChild(unlockStyle);
-            window.isUserLoggedIn = true;
-            setInterval(() => {
-                const lockScreens = document.querySelectorAll('#authOverlay, #firebaseAuthModal, .auth-modal, #loginModal');
-                lockScreens.forEach(lock => { if(lock) lock.style.display = 'none'; });
-                window.isUserLoggedIn = true;
-            }, 200);
+        if (urlInput === "") {
+            alert("Please paste a valid YouTube URL first.");
+            return;
         }
-    </script>
-</body>
-</html>
+
+        // ==========================================
+        // NEW VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
+        // ==========================================
+        const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (!isAuth) {
+            alert("🔒 Please login from the Dashboard to use Premium Tools.");
+            window.location.href = "index.html"; 
+            return;
+        }
+
+        let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
+        if (currentCredits <= 0) {
+            alert("🎁 You have run out of Credits!");
+            placeholderText.innerText = "Insufficient Credits. Please upgrade in Dashboard.";
+            placeholderText.style.color = "#ef4444";
+            return; 
+        }
+
+        const originalBtnText = extractBtn.innerHTML;
+        extractBtn.innerHTML = "⏳ Extracting...";
+        extractBtn.disabled = true;
+
+        try {
+            // Deduct 1 Credit instantly on UI for lightweight tool
+            currentCredits -= 1; 
+            localStorage.setItem('tv_agent_credits', currentCredits);
+
+            // Regex to Extract YouTube Video ID
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = urlInput.match(regExp);
+
+            if (match && match[2].length === 11) {
+                const videoId = match[2];
+                
+                // Construct MaxRes URL (Highest Quality)
+                const maxResUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
+                // Update UI
+                placeholderText.style.display = "none";
+                previewBox.style.border = "none";
+                
+                thumbnailImg.src = maxResUrl;
+                thumbnailImg.style.display = "block";
+
+                downloadLink.href = maxResUrl;
+                downloadLink.style.display = "inline-block";
+
+            } else {
+                throw new Error("Invalid YouTube URL. Please check the link and try again.");
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            alert(`⚠️ Error: ${error.message}`);
+        } finally {
+            extractBtn.innerHTML = "📸 Extract 4K Thumbnail";
+            extractBtn.disabled = false;
+        }
+    });
+});
