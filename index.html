@@ -76,11 +76,11 @@
         /* FB/WHATSAPP STYLE MODAL FOR MOBILE */
         .auth-modal-content { 
             background-color: #1e1e1e; 
-            padding: 35px 25px; /* Adjusted padding */
+            padding: 35px 25px; 
             border-radius: 14px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.9); 
             text-align: center; 
-            width: 95%; /* Wider on mobile */
+            width: 95%; 
             max-width: 450px; 
             position: relative; 
             color: white; 
@@ -775,7 +775,7 @@
             {n:"Zambia",c:"+260",f:"🇿🇲"},{n:"Zimbabwe",c:"+263",f:"🇿🇼"}
         ];
 
-        // CRITICAL FIX: Ensure values are set AFTER options exist
+        // CRITICAL FIX: The value is now "CountryName|Code" so +1 flags never get mixed up!
         function injectCountries(dataList) {
             const phoneCodeSelect = document.getElementById('profPhoneCode');
             const countrySelect = document.getElementById('profCountry');
@@ -786,29 +786,26 @@
             let cOptions = '<option value="" disabled selected>🏳️ Select Country</option>';
             
             dataList.forEach(item => {
-                pOptions += `<option value="${item.c}">${item.f} ${item.c}</option>`;
+                // VVIP Magic: Adding item.n to the value keeps it 100% unique!
+                pOptions += `<option value="${item.n}|${item.c}">${item.f} ${item.c}</option>`;
                 cOptions += `<option value="${item.n}">${item.f} ${item.n}</option>`;
             });
             
             phoneCodeSelect.innerHTML = pOptions;
             countrySelect.innerHTML = cOptions;
 
-            // FB STANDARD: Re-apply values exactly after populating options
-            const localData = localStorage.getItem('tv_user_profile');
-            if (localData) {
-                try {
-                    const parsed = JSON.parse(localData);
-                    if(parsed.phoneCode) phoneCodeSelect.value = parsed.phoneCode;
-                    if(parsed.country) countrySelect.value = parsed.country;
-                } catch(e) {}
+            // Restoring logic right after injecting
+            if(window.populateProfileData) {
+                const localData = localStorage.getItem('tv_user_profile');
+                if (localData) {
+                    try { window.populateProfileData(JSON.parse(localData)); } catch(e) {}
+                }
             }
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            // Load hardcoded list instantly
             injectCountries(allWorldCountries);
 
-            // Fetch missing countries in the background silently
             fetch('https://restcountries.com/v3.1/all?fields=name,idd,flag')
                 .then(res => res.json())
                 .then(data => {
@@ -866,7 +863,6 @@
         const authMessageBox = document.getElementById('authMessageBox');
         const twoFactorToggle = document.getElementById('twoFactorToggle');
 
-        // Form Fields
         const profFirstName = document.getElementById('profFirstName');
         const profLastName = document.getElementById('profLastName');
         const profPhoneCode = document.getElementById('profPhoneCode');
@@ -876,12 +872,24 @@
         const profState = document.getElementById('profState');
         const profZip = document.getElementById('profZip');
 
-        // VVIP Local Data Filler (Zero-Delay)
+        // VVIP Smart Filler: It understands the new format and also catches old formats!
         window.populateProfileData = function(data) {
             if(!data) return;
             if(data.firstName) profFirstName.value = data.firstName;
             if(data.lastName) profLastName.value = data.lastName;
-            if(data.phoneCode) profPhoneCode.value = data.phoneCode;
+            
+            if(data.phoneCode) {
+                // Check if it's the exact exact new format "Country|Code"
+                let exactMatch = Array.from(profPhoneCode.options).some(o => o.value === data.phoneCode);
+                if(exactMatch) {
+                    profPhoneCode.value = data.phoneCode;
+                } else {
+                    // Fallback for your old saved data (which was just "+1")
+                    let oldMatch = Array.from(profPhoneCode.options).find(o => o.value.endsWith('|' + data.phoneCode) || o.value === data.phoneCode);
+                    if(oldMatch) profPhoneCode.value = oldMatch.value;
+                }
+            }
+            
             if(data.phone) profPhone.value = data.phone;
             if(data.address) profAddress.value = data.address;
             if(data.country) profCountry.value = data.country;
@@ -889,7 +897,6 @@
             if(data.zip) profZip.value = data.zip;
         };
 
-        // Initially load local backup
         const localProfData = localStorage.getItem('tv_user_profile');
         if(localProfData) {
             try { window.populateProfileData(JSON.parse(localProfData)); } catch(e) {}
@@ -938,15 +945,11 @@
             }
         }
 
-        // =========================================================
-        // VVIP SAVE PROFILE BUTTON LOGIC (NEVER FREEZES)
-        // =========================================================
         if(saveProfileBtn) {
             saveProfileBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 if(saveProfileBtn.disabled) return;
                 
-                // 1. Show VVIP Spinner
                 saveProfileBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Saving...';
                 saveProfileBtn.style.opacity = '0.9';
                 saveProfileBtn.disabled = true;
@@ -954,7 +957,7 @@
                 const profileData = {
                     firstName: profFirstName.value.trim(),
                     lastName: profLastName.value.trim(),
-                    phoneCode: profPhoneCode.value,
+                    phoneCode: profPhoneCode.value, // Saves uniquely "United States|+1"
                     phone: profPhone.value.trim(),
                     address: profAddress.value.trim(),
                     country: profCountry.value,
@@ -962,28 +965,23 @@
                     zip: profZip.value.trim()
                 };
 
-                // 2. Instant Local Save
                 localStorage.setItem('tv_user_profile', JSON.stringify(profileData));
 
-                // 3. Background Cloud Sync (No await = No freezing)
                 if(auth && auth.currentUser) {
                     const userRef = doc(db, "users", auth.currentUser.uid);
                     updateDoc(userRef, profileData).catch(err => console.log("Cloud sync in background...", err));
                     
-                    // Update header instantly
                     if(navProfileBtn && profileData.firstName) {
                         let currHtml = navProfileBtn.innerHTML;
                         navProfileBtn.innerHTML = currHtml.replace(/<span>.*?\|/, `<span>${profileData.firstName} |`);
                     }
                 }
 
-                // 4. VVIP Artificial Delay for Premium Feel (800ms)
                 setTimeout(() => {
                     saveProfileBtn.innerHTML = '✅ Saved Successfully!';
-                    saveProfileBtn.style.backgroundColor = '#10b981'; // Success Green
+                    saveProfileBtn.style.backgroundColor = '#10b981'; 
                     saveProfileBtn.style.color = '#fff';
                     
-                    // 5. Restore Button after 2 seconds
                     setTimeout(() => {
                         saveProfileBtn.innerHTML = 'Save Profile';
                         saveProfileBtn.style.backgroundColor = '#4ade80';
