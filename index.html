@@ -12,12 +12,48 @@
     
     <style>
         html { scroll-behavior: smooth; }
+        
         .crypto-nav-btn { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #1e293b !important; font-weight: 700 !important; padding: 8px 16px !important; border-radius: 20px; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); border: 2px solid #fff; transition: 0.3s; cursor: pointer; }
         .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
         .header-container { display: flex; align-items: center; justify-content: space-between; }
-        .premium-profile-btn { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); color: #f8fafc !important; font-weight: 600 !important; font-size: 0.9rem !important; padding: 6px 16px 6px 6px !important; border-radius: 20px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(77, 166, 255, 0.3); transition: 0.3s; cursor: pointer; text-decoration: none; }
-        .premium-profile-btn:hover { border-color: #4da6ff; box-shadow: 0 4px 15px rgba(77, 166, 255, 0.2); transform: translateY(-2px); }
-        .profile-avatar-icon { background: rgba(77, 166, 255, 0.15); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        
+        /* =========================================================
+           NEW VVIP USER PROFILE BUTTON
+           ========================================================= */
+        .premium-profile-btn { 
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(56, 189, 248, 0.15)); 
+            backdrop-filter: blur(10px); 
+            color: #ffffff !important; 
+            font-weight: 700 !important; 
+            font-size: 0.9rem !important; 
+            padding: 6px 16px 6px 6px !important; 
+            border-radius: 30px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            border: 1px solid rgba(168, 85, 247, 0.6); 
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.4); 
+            transition: all 0.3s ease; 
+            cursor: pointer; 
+            text-decoration: none; 
+        }
+        .premium-profile-btn:hover { 
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(56, 189, 248, 0.25)); 
+            border-color: #38bdf8; 
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); 
+            transform: translateY(-2px); 
+        }
+        .profile-avatar-icon { 
+            background: linear-gradient(135deg, #a855f7, #38bdf8); 
+            width: 28px; 
+            height: 28px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3); 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+        }
         
         /* DRAGGABLE MINING WIDGET */
         .mining-widget { position: fixed; bottom: 30px; left: 30px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 12px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 5px; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.3); cursor: grab; z-index: 999; transition: box-shadow 0.3s; white-space: nowrap; touch-action: none; user-select: none; }
