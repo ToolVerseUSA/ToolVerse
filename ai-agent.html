@@ -183,7 +183,7 @@
             const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
             if (isAuth) {
                 document.getElementById('studioProfileBtn').style.display = 'flex';
-                const savedCredits = localStorage.getItem('tv_agent_credits') || "2500";
+                const savedCredits = localStorage.getItem('tv_agent_credits') || "0";
                 document.getElementById('creditDisplay').innerText = `User | ⚡ ${savedCredits}`;
             }
         });
@@ -352,9 +352,10 @@
             const msg = chatInput.value.trim();
             if(!msg) return;
 
+            const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
             let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
 
-            if(localStorage.getItem('ToolVerse_Auth') !== 'true') {
+            if(!isAuth) {
                 window.addMessage("⚠️ You must be logged in to use the AI Agent.", 'error'); return;
             }
             if(currentCredits <= 0) {
@@ -366,12 +367,7 @@
             // Instant Deduct
             currentCredits -= 1;
             localStorage.setItem('tv_agent_credits', currentCredits);
-            const nameArr = document.getElementById('creditDisplay').innerText.split(' | ');
-            const displayName = nameArr[0] || 'User';
-            document.getElementById('creditDisplay').innerText = `${displayName} | ⚡ ${currentCredits}`;
-
-            // Try DB Sync in background
-            if(window.syncCreditDeduction) window.syncCreditDeduction();
+            document.getElementById('creditDisplay').innerText = `User | ⚡ ${currentCredits}`;
 
             window.addMessage(msg, 'user');
             chatInput.value = '';
@@ -384,15 +380,17 @@
             const systemPrompt = currentAgent ? currentAgent.prompt : 'You are a helpful assistant.';
 
             try {
-                const response = await fetch('/api/chat', { 
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: msg, system: systemPrompt })
+                // Using standardized groq-handler endpoint
+                const response = await fetch('/api/groq-handler', { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ systemPrompt: systemPrompt, userPrompt: msg })
                 });
                 
                 let reply = "";
                 if(response.ok) {
                     const data = await response.json();
-                    reply = data.reply || data.text || "I received your message.";
+                    reply = data.result || "I received your message.";
                 } else { throw new Error("API returned an error"); }
 
                 document.getElementById(loaderId).remove();
@@ -400,7 +398,7 @@
 
             } catch(e) {
                 document.getElementById(loaderId).remove();
-                window.addMessage("⚠️ Ready for integration! API connection is offline in UI preview.", 'agent');
+                window.addMessage(`⚠️ Error: ${e.message}`, 'agent');
             }
 
             chatInput.disabled = false; sendBtn.disabled = false; chatInput.focus();
@@ -411,50 +409,24 @@
         renderAgentList(); loadAgentToConfig(activeAgentId);
     </script>
 
-    <!-- Firebase SDK Setup -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-        const firebaseConfig = { apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8", authDomain: "toolverstoken.firebaseapp.com", projectId: "toolverstoken", storageBucket: "toolverstoken.firebasestorage.app", messagingSenderId: "762644487097", appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468" };
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        let currentUser = null;
-
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('studioProfileBtn').style.display = 'flex';
-                const userRef = doc(db, "users", user.uid);
-                const userSnap = await getDoc(userRef);
-                
-                if (userSnap.exists()) {
-                    let dbCredits = userSnap.data().credits || 0;
-                    let localCredits = parseInt(localStorage.getItem('tv_agent_credits') || 0);
-                    
-                    // Self-Healing
-                    if(localCredits > dbCredits) {
-                        await updateDoc(userRef, { credits: localCredits });
-                        dbCredits = localCredits;
-                    }
-                    localStorage.setItem('tv_agent_credits', dbCredits);
-                    const displayName = user.displayName ? user.displayName.split(' ')[0] : 'User';
-                    document.getElementById('creditDisplay').innerText = `${displayName} | ⚡ ${dbCredits}`;
+    <!-- VVIP UNIVERSAL UNLOCK SCRIPT -->
+    <script>
+        const isVVIPAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (isVVIPAuth) {
+            const unlockStyle = document.createElement('style');
+            unlockStyle.innerHTML = `
+                #authOverlay, #firebaseAuthModal, .auth-modal, #loginModal { 
+                    display: none !important; opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important; visibility: hidden !important;
                 }
-            } else {
-                currentUser = null;
-            }
-        });
-
-        window.syncCreditDeduction = async function() {
-            if(currentUser) {
-                try {
-                    const userRef = doc(db, "users", currentUser.uid);
-                    await updateDoc(userRef, { credits: increment(-1) });
-                } catch(e) {}
-            }
+                body { overflow: auto !important; }
+            `;
+            document.head.appendChild(unlockStyle);
+            window.isUserLoggedIn = true;
+            setInterval(() => {
+                const lockScreens = document.querySelectorAll('#authOverlay, #firebaseAuthModal, .auth-modal, #loginModal');
+                lockScreens.forEach(lock => { if(lock) lock.style.display = 'none'; });
+                window.isUserLoggedIn = true;
+            }, 200);
         }
     </script>
 </body>
