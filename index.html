@@ -115,6 +115,9 @@
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); 
             background-repeat: no-repeat; background-position: right 12px center; background-size: 1em; cursor: pointer; 
         }
+        select.auth-input option {
+            background-color: #2a2a2a; color: #fff;
+        }
         
         /* VVIP Address Auto-fetch Suggestions */
         .suggestions-box { 
@@ -171,7 +174,7 @@
         }
 
         /* =========================================================
-           VVIP PREMIUM DARK THEME (SAFE COLORS ONLY, NO LAYOUT CHANGES)
+           VVIP PREMIUM DARK THEME
            ========================================================= */
         body { background-color: #0b0f19 !important; color: #f8fafc !important; }
         .ilove-header { background-color: rgba(11, 15, 25, 0.85) !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
@@ -194,50 +197,19 @@
         #pricing .ilove-card { background: #111827 !important; border-color: #1e293b !important; }
 
         /* =========================================================
-           NEW PROFESSIONAL FOOTER STYLES (UPDATED VVIP HEADINGS)
+           PROFESSIONAL FOOTER STYLES
            ========================================================= */
         .toolverse-footer { background-color: #0b0f19 !important; border-top: 1px solid #1e293b !important; padding: 60px 20px 30px; margin-top: 60px; color: #94a3b8; font-size: 0.95rem; }
         .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; }
-        
-        /* Premium Gradient Headings for Footer */
-        .footer-col h3 { 
-            font-size: 1.1rem; 
-            font-weight: 800; 
-            margin-bottom: 25px; 
-            text-transform: uppercase; 
-            letter-spacing: 1.5px; 
-            background: linear-gradient(135deg, #38bdf8, #a855f7); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            position: relative; 
-            display: inline-block; 
-        }
-        /* Glowing Underline for Footer Headings */
-        .footer-col h3::after { 
-            content: ''; 
-            position: absolute; 
-            left: 0; 
-            bottom: -8px; 
-            width: 30px; 
-            height: 3px; 
-            background: linear-gradient(135deg, #38bdf8, #a855f7); 
-            border-radius: 2px; 
-            box-shadow: 0 2px 10px rgba(56, 189, 248, 0.5); 
-        }
-
+        .footer-col h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1.5px; background: linear-gradient(135deg, #38bdf8, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; display: inline-block; }
+        .footer-col h3::after { content: ''; position: absolute; left: 0; bottom: -8px; width: 30px; height: 3px; background: linear-gradient(135deg, #38bdf8, #a855f7); border-radius: 2px; box-shadow: 0 2px 10px rgba(56, 189, 248, 0.5); }
         .footer-col ul { list-style: none; padding: 0; margin: 0;}
         .footer-col ul li { margin-bottom: 12px; }
         .footer-col ul li a { color: #94a3b8; text-decoration: none; transition: 0.3s; }
         .footer-col ul li a:hover { color: #38bdf8; padding-left: 5px; }
         .footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
-        
         @media (max-width: 992px) { .footer-container { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { 
-            .footer-container { grid-template-columns: 1fr; text-align: center; } 
-            .footer-col h3::after { left: 50%; transform: translateX(-50%); } 
-            .footer-col ul li a:hover { padding-left: 0; } 
-            .footer-bottom { flex-direction: column; text-align: center; } 
-        }
+        @media (max-width: 768px) { .footer-container { grid-template-columns: 1fr; text-align: center; } .footer-col h3::after { left: 50%; transform: translateX(-50%); } .footer-col ul li a:hover { padding-left: 0; } .footer-bottom { flex-direction: column; text-align: center; } }
     </style>
     
     <!-- GUARANTEED BUTTON FIX SCRIPT -->
@@ -632,7 +604,7 @@
             
             <div style="display: flex; gap: 10px; margin-top: 5px; margin-bottom: 10px;">
                 <select id="profPhoneCode" class="auth-input" style="width: 35%; margin: 0; padding-right: 5px;">
-                    <option value="" disabled selected>🏳️ Code</option>
+                    <option value="" disabled selected>🏳️ Loading...</option>
                 </select>
                 <input type="tel" id="profPhone" class="auth-input" style="width: 65%; margin: 0;" placeholder="Phone Number">
             </div>
@@ -644,7 +616,7 @@
             
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px;">
                 <select id="profCountry" class="auth-input" style="margin: 0;">
-                    <option value="" disabled selected>🏳️ Select Country</option>
+                    <option value="" disabled selected>🏳️ Loading...</option>
                 </select>
                 <input type="text" id="profState" class="auth-input" style="margin: 0;" placeholder="State/Prov">
                 <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Zip Code">
@@ -697,38 +669,6 @@
             const popup = document.getElementById('cookie-consent');
             if(popup) popup.style.display = 'none';
         }
-
-        // --- NEW VVIP SCRIPT: FETCH COUNTRIES DIRECTLY (FIXED FOR MOBILE) ---
-        async function fetchCountries() {
-            try {
-                const res = await fetch('https://restcountries.com/v3.1/all?fields=name,idd,flag');
-                const data = await res.json();
-                
-                // Sort countries alphabetically
-                data.sort((a,b) => a.name.common.localeCompare(b.name.common));
-                
-                let phoneHtml = '<option value="" disabled selected>🏳️ Code</option>';
-                let countryHtml = '<option value="" disabled selected>🏳️ Select Country</option>';
-                
-                data.forEach(c => {
-                    // Extract exact dialing code safely
-                    let code = (c.idd && c.idd.root) ? (c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : '')) : '';
-                    if(code) {
-                        phoneHtml += `<option value="${code}">${c.flag} ${code}</option>`;
-                    }
-                    if(c.name && c.name.common) {
-                        countryHtml += `<option value="${c.name.common}">${c.flag} ${c.name.common}</option>`;
-                    }
-                });
-                
-                // Inject directly into HTML for 100% guarantee on all browsers
-                document.getElementById('profPhoneCode').innerHTML = phoneHtml;
-                document.getElementById('profCountry').innerHTML = countryHtml;
-            } catch(e) {
-                console.log("Country Fetch Error:", e);
-            }
-        }
-        fetchCountries(); // Call immediately
     </script>
 
     <script type="module">
@@ -1044,7 +984,41 @@
             
             updateDisplay();
 
-            // --- NEW VVIP SCRIPT: ADDRESS AUTO-FETCH (NOMINATIM API) ---
+            // --- VVIP FIX 1: SECURE COUNTRIES FETCH ---
+            const phoneCodeSelect = document.getElementById('profPhoneCode');
+            const countrySelect = document.getElementById('profCountry');
+            
+            if(phoneCodeSelect && countrySelect) {
+                fetch('https://restcountries.com/v3.1/all?fields=name,idd,flag')
+                    .then(res => res.json())
+                    .then(data => {
+                        data.sort((a,b) => a.name.common.localeCompare(b.name.common));
+                        
+                        // Clear loading state
+                        phoneCodeSelect.innerHTML = `<option value="" disabled selected>🏳️ Code</option>`;
+                        countrySelect.innerHTML = `<option value="" disabled selected>🏳️ Select Country</option>`;
+                        
+                        data.forEach(country => {
+                            let dialCode = "";
+                            if(country.idd && country.idd.root) {
+                                dialCode = country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : '');
+                            }
+                            if(dialCode) {
+                                phoneCodeSelect.add(new Option(`${country.flag} ${dialCode}`, dialCode));
+                            }
+                            if(country.name && country.name.common) {
+                                countrySelect.add(new Option(`${country.flag} ${country.name.common}`, country.name.common));
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        console.log('Error loading countries:', err);
+                        phoneCodeSelect.innerHTML = `<option value="" disabled selected>⚠️ Error</option>`;
+                        countrySelect.innerHTML = `<option value="" disabled selected>⚠️ Error</option>`;
+                    });
+            }
+
+            // --- VVIP FIX 2: SMART ADDRESS AUTO-FILL (DETAILS SPLIT) ---
             const addressInput = document.getElementById('profAddress');
             const suggestionsBox = document.getElementById('addressSuggestions');
             let debounceTimer;
@@ -1059,12 +1033,13 @@
                         return;
                     }
                     
-                    // Show beautiful searching text
-                    suggestionsBox.innerHTML = '<li style="text-align:center; color:#94a3b8; padding: 15px;">🔍 Searching premium locations...</li>';
+                    // Show premium loading text
+                    suggestionsBox.innerHTML = '<li style="text-align:center; color:#94a3b8; padding: 15px;"><i class="fa-solid fa-spinner fa-spin"></i> Searching locations...</li>';
                     suggestionsBox.style.display = 'block';
 
                     debounceTimer = setTimeout(() => {
-                        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`)
+                        // Added &addressdetails=1 to get specific state/zip data
+                        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`)
                         .then(res => res.json())
                         .then(data => {
                             suggestionsBox.innerHTML = '';
@@ -1072,8 +1047,33 @@
                                 data.forEach(place => {
                                     let li = document.createElement('li');
                                     li.innerHTML = `📍 ${place.display_name}`;
+                                    
+                                    // The Magic Click Event
                                     li.onclick = function() {
-                                        addressInput.value = place.display_name;
+                                        let addr = place.address || {};
+                                        let zip = addr.postcode || '';
+                                        let state = addr.state || addr.province || '';
+                                        let country = addr.country || '';
+
+                                        // Filter out State, Zip, and Country from main address line
+                                        let fullAddressParts = place.display_name.split(',').map(s => s.trim());
+                                        let streetParts = fullAddressParts.filter(p => p !== country && p !== zip && p !== state);
+                                        let streetAddress = streetParts.join(', ');
+
+                                        // Auto-fill all inputs
+                                        document.getElementById('profAddress').value = streetAddress;
+                                        document.getElementById('profState').value = state;
+                                        document.getElementById('profZip').value = zip;
+                                        
+                                        // Auto-select Country in Dropdown
+                                        if(countrySelect && country) {
+                                            Array.from(countrySelect.options).forEach((opt, idx) => {
+                                                if(opt.value === country || opt.text.includes(country)) {
+                                                    countrySelect.selectedIndex = idx;
+                                                }
+                                            });
+                                        }
+
                                         suggestionsBox.style.display = 'none';
                                     };
                                     suggestionsBox.appendChild(li);
@@ -1085,10 +1085,9 @@
                         .catch(err => {
                             suggestionsBox.innerHTML = '<li style="text-align:center; color:#ff4757; padding: 15px;">Error fetching address</li>';
                         });
-                    }, 600); // Wait 600ms to save API calls
+                    }, 600); // 600ms typing delay
                 });
 
-                // Hide box if user clicks outside
                 document.addEventListener('click', function(e) {
                     if(e.target !== addressInput && e.target !== suggestionsBox) {
                         suggestionsBox.style.display = 'none';
