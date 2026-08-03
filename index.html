@@ -7,20 +7,31 @@
     <meta name="google-site-verification" content="XgH4GBHvosYC4hdFgcYobZQs4rhp_k2gjwR_Glft9tM" />
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=8">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         html { scroll-behavior: smooth; }
-        * { box-sizing: border-box; } /* CRITICAL UI FIX FOR MOBILE */
+        * { box-sizing: border-box; }
+        
+        /* =========================================================
+           VVIP GLASSMORPHISM & NEON GLOW STYLES
+           ========================================================= */
+        body { background-color: #0b0f19 !important; color: #f8fafc !important; font-family: 'Inter', sans-serif; }
+        
+        /* Sticky Frosted Glass Header */
+        .ilove-header { 
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(11, 15, 25, 0.85) !important; 
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255,255,255,0.08) !important; 
+        }
         
         .crypto-nav-btn { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #1e293b !important; font-weight: 700 !important; padding: 8px 16px !important; border-radius: 20px; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); border: 2px solid #fff; transition: 0.3s; cursor: pointer; }
         .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
         .header-container { display: flex; align-items: center; justify-content: space-between; }
         
-        /* =========================================================
-           VVIP USER PROFILE BUTTON
-           ========================================================= */
+        /* VVIP User Profile Button */
         .premium-profile-btn { 
             background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(56, 189, 248, 0.15)); 
             backdrop-filter: blur(10px); 
@@ -46,20 +57,59 @@
         }
         .profile-avatar-icon { 
             background: linear-gradient(135deg, #a855f7, #38bdf8); 
-            width: 28px; 
-            height: 28px; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
+            width: 28px; height: 28px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.3); 
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2); 
         }
         
-        /* DRAGGABLE MINING WIDGET */
+        /* Glassmorphism Cards with Neon Glow on Hover */
+        .ilove-card, .pdf-card { 
+            background: linear-gradient(145deg, rgba(17, 24, 39, 0.8), rgba(15, 23, 42, 0.9)) !important; 
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06) !important; 
+            transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+            border-radius: 16px;
+        }
+        .ilove-card:hover, .pdf-card:hover { 
+            border-color: rgba(56, 189, 248, 0.6) !important; 
+            box-shadow: 0 12px 35px rgba(56, 189, 248, 0.2) !important; 
+            transform: translateY(-4px);
+        }
+        
+        /* Smart Instant Search Bar UI */
+        .tool-search-bar-wrapper {
+            max-width: 600px;
+            margin: 20px auto 30px auto;
+            position: relative;
+        }
+        .tool-search-input {
+            width: 100%;
+            padding: 14px 20px 14px 45px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 30px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .tool-search-input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        }
+        .tool-search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #38bdf8;
+            font-size: 1.1rem;
+        }
+
+        /* Draggable Mining Widget */
         .mining-widget { position: fixed; bottom: 30px; left: 30px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 12px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 5px; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.3); cursor: grab; z-index: 999; transition: box-shadow 0.3s; white-space: nowrap; touch-action: none; user-select: none; }
         .mining-widget:active { cursor: grabbing; box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4); transform: scale(1.02); }
-        
         .mining-icon { font-size: 24px; animation: pickaxe 2s infinite; }
         @keyframes pickaxe { 0% { transform: rotate(0deg); } 50% { transform: rotate(-30deg); } 100% { transform: rotate(0deg); } }
         .mining-stats { display: flex; flex-direction: column; white-space: nowrap; }
@@ -69,45 +119,24 @@
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
         .mining-balance { font-size: 1.2rem; font-weight: 800; color: #fbbf24; margin-left: 10px; white-space: nowrap; }
         
-        /* MODALS */
+        /* Modals */
         .crypto-modal, .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .crypto-modal-content { background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24; width: 90%; max-width: 450px; border-radius: 20px; padding: 30px; color: white; position: relative; box-shadow: 0 20px 50px rgba(251, 191, 36, 0.2); text-align: center; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         
-        /* FB/WHATSAPP STYLE MODAL FOR MOBILE */
         .auth-modal-content { 
-            background-color: #1e1e1e; 
-            padding: 35px 25px; 
-            border-radius: 14px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9); 
-            text-align: center; 
-            width: 95%; 
-            max-width: 450px; 
-            position: relative; 
-            color: white; 
-            border: 1px solid #333; 
+            background-color: #1e1e1e; padding: 35px 25px; border-radius: 14px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9); text-align: center; 
+            width: 95%; max-width: 450px; position: relative; color: white; border: 1px solid #333; 
             animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            overflow-y: auto;
-            max-height: 95vh;
+            overflow-y: auto; max-height: 95vh;
         }
         @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
-        /* FB STYLE CLOSE BUTTON (FIXED FOR MOBILE) */
         .close-crypto, .close-auth { 
-            position: absolute; 
-            top: 12px; 
-            right: 12px; 
-            font-size: 20px; 
-            color: #94a3b8; 
-            cursor: pointer; 
-            transition: 0.3s; 
-            z-index: 1000; 
-            width: 32px;
-            height: 32px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
+            position: absolute; top: 12px; right: 12px; font-size: 20px; color: #94a3b8; 
+            cursor: pointer; transition: 0.3s; z-index: 1000; width: 32px; height: 32px;
+            display: flex; justify-content: center; align-items: center;
+            background: rgba(255, 255, 255, 0.08); border-radius: 50%;
         }
         .close-crypto:hover, .close-auth:hover { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
         
@@ -132,36 +161,22 @@
         .auth-title { margin-top: 0; color: #4da6ff; letter-spacing: 1px; font-size: 1.5rem; margin-bottom: 5px; }
         .auth-subtitle { color: #aaaaaa; font-size: 13px; margin-bottom: 20px; }
         
-        /* =========================================================
-           VVIP AUTH INPUTS & SUGGESTIONS BOX (PREVENTS ZOOM & CLIPPING)
-           ========================================================= */
         .auth-input { 
             width: 100%; padding: 12px; margin: 8px 0; 
             border: 1px solid rgba(255, 255, 255, 0.1); 
             border-radius: 8px; background-color: #2a2a2a; 
-            color: white; box-sizing: border-box; font-family: inherit; font-size: 16px; /* 16px prevents iOS zoom */
+            color: white; box-sizing: border-box; font-family: inherit; font-size: 16px; 
             transition: 0.3s ease;
         }
-        .auth-input:focus { 
-            outline: none; 
-            border-color: #38bdf8; 
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); 
-            background-color: #333;
-        }
+        .auth-input:focus { outline: none; border-color: #38bdf8; box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); background-color: #333; }
         select.auth-input { 
             appearance: none; 
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); 
             background-repeat: no-repeat; background-position: right 10px center; background-size: 1em; cursor: pointer; 
-            padding-right: 30px; /* Space for arrow */
-            text-overflow: ellipsis; /* Prevents text overflow cutting badly */
-            white-space: nowrap;
-            overflow: hidden;
+            padding-right: 30px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
         }
-        select.auth-input option {
-            background-color: #2a2a2a; color: #fff;
-        }
+        select.auth-input option { background-color: #2a2a2a; color: #fff; }
         
-        /* VVIP Address Auto-fetch Suggestions */
         .suggestions-box { 
             position: absolute; top: 100%; left: 0; width: 100%; 
             background: #1a1a1a; border: 1px solid #38bdf8; 
@@ -175,15 +190,12 @@
             display: flex; align-items: flex-start; gap: 8px;
         }
         .suggestions-box li:last-child { border-bottom: none; }
-        .suggestions-box li:hover { 
-            background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 600; padding-left: 20px;
-        }
+        .suggestions-box li:hover { background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 600; padding-left: 20px; }
 
         .otp-inputs { display: flex; justify-content: space-between; gap: 8px; margin: 20px 0; }
         .otp-box { width: 45px; height: 50px; text-align: center; font-size: 22px; font-weight: 700; background: #2a2a2a; border: 1px solid #444; color: #fff; border-radius: 8px; }
         .otp-box:focus { border-color: #4da6ff; outline: none; box-shadow: 0 0 10px rgba(77, 166, 255, 0.3); }
         
-        /* VVIP Save Button Smooth Transitions */
         .auth-submit-btn { width: 100%; padding: 12px; margin: 12px 0 8px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 15px; transition: all 0.3s ease; font-family: inherit;}
         .auth-submit-btn:hover:not(:disabled) { background-color: #3388dd; }
         
@@ -191,6 +203,7 @@
         .auth-google-btn:hover { background-color: #e2e2e2; }
         .auth-divider { color: #666; font-size: 12px; margin: 12px 0; }
         #authMessageBox { margin-top: 10px; font-size: 13px; min-height: 18px; font-weight: 500;}
+        
         .cookie-popup { position: fixed; bottom: 20px; right: 20px; width: 330px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); z-index: 10000; display: none; flex-direction: column; gap: 12px; font-family: 'Inter', sans-serif; animation: slideUp 0.5s ease-out forwards; }
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .cookie-popup .cookie-icon { font-size: 20px; margin-bottom: -5px; }
@@ -203,47 +216,16 @@
         .allow-selection:hover, .reject-all:hover { background: #f8fafc; border-color: #94a3b8; }
         .manage-prefs { text-align: center; font-size: 12px; color: #64748b; text-decoration: none; margin-top: 5px; cursor: pointer; display: block;}
         .manage-prefs:hover { color: #1e293b; }
+        
         .hero-build-btn { background: #b19cfd; color: #1e1e1e; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(177, 156, 253, 0.4); font-size: 1.1rem; border: none; cursor: pointer; }
         .hero-build-btn:hover { background: #9c83f9; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(177, 156, 253, 0.6); }
         .hero-secondary-btn { background: #1e293b; color: #ffffff; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.3); font-size: 1.1rem; border: none; cursor: pointer; }
         .hero-secondary-btn:hover { background: #334155; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30, 41, 59, 0.5); }
         
-        /* New CSS for PDF Filter Animation & Tap Highlight Fix */
-        @keyframes fadeInCard {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .pdf-filter-btn {
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-        }
+        @keyframes fadeInCard { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .pdf-filter-btn { -webkit-tap-highlight-color: transparent; user-select: none; }
 
-        /* =========================================================
-           VVIP PREMIUM DARK THEME
-           ========================================================= */
-        body { background-color: #0b0f19 !important; color: #f8fafc !important; }
-        .ilove-header { background-color: rgba(11, 15, 25, 0.85) !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
-        .logo-text, .ilove-hero h1, .pdf-tools-section h1, #pricing h2 { color: #f8fafc !important; }
-        .ilove-hero p, .pdf-tools-section p.subtitle, #pricing p { color: #94a3b8 !important; }
-        
-        /* CARDS STYLING */
-        .ilove-card, .pdf-card { background: linear-gradient(145deg, #111827, #0f172a) !important; border: 1px solid rgba(255, 255, 255, 0.05) !important; }
-        .ilove-card:hover, .pdf-card:hover { border-color: rgba(56, 189, 248, 0.4) !important; box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15) !important; }
-        .ilove-card h3, .tool-title { color: #f8fafc !important; }
-        .ilove-card p, .tool-desc { color: #94a3b8 !important; }
-        
-        /* BUTTONS & FILTERS */
-        .filter-btn, .pdf-filter-btn { background: rgba(15, 23, 42, 0.6) !important; color: #cbd5e1 !important; border: 1px solid rgba(255,255,255,0.08) !important; }
-        .filter-btn.active, .pdf-filter-btn.active { background: #38bdf8 !important; color: #0f172a !important; border-color: #38bdf8 !important; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4) !important;}
-        .hero-build-btn { background: linear-gradient(135deg, #c084fc 0%, #db2777 100%) !important; color: #ffffff !important; border: none !important; box-shadow: 0 10px 25px rgba(192, 132, 252, 0.3) !important; }
-        .hero-secondary-btn { background: rgba(30, 41, 59, 0.8) !important; color: #ffffff !important; border: 1px solid rgba(255,255,255,0.1) !important; }
-        
-        /* PRICING */
-        #pricing .ilove-card { background: #111827 !important; border-color: #1e293b !important; }
-
-        /* =========================================================
-           PROFESSIONAL FOOTER STYLES
-           ========================================================= */
+        /* Professional Footer */
         .toolverse-footer { background-color: #0b0f19 !important; border-top: 1px solid #1e293b !important; padding: 60px 20px 30px; margin-top: 60px; color: #94a3b8; font-size: 0.95rem; }
         .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; }
         .footer-col h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1.5px; background: linear-gradient(135deg, #38bdf8, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; display: inline-block; }
@@ -254,10 +236,9 @@
         .footer-col ul li a:hover { color: #38bdf8; padding-left: 5px; }
         .footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
         @media (max-width: 992px) { .footer-container { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .footer-container { grid-template-columns: 1fr; text-align: center; } .footer-col h3::after { left: 50%; transform: translateX(-50%); } .footer-col ul li a:hover { padding-left: 0; } .footer-bottom { flex-direction: column; text-align: center; } }
+        @media (max-width: 768px) { .footer-container { grid-template-columns: 1fr; text-align: center; } .footer-col h3::after { left: 50%; transform: translateX(-50%); } .footer-bottom { flex-direction: column; text-align: center; } }
     </style>
     
-    <!-- GUARANTEED BUTTON FIX SCRIPT -->
     <script>
         window.upgradeToProAgent = function() {
             if(localStorage.getItem('ToolVerse_Auth') !== 'true' && localStorage.getItem('isLoggedIn') !== 'true') {
@@ -336,11 +317,17 @@
         </div>
     </header>
 
-    <section class="ilove-hero" id="home" style="padding-bottom: 60px;">
+    <section class="ilove-hero" id="home" style="padding-bottom: 40px;">
         <h1>Agents that work on your context,<br>and get smarter every run.</h1>
         <p>Every tool you need to use AI, at your fingertips. All are 100% FREE and easy to use! Write, generate, summarize, and automate with just a few clicks.</p>
         
-        <div style="margin-top: 35px; margin-bottom: 40px; text-align: center;">
+        <!-- VVIP INSTANT SEARCH BAR -->
+        <div class="tool-search-bar-wrapper">
+            <i class="fa-solid fa-magnifying-glass tool-search-icon"></i>
+            <input type="text" id="globalToolSearch" class="tool-search-input" placeholder="Search any AI or PDF tool instantly...">
+        </div>
+
+        <div style="margin-top: 25px; margin-bottom: 30px; text-align: center;">
             <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
                 <button onclick="window.location.href='super-chat.html'" class="hero-build-btn">
                     Launch Super AI Chat ✨
@@ -366,26 +353,26 @@
     <!-- ORIGINAL AI TOOLS SECTION -->
     <section class="tools-section" id="tools">
         <div class="ilove-grid" id="toolsContainer">
-            <a href="faceless-video.html" class="ilove-card" data-category="creative"><div class="card-icon">🎭</div><h3>Faceless Video Blueprint</h3><p>Generate high-retention scripts.</p></a>
-            <a href="youtube-toolkit.html" class="ilove-card" data-category="creative"><div class="card-icon">▶️</div><h3>YouTube AI Toolkit</h3><p>Generate viral titles.</p></a>
-            <a href="thumbnail-downloader.html" class="ilove-card" data-category="creative"><div class="card-icon">🖼️</div><h3>4K Thumbnail Downloader</h3><p>Extract thumbnails instantly.</p></a>
-            <a href="transcript-extractor.html" class="ilove-card" data-category="creative"><div class="card-icon">📜</div><h3>Transcript Extractor</h3><p>Extract subtitles instantly.</p></a>
-            <a href="prompt-generator.html" class="ilove-card" data-category="creative"><div class="card-icon">💡</div><h3>Prompt Generator</h3><p>Create optimized prompts.</p></a>
-            <a href="caption-generator.html" class="ilove-card" data-category="creative"><div class="card-icon">📱</div><h3>Caption Generator</h3><p>Generate engaging captions.</p></a>
+            <a href="faceless-video.html" class="ilove-card searchable-tool" data-category="creative" data-name="faceless video blueprint"><div class="card-icon">🎭</div><h3>Faceless Video Blueprint</h3><p>Generate high-retention scripts.</p></a>
+            <a href="youtube-toolkit.html" class="ilove-card searchable-tool" data-category="creative" data-name="youtube ai toolkit"><div class="card-icon">▶️</div><h3>YouTube AI Toolkit</h3><p>Generate viral titles.</p></a>
+            <a href="thumbnail-downloader.html" class="ilove-card searchable-tool" data-category="creative" data-name="4k thumbnail downloader"><div class="card-icon">🖼️</div><h3>4K Thumbnail Downloader</h3><p>Extract thumbnails instantly.</p></a>
+            <a href="transcript-extractor.html" class="ilove-card searchable-tool" data-category="creative" data-name="transcript extractor"><div class="card-icon">📜</div><h3>Transcript Extractor</h3><p>Extract subtitles instantly.</p></a>
+            <a href="prompt-generator.html" class="ilove-card searchable-tool" data-category="creative" data-name="prompt generator"><div class="card-icon">💡</div><h3>Prompt Generator</h3><p>Create optimized prompts.</p></a>
+            <a href="caption-generator.html" class="ilove-card searchable-tool" data-category="creative" data-name="caption generator"><div class="card-icon">📱</div><h3>Caption Generator</h3><p>Generate engaging captions.</p></a>
 
-            <a href="email-writer.html" class="ilove-card" data-category="writing"><div class="card-icon">✉️</div><h3>Email Writer</h3><p>Draft professional emails.</p></a>
-            <a href="grammar-checker.html" class="ilove-card" data-category="writing"><div class="card-icon">✅</div><h3>Grammar Checker</h3><p>Instantly fix grammatical errors.</p></a>
-            <a href="resume-builder.html" class="ilove-card" data-category="writing"><div class="card-icon">📄</div><h3>Resume Builder</h3><p>Create ATS-friendly resumes.</p></a>
+            <a href="email-writer.html" class="ilove-card searchable-tool" data-category="writing" data-name="email writer"><div class="card-icon">✉️</div><h3>Email Writer</h3><p>Draft professional emails.</p></a>
+            <a href="grammar-checker.html" class="ilove-card searchable-tool" data-category="writing" data-name="grammar checker"><div class="card-icon">✅</div><h3>Grammar Checker</h3><p>Instantly fix grammatical errors.</p></a>
+            <a href="resume-builder.html" class="ilove-card searchable-tool" data-category="writing" data-name="resume builder"><div class="card-icon">📄</div><h3>Resume Builder</h3><p>Create ATS-friendly resumes.</p></a>
 
-            <a href="AI-summarizer.html" class="ilove-card" data-category="productivity"><div class="card-icon">📚</div><h3>PDF Summarizer</h3><p>Extract key points.</p></a>
-            <a href="ai-task-planner.html" class="ilove-card" data-category="productivity"><div class="card-icon">📅</div><h3>AI Task Planner</h3><p>Organize your day.</p></a>
-            <a href="meeting-minutes.html" class="ilove-card" data-category="productivity"><div class="card-icon">📝</div><h3>Meeting Minutes AI</h3><p>Turn notes into summaries.</p></a>
+            <a href="AI-summarizer.html" class="ilove-card searchable-tool" data-category="productivity" data-name="pdf summarizer ai summarizer"><div class="card-icon">📚</div><h3>PDF Summarizer</h3><p>Extract key points.</p></a>
+            <a href="ai-task-planner.html" class="ilove-card searchable-tool" data-category="productivity" data-name="ai task planner"><div class="card-icon">📅</div><h3>AI Task Planner</h3><p>Organize your day.</p></a>
+            <a href="meeting-minutes.html" class="ilove-card searchable-tool" data-category="productivity" data-name="meeting minutes ai"><div class="card-icon">📝</div><h3>Meeting Minutes AI</h3><p>Turn notes into summaries.</p></a>
             
-            <a href="ai-agent.html" class="ilove-card" data-category="developers"><div class="card-icon">🤖</div><h3>AI Agent Automation</h3><p>Deploy multi-step autonomous workflows.</p></a>
-            <a href="code-generator.html" class="ilove-card" data-category="developers"><div class="card-icon">💻</div><h3>Code Generator Pro</h3><p>Write optimized code snippets.</p></a>
-            <a href="json-formatter.html" class="ilove-card" data-category="developers"><div class="card-icon">🛠️</div><h3>JSON Formatter Pro</h3><p>Format, Minify & Fix broken JSON with AI.</p></a>
-            <a href="regex-builder.html" class="ilove-card" data-category="developers"><div class="card-icon">🔍</div><h3>Regex Builder AI</h3><p>Generate, explain, and test RegEx with AI.</p></a>
-            <a href="sql-query.html" class="ilove-card" data-category="developers"><div class="card-icon">🗄️</div><h3>SQL Query AI</h3><p>Translate text into SQL.</p></a>
+            <a href="ai-agent.html" class="ilove-card searchable-tool" data-category="developers" data-name="ai agent automation"><div class="card-icon">🤖</div><h3>AI Agent Automation</h3><p>Deploy multi-step autonomous workflows.</p></a>
+            <a href="code-generator.html" class="ilove-card searchable-tool" data-category="developers" data-name="code generator pro"><div class="card-icon">💻</div><h3>Code Generator Pro</h3><p>Write optimized code snippets.</p></a>
+            <a href="json-formatter.html" class="ilove-card searchable-tool" data-category="developers" data-name="json formatter pro"><div class="card-icon">🛠️</div><h3>JSON Formatter Pro</h3><p>Format, Minify & Fix broken JSON with AI.</p></a>
+            <a href="regex-builder.html" class="ilove-card searchable-tool" data-category="developers" data-name="regex builder ai"><div class="card-icon">🔍</div><h3>Regex Builder AI</h3><p>Generate, explain, and test RegEx with AI.</p></a>
+            <a href="sql-query.html" class="ilove-card searchable-tool" data-category="developers" data-name="sql query ai"><div class="card-icon">🗄️</div><h3>SQL Query AI</h3><p>Translate text into SQL.</p></a>
         </div>
     </section>
 
@@ -394,7 +381,7 @@
         <h1>Every tool you need to work with PDFs in one place</h1>
         <p class="subtitle">Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
 
-        <!-- Navigation Pills (Fixed Tap Highlight) -->
+        <!-- Navigation Pills -->
         <div class="category-pills" style="cursor: pointer;">
             <span class="pdf-filter-btn active" data-filter="all" onclick="filterPDFTools('all', this)">All</span>
             <span class="pdf-filter-btn" data-filter="workflows" onclick="filterPDFTools('workflows', this)">Workflows</span>
@@ -406,40 +393,40 @@
             <span class="pdf-filter-btn" data-filter="intelligence" onclick="filterPDFTools('intelligence', this)">PDF Intelligence</span>
         </div>
 
-        <!-- 31 Tools Grid (With Category Tags) -->
+        <!-- 31 Tools Grid -->
         <div class="pdf-grid">
             
-            <a href="merge-pdf.html" class="pdf-card pdf-tool-card" data-category="organize"><div class="tool-icon bg-red"><i class="fa-solid fa-code-merge"></i></div><div class="tool-title">Merge PDF</div><div class="tool-desc">Combine PDFs in the order you want with the easiest PDF merger available.</div></a>
-            <a href="split-pdf.html" class="pdf-card pdf-tool-card" data-category="organize"><div class="tool-icon bg-red"><i class="fa-solid fa-scissors"></i></div><div class="tool-title">Split PDF</div><div class="tool-desc">Separate one page or a whole set for easy conversion into independent PDF files.</div></a>
-            <a href="compress-pdf.html" class="pdf-card pdf-tool-card" data-category="optimize"><div class="tool-icon bg-green"><i class="fa-solid fa-minimize"></i></div><div class="tool-title">Compress PDF</div><div class="tool-desc">Reduce file size while optimizing for maximal PDF quality.</div></a>
-            <a href="pdf-to-word.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="tool-icon bg-blue"><i class="fa-solid fa-file-word"></i></div><div class="tool-title">PDF to Word</div><div class="tool-desc">Easily convert your PDF files into easy to edit DOC and DOCX documents.</div></a>
-            <a href="pdf-to-ppt.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="tool-icon bg-orange"><i class="fa-solid fa-file-powerpoint"></i></div><div class="tool-title">PDF to PowerPoint</div><div class="tool-desc">Turn your PDF files into easy to edit PPT and PPTX slideshows.</div></a>
-            <a href="pdf-to-excel.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-green"><i class="fa-solid fa-file-excel"></i></div><div class="tool-title">PDF to Excel</div><div class="tool-desc">Pull data straight from PDFs into Excel spreadsheets in a few short seconds.</div></a>
-            <a href="word-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-title">Word to PDF</div><div class="tool-desc">Make DOC and DOCX files easy to read by converting them to PDF.</div></a>
-            <a href="powerpoint-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-orange"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-title">PowerPoint to PDF</div><div class="tool-desc">Make PPT and PPTX slideshows easy to view by converting them to PDF.</div></a>
-            <a href="excel-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-green"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-title">Excel to PDF</div><div class="tool-desc">Make EXCEL spreadsheets easy to read by converting them to PDF.</div></a>
-            <a href="edit-pdf.html" class="pdf-card pdf-tool-card" data-category="edit"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-pen-to-square"></i></div><div class="tool-title">Edit PDF</div><div class="tool-desc">Add text, images, shapes or freehand annotations to a PDF document.</div></a>
-            <a href="pdf-to-jpg.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-yellow"><i class="fa-solid fa-file-image"></i></div><div class="tool-title">PDF to JPG</div><div class="tool-desc">Convert each PDF page into a JPG or extract all images contained in a PDF.</div></a>
-            <a href="jpg-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-yellow"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-title">JPG to PDF</div><div class="tool-desc">Convert JPG images to PDF in seconds. Easily adjust orientation and margins.</div></a>
-            <a href="sign-pdf.html" class="pdf-card pdf-tool-card" data-category="security"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-signature"></i></div><div class="tool-title">Sign PDF</div><div class="tool-desc">Sign yourself or request electronic signatures from others securely.</div></a>
-            <a href="watermark-pdf.html" class="pdf-card pdf-tool-card" data-category="edit"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-dark"><i class="fa-solid fa-stamp"></i></div><div class="tool-title">Watermark</div><div class="tool-desc">Stamp an image or text over your PDF in seconds. Choose typography & position.</div></a>
-            <a href="rotate-pdf.html" class="pdf-card pdf-tool-card" data-category="organize"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-rotate-right"></i></div><div class="tool-title">Rotate PDF</div><div class="tool-desc">Rotate your PDFs the way you need them. You can even rotate multiple PDFs at once!</div></a>
-            <a href="html-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-orange"><i class="fa-brands fa-html5"></i></div><div class="tool-title">HTML to PDF</div><div class="tool-desc">Convert webpages, uploaded files or raw HTML code to PDF with advanced VVIP options.</div></a>
-            <a href="unlock-pdf.html" class="pdf-card pdf-tool-card" data-category="security"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-unlock-keyhole"></i></div><div class="tool-title">Unlock PDF</div><div class="tool-desc">Remove PDF password security, giving you the freedom to use your PDFs.</div></a>
-            <a href="protect-pdf.html" class="pdf-card pdf-tool-card" data-category="security"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-shield-halved"></i></div><div class="tool-title">Protect PDF</div><div class="tool-desc">Protect PDF files with a password. Encrypt PDF documents to prevent access.</div></a>
-            <a href="organize-pdf.html" class="pdf-card pdf-tool-card" data-category="organize"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-orange"><i class="fa-solid fa-layer-group"></i></div><div class="tool-title">Organize PDF</div><div class="tool-desc">Sort pages of your PDF file however you like. Delete or add PDF pages easily.</div></a>
-            <a href="pdf-to-pdfa.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-file-shield"></i></div><div class="tool-title">PDF to PDF/A</div><div class="tool-desc">Transform your PDF to PDF/A, the ISO-standardized version for archiving.</div></a>
-            <a href="repair-pdf.html" class="pdf-card pdf-tool-card" data-category="optimize"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-green"><i class="fa-solid fa-screwdriver-wrench"></i></div><div class="tool-title">Repair PDF</div><div class="tool-desc">Repair a damaged PDF and recover data from corrupt PDF. Fix files with our tool.</div></a>
-            <a href="add-page-numbers.html" class="pdf-card pdf-tool-card" data-category="edit"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-pink"><i class="fa-solid fa-list-ol"></i></div><div class="tool-title">Page numbers</div><div class="tool-desc">Add page numbers into PDFs with ease. Choose your positions and dimensions.</div></a>
-            <a href="scan-to-pdf.html" class="pdf-card pdf-tool-card" data-category="workflows"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-orange"><i class="fa-solid fa-mobile-screen-button"></i></div><div class="tool-title">Scan to PDF</div><div class="tool-desc">Capture document scans from your smartphone camera directly to your browser.</div></a>
-            <a href="ocr-pdf.html" class="pdf-card pdf-tool-card" data-category="intelligence"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-green"><i class="fa-solid fa-magnifying-glass-chart"></i></div><div class="tool-title">OCR PDF</div><div class="tool-desc">Easily convert scanned PDF into searchable and selectable text documents.</div></a>
-            <a href="compare-pdf.html" class="pdf-card pdf-tool-card" data-category="intelligence"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-code-compare"></i></div><div class="tool-title">Compare PDF</div><div class="tool-desc">Show a side-by-side document comparison and easily spot changes between different file versions.</div></a>
-            <a href="redact-pdf.html" class="pdf-card pdf-tool-card" data-category="security"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-red"><i class="fa-solid fa-eraser"></i></div><div class="tool-title">Redact PDF</div><div class="tool-desc">Redact text and graphics to permanently remove sensitive information from a PDF.</div></a>
-            <a href="crop-pdf.html" class="pdf-card pdf-tool-card" data-category="edit"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-crop-simple"></i></div><div class="tool-title">Crop PDF</div><div class="tool-desc">Crop margins of PDF documents or select specific areas to apply changes.</div></a>
-            <a href="pdf-forms.html" class="pdf-card pdf-tool-card" data-category="workflows"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-list-check"></i></div><div class="tool-title">PDF Forms</div><div class="tool-desc">Detect form fields automatically, create interactive fillable PDFs effortlessly.</div></a>
-            <a href="AI-summarizer.html" class="pdf-card pdf-tool-card" data-category="intelligence"><div class="badge-new" style="background: #8b5cf6; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="tool-title">AI Summarizer</div><div class="tool-desc">Quickly generate concise summaries from articles, paragraphs, and essays.</div></a>
-            <a href="translate-pdf.html" class="pdf-card pdf-tool-card" data-category="intelligence"><div class="badge-new" style="background: #8b5cf6; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-language"></i></div><div class="tool-title">Translate PDF</div><div class="tool-desc">Easily translate PDF files into other languages while preserving original formatting.</div></a>
-            <a href="pdf-to-markdown.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new" style="background: #8b5cf6; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-brands fa-markdown"></i></div><div class="tool-title">PDF to Markdown</div><div class="tool-desc">Easily turn PDFs into Markdown files. Perfect for notes, docs, and LLMs.</div></a>
+            <a href="merge-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="organize" data-name="merge pdf"><div class="tool-icon bg-red"><i class="fa-solid fa-code-merge"></i></div><div class="tool-title">Merge PDF</div><div class="tool-desc">Combine PDFs in the order you want with the easiest PDF merger available.</div></a>
+            <a href="split-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="organize" data-name="split pdf"><div class="tool-icon bg-red"><i class="fa-solid fa-scissors"></i></div><div class="tool-title">Split PDF</div><div class="tool-desc">Separate one page or a whole set for easy conversion into independent PDF files.</div></a>
+            <a href="compress-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="optimize" data-name="compress pdf"><div class="tool-icon bg-green"><i class="fa-solid fa-minimize"></i></div><div class="tool-title">Compress PDF</div><div class="tool-desc">Reduce file size while optimizing for maximal PDF quality.</div></a>
+            <a href="pdf-to-word.html" class="pdf-card pdf-tool-card searchable-tool" data-category="convert" data-name="pdf to word"><div class="tool-icon bg-blue"><i class="fa-solid fa-file-word"></i></div><div class="tool-title">PDF to Word</div><div class="tool-desc">Easily convert your PDF files into easy to edit DOC and DOCX documents.</div></a>
+            <a href="pdf-to-ppt.html" class="pdf-card pdf-tool-card searchable-tool" data-category="convert" data-name="pdf to powerpoint ppt"><div class="tool-icon bg-orange"><i class="fa-solid fa-file-powerpoint"></i></div><div class="tool-title">PDF to PowerPoint</div><div class="tool-desc">Turn your PDF files into easy to edit PPT and PPTX slideshows.</div></a>
+            <a href="pdf-to-excel.html" class="pdf-card pdf-tool-card searchable-tool" data-category="convert" data-name="pdf to excel"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-green"><i class="fa-solid fa-file-excel"></i></div><div class="tool-title">PDF to Excel</div><div class="tool-desc">Pull data straight from PDFs into Excel spreadsheets in a few short seconds.</div></a>
+            <a href="word-to-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="convert" data-name="word to pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-title">Word to PDF</div><div class="tool-desc">Make DOC and DOCX files easy to read by converting them to PDF.</div></a>
+            <a href="powerpoint-to-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="convert" data-name="powerpoint to pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-orange"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-title">PowerPoint to PDF</div><div class="tool-desc">Make PPT and PPTX slideshows easy to view by converting them to PDF.</div></a>
+            <a href="excel-to-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="convert" data-name="excel to pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-green"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-title">Excel to PDF</div><div class="tool-desc">Make EXCEL spreadsheets easy to read by converting them to PDF.</div></a>
+            <a href="edit-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="edit" data-name="edit pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-pen-to-square"></i></div><div class="tool-title">Edit PDF</div><div class="tool-desc">Add text, images, shapes or freehand annotations to a PDF document.</div></a>
+            <a href="pdf-to-jpg.html" class="pdf-card pdf-tool-card searchable-tool" data-category="convert" data-name="pdf to jpg image"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-yellow"><i class="fa-solid fa-file-image"></i></div><div class="tool-title">PDF to JPG</div><div class="tool-desc">Convert each PDF page into a JPG or extract all images contained in a PDF.</div></a>
+            <a href="jpg-to-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="convert" data-name="jpg to pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-yellow"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-title">JPG to PDF</div><div class="tool-desc">Convert JPG images to PDF in seconds. Easily adjust orientation and margins.</div></a>
+            <a href="sign-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="security" data-name="sign pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-signature"></i></div><div class="tool-title">Sign PDF</div><div class="tool-desc">Sign yourself or request electronic signatures from others securely.</div></a>
+            <a href="watermark-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="edit" data-name="watermark pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-dark"><i class="fa-solid fa-stamp"></i></div><div class="tool-title">Watermark</div><div class="tool-desc">Stamp an image or text over your PDF in seconds. Choose typography & position.</div></a>
+            <a href="rotate-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="organize" data-name="rotate pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-rotate-right"></i></div><div class="tool-title">Rotate PDF</div><div class="tool-desc">Rotate your PDFs the way you need them. You can even rotate multiple PDFs at once!</div></a>
+            <a href="html-to-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="convert" data-name="html to pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-orange"><i class="fa-brands fa-html5"></i></div><div class="tool-title">HTML to PDF</div><div class="tool-desc">Convert webpages, uploaded files or raw HTML code to PDF with advanced VVIP options.</div></a>
+            <a href="unlock-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="security" data-name="unlock pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-unlock-keyhole"></i></div><div class="tool-title">Unlock PDF</div><div class="tool-desc">Remove PDF password security, giving you the freedom to use your PDFs.</div></a>
+            <a href="protect-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="security" data-name="protect pdf password"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-shield-halved"></i></div><div class="tool-title">Protect PDF</div><div class="tool-desc">Protect PDF files with a password. Encrypt PDF documents to prevent access.</div></a>
+            <a href="organize-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="organize" data-name="organize pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-orange"><i class="fa-solid fa-layer-group"></i></div><div class="tool-title">Organize PDF</div><div class="tool-desc">Sort pages of your PDF file however you like. Delete or add PDF pages easily.</div></a>
+            <a href="pdf-to-pdfa.html" class="pdf-card pdf-tool-card searchable-tool" data-category="convert" data-name="pdf to pdfa"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-file-shield"></i></div><div class="tool-title">PDF to PDF/A</div><div class="tool-desc">Transform your PDF to PDF/A, the ISO-standardized version for archiving.</div></a>
+            <a href="repair-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="optimize" data-name="repair pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-green"><i class="fa-solid fa-screwdriver-wrench"></i></div><div class="tool-title">Repair PDF</div><div class="tool-desc">Repair a damaged PDF and recover data from corrupt PDF. Fix files with our tool.</div></a>
+            <a href="add-page-numbers.html" class="pdf-card pdf-tool-card searchable-tool" data-category="edit" data-name="add page numbers"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-pink"><i class="fa-solid fa-list-ol"></i></div><div class="tool-title">Page numbers</div><div class="tool-desc">Add page numbers into PDFs with ease. Choose your positions and dimensions.</div></a>
+            <a href="scan-to-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="workflows" data-name="scan to pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-orange"><i class="fa-solid fa-mobile-screen-button"></i></div><div class="tool-title">Scan to PDF</div><div class="tool-desc">Capture document scans from your smartphone camera directly to your browser.</div></a>
+            <a href="ocr-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="intelligence" data-name="ocr pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-green"><i class="fa-solid fa-magnifying-glass-chart"></i></div><div class="tool-title">OCR PDF</div><div class="tool-desc">Easily convert scanned PDF into searchable and selectable text documents.</div></a>
+            <a href="compare-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="intelligence" data-name="compare pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-code-compare"></i></div><div class="tool-title">Compare PDF</div><div class="tool-desc">Show a side-by-side document comparison and easily spot changes between different file versions.</div></a>
+            <a href="redact-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="security" data-name="redact pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-red"><i class="fa-solid fa-eraser"></i></div><div class="tool-title">Redact PDF</div><div class="tool-desc">Redact text and graphics to permanently remove sensitive information from a PDF.</div></a>
+            <a href="crop-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="edit" data-name="crop pdf"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-crop-simple"></i></div><div class="tool-title">Crop PDF</div><div class="tool-desc">Crop margins of PDF documents or select specific areas to apply changes.</div></a>
+            <a href="pdf-forms.html" class="pdf-card pdf-tool-card searchable-tool" data-category="workflows" data-name="pdf forms"><div class="badge-new" style="background: #f97316; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-list-check"></i></div><div class="tool-title">PDF Forms</div><div class="tool-desc">Detect form fields automatically, create interactive fillable PDFs effortlessly.</div></a>
+            <a href="AI-summarizer.html" class="pdf-card pdf-tool-card searchable-tool" data-category="intelligence" data-name="ai summarizer"><div class="badge-new" style="background: #8b5cf6; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="tool-title">AI Summarizer</div><div class="tool-desc">Quickly generate concise summaries from articles, paragraphs, and essays.</div></a>
+            <a href="translate-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="intelligence" data-name="translate pdf"><div class="badge-new" style="background: #8b5cf6; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-language"></i></div><div class="tool-title">Translate PDF</div><div class="tool-desc">Easily translate PDF files into other languages while preserving original formatting.</div></a>
+            <a href="pdf-to-markdown.html" class="pdf-card pdf-tool-card searchable-tool" data-category="convert" data-name="pdf to markdown"><div class="badge-new" style="background: #8b5cf6; color: white;">VVIP</div><div class="tool-icon bg-purple"><i class="fa-brands fa-markdown"></i></div><div class="tool-title">PDF to Markdown</div><div class="tool-desc">Easily turn PDFs into Markdown files. Perfect for notes, docs, and LLMs.</div></a>
 
         </div>
     </section>
@@ -466,7 +453,6 @@
                 <button style="width: 100%; padding: 12px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: 700; cursor: pointer;">Current Plan</button>
             </div>
 
-            <!-- UPDATE MIDDLE CARD HERE TO MATCH DARK BLUE/PURPLE THEME FROM SCREENSHOT -->
             <div style="background: #0f172a; border: 2px solid #b19cfd; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-shadow: 0 10px 30px rgba(177, 156, 253, 0.3);">
                 <div style="position: absolute; top: -14px; right: 20px; background: #b19cfd; color: #1e1e1e; font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 12px; text-transform: uppercase;">Paid Sandbox (Free in Beta)</div>
                 <div>
@@ -684,8 +670,28 @@
         </div>
     </div>
 
-    <!-- NEW SCRIPT: PDF FILTERS (VVIP SYSTEM) -->
+    <!-- SCRIPT FOR INSTANT TOOL SEARCH -->
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchInput = document.getElementById('globalToolSearch');
+            if(searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.toLowerCase().trim();
+                    const allCards = document.querySelectorAll('.searchable-tool');
+                    
+                    allCards.forEach(card => {
+                        const name = card.getAttribute('data-name') || '';
+                        const text = card.innerText.toLowerCase();
+                        if(name.includes(query) || text.includes(query)) {
+                            card.style.display = '';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        });
+
         function filterPDFTools(category, clickedBtn) {
             const allBtns = document.querySelectorAll('.pdf-filter-btn');
             allBtns.forEach(btn => btn.classList.remove('active'));
@@ -702,9 +708,7 @@
                 }
             });
         }
-    </script>
 
-    <script>
         function acceptCookies() {
             localStorage.setItem('toolverse_cookies_accepted', 'true');
             hideCookiePopup();
@@ -715,7 +719,7 @@
         }
     </script>
 
-    <!-- VVIP ZERO-DELAY COUNTRIES SCRIPT (NO API NEEDED) -->
+    <!-- COUNTRIES & CODES DATABASE -->
     <script>
         const allWorldCountries = [
             {n:"Afghanistan",c:"+93",f:"🇦🇫"},{n:"Albania",c:"+355",f:"🇦🇱"},{n:"Algeria",c:"+213",f:"🇩🇿"},
@@ -775,18 +779,15 @@
             {n:"Zambia",c:"+260",f:"🇿🇲"},{n:"Zimbabwe",c:"+263",f:"🇿🇼"}
         ];
 
-        // CRITICAL FIX: The value is now "CountryName|Code" so +1 flags never get mixed up!
         function injectCountries(dataList) {
             const phoneCodeSelect = document.getElementById('profPhoneCode');
             const countrySelect = document.getElementById('profCountry');
-            
             if(!phoneCodeSelect || !countrySelect) return;
             
             let pOptions = '<option value="" disabled selected>🏳️ Code</option>';
             let cOptions = '<option value="" disabled selected>🏳️ Select Country</option>';
             
             dataList.forEach(item => {
-                // VVIP Magic: Adding item.n to the value keeps it 100% unique!
                 pOptions += `<option value="${item.n}|${item.c}">${item.f} ${item.c}</option>`;
                 cOptions += `<option value="${item.n}">${item.f} ${item.n}</option>`;
             });
@@ -794,7 +795,6 @@
             phoneCodeSelect.innerHTML = pOptions;
             countrySelect.innerHTML = cOptions;
 
-            // Restoring logic right after injecting
             if(window.populateProfileData) {
                 const localData = localStorage.getItem('tv_user_profile');
                 if (localData) {
@@ -805,26 +805,10 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             injectCountries(allWorldCountries);
-
-            fetch('https://restcountries.com/v3.1/all?fields=name,idd,flag')
-                .then(res => res.json())
-                .then(data => {
-                    let fullList = [];
-                    data.forEach(c => {
-                        let code = (c.idd && c.idd.root) ? (c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : '')) : '';
-                        if(code && c.name && c.name.common) {
-                            fullList.push({ n: c.name.common, c: code, f: c.flag });
-                        }
-                    });
-                    fullList.sort((a,b) => a.n.localeCompare(b.n));
-                    injectCountries(fullList); 
-                })
-                .catch(err => {
-                    console.log("Background sync failed. Continuing with VVIP offline list.");
-                });
         });
     </script>
 
+    <!-- FIREBASE & PROFILE LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -872,19 +856,16 @@
         const profState = document.getElementById('profState');
         const profZip = document.getElementById('profZip');
 
-        // VVIP Smart Filler: It understands the new format and also catches old formats!
         window.populateProfileData = function(data) {
             if(!data) return;
             if(data.firstName) profFirstName.value = data.firstName;
             if(data.lastName) profLastName.value = data.lastName;
             
             if(data.phoneCode) {
-                // Check if it's the exact exact new format "Country|Code"
                 let exactMatch = Array.from(profPhoneCode.options).some(o => o.value === data.phoneCode);
                 if(exactMatch) {
                     profPhoneCode.value = data.phoneCode;
                 } else {
-                    // Fallback for your old saved data (which was just "+1")
                     let oldMatch = Array.from(profPhoneCode.options).find(o => o.value.endsWith('|' + data.phoneCode) || o.value === data.phoneCode);
                     if(oldMatch) profPhoneCode.value = oldMatch.value;
                 }
@@ -957,7 +938,7 @@
                 const profileData = {
                     firstName: profFirstName.value.trim(),
                     lastName: profLastName.value.trim(),
-                    phoneCode: profPhoneCode.value, // Saves uniquely "United States|+1"
+                    phoneCode: profPhoneCode.value,
                     phone: profPhone.value.trim(),
                     address: profAddress.value.trim(),
                     country: profCountry.value,
@@ -993,7 +974,6 @@
                 }, 800);
             });
         }
-
 
         window.addEventListener('triggerCloudUpgrade', async () => {
             if(auth.currentUser) {
@@ -1121,6 +1101,7 @@
         }
     </script>
 
+    <!-- MINING & ADDRESS AUTO-FILL LOGIC -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             if(!localStorage.getItem('toolverse_cookies_accepted')) {
@@ -1239,7 +1220,7 @@
             
             updateDisplay();
 
-            // --- VVIP SMART ADDRESS AUTO-FILL (DETAILS SPLIT) ---
+            // --- SMART ADDRESS AUTO-FILL ---
             const addressInput = document.getElementById('profAddress');
             const suggestionsBox = document.getElementById('addressSuggestions');
             let debounceTimer;
