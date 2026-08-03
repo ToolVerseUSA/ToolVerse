@@ -7,45 +7,50 @@
     <meta name="google-site-verification" content="XgH4GBHvosYC4hdFgcYobZQs4rhp_k2gjwR_Glft9tM" />
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=8">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         html { scroll-behavior: smooth; }
+        body { background-color: #fcfbfb !important; color: #333333 !important; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+        
+        .crypto-nav-btn { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #1e293b !important; font-weight: 700 !important; padding: 8px 16px !important; border-radius: 20px; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); border: 2px solid #fff; transition: 0.3s; cursor: pointer; }
+        .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
+        .header-container { display: flex; align-items: center; justify-content: space-between; max-width: 1400px; margin: 0 auto; padding: 15px 30px; }
+        
+        .ilove-header { background: #ffffff; border-bottom: 1px solid #eaeaea; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,.03); }
+        .logo-area { font-size: 26px; font-weight: 800; display: flex; align-items: center; gap: 8px; color: #e5322d; text-decoration: none; }
+        .main-nav .nav-links { list-style: none; display: flex; gap: 25px; align-items: center; margin: 0; padding: 0; }
+        .main-nav .nav-links a { text-decoration: none; color: #4b5563; font-weight: 600; font-size: 15px; }
+        .main-nav .nav-links a:hover { color: #e5322d; }
+
+        /* Mega Menu */
+        .dropdown { position: relative; }
+        .arrow { font-size: 10px; margin-left: 4px; }
+        .mega-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: #ffffff; box-shadow: 0 10px 40px rgba(0,0,0,0.1); border-radius: 12px; border: 1px solid #eaeaea; display: flex; gap: 30px; padding: 30px; opacity: 0; visibility: hidden; transition: all 0.3s ease; margin-top: 10px; width: max-content; z-index: 100; }
+        .dropdown:hover .mega-menu { opacity: 1; visibility: visible; margin-top: 0; }
+        .mega-column h3 { font-size: 12px; text-transform: uppercase; color: #888; margin-bottom: 15px; letter-spacing: 1px; }
+        .mega-column a { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 14px; font-weight: 500; color: #333; text-decoration: none; }
+        .mega-column a:hover { color: #e5322d; }
+
+        .premium-profile-btn { background: #f8fafc; color: #1e293b !important; font-weight: 600 !important; font-size: 0.9rem !important; padding: 6px 16px 6px 6px !important; border-radius: 20px; display: flex; align-items: center; gap: 8px; border: 1px solid #cbd5e1; transition: 0.3s; cursor: pointer; text-decoration: none; }
+        .premium-profile-btn:hover { border-color: #94a3b8; transform: translateY(-2px); }
+        .profile-avatar-icon { background: #e2e8f0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         
         /* --- Draggable & Touch Moveable Mining Widget --- */
-        .mining-widget {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background: #1e293b;
-            border: 2px solid #fbbf24;
-            border-radius: 12px;
-            padding: 10px 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            cursor: grab;
-            z-index: 9999;
-            touch-action: none;
-            user-select: none;
-            transition: box-shadow 0.2s;
-        }
-        .mining-widget:active { cursor: grabbing; box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4); }
-        .mining-inner { display: flex; align-items: center; gap: 12px; width: 100%; text-decoration: none; color: inherit; }
+        .mining-widget { position: fixed; bottom: 30px; left: 30px; background: #1e293b; border: 2px solid #fbbf24; border-radius: 12px; padding: 10px 16px; display: flex; flex-direction: column; align-items: center; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.2); cursor: grab; z-index: 9999; touch-action: none; user-select: none; }
+        .mining-widget:active { cursor: grabbing; }
+        .mining-inner { display: flex; align-items: center; gap: 12px; width: 100%; text-decoration: none; color: inherit; cursor: pointer; }
         .mining-icon { font-size: 22px; animation: pickaxe 2s infinite; }
         @keyframes pickaxe { 0% { transform: rotate(0deg); } 50% { transform: rotate(-30deg); } 100% { transform: rotate(0deg); } }
         .mining-stats { display: flex; flex-direction: column; white-space: nowrap; }
-        .mining-title { font-size: 0.75rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .mining-title { font-size: 0.75rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
         .mining-rate { font-size: 0.7rem; color: #4ade80; display: flex; align-items: center; gap: 4px; }
         .pulse-dot { width: 5px; height: 5px; background: #4ade80; border-radius: 50%; animation: pulse 1s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
         .mining-balance { font-size: 1.1rem; font-weight: 800; color: #fbbf24; margin-left: 8px; white-space: nowrap; }
-        .drag-hint { font-size: 9px; color: #fbbf24; margin-top: 3px; font-weight: 600; letter-spacing: 0.3px; text-transform: uppercase; border-top: 1px dashed rgba(255,255,255,0.15); width: 100%; text-align: center; padding-top: 2px; }
+        .drag-hint { font-size: 9px; color: #fbbf24; margin-top: 3px; font-weight: 600; text-transform: uppercase; border-top: 1px dashed rgba(255,255,255,0.15); width: 100%; text-align: center; padding-top: 2px; letter-spacing: 0.3px; }
 
-        /* Modals & Crypto */
+        /* Modals & Popups */
         .crypto-modal, .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .crypto-modal-content { background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24; width: 90%; max-width: 450px; border-radius: 20px; padding: 30px; color: white; position: relative; text-align: center; }
         .auth-modal-content { background-color: #1e1e1e; padding: 35px 30px; border-radius: 14px; text-align: center; width: 90%; max-width: 450px; position: relative; color: white; border: 1px solid #333; }
@@ -60,23 +65,93 @@
         .boost-btn { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: white; }
         .claim-btn { background: #ff4757; color: white; }
         .invite-btn { background: #334155; color: white; }
+        
+        .auth-title { margin-top: 0; color: #4da6ff; font-size: 1.5rem; margin-bottom: 5px; }
+        .auth-subtitle { color: #aaaaaa; font-size: 13px; margin-bottom: 20px; }
         .auth-input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #333; border-radius: 6px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit; font-size: 14px;}
         .auth-submit-btn { width: 100%; padding: 12px; margin: 12px 0 8px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 15px; }
         .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px; }
+
+        /* Cookie Popup */
+        .cookie-popup { position: fixed; bottom: 20px; right: 20px; width: 330px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); z-index: 10000; display: none; flex-direction: column; gap: 12px; }
+        .cookie-btn { padding: 10px; border-radius: 20px; font-weight: 600; cursor: pointer; text-align: center; border: 1px solid transparent; width: 100%; }
+        .accept-all { background: #b19cfd; color: #1e1e1e; font-weight: 700; }
+        .allow-selection, .reject-all { background: transparent; color: #475569; border: 1px solid #cbd5e1; }
+
+        /* Grids & Cards (White Theme iLovePDF Style) */
+        .ilove-hero { text-align: center; padding: 60px 20px 40px; max-width: 900px; margin: 0 auto; }
+        .ilove-hero h1 { font-size: 42px; font-weight: 800; color: #111827; margin-bottom: 15px; line-height: 1.2; }
+        .ilove-hero p { font-size: 18px; color: #4b5563; margin-bottom: 35px; }
+
+        .category-filters, .category-pills { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; cursor: pointer; }
+        .filter-btn, .pdf-filter-btn { background: #ffffff; border: 1px solid #d1d5db; padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; color: #4b5563; cursor: pointer; transition: 0.2s; }
+        .filter-btn.active, .pdf-filter-btn.active { background: #111827; color: white; border-color: #111827; }
+
+        .tools-section, .pdf-tools-section { max-width: 1400px; margin: 0 auto; padding: 20px 20px 60px; text-align: center; }
+        .pdf-tools-section h1 { font-size: 2.2rem; color: #111827; font-weight: 700; margin-bottom: 10px; }
+        .pdf-tools-section p.subtitle { font-size: 1.1rem; color: #64748b; max-width: 800px; margin: 0 auto 30px auto; }
+
+        .ilove-grid, .pdf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; text-align: left; }
+        .ilove-card, .pdf-card { background: #ffffff; border: 1px solid #eaeaea; border-radius: 12px; padding: 24px; text-decoration: none; color: inherit; transition: all 0.2s ease; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+        .ilove-card:hover, .pdf-card:hover { box-shadow: 0 10px 25px rgba(0,0,0,0.08); transform: translateY(-3px); border-color: #d1d5db; }
+
+        .card-icon, .tool-icon { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 15px; }
+        .ilove-card h3, .tool-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #111827; }
+        .ilove-card p, .tool-desc { font-size: 13px; color: #6b7280; line-height: 1.4; }
+
+        .bg-red { background: #e5322d; color: #fff; }
+        .bg-green { background: #66b646; color: #fff; }
+        .bg-blue { background: #3583c7; color: #fff; }
+        .bg-orange { background: #f19b38; color: #fff; }
+        .bg-yellow { background: #f4cc44; color: #fff; }
+        .bg-purple { background: #9968aa; color: #fff; }
+        .bg-pink { background: #db5b94; color: #fff; }
+        .bg-dark { background: #525864; color: #fff; }
+        .badge-new { position: absolute; top: 20px; right: 20px; background: #f97316; color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; text-transform: uppercase; }
+
+        /* Footer Style */
+        .toolverse-footer { background-color: #111827; color: #9ca3af; padding: 60px 20px 30px 20px; margin-top: 80px; text-align: left; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; }
+        @media (max-width: 768px) { .footer-container { grid-template-columns: 1fr; gap: 30px; } }
+        .footer-col h3 { color: #fff; font-size: 1rem; font-weight: 700; text-transform: uppercase; margin-bottom: 20px; }
+        .footer-col p { font-size: 0.9rem; line-height: 1.6; color: #9ca3af; margin-bottom: 15px; }
+        .footer-col ul { list-style: none; padding: 0; margin: 0; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { color: #9ca3af; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+        .footer-col ul li a:hover { color: #fff; padding-left: 5px; }
+        .footer-bottom { max-width: 1200px; margin: 40px auto 0 auto; padding-top: 20px; border-top: 1px solid #1f2937; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #6b7280; flex-wrap: wrap; gap: 15px; }
+        .footer-logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.2rem; color: #fff; margin-bottom: 15px; }
     </style>
+    
+    <script>
+        window.upgradeToProAgent = function() {
+            if(localStorage.getItem('ToolVerse_Auth') !== 'true' && localStorage.getItem('isLoggedIn') !== 'true') {
+                alert("Please login first to claim your 8,000 Pro Credits!");
+                document.getElementById('firebaseAuthModal').style.display = 'flex';
+                return;
+            }
+            localStorage.setItem('tv_agent_credits', '8000');
+            localStorage.setItem('tv_plan', 'Pro Sandbox');
+            const profBtn = document.getElementById('navProfileBtn');
+            if(profBtn && profBtn.innerHTML.includes('⚡')) {
+                let name = profBtn.innerText.split('|')[0].trim();
+                profBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${name} | ⚡ 8000</span>`;
+            }
+            window.dispatchEvent(new Event('triggerCloudUpgrade'));
+            alert("🎉 Success! Your account has been upgraded to the Pro Agent Sandbox. You now have 8,000 Credits!");
+            setTimeout(() => { window.location.href = 'ai-agent.html'; }, 500);
+        };
+    </script>
 </head>
 <body>
 
     <header class="ilove-header">
         <div class="header-container">
-            <a href="index.html" class="logo-area">
-                <span class="logo-icon">🚀</span> 
-                <span class="logo-text">ToolVerse</span>
-            </a>
+            <div class="logo-area"><span class="logo-icon">🚀</span> <span class="logo-text">ToolVerse</span></div>
             
             <nav class="main-nav">
                 <ul class="nav-links">
-                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="#home">Home</a></li>
                     <li class="dropdown">
                         <a href="#tools" class="dropbtn">All AI Tools <span class="arrow">▼</span></a>
                         <div class="mega-menu">
@@ -88,34 +163,38 @@
                             </div>
                             <div class="mega-column">
                                 <h3>Creative AI</h3>
-                                <a href="faceless-video.html"><span class="icon">🎭</span> Faceless Video AI <span class="badge">Hot</span></a>
+                                <a href="faceless-video.html"><span class="icon">🎭</span> Faceless Video AI <span class="badge" style="background: #ff4757; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px;">Hot</span></a>
                                 <a href="youtube-toolkit.html"><span class="icon">▶️</span> YouTube Toolkit</a>
                                 <a href="thumbnail-downloader.html"><span class="icon">🖼️</span> 4K Thumbnail Downloader</a>
                                 <a href="transcript-extractor.html"><span class="icon">📜</span> Transcript Extractor</a>
+                                <a href="prompt-generator.html"><span class="icon">💡</span> Prompt Generator</a>
+                                <a href="caption-generator.html"><span class="icon">📱</span> Caption Generator</a>
                             </div>
                             <div class="mega-column">
                                 <h3>Productivity & PDF</h3>
                                 <a href="AI-summarizer.html"><span class="icon">📚</span> AI Summarizer</a>
-                                <a href="index.html#pdf-tools"><span class="icon">📑</span> All 31 PDF Tools</a>
+                                <a href="#pdf-tools"><span class="icon">📑</span> All 31 PDF Tools</a>
                                 <a href="ai-task-planner.html"><span class="icon">📅</span> AI Task Planner</a>
+                                <a href="meeting-minutes.html"><span class="icon">📝</span> Meeting Minutes AI</a>
                             </div>
                         </div>
                     </li>
-                    <li><a href="index.html#pricing">Pricing</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
                 </ul>
             </nav>
 
-            <div class="auth-buttons">
+            <div class="auth-buttons" style="display: flex; align-items: center; gap: 15px;">
+                <div class="crypto-nav-btn" onclick="window.location.href='mining-node.html'">🪙 $TOOL: <span id="headerBal">0.000</span></div>
                 <a href="#" class="login-btn" id="navLoginBtn">Login</a>
-                <a href="#" class="signup-btn" id="navSignupBtn">Sign up</a>
+                <a href="#" class="signup-btn" id="navSignupBtn" style="background:#e5322d; color:#fff; padding:10px 20px; border-radius:6px; font-weight:600; text-decoration:none;">Sign up</a>
                 <a href="#" id="navProfileBtn" class="premium-profile-btn" style="display: none;"></a>
             </div>
         </div>
     </header>
 
     <section class="ilove-hero" id="home">
-        <h1>Every tool you need to work with AI & PDFs in one place</h1>
-        <p>Every tool you need, at your fingertips. All are 100% FREE and easy to use with just a few clicks.</p>
+        <h1>Agents that work on your context,<br>and get smarter every run.</h1>
+        <p>Every tool you need to use AI, at your fingertips. All are 100% FREE and easy to use!</p>
         
         <div class="category-filters">
             <button class="filter-btn active" data-filter="all">All</button>
@@ -126,56 +205,79 @@
         </div>
     </section>
 
-    <!-- TOOLS SECTION -->
+    <!-- 17 AI TOOLS SECTION -->
     <section class="tools-section" id="tools">
         <div class="ilove-grid" id="toolsContainer">
-            <a href="faceless-video.html" class="ilove-card" data-category="creative"><div class="card-icon">🎭</div><h3>Faceless Video Blueprint</h3><p>Generate high-retention scripts.</p></a>
-            <a href="youtube-toolkit.html" class="ilove-card" data-category="creative"><div class="card-icon">▶️</div><h3>YouTube AI Toolkit</h3><p>Generate viral titles.</p></a>
-            <a href="thumbnail-downloader.html" class="ilove-card" data-category="creative"><div class="card-icon">🖼️</div><h3>4K Thumbnail Downloader</h3><p>Extract thumbnails instantly.</p></a>
-            <a href="email-writer.html" class="ilove-card" data-category="writing"><div class="card-icon">✉️</div><h3>Email Writer</h3><p>Draft professional emails.</p></a>
-            <a href="grammar-checker.html" class="ilove-card" data-category="writing"><div class="card-icon">✅</div><h3>Grammar Checker</h3><p>Instantly fix grammatical errors.</p></a>
-            <a href="resume-builder.html" class="ilove-card" data-category="writing"><div class="card-icon">📄</div><h3>Resume Builder</h3><p>Create ATS-friendly resumes.</p></a>
-            <a href="AI-summarizer.html" class="ilove-card" data-category="productivity"><div class="card-icon">📚</div><h3>PDF Summarizer</h3><p>Extract key points.</p></a>
-            <a href="ai-task-planner.html" class="ilove-card" data-category="productivity"><div class="card-icon">📅</div><h3>AI Task Planner</h3><p>Organize your day.</p></a>
-            <a href="ai-agent.html" class="ilove-card" data-category="developers"><div class="card-icon">🤖</div><h3>AI Agent Automation</h3><p>Deploy multi-step workflows.</p></a>
-            <a href="json-formatter.html" class="ilove-card" data-category="developers"><div class="card-icon">🛠️</div><h3>JSON Formatter Pro</h3><p>Format & Fix broken JSON with AI.</p></a>
+            <a href="faceless-video.html" class="ilove-card ai-tool-card" data-category="creative"><div class="card-icon">🎭</div><h3>Faceless Video Blueprint</h3><p>Generate high-retention scripts.</p></a>
+            <a href="youtube-toolkit.html" class="ilove-card ai-tool-card" data-category="creative"><div class="card-icon">▶️</div><h3>YouTube AI Toolkit</h3><p>Generate viral titles.</p></a>
+            <a href="thumbnail-downloader.html" class="ilove-card ai-tool-card" data-category="creative"><div class="card-icon">🖼️</div><h3>4K Thumbnail Downloader</h3><p>Extract thumbnails instantly.</p></a>
+            <a href="transcript-extractor.html" class="ilove-card ai-tool-card" data-category="creative"><div class="card-icon">📜</div><h3>Transcript Extractor</h3><p>Extract subtitles instantly.</p></a>
+            <a href="prompt-generator.html" class="ilove-card ai-tool-card" data-category="creative"><div class="card-icon">💡</div><h3>Prompt Generator</h3><p>Create optimized prompts.</p></a>
+            <a href="caption-generator.html" class="ilove-card ai-tool-card" data-category="creative"><div class="card-icon">📱</div><h3>Caption Generator</h3><p>Generate engaging captions.</p></a>
+
+            <a href="email-writer.html" class="ilove-card ai-tool-card" data-category="writing"><div class="card-icon">✉️</div><h3>Email Writer</h3><p>Draft professional emails.</p></a>
+            <a href="grammar-checker.html" class="ilove-card ai-tool-card" data-category="writing"><div class="card-icon">✅</div><h3>Grammar Checker</h3><p>Instantly fix grammatical errors.</p></a>
+            <a href="resume-builder.html" class="ilove-card ai-tool-card" data-category="writing"><div class="card-icon">📄</div><h3>Resume Builder</h3><p>Create ATS-friendly resumes.</p></a>
+
+            <a href="AI-summarizer.html" class="ilove-card ai-tool-card" data-category="productivity"><div class="card-icon">📚</div><h3>PDF Summarizer</h3><p>Extract key points.</p></a>
+            <a href="ai-task-planner.html" class="ilove-card ai-tool-card" data-category="productivity"><div class="card-icon">📅</div><h3>AI Task Planner</h3><p>Organize your day.</p></a>
+            <a href="meeting-minutes.html" class="ilove-card ai-tool-card" data-category="productivity"><div class="card-icon">📝</div><h3>Meeting Minutes AI</h3><p>Turn notes into summaries.</p></a>
+            
+            <a href="ai-agent.html" class="ilove-card ai-tool-card" data-category="developers"><div class="card-icon">🤖</div><h3>AI Agent Automation</h3><p>Deploy multi-step autonomous workflows.</p></a>
+            <a href="code-generator.html" class="ilove-card ai-tool-card" data-category="developers"><div class="card-icon">💻</div><h3>Code Generator Pro</h3><p>Write optimized code snippets.</p></a>
+            <a href="json-formatter.html" class="ilove-card ai-tool-card" data-category="developers"><div class="card-icon">🛠️</div><h3>JSON Formatter Pro</h3><p>Format, Minify & Fix broken JSON with AI.</p></a>
+            <a href="regex-builder.html" class="ilove-card ai-tool-card" data-category="developers"><div class="card-icon">🔍</div><h3>Regex Builder AI</h3><p>Generate, explain, and test RegEx with AI.</p></a>
+            <a href="sql-query.html" class="ilove-card ai-tool-card" data-category="developers"><div class="card-icon">🗄️</div><h3>SQL Query AI</h3><p>Translate text into SQL.</p></a>
         </div>
     </section>
 
-    <!-- PDF TOOLS SECTION -->
+    <!-- ALL 31 PDF TOOLS SECTION -->
     <section class="pdf-tools-section" id="pdf-tools">
-        <h1>PDF Utility Toolkit</h1>
-        <p class="subtitle">Merge, split, compress, convert, rotate and sign your PDF files securely in browser.</p>
+        <h1>Every tool you need to work with PDFs in one place</h1>
+        <p class="subtitle">Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use!</p>
 
         <div class="category-pills">
-            <span class="active" onclick="filterPDFTools('all', this)">All</span>
-            <span onclick="filterPDFTools('organize', this)">Organize PDF</span>
-            <span onclick="filterPDFTools('optimize', this)">Optimize PDF</span>
-            <span onclick="filterPDFTools('convert', this)">Convert PDF</span>
-            <span onclick="filterPDFTools('security', this)">PDF Security</span>
+            <span class="pdf-filter-btn active" data-filter="all" onclick="filterPDFTools('all', this)">All</span>
+            <span class="pdf-filter-btn" data-filter="organize" onclick="filterPDFTools('organize', this)">Organize PDF</span>
+            <span class="pdf-filter-btn" data-filter="optimize" onclick="filterPDFTools('optimize', this)">Optimize PDF</span>
+            <span class="pdf-filter-btn" data-filter="convert" onclick="filterPDFTools('convert', this)">Convert PDF</span>
+            <span class="pdf-filter-btn" data-filter="edit" onclick="filterPDFTools('edit', this)">Edit PDF</span>
+            <span class="pdf-filter-btn" data-filter="security" onclick="filterPDFTools('security', this)">PDF Security</span>
+            <span class="pdf-filter-btn" data-filter="intelligence" onclick="filterPDFTools('intelligence', this)">PDF Intelligence</span>
         </div>
 
         <div class="pdf-grid">
-            <a href="merge-pdf.html" class="pdf-card pdf-tool-card" data-category="organize">
-                <div class="tool-icon bg-red"><i class="fa-solid fa-code-merge"></i></div>
-                <div class="tool-title">Merge PDF</div>
-                <div class="tool-desc">Combine PDFs in the order you want.</div>
-            </a>
-            <a href="compress-pdf.html" class="pdf-card pdf-tool-card" data-category="optimize">
-                <div class="tool-icon bg-green"><i class="fa-solid fa-minimize"></i></div>
-                <div class="tool-title">Compress PDF</div>
-                <div class="tool-desc">Reduce file size while keeping quality.</div>
-            </a>
-            <a href="pdf-to-word.html" class="pdf-card pdf-tool-card" data-category="convert">
-                <div class="tool-icon bg-blue"><i class="fa-solid fa-file-word"></i></div>
-                <div class="tool-title">PDF to Word</div>
-                <div class="tool-desc">Convert PDF files into editable DOCX.</div>
-            </a>
-            <a href="sign-pdf.html" class="pdf-card pdf-tool-card" data-category="security">
-                <div class="tool-icon bg-blue"><i class="fa-solid fa-signature"></i></div>
-                <div class="tool-title">Sign PDF</div>
-                <div class="tool-desc">Sign electronic documents securely.</div>
-            </a>
+            <a href="merge-pdf.html" class="pdf-card pdf-tool-card" data-category="organize"><div class="tool-icon bg-red"><i class="fa-solid fa-code-merge"></i></div><div class="tool-title">Merge PDF</div><div class="tool-desc">Combine PDFs in order.</div></a>
+            <a href="split-pdf.html" class="pdf-card pdf-tool-card" data-category="organize"><div class="tool-icon bg-red"><i class="fa-solid fa-scissors"></i></div><div class="tool-title">Split PDF</div><div class="tool-desc">Separate pages.</div></a>
+            <a href="compress-pdf.html" class="pdf-card pdf-tool-card" data-category="optimize"><div class="tool-icon bg-green"><i class="fa-solid fa-minimize"></i></div><div class="tool-title">Compress PDF</div><div class="tool-desc">Reduce file size.</div></a>
+            <a href="pdf-to-word.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="tool-icon bg-blue"><i class="fa-solid fa-file-word"></i></div><div class="tool-title">PDF to Word</div><div class="tool-desc">Convert to DOCX.</div></a>
+            <a href="pdf-to-ppt.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="tool-icon bg-orange"><i class="fa-solid fa-file-powerpoint"></i></div><div class="tool-title">PDF to PowerPoint</div><div class="tool-desc">Convert to PPTX.</div></a>
+            <a href="pdf-to-excel.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new">VVIP</div><div class="tool-icon bg-green"><i class="fa-solid fa-file-excel"></i></div><div class="tool-title">PDF to Excel</div><div class="tool-desc">Pull data to Excel.</div></a>
+            <a href="word-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-title">Word to PDF</div><div class="tool-desc">Make DOCX readable.</div></a>
+            <a href="powerpoint-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new">VVIP</div><div class="tool-icon bg-orange"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-title">PowerPoint to PDF</div><div class="tool-desc">Make PPTX easy to view.</div></a>
+            <a href="excel-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new">VVIP</div><div class="tool-icon bg-green"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-title">Excel to PDF</div><div class="tool-desc">Make spreadsheets readable.</div></a>
+            <a href="edit-pdf.html" class="pdf-card pdf-tool-card" data-category="edit"><div class="badge-new">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-pen-to-square"></i></div><div class="tool-title">Edit PDF</div><div class="tool-desc">Add text & images.</div></a>
+            <a href="pdf-to-jpg.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new">VVIP</div><div class="tool-icon bg-yellow"><i class="fa-solid fa-file-image"></i></div><div class="tool-title">PDF to JPG</div><div class="tool-desc">Extract images.</div></a>
+            <a href="jpg-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new">VVIP</div><div class="tool-icon bg-yellow"><i class="fa-solid fa-file-pdf"></i></div><div class="tool-title">JPG to PDF</div><div class="tool-desc">Convert images to PDF.</div></a>
+            <a href="sign-pdf.html" class="pdf-card pdf-tool-card" data-category="security"><div class="badge-new">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-signature"></i></div><div class="tool-title">Sign PDF</div><div class="tool-desc">Sign electronically.</div></a>
+            <a href="watermark-pdf.html" class="pdf-card pdf-tool-card" data-category="edit"><div class="badge-new">VVIP</div><div class="tool-icon bg-dark"><i class="fa-solid fa-stamp"></i></div><div class="tool-title">Watermark</div><div class="tool-desc">Stamp image or text.</div></a>
+            <a href="rotate-pdf.html" class="pdf-card pdf-tool-card" data-category="organize"><div class="badge-new">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-rotate-right"></i></div><div class="tool-title">Rotate PDF</div><div class="tool-desc">Rotate multiple PDFs.</div></a>
+            <a href="html-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new">VVIP</div><div class="tool-icon bg-orange"><i class="fa-brands fa-html5"></i></div><div class="tool-title">HTML to PDF</div><div class="tool-desc">Webpage to PDF.</div></a>
+            <a href="unlock-pdf.html" class="pdf-card pdf-tool-card" data-category="security"><div class="badge-new">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-unlock-keyhole"></i></div><div class="tool-title">Unlock PDF</div><div class="tool-desc">Remove password.</div></a>
+            <a href="protect-pdf.html" class="pdf-card pdf-tool-card" data-category="security"><div class="badge-new">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-shield-halved"></i></div><div class="tool-title">Protect PDF</div><div class="tool-desc">Encrypt files.</div></a>
+            <a href="organize-pdf.html" class="pdf-card pdf-tool-card" data-category="organize"><div class="badge-new">VVIP</div><div class="tool-icon bg-orange"><i class="fa-solid fa-layer-group"></i></div><div class="tool-title">Organize PDF</div><div class="tool-desc">Sort or delete pages.</div></a>
+            <a href="pdf-to-pdfa.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-file-shield"></i></div><div class="tool-title">PDF to PDF/A</div><div class="tool-desc">Archiving format.</div></a>
+            <a href="repair-pdf.html" class="pdf-card pdf-tool-card" data-category="optimize"><div class="badge-new">VVIP</div><div class="tool-icon bg-green"><i class="fa-solid fa-screwdriver-wrench"></i></div><div class="tool-title">Repair PDF</div><div class="tool-desc">Fix corrupted files.</div></a>
+            <a href="add-page-numbers.html" class="pdf-card pdf-tool-card" data-category="edit"><div class="badge-new">VVIP</div><div class="tool-icon bg-pink"><i class="fa-solid fa-list-ol"></i></div><div class="tool-title">Page numbers</div><div class="tool-desc">Add page numbers.</div></a>
+            <a href="scan-to-pdf.html" class="pdf-card pdf-tool-card" data-category="organize"><div class="badge-new">VVIP</div><div class="tool-icon bg-orange"><i class="fa-solid fa-mobile-screen-button"></i></div><div class="tool-title">Scan to PDF</div><div class="tool-desc">Camera scans.</div></a>
+            <a href="ocr-pdf.html" class="pdf-card pdf-tool-card" data-category="intelligence"><div class="badge-new">VVIP</div><div class="tool-icon bg-green"><i class="fa-solid fa-magnifying-glass-chart"></i></div><div class="tool-title">OCR PDF</div><div class="tool-desc">Searchable text.</div></a>
+            <a href="compare-pdf.html" class="pdf-card pdf-tool-card" data-category="intelligence"><div class="badge-new">VVIP</div><div class="tool-icon bg-blue"><i class="fa-solid fa-code-compare"></i></div><div class="tool-title">Compare PDF</div><div class="tool-desc">Side-by-side comparison.</div></a>
+            <a href="redact-pdf.html" class="pdf-card pdf-tool-card" data-category="security"><div class="badge-new">VVIP</div><div class="tool-icon bg-red"><i class="fa-solid fa-eraser"></i></div><div class="tool-title">Redact PDF</div><div class="tool-desc">Remove sensitive info.</div></a>
+            <a href="crop-pdf.html" class="pdf-card pdf-tool-card" data-category="edit"><div class="badge-new">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-crop-simple"></i></div><div class="tool-title">Crop PDF</div><div class="tool-desc">Crop margins.</div></a>
+            <a href="pdf-forms.html" class="pdf-card pdf-tool-card" data-category="organize"><div class="badge-new">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-list-check"></i></div><div class="tool-title">PDF Forms</div><div class="tool-desc">Fillable PDFs.</div></a>
+            <a href="AI-summarizer.html" class="pdf-card pdf-tool-card" data-category="intelligence"><div class="badge-new">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="tool-title">AI Summarizer</div><div class="tool-desc">Generate summaries.</div></a>
+            <a href="translate-pdf.html" class="pdf-card pdf-tool-card" data-category="intelligence"><div class="badge-new">VVIP</div><div class="tool-icon bg-purple"><i class="fa-solid fa-language"></i></div><div class="tool-title">Translate PDF</div><div class="tool-desc">Translate files.</div></a>
+            <a href="pdf-to-markdown.html" class="pdf-card pdf-tool-card" data-category="convert"><div class="badge-new">VVIP</div><div class="tool-icon bg-purple"><i class="fa-brands fa-markdown"></i></div><div class="tool-title">PDF to Markdown</div><div class="tool-desc">Turn into Markdown.</div></a>
         </div>
     </section>
 
@@ -200,13 +302,12 @@
                 <ul>
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="index.html#tools">All Categories</a></li>
-                    <li><a href="index.html#pricing">Pricing & Plans</a></li>
+                    <li><a href="#tools">All Categories</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h3>Adsense Ready</h3>
-                <p style="font-size: 0.85rem; color: #64748b;">Complies with Google Ad Placement policies.</p>
+                <p style="font-size: 0.85rem; color: #9ca3af;">Complies with Google Ad policies.</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -215,9 +316,9 @@
         </div>
     </footer>
 
-    <!-- MOVABLE / DRAGGABLE MINING WIDGET -->
+    <!-- MOVABLE MINING WIDGET -->
     <div class="mining-widget" id="draggableMiningWidget">
-        <div class="mining-inner" id="openCryptoModalBtn">
+        <div class="mining-inner" onclick="window.location.href='mining-node.html'">
             <div class="mining-icon">⛏️</div>
             <div class="mining-stats">
                 <span class="mining-title">Mining $TOOL</span>
@@ -228,28 +329,47 @@
         <div class="drag-hint">Touch & Move Here</div>
     </div>
 
-    <!-- Modals -->
-    <div class="crypto-modal" id="cryptoModal">
-        <div class="crypto-modal-content">
-            <span class="close-crypto" id="closeModalBtn">&times;</span>
-            <div class="crypto-badge">🚀 VIP MINING ACCESS</div>
-            <h2>$TOOL Dashboard</h2>
-            <div class="crypto-balance-box">
-                <div class="balance-label">Your Balance</div>
-                <div class="balance-amount">🪙 <span id="modalBal">0.000</span></div>
-            </div>
-            <div class="crypto-actions">
-                <button class="action-btn boost-btn" id="boostBtn">⚡ Boost Mining</button>
-                <button class="action-btn claim-btn" id="claimDailyBtn">🎁 Claim Daily Bonus</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        /* --- DRAGGABLE TOUCH & MOUSE SCRIPT FOR MINING WIDGET --- */
+        // AI Tools Filter Logic
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const aiCards = document.querySelectorAll('.ai-tool-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filterValue = btn.getAttribute('data-filter');
+                aiCards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    if (filterValue === 'all' || cardCategory === filterValue) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // PDF Tools Filter Logic
+        function filterPDFTools(category, clickedBtn) {
+            const pdfBtns = document.querySelectorAll('.pdf-filter-btn');
+            pdfBtns.forEach(b => b.classList.remove('active'));
+            clickedBtn.classList.add('active');
+
+            const pdfCards = document.querySelectorAll('.pdf-tool-card');
+            pdfCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                if (category === 'all' || cardCategory === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Draggable Widget Logic (Touch & Mouse Support)
         const widget = document.getElementById('draggableMiningWidget');
-        let isDragging = false;
-        let startX, startY, initialX, initialY;
+        let isDragging = false, startX, startY;
 
         function dragStart(e) {
             isDragging = true;
@@ -261,48 +381,23 @@
 
         function drag(e) {
             if (!isDragging) return;
-            e.preventDefault();
             const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
             const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
-            
             let newX = clientX - startX;
             let newY = clientY - startY;
-
-            // Boundary checks
-            newX = Math.max(10, Math.min(window.innerWidth - widget.offsetWidth - 10, newX));
-            newY = Math.max(10, Math.min(window.innerHeight - widget.offsetHeight - 10, newY));
-
-            widget.style.left = newX + 'px';
-            widget.style.top = newY + 'px';
+            widget.style.left = Math.max(10, Math.min(window.innerWidth - widget.offsetWidth - 10, newX)) + 'px';
+            widget.style.top = Math.max(10, Math.min(window.innerHeight - widget.offsetHeight - 10, newY)) + 'px';
             widget.style.bottom = 'auto';
         }
 
-        function dragEnd() {
-            isDragging = false;
-        }
+        function dragEnd() { isDragging = false; }
 
         widget.addEventListener('mousedown', dragStart);
         document.addEventListener('mousemove', drag);
         document.addEventListener('mouseup', dragEnd);
-
-        widget.addEventListener('touchstart', dragStart, {passive: false});
-        document.addEventListener('touchmove', drag, {passive: false});
+        widget.addEventListener('touchstart', dragStart, {passive: true});
+        document.addEventListener('touchmove', drag, {passive: true});
         document.addEventListener('touchend', dragEnd);
-
-        // Modal triggers
-        const modal = document.getElementById('cryptoModal');
-        document.getElementById('openCryptoModalBtn').onclick = () => modal.style.display = 'flex';
-        document.getElementById('closeModalBtn').onclick = () => modal.style.display = 'none';
-
-        // Filter system
-        function filterPDFTools(cat, el) {
-            document.querySelectorAll('.category-pills span').forEach(s => s.classList.remove('active'));
-            el.classList.add('active');
-            document.querySelectorAll('.pdf-tool-card').forEach(card => {
-                if(cat === 'all' || card.dataset.category === cat) card.style.display = 'flex';
-                else card.style.display = 'none';
-            });
-        }
     </script>
 </body>
 </html>
