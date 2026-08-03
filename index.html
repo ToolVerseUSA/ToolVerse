@@ -140,8 +140,11 @@
         .otp-inputs { display: flex; justify-content: space-between; gap: 8px; margin: 20px 0; }
         .otp-box { width: 45px; height: 50px; text-align: center; font-size: 22px; font-weight: 700; background: #2a2a2a; border: 1px solid #444; color: #fff; border-radius: 8px; }
         .otp-box:focus { border-color: #4da6ff; outline: none; box-shadow: 0 0 10px rgba(77, 166, 255, 0.3); }
-        .auth-submit-btn { width: 100%; padding: 12px; margin: 12px 0 8px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 15px; transition: 0.3s; font-family: inherit;}
+        
+        /* VVIP Save Button Smooth Transitions */
+        .auth-submit-btn { width: 100%; padding: 12px; margin: 12px 0 8px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 15px; transition: all 0.3s ease; font-family: inherit;}
         .auth-submit-btn:hover:not(:disabled) { background-color: #3388dd; }
+        
         .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
         .auth-google-btn:hover { background-color: #e2e2e2; }
         .auth-divider { color: #666; font-size: 12px; margin: 12px 0; }
@@ -211,31 +214,6 @@
         @media (max-width: 992px) { .footer-container { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { .footer-container { grid-template-columns: 1fr; text-align: center; } .footer-col h3::after { left: 50%; transform: translateX(-50%); } .footer-col ul li a:hover { padding-left: 0; } .footer-bottom { flex-direction: column; text-align: center; } }
     </style>
-    
-    <!-- GUARANTEED BUTTON FIX SCRIPT -->
-    <script>
-        window.upgradeToProAgent = function() {
-            if(localStorage.getItem('ToolVerse_Auth') !== 'true' && localStorage.getItem('isLoggedIn') !== 'true') {
-                alert("Please login first to claim your 8,000 Pro Credits!");
-                document.getElementById('firebaseAuthModal').style.display = 'flex';
-                return;
-            }
-            
-            localStorage.setItem('tv_agent_credits', '8000');
-            localStorage.setItem('tv_plan', 'Pro Sandbox');
-            
-            const profBtn = document.getElementById('navProfileBtn');
-            if(profBtn && profBtn.innerHTML.includes('⚡')) {
-                let name = profBtn.innerText.split('|')[0].trim();
-                profBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${name} | ⚡ 8000</span>`;
-            }
-
-            window.dispatchEvent(new Event('triggerCloudUpgrade'));
-
-            alert("🎉 Success! Your account has been upgraded to the Pro Agent Sandbox. You now have 8,000 Credits!");
-            setTimeout(() => { window.location.href = 'ai-agent.html'; }, 500);
-        };
-    </script>
 </head>
 <body>
 
@@ -627,7 +605,6 @@
                     <div style="font-weight: 600; font-size: 14px; color: #fff;">Two-Factor Authentication (2FA)</div>
                     <div style="font-size: 12px; color: #94a3b8;">Secure your account with 6-digit OTP codes on login.</div>
                 </div>
-                <!-- VVIP Toggle Fix -->
                 <label style="position: relative; display: inline-block; width: 44px; min-width: 44px; height: 24px; flex-shrink: 0;">
                     <input type="checkbox" id="twoFactorToggle" style="opacity: 0; width: 0; height: 0;">
                     <span id="sliderSpan" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .3s; border-radius: 24px;"></span>
@@ -892,15 +869,16 @@
         }
 
         // =========================================================
-        // VVIP SAVE PROFILE BUTTON LOGIC
+        // VVIP SAVE PROFILE BUTTON LOGIC (NEVER FREEZES)
         // =========================================================
         if(saveProfileBtn) {
-            saveProfileBtn.addEventListener('click', async (e) => {
+            saveProfileBtn.addEventListener('click', (e) => {
                 e.preventDefault();
+                if(saveProfileBtn.disabled) return;
                 
-                const originalText = saveProfileBtn.innerText;
-                saveProfileBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Saving to Cloud...';
-                saveProfileBtn.style.opacity = '0.8';
+                // 1. Show VVIP Spinner
+                saveProfileBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Saving...';
+                saveProfileBtn.style.opacity = '0.9';
                 saveProfileBtn.disabled = true;
 
                 const profileData = {
@@ -914,41 +892,37 @@
                     zip: profZip.value.trim()
                 };
 
-                // Instant Local Save
+                // 2. Instant Local Save
                 localStorage.setItem('tv_user_profile', JSON.stringify(profileData));
 
-                // Cloud Sync
-                if(auth.currentUser) {
-                    try {
-                        const userRef = doc(db, "users", auth.currentUser.uid);
-                        await updateDoc(userRef, profileData);
-                        saveProfileBtn.innerHTML = '✅ Saved Successfully!';
-                        saveProfileBtn.style.backgroundColor = '#10b981'; // Success Green
-                        saveProfileBtn.style.color = '#fff';
-                        
-                        // Update Header Nav Name instantly
-                        if(navProfileBtn && profileData.firstName) {
-                            let currHtml = navProfileBtn.innerHTML;
-                            navProfileBtn.innerHTML = currHtml.replace(/<span>.*?\|/, `<span>${profileData.firstName} |`);
-                        }
-                    } catch(err) {
-                        saveProfileBtn.innerHTML = '⚠️ Cloud Save Error';
-                        saveProfileBtn.style.backgroundColor = '#ff4757'; // Error Red
-                        saveProfileBtn.style.color = '#fff';
-                        console.error(err);
+                // 3. Background Cloud Sync (No await = No freezing)
+                if(auth && auth.currentUser) {
+                    const userRef = doc(db, "users", auth.currentUser.uid);
+                    updateDoc(userRef, profileData).catch(err => console.log("Cloud sync in background...", err));
+                    
+                    // Update header instantly
+                    if(navProfileBtn && profileData.firstName) {
+                        let currHtml = navProfileBtn.innerHTML;
+                        navProfileBtn.innerHTML = currHtml.replace(/<span>.*?\|/, `<span>${profileData.firstName} |`);
                     }
-                } else {
-                    saveProfileBtn.innerHTML = '✅ Saved Locally!';
-                    saveProfileBtn.style.backgroundColor = '#10b981';
                 }
 
+                // 4. VVIP Artificial Delay for Premium Feel (800ms)
                 setTimeout(() => {
-                    saveProfileBtn.innerHTML = originalText;
-                    saveProfileBtn.style.backgroundColor = '#4ade80';
-                    saveProfileBtn.style.color = '#121212';
-                    saveProfileBtn.style.opacity = '1';
-                    saveProfileBtn.disabled = false;
-                }, 2500);
+                    saveProfileBtn.innerHTML = '✅ Saved Successfully!';
+                    saveProfileBtn.style.backgroundColor = '#10b981'; // Success Green
+                    saveProfileBtn.style.color = '#fff';
+                    
+                    // 5. Restore Button after 2 seconds
+                    setTimeout(() => {
+                        saveProfileBtn.innerHTML = 'Save Profile';
+                        saveProfileBtn.style.backgroundColor = '#4ade80';
+                        saveProfileBtn.style.color = '#121212';
+                        saveProfileBtn.style.opacity = '1';
+                        saveProfileBtn.disabled = false;
+                    }, 2000);
+                    
+                }, 800);
             });
         }
 
