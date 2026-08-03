@@ -26,6 +26,19 @@
             width: 100%;
             max-width: 800px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        .home-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .home-link:hover {
+            color: #ec4899;
         }
         h1 {
             text-align: center;
@@ -33,6 +46,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
+            margin-top: 20px;
         }
         p.subtitle {
             text-align: center;
@@ -106,6 +120,7 @@
 <body>
 
 <div class="container">
+    <a href="index.html" class="home-link">← Back to Home</a>
     <h1>Meeting Minutes AI</h1>
     <p class="subtitle">Paste your raw meeting notes, transcript, or rough points below.</p>
     
@@ -142,35 +157,85 @@
 
 <script>
     async function generateMinutes() {
-        const notes = document.getElementById('raw-notes').value;
+        const notes = document.getElementById('raw-notes').value.trim();
         const btn = document.getElementById('generate-btn');
         const output = document.getElementById('output-section');
         
-        if(!notes.trim()) { alert("Please paste some meeting notes first!"); return; }
+        if(!notes) { alert("Please paste some meeting notes first!"); return; }
+
+        // ==========================================
+        // VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
+        // ==========================================
+        const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (!isAuth) {
+            alert("🔒 Please login from the Dashboard to use Premium Tools.");
+            window.location.href = "index.html";
+            return;
+        }
+
+        let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
+        if (currentCredits <= 0) {
+            alert("🎁 You have run out of Credits!");
+            document.getElementById('out-summary').innerHTML = "<span style='color: #ef4444;'>Insufficient Credits. Please upgrade in Dashboard.</span>";
+            output.style.display = 'block';
+            return; 
+        }
 
         btn.innerText = "Analyzing Meeting Data... ⏳";
         btn.disabled = true;
         
         try {
-            const response = await fetch('/api/minutes', {
+            // Deduct 1 Credit instantly
+            currentCredits -= 1; 
+            localStorage.setItem('tv_agent_credits', currentCredits);
+
+            // Using standardized groq-handler to maintain system architecture
+            const systemPrompt = `You are an expert Executive Assistant. Analyze the provided meeting notes, transcript, or rough points and structure them into professional meeting minutes. 
+            You MUST respond with ONLY a raw JSON object. Do not include any markdown formatting, backticks, or conversational text. 
+            Use exactly this JSON structure:
+            {
+                "summary": "A brief 2-3 sentence executive summary of the meeting.",
+                "decisions": ["Decision 1", "Decision 2"],
+                "action_items": [
+                    {"task": "Clear description of the task", "assignee": "Name or Role", "deadline": "Specific Date/Time or TBD"}
+                ],
+                "open_questions": ["Question 1", "Question 2"]
+            }`;
+            const userPrompt = `Meeting Notes:\n\n${notes}`;
+
+            const response = await fetch('/api/groq-handler', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ notes: notes })
+                body: JSON.stringify({ systemPrompt, userPrompt })
             });
 
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error);
+            const responseData = await response.json();
+            if (!response.ok || !responseData.result) throw new Error(responseData.error || "Server Error: API did not respond properly.");
+
+            // Clean up possible markdown added by AI and parse JSON
+            let cleanJSON = responseData.result.replace(/```json/gi, '').replace(/```/g, '').trim();
+            const data = JSON.parse(cleanJSON);
 
             // Populate Summary
-            document.getElementById('out-summary').innerText = data.summary;
+            document.getElementById('out-summary').innerText = data.summary || "No summary available.";
 
             // Populate Decisions
-            document.getElementById('out-decisions').innerHTML = data.decisions.map(d => `<li>${d}</li>`).join('');
+            const decisionsList = document.getElementById('out-decisions');
+            if (data.decisions && data.decisions.length > 0) {
+                decisionsList.innerHTML = data.decisions.map(d => `<li>${d}</li>`).join('');
+            } else {
+                decisionsList.innerHTML = `<li>No specific decisions recorded.</li>`;
+            }
 
             // Populate Action Items
-            document.getElementById('out-actions').innerHTML = data.action_items.map(a => 
-                `<tr><td>${a.task}</td><td><strong>${a.assignee}</strong></td><td>${a.deadline}</td></tr>`
-            ).join('');
+            const actionsTable = document.getElementById('out-actions');
+            if (data.action_items && data.action_items.length > 0) {
+                actionsTable.innerHTML = data.action_items.map(a => 
+                    `<tr><td>${a.task || "N/A"}</td><td><strong>${a.assignee || "Unassigned"}</strong></td><td>${a.deadline || "TBD"}</td></tr>`
+                ).join('');
+            } else {
+                actionsTable.innerHTML = `<tr><td colspan="3">No action items assigned.</td></tr>`;
+            }
 
             // Populate Open Questions
             const questionsList = document.getElementById('out-questions');
@@ -183,7 +248,9 @@
             output.style.display = 'block';
 
         } catch (error) {
-            alert("Error: " + error.message);
+            console.error("Meeting Minutes Error:", error);
+            document.getElementById('out-summary').innerHTML = `<span style='color: #ef4444;'>⚠️ Error: ${error.message}</span>`;
+            output.style.display = 'block';
         } finally {
             btn.innerText = "Generate Smart Minutes ⚡";
             btn.disabled = false;
@@ -203,16 +270,41 @@
         const element = document.getElementById('pdf-content');
         const pdfBtn = document.querySelector('.pdf-btn');
         pdfBtn.innerText = "⏳ Generating...";
+        pdfBtn.disabled = true;
         
         html2pdf().set({
             margin: 0.5,
-            filename: 'Meeting_Minutes.pdf',
+            filename: 'Meeting_Minutes_ToolVerse.pdf',
             html2canvas: { scale: 2, backgroundColor: '#1e293b' },
             jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
         }).from(element).save().then(() => {
             pdfBtn.innerText = "✅ Downloaded!";
-            setTimeout(() => pdfBtn.innerText = "📄 Download PDF", 2000);
+            setTimeout(() => {
+                pdfBtn.innerText = "📄 Download PDF";
+                pdfBtn.disabled = false;
+            }, 2000);
         });
+    }
+</script>
+
+<!-- VVIP UNIVERSAL UNLOCK SCRIPT -->
+<script>
+    const isVVIPAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+    if (isVVIPAuth) {
+        const unlockStyle = document.createElement('style');
+        unlockStyle.innerHTML = `
+            #authOverlay, #firebaseAuthModal, .auth-modal, #loginModal { 
+                display: none !important; opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important; visibility: hidden !important;
+            }
+            body { overflow: auto !important; }
+        `;
+        document.head.appendChild(unlockStyle);
+        window.isUserLoggedIn = true;
+        setInterval(() => {
+            const lockScreens = document.querySelectorAll('#authOverlay, #firebaseAuthModal, .auth-modal, #loginModal');
+            lockScreens.forEach(lock => { if(lock) lock.style.display = 'none'; });
+            window.isUserLoggedIn = true;
+        }, 200);
     }
 </script>
 
