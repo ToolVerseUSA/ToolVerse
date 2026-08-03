@@ -7,114 +7,35 @@
     <meta name="google-site-verification" content="XgH4GBHvosYC4hdFgcYobZQs4rhp_k2gjwR_Glft9tM" />
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=7">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* ==========================================
-           TOOLVERSE VVIP PREMIUM DARK THEME
-           ========================================== */
         html { scroll-behavior: smooth; }
-        body { 
-            background: #070b14; 
-            color: #f8fafc !important; 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; 
-            padding: 0; 
-        }
-        
-        /* HEADER */
-        .ilove-header { background: rgba(11, 15, 25, 0.85) !important; backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05) !important; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 30px rgba(0,0,0,0.5); }
-        .header-container { display: flex; align-items: center; justify-content: space-between; max-width: 1400px; margin: 0 auto; padding: 15px 20px; }
-        .logo-area { font-size: 24px; font-weight: 800; display: flex; align-items: center; gap: 8px; color: #38bdf8; text-decoration: none; }
-        .logo-text { color: #f8fafc; }
-        
-        .main-nav .nav-links { list-style: none; display: flex; gap: 25px; align-items: center; margin: 0; padding: 0; }
-        .main-nav .nav-links a { text-decoration: none; color: #cbd5e1; font-weight: 600; font-size: 14px; transition: 0.3s; }
-        .main-nav .nav-links a:hover { color: #38bdf8; }
-
-        /* MEGA MENU */
-        .dropdown { position: relative; }
-        .arrow { font-size: 10px; margin-left: 4px; }
-        .mega-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); box-shadow: 0 20px 40px rgba(0,0,0,0.6); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); display: flex; gap: 30px; padding: 30px; opacity: 0; visibility: hidden; transition: all 0.3s ease; margin-top: 15px; width: max-content; z-index: 100; }
-        .dropdown:hover .mega-menu { opacity: 1; visibility: visible; margin-top: 5px; }
-        .mega-column h3 { font-size: 12px; text-transform: uppercase; color: #64748b; margin-bottom: 15px; letter-spacing: 1px; font-weight: 700;}
-        .mega-column a { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 14px; font-weight: 500; color: #cbd5e1; text-decoration: none; transition: 0.2s; }
-        .mega-column a:hover { color: #38bdf8; transform: translateX(3px); }
-
-        /* AUTH BUTTONS */
-        .crypto-nav-btn { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #0f172a !important; font-weight: 800 !important; padding: 8px 16px !important; border-radius: 20px; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); border: 1px solid rgba(255,255,255,0.4); transition: 0.3s; cursor: pointer; }
+        .crypto-nav-btn { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #1e293b !important; font-weight: 700 !important; padding: 8px 16px !important; border-radius: 20px; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); border: 2px solid #fff; transition: 0.3s; cursor: pointer; }
         .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
-        .login-btn { text-decoration: none; color: #cbd5e1; font-weight: 600; font-size: 14px; transition: 0.3s; }
-        .login-btn:hover { color: #fff; }
-        .signup-btn { background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: #fff !important; text-decoration: none; padding: 8px 20px; border-radius: 8px; font-weight: 700; font-size: 14px; transition: 0.3s; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); border: none; }
-        .signup-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5); }
-        .premium-profile-btn { background: rgba(30, 41, 59, 0.8); color: #f8fafc !important; font-weight: 600 !important; font-size: 0.9rem !important; padding: 6px 16px 6px 6px !important; border-radius: 20px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(56, 189, 248, 0.3); transition: 0.3s; cursor: pointer; text-decoration: none; }
-        .premium-profile-btn:hover { border-color: #38bdf8; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2); transform: translateY(-2px); }
-        .profile-avatar-icon { background: rgba(56, 189, 248, 0.15); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-
-        /* HERO SECTION */
-        .ilove-hero { text-align: center; padding: 80px 20px 40px; max-width: 900px; margin: 0 auto; }
-        .ilove-hero h1 { font-size: 42px; font-weight: 800; color: #f8fafc; margin-bottom: 20px; line-height: 1.2; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .ilove-hero p { font-size: 16px; color: #94a3b8; margin-bottom: 40px; line-height: 1.6; }
+        .header-container { display: flex; align-items: center; justify-content: space-between; }
+        .premium-profile-btn { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); color: #f8fafc !important; font-weight: 600 !important; font-size: 0.9rem !important; padding: 6px 16px 6px 6px !important; border-radius: 20px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(77, 166, 255, 0.3); transition: 0.3s; cursor: pointer; text-decoration: none; }
+        .premium-profile-btn:hover { border-color: #4da6ff; box-shadow: 0 4px 15px rgba(77, 166, 255, 0.2); transform: translateY(-2px); }
+        .profile-avatar-icon { background: rgba(77, 166, 255, 0.15); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         
-        .hero-build-btn { background: linear-gradient(135deg, #c084fc 0%, #db2777 100%); color: #ffffff; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(192, 132, 252, 0.4); font-size: 1.1rem; border: none; cursor: pointer; }
-        .hero-build-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(192, 132, 252, 0.6); }
-        .hero-secondary-btn { background: rgba(30, 41, 59, 0.8); color: #ffffff; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(0,0,0,0.3); font-size: 1.1rem; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; backdrop-filter: blur(10px); }
-        .hero-secondary-btn:hover { background: #1e293b; transform: translateY(-3px); border-color: rgba(255,255,255,0.2); }
-
-        /* VVIP FILTERS */
-        .category-filters, .category-pills { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; cursor: pointer; }
-        .filter-btn, .pdf-filter-btn { background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.08); padding: 8px 22px; border-radius: 30px; font-size: 13px; font-weight: 600; color: #cbd5e1; cursor: pointer; transition: all 0.3s ease; backdrop-filter: blur(5px); }
-        .filter-btn:hover, .pdf-filter-btn:hover { background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.4); color: #38bdf8; transform: translateY(-2px); }
-        .filter-btn.active, .pdf-filter-btn.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
-
-        /* GRIDS & VVIP PREMIUM CARDS */
-        .tools-section, .pdf-tools-section { max-width: 1300px; margin: 0 auto; padding: 20px 20px 80px; text-align: center; }
-        .pdf-tools-section h1 { font-size: 2.2rem; color: #f8fafc; font-weight: 800; margin-bottom: 15px; }
-        .pdf-tools-section p.subtitle { font-size: 1rem; color: #94a3b8; max-width: 800px; margin: 0 auto 40px auto; }
-
-        .ilove-grid, .pdf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; text-align: left; }
+        /* DRAGGABLE MINING WIDGET */
+        .mining-widget { position: fixed; bottom: 30px; left: 30px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 12px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 5px; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.3); cursor: grab; z-index: 999; transition: box-shadow 0.3s; white-space: nowrap; touch-action: none; user-select: none; }
+        .mining-widget:active { cursor: grabbing; box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4); transform: scale(1.02); }
         
-        .ilove-card, .pdf-card { background: linear-gradient(145deg, #111827, #0f172a); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 14px; padding: 25px 22px; text-decoration: none; color: inherit; transition: all 0.3s ease; display: flex; flex-direction: column; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.4); overflow: hidden; }
-        .ilove-card:hover, .pdf-card:hover { transform: translateY(-5px); border-color: rgba(56, 189, 248, 0.4); box-shadow: 0 15px 40px rgba(56, 189, 248, 0.15); background: linear-gradient(145deg, #1e293b, #0f172a); }
-
-        .card-icon, .tool-icon { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 18px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); transition: 0.3s; }
-        .ilove-card:hover .card-icon, .pdf-card:hover .tool-icon { transform: scale(1.08) rotate(5deg); }
-        
-        .ilove-card h3, .tool-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #f8fafc; letter-spacing: 0.2px; }
-        .ilove-card p, .tool-desc { font-size: 13px; color: #94a3b8; line-height: 1.5; font-weight: 400; margin: 0;}
-
-        /* Solid Vibrant Icon Colors */
-        .bg-red { background: linear-gradient(135deg, #f87171, #ef4444); color: #fff; }
-        .bg-green { background: linear-gradient(135deg, #4ade80, #22c55e); color: #fff; }
-        .bg-blue { background: linear-gradient(135deg, #60a5fa, #3b82f6); color: #fff; }
-        .bg-orange { background: linear-gradient(135deg, #fb923c, #f97316); color: #fff; }
-        .bg-yellow { background: linear-gradient(135deg, #facc15, #eab308); color: #fff; }
-        .bg-purple { background: linear-gradient(135deg, #c084fc, #a855f7); color: #fff; }
-        .bg-pink { background: linear-gradient(135deg, #f472b6, #ec4899); color: #fff; }
-        .bg-dark { background: linear-gradient(135deg, #94a3b8, #64748b); color: #fff; }
-        
-        .badge-new { position: absolute; top: 15px; right: 15px; background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: white; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(139, 92, 246, 0.4); border: 1px solid rgba(255,255,255,0.2); }
-
-        /* --- DRAGGABLE MINING WIDGET (PREMIUM) --- */
-        .mining-widget { position: fixed; bottom: 30px; left: 30px; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px); border: 1px solid rgba(251, 191, 36, 0.5); border-radius: 14px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 5px; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(251, 191, 36, 0.15); cursor: grab; z-index: 9999; transition: box-shadow 0.3s; white-space: nowrap; touch-action: none; user-select: none; }
-        .mining-widget:active { cursor: grabbing; box-shadow: 0 5px 15px rgba(251, 191, 36, 0.6); transform: scale(1.02); }
-        .mining-icon { font-size: 24px; animation: pickaxe 2s infinite; text-shadow: 0 0 10px rgba(251, 191, 36, 0.5); }
+        .mining-icon { font-size: 24px; animation: pickaxe 2s infinite; }
         @keyframes pickaxe { 0% { transform: rotate(0deg); } 50% { transform: rotate(-30deg); } 100% { transform: rotate(0deg); } }
         .mining-stats { display: flex; flex-direction: column; white-space: nowrap; }
-        .mining-title { font-size: 0.8rem; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        .mining-rate { font-size: 0.7rem; color: #4ade80; display: flex; align-items: center; gap: 5px; font-weight: 600; text-shadow: 0 0 8px rgba(74, 222, 128, 0.4); }
-        .pulse-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; animation: pulse 1s infinite; box-shadow: 0 0 8px #4ade80; }
+        .mining-title { font-size: 0.8rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .mining-rate { font-size: 0.75rem; color: #4ade80; display: flex; align-items: center; gap: 5px; }
+        .pulse-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; animation: pulse 1s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-        .mining-balance { font-size: 1.2rem; font-weight: 800; color: #fbbf24; margin-left: 10px; white-space: nowrap; text-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
-
-        /* Modals & Popups */
-        .crypto-modal, .auth-modal, .cookie-popup { display: none; position: fixed; z-index: 10000; }
-        .crypto-modal, .auth-modal { top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .mining-balance { font-size: 1.2rem; font-weight: 800; color: #fbbf24; margin-left: 10px; white-space: nowrap; }
+        .crypto-modal, .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .crypto-modal-content { background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24; width: 90%; max-width: 450px; border-radius: 20px; padding: 30px; color: white; position: relative; box-shadow: 0 20px 50px rgba(251, 191, 36, 0.2); text-align: center; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .auth-modal-content { background-color: #0f172a; padding: 35px 30px; border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); text-align: center; width: 90%; max-width: 450px; position: relative; color: white; border: 1px solid rgba(255,255,255,0.1); animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .auth-modal-content { background-color: #1e1e1e; padding: 35px 30px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.9); text-align: center; width: 90%; max-width: 450px; position: relative; color: white; border: 1px solid #333; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .close-crypto, .close-auth { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s; }
+        .close-crypto, .close-auth { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s; z-index: 1000; }
         .close-crypto:hover, .close-auth:hover { color: #ff4757; }
         .crypto-badge { background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; display: inline-block; margin-bottom: 15px; border: 1px solid #fbbf24; }
         .crypto-header h2 { font-size: 1.8rem; margin-bottom: 5px; }
@@ -134,42 +55,70 @@
         .invite-btn { background: #334155; color: white; border: 1px solid #475569; }
         .invite-btn:hover { background: #475569; }
         .status-note { font-size: 0.8rem; color: #64748b; margin-top: 15px; line-height: 1.5; }
-        .auth-title { margin-top: 0; color: #38bdf8; letter-spacing: 1px; font-size: 1.5rem; margin-bottom: 5px; font-weight: 800;}
-        .auth-subtitle { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
-        .auth-input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; background-color: rgba(255,255,255,0.05); color: white; box-sizing: border-box; font-family: inherit; font-size: 14px;}
-        .auth-input:focus { outline: none; border-color: #38bdf8; background-color: rgba(0,0,0,0.2); }
+        .auth-title { margin-top: 0; color: #4da6ff; letter-spacing: 1px; font-size: 1.5rem; margin-bottom: 5px; }
+        .auth-subtitle { color: #aaaaaa; font-size: 13px; margin-bottom: 20px; }
+        .auth-input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #333; border-radius: 6px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit; font-size: 14px;}
+        .auth-input:focus { outline: none; border-color: #4da6ff; }
         select.auth-input { appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 10px center; background-size: 1em; cursor: pointer; }
         .otp-inputs { display: flex; justify-content: space-between; gap: 8px; margin: 20px 0; }
-        .otp-box { width: 45px; height: 50px; text-align: center; font-size: 22px; font-weight: 700; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; border-radius: 8px; }
-        .otp-box:focus { border-color: #38bdf8; outline: none; box-shadow: 0 0 10px rgba(56, 189, 248, 0.3); }
-        .suggestions-box { position: absolute; top: 100%; left: 0; width: 100%; background: #1e293b; border: 1px solid #38bdf8; border-radius: 6px; z-index: 1000; list-style: none; padding: 0; margin: 0; max-height: 160px; overflow-y: auto; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: left; }
-        .suggestions-box li { padding: 12px; cursor: pointer; color: #fff; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); line-height: 1.4; }
-        .suggestions-box li:hover { background: #38bdf8; color: #0f172a; font-weight: 600; }
-        .auth-submit-btn { width: 100%; padding: 12px; margin: 12px 0 8px 0; border: none; border-radius: 6px; cursor: pointer; background: linear-gradient(135deg, #38bdf8, #0284c7); color: #fff; font-weight: bold; font-size: 15px; transition: 0.3s; font-family: inherit;}
-        .auth-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4); }
-        .auth-google-btn { background-color: #1e293b; color: #f8fafc; width: 100%; padding: 12px; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
-        .auth-google-btn:hover { background-color: #334155; }
-        .auth-divider { color: #64748b; font-size: 12px; margin: 12px 0; }
+        .otp-box { width: 45px; height: 50px; text-align: center; font-size: 22px; font-weight: 700; background: #2a2a2a; border: 1px solid #444; color: #fff; border-radius: 8px; }
+        .otp-box:focus { border-color: #4da6ff; outline: none; box-shadow: 0 0 10px rgba(77, 166, 255, 0.3); }
+        .suggestions-box { position: absolute; top: 100%; left: 0; width: 100%; background: #2a2a2a; border: 1px solid #4da6ff; border-radius: 6px; z-index: 1000; list-style: none; padding: 0; margin: 0; max-height: 160px; overflow-y: auto; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: left; }
+        .suggestions-box li { padding: 12px; cursor: pointer; color: #fff; font-size: 13px; border-bottom: 1px solid #3a3a3a; line-height: 1.4; }
+        .suggestions-box li:hover { background: #4da6ff; color: #121212; font-weight: 600; }
+        .auth-submit-btn { width: 100%; padding: 12px; margin: 12px 0 8px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 15px; transition: 0.3s; font-family: inherit;}
+        .auth-submit-btn:hover { background-color: #3388dd; }
+        .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
+        .auth-google-btn:hover { background-color: #e2e2e2; }
+        .auth-divider { color: #666; font-size: 12px; margin: 12px 0; }
         #authMessageBox { margin-top: 10px; font-size: 13px; min-height: 18px; font-weight: 500;}
-        
-        .cookie-popup { bottom: 20px; right: 20px; width: 330px; background: #0f172a; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); flex-direction: column; gap: 12px; font-family: 'Inter', sans-serif; animation: slideUp 0.5s ease-out forwards; }
+        .cookie-popup { position: fixed; bottom: 20px; right: 20px; width: 330px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); z-index: 10000; display: none; flex-direction: column; gap: 12px; font-family: 'Inter', sans-serif; animation: slideUp 0.5s ease-out forwards; }
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .cookie-popup .cookie-icon { font-size: 20px; margin-bottom: -5px; }
-        .cookie-popup p { font-size: 13px; color: #94a3b8; line-height: 1.5; margin: 0; text-align: left; }
-        .cookie-popup a { color: #cbd5e1; text-decoration: underline; font-weight: 600; }
+        .cookie-popup p { font-size: 13px; color: #475569; line-height: 1.5; margin: 0; text-align: left; }
+        .cookie-popup a { color: #64748b; text-decoration: underline; font-weight: 600; }
         .cookie-btn { padding: 12px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 13px; border: 1px solid transparent; width: 100%; text-align: center; }
         .accept-all { background: #b19cfd; color: #1e1e1e; font-weight: 700; }
         .accept-all:hover { background: #9c83f9; }
-        .allow-selection, .reject-all { background: transparent; color: #94a3b8; border: 1px solid #334155; }
-        .allow-selection:hover, .reject-all:hover { background: rgba(255,255,255,0.05); border-color: #cbd5e1; }
+        .allow-selection, .reject-all { background: transparent; color: #475569; border: 1px solid #cbd5e1; }
+        .allow-selection:hover, .reject-all:hover { background: #f8fafc; border-color: #94a3b8; }
         .manage-prefs { text-align: center; font-size: 12px; color: #64748b; text-decoration: none; margin-top: 5px; cursor: pointer; display: block;}
-        .manage-prefs:hover { color: #cbd5e1; }
+        .manage-prefs:hover { color: #1e293b; }
+        .hero-build-btn { background: #b19cfd; color: #1e1e1e; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(177, 156, 253, 0.4); font-size: 1.1rem; border: none; cursor: pointer; }
+        .hero-build-btn:hover { background: #9c83f9; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(177, 156, 253, 0.6); }
+        .hero-secondary-btn { background: #1e293b; color: #ffffff; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.3); font-size: 1.1rem; border: none; cursor: pointer; }
+        .hero-secondary-btn:hover { background: #334155; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30, 41, 59, 0.5); }
         
         /* New CSS for PDF Filter Animation */
         @keyframes fadeInCard {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* =========================================================
+           VVIP PREMIUM DARK THEME (SAFE COLORS ONLY, NO LAYOUT CHANGES)
+           ========================================================= */
+        body { background-color: #0b0f19 !important; color: #f8fafc !important; }
+        .ilove-header { background-color: rgba(11, 15, 25, 0.85) !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+        .logo-text, .ilove-hero h1, .pdf-tools-section h1, #pricing h2 { color: #f8fafc !important; }
+        .ilove-hero p, .pdf-tools-section p.subtitle, #pricing p { color: #94a3b8 !important; }
+        
+        /* CARDS STYLING */
+        .ilove-card, .pdf-card { background: linear-gradient(145deg, #111827, #0f172a) !important; border: 1px solid rgba(255, 255, 255, 0.05) !important; }
+        .ilove-card:hover, .pdf-card:hover { border-color: rgba(56, 189, 248, 0.4) !important; box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15) !important; }
+        .ilove-card h3, .tool-title { color: #f8fafc !important; }
+        .ilove-card p, .tool-desc { color: #94a3b8 !important; }
+        
+        /* BUTTONS & FILTERS */
+        .filter-btn, .pdf-filter-btn { background: rgba(15, 23, 42, 0.6) !important; color: #cbd5e1 !important; border: 1px solid rgba(255,255,255,0.08) !important; }
+        .filter-btn.active, .pdf-filter-btn.active { background: #38bdf8 !important; color: #0f172a !important; border-color: #38bdf8 !important; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4) !important;}
+        .hero-build-btn { background: linear-gradient(135deg, #c084fc 0%, #db2777 100%) !important; color: #ffffff !important; border: none !important; box-shadow: 0 10px 25px rgba(192, 132, 252, 0.3) !important; }
+        .hero-secondary-btn { background: rgba(30, 41, 59, 0.8) !important; color: #ffffff !important; border: 1px solid rgba(255,255,255,0.1) !important; }
+        
+        /* PRICING & FOOTER */
+        footer { background-color: #070b14 !important; color: #64748b !important; border-top: 1px solid #1e293b !important; }
+        #pricing .ilove-card { background: #111827 !important; border-color: #1e293b !important; }
+
     </style>
     
     <!-- GUARANTEED BUTTON FIX SCRIPT -->
@@ -541,24 +490,24 @@
 
     <!-- PRICING SECTION -->
     <section id="pricing" style="padding: 60px 20px; max-width: 1200px; margin: 0 auto; text-align: center;">
-        <h2 style="font-size: 2.2rem; font-weight: 800; color: #f8fafc; margin-bottom: 10px;">Pricing that scales with your usage.</h2>
-        <p style="color: #94a3b8; font-size: 1rem; margin-bottom: 40px;">Start in a free sandbox, upgrade to monthly credits when you want more room.</p>
+        <h2 style="font-size: 2.2rem; font-weight: 800; color: #1e293b; margin-bottom: 10px;">Pricing that scales with your usage.</h2>
+        <p style="color: #64748b; font-size: 1rem; margin-bottom: 40px;">Start in a free sandbox, upgrade to monthly credits when you want more room.</p>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; align-items: stretch;">
             
-            <div style="background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
                 <div>
                     <div style="color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;">Starter Plan</div>
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #f8fafc; margin: 15px 0;">$0 <span style="font-size: 1rem; color: #64748b; font-weight: 400;">/ forever</span></div>
-                    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px;">Ideal for casual creators exploring AI tools.</p>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; color: #cbd5e1; font-size: 0.9rem; line-height: 2;">
+                    <div style="font-size: 2.5rem; font-weight: 800; color: #1e293b; margin: 15px 0;">$0 <span style="font-size: 1rem; color: #94a3b8; font-weight: 400;">/ forever</span></div>
+                    <p style="color: #475569; font-size: 0.9rem; margin-bottom: 20px;">Ideal for casual creators exploring AI tools.</p>
+                    <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; color: #475569; font-size: 0.9rem; line-height: 2;">
                         <li>✅ Access to All Basic AI Tools</li>
                         <li>✅ 2,500 free credits</li>
                         <li>✅ Standard $TOOL Mining (+0.003/5s)</li>
                         <li>❌ Priority Support</li>
                     </ul>
                 </div>
-                <button style="width: 100%; padding: 12px; background: #1e293b; color: #f8fafc; border: 1px solid #334155; border-radius: 8px; font-weight: 700; cursor: pointer;">Current Plan</button>
+                <button style="width: 100%; padding: 12px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: 700; cursor: pointer;">Current Plan</button>
             </div>
 
             <!-- UPDATE MIDDLE CARD HERE TO MATCH DARK BLUE/PURPLE THEME FROM SCREENSHOT -->
@@ -580,29 +529,29 @@
                 <button onclick="window.upgradeToProAgent()" style="width: 100%; padding: 12px; background: #b19cfd; color: #1e1e1e; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#9c83f9'" onmouseout="this.style.background='#b19cfd'">Start free</button>
             </div>
 
-            <div style="background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
                 <div>
                     <div style="color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;">Enterprise</div>
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #f8fafc; margin: 15px 0;">Custom</div>
-                    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px;">For orgs that need scale, security, and control.</p>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; color: #cbd5e1; font-size: 0.9rem; line-height: 2;">
+                    <div style="font-size: 2.5rem; font-weight: 800; color: #1e293b; margin: 15px 0;">Custom</div>
+                    <p style="color: #475569; font-size: 0.9rem; margin-bottom: 20px;">For orgs that need scale, security, and control.</p>
+                    <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; color: #475569; font-size: 0.9rem; line-height: 2;">
                         <li>[+] Tailored number of workspaces</li>
                         <li>[+] SSO, SAML, and audit logs</li>
                         <li>[+] Dedicated model inference</li>
                         <li>[+] SLA and dedicated support</li>
                     </ul>
                 </div>
-                <button onclick="alert('Thank you for your interest! As we are currently in an exclusive Beta phase, our Enterprise plans are fully booked. Please stay tuned for our next rollout phase!')" style="width: 100%; padding: 12px; background: #1e293b; color: white; border: 1px solid #334155; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='#1e293b'">Join Waitlist</button>
+                <button onclick="alert('Thank you for your interest! As we are currently in an exclusive Beta phase, our Enterprise plans are fully booked. Please stay tuned for our next rollout phase!')" style="width: 100%; padding: 12px; background: #1e293b; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#334155'" onmouseout="this.style.background='#1e293b'">Join Waitlist</button>
             </div>
 
         </div>
     </section>
 
-    <footer style="text-align: center; padding: 40px; background: #070b14; color: #64748b; margin-top: 50px; border-top: 1px solid #1e293b;">
+    <footer style="text-align: center; padding: 40px; background: #fcfbfb; color: #64748b; margin-top: 50px;">
         © 2026 ToolVerse. All Rights Reserved. Building the future of AI.
     </footer>
 
-    <!-- MOVABLE / DRAGGABLE MINING WIDGET UPDATE -->
+    <!-- MOVABLE / DRAGGABLE MINING WIDGET -->
     <div class="mining-widget" id="draggableMiningWidget">
         <div style="display: flex; align-items: center; gap: 15px; width: 100%; cursor: pointer;" onclick="window.location.href='mining-node.html'">
             <div class="mining-icon">⛏️</div>
@@ -695,7 +644,7 @@
     <div class="auth-modal" id="userProfileModal">
         <div class="auth-modal-content" style="max-width: 500px; text-align: left; padding-top: 30px;">
             <span class="close-auth" id="closeProfileModalBtn">&times;</span>
-            <h2 class="auth-title" style="text-align: center; font-size: 1.8rem; color: #38bdf8;">Account Profile & Security</h2>
+            <h2 class="auth-title" style="text-align: center; font-size: 1.8rem; color: #fff;">Account Profile & Security</h2>
             <p class="auth-subtitle" style="text-align: center;">Manage your personal info and Two-Factor Authentication (2FA).</p>
 
             <div style="background: rgba(251, 191, 36, 0.05); border: 1px solid rgba(251, 191, 36, 0.3); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px;">
@@ -724,7 +673,7 @@
                 <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Zip Code">
             </div>
 
-            <div style="background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); padding: 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+            <div style="background: rgba(77, 166, 255, 0.05); border: 1px solid rgba(77, 166, 255, 0.2); padding: 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
                 <div>
                     <div style="font-weight: 600; font-size: 14px; color: #fff;">Two-Factor Authentication (2FA)</div>
                     <div style="font-size: 12px; color: #94a3b8;">Secure your account with 6-digit OTP codes on login.</div>
@@ -736,8 +685,8 @@
                 </label>
             </div>
 
-            <button id="saveProfileBtn" class="auth-submit-btn" style="background: linear-gradient(135deg, #4ade80, #16a34a); color: #121212;">Save Profile</button>
-            <button id="actualLogoutBtn" class="auth-submit-btn" style="background-color: transparent; border: 1px solid #ff4757; color: #ff4757; margin-top: 10px; box-shadow: none;">Sign Out Securely</button>
+            <button id="saveProfileBtn" class="auth-submit-btn" style="background-color: #4ade80; color: #121212;">Save Profile</button>
+            <button id="actualLogoutBtn" class="auth-submit-btn" style="background-color: transparent; border: 1px solid #ff4757; color: #ff4757; margin-top: 10px;">Sign Out Securely</button>
         </div>
     </div>
 
@@ -1090,6 +1039,10 @@
             let isDragging = false, startX, startY;
 
             function dragStart(e) {
+                if(e.target.tagName.toLowerCase() === 'span' || e.target.className === 'mining-inner' || e.target.className === 'mining-icon') {
+                    return; 
+                }
+
                 isDragging = true;
                 const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
                 const clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
@@ -1107,6 +1060,7 @@
                 widget.style.left = Math.max(10, Math.min(window.innerWidth - widget.offsetWidth - 10, newX)) + 'px';
                 widget.style.top = Math.max(10, Math.min(window.innerHeight - widget.offsetHeight - 10, newY)) + 'px';
                 widget.style.bottom = 'auto';
+                widget.style.right = 'auto';
             }
 
             function dragEnd() { isDragging = false; }
