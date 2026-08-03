@@ -86,10 +86,86 @@
         .hero-secondary-btn { background: #1e293b; color: #ffffff; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.3); font-size: 1.1rem; border: none; cursor: pointer; }
         .hero-secondary-btn:hover { background: #334155; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30, 41, 59, 0.5); }
         
-        /* New CSS for PDF Filter Animation */
         @keyframes fadeInCard {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- NEW PROFESSIONAL FOOTER STYLES (Matched with Site Theme) --- */
+        .toolverse-footer {
+            background-color: #0b0f19;
+            color: #94a3b8;
+            padding: 60px 20px 30px 20px;
+            border-top: 1px solid rgba(56, 189, 248, 0.15);
+            font-family: 'Inter', sans-serif;
+            margin-top: 80px;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 40px;
+        }
+        @media (max-width: 768px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+        .footer-col h3 {
+            color: #f8fafc;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        .footer-col p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #94a3b8;
+            margin-bottom: 15px;
+        }
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        .footer-col ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .footer-col ul li a:hover {
+            color: #38bdf8;
+            padding-left: 5px;
+        }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0 auto;
+            padding-top: 20px;
+            border-top: 1px solid #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #64748b;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #f8fafc;
+            margin-bottom: 15px;
         }
     </style>
     
@@ -230,7 +306,7 @@
         <h1>Every tool you need to work with PDFs in one place</h1>
         <p class="subtitle">Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
 
-        <!-- Navigation Pills (Now Functional) -->
+        <!-- Navigation Pills (Functional) -->
         <div class="category-pills" style="cursor: pointer;">
             <span class="pdf-filter-btn active" data-filter="all" onclick="filterPDFTools('all', this)">All</span>
             <span class="pdf-filter-btn" data-filter="workflows" onclick="filterPDFTools('workflows', this)">Workflows</span>
@@ -242,7 +318,7 @@
             <span class="pdf-filter-btn" data-filter="intelligence" onclick="filterPDFTools('intelligence', this)">PDF Intelligence</span>
         </div>
 
-        <!-- 31 Tools Grid (With Category Tags) -->
+        <!-- 31 Tools Grid -->
         <div class="pdf-grid">
             
             <a href="merge-pdf.html" class="pdf-card pdf-tool-card" data-category="organize">
@@ -518,8 +594,46 @@
         </div>
     </section>
 
-    <footer style="text-align: center; padding: 40px; background: #fcfbfb; color: #64748b; margin-top: 50px;">
-        © 2026 ToolVerse. All Rights Reserved. Building the future of AI.
+    <!-- NEW PROFESSIONAL FOOTER SECTION -->
+    <footer class="toolverse-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <span>🚀</span> ToolVerse
+                </div>
+                <p>ToolVerse is your premium hub for fast, secure, and fully browser-based online tools. We run 100% client-side to guarantee your security and privacy.</p>
+            </div>
+
+            <div class="footer-col">
+                <h3>Legal & Privacy</h3>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                    <li><a href="legal-disclaimer.html">Legal Disclaimer</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="#tools">All Categories</a></li>
+                    <li><a href="#pricing">Pricing & Plans</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Adsense Ready</h3>
+                <p style="font-size: 0.85rem; color: #64748b;">Google Adsense advertisements may appear throughout the platform. All advertisements comply with Google Ad Placement policies, keeping content clean and readable.</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>© 2026 ToolVerse. All Rights Reserved. Works offline in your browser.</div>
+            <div>English (US) &nbsp;•&nbsp; Responsive Layout</div>
+        </div>
     </footer>
 
     <div class="mining-widget" onclick="window.location.href='mining-node.html'">
@@ -657,27 +771,21 @@
         </div>
     </div>
 
-    <!-- NEW SCRIPT: PDF FILTERS (VVIP SYSTEM) -->
+    <!-- SCRIPT: PDF FILTERS (VVIP SYSTEM) -->
     <script>
         function filterPDFTools(category, clickedBtn) {
-            // 1. Remove active class from all PDF filter buttons
             const allBtns = document.querySelectorAll('.pdf-filter-btn');
             allBtns.forEach(btn => btn.classList.remove('active'));
-            
-            // 2. Add active class to the clicked button
             clickedBtn.classList.add('active');
 
-            // 3. Filter cards with a smooth entry
             const allCards = document.querySelectorAll('.pdf-tool-card');
             allCards.forEach(card => {
                 const cardCategory = card.getAttribute('data-category');
-                
-                // Show if 'All' is selected, OR if the card's category matches the filter
                 if (category === 'all' || cardCategory === category) {
-                    card.style.display = ''; // Show
+                    card.style.display = ''; 
                     card.style.animation = 'fadeInCard 0.4s ease forwards';
                 } else {
-                    card.style.display = 'none'; // Hide
+                    card.style.display = 'none'; 
                 }
             });
         }
@@ -754,7 +862,6 @@
                 let dbCredits = userSnap.data().credits || 0;
                 let localCredits = parseInt(localStorage.getItem('tv_agent_credits') || 0);
                 
-                // SELF-HEALING SYNC: If local says 8000 but DB is lower, update the DB!
                 if(localCredits > dbCredits) {
                     await updateDoc(userRef, { credits: localCredits });
                     dbCredits = localCredits;
@@ -772,7 +879,6 @@
             }
         }
 
-        // Catch the background cloud upgrade event from the non-module script
         window.addEventListener('triggerCloudUpgrade', async () => {
             if(auth.currentUser) {
                 const userRef = doc(db, "users", auth.currentUser.uid);
@@ -866,7 +972,6 @@
                 if(navSignupBtn) navSignupBtn.style.display = 'none';
                 if(navProfileBtn) navProfileBtn.style.display = 'flex';
                 
-                // MASTER KEY - Unlocks all older non-firebase tools globally!
                 localStorage.setItem('ToolVerse_Auth', 'true');
                 localStorage.setItem('isLoggedIn', 'true');
                 
@@ -901,7 +1006,6 @@
                 }, 1500); 
             }
             
-            // ORIGINAL AI TOOLS FILTER
             const filterBtns = document.querySelectorAll('.filter-btn');
             const toolCards = document.querySelectorAll('.ilove-card');
 
@@ -921,7 +1025,6 @@
                 });
             });
 
-            // TOOL MINING LOGIC
             let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
             let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
             let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
