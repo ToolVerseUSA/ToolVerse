@@ -7,12 +7,20 @@
     <meta name="google-site-verification" content="XgH4GBHvosYC4hdFgcYobZQs4rhp_k2gjwR_Glft9tM" />
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="style.css?v=9">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        /* =========================================================
+           VVIP FIX: KILL BLUE TAP HIGHLIGHT ON ALL MOBILES FOREVER
+           ========================================================= */
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent !important; /* Kills the blue strip */
+            outline: none !important;
+        }
+        
         html { scroll-behavior: smooth; }
-        * { box-sizing: border-box; }
         
         /* =========================================================
            VVIP GLASSMORPHISM & NEON GLOW STYLES
@@ -223,7 +231,7 @@
         .hero-secondary-btn:hover { background: #334155; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30, 41, 59, 0.5); }
         
         @keyframes fadeInCard { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .pdf-filter-btn { -webkit-tap-highlight-color: transparent; user-select: none; }
+        .pdf-filter-btn, .filter-btn { -webkit-tap-highlight-color: transparent !important; outline: none !important; user-select: none; }
 
         /* Professional Footer */
         .toolverse-footer { background-color: #0b0f19 !important; border-top: 1px solid #1e293b !important; padding: 60px 20px 30px; margin-top: 60px; color: #94a3b8; font-size: 0.95rem; }
@@ -808,7 +816,7 @@
         });
     </script>
 
-    <!-- FIREBASE & PROFILE LOGIC -->
+    <!-- FIREBASE & CORE LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -902,19 +910,31 @@
             updateCreditDisplay(user.uid);
         }
 
+        // =========================================================
+        // VVIP CLOUD BRIDGE FIX - NEVER LOSE SPENT CREDITS AGAIN
+        // =========================================================
         async function updateCreditDisplay(uid) {
             const userRef = doc(db, "users", uid);
             const userSnap = await getDoc(userRef);
+            
             if(userSnap.exists()) {
-                let dbCredits = userSnap.data().credits || 0;
-                let localCredits = parseInt(localStorage.getItem('tv_agent_credits') || 0);
+                let dbCredits = userSnap.data().credits;
+                if (dbCredits === undefined) dbCredits = 2500;
                 
-                if(localCredits > dbCredits) {
-                    await updateDoc(userRef, { credits: localCredits });
-                    dbCredits = localCredits;
+                let localCreditsStr = localStorage.getItem('tv_agent_credits');
+                
+                if (localCreditsStr !== null) {
+                    let localCredits = parseInt(localCreditsStr);
+                    // If local credits are DIFFERENT than Firebase Database
+                    // It means Super Chat or AI Agent spent them. Force sync to Database to save forever!
+                    if (!isNaN(localCredits) && localCredits !== dbCredits) {
+                        dbCredits = localCredits;
+                        await updateDoc(userRef, { credits: dbCredits });
+                    }
+                } else {
+                    // First time load on this browser, set Local Storage from Database
+                    localStorage.setItem('tv_agent_credits', dbCredits.toString());
                 }
-                
-                localStorage.setItem('tv_agent_credits', dbCredits);
                 
                 if(navProfileBtn) {
                     const displayName = userSnap.data().firstName || (userSnap.data().displayName ? userSnap.data().displayName.split(' ')[0] : 'User');
@@ -980,6 +1000,7 @@
                 const userRef = doc(db, "users", auth.currentUser.uid);
                 try {
                     await updateDoc(userRef, { credits: 8000, plan: 'Pro Sandbox' });
+                    updateCreditDisplay(auth.currentUser.uid); // Refresh header instantly
                 } catch(e) {}
             }
         });
@@ -1101,7 +1122,7 @@
         }
     </script>
 
-    <!-- MINING & ADDRESS AUTO-FILL LOGIC -->
+    <!-- MINING & WIDGET LOGIC -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             if(!localStorage.getItem('toolverse_cookies_accepted')) {
@@ -1110,25 +1131,6 @@
                     if(popup) popup.style.display = 'flex';
                 }, 1500); 
             }
-            
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const toolCards = document.querySelectorAll('.ilove-card');
-
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    const filterValue = btn.getAttribute('data-filter');
-                    toolCards.forEach(card => {
-                        const cardCategory = card.getAttribute('data-category');
-                        if (filterValue === 'all' || cardCategory === filterValue) {
-                            card.style.display = ''; 
-                        } else {
-                            card.style.display = 'none'; 
-                        }
-                    });
-                });
-            });
 
             let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
             let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
