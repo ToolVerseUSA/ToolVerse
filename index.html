@@ -141,7 +141,7 @@
         .otp-box { width: 45px; height: 50px; text-align: center; font-size: 22px; font-weight: 700; background: #2a2a2a; border: 1px solid #444; color: #fff; border-radius: 8px; }
         .otp-box:focus { border-color: #4da6ff; outline: none; box-shadow: 0 0 10px rgba(77, 166, 255, 0.3); }
         .auth-submit-btn { width: 100%; padding: 12px; margin: 12px 0 8px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 15px; transition: 0.3s; font-family: inherit;}
-        .auth-submit-btn:hover { background-color: #3388dd; }
+        .auth-submit-btn:hover:not(:disabled) { background-color: #3388dd; }
         .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
         .auth-google-btn:hover { background-color: #e2e2e2; }
         .auth-divider { color: #666; font-size: 12px; margin: 12px 0; }
@@ -731,22 +731,53 @@
             {n:"Zambia",c:"+260",f:"🇿🇲"},{n:"Zimbabwe",c:"+263",f:"🇿🇼"}
         ];
 
-        document.addEventListener("DOMContentLoaded", function() {
+        function injectCountries(dataList) {
             const phoneCodeSelect = document.getElementById('profPhoneCode');
             const countrySelect = document.getElementById('profCountry');
             
-            if(phoneCodeSelect && countrySelect) {
-                let pOptions = '<option value="" disabled selected>🏳️ Code</option>';
-                let cOptions = '<option value="" disabled selected>🏳️ Select Country</option>';
-                
-                allWorldCountries.forEach(item => {
-                    pOptions += `<option value="${item.c}">${item.f} ${item.c}</option>`;
-                    cOptions += `<option value="${item.n}">${item.f} ${item.n}</option>`;
+            if(!phoneCodeSelect || !countrySelect) return;
+            
+            // Backup current selections before re-injecting (to prevent data loss)
+            let currPhoneCode = phoneCodeSelect.value;
+            let currCountry = countrySelect.value;
+
+            let pOptions = '<option value="" disabled selected>🏳️ Code</option>';
+            let cOptions = '<option value="" disabled selected>🏳️ Select Country</option>';
+            
+            dataList.forEach(item => {
+                pOptions += `<option value="${item.c}">${item.f} ${item.c}</option>`;
+                cOptions += `<option value="${item.n}">${item.f} ${item.n}</option>`;
+            });
+            
+            phoneCodeSelect.innerHTML = pOptions;
+            countrySelect.innerHTML = cOptions;
+
+            // Restore the selections
+            if(currPhoneCode) phoneCodeSelect.value = currPhoneCode;
+            if(currCountry) countrySelect.value = currCountry;
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Load hardcoded list instantly
+            injectCountries(allWorldCountries);
+
+            // Fetch missing countries in the background silently
+            fetch('https://restcountries.com/v3.1/all?fields=name,idd,flag')
+                .then(res => res.json())
+                .then(data => {
+                    let fullList = [];
+                    data.forEach(c => {
+                        let code = (c.idd && c.idd.root) ? (c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : '')) : '';
+                        if(code && c.name && c.name.common) {
+                            fullList.push({ n: c.name.common, c: code, f: c.flag });
+                        }
+                    });
+                    fullList.sort((a,b) => a.n.localeCompare(b.n));
+                    injectCountries(fullList); // Re-inject smoothly
+                })
+                .catch(err => {
+                    console.log("Background sync failed. Continuing with VVIP offline list.");
                 });
-                
-                phoneCodeSelect.innerHTML = pOptions;
-                countrySelect.innerHTML = cOptions;
-            }
         });
     </script>
 
@@ -783,9 +814,39 @@
         const navProfileBtn = document.getElementById('navProfileBtn');
         const actualLogoutBtn = document.getElementById('actualLogoutBtn');
         const emailLoginBtn = document.getElementById('emailLoginBtn');
+        const saveProfileBtn = document.getElementById('saveProfileBtn');
         
         const authMessageBox = document.getElementById('authMessageBox');
         const twoFactorToggle = document.getElementById('twoFactorToggle');
+
+        // Form Fields
+        const profFirstName = document.getElementById('profFirstName');
+        const profLastName = document.getElementById('profLastName');
+        const profPhoneCode = document.getElementById('profPhoneCode');
+        const profPhone = document.getElementById('profPhone');
+        const profAddress = document.getElementById('profAddress');
+        const profCountry = document.getElementById('profCountry');
+        const profState = document.getElementById('profState');
+        const profZip = document.getElementById('profZip');
+
+        // VVIP Local Data Filler (Zero-Delay)
+        function populateProfileData(data) {
+            if(!data) return;
+            if(data.firstName) profFirstName.value = data.firstName;
+            if(data.lastName) profLastName.value = data.lastName;
+            if(data.phoneCode) profPhoneCode.value = data.phoneCode;
+            if(data.phone) profPhone.value = data.phone;
+            if(data.address) profAddress.value = data.address;
+            if(data.country) profCountry.value = data.country;
+            if(data.state) profState.value = data.state;
+            if(data.zip) profZip.value = data.zip;
+        }
+
+        // Initially load local backup
+        const localProfData = localStorage.getItem('tv_user_profile');
+        if(localProfData) {
+            try { populateProfileData(JSON.parse(localProfData)); } catch(e) {}
+        }
 
         async function initializeUserInDB(user) {
             const userRef = doc(db, "users", user.uid);
@@ -799,7 +860,10 @@
                     plan: 'Sandbox',
                     createdAt: new Date().toISOString()
                 });
-            } 
+            } else {
+                populateProfileData(userSnap.data());
+                localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
+            }
             updateCreditDisplay(user.uid);
         }
 
@@ -818,7 +882,7 @@
                 localStorage.setItem('tv_agent_credits', dbCredits);
                 
                 if(navProfileBtn) {
-                    const displayName = userSnap.data().displayName ? userSnap.data().displayName.split(' ')[0] : 'User';
+                    const displayName = userSnap.data().firstName || (userSnap.data().displayName ? userSnap.data().displayName.split(' ')[0] : 'User');
                     navProfileBtn.innerHTML = `
                         <div class="profile-avatar-icon">🤖</div>
                         <span>${displayName} | ⚡ ${dbCredits}</span>
@@ -826,6 +890,68 @@
                 }
             }
         }
+
+        // =========================================================
+        // VVIP SAVE PROFILE BUTTON LOGIC
+        // =========================================================
+        if(saveProfileBtn) {
+            saveProfileBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                
+                const originalText = saveProfileBtn.innerText;
+                saveProfileBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Saving to Cloud...';
+                saveProfileBtn.style.opacity = '0.8';
+                saveProfileBtn.disabled = true;
+
+                const profileData = {
+                    firstName: profFirstName.value.trim(),
+                    lastName: profLastName.value.trim(),
+                    phoneCode: profPhoneCode.value,
+                    phone: profPhone.value.trim(),
+                    address: profAddress.value.trim(),
+                    country: profCountry.value,
+                    state: profState.value.trim(),
+                    zip: profZip.value.trim()
+                };
+
+                // Instant Local Save
+                localStorage.setItem('tv_user_profile', JSON.stringify(profileData));
+
+                // Cloud Sync
+                if(auth.currentUser) {
+                    try {
+                        const userRef = doc(db, "users", auth.currentUser.uid);
+                        await updateDoc(userRef, profileData);
+                        saveProfileBtn.innerHTML = '✅ Saved Successfully!';
+                        saveProfileBtn.style.backgroundColor = '#10b981'; // Success Green
+                        saveProfileBtn.style.color = '#fff';
+                        
+                        // Update Header Nav Name instantly
+                        if(navProfileBtn && profileData.firstName) {
+                            let currHtml = navProfileBtn.innerHTML;
+                            navProfileBtn.innerHTML = currHtml.replace(/<span>.*?\|/, `<span>${profileData.firstName} |`);
+                        }
+                    } catch(err) {
+                        saveProfileBtn.innerHTML = '⚠️ Cloud Save Error';
+                        saveProfileBtn.style.backgroundColor = '#ff4757'; // Error Red
+                        saveProfileBtn.style.color = '#fff';
+                        console.error(err);
+                    }
+                } else {
+                    saveProfileBtn.innerHTML = '✅ Saved Locally!';
+                    saveProfileBtn.style.backgroundColor = '#10b981';
+                }
+
+                setTimeout(() => {
+                    saveProfileBtn.innerHTML = originalText;
+                    saveProfileBtn.style.backgroundColor = '#4ade80';
+                    saveProfileBtn.style.color = '#121212';
+                    saveProfileBtn.style.opacity = '1';
+                    saveProfileBtn.disabled = false;
+                }, 2500);
+            });
+        }
+
 
         window.addEventListener('triggerCloudUpgrade', async () => {
             if(auth.currentUser) {
@@ -923,6 +1049,13 @@
                 localStorage.setItem('ToolVerse_Auth', 'true');
                 localStorage.setItem('isLoggedIn', 'true');
                 
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+                if(userSnap.exists()) {
+                    populateProfileData(userSnap.data());
+                    localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
+                }
+                
                 await updateCreditDisplay(user.uid);
             } else {
                 if(navLoginBtn) navLoginBtn.style.display = 'block';
@@ -932,6 +1065,7 @@
                 localStorage.removeItem('tv_agent_credits');
                 localStorage.removeItem('ToolVerse_Auth');
                 localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('tv_user_profile');
             }
         });
 
