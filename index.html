@@ -85,33 +85,34 @@
         .hero-build-btn:hover { background: #9c83f9; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(177, 156, 253, 0.6); }
         .hero-secondary-btn { background: #1e293b; color: #ffffff; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.3); font-size: 1.1rem; border: none; cursor: pointer; }
         .hero-secondary-btn:hover { background: #334155; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30, 41, 59, 0.5); }
+        
+        /* New CSS for PDF Filter Animation */
+        @keyframes fadeInCard {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
     
     <!-- GUARANTEED BUTTON FIX SCRIPT -->
     <script>
         window.upgradeToProAgent = function() {
-            // 1. Check Auth Visually
             if(localStorage.getItem('ToolVerse_Auth') !== 'true' && localStorage.getItem('isLoggedIn') !== 'true') {
                 alert("Please login first to claim your 8,000 Pro Credits!");
                 document.getElementById('firebaseAuthModal').style.display = 'flex';
                 return;
             }
             
-            // 2. Optimistic Instant UI Upgrade
             localStorage.setItem('tv_agent_credits', '8000');
             localStorage.setItem('tv_plan', 'Pro Sandbox');
             
-            // 3. Update Profile Button instantly
             const profBtn = document.getElementById('navProfileBtn');
             if(profBtn && profBtn.innerHTML.includes('⚡')) {
                 let name = profBtn.innerText.split('|')[0].trim();
                 profBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${name} | ⚡ 8000</span>`;
             }
 
-            // 4. Trigger Cloud Sync Event
             window.dispatchEvent(new Event('triggerCloudUpgrade'));
 
-            // 5. Alert and Redirect
             alert("🎉 Success! Your account has been upgraded to the Pro Agent Sandbox. You now have 8,000 Credits!");
             setTimeout(() => { window.location.href = 'ai-agent.html'; }, 500);
         };
@@ -224,232 +225,232 @@
         </div>
     </section>
 
-    <!-- NEW 31 PDF TOOLS SECTION -->
+    <!-- NEW 31 PDF TOOLS SECTION WITH WORKING VVIP FILTERS -->
     <section class="pdf-tools-section" id="pdf-tools">
         <h1>Every tool you need to work with PDFs in one place</h1>
         <p class="subtitle">Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
 
-        <!-- Navigation Pills -->
-        <div class="category-pills">
-            <span class="active">All</span>
-            <span>Workflows</span>
-            <span>Organize PDF</span>
-            <span>Optimize PDF</span>
-            <span>Convert PDF</span>
-            <span>Edit PDF</span>
-            <span>PDF Security</span>
-            <span>PDF Intelligence</span>
+        <!-- Navigation Pills (Now Functional) -->
+        <div class="category-pills" style="cursor: pointer;">
+            <span class="pdf-filter-btn active" data-filter="all" onclick="filterPDFTools('all', this)">All</span>
+            <span class="pdf-filter-btn" data-filter="workflows" onclick="filterPDFTools('workflows', this)">Workflows</span>
+            <span class="pdf-filter-btn" data-filter="organize" onclick="filterPDFTools('organize', this)">Organize PDF</span>
+            <span class="pdf-filter-btn" data-filter="optimize" onclick="filterPDFTools('optimize', this)">Optimize PDF</span>
+            <span class="pdf-filter-btn" data-filter="convert" onclick="filterPDFTools('convert', this)">Convert PDF</span>
+            <span class="pdf-filter-btn" data-filter="edit" onclick="filterPDFTools('edit', this)">Edit PDF</span>
+            <span class="pdf-filter-btn" data-filter="security" onclick="filterPDFTools('security', this)">PDF Security</span>
+            <span class="pdf-filter-btn" data-filter="intelligence" onclick="filterPDFTools('intelligence', this)">PDF Intelligence</span>
         </div>
 
-        <!-- 31 Tools Grid -->
+        <!-- 31 Tools Grid (With Category Tags) -->
         <div class="pdf-grid">
             
-            <a href="merge-pdf.html" class="pdf-card">
+            <a href="merge-pdf.html" class="pdf-card pdf-tool-card" data-category="organize">
                 <div class="tool-icon bg-red"><i class="fa-solid fa-code-merge"></i></div>
                 <div class="tool-title">Merge PDF</div>
                 <div class="tool-desc">Combine PDFs in the order you want with the easiest PDF merger available.</div>
             </a>
 
-            <a href="split-pdf.html" class="pdf-card">
+            <a href="split-pdf.html" class="pdf-card pdf-tool-card" data-category="organize">
                 <div class="tool-icon bg-red"><i class="fa-solid fa-scissors"></i></div>
                 <div class="tool-title">Split PDF</div>
                 <div class="tool-desc">Separate one page or a whole set for easy conversion into independent PDF files.</div>
             </a>
 
-            <a href="compress-pdf.html" class="pdf-card">
+            <a href="compress-pdf.html" class="pdf-card pdf-tool-card" data-category="optimize">
                 <div class="tool-icon bg-green"><i class="fa-solid fa-minimize"></i></div>
                 <div class="tool-title">Compress PDF</div>
                 <div class="tool-desc">Reduce file size while optimizing for maximal PDF quality.</div>
             </a>
 
-            <a href="pdf-to-word.html" class="pdf-card">
+            <a href="pdf-to-word.html" class="pdf-card pdf-tool-card" data-category="convert">
                 <div class="tool-icon bg-blue"><i class="fa-solid fa-file-word"></i></div>
                 <div class="tool-title">PDF to Word</div>
                 <div class="tool-desc">Easily convert your PDF files into easy to edit DOC and DOCX documents.</div>
             </a>
 
-            <a href="pdf-to-ppt.html" class="pdf-card">
+            <a href="pdf-to-ppt.html" class="pdf-card pdf-tool-card" data-category="convert">
                 <div class="tool-icon bg-orange"><i class="fa-solid fa-file-powerpoint"></i></div>
                 <div class="tool-title">PDF to PowerPoint</div>
                 <div class="tool-desc">Turn your PDF files into easy to edit PPT and PPTX slideshows.</div>
             </a>
 
-            <a href="pdf-to-excel.html" class="pdf-card">
+            <a href="pdf-to-excel.html" class="pdf-card pdf-tool-card" data-category="convert">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-green"><i class="fa-solid fa-file-excel"></i></div>
                 <div class="tool-title">PDF to Excel</div>
                 <div class="tool-desc">Pull data straight from PDFs into Excel spreadsheets in a few short seconds.</div>
             </a>
 
-            <a href="word-to-pdf.html" class="pdf-card">
+            <a href="word-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-blue"><i class="fa-solid fa-file-pdf"></i></div>
                 <div class="tool-title">Word to PDF</div>
                 <div class="tool-desc">Make DOC and DOCX files easy to read by converting them to PDF.</div>
             </a>
 
-            <a href="powerpoint-to-pdf.html" class="pdf-card">
+            <a href="powerpoint-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-orange"><i class="fa-solid fa-file-pdf"></i></div>
                 <div class="tool-title">PowerPoint to PDF</div>
                 <div class="tool-desc">Make PPT and PPTX slideshows easy to view by converting them to PDF.</div>
             </a>
 
-            <a href="excel-to-pdf.html" class="pdf-card">
+            <a href="excel-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-green"><i class="fa-solid fa-file-pdf"></i></div>
                 <div class="tool-title">Excel to PDF</div>
                 <div class="tool-desc">Make EXCEL spreadsheets easy to read by converting them to PDF.</div>
             </a>
 
-            <a href="edit-pdf.html" class="pdf-card">
+            <a href="edit-pdf.html" class="pdf-card pdf-tool-card" data-category="edit">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-purple"><i class="fa-solid fa-pen-to-square"></i></div>
                 <div class="tool-title">Edit PDF</div>
                 <div class="tool-desc">Add text, images, shapes or freehand annotations to a PDF document.</div>
             </a>
 
-            <a href="pdf-to-jpg.html" class="pdf-card">
+            <a href="pdf-to-jpg.html" class="pdf-card pdf-tool-card" data-category="convert">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-yellow"><i class="fa-solid fa-file-image"></i></div>
                 <div class="tool-title">PDF to JPG</div>
                 <div class="tool-desc">Convert each PDF page into a JPG or extract all images contained in a PDF.</div>
             </a>
 
-            <a href="jpg-to-pdf.html" class="pdf-card">
+            <a href="jpg-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-yellow"><i class="fa-solid fa-file-pdf"></i></div>
                 <div class="tool-title">JPG to PDF</div>
                 <div class="tool-desc">Convert JPG images to PDF in seconds. Easily adjust orientation and margins.</div>
             </a>
 
-            <a href="sign-pdf.html" class="pdf-card">
+            <a href="sign-pdf.html" class="pdf-card pdf-tool-card" data-category="security">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-blue"><i class="fa-solid fa-signature"></i></div>
                 <div class="tool-title">Sign PDF</div>
                 <div class="tool-desc">Sign yourself or request electronic signatures from others securely.</div>
             </a>
 
-            <a href="watermark-pdf.html" class="pdf-card">
+            <a href="watermark-pdf.html" class="pdf-card pdf-tool-card" data-category="edit">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-dark"><i class="fa-solid fa-stamp"></i></div>
                 <div class="tool-title">Watermark</div>
                 <div class="tool-desc">Stamp an image or text over your PDF in seconds. Choose typography & position.</div>
             </a>
 
-            <a href="rotate-pdf.html" class="pdf-card">
+            <a href="rotate-pdf.html" class="pdf-card pdf-tool-card" data-category="organize">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-purple"><i class="fa-solid fa-rotate-right"></i></div>
                 <div class="tool-title">Rotate PDF</div>
                 <div class="tool-desc">Rotate your PDFs the way you need them. You can even rotate multiple PDFs at once!</div>
             </a>
 
-            <a href="html-to-pdf.html" class="pdf-card">
+            <a href="html-to-pdf.html" class="pdf-card pdf-tool-card" data-category="convert">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-orange"><i class="fa-brands fa-html5"></i></div>
                 <div class="tool-title">HTML to PDF</div>
                 <div class="tool-desc">Convert webpages, uploaded files or raw HTML code to PDF with advanced VVIP options.</div>
             </a>
 
-            <a href="unlock-pdf.html" class="pdf-card">
+            <a href="unlock-pdf.html" class="pdf-card pdf-tool-card" data-category="security">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-blue"><i class="fa-solid fa-unlock-keyhole"></i></div>
                 <div class="tool-title">Unlock PDF</div>
                 <div class="tool-desc">Remove PDF password security, giving you the freedom to use your PDFs.</div>
             </a>
 
-            <a href="protect-pdf.html" class="pdf-card">
+            <a href="protect-pdf.html" class="pdf-card pdf-tool-card" data-category="security">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-blue"><i class="fa-solid fa-shield-halved"></i></div>
                 <div class="tool-title">Protect PDF</div>
                 <div class="tool-desc">Protect PDF files with a password. Encrypt PDF documents to prevent access.</div>
             </a>
 
-            <a href="organize-pdf.html" class="pdf-card">
+            <a href="organize-pdf.html" class="pdf-card pdf-tool-card" data-category="organize">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-orange"><i class="fa-solid fa-layer-group"></i></div>
                 <div class="tool-title">Organize PDF</div>
                 <div class="tool-desc">Sort pages of your PDF file however you like. Delete or add PDF pages easily.</div>
             </a>
 
-            <a href="pdf-to-pdfa.html" class="pdf-card">
+            <a href="pdf-to-pdfa.html" class="pdf-card pdf-tool-card" data-category="convert">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-blue"><i class="fa-solid fa-file-shield"></i></div>
                 <div class="tool-title">PDF to PDF/A</div>
                 <div class="tool-desc">Transform your PDF to PDF/A, the ISO-standardized version for archiving.</div>
             </a>
 
-            <a href="repair-pdf.html" class="pdf-card">
+            <a href="repair-pdf.html" class="pdf-card pdf-tool-card" data-category="optimize">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-green"><i class="fa-solid fa-screwdriver-wrench"></i></div>
                 <div class="tool-title">Repair PDF</div>
                 <div class="tool-desc">Repair a damaged PDF and recover data from corrupt PDF. Fix files with our tool.</div>
             </a>
 
-            <a href="add-page-numbers.html" class="pdf-card">
+            <a href="add-page-numbers.html" class="pdf-card pdf-tool-card" data-category="edit">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-pink"><i class="fa-solid fa-list-ol"></i></div>
                 <div class="tool-title">Page numbers</div>
                 <div class="tool-desc">Add page numbers into PDFs with ease. Choose your positions and dimensions.</div>
             </a>
 
-            <a href="scan-to-pdf.html" class="pdf-card">
+            <a href="scan-to-pdf.html" class="pdf-card pdf-tool-card" data-category="workflows">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-orange"><i class="fa-solid fa-mobile-screen-button"></i></div>
                 <div class="tool-title">Scan to PDF</div>
                 <div class="tool-desc">Capture document scans from your smartphone camera directly to your browser.</div>
             </a>
 
-            <a href="ocr-pdf.html" class="pdf-card">
+            <a href="ocr-pdf.html" class="pdf-card pdf-tool-card" data-category="intelligence">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-green"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
                 <div class="tool-title">OCR PDF</div>
                 <div class="tool-desc">Easily convert scanned PDF into searchable and selectable text documents.</div>
             </a>
 
-            <a href="compare-pdf.html" class="pdf-card">
+            <a href="compare-pdf.html" class="pdf-card pdf-tool-card" data-category="intelligence">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-blue"><i class="fa-solid fa-code-compare"></i></div>
                 <div class="tool-title">Compare PDF</div>
                 <div class="tool-desc">Show a side-by-side document comparison and easily spot changes between different file versions.</div>
             </a>
 
-            <a href="redact-pdf.html" class="pdf-card">
+            <a href="redact-pdf.html" class="pdf-card pdf-tool-card" data-category="security">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-red"><i class="fa-solid fa-eraser"></i></div>
                 <div class="tool-title">Redact PDF</div>
                 <div class="tool-desc">Redact text and graphics to permanently remove sensitive information from a PDF.</div>
             </a>
 
-            <a href="crop-pdf.html" class="pdf-card">
+            <a href="crop-pdf.html" class="pdf-card pdf-tool-card" data-category="edit">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-purple"><i class="fa-solid fa-crop-simple"></i></div>
                 <div class="tool-title">Crop PDF</div>
                 <div class="tool-desc">Crop margins of PDF documents or select specific areas to apply changes.</div>
             </a>
 
-            <a href="pdf-forms.html" class="pdf-card">
+            <a href="pdf-forms.html" class="pdf-card pdf-tool-card" data-category="workflows">
                 <div class="badge-new" style="background: #f97316; color: white;">VVIP</div>
                 <div class="tool-icon bg-purple"><i class="fa-solid fa-list-check"></i></div>
                 <div class="tool-title">PDF Forms</div>
                 <div class="tool-desc">Detect form fields automatically, create interactive fillable PDFs effortlessly.</div>
             </a>
 
-            <a href="AI-summarizer.html" class="pdf-card">
+            <a href="AI-summarizer.html" class="pdf-card pdf-tool-card" data-category="intelligence">
                 <div class="badge-new" style="background: #8b5cf6; color: white;">VVIP</div>
                 <div class="tool-icon bg-purple"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
                 <div class="tool-title">AI Summarizer</div>
                 <div class="tool-desc">Quickly generate concise summaries from articles, paragraphs, and essays.</div>
             </a>
 
-            <a href="translate-pdf.html" class="pdf-card">
+            <a href="translate-pdf.html" class="pdf-card pdf-tool-card" data-category="intelligence">
                 <div class="badge-new" style="background: #8b5cf6; color: white;">VVIP</div>
                 <div class="tool-icon bg-purple"><i class="fa-solid fa-language"></i></div>
                 <div class="tool-title">Translate PDF</div>
                 <div class="tool-desc">Easily translate PDF files into other languages while preserving original formatting.</div>
             </a>
 
-            <a href="pdf-to-markdown.html" class="pdf-card">
+            <a href="pdf-to-markdown.html" class="pdf-card pdf-tool-card" data-category="convert">
                 <div class="badge-new" style="background: #8b5cf6; color: white;">VVIP</div>
                 <div class="tool-icon bg-purple"><i class="fa-brands fa-markdown"></i></div>
                 <div class="tool-title">PDF to Markdown</div>
@@ -656,6 +657,32 @@
         </div>
     </div>
 
+    <!-- NEW SCRIPT: PDF FILTERS (VVIP SYSTEM) -->
+    <script>
+        function filterPDFTools(category, clickedBtn) {
+            // 1. Remove active class from all PDF filter buttons
+            const allBtns = document.querySelectorAll('.pdf-filter-btn');
+            allBtns.forEach(btn => btn.classList.remove('active'));
+            
+            // 2. Add active class to the clicked button
+            clickedBtn.classList.add('active');
+
+            // 3. Filter cards with a smooth entry
+            const allCards = document.querySelectorAll('.pdf-tool-card');
+            allCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                
+                // Show if 'All' is selected, OR if the card's category matches the filter
+                if (category === 'all' || cardCategory === category) {
+                    card.style.display = ''; // Show
+                    card.style.animation = 'fadeInCard 0.4s ease forwards';
+                } else {
+                    card.style.display = 'none'; // Hide
+                }
+            });
+        }
+    </script>
+
     <script>
         function acceptCookies() {
             localStorage.setItem('toolverse_cookies_accepted', 'true');
@@ -736,7 +763,7 @@
                 localStorage.setItem('tv_agent_credits', dbCredits);
                 
                 if(navProfileBtn) {
-                    const displayName = userData.displayName ? userData.displayName.split(' ')[0] : 'User';
+                    const displayName = userSnap.data().displayName ? userSnap.data().displayName.split(' ')[0] : 'User';
                     navProfileBtn.innerHTML = `
                         <div class="profile-avatar-icon">🤖</div>
                         <span>${displayName} | ⚡ ${dbCredits}</span>
@@ -874,6 +901,7 @@
                 }, 1500); 
             }
             
+            // ORIGINAL AI TOOLS FILTER
             const filterBtns = document.querySelectorAll('.filter-btn');
             const toolCards = document.querySelectorAll('.ilove-card');
 
@@ -893,6 +921,7 @@
                 });
             });
 
+            // TOOL MINING LOGIC
             let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
             let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
             let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
