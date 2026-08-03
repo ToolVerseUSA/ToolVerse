@@ -12,16 +12,17 @@
     
     <style>
         html { scroll-behavior: smooth; }
-        body { background-color: #fcfbfb !important; color: #333333 !important; }
         .crypto-nav-btn { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #1e293b !important; font-weight: 700 !important; padding: 8px 16px !important; border-radius: 20px; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); border: 2px solid #fff; transition: 0.3s; cursor: pointer; }
         .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
         .header-container { display: flex; align-items: center; justify-content: space-between; }
-        .ilove-header { background: #ffffff !important; border-bottom: 1px solid #eaeaea !important; }
-        .premium-profile-btn { background: #ffffff; backdrop-filter: blur(10px); color: #1e293b !important; font-weight: 600 !important; font-size: 0.9rem !important; padding: 6px 16px 6px 6px !important; border-radius: 20px; display: flex; align-items: center; gap: 8px; border: 1px solid #cbd5e1; transition: 0.3s; cursor: pointer; text-decoration: none; }
-        .premium-profile-btn:hover { border-color: #94a3b8; transform: translateY(-2px); }
-        .profile-avatar-icon { background: #f1f5f9; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .mining-widget { position: fixed; bottom: 30px; left: 30px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 12px; padding: 12px 20px; display: flex; align-items: center; gap: 15px; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.3); cursor: pointer; z-index: 999; transition: 0.3s; white-space: nowrap; }
-        .mining-widget:hover { transform: scale(1.05); border-color: #fbbf24; }
+        .premium-profile-btn { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); color: #f8fafc !important; font-weight: 600 !important; font-size: 0.9rem !important; padding: 6px 16px 6px 6px !important; border-radius: 20px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(77, 166, 255, 0.3); transition: 0.3s; cursor: pointer; text-decoration: none; }
+        .premium-profile-btn:hover { border-color: #4da6ff; box-shadow: 0 4px 15px rgba(77, 166, 255, 0.2); transform: translateY(-2px); }
+        .profile-avatar-icon { background: rgba(77, 166, 255, 0.15); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        
+        /* UPDATED MINING WIDGET STYLES FOR DRAGGING */
+        .mining-widget { position: fixed; bottom: 30px; left: 30px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 12px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 5px; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.3); cursor: grab; z-index: 999; transition: box-shadow 0.3s; white-space: nowrap; touch-action: none; user-select: none; }
+        .mining-widget:active { cursor: grabbing; box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4); transform: scale(1.02); }
+        
         .mining-icon { font-size: 24px; animation: pickaxe 2s infinite; }
         @keyframes pickaxe { 0% { transform: rotate(0deg); } 50% { transform: rotate(-30deg); } 100% { transform: rotate(0deg); } }
         .mining-stats { display: flex; flex-direction: column; white-space: nowrap; }
@@ -484,15 +485,16 @@
                 <button style="width: 100%; padding: 12px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: 700; cursor: pointer;">Current Plan</button>
             </div>
 
-            <div style="background: #ffffff; border: 2px solid #b19cfd; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-shadow: 0 10px 30px rgba(177, 156, 253, 0.2);">
+            <!-- UPDATE MIDDLE CARD HERE TO MATCH DARK BLUE/PURPLE THEME FROM SCREENSHOT -->
+            <div style="background: #0f172a; border: 2px solid #b19cfd; border-radius: 16px; padding: 30px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-shadow: 0 10px 30px rgba(177, 156, 253, 0.3);">
                 <div style="position: absolute; top: -14px; right: 20px; background: #b19cfd; color: #1e1e1e; font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 12px; text-transform: uppercase;">Paid Sandbox (Free in Beta)</div>
                 <div>
-                    <div style="color: #7c3aed; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;">Pro Agent Sandbox</div>
-                    <div style="font-size: 2.5rem; font-weight: 800; color: #1e293b; margin: 15px 0; display: flex; align-items: baseline;">
-                        <del style="color: #64748b; font-size: 1.5rem; margin-right: 10px;">$19</del>$0 <span style="font-size: 0.9rem; color: #16a34a; font-weight: 600; margin-left: 5px;">/ month</span>
+                    <div style="color: #b19cfd; font-weight: 700; text-transform: uppercase; font-size: 0.85rem;">Pro Agent Sandbox</div>
+                    <div style="font-size: 2.5rem; font-weight: 800; color: #ffffff; margin: 15px 0; display: flex; align-items: baseline;">
+                        <del style="color: #64748b; font-size: 1.5rem; margin-right: 10px;">$19</del>$0 <span style="font-size: 0.9rem; color: #4ade80; font-weight: 600; margin-left: 5px;">/ month</span>
                     </div>
-                    <p style="color: #475569; font-size: 0.9rem; margin-bottom: 20px;">Unlocked automatically. Get 8,000 premium credits for free while in Beta.</p>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; color: #475569; font-size: 0.9rem; line-height: 2;">
+                    <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 20px;">Unlocked automatically. Get 8,000 premium credits for free while in Beta.</p>
+                    <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; color: #cbd5e1; font-size: 0.9rem; line-height: 2;">
                         <li>[+] 8,000 Agent Credits / month</li>
                         <li>[+] Unlimited members, agents, and apps</li>
                         <li>[+] 3x Turbo Mining Rate (+0.009/5s)</li>
@@ -524,13 +526,17 @@
         © 2026 ToolVerse. All Rights Reserved. Building the future of AI.
     </footer>
 
-    <div class="mining-widget" onclick="window.location.href='mining-node.html'">
-        <div class="mining-icon">⛏️</div>
-        <div class="mining-stats">
-            <span class="mining-title">Mining $TOOL</span>
-            <span class="mining-rate">Live <span class="pulse-dot"></span></span>
+    <!-- MOVABLE / DRAGGABLE MINING WIDGET UPDATE -->
+    <div class="mining-widget" id="draggableMiningWidget">
+        <div style="display: flex; align-items: center; gap: 15px; width: 100%; cursor: pointer;" onclick="window.location.href='mining-node.html'">
+            <div class="mining-icon">⛏️</div>
+            <div class="mining-stats">
+                <span class="mining-title">Mining $TOOL</span>
+                <span class="mining-rate">Live <span class="pulse-dot"></span></span>
+            </div>
+            <div class="mining-balance" id="widgetBal">0.000</div>
         </div>
-        <div class="mining-balance" id="widgetBal">0.000</div>
+        <div style="font-size: 9px; color: #fbbf24; margin-top: 2px; font-weight: 600; text-transform: uppercase; border-top: 1px dashed rgba(255,255,255,0.15); width: 100%; text-align: center; padding-top: 4px; letter-spacing: 0.5px;">Touch & Move Here</div>
     </div>
 
     <!-- COOKIE CONSENT POPUP -->
@@ -925,7 +931,6 @@
             const claimBtn = document.getElementById('claimDailyBtn');
             const boostBtn = document.getElementById('boostBtn');
             const cryptoModal = document.getElementById('cryptoModal');
-            const miningWidgetBtn = document.querySelector('.mining-widget');
             const closeModalBtn = document.getElementById('closeModalBtn');
 
             let increment = isBoostActive ? 0.009 : 0.003;
@@ -951,12 +956,6 @@
                 localStorage.setItem('toolVerseLastTime', Date.now().toString());
             }
 
-            if(miningWidgetBtn) {
-                miningWidgetBtn.onclick = (e) => {
-                    e.preventDefault();
-                    cryptoModal.style.display = 'flex';
-                };
-            }
             if(closeModalBtn) closeModalBtn.addEventListener('click', () => cryptoModal.style.display = 'none');
 
             window.addEventListener('click', (e) => { 
@@ -1009,6 +1008,39 @@
             }
             
             updateDisplay();
+
+            // --- DRAGGABLE MINING WIDGET LOGIC ---
+            const widget = document.getElementById('draggableMiningWidget');
+            let isDragging = false, startX, startY;
+
+            function dragStart(e) {
+                isDragging = true;
+                const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+                startX = clientX - widget.offsetLeft;
+                startY = clientY - widget.offsetTop;
+            }
+
+            function drag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+                let newX = clientX - startX;
+                let newY = clientY - startY;
+                widget.style.left = Math.max(10, Math.min(window.innerWidth - widget.offsetWidth - 10, newX)) + 'px';
+                widget.style.top = Math.max(10, Math.min(window.innerHeight - widget.offsetHeight - 10, newY)) + 'px';
+                widget.style.bottom = 'auto';
+            }
+
+            function dragEnd() { isDragging = false; }
+
+            widget.addEventListener('mousedown', dragStart);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', dragEnd);
+            widget.addEventListener('touchstart', dragStart, {passive: false});
+            document.addEventListener('touchmove', drag, {passive: false});
+            document.addEventListener('touchend', dragEnd);
         });
     </script>
 </body>
