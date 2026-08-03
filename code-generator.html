@@ -22,12 +22,25 @@
         .container {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(74, 222, 128, 0.2); /* Neon Green subtle border */
+            border: 1px solid rgba(74, 222, 128, 0.2);
             border-radius: 16px;
             padding: 40px;
             width: 100%;
             max-width: 850px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+        .home-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .home-link:hover {
+            color: #4ade80;
         }
         h1 {
             text-align: center;
@@ -36,6 +49,7 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 5px;
             font-size: 2.2rem;
+            margin-top: 20px;
         }
         p.subtitle {
             text-align: center;
@@ -129,6 +143,7 @@
 <body>
 
 <div class="container">
+    <a href="index.html" class="home-link">← Back to Home</a>
     <h1>Code Generator Pro</h1>
     <p class="subtitle">Describe what you want to build, and let the 10x AI Engineer write the perfect code.</p>
     
@@ -172,17 +187,36 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
 
 <script>
-    let rawGeneratedCode = ""; // Global variable to store raw code for copying
+    let rawGeneratedCode = ""; 
 
     async function generateCode() {
-        const prompt = document.getElementById('prompt-input').value;
-        const language = document.getElementById('lang-input').value;
+        const prompt = document.getElementById('prompt-input').value.trim();
+        const language = document.getElementById('lang-input').value.trim();
         const btn = document.getElementById('generate-btn');
         const outputSection = document.getElementById('output-section');
         
-        if(!prompt.trim()) { alert("Please describe the code you want to generate!"); return; }
+        if(!prompt) { alert("Please describe the code you want to generate!"); return; }
+
+        // ==========================================
+        // VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
+        // ==========================================
+        const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (!isAuth) {
+            alert("🔒 Please login from the Dashboard to use Premium Tools.");
+            window.location.href = "index.html";
+            return;
+        }
+
+        let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
+        if (currentCredits <= 0) {
+            alert("🎁 You have run out of Credits!");
+            document.getElementById('out-thought').innerHTML = "<span style='color: #ef4444;'>Insufficient Credits. Please upgrade in Dashboard.</span>";
+            outputSection.style.display = 'block';
+            return; 
+        }
 
         btn.innerText = "👨‍💻 Engineer is writing code... ⏳";
         btn.disabled = true;
@@ -190,30 +224,51 @@
         outputSection.style.display = 'none';
         
         try {
-            const response = await fetch('/api/code', {
+            // Deduct 2 Credits instantly (Premium Task)
+            currentCredits -= 2; 
+            localStorage.setItem('tv_agent_credits', currentCredits);
+
+            // Strict System Prompt to enforce JSON formatting
+            const systemPrompt = `You are an elite 10x AI Software Engineer. Generate high-quality, production-ready code based on the user's request.
+            You MUST respond with ONLY a raw JSON object. Do not include any markdown formatting like \`\`\`json, backticks, or conversational text outside the JSON.
+            Use exactly this JSON structure:
+            {
+                "thought_process": "A brief 1-2 sentence explanation of your logical approach.",
+                "language": "The primary programming language used (e.g., javascript, python, html, css, jsx). Do NOT use special characters.",
+                "code": "The actual raw code. Ensure it is properly formatted.",
+                "instructions": "Brief instructions on how to use or run the code."
+            }`;
+            const userPrompt = `Language specified: ${language || 'Auto-detect'}\nRequest: ${prompt}`;
+
+            const response = await fetch('/api/groq-handler', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: prompt, language: language })
+                body: JSON.stringify({ systemPrompt, userPrompt })
             });
 
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error);
+            const responseData = await response.json();
+            if (!response.ok || !responseData.result) throw new Error(responseData.error || "Server Error: API did not respond properly.");
+
+            // Clean up possible markdown added by AI and parse JSON
+            let cleanJSON = responseData.result.replace(/```json/gi, '').replace(/```/g, '').trim();
+            const data = JSON.parse(cleanJSON);
 
             // Populate Text Areas
-            document.getElementById('out-thought').innerText = data.thought_process;
-            document.getElementById('out-instructions').innerText = data.instructions;
+            document.getElementById('out-thought').innerText = data.thought_process || "Analyzing logic...";
+            document.getElementById('out-instructions').innerText = data.instructions || "Run the code in your preferred environment.";
             
             // Set Language Badge
-            const detectedLang = data.language || 'javascript';
+            let detectedLang = data.language ? data.language.toLowerCase() : 'javascript';
+            if(detectedLang === 'html') detectedLang = 'markup'; // PrismJS uses 'markup' for HTML
             document.getElementById('out-lang').innerText = detectedLang;
 
             // Handle Code & Syntax Highlighting
             const codeElement = document.getElementById('out-code');
-            rawGeneratedCode = data.code; // Store for copying
+            rawGeneratedCode = data.code || "// Code generation failed."; 
             
             // Protect HTML tags from rendering as actual HTML in the pre block
-            codeElement.textContent = data.code; 
-            codeElement.className = `language-${detectedLang.toLowerCase()}`;
+            codeElement.textContent = rawGeneratedCode; 
+            codeElement.className = `language-${detectedLang}`;
             
             // Trigger Prism to highlight the new code
             Prism.highlightElement(codeElement);
@@ -221,7 +276,9 @@
             outputSection.style.display = 'block';
 
         } catch (error) {
-            alert("Error: " + error.message);
+            console.error("Code Generator Error:", error);
+            document.getElementById('out-thought').innerHTML = `<span style='color: #ef4444;'>⚠️ Error: ${error.message}</span>`;
+            outputSection.style.display = 'block';
         } finally {
             btn.innerText = "Generate Pro Code 🚀";
             btn.disabled = false;
@@ -230,6 +287,7 @@
     }
 
     function copyCodeRaw() {
+        if (!rawGeneratedCode) return;
         navigator.clipboard.writeText(rawGeneratedCode).then(() => {
             const copyBtn = document.querySelector('.copy-code-btn');
             const originalText = copyBtn.innerText;
@@ -240,6 +298,27 @@
                 copyBtn.style.background = "#3b82f6";
             }, 2000);
         });
+    }
+</script>
+
+<!-- VVIP UNIVERSAL UNLOCK SCRIPT -->
+<script>
+    const isVVIPAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+    if (isVVIPAuth) {
+        const unlockStyle = document.createElement('style');
+        unlockStyle.innerHTML = `
+            #authOverlay, #firebaseAuthModal, .auth-modal, #loginModal { 
+                display: none !important; opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important; visibility: hidden !important;
+            }
+            body { overflow: auto !important; }
+        `;
+        document.head.appendChild(unlockStyle);
+        window.isUserLoggedIn = true;
+        setInterval(() => {
+            const lockScreens = document.querySelectorAll('#authOverlay, #firebaseAuthModal, .auth-modal, #loginModal');
+            lockScreens.forEach(lock => { if(lock) lock.style.display = 'none'; });
+            window.isUserLoggedIn = true;
+        }, 200);
     }
 </script>
 
