@@ -604,7 +604,7 @@
             
             <div style="display: flex; gap: 10px; margin-top: 5px; margin-bottom: 10px;">
                 <select id="profPhoneCode" class="auth-input" style="width: 35%; margin: 0; padding-right: 5px;">
-                    <option value="" disabled selected>🏳️ Loading...</option>
+                    <option value="" disabled selected>🏳️ Code</option>
                 </select>
                 <input type="tel" id="profPhone" class="auth-input" style="width: 65%; margin: 0;" placeholder="Phone Number">
             </div>
@@ -616,7 +616,7 @@
             
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px;">
                 <select id="profCountry" class="auth-input" style="margin: 0;">
-                    <option value="" disabled selected>🏳️ Loading...</option>
+                    <option value="" disabled selected>🏳️ Select Country</option>
                 </select>
                 <input type="text" id="profState" class="auth-input" style="margin: 0;" placeholder="State/Prov">
                 <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Zip Code">
@@ -627,7 +627,6 @@
                     <div style="font-weight: 600; font-size: 14px; color: #fff;">Two-Factor Authentication (2FA)</div>
                     <div style="font-size: 12px; color: #94a3b8;">Secure your account with 6-digit OTP codes on login.</div>
                 </div>
-                <!-- VVIP Toggle Fix (min-width & flex-shrink added) -->
                 <label style="position: relative; display: inline-block; width: 44px; min-width: 44px; height: 24px; flex-shrink: 0;">
                     <input type="checkbox" id="twoFactorToggle" style="opacity: 0; width: 0; height: 0;">
                     <span id="sliderSpan" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .3s; border-radius: 24px;"></span>
@@ -984,39 +983,63 @@
             
             updateDisplay();
 
-            // --- VVIP FIX 1: SECURE COUNTRIES FETCH ---
+            // --- VVIP FIX 1: ZERO-DELAY COUNTRIES (OFFLINE FALLBACK + API) ---
             const phoneCodeSelect = document.getElementById('profPhoneCode');
             const countrySelect = document.getElementById('profCountry');
             
-            if(phoneCodeSelect && countrySelect) {
-                fetch('https://restcountries.com/v3.1/all?fields=name,idd,flag')
-                    .then(res => res.json())
-                    .then(data => {
-                        data.sort((a,b) => a.name.common.localeCompare(b.name.common));
-                        
-                        // Clear loading state
-                        phoneCodeSelect.innerHTML = `<option value="" disabled selected>🏳️ Code</option>`;
-                        countrySelect.innerHTML = `<option value="" disabled selected>🏳️ Select Country</option>`;
-                        
-                        data.forEach(country => {
-                            let dialCode = "";
-                            if(country.idd && country.idd.root) {
-                                dialCode = country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : '');
-                            }
-                            if(dialCode) {
-                                phoneCodeSelect.add(new Option(`${country.flag} ${dialCode}`, dialCode));
-                            }
-                            if(country.name && country.name.common) {
-                                countrySelect.add(new Option(`${country.flag} ${country.name.common}`, country.name.common));
-                            }
-                        });
-                    })
-                    .catch(err => {
-                        console.log('Error loading countries:', err);
-                        phoneCodeSelect.innerHTML = `<option value="" disabled selected>⚠️ Error</option>`;
-                        countrySelect.innerHTML = `<option value="" disabled selected>⚠️ Error</option>`;
-                    });
+            // Hardcoded top 25 countries so it loads INSTANTLY without internet/API block
+            const fallbackCountries = [
+                { n: "Australia", c: "+61", f: "🇦🇺" }, { n: "Bangladesh", c: "+880", f: "🇧🇩" },
+                { n: "Canada", c: "+1", f: "🇨🇦" }, { n: "China", c: "+86", f: "🇨🇳" },
+                { n: "France", c: "+33", f: "🇫🇷" }, { n: "Germany", c: "+49", f: "🇩🇪" },
+                { n: "India", c: "+91", f: "🇮🇳" }, { n: "Indonesia", c: "+62", f: "🇮🇩" },
+                { n: "Italy", c: "+39", f: "🇮🇹" }, { n: "Japan", c: "+81", f: "🇯🇵" },
+                { n: "Malaysia", c: "+60", f: "🇲🇾" }, { n: "New Zealand", c: "+64", f: "🇳🇿" },
+                { n: "Pakistan", c: "+92", f: "🇵🇰" }, { n: "Philippines", c: "+63", f: "🇵🇭" },
+                { n: "Russia", c: "+7", f: "🇷🇺" }, { n: "Saudi Arabia", c: "+966", f: "🇸🇦" },
+                { n: "South Africa", c: "+27", f: "🇿🇦" }, { n: "South Korea", c: "+82", f: "🇰🇷" },
+                { n: "Spain", c: "+34", f: "🇪🇸" }, { n: "Turkey", c: "+90", f: "🇹🇷" },
+                { n: "United Arab Emirates", c: "+971", f: "🇦🇪" }, { n: "United Kingdom", c: "+44", f: "🇬🇧" },
+                { n: "United States", c: "+1", f: "🇺🇸" }
+            ];
+
+            function injectCountries(dataList) {
+                if(!phoneCodeSelect || !countrySelect) return;
+                
+                let pOptions = '<option value="" disabled selected>🏳️ Code</option>';
+                let cOptions = '<option value="" disabled selected>🏳️ Select Country</option>';
+                
+                dataList.forEach(item => {
+                    pOptions += `<option value="${item.c}">${item.f} ${item.c}</option>`;
+                    cOptions += `<option value="${item.n}">${item.f} ${item.n}</option>`;
+                });
+                
+                phoneCodeSelect.innerHTML = pOptions;
+                countrySelect.innerHTML = cOptions;
             }
+
+            // Load instantly!
+            injectCountries(fallbackCountries);
+
+            // Silently try to get all 250+ countries in the background
+            fetch('https://restcountries.com/v3.1/all?fields=name,idd,flag')
+                .then(res => res.json())
+                .then(data => {
+                    let fullList = [];
+                    data.forEach(c => {
+                        let code = (c.idd && c.idd.root) ? (c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : '')) : '';
+                        if(code && c.name && c.name.common) {
+                            fullList.push({ n: c.name.common, c: code, f: c.flag });
+                        }
+                    });
+                    fullList.sort((a,b) => a.n.localeCompare(b.n));
+                    injectCountries(fullList); // Updates silently without user noticing
+                })
+                .catch(err => {
+                    // Do nothing! The fallback array is already there, so user NEVER sees an error.
+                    console.log("Using offline country list.");
+                });
+
 
             // --- VVIP FIX 2: SMART ADDRESS AUTO-FILL (DETAILS SPLIT) ---
             const addressInput = document.getElementById('profAddress');
