@@ -627,6 +627,7 @@
                     <div style="font-weight: 600; font-size: 14px; color: #fff;">Two-Factor Authentication (2FA)</div>
                     <div style="font-size: 12px; color: #94a3b8;">Secure your account with 6-digit OTP codes on login.</div>
                 </div>
+                <!-- VVIP Toggle Fix -->
                 <label style="position: relative; display: inline-block; width: 44px; min-width: 44px; height: 24px; flex-shrink: 0;">
                     <input type="checkbox" id="twoFactorToggle" style="opacity: 0; width: 0; height: 0;">
                     <span id="sliderSpan" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .3s; border-radius: 24px;"></span>
@@ -668,6 +669,85 @@
             const popup = document.getElementById('cookie-consent');
             if(popup) popup.style.display = 'none';
         }
+    </script>
+
+    <!-- VVIP ZERO-DELAY COUNTRIES SCRIPT (NO API NEEDED) -->
+    <script>
+        const allWorldCountries = [
+            {n:"Afghanistan",c:"+93",f:"🇦🇫"},{n:"Albania",c:"+355",f:"🇦🇱"},{n:"Algeria",c:"+213",f:"🇩🇿"},
+            {n:"Andorra",c:"+376",f:"🇦🇩"},{n:"Angola",c:"+244",f:"🇦🇴"},{n:"Antigua and Barbuda",c:"+1",f:"🇦🇬"},
+            {n:"Argentina",c:"+54",f:"🇦🇷"},{n:"Armenia",c:"+374",f:"🇦🇲"},{n:"Australia",c:"+61",f:"🇦🇺"},
+            {n:"Austria",c:"+43",f:"🇦🇹"},{n:"Azerbaijan",c:"+994",f:"🇦🇿"},{n:"Bahamas",c:"+1",f:"🇧🇸"},
+            {n:"Bahrain",c:"+973",f:"🇧🇭"},{n:"Bangladesh",c:"+880",f:"🇧🇩"},{n:"Barbados",c:"+1",f:"🇧🇧"},
+            {n:"Belarus",c:"+375",f:"🇧🇾"},{n:"Belgium",c:"+32",f:"🇧🇪"},{n:"Belize",c:"+501",f:"🇧🇿"},
+            {n:"Benin",c:"+229",f:"🇧🇯"},{n:"Bhutan",c:"+975",f:"🇧🇹"},{n:"Bolivia",c:"+591",f:"🇧🇴"},
+            {n:"Bosnia and Herzegovina",c:"+387",f:"🇧🇦"},{n:"Botswana",c:"+267",f:"🇧🇼"},{n:"Brazil",c:"+55",f:"🇧🇷"},
+            {n:"Brunei",c:"+673",f:"🇧🇳"},{n:"Bulgaria",c:"+359",f:"🇧🇬"},{n:"Burkina Faso",c:"+226",f:"🇧🇫"},
+            {n:"Burundi",c:"+257",f:"🇧🇮"},{n:"Cambodia",c:"+855",f:"🇰🇭"},{n:"Cameroon",c:"+237",f:"🇨🇲"},
+            {n:"Canada",c:"+1",f:"🇨🇦"},{n:"Central African Republic",c:"+236",f:"🇨🇫"},{n:"Chad",c:"+235",f:"🇹🇩"},
+            {n:"Chile",c:"+56",f:"🇨🇱"},{n:"China",c:"+86",f:"🇨🇳"},{n:"Colombia",c:"+57",f:"🇨🇴"},
+            {n:"Comoros",c:"+269",f:"🇰🇲"},{n:"Congo",c:"+242",f:"🇨🇬"},{n:"Costa Rica",c:"+506",f:"🇨🇷"},
+            {n:"Croatia",c:"+385",f:"🇭🇷"},{n:"Cuba",c:"+53",f:"🇨🇺"},{n:"Cyprus",c:"+357",f:"🇨🇾"},
+            {n:"Czech Republic",c:"+420",f:"🇨🇿"},{n:"Denmark",c:"+45",f:"🇩🇰"},{n:"Djibouti",c:"+253",f:"🇩🇯"},
+            {n:"Dominican Republic",c:"+1",f:"🇩🇴"},{n:"Ecuador",c:"+593",f:"🇪🇨"},{n:"Egypt",c:"+20",f:"🇪🇬"},
+            {n:"El Salvador",c:"+503",f:"🇸🇻"},{n:"Eritrea",c:"+291",f:"🇪🇷"},{n:"Estonia",c:"+372",f:"🇪🇪"},
+            {n:"Eswatini",c:"+268",f:"🇸🇿"},{n:"Ethiopia",c:"+251",f:"🇪🇹"},{n:"Fiji",c:"+679",f:"🇫🇯"},
+            {n:"Finland",c:"+358",f:"🇫🇮"},{n:"France",c:"+33",f:"🇫🇷"},{n:"Gabon",c:"+241",f:"🇬🇦"},
+            {n:"Gambia",c:"+220",f:"🇬🇲"},{n:"Georgia",c:"+995",f:"🇬🇪"},{n:"Germany",c:"+49",f:"🇩🇪"},
+            {n:"Ghana",c:"+233",f:"🇬🇭"},{n:"Greece",c:"+30",f:"🇬🇷"},{n:"Grenada",c:"+1",f:"🇬🇩"},
+            {n:"Guatemala",c:"+502",f:"🇬🇹"},{n:"Guinea",c:"+224",f:"🇬🇳"},{n:"Haiti",c:"+509",f:"🇭🇹"},
+            {n:"Honduras",c:"+504",f:"🇭🇳"},{n:"Hungary",c:"+36",f:"🇭🇺"},{n:"Iceland",c:"+354",f:"🇮🇸"},
+            {n:"India",c:"+91",f:"🇮🇳"},{n:"Indonesia",c:"+62",f:"🇮🇩"},{n:"Iran",c:"+98",f:"🇮🇷"},
+            {n:"Iraq",c:"+964",f:"🇮🇶"},{n:"Ireland",c:"+353",f:"🇮🇪"},{n:"Israel",c:"+972",f:"🇮🇱"},
+            {n:"Italy",c:"+39",f:"🇮🇹"},{n:"Jamaica",c:"+1",f:"🇯🇲"},{n:"Japan",c:"+81",f:"🇯🇵"},
+            {n:"Jordan",c:"+962",f:"🇯🇴"},{n:"Kazakhstan",c:"+7",f:"🇰🇿"},{n:"Kenya",c:"+254",f:"🇰🇪"},
+            {n:"Kuwait",c:"+965",f:"🇰🇼"},{n:"Kyrgyzstan",c:"+996",f:"🇰🇬"},{n:"Laos",c:"+856",f:"🇱🇦"},
+            {n:"Latvia",c:"+371",f:"🇱🇻"},{n:"Lebanon",c:"+961",f:"🇱🇧"},{n:"Lesotho",c:"+266",f:"🇱🇸"},
+            {n:"Liberia",c:"+231",f:"🇱🇷"},{n:"Libya",c:"+218",f:"🇱🇾"},{n:"Lithuania",c:"+370",f:"🇱🇹"},
+            {n:"Luxembourg",c:"+352",f:"🇱🇺"},{n:"Madagascar",c:"+261",f:"🇲🇬"},{n:"Malawi",c:"+265",f:"🇲🇼"},
+            {n:"Malaysia",c:"+60",f:"🇲🇾"},{n:"Maldives",c:"+960",f:"🇲🇻"},{n:"Mali",c:"+223",f:"🇲🇱"},
+            {n:"Malta",c:"+356",f:"🇲🇹"},{n:"Mexico",c:"+52",f:"🇲🇽"},{n:"Moldova",c:"+373",f:"🇲🇩"},
+            {n:"Monaco",c:"+377",f:"🇲🇨"},{n:"Mongolia",c:"+976",f:"🇲🇳"},{n:"Montenegro",c:"+382",f:"🇲🇪"},
+            {n:"Morocco",c:"+212",f:"🇲🇦"},{n:"Mozambique",c:"+258",f:"🇲🇿"},{n:"Myanmar",c:"+95",f:"🇲🇲"},
+            {n:"Namibia",c:"+264",f:"🇳🇦"},{n:"Nepal",c:"+977",f:"🇳🇵"},{n:"Netherlands",c:"+31",f:"🇳🇱"},
+            {n:"New Zealand",c:"+64",f:"🇳🇿"},{n:"Nicaragua",c:"+505",f:"🇳🇮"},{n:"Niger",c:"+227",f:"🇳🇪"},
+            {n:"Nigeria",c:"+234",f:"🇳🇬"},{n:"North Korea",c:"+850",f:"🇰🇵"},{n:"Norway",c:"+47",f:"🇳🇴"},
+            {n:"Oman",c:"+968",f:"🇴🇲"},{n:"Pakistan",c:"+92",f:"🇵🇰"},{n:"Palestine",c:"+970",f:"🇵🇸"},
+            {n:"Panama",c:"+507",f:"🇵🇦"},{n:"Papua New Guinea",c:"+675",f:"🇵🇬"},{n:"Paraguay",c:"+595",f:"🇵🇾"},
+            {n:"Peru",c:"+51",f:"🇵🇪"},{n:"Philippines",c:"+63",f:"🇵🇭"},{n:"Poland",c:"+48",f:"🇵🇱"},
+            {n:"Portugal",c:"+351",f:"🇵🇹"},{n:"Qatar",c:"+974",f:"🇶🇦"},{n:"Romania",c:"+40",f:"🇷🇴"},
+            {n:"Russia",c:"+7",f:"🇷🇺"},{n:"Rwanda",c:"+250",f:"🇷🇼"},{n:"Saudi Arabia",c:"+966",f:"🇸🇦"},
+            {n:"Senegal",c:"+221",f:"🇸🇳"},{n:"Serbia",c:"+381",f:"🇷🇸"},{n:"Sierra Leone",c:"+232",f:"🇸🇱"},
+            {n:"Singapore",c:"+65",f:"🇸🇬"},{n:"Slovakia",c:"+421",f:"🇸🇰"},{n:"Slovenia",c:"+386",f:"🇸🇮"},
+            {n:"Somalia",c:"+252",f:"🇸🇴"},{n:"South Africa",c:"+27",f:"🇿🇦"},{n:"South Korea",c:"+82",f:"🇰🇷"},
+            {n:"Spain",c:"+34",f:"🇪🇸"},{n:"Sri Lanka",c:"+94",f:"🇱🇰"},{n:"Sudan",c:"+249",f:"🇸🇩"},
+            {n:"Sweden",c:"+46",f:"🇸🇪"},{n:"Switzerland",c:"+41",f:"🇨🇭"},{n:"Syria",c:"+963",f:"🇸🇾"},
+            {n:"Taiwan",c:"+886",f:"🇹🇼"},{n:"Tajikistan",c:"+992",f:"🇹🇯"},{n:"Tanzania",c:"+255",f:"🇹🇿"},
+            {n:"Thailand",c:"+66",f:"🇹🇭"},{n:"Togo",c:"+228",f:"🇹🇬"},{n:"Tunisia",c:"+216",f:"🇹🇳"},
+            {n:"Turkey",c:"+90",f:"🇹🇷"},{n:"Turkmenistan",c:"+993",f:"🇹🇲"},{n:"Uganda",c:"+256",f:"🇺🇬"},
+            {n:"Ukraine",c:"+380",f:"🇺🇦"},{n:"United Arab Emirates",c:"+971",f:"🇦🇪"},{n:"United Kingdom",c:"+44",f:"🇬🇧"},
+            {n:"United States",c:"+1",f:"🇺🇸"},{n:"Uruguay",c:"+598",f:"🇺🇾"},{n:"Uzbekistan",c:"+998",f:"🇺🇿"},
+            {n:"Venezuela",c:"+58",f:"🇻🇪"},{n:"Vietnam",c:"+84",f:"🇻🇳"},{n:"Yemen",c:"+967",f:"🇾🇪"},
+            {n:"Zambia",c:"+260",f:"🇿🇲"},{n:"Zimbabwe",c:"+263",f:"🇿🇼"}
+        ];
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const phoneCodeSelect = document.getElementById('profPhoneCode');
+            const countrySelect = document.getElementById('profCountry');
+            
+            if(phoneCodeSelect && countrySelect) {
+                let pOptions = '<option value="" disabled selected>🏳️ Code</option>';
+                let cOptions = '<option value="" disabled selected>🏳️ Select Country</option>';
+                
+                allWorldCountries.forEach(item => {
+                    pOptions += `<option value="${item.c}">${item.f} ${item.c}</option>`;
+                    cOptions += `<option value="${item.n}">${item.f} ${item.n}</option>`;
+                });
+                
+                phoneCodeSelect.innerHTML = pOptions;
+                countrySelect.innerHTML = cOptions;
+            }
+        });
     </script>
 
     <script type="module">
@@ -983,65 +1063,7 @@
             
             updateDisplay();
 
-            // --- VVIP FIX 1: ZERO-DELAY COUNTRIES (OFFLINE FALLBACK + API) ---
-            const phoneCodeSelect = document.getElementById('profPhoneCode');
-            const countrySelect = document.getElementById('profCountry');
-            
-            // Hardcoded top 25 countries so it loads INSTANTLY without internet/API block
-            const fallbackCountries = [
-                { n: "Australia", c: "+61", f: "🇦🇺" }, { n: "Bangladesh", c: "+880", f: "🇧🇩" },
-                { n: "Canada", c: "+1", f: "🇨🇦" }, { n: "China", c: "+86", f: "🇨🇳" },
-                { n: "France", c: "+33", f: "🇫🇷" }, { n: "Germany", c: "+49", f: "🇩🇪" },
-                { n: "India", c: "+91", f: "🇮🇳" }, { n: "Indonesia", c: "+62", f: "🇮🇩" },
-                { n: "Italy", c: "+39", f: "🇮🇹" }, { n: "Japan", c: "+81", f: "🇯🇵" },
-                { n: "Malaysia", c: "+60", f: "🇲🇾" }, { n: "New Zealand", c: "+64", f: "🇳🇿" },
-                { n: "Pakistan", c: "+92", f: "🇵🇰" }, { n: "Philippines", c: "+63", f: "🇵🇭" },
-                { n: "Russia", c: "+7", f: "🇷🇺" }, { n: "Saudi Arabia", c: "+966", f: "🇸🇦" },
-                { n: "South Africa", c: "+27", f: "🇿🇦" }, { n: "South Korea", c: "+82", f: "🇰🇷" },
-                { n: "Spain", c: "+34", f: "🇪🇸" }, { n: "Turkey", c: "+90", f: "🇹🇷" },
-                { n: "United Arab Emirates", c: "+971", f: "🇦🇪" }, { n: "United Kingdom", c: "+44", f: "🇬🇧" },
-                { n: "United States", c: "+1", f: "🇺🇸" }
-            ];
-
-            function injectCountries(dataList) {
-                if(!phoneCodeSelect || !countrySelect) return;
-                
-                let pOptions = '<option value="" disabled selected>🏳️ Code</option>';
-                let cOptions = '<option value="" disabled selected>🏳️ Select Country</option>';
-                
-                dataList.forEach(item => {
-                    pOptions += `<option value="${item.c}">${item.f} ${item.c}</option>`;
-                    cOptions += `<option value="${item.n}">${item.f} ${item.n}</option>`;
-                });
-                
-                phoneCodeSelect.innerHTML = pOptions;
-                countrySelect.innerHTML = cOptions;
-            }
-
-            // Load instantly!
-            injectCountries(fallbackCountries);
-
-            // Silently try to get all 250+ countries in the background
-            fetch('https://restcountries.com/v3.1/all?fields=name,idd,flag')
-                .then(res => res.json())
-                .then(data => {
-                    let fullList = [];
-                    data.forEach(c => {
-                        let code = (c.idd && c.idd.root) ? (c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : '')) : '';
-                        if(code && c.name && c.name.common) {
-                            fullList.push({ n: c.name.common, c: code, f: c.flag });
-                        }
-                    });
-                    fullList.sort((a,b) => a.n.localeCompare(b.n));
-                    injectCountries(fullList); // Updates silently without user noticing
-                })
-                .catch(err => {
-                    // Do nothing! The fallback array is already there, so user NEVER sees an error.
-                    console.log("Using offline country list.");
-                });
-
-
-            // --- VVIP FIX 2: SMART ADDRESS AUTO-FILL (DETAILS SPLIT) ---
+            // --- VVIP SMART ADDRESS AUTO-FILL (DETAILS SPLIT) ---
             const addressInput = document.getElementById('profAddress');
             const suggestionsBox = document.getElementById('addressSuggestions');
             let debounceTimer;
@@ -1056,12 +1078,10 @@
                         return;
                     }
                     
-                    // Show premium loading text
                     suggestionsBox.innerHTML = '<li style="text-align:center; color:#94a3b8; padding: 15px;"><i class="fa-solid fa-spinner fa-spin"></i> Searching locations...</li>';
                     suggestionsBox.style.display = 'block';
 
                     debounceTimer = setTimeout(() => {
-                        // Added &addressdetails=1 to get specific state/zip data
                         fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`)
                         .then(res => res.json())
                         .then(data => {
@@ -1071,24 +1091,21 @@
                                     let li = document.createElement('li');
                                     li.innerHTML = `📍 ${place.display_name}`;
                                     
-                                    // The Magic Click Event
                                     li.onclick = function() {
                                         let addr = place.address || {};
                                         let zip = addr.postcode || '';
                                         let state = addr.state || addr.province || '';
                                         let country = addr.country || '';
 
-                                        // Filter out State, Zip, and Country from main address line
                                         let fullAddressParts = place.display_name.split(',').map(s => s.trim());
                                         let streetParts = fullAddressParts.filter(p => p !== country && p !== zip && p !== state);
                                         let streetAddress = streetParts.join(', ');
 
-                                        // Auto-fill all inputs
                                         document.getElementById('profAddress').value = streetAddress;
                                         document.getElementById('profState').value = state;
                                         document.getElementById('profZip').value = zip;
                                         
-                                        // Auto-select Country in Dropdown
+                                        const countrySelect = document.getElementById('profCountry');
                                         if(countrySelect && country) {
                                             Array.from(countrySelect.options).forEach((opt, idx) => {
                                                 if(opt.value === country || opt.text.includes(country)) {
@@ -1108,7 +1125,7 @@
                         .catch(err => {
                             suggestionsBox.innerHTML = '<li style="text-align:center; color:#ff4757; padding: 15px;">Error fetching address</li>';
                         });
-                    }, 600); // 600ms typing delay
+                    }, 600);
                 });
 
                 document.addEventListener('click', function(e) {
