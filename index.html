@@ -7,7 +7,7 @@
     <meta name="google-site-verification" content="XgH4GBHvosYC4hdFgcYobZQs4rhp_k2gjwR_Glft9tM" />
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=10">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -16,10 +16,10 @@
            ========================================================= */
         * { 
             box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent !important; /* Kills the blue strip */
+            -webkit-tap-highlight-color: transparent !important; 
             outline: none !important;
         }
-        
+
         html { scroll-behavior: smooth; }
         
         /* =========================================================
@@ -27,7 +27,6 @@
            ========================================================= */
         body { background-color: #0b0f19 !important; color: #f8fafc !important; font-family: 'Inter', sans-serif; }
         
-        /* Sticky Frosted Glass Header */
         .ilove-header { 
             position: sticky; top: 0; z-index: 1000;
             background: rgba(11, 15, 25, 0.85) !important; 
@@ -39,83 +38,27 @@
         .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
         .header-container { display: flex; align-items: center; justify-content: space-between; }
         
-        /* VVIP User Profile Button */
         .premium-profile-btn { 
             background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(56, 189, 248, 0.15)); 
-            backdrop-filter: blur(10px); 
-            color: #ffffff !important; 
-            font-weight: 700 !important; 
-            font-size: 0.9rem !important; 
-            padding: 6px 16px 6px 6px !important; 
-            border-radius: 30px; 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            border: 1px solid rgba(168, 85, 247, 0.6); 
-            box-shadow: 0 0 12px rgba(168, 85, 247, 0.4); 
-            transition: all 0.3s ease; 
-            cursor: pointer; 
-            text-decoration: none; 
+            backdrop-filter: blur(10px); color: #ffffff !important; font-weight: 700 !important; font-size: 0.9rem !important; 
+            padding: 6px 16px 6px 6px !important; border-radius: 30px; display: flex; align-items: center; gap: 8px; 
+            border: 1px solid rgba(168, 85, 247, 0.6); box-shadow: 0 0 12px rgba(168, 85, 247, 0.4); transition: all 0.3s ease; cursor: pointer; text-decoration: none; 
         }
-        .premium-profile-btn:hover { 
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(56, 189, 248, 0.25)); 
-            border-color: #38bdf8; 
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); 
-            transform: translateY(-2px); 
-        }
-        .profile-avatar-icon { 
-            background: linear-gradient(135deg, #a855f7, #38bdf8); 
-            width: 28px; height: 28px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3); 
-        }
+        .premium-profile-btn:hover { background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(56, 189, 248, 0.25)); border-color: #38bdf8; box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); transform: translateY(-2px); }
+        .profile-avatar-icon { background: linear-gradient(135deg, #a855f7, #38bdf8); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         
-        /* Glassmorphism Cards with Neon Glow on Hover */
         .ilove-card, .pdf-card { 
             background: linear-gradient(145deg, rgba(17, 24, 39, 0.8), rgba(15, 23, 42, 0.9)) !important; 
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.06) !important; 
-            transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
-            border-radius: 16px;
+            backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.06) !important; 
+            transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) !important; border-radius: 16px;
         }
-        .ilove-card:hover, .pdf-card:hover { 
-            border-color: rgba(56, 189, 248, 0.6) !important; 
-            box-shadow: 0 12px 35px rgba(56, 189, 248, 0.2) !important; 
-            transform: translateY(-4px);
-        }
+        .ilove-card:hover, .pdf-card:hover { border-color: rgba(56, 189, 248, 0.6) !important; box-shadow: 0 12px 35px rgba(56, 189, 248, 0.2) !important; transform: translateY(-4px); }
         
-        /* Smart Instant Search Bar UI */
-        .tool-search-bar-wrapper {
-            max-width: 600px;
-            margin: 20px auto 30px auto;
-            position: relative;
-        }
-        .tool-search-input {
-            width: 100%;
-            padding: 14px 20px 14px 45px;
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            border-radius: 30px;
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            transition: 0.3s;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-        .tool-search-input:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-        }
-        .tool-search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #38bdf8;
-            font-size: 1.1rem;
-        }
+        .tool-search-bar-wrapper { max-width: 600px; margin: 20px auto 30px auto; position: relative; }
+        .tool-search-input { width: 100%; padding: 14px 20px 14px 45px; background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 30px; color: #fff; font-size: 1rem; outline: none; transition: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .tool-search-input:focus { border-color: #38bdf8; box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); }
+        .tool-search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #38bdf8; font-size: 1.1rem; }
 
-        /* Draggable Mining Widget */
         .mining-widget { position: fixed; bottom: 30px; left: 30px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 12px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 5px; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.3); cursor: grab; z-index: 999; transition: box-shadow 0.3s; white-space: nowrap; touch-action: none; user-select: none; }
         .mining-widget:active { cursor: grabbing; box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4); transform: scale(1.02); }
         .mining-icon { font-size: 24px; animation: pickaxe 2s infinite; }
@@ -127,25 +70,13 @@
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
         .mining-balance { font-size: 1.2rem; font-weight: 800; color: #fbbf24; margin-left: 10px; white-space: nowrap; }
         
-        /* Modals */
         .crypto-modal, .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .crypto-modal-content { background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24; width: 90%; max-width: 450px; border-radius: 20px; padding: 30px; color: white; position: relative; box-shadow: 0 20px 50px rgba(251, 191, 36, 0.2); text-align: center; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         
-        .auth-modal-content { 
-            background-color: #1e1e1e; padding: 35px 25px; border-radius: 14px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9); text-align: center; 
-            width: 95%; max-width: 450px; position: relative; color: white; border: 1px solid #333; 
-            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            overflow-y: auto; max-height: 95vh;
-        }
+        .auth-modal-content { background-color: #1e1e1e; padding: 35px 25px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.9); text-align: center; width: 95%; max-width: 450px; position: relative; color: white; border: 1px solid #333; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow-y: auto; max-height: 95vh; }
         @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
-        .close-crypto, .close-auth { 
-            position: absolute; top: 12px; right: 12px; font-size: 20px; color: #94a3b8; 
-            cursor: pointer; transition: 0.3s; z-index: 1000; width: 32px; height: 32px;
-            display: flex; justify-content: center; align-items: center;
-            background: rgba(255, 255, 255, 0.08); border-radius: 50%;
-        }
+        .close-crypto, .close-auth { position: absolute; top: 12px; right: 12px; font-size: 20px; color: #94a3b8; cursor: pointer; transition: 0.3s; z-index: 1000; width: 32px; height: 32px; display: flex; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.08); border-radius: 50%; }
         .close-crypto:hover, .close-auth:hover { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
         
         .crypto-badge { background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; display: inline-block; margin-bottom: 15px; border: 1px solid #fbbf24; }
@@ -169,34 +100,13 @@
         .auth-title { margin-top: 0; color: #4da6ff; letter-spacing: 1px; font-size: 1.5rem; margin-bottom: 5px; }
         .auth-subtitle { color: #aaaaaa; font-size: 13px; margin-bottom: 20px; }
         
-        .auth-input { 
-            width: 100%; padding: 12px; margin: 8px 0; 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 8px; background-color: #2a2a2a; 
-            color: white; box-sizing: border-box; font-family: inherit; font-size: 16px; 
-            transition: 0.3s ease;
-        }
+        .auth-input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit; font-size: 16px; transition: 0.3s ease; }
         .auth-input:focus { outline: none; border-color: #38bdf8; box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); background-color: #333; }
-        select.auth-input { 
-            appearance: none; 
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); 
-            background-repeat: no-repeat; background-position: right 10px center; background-size: 1em; cursor: pointer; 
-            padding-right: 30px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
-        }
+        select.auth-input { appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 10px center; background-size: 1em; cursor: pointer; padding-right: 30px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
         select.auth-input option { background-color: #2a2a2a; color: #fff; }
         
-        .suggestions-box { 
-            position: absolute; top: 100%; left: 0; width: 100%; 
-            background: #1a1a1a; border: 1px solid #38bdf8; 
-            border-radius: 8px; z-index: 1000; list-style: none; padding: 0; margin: 4px 0 0 0; 
-            max-height: 220px; overflow-y: auto; display: none; 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.9); text-align: left; 
-        }
-        .suggestions-box li { 
-            padding: 14px 15px; cursor: pointer; color: #cbd5e1; font-size: 14px; 
-            border-bottom: 1px solid rgba(255,255,255,0.05); line-height: 1.5; transition: 0.2s ease;
-            display: flex; align-items: flex-start; gap: 8px;
-        }
+        .suggestions-box { position: absolute; top: 100%; left: 0; width: 100%; background: #1a1a1a; border: 1px solid #38bdf8; border-radius: 8px; z-index: 1000; list-style: none; padding: 0; margin: 4px 0 0 0; max-height: 220px; overflow-y: auto; display: none; box-shadow: 0 15px 30px rgba(0,0,0,0.9); text-align: left; }
+        .suggestions-box li { padding: 14px 15px; cursor: pointer; color: #cbd5e1; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); line-height: 1.5; transition: 0.2s ease; display: flex; align-items: flex-start; gap: 8px; }
         .suggestions-box li:last-child { border-bottom: none; }
         .suggestions-box li:hover { background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 600; padding-left: 20px; }
 
@@ -231,9 +141,7 @@
         .hero-secondary-btn:hover { background: #334155; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30, 41, 59, 0.5); }
         
         @keyframes fadeInCard { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .pdf-filter-btn, .filter-btn { -webkit-tap-highlight-color: transparent !important; outline: none !important; user-select: none; }
 
-        /* Professional Footer */
         .toolverse-footer { background-color: #0b0f19 !important; border-top: 1px solid #1e293b !important; padding: 60px 20px 30px; margin-top: 60px; color: #94a3b8; font-size: 0.95rem; }
         .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; }
         .footer-col h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1.5px; background: linear-gradient(135deg, #38bdf8, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; display: inline-block; }
@@ -329,7 +237,6 @@
         <h1>Agents that work on your context,<br>and get smarter every run.</h1>
         <p>Every tool you need to use AI, at your fingertips. All are 100% FREE and easy to use! Write, generate, summarize, and automate with just a few clicks.</p>
         
-        <!-- VVIP INSTANT SEARCH BAR -->
         <div class="tool-search-bar-wrapper">
             <i class="fa-solid fa-magnifying-glass tool-search-icon"></i>
             <input type="text" id="globalToolSearch" class="tool-search-input" placeholder="Search any AI or PDF tool instantly...">
@@ -389,7 +296,6 @@
         <h1>Every tool you need to work with PDFs in one place</h1>
         <p class="subtitle">Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
 
-        <!-- Navigation Pills -->
         <div class="category-pills" style="cursor: pointer;">
             <span class="pdf-filter-btn active" data-filter="all" onclick="filterPDFTools('all', this)">All</span>
             <span class="pdf-filter-btn" data-filter="workflows" onclick="filterPDFTools('workflows', this)">Workflows</span>
@@ -401,9 +307,7 @@
             <span class="pdf-filter-btn" data-filter="intelligence" onclick="filterPDFTools('intelligence', this)">PDF Intelligence</span>
         </div>
 
-        <!-- 31 Tools Grid -->
         <div class="pdf-grid">
-            
             <a href="merge-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="organize" data-name="merge pdf"><div class="tool-icon bg-red"><i class="fa-solid fa-code-merge"></i></div><div class="tool-title">Merge PDF</div><div class="tool-desc">Combine PDFs in the order you want with the easiest PDF merger available.</div></a>
             <a href="split-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="organize" data-name="split pdf"><div class="tool-icon bg-red"><i class="fa-solid fa-scissors"></i></div><div class="tool-title">Split PDF</div><div class="tool-desc">Separate one page or a whole set for easy conversion into independent PDF files.</div></a>
             <a href="compress-pdf.html" class="pdf-card pdf-tool-card searchable-tool" data-category="optimize" data-name="compress pdf"><div class="tool-icon bg-green"><i class="fa-solid fa-minimize"></i></div><div class="tool-title">Compress PDF</div><div class="tool-desc">Reduce file size while optimizing for maximal PDF quality.</div></a>
@@ -678,7 +582,6 @@
         </div>
     </div>
 
-    <!-- SCRIPT FOR INSTANT TOOL SEARCH -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const searchInput = document.getElementById('globalToolSearch');
@@ -686,15 +589,10 @@
                 searchInput.addEventListener('input', function() {
                     const query = this.value.toLowerCase().trim();
                     const allCards = document.querySelectorAll('.searchable-tool');
-                    
                     allCards.forEach(card => {
                         const name = card.getAttribute('data-name') || '';
                         const text = card.innerText.toLowerCase();
-                        if(name.includes(query) || text.includes(query)) {
-                            card.style.display = '';
-                        } else {
-                            card.style.display = 'none';
-                        }
+                        card.style.display = (name.includes(query) || text.includes(query)) ? '' : 'none';
                     });
                 });
             }
@@ -709,25 +607,16 @@
             allCards.forEach(card => {
                 const cardCategory = card.getAttribute('data-category');
                 if (category === 'all' || cardCategory === category) {
-                    card.style.display = ''; 
-                    card.style.animation = 'fadeInCard 0.4s ease forwards';
+                    card.style.display = ''; card.style.animation = 'fadeInCard 0.4s ease forwards';
                 } else {
                     card.style.display = 'none'; 
                 }
             });
         }
-
-        function acceptCookies() {
-            localStorage.setItem('toolverse_cookies_accepted', 'true');
-            hideCookiePopup();
-        }
-        function hideCookiePopup() {
-            const popup = document.getElementById('cookie-consent');
-            if(popup) popup.style.display = 'none';
-        }
+        function acceptCookies() { localStorage.setItem('toolverse_cookies_accepted', 'true'); hideCookiePopup(); }
+        function hideCookiePopup() { const popup = document.getElementById('cookie-consent'); if(popup) popup.style.display = 'none'; }
     </script>
 
-    <!-- COUNTRIES & CODES DATABASE -->
     <script>
         const allWorldCountries = [
             {n:"Afghanistan",c:"+93",f:"🇦🇫"},{n:"Albania",c:"+355",f:"🇦🇱"},{n:"Algeria",c:"+213",f:"🇩🇿"},
@@ -816,7 +705,6 @@
         });
     </script>
 
-    <!-- FIREBASE & CORE LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -891,27 +779,8 @@
             try { window.populateProfileData(JSON.parse(localProfData)); } catch(e) {}
         }
 
-        async function initializeUserInDB(user) {
-            const userRef = doc(db, "users", user.uid);
-            const userSnap = await getDoc(userRef);
-            
-            if (!userSnap.exists()) {
-                await setDoc(userRef, {
-                    email: user.email,
-                    displayName: user.displayName || 'User',
-                    credits: 2500,
-                    plan: 'Sandbox',
-                    createdAt: new Date().toISOString()
-                });
-            } else {
-                window.populateProfileData(userSnap.data());
-                localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
-            }
-            updateCreditDisplay(user.uid);
-        }
-
         // =========================================================
-        // VVIP CLOUD BRIDGE FIX - NEVER LOSE SPENT CREDITS AGAIN
+        // VVIP CLOUD BRIDGE FIX - NEVER LOSE SPENT CREDITS AGAIN!
         // =========================================================
         async function updateCreditDisplay(uid) {
             const userRef = doc(db, "users", uid);
@@ -923,16 +792,14 @@
                 
                 let localCreditsStr = localStorage.getItem('tv_agent_credits');
                 
+                // IF LOCAL STORAGE IS DIFFERENT THAN FIREBASE, IT MEANS TOOLS DEDUCTED IT!
                 if (localCreditsStr !== null) {
                     let localCredits = parseInt(localCreditsStr);
-                    // If local credits are DIFFERENT than Firebase Database
-                    // It means Super Chat or AI Agent spent them. Force sync to Database to save forever!
                     if (!isNaN(localCredits) && localCredits !== dbCredits) {
-                        dbCredits = localCredits;
-                        await updateDoc(userRef, { credits: dbCredits });
+                        dbCredits = localCredits; 
+                        await updateDoc(userRef, { credits: dbCredits }); // FORCE SYNC TO FIREBASE
                     }
                 } else {
-                    // First time load on this browser, set Local Storage from Database
                     localStorage.setItem('tv_agent_credits', dbCredits.toString());
                 }
                 
@@ -1000,7 +867,7 @@
                 const userRef = doc(db, "users", auth.currentUser.uid);
                 try {
                     await updateDoc(userRef, { credits: 8000, plan: 'Pro Sandbox' });
-                    updateCreditDisplay(auth.currentUser.uid); // Refresh header instantly
+                    updateCreditDisplay(auth.currentUser.uid); // Refresh instantly
                 } catch(e) {}
             }
         });
@@ -1049,13 +916,9 @@
         }
 
         document.getElementById('googleBtn').addEventListener('click', () => {
-            signInWithPopup(auth, googleProvider)
-                .then(async (result) => {
-                    authModal.style.display = 'none';
-                    await initializeUserInDB(result.user);
-                }).catch((error) => {
-                    authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
-                });
+            signInWithPopup(auth, googleProvider).then(async (result) => {
+                authModal.style.display = 'none';
+            }).catch((error) => { authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`; });
         });
 
         emailLoginBtn.addEventListener('click', () => {
@@ -1065,17 +928,11 @@
 
             authMessageBox.innerHTML = `<span style="color: #38bdf8;">Authenticating securely...</span>`;
             signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    authModal.style.display = 'none';
-                    initializeUserInDB(userCredential.user);
-                })
+                .then((userCredential) => { authModal.style.display = 'none'; })
                 .catch((error) => {
                     if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
                         createUserWithEmailAndPassword(auth, email, password)
-                            .then((userCredential) => {
-                                authModal.style.display = 'none';
-                                initializeUserInDB(userCredential.user);
-                            })
+                            .then((userCredential) => { authModal.style.display = 'none'; })
                             .catch((err) => authMessageBox.innerHTML = `<span style="color: #ff4757;">${err.message}</span>`);
                     } else {
                         authMessageBox.innerHTML = `<span style="color: #ff4757;">${error.message}</span>`;
@@ -1094,7 +951,9 @@
                 
                 const userRef = doc(db, "users", user.uid);
                 const userSnap = await getDoc(userRef);
-                if(userSnap.exists()) {
+                if(!userSnap.exists()) {
+                    await setDoc(userRef, { email: user.email, displayName: user.displayName || 'User', credits: 2500, plan: 'Sandbox', createdAt: new Date().toISOString() });
+                } else {
                     window.populateProfileData(userSnap.data());
                     localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
                 }
@@ -1115,23 +974,13 @@
         if(actualLogoutBtn) {
             actualLogoutBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                signOut(auth).then(() => {
-                    userProfileModal.style.display = 'none';
-                });
+                signOut(auth).then(() => { userProfileModal.style.display = 'none'; });
             });
         }
     </script>
 
-    <!-- MINING & WIDGET LOGIC -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            if(!localStorage.getItem('toolverse_cookies_accepted')) {
-                setTimeout(() => {
-                    const popup = document.getElementById('cookie-consent');
-                    if(popup) popup.style.display = 'flex';
-                }, 1500); 
-            }
-
             let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
             let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
             let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
@@ -1154,8 +1003,7 @@
                 let timeDifference = currentTime - parseInt(lastSavedTime); 
                 let missedIntervals = Math.floor(timeDifference / 5000);
                 if (missedIntervals > 0) {
-                    let missedTokens = missedIntervals * increment;
-                    toolBalance += missedTokens; 
+                    toolBalance += (missedIntervals * increment); 
                 }
             }
 
@@ -1170,31 +1018,21 @@
             }
 
             if(closeModalBtn) closeModalBtn.addEventListener('click', () => cryptoModal.style.display = 'none');
-
-            window.addEventListener('click', (e) => { 
-                if (e.target === cryptoModal) cryptoModal.style.display = 'none'; 
-            });
+            window.addEventListener('click', (e) => { if (e.target === cryptoModal) cryptoModal.style.display = 'none'; });
 
             if(isBoostActive && boostBtn) {
-                boostBtn.innerText = "⚡ 3x Boost Active!";
-                boostBtn.disabled = true;
+                boostBtn.innerText = "⚡ 3x Boost Active!"; boostBtn.disabled = true;
                 document.getElementById('miningRateText').innerText = "Mining Rate: +0.009 per 5 seconds (Boosted)";
                 document.getElementById('miningStatusBadge').innerText = "🔥 3X BOOST ACTIVE";
             }
 
-            setInterval(() => {
-                toolBalance += increment;
-                updateDisplay();
-            }, 5000);
+            setInterval(() => { toolBalance += increment; updateDisplay(); }, 5000);
 
             if(boostBtn) {
                 boostBtn.addEventListener('click', () => {
                     if(!isBoostActive) {
-                        isBoostActive = true;
-                        increment = 0.009;
-                        localStorage.setItem('toolVerseBoostActive', 'true');
-                        boostBtn.innerText = "⚡ 3x Boost Active!";
-                        boostBtn.disabled = true;
+                        isBoostActive = true; increment = 0.009; localStorage.setItem('toolVerseBoostActive', 'true');
+                        boostBtn.innerText = "⚡ 3x Boost Active!"; boostBtn.disabled = true;
                         document.getElementById('miningRateText').innerText = "Mining Rate: +0.009 per 5 seconds (Boosted)";
                         document.getElementById('miningStatusBadge').innerText = "🔥 3X BOOST ACTIVE";
                     }
@@ -1202,27 +1040,19 @@
             }
 
             const today = new Date().toDateString();
-            if(lastClaimDate === today && claimBtn) {
-                claimBtn.innerText = "🎁 Claimed Today";
-                claimBtn.disabled = true;
-            }
+            if(lastClaimDate === today && claimBtn) { claimBtn.innerText = "🎁 Claimed Today"; claimBtn.disabled = true; }
 
             if(claimBtn) {
                 claimBtn.addEventListener('click', () => {
                     if(lastClaimDate !== today) {
-                        toolBalance += 50.000;
-                        localStorage.setItem('toolVerseLastClaim', today);
-                        claimBtn.innerText = "🎁 Claimed Today";
-                        claimBtn.disabled = true;
-                        updateDisplay();
-                        alert("Successfully claimed +50 $TOOL bonus!");
+                        toolBalance += 50.000; localStorage.setItem('toolVerseLastClaim', today);
+                        claimBtn.innerText = "🎁 Claimed Today"; claimBtn.disabled = true;
+                        updateDisplay(); alert("Successfully claimed +50 $TOOL bonus!");
                     }
                 });
             }
-            
             updateDisplay();
 
-            // --- SMART ADDRESS AUTO-FILL ---
             const addressInput = document.getElementById('profAddress');
             const suggestionsBox = document.getElementById('addressSuggestions');
             let debounceTimer;
@@ -1231,11 +1061,7 @@
                 addressInput.addEventListener('input', function() {
                     clearTimeout(debounceTimer);
                     const query = this.value.trim();
-                    
-                    if(query.length < 3) {
-                        suggestionsBox.style.display = 'none';
-                        return;
-                    }
+                    if(query.length < 3) { suggestionsBox.style.display = 'none'; return; }
                     
                     suggestionsBox.innerHTML = '<li style="text-align:center; color:#94a3b8; padding: 15px;"><i class="fa-solid fa-spinner fa-spin"></i> Searching locations...</li>';
                     suggestionsBox.style.display = 'block';
@@ -1249,30 +1075,21 @@
                                 data.forEach(place => {
                                     let li = document.createElement('li');
                                     li.innerHTML = `📍 ${place.display_name}`;
-                                    
                                     li.onclick = function() {
-                                        let addr = place.address || {};
-                                        let zip = addr.postcode || '';
-                                        let state = addr.state || addr.province || '';
-                                        let country = addr.country || '';
-
+                                        let addr = place.address || {}; let zip = addr.postcode || ''; let state = addr.state || addr.province || ''; let country = addr.country || '';
                                         let fullAddressParts = place.display_name.split(',').map(s => s.trim());
                                         let streetParts = fullAddressParts.filter(p => p !== country && p !== zip && p !== state);
-                                        let streetAddress = streetParts.join(', ');
-
-                                        document.getElementById('profAddress').value = streetAddress;
+                                        
+                                        document.getElementById('profAddress').value = streetParts.join(', ');
                                         document.getElementById('profState').value = state;
                                         document.getElementById('profZip').value = zip;
                                         
                                         const countrySelect = document.getElementById('profCountry');
                                         if(countrySelect && country) {
                                             Array.from(countrySelect.options).forEach((opt, idx) => {
-                                                if(opt.value === country || opt.text.includes(country)) {
-                                                    countrySelect.selectedIndex = idx;
-                                                }
+                                                if(opt.value === country || opt.text.includes(country)) countrySelect.selectedIndex = idx;
                                             });
                                         }
-
                                         suggestionsBox.style.display = 'none';
                                     };
                                     suggestionsBox.appendChild(li);
@@ -1280,57 +1097,36 @@
                             } else {
                                 suggestionsBox.innerHTML = '<li style="text-align:center; color:#ff4757; padding: 15px;">No results found</li>';
                             }
-                        })
-                        .catch(err => {
-                            suggestionsBox.innerHTML = '<li style="text-align:center; color:#ff4757; padding: 15px;">Error fetching address</li>';
-                        });
+                        }).catch(err => { suggestionsBox.innerHTML = '<li style="text-align:center; color:#ff4757; padding: 15px;">Error fetching address</li>'; });
                     }, 600);
                 });
 
                 document.addEventListener('click', function(e) {
-                    if(e.target !== addressInput && e.target !== suggestionsBox) {
-                        suggestionsBox.style.display = 'none';
-                    }
+                    if(e.target !== addressInput && e.target !== suggestionsBox) suggestionsBox.style.display = 'none';
                 });
             }
 
-            // --- DRAGGABLE MINING WIDGET LOGIC ---
             const widget = document.getElementById('draggableMiningWidget');
             let isDragging = false, startX, startY;
-
             function dragStart(e) {
-                if(e.target.tagName.toLowerCase() === 'span' || e.target.className === 'mining-inner' || e.target.className === 'mining-icon') {
-                    return; 
-                }
-
+                if(e.target.tagName.toLowerCase() === 'span' || e.target.className === 'mining-inner' || e.target.className === 'mining-icon') return; 
                 isDragging = true;
                 const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
                 const clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
-                startX = clientX - widget.offsetLeft;
-                startY = clientY - widget.offsetTop;
+                startX = clientX - widget.offsetLeft; startY = clientY - widget.offsetTop;
             }
-
             function drag(e) {
-                if (!isDragging) return;
-                e.preventDefault();
+                if (!isDragging) return; e.preventDefault();
                 const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
                 const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
-                let newX = clientX - startX;
-                let newY = clientY - startY;
+                let newX = clientX - startX; let newY = clientY - startY;
                 widget.style.left = Math.max(10, Math.min(window.innerWidth - widget.offsetWidth - 10, newX)) + 'px';
                 widget.style.top = Math.max(10, Math.min(window.innerHeight - widget.offsetHeight - 10, newY)) + 'px';
-                widget.style.bottom = 'auto';
-                widget.style.right = 'auto';
+                widget.style.bottom = 'auto'; widget.style.right = 'auto';
             }
-
             function dragEnd() { isDragging = false; }
-
-            widget.addEventListener('mousedown', dragStart);
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('mouseup', dragEnd);
-            widget.addEventListener('touchstart', dragStart, {passive: false});
-            document.addEventListener('touchmove', drag, {passive: false});
-            document.addEventListener('touchend', dragEnd);
+            widget.addEventListener('mousedown', dragStart); document.addEventListener('mousemove', drag); document.addEventListener('mouseup', dragEnd);
+            widget.addEventListener('touchstart', dragStart, {passive: false}); document.addEventListener('touchmove', drag, {passive: false}); document.addEventListener('touchend', dragEnd);
         });
     </script>
 </body>
