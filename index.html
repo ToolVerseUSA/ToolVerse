@@ -12,6 +12,7 @@
     
     <style>
         html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; } /* CRITICAL UI FIX FOR MOBILE */
         
         .crypto-nav-btn { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #1e293b !important; font-weight: 700 !important; padding: 8px 16px !important; border-radius: 20px; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); border: 2px solid #fff; transition: 0.3s; cursor: pointer; }
         .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
@@ -67,12 +68,49 @@
         .pulse-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; animation: pulse 1s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
         .mining-balance { font-size: 1.2rem; font-weight: 800; color: #fbbf24; margin-left: 10px; white-space: nowrap; }
+        
+        /* MODALS */
         .crypto-modal, .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .crypto-modal-content { background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24; width: 90%; max-width: 450px; border-radius: 20px; padding: 30px; color: white; position: relative; box-shadow: 0 20px 50px rgba(251, 191, 36, 0.2); text-align: center; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .auth-modal-content { background-color: #1e1e1e; padding: 35px 30px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.9); text-align: center; width: 90%; max-width: 450px; position: relative; color: white; border: 1px solid #333; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        
+        /* FB/WHATSAPP STYLE MODAL FOR MOBILE */
+        .auth-modal-content { 
+            background-color: #1e1e1e; 
+            padding: 35px 25px; /* Adjusted padding */
+            border-radius: 14px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.9); 
+            text-align: center; 
+            width: 95%; /* Wider on mobile */
+            max-width: 450px; 
+            position: relative; 
+            color: white; 
+            border: 1px solid #333; 
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            overflow-y: auto;
+            max-height: 95vh;
+        }
         @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .close-crypto, .close-auth { position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer; transition: 0.3s; z-index: 1000; }
-        .close-crypto:hover, .close-auth:hover { color: #ff4757; }
+        
+        /* FB STYLE CLOSE BUTTON (FIXED FOR MOBILE) */
+        .close-crypto, .close-auth { 
+            position: absolute; 
+            top: 12px; 
+            right: 12px; 
+            font-size: 20px; 
+            color: #94a3b8; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            z-index: 1000; 
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+        }
+        .close-crypto:hover, .close-auth:hover { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
+        
         .crypto-badge { background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; display: inline-block; margin-bottom: 15px; border: 1px solid #fbbf24; }
         .crypto-header h2 { font-size: 1.8rem; margin-bottom: 5px; }
         .crypto-header p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 25px; }
@@ -95,13 +133,13 @@
         .auth-subtitle { color: #aaaaaa; font-size: 13px; margin-bottom: 20px; }
         
         /* =========================================================
-           VVIP AUTH INPUTS & SUGGESTIONS BOX
+           VVIP AUTH INPUTS & SUGGESTIONS BOX (PREVENTS ZOOM & CLIPPING)
            ========================================================= */
         .auth-input { 
             width: 100%; padding: 12px; margin: 8px 0; 
             border: 1px solid rgba(255, 255, 255, 0.1); 
             border-radius: 8px; background-color: #2a2a2a; 
-            color: white; box-sizing: border-box; font-family: inherit; font-size: 14px;
+            color: white; box-sizing: border-box; font-family: inherit; font-size: 16px; /* 16px prevents iOS zoom */
             transition: 0.3s ease;
         }
         .auth-input:focus { 
@@ -113,7 +151,11 @@
         select.auth-input { 
             appearance: none; 
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); 
-            background-repeat: no-repeat; background-position: right 12px center; background-size: 1em; cursor: pointer; 
+            background-repeat: no-repeat; background-position: right 10px center; background-size: 1em; cursor: pointer; 
+            padding-right: 30px; /* Space for arrow */
+            text-overflow: ellipsis; /* Prevents text overflow cutting badly */
+            white-space: nowrap;
+            overflow: hidden;
         }
         select.auth-input option {
             background-color: #2a2a2a; color: #fff;
@@ -128,7 +170,7 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.9); text-align: left; 
         }
         .suggestions-box li { 
-            padding: 14px 15px; cursor: pointer; color: #cbd5e1; font-size: 13.5px; 
+            padding: 14px 15px; cursor: pointer; color: #cbd5e1; font-size: 14px; 
             border-bottom: 1px solid rgba(255,255,255,0.05); line-height: 1.5; transition: 0.2s ease;
             display: flex; align-items: flex-start; gap: 8px;
         }
@@ -214,6 +256,31 @@
         @media (max-width: 992px) { .footer-container { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { .footer-container { grid-template-columns: 1fr; text-align: center; } .footer-col h3::after { left: 50%; transform: translateX(-50%); } .footer-col ul li a:hover { padding-left: 0; } .footer-bottom { flex-direction: column; text-align: center; } }
     </style>
+    
+    <!-- GUARANTEED BUTTON FIX SCRIPT -->
+    <script>
+        window.upgradeToProAgent = function() {
+            if(localStorage.getItem('ToolVerse_Auth') !== 'true' && localStorage.getItem('isLoggedIn') !== 'true') {
+                alert("Please login first to claim your 8,000 Pro Credits!");
+                document.getElementById('firebaseAuthModal').style.display = 'flex';
+                return;
+            }
+            
+            localStorage.setItem('tv_agent_credits', '8000');
+            localStorage.setItem('tv_plan', 'Pro Sandbox');
+            
+            const profBtn = document.getElementById('navProfileBtn');
+            if(profBtn && profBtn.innerHTML.includes('⚡')) {
+                let name = profBtn.innerText.split('|')[0].trim();
+                profBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${name} | ⚡ 8000</span>`;
+            }
+
+            window.dispatchEvent(new Event('triggerCloudUpgrade'));
+
+            alert("🎉 Success! Your account has been upgraded to the Pro Agent Sandbox. You now have 8,000 Credits!");
+            setTimeout(() => { window.location.href = 'ai-agent.html'; }, 500);
+        };
+    </script>
 </head>
 <body>
 
@@ -541,7 +608,7 @@
 
     <div class="auth-modal" id="otpVerificationModal">
         <div class="auth-modal-content" style="max-width: 400px; text-align: center;">
-            <span class="close-auth" id="closeOtpModalBtn">&times;</span>
+            <span class="close-auth" id="closeOtpModalBtn"><i class="fa-solid fa-xmark"></i></span>
             <div style="font-size: 40px; margin-bottom: 10px;">🔒</div>
             <h2 class="auth-title">Security Verification</h2>
             <p class="auth-subtitle">Enter the 6-digit verification code sent to your registered email/phone.</p>
@@ -565,8 +632,8 @@
     </div>
 
     <div class="auth-modal" id="userProfileModal">
-        <div class="auth-modal-content" style="max-width: 500px; text-align: left; padding-top: 30px;">
-            <span class="close-auth" id="closeProfileModalBtn">&times;</span>
+        <div class="auth-modal-content">
+            <span class="close-auth" id="closeProfileModalBtn"><i class="fa-solid fa-xmark"></i></span>
             <h2 class="auth-title" style="text-align: center; font-size: 1.8rem; color: #fff;">Account Profile & Security</h2>
             <p class="auth-subtitle" style="text-align: center;">Manage your personal info and Two-Factor Authentication (2FA).</p>
 
@@ -575,24 +642,24 @@
                 <span style="font-size: 1.8rem; font-weight: 800; color: #fbbf24;">🪙 <span id="profileModalBal">0.000</span> $TOOL</span>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 10px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 5px;">
                 <input type="text" id="profFirstName" class="auth-input" style="margin: 0;" placeholder="First Name">
                 <input type="text" id="profLastName" class="auth-input" style="margin: 0;" placeholder="Last Name">
             </div>
             
-            <div style="display: flex; gap: 10px; margin-top: 5px; margin-bottom: 10px;">
-                <select id="profPhoneCode" class="auth-input" style="width: 35%; margin: 0; padding-right: 5px;">
+            <div style="display: flex; gap: 8px; margin-top: 5px; margin-bottom: 5px;">
+                <select id="profPhoneCode" class="auth-input" style="width: 38%; margin: 0;">
                     <option value="" disabled selected>🏳️ Code</option>
                 </select>
-                <input type="tel" id="profPhone" class="auth-input" style="width: 65%; margin: 0;" placeholder="Phone Number">
+                <input type="tel" id="profPhone" class="auth-input" style="width: 62%; margin: 0;" placeholder="Phone Number">
             </div>
             
             <div style="position: relative;">
-                <input type="text" id="profAddress" class="auth-input" style="margin-top: 5px; margin-bottom: 15px;" placeholder="Start typing your street address..." autocomplete="off">
+                <input type="text" id="profAddress" class="auth-input" style="margin-top: 5px; margin-bottom: 10px;" placeholder="Start typing your street address..." autocomplete="off">
                 <ul id="addressSuggestions" class="suggestions-box"></ul>
             </div>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px;">
                 <select id="profCountry" class="auth-input" style="margin: 0;">
                     <option value="" disabled selected>🏳️ Select Country</option>
                 </select>
@@ -601,7 +668,7 @@
             </div>
 
             <div style="background: rgba(77, 166, 255, 0.05); border: 1px solid rgba(77, 166, 255, 0.2); padding: 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
-                <div>
+                <div style="text-align: left;">
                     <div style="font-weight: 600; font-size: 14px; color: #fff;">Two-Factor Authentication (2FA)</div>
                     <div style="font-size: 12px; color: #94a3b8;">Secure your account with 6-digit OTP codes on login.</div>
                 </div>
@@ -613,7 +680,7 @@
             </div>
 
             <button id="saveProfileBtn" class="auth-submit-btn" style="background-color: #4ade80; color: #121212;">Save Profile</button>
-            <button id="actualLogoutBtn" class="auth-submit-btn" style="background-color: transparent; border: 1px solid #ff4757; color: #ff4757; margin-top: 10px;">Sign Out Securely</button>
+            <button id="actualLogoutBtn" class="auth-submit-btn" style="background-color: transparent; border: 1px solid #ff4757; color: #ff4757; margin-top: 5px;">Sign Out Securely</button>
         </div>
     </div>
 
@@ -708,16 +775,13 @@
             {n:"Zambia",c:"+260",f:"🇿🇲"},{n:"Zimbabwe",c:"+263",f:"🇿🇼"}
         ];
 
+        // CRITICAL FIX: Ensure values are set AFTER options exist
         function injectCountries(dataList) {
             const phoneCodeSelect = document.getElementById('profPhoneCode');
             const countrySelect = document.getElementById('profCountry');
             
             if(!phoneCodeSelect || !countrySelect) return;
             
-            // Backup current selections before re-injecting (to prevent data loss)
-            let currPhoneCode = phoneCodeSelect.value;
-            let currCountry = countrySelect.value;
-
             let pOptions = '<option value="" disabled selected>🏳️ Code</option>';
             let cOptions = '<option value="" disabled selected>🏳️ Select Country</option>';
             
@@ -729,9 +793,15 @@
             phoneCodeSelect.innerHTML = pOptions;
             countrySelect.innerHTML = cOptions;
 
-            // Restore the selections
-            if(currPhoneCode) phoneCodeSelect.value = currPhoneCode;
-            if(currCountry) countrySelect.value = currCountry;
+            // FB STANDARD: Re-apply values exactly after populating options
+            const localData = localStorage.getItem('tv_user_profile');
+            if (localData) {
+                try {
+                    const parsed = JSON.parse(localData);
+                    if(parsed.phoneCode) phoneCodeSelect.value = parsed.phoneCode;
+                    if(parsed.country) countrySelect.value = parsed.country;
+                } catch(e) {}
+            }
         }
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -750,7 +820,7 @@
                         }
                     });
                     fullList.sort((a,b) => a.n.localeCompare(b.n));
-                    injectCountries(fullList); // Re-inject smoothly
+                    injectCountries(fullList); 
                 })
                 .catch(err => {
                     console.log("Background sync failed. Continuing with VVIP offline list.");
@@ -807,7 +877,7 @@
         const profZip = document.getElementById('profZip');
 
         // VVIP Local Data Filler (Zero-Delay)
-        function populateProfileData(data) {
+        window.populateProfileData = function(data) {
             if(!data) return;
             if(data.firstName) profFirstName.value = data.firstName;
             if(data.lastName) profLastName.value = data.lastName;
@@ -817,12 +887,12 @@
             if(data.country) profCountry.value = data.country;
             if(data.state) profState.value = data.state;
             if(data.zip) profZip.value = data.zip;
-        }
+        };
 
         // Initially load local backup
         const localProfData = localStorage.getItem('tv_user_profile');
         if(localProfData) {
-            try { populateProfileData(JSON.parse(localProfData)); } catch(e) {}
+            try { window.populateProfileData(JSON.parse(localProfData)); } catch(e) {}
         }
 
         async function initializeUserInDB(user) {
@@ -838,7 +908,7 @@
                     createdAt: new Date().toISOString()
                 });
             } else {
-                populateProfileData(userSnap.data());
+                window.populateProfileData(userSnap.data());
                 localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
             }
             updateCreditDisplay(user.uid);
@@ -1026,7 +1096,7 @@
                 const userRef = doc(db, "users", user.uid);
                 const userSnap = await getDoc(userRef);
                 if(userSnap.exists()) {
-                    populateProfileData(userSnap.data());
+                    window.populateProfileData(userSnap.data());
                     localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
                 }
                 
