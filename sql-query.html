@@ -19,6 +19,19 @@
             display: flex;
             justify-content: center;
             min-height: 100vh;
+            position: relative;
+        }
+        .home-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .home-link:hover {
+            color: #10b981;
         }
         .container {
             background: rgba(15, 23, 42, 0.95);
@@ -29,6 +42,7 @@
             width: 100%;
             max-width: 950px;
             box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8);
+            margin-top: 20px;
         }
         h1 {
             text-align: center;
@@ -93,6 +107,8 @@
 </head>
 <body>
 
+    <a href="index.html" class="home-link">← Back to Home</a>
+
 <div class="container">
     <h1>🗄️ <span class="gradient-text">SQL Query AI Pro</span></h1>
     <p class="subtitle">Generate complex, optimized database queries from simple English.</p>
@@ -147,12 +163,28 @@
     }
 
     async function generateQuery() {
-        const desc = document.getElementById('desc-input').value;
-        const schema = document.getElementById('schema-input').value;
+        const desc = document.getElementById('desc-input').value.trim();
+        const schema = document.getElementById('schema-input').value.trim();
         const btn = document.getElementById('generate-btn');
         const outputSection = document.getElementById('output-section');
         
-        if(!desc.trim()) { alert("Please describe the query you want to build!"); return; }
+        if(!desc) { alert("Please describe the query you want to build!"); return; }
+
+        // ==========================================
+        // VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
+        // ==========================================
+        const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (!isAuth) {
+            alert("🔒 Please login from the Dashboard to use Premium AI Tools.");
+            window.location.href = "index.html";
+            return;
+        }
+
+        let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
+        if (currentCredits <= 0) {
+            alert("🎁 You have run out of Credits! Please upgrade in Dashboard.");
+            return; 
+        }
 
         btn.innerText = "🗄️ AI is architecting your query... ⏳";
         btn.disabled = true;
@@ -160,18 +192,33 @@
         outputSection.style.display = 'none';
         
         try {
-            const response = await fetch('/api/sql-tool', {
+            // Deduct 1 Credit instantly
+            currentCredits -= 1; 
+            localStorage.setItem('tv_agent_credits', currentCredits);
+
+            // Strict JSON prompt for Groq Handler
+            const systemPrompt = `You are an elite Database Architect and SQL/NoSQL Expert. Generate an optimized database query based on the user's description.
+            You MUST respond with ONLY a raw JSON object. Do not include any markdown formatting like \`\`\`json, backticks, or conversational text outside the JSON.
+            Use exactly this JSON structure:
+            {
+                "query": "The exact raw code for the query (SQL or MongoDB syntax based on request)",
+                "explanation": "A step-by-step text breakdown of how the query works and why it is optimized."
+            }`;
+            
+            const userPrompt = `Database Type: ${selectedDB}\nSchema Context: ${schema || 'None provided'}\nDescription: ${desc}`;
+
+            const response = await fetch('/api/groq-handler', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    description: desc,
-                    dbType: selectedDB,
-                    schemaContext: schema
-                })
+                body: JSON.stringify({ systemPrompt, userPrompt })
             });
 
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error);
+            const responseData = await response.json();
+            if (!response.ok || !responseData.result) throw new Error(responseData.error || "Server Error: API did not respond properly.");
+
+            // Clean up possible markdown added by AI and parse JSON
+            let cleanJSON = responseData.result.replace(/```json/gi, '').replace(/```/g, '').trim();
+            const data = JSON.parse(cleanJSON);
 
             rawQuery = data.query;
             document.getElementById('out-explanation').innerText = data.explanation;
@@ -189,6 +236,7 @@
             outputSection.style.display = 'block';
 
         } catch (error) {
+            console.error("SQL Query Builder Error:", error);
             alert("Error: " + error.message);
         } finally {
             btn.innerText = "Generate Optimized Query ⚡";
@@ -198,11 +246,39 @@
     }
 
     function copyQuery() {
+        if (!rawQuery) return;
         navigator.clipboard.writeText(rawQuery).then(() => {
             const btn = document.querySelector('.copy-btn');
+            const orig = btn.innerText;
             btn.innerText = "✅ Copied!";
-            setTimeout(() => { btn.innerText = "📋 Copy Code"; }, 2000);
+            btn.style.background = "#34d399";
+            btn.style.color = "#0f172a";
+            setTimeout(() => { 
+                btn.innerText = orig; 
+                btn.style.background = "#10b981";
+            }, 2000);
         });
+    }
+</script>
+
+<!-- VVIP UNIVERSAL UNLOCK SCRIPT -->
+<script>
+    const isVVIPAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+    if (isVVIPAuth) {
+        const unlockStyle = document.createElement('style');
+        unlockStyle.innerHTML = `
+            #authOverlay, #firebaseAuthModal, .auth-modal, #loginModal { 
+                display: none !important; opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important; visibility: hidden !important;
+            }
+            body { overflow: auto !important; }
+        `;
+        document.head.appendChild(unlockStyle);
+        window.isUserLoggedIn = true;
+        setInterval(() => {
+            const lockScreens = document.querySelectorAll('#authOverlay, #firebaseAuthModal, .auth-modal, #loginModal');
+            lockScreens.forEach(lock => { if(lock) lock.style.display = 'none'; });
+            window.isUserLoggedIn = true;
+        }, 200);
     }
 </script>
 
