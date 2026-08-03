@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
+        /* VVIP BLUE HIGHLIGHT KILLER */
+        * { -webkit-tap-highlight-color: transparent !important; outline: none !important; }
+
         :root {
             --bg-color: #0b0c10;
             --chat-bg: #1f2833;
@@ -46,7 +49,6 @@
 </head>
 <body>
 
-    <!-- Lock Screen -->
     <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
         <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-purple-500">
             <div class="text-5xl mb-4">🔒</div>
@@ -88,7 +90,6 @@
         const sendBtn = document.getElementById('sendBtn');
         const aiModel = document.getElementById('aiModel');
 
-        // 1. INSTANT CREDIT DISPLAY & AUTO-SENDER
         document.addEventListener("DOMContentLoaded", () => {
             const savedCredits = localStorage.getItem('tv_agent_credits');
             if(savedCredits) {
@@ -107,7 +108,7 @@
                 setTimeout(() => {
                     userInput.value = pendingQuestion;
                     window.triggerSendMessage(pdfContext); 
-                }, 400); // 400ms delay to ensure UI is ready
+                }, 400); 
             }
         });
 
@@ -115,7 +116,6 @@
             const message = userInput.value.trim();
             if (!message) return;
 
-            // Display User Message
             const userDiv = document.createElement('div');
             userDiv.className = 'message user-msg';
             userDiv.textContent = message;
@@ -124,20 +124,17 @@
             userInput.value = ''; 
             chatBox.scrollTop = chatBox.scrollHeight; 
 
-            // Show Typing Indicator
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message ai-msg typing-indicator';
             typingDiv.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
             chatBox.appendChild(typingDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Combine Context
             let finalPrompt = message;
             if (typeof hiddenContext === 'string' && hiddenContext.length > 5) {
                 finalPrompt = "Context from PDF Document: " + hiddenContext + "\n\nUser Question: " + message;
             }
 
-            // API Call & Processing
             setTimeout(async () => {
                 try {
                     const response = await fetch('/api/super-chat', {
@@ -159,7 +156,6 @@
                     }
                     chatBox.appendChild(aiDiv);
                 } catch (error) {
-                    // Smart Fallback Context
                     chatBox.removeChild(typingDiv);
                     const aiDiv = document.createElement('div');
                     aiDiv.className = 'message ai-msg';
@@ -184,11 +180,11 @@
         });
     </script>
 
-    <!-- FIREBASE AUTH & SYNC -->
+    <!-- FIREBASE AUTH & MASTER VVIP SYNC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
@@ -206,7 +202,6 @@
         let currentUser = null;
         const COST_PER_MESSAGE = 5; 
 
-        // Fast Lock Check
         if(localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true') {
             document.getElementById('authOverlay').style.display = 'none';
         }
@@ -221,14 +216,7 @@
                 
                 if (userSnap.exists()) {
                     let dbCredits = userSnap.data().credits || 0;
-                    let localCredits = parseInt(localStorage.getItem('tv_agent_credits') || 0);
-                    
-                    // Self-Healing Sync
-                    if(localCredits > dbCredits) {
-                        await updateDoc(userRef, { credits: localCredits });
-                        dbCredits = localCredits;
-                    }
-                    localStorage.setItem('tv_agent_credits', dbCredits);
+                    localStorage.setItem('tv_agent_credits', dbCredits.toString());
                     document.getElementById('userTokens').textContent = '⚡ ' + dbCredits;
                 }
             } else {
@@ -238,6 +226,7 @@
             }
         });
 
+        // VVIP EXACT SYNC (No more increments misbehaving)
         window.deductCredits = async function() {
             let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
             if (currentCredits >= COST_PER_MESSAGE) {
@@ -248,8 +237,8 @@
                 if(currentUser) {
                     try {
                         const userRef = doc(db, "users", currentUser.uid);
-                        await updateDoc(userRef, { credits: increment(-COST_PER_MESSAGE) });
-                    } catch(e) {}
+                        await updateDoc(userRef, { credits: currentCredits }); // Force Exact Amount to DB
+                    } catch(e) { console.error("Cloud Sync Error", e); }
                 }
             }
         };
