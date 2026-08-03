@@ -89,10 +89,14 @@
         .hero-secondary-btn { background: #1e293b; color: #ffffff; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.3); font-size: 1.1rem; border: none; cursor: pointer; }
         .hero-secondary-btn:hover { background: #334155; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30, 41, 59, 0.5); }
         
-        /* New CSS for PDF Filter Animation */
+        /* New CSS for PDF Filter Animation & Tap Highlight Fix */
         @keyframes fadeInCard {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        .pdf-filter-btn {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
         /* =========================================================
@@ -258,8 +262,8 @@
         <h1>Every tool you need to work with PDFs in one place</h1>
         <p class="subtitle">Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
 
-        <!-- Navigation Pills (Now Functional) -->
-        <div class="category-pills" style="cursor: pointer;">
+        <!-- Navigation Pills (Fixed Tap Highlight) -->
+        <div class="category-pills">
             <span class="pdf-filter-btn active" data-filter="all" onclick="filterPDFTools('all', this)">All</span>
             <span class="pdf-filter-btn" data-filter="workflows" onclick="filterPDFTools('workflows', this)">Workflows</span>
             <span class="pdf-filter-btn" data-filter="organize" onclick="filterPDFTools('organize', this)">Organize PDF</span>
