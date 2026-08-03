@@ -6,6 +6,9 @@
     <title>AI Agent Studio - ToolVerse Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* VVIP BLUE HIGHLIGHT KILLER */
+        * { -webkit-tap-highlight-color: transparent !important; outline: none !important; }
+
         :root {
             --bg-dark: #050b14;
             --panel-bg: rgba(15, 23, 42, 0.7);
@@ -60,7 +63,7 @@
             font-size: 0.9rem;
             padding: 6px 16px 6px 6px;
             border-radius: 20px;
-            display: none; /* Shown via JS */
+            display: none; 
             align-items: center;
             gap: 8px;
             border: 1px solid rgba(77, 166, 255, 0.3);
@@ -119,7 +122,6 @@
         .toggle-info h4 { margin: 0; font-size: 0.9rem; font-weight: 600; }
         .toggle-info p { margin: 4px 0 0; font-size: 0.75rem; color: var(--text-muted); }
         
-        /* CSS Toggle Switch */
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; transition: .3s; border-radius: 34px; }
@@ -166,31 +168,16 @@
             🚀 ToolVerse <span class="brand-badge">Agent Studio Pro</span>
         </div>
         <div class="nav-actions">
-            <!-- Profile & Credit Badge -->
             <div id="studioProfileBtn" class="studio-profile-btn">
                 <div class="profile-avatar-icon">🤖</div>
                 <span id="creditDisplay">⚡ Loading...</span>
             </div>
-            
             <a href="index.html" class="btn-back">← Dashboard</a>
             <button class="btn-deploy" onclick="window.deployAgent()">Deploy Agent ⚡</button>
         </div>
     </header>
 
-    <!-- INSTANT 0ms VVIP LOADER -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
-            if (isAuth) {
-                document.getElementById('studioProfileBtn').style.display = 'flex';
-                const savedCredits = localStorage.getItem('tv_agent_credits') || "0";
-                document.getElementById('creditDisplay').innerText = `User | ⚡ ${savedCredits}`;
-            }
-        });
-    </script>
-
     <div class="workspace">
-        <!-- LEFT: Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
                 <button class="btn-new-agent" onclick="window.createNewAgent()">+ Create New Agent</button>
@@ -198,7 +185,6 @@
             <div class="agent-list" id="agentList"></div>
         </div>
 
-        <!-- MIDDLE: Configuration -->
         <div class="config-panel" id="configPanel">
             <div class="config-header">
                 <h2 id="confTitle">Agent Configuration</h2>
@@ -246,7 +232,6 @@
             </div>
         </div>
 
-        <!-- RIGHT: Playground -->
         <div class="playground">
             <div class="play-header">
                 <h3>Live Playground</h3>
@@ -267,6 +252,40 @@
             </div>
         </div>
     </div>
+
+    <!-- VVIP FIREBASE SYNC SCRIPT ADDED -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        window.db = getFirestore(app);
+        window.currentUserUid = null;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                window.currentUserUid = user.uid;
+                document.getElementById('studioProfileBtn').style.display = 'flex';
+                const userRef = doc(window.db, "users", user.uid);
+                const snap = await getDoc(userRef);
+                if(snap.exists() && snap.data().credits !== undefined) {
+                    let dbCredits = snap.data().credits;
+                    localStorage.setItem('tv_agent_credits', dbCredits.toString());
+                    document.getElementById('creditDisplay').innerText = `User | ⚡ ${dbCredits}`;
+                }
+            }
+        });
+    </script>
 
     <!-- State & UI Logic -->
     <script>
@@ -364,10 +383,18 @@
 
             chatInput.disabled = true; sendBtn.disabled = true;
 
-            // Instant Deduct
+            // VVIP EXACT SYNC DEDUCTION 
             currentCredits -= 1;
             localStorage.setItem('tv_agent_credits', currentCredits);
             document.getElementById('creditDisplay').innerText = `User | ⚡ ${currentCredits}`;
+            
+            // Push exact balance to Firebase instantly
+            if(window.currentUserUid && window.db) {
+                import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js").then(module => {
+                    const userRef = module.doc(window.db, "users", window.currentUserUid);
+                    module.updateDoc(userRef, { credits: currentCredits }).catch(e => console.log(e));
+                });
+            }
 
             window.addMessage(msg, 'user');
             chatInput.value = '';
@@ -380,7 +407,6 @@
             const systemPrompt = currentAgent ? currentAgent.prompt : 'You are a helpful assistant.';
 
             try {
-                // Using standardized groq-handler endpoint
                 const response = await fetch('/api/groq-handler', { 
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' },
