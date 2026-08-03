@@ -18,7 +18,7 @@
         .header-container { display: flex; align-items: center; justify-content: space-between; }
         
         /* =========================================================
-           NEW VVIP USER PROFILE BUTTON
+           VVIP USER PROFILE BUTTON
            ========================================================= */
         .premium-profile-btn { 
             background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(56, 189, 248, 0.15)); 
@@ -93,15 +93,50 @@
         .status-note { font-size: 0.8rem; color: #64748b; margin-top: 15px; line-height: 1.5; }
         .auth-title { margin-top: 0; color: #4da6ff; letter-spacing: 1px; font-size: 1.5rem; margin-bottom: 5px; }
         .auth-subtitle { color: #aaaaaa; font-size: 13px; margin-bottom: 20px; }
-        .auth-input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #333; border-radius: 6px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit; font-size: 14px;}
-        .auth-input:focus { outline: none; border-color: #4da6ff; }
-        select.auth-input { appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 10px center; background-size: 1em; cursor: pointer; }
+        
+        /* =========================================================
+           VVIP AUTH INPUTS & SUGGESTIONS BOX
+           ========================================================= */
+        .auth-input { 
+            width: 100%; padding: 12px; margin: 8px 0; 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 8px; background-color: #2a2a2a; 
+            color: white; box-sizing: border-box; font-family: inherit; font-size: 14px;
+            transition: 0.3s ease;
+        }
+        .auth-input:focus { 
+            outline: none; 
+            border-color: #38bdf8; 
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); 
+            background-color: #333;
+        }
+        select.auth-input { 
+            appearance: none; 
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); 
+            background-repeat: no-repeat; background-position: right 12px center; background-size: 1em; cursor: pointer; 
+        }
+        
+        /* VVIP Address Auto-fetch Suggestions */
+        .suggestions-box { 
+            position: absolute; top: 100%; left: 0; width: 100%; 
+            background: #1a1a1a; border: 1px solid #38bdf8; 
+            border-radius: 8px; z-index: 1000; list-style: none; padding: 0; margin: 4px 0 0 0; 
+            max-height: 220px; overflow-y: auto; display: none; 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.9); text-align: left; 
+        }
+        .suggestions-box li { 
+            padding: 14px 15px; cursor: pointer; color: #cbd5e1; font-size: 13.5px; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); line-height: 1.5; transition: 0.2s ease;
+            display: flex; align-items: flex-start; gap: 8px;
+        }
+        .suggestions-box li:last-child { border-bottom: none; }
+        .suggestions-box li:hover { 
+            background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 600; padding-left: 20px;
+        }
+
         .otp-inputs { display: flex; justify-content: space-between; gap: 8px; margin: 20px 0; }
         .otp-box { width: 45px; height: 50px; text-align: center; font-size: 22px; font-weight: 700; background: #2a2a2a; border: 1px solid #444; color: #fff; border-radius: 8px; }
         .otp-box:focus { border-color: #4da6ff; outline: none; box-shadow: 0 0 10px rgba(77, 166, 255, 0.3); }
-        .suggestions-box { position: absolute; top: 100%; left: 0; width: 100%; background: #2a2a2a; border: 1px solid #4da6ff; border-radius: 6px; z-index: 1000; list-style: none; padding: 0; margin: 0; max-height: 160px; overflow-y: auto; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: left; }
-        .suggestions-box li { padding: 12px; cursor: pointer; color: #fff; font-size: 13px; border-bottom: 1px solid #3a3a3a; line-height: 1.4; }
-        .suggestions-box li:hover { background: #4da6ff; color: #121212; font-weight: 600; }
         .auth-submit-btn { width: 100%; padding: 12px; margin: 12px 0 8px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 15px; transition: 0.3s; font-family: inherit;}
         .auth-submit-btn:hover { background-color: #3388dd; }
         .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
@@ -596,7 +631,9 @@
             </div>
             
             <div style="display: flex; gap: 10px; margin-top: 5px; margin-bottom: 10px;">
-                <select id="profPhoneCode" class="auth-input" style="width: 35%; margin: 0; padding-right: 5px;"></select>
+                <select id="profPhoneCode" class="auth-input" style="width: 35%; margin: 0; padding-right: 5px;">
+                    <option value="" disabled selected>🏳️ Code</option>
+                </select>
                 <input type="tel" id="profPhone" class="auth-input" style="width: 65%; margin: 0;" placeholder="Phone Number">
             </div>
             
@@ -606,7 +643,9 @@
             </div>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px;">
-                <select id="profCountry" class="auth-input" style="margin: 0;"></select>
+                <select id="profCountry" class="auth-input" style="margin: 0;">
+                    <option value="" disabled selected>🏳️ Select Country</option>
+                </select>
                 <input type="text" id="profState" class="auth-input" style="margin: 0;" placeholder="State/Prov">
                 <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Zip Code">
             </div>
@@ -658,6 +697,38 @@
             const popup = document.getElementById('cookie-consent');
             if(popup) popup.style.display = 'none';
         }
+
+        // --- NEW VVIP SCRIPT: FETCH COUNTRIES DIRECTLY (FIXED FOR MOBILE) ---
+        async function fetchCountries() {
+            try {
+                const res = await fetch('https://restcountries.com/v3.1/all?fields=name,idd,flag');
+                const data = await res.json();
+                
+                // Sort countries alphabetically
+                data.sort((a,b) => a.name.common.localeCompare(b.name.common));
+                
+                let phoneHtml = '<option value="" disabled selected>🏳️ Code</option>';
+                let countryHtml = '<option value="" disabled selected>🏳️ Select Country</option>';
+                
+                data.forEach(c => {
+                    // Extract exact dialing code safely
+                    let code = (c.idd && c.idd.root) ? (c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : '')) : '';
+                    if(code) {
+                        phoneHtml += `<option value="${code}">${c.flag} ${code}</option>`;
+                    }
+                    if(c.name && c.name.common) {
+                        countryHtml += `<option value="${c.name.common}">${c.flag} ${c.name.common}</option>`;
+                    }
+                });
+                
+                // Inject directly into HTML for 100% guarantee on all browsers
+                document.getElementById('profPhoneCode').innerHTML = phoneHtml;
+                document.getElementById('profCountry').innerHTML = countryHtml;
+            } catch(e) {
+                console.log("Country Fetch Error:", e);
+            }
+        }
+        fetchCountries(); // Call immediately
     </script>
 
     <script type="module">
@@ -973,33 +1044,56 @@
             
             updateDisplay();
 
-            // --- FETCH COUNTRIES DATA (NEW VVIP FIX) ---
-            const phoneCodeSelect = document.getElementById('profPhoneCode');
-            const countrySelect = document.getElementById('profCountry');
-            
-            if(phoneCodeSelect && countrySelect) {
-                fetch('https://restcountries.com/v3.1/all?fields=name,idd,flag')
-                    .then(res => res.json())
-                    .then(data => {
-                        data.sort((a,b) => a.name.common.localeCompare(b.name.common));
-                        
-                        phoneCodeSelect.innerHTML = `<option value="">🏳️ Code</option>`;
-                        countrySelect.innerHTML = `<option value="">🏳️ Select Country</option>`;
-                        
-                        data.forEach(country => {
-                            let dialCode = "";
-                            if(country.idd && country.idd.root) {
-                                dialCode = country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] : '');
+            // --- NEW VVIP SCRIPT: ADDRESS AUTO-FETCH (NOMINATIM API) ---
+            const addressInput = document.getElementById('profAddress');
+            const suggestionsBox = document.getElementById('addressSuggestions');
+            let debounceTimer;
+
+            if (addressInput && suggestionsBox) {
+                addressInput.addEventListener('input', function() {
+                    clearTimeout(debounceTimer);
+                    const query = this.value.trim();
+                    
+                    if(query.length < 3) {
+                        suggestionsBox.style.display = 'none';
+                        return;
+                    }
+                    
+                    // Show beautiful searching text
+                    suggestionsBox.innerHTML = '<li style="text-align:center; color:#94a3b8; padding: 15px;">🔍 Searching premium locations...</li>';
+                    suggestionsBox.style.display = 'block';
+
+                    debounceTimer = setTimeout(() => {
+                        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`)
+                        .then(res => res.json())
+                        .then(data => {
+                            suggestionsBox.innerHTML = '';
+                            if(data.length > 0) {
+                                data.forEach(place => {
+                                    let li = document.createElement('li');
+                                    li.innerHTML = `📍 ${place.display_name}`;
+                                    li.onclick = function() {
+                                        addressInput.value = place.display_name;
+                                        suggestionsBox.style.display = 'none';
+                                    };
+                                    suggestionsBox.appendChild(li);
+                                });
+                            } else {
+                                suggestionsBox.innerHTML = '<li style="text-align:center; color:#ff4757; padding: 15px;">No results found</li>';
                             }
-                            if(dialCode) {
-                                phoneCodeSelect.add(new Option(`${country.flag} ${dialCode}`, dialCode));
-                            }
-                            if(country.name && country.name.common) {
-                                countrySelect.add(new Option(`${country.flag} ${country.name.common}`, country.name.common));
-                            }
+                        })
+                        .catch(err => {
+                            suggestionsBox.innerHTML = '<li style="text-align:center; color:#ff4757; padding: 15px;">Error fetching address</li>';
                         });
-                    })
-                    .catch(err => console.log('Error loading countries:', err));
+                    }, 600); // Wait 600ms to save API calls
+                });
+
+                // Hide box if user clicks outside
+                document.addEventListener('click', function(e) {
+                    if(e.target !== addressInput && e.target !== suggestionsBox) {
+                        suggestionsBox.style.display = 'none';
+                    }
+                });
             }
 
             // --- DRAGGABLE MINING WIDGET LOGIC ---
