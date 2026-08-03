@@ -102,36 +102,34 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const originalBtnText = summarizeBtn.innerHTML;
+        // ==========================================
+        // VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
+        // ==========================================
+        const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
+        if (!isAuth) {
+            alert("🔒 Please login from the Dashboard to use Premium Tools.");
+            window.location.href = "index.html"; 
+            return;
+        }
+
+        let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
+        if (currentCredits <= 0) {
+            alert("🎁 You have run out of Credits!");
+            outSummary.innerHTML = "<span style='color: #ef4444;'>Insufficient Credits. Please upgrade in Dashboard.</span>";
+            return; 
+        }
+
         summarizeBtn.innerHTML = "⏳ Summarizing...";
         summarizeBtn.disabled = true;
 
         outSummary.innerHTML = "<span style='color: #f87171;'>Analyzing document context... Crafting your summary. Please wait.</span>";
 
         try {
-            // 1. Firebase Auth Check
-            if (typeof firebase === 'undefined' || !firebase.apps.length) throw new Error("Firebase is not initialized.");
-            
-            const user = firebase.auth().currentUser;
-            if (!user) {
-                alert("🔒 Please login to use Premium Tools.");
-                window.location.href = "index.html"; 
-                return;
-            }
+            // Deduct 2 Credits instantly on UI (PDF processing is premium)
+            currentCredits -= 2; 
+            localStorage.setItem('tv_agent_credits', currentCredits);
 
-            // 2. Database Credit Check
-            const db = firebase.firestore();
-            const userRef = db.collection('users').doc(user.uid);
-            const userDoc = await userRef.get();
-            const freeCredits = userDoc.data()?.free_credits || 0;
-
-            if (freeCredits <= 0) {
-                alert("🎁 You have run out of Daily Free Credits!");
-                outSummary.innerHTML = "<span style='color: #ef4444;'>Insufficient Free Credits. Your Mining tokens are safe!</span>";
-                return; 
-            }
-
-            // 3. Expert AI Prompt for Summarization
+            // Expert AI Prompt for Summarization
             let focusText = focus ? `Focus especially on: ${focus}.` : "Provide a comprehensive overview of the main topics.";
             
             const systemPrompt = `You are an expert Document Analyst. Summarize the provided document text.
@@ -146,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const userPrompt = `DOCUMENT TEXT:\n\n${extractedText}`;
 
-            // 4. Fetch from Vercel Backend
+            // Fetch from Vercel Backend
             const response = await fetch('/api/groq-handler', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -164,10 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 outSummary.innerHTML = formattedText;
                 
-                // 5. Deduct 1 Free Credit
-                await userRef.update({
-                    free_credits: firebase.firestore.FieldValue.increment(-1)
-                });
             } else {
                 throw new Error(data.error || "API error occurred while summarizing.");
             }
