@@ -7,7 +7,7 @@
     <meta name="google-site-verification" content="XgH4GBHvosYC4hdFgcYobZQs4rhp_k2gjwR_Glft9tM" />
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="style.css?v=11">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -141,7 +141,12 @@
         .hero-secondary-btn:hover { background: #334155; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30, 41, 59, 0.5); }
         
         @keyframes fadeInCard { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* RESTORED VVIP FILTER ACTIVE STYLES */
+        .pdf-filter-btn, .filter-btn { background: rgba(15, 23, 42, 0.6); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.08); transition: 0.3s; -webkit-tap-highlight-color: transparent !important; outline: none !important; user-select: none; }
+        .filter-btn.active, .pdf-filter-btn.active { background: #38bdf8 !important; color: #0f172a !important; border-color: #38bdf8 !important; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4) !important;}
 
+        /* Professional Footer */
         .toolverse-footer { background-color: #0b0f19 !important; border-top: 1px solid #1e293b !important; padding: 60px 20px 30px; margin-top: 60px; color: #94a3b8; font-size: 0.95rem; }
         .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; }
         .footer-col h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1.5px; background: linear-gradient(135deg, #38bdf8, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; display: inline-block; }
@@ -256,6 +261,7 @@
             </div>
         </div>
         
+        <!-- RESTORED: TOP 17 AI TOOLS FILTERS -->
         <div class="category-filters">
             <button class="filter-btn active" data-filter="all">All</button>
             <button class="filter-btn" data-filter="writing">Writing</button>
@@ -582,8 +588,10 @@
         </div>
     </div>
 
+    <!-- UI INTERACTION SCRIPT (SEARCH & FILTERS) -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // 1. Instant Tool Search
             const searchInput = document.getElementById('globalToolSearch');
             if(searchInput) {
                 searchInput.addEventListener('input', function() {
@@ -596,8 +604,33 @@
                     });
                 });
             }
+
+            // 2. VVIP FIX: RESTORED TOP 17 AI TOOLS FILTER LOGIC
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const toolCards = document.querySelectorAll('.ilove-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active from all
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // Add active to clicked
+                    btn.classList.add('active');
+                    
+                    const filterValue = btn.getAttribute('data-filter');
+                    toolCards.forEach(card => {
+                        const cardCategory = card.getAttribute('data-category');
+                        if (filterValue === 'all' || cardCategory === filterValue) {
+                            card.style.display = ''; 
+                            card.style.animation = 'fadeInCard 0.4s ease forwards';
+                        } else {
+                            card.style.display = 'none'; 
+                        }
+                    });
+                });
+            });
         });
 
+        // 3. Bottom 31 PDF Tools Filter
         function filterPDFTools(category, clickedBtn) {
             const allBtns = document.querySelectorAll('.pdf-filter-btn');
             allBtns.forEach(btn => btn.classList.remove('active'));
@@ -607,16 +640,19 @@
             allCards.forEach(card => {
                 const cardCategory = card.getAttribute('data-category');
                 if (category === 'all' || cardCategory === category) {
-                    card.style.display = ''; card.style.animation = 'fadeInCard 0.4s ease forwards';
+                    card.style.display = ''; 
+                    card.style.animation = 'fadeInCard 0.4s ease forwards';
                 } else {
                     card.style.display = 'none'; 
                 }
             });
         }
+
         function acceptCookies() { localStorage.setItem('toolverse_cookies_accepted', 'true'); hideCookiePopup(); }
         function hideCookiePopup() { const popup = document.getElementById('cookie-consent'); if(popup) popup.style.display = 'none'; }
     </script>
 
+    <!-- COUNTRIES & CODES DATABASE -->
     <script>
         const allWorldCountries = [
             {n:"Afghanistan",c:"+93",f:"🇦🇫"},{n:"Albania",c:"+355",f:"🇦🇱"},{n:"Algeria",c:"+213",f:"🇩🇿"},
@@ -705,6 +741,7 @@
         });
     </script>
 
+    <!-- FIREBASE & CORE LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -777,6 +814,25 @@
         const localProfData = localStorage.getItem('tv_user_profile');
         if(localProfData) {
             try { window.populateProfileData(JSON.parse(localProfData)); } catch(e) {}
+        }
+
+        async function initializeUserInDB(user) {
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+            
+            if (!userSnap.exists()) {
+                await setDoc(userRef, {
+                    email: user.email,
+                    displayName: user.displayName || 'User',
+                    credits: 2500,
+                    plan: 'Sandbox',
+                    createdAt: new Date().toISOString()
+                });
+            } else {
+                window.populateProfileData(userSnap.data());
+                localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
+            }
+            updateCreditDisplay(user.uid);
         }
 
         // =========================================================
@@ -979,6 +1035,7 @@
         }
     </script>
 
+    <!-- MINING & WIDGET LOGIC -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
