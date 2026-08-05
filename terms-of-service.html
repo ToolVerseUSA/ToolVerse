@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | ToolVerse</title> 
+    <meta name="google-site-verification" content="XgH4GBHvosYC4hdFgcYobZQs4rhp_k2gjwR_Glft9tM" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=11">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================================
+           VVIP FIX: KILL BLUE TAP HIGHLIGHT ON ALL MOBILES FOREVER
+           ========================================================= */
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent !important; 
+            outline: none !important;
+        }
+
+        html { scroll-behavior: smooth; }
+        
+        /* =========================================================
+           VVIP GLASSMORPHISM & NEON GLOW STYLES
+           ========================================================= */
+        body { background-color: #0b0f19 !important; color: #f8fafc !important; font-family: 'Inter', sans-serif; }
+        
+        .ilove-header { 
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(11, 15, 25, 0.85) !important; 
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255,255,255,0.08) !important; 
+        }
+        
+        .crypto-nav-btn { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #1e293b !important; font-weight: 700 !important; padding: 8px 16px !important; border-radius: 20px; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); border: 2px solid #fff; transition: 0.3s; cursor: pointer; }
+        .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
+        .header-container { display: flex; align-items: center; justify-content: space-between; }
+        
+        .premium-profile-btn { 
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(56, 189, 248, 0.15)); 
+            backdrop-filter: blur(10px); color: #ffffff !important; font-weight: 700 !important; font-size: 0.9rem !important; 
+            padding: 6px 16px 6px 6px !important; border-radius: 30px; display: flex; align-items: center; gap: 8px; 
+            border: 1px solid rgba(168, 85, 247, 0.6); box-shadow: 0 0 12px rgba(168, 85, 247, 0.4); transition: all 0.3s ease; cursor: pointer; text-decoration: none; 
+        }
+        .premium-profile-btn:hover { background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(56, 189, 248, 0.25)); border-color: #38bdf8; box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); transform: translateY(-2px); }
+        .profile-avatar-icon { background: linear-gradient(135deg, #a855f7, #38bdf8); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+
+        /* ========== LEGAL PAGES SPECIFIC STYLES ========== */
+        .legal-wrapper { max-width: 900px; margin: 60px auto; padding: 40px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(56, 189, 248, 0.15); border-radius: 20px; backdrop-filter: blur(10px); box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+        .legal-header { text-align: center; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .legal-header h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 10px; background: linear-gradient(135deg, #38bdf8, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .legal-header p { color: #94a3b8; font-size: 1rem; }
+        .legal-content h2 { font-size: 1.5rem; color: #f8fafc; margin-top: 35px; margin-bottom: 15px; border-left: 4px solid #38bdf8; padding-left: 15px; }
+        .legal-content p { color: #cbd5e1; line-height: 1.8; margin-bottom: 20px; font-size: 1rem; }
+        .legal-content ul { color: #cbd5e1; line-height: 1.8; margin-bottom: 20px; padding-left: 20px; }
+        .legal-content li { margin-bottom: 8px; }
+        .legal-content strong { color: #38bdf8; }
+        
+        /* ========== MINING WIDGET & MODALS ========== */
+        .mining-widget { position: fixed; bottom: 30px; left: 30px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 12px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 5px; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.3); cursor: grab; z-index: 999; transition: box-shadow 0.3s; white-space: nowrap; touch-action: none; user-select: none; }
+        .mining-widget:active { cursor: grabbing; box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4); transform: scale(1.02); }
+        .mining-icon { font-size: 24px; animation: pickaxe 2s infinite; }
+        @keyframes pickaxe { 0% { transform: rotate(0deg); } 50% { transform: rotate(-30deg); } 100% { transform: rotate(0deg); } }
+        .mining-stats { display: flex; flex-direction: column; white-space: nowrap; }
+        .mining-title { font-size: 0.8rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .mining-rate { font-size: 0.75rem; color: #4ade80; display: flex; align-items: center; gap: 5px; }
+        .pulse-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .mining-balance { font-size: 1.2rem; font-weight: 800; color: #fbbf24; margin-left: 10px; white-space: nowrap; }
+        
+        .crypto-modal, .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .crypto-modal-content { background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%); border: 2px solid #fbbf24; width: 90%; max-width: 450px; border-radius: 20px; padding: 30px; color: white; position: relative; box-shadow: 0 20px 50px rgba(251, 191, 36, 0.2); text-align: center; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .auth-modal-content { background-color: #1e1e1e; padding: 35px 25px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.9); text-align: center; width: 95%; max-width: 450px; position: relative; color: white; border: 1px solid #333; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow-y: auto; max-height: 95vh; }
+        @keyframes modalPop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .close-crypto, .close-auth { position: absolute; top: 12px; right: 12px; font-size: 20px; color: #94a3b8; cursor: pointer; transition: 0.3s; z-index: 1000; width: 32px; height: 32px; display: flex; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.08); border-radius: 50%; }
+        .close-crypto:hover, .close-auth:hover { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
+        .crypto-badge { background: rgba(251, 191, 36, 0.1); color: #fbbf24; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; display: inline-block; margin-bottom: 15px; border: 1px solid #fbbf24; }
+        .crypto-header h2 { font-size: 1.8rem; margin-bottom: 5px; }
+        .crypto-header p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 25px; }
+        .crypto-balance-box { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05); }
+        .balance-label { color: #cbd5e1; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; margin-bottom: 10px; }
+        .balance-amount { font-size: 3rem; font-weight: 800; color: #fbbf24; text-shadow: 0 0 20px rgba(251, 191, 36, 0.4); line-height: 1; margin-bottom: 5px; }
+        .balance-usd { color: #4ade80; font-size: 0.9rem; font-weight: 500; }
+        .crypto-actions { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 25px; }
+        .action-btn { padding: 15px; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; border: none; font-family: inherit; }
+        .boost-btn { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: white; box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4); border: 1px solid #a78bfa; }
+        .boost-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(139, 92, 246, 0.6); }
+        .boost-btn:disabled { background: #10b981; color: white; cursor: default; transform: none; box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4); border: none; }
+        .claim-btn { background: #ff4757; color: white; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3); }
+        .claim-btn:hover { background: #e0313f; transform: translateY(-2px); }
+        .claim-btn:disabled { background: #475569; cursor: not-allowed; box-shadow: none; color: #94a3b8; transform: none;}
+        .invite-btn { background: #334155; color: white; border: 1px solid #475569; }
+        .invite-btn:hover { background: #475569; }
+        .status-note { font-size: 0.8rem; color: #64748b; margin-top: 15px; line-height: 1.5; }
+        
+        /* AUTH MODALS */
+        .auth-title { margin-top: 0; color: #4da6ff; letter-spacing: 1px; font-size: 1.5rem; margin-bottom: 5px; }
+        .auth-subtitle { color: #aaaaaa; font-size: 13px; margin-bottom: 20px; }
+        .auth-input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; background-color: #2a2a2a; color: white; box-sizing: border-box; font-family: inherit; font-size: 16px; transition: 0.3s ease; }
+        .auth-input:focus { outline: none; border-color: #38bdf8; box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); background-color: #333; }
+        select.auth-input { appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 10px center; background-size: 1em; cursor: pointer; padding-right: 30px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+        select.auth-input option { background-color: #2a2a2a; color: #fff; }
+        .suggestions-box { position: absolute; top: 100%; left: 0; width: 100%; background: #1a1a1a; border: 1px solid #38bdf8; border-radius: 8px; z-index: 1000; list-style: none; padding: 0; margin: 4px 0 0 0; max-height: 220px; overflow-y: auto; display: none; box-shadow: 0 15px 30px rgba(0,0,0,0.9); text-align: left; }
+        .suggestions-box li { padding: 14px 15px; cursor: pointer; color: #cbd5e1; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); line-height: 1.5; transition: 0.2s ease; display: flex; align-items: flex-start; gap: 8px; }
+        .suggestions-box li:last-child { border-bottom: none; }
+        .suggestions-box li:hover { background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-weight: 600; padding-left: 20px; }
+        .otp-inputs { display: flex; justify-content: space-between; gap: 8px; margin: 20px 0; }
+        .otp-box { width: 45px; height: 50px; text-align: center; font-size: 22px; font-weight: 700; background: #2a2a2a; border: 1px solid #444; color: #fff; border-radius: 8px; }
+        .otp-box:focus { border-color: #4da6ff; outline: none; box-shadow: 0 0 10px rgba(77, 166, 255, 0.3); }
+        .auth-submit-btn { width: 100%; padding: 12px; margin: 12px 0 8px 0; border: none; border-radius: 6px; cursor: pointer; background-color: #4da6ff; color: #121212; font-weight: bold; font-size: 15px; transition: all 0.3s ease; font-family: inherit;}
+        .auth-submit-btn:hover:not(:disabled) { background-color: #3388dd; }
+        .auth-google-btn { background-color: #ffffff; color: #444; width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; margin-bottom: 10px; font-family: inherit;}
+        .auth-google-btn:hover { background-color: #e2e2e2; }
+        .auth-divider { color: #666; font-size: 12px; margin: 12px 0; }
+        #authMessageBox { margin-top: 10px; font-size: 13px; min-height: 18px; font-weight: 500;}
+        
+        .cookie-popup { position: fixed; bottom: 20px; right: 20px; width: 330px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); z-index: 10000; display: none; flex-direction: column; gap: 12px; font-family: 'Inter', sans-serif; animation: slideUp 0.5s ease-out forwards; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .cookie-popup .cookie-icon { font-size: 20px; margin-bottom: -5px; }
+        .cookie-popup p { font-size: 13px; color: #475569; line-height: 1.5; margin: 0; text-align: left; }
+        .cookie-popup a { color: #64748b; text-decoration: underline; font-weight: 600; }
+        .cookie-btn { padding: 12px; border-radius: 20px; font-weight: 600; cursor: pointer; transition: 0.3s; font-size: 13px; border: 1px solid transparent; width: 100%; text-align: center; }
+        .accept-all { background: #b19cfd; color: #1e1e1e; font-weight: 700; }
+        .accept-all:hover { background: #9c83f9; }
+        .allow-selection, .reject-all { background: transparent; color: #475569; border: 1px solid #cbd5e1; }
+        .allow-selection:hover, .reject-all:hover { background: #f8fafc; border-color: #94a3b8; }
+        .manage-prefs { text-align: center; font-size: 12px; color: #64748b; text-decoration: none; margin-top: 5px; cursor: pointer; display: block;}
+        .manage-prefs:hover { color: #1e293b; }
+
+        /* ========== PROFESSIONAL FOOTER STYLES ========== */
+        .toolverse-footer { background: linear-gradient(180deg, #0b0f19 0%, #070b14 100%); border-top: 1px solid rgba(56, 189, 248, 0.1); padding: 80px 20px 40px; margin-top: 80px; color: #94a3b8; font-size: 0.95rem; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 50px; }
+        .footer-col { display: flex; flex-direction: column; }
+        .footer-col h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1.5px; background: linear-gradient(135deg, #38bdf8, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; display: inline-block; }
+        .footer-col h3::after { content: ''; position: absolute; left: 0; bottom: -8px; width: 30px; height: 3px; background: linear-gradient(135deg, #38bdf8, #a855f7); border-radius: 2px; box-shadow: 0 2px 10px rgba(56, 189, 248, 0.5); }
+        .footer-col ul { list-style: none; padding: 0; margin: 0; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul li a { color: #94a3b8; text-decoration: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 5px; }
+        .footer-col ul li a:hover { color: #38bdf8; padding-left: 5px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.3); }
+        .footer-brand { font-size: 26px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .brand-icon { font-size: 28px; }
+        .brand-text { background: linear-gradient(135deg, #f8fafc, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; }
+        .brand-description { line-height: 1.6; margin: 0 0 20px 0; color: #cbd5e1; font-size: 0.95rem; }
+        .social-links { display: flex; gap: 15px; margin-top: 15px; }
+        .social-links a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 8px; color: #38bdf8; transition: all 0.3s ease; font-size: 18px; text-decoration: none; }
+        .social-links a:hover { background: rgba(56, 189, 248, 0.2); border-color: rgba(56, 189, 248, 0.5); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(56, 189, 248, 0.2); }
+        .newsletter-form { display: flex; flex-direction: column; gap: 10px; }
+        .newsletter-input { padding: 12px 15px; background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 6px; color: #f8fafc; font-size: 0.9rem; transition: all 0.3s ease; font-family: 'Inter', sans-serif; }
+        .newsletter-input:focus { outline: none; background: rgba(30, 41, 59, 0.8); border-color: rgba(56, 189, 248, 0.5); box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+        .newsletter-input::placeholder { color: #64748b; }
+        .newsletter-btn { padding: 12px 20px; background: linear-gradient(135deg, #38bdf8, #a855f7); border: none; border-radius: 6px; color: white; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .newsletter-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(56, 189, 248, 0.3); }
+        .newsletter-btn:active { transform: translateY(0); }
+        .powered-by { margin-top: 15px; }
+        .groq-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 6px; text-decoration: none; transition: all 0.3s ease; font-size: 0.9rem; color: #38bdf8; }
+        .groq-badge:hover { background: rgba(56, 189, 248, 0.2); border-color: rgba(56, 189, 248, 0.5); box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); }
+        .footer-bottom { max-width: 1200px; margin: 50px auto 0; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.05); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .footer-copyright { color: #64748b; font-size: 0.9rem; }
+        .footer-copyright p { margin: 0; }
+        .footer-meta { display: flex; gap: 25px; font-size: 0.9rem; color: #64748b; }
+        .language-selector, .responsive-indicator { display: flex; align-items: center; gap: 6px; cursor: pointer; transition: color 0.3s ease; }
+        .language-selector:hover, .responsive-indicator:hover { color: #38bdf8; }
+        .footer-adsense-notice { max-width: 1200px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); text-align: center; font-size: 0.8rem; color: #475569; }
+        
+        @media (max-width: 1024px) { .footer-container { grid-template-columns: repeat(2, 1fr); gap: 40px; } }
+        @media (max-width: 768px) { .toolverse-footer { padding: 60px 20px 30px; margin-top: 60px; } .footer-container { grid-template-columns: 1fr; gap: 40px; text-align: center; } .footer-col h3::after { left: 50%; transform: translateX(-50%); } .footer-brand { justify-content: center; } .social-links { justify-content: center; } .footer-bottom { flex-direction: column; text-align: center; } .footer-meta { justify-content: center; width: 100%; } .newsletter-form { flex-direction: row; } .newsletter-input { flex: 1; min-width: 200px; } .newsletter-btn { white-space: nowrap; } }
+        @media (max-width: 480px) { .legal-wrapper { padding: 25px; margin: 30px 15px; } .legal-header h1 { font-size: 2rem; } .footer-container { gap: 30px; } .footer-col h3 { font-size: 1rem; } .footer-brand { font-size: 22px; } .newsletter-form { flex-direction: column; } .newsletter-btn { width: 100%; } .footer-meta { flex-direction: column; gap: 10px; } }
+    </style>
+    
+    <script>
+        window.upgradeToProAgent = function() {
+            if(localStorage.getItem('ToolVerse_Auth') !== 'true' && localStorage.getItem('isLoggedIn') !== 'true') {
+                alert("Please login first to claim your 8,000 Pro Credits!");
+                document.getElementById('firebaseAuthModal').style.display = 'flex';
+                return;
+            }
+            
+            localStorage.setItem('tv_agent_credits', '8000');
+            localStorage.setItem('tv_plan', 'Pro Sandbox');
+            
+            const profBtn = document.getElementById('navProfileBtn');
+            if(profBtn && profBtn.innerHTML.includes('⚡')) {
+                let name = profBtn.innerText.split('|')[0].trim();
+                profBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${name} | ⚡ 8000</span>`;
+            }
+
+            window.dispatchEvent(new Event('triggerCloudUpgrade'));
+
+            alert("🎉 Success! Your account has been upgraded to the Pro Agent Sandbox. You now have 8,000 Credits!");
+            setTimeout(() => { window.location.href = 'ai-agent.html'; }, 500);
+        };
+    </script>
+</head>
+<body>
+
+    <header class="ilove-header">
+        <div class="header-container">
+            <div class="logo-area" style="cursor: pointer;" onclick="window.location.href='index.html'">
+                <span class="logo-icon">🚀</span> 
+                <span class="logo-text">ToolVerse</span>
+            </div>
+            
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li class="dropdown">
+                        <a href="index.html#tools" class="dropbtn">All AI Tools <span class="arrow">▼</span></a>
+                        <div class="mega-menu">
+                            <div class="mega-column">
+                                <h3>Writing Tools</h3>
+                                <a href="email-writer.html"><span class="icon">✉️</span> Email Writer</a>
+                                <a href="grammar-checker.html"><span class="icon">✅</span> Grammar Checker</a>
+                                <a href="resume-builder.html"><span class="icon">📄</span> Resume Builder</a>
+                            </div>
+                            <div class="mega-column">
+                                <h3>Creative AI</h3>
+                                <a href="faceless-video.html"><span class="icon">🎭</span> Faceless Video AI <span class="badge" style="background: #ff4757; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px;">Hot</span></a>
+                                <a href="youtube-toolkit.html"><span class="icon">▶️</span> YouTube Toolkit</a>
+                                <a href="thumbnail-downloader.html"><span class="icon">🖼️</span> 4K Thumbnail Downloader</a>
+                                <a href="transcript-extractor.html"><span class="icon">📜</span> Transcript Extractor</a>
+                                <a href="prompt-generator.html"><span class="icon">💡</span> Prompt Generator</a>
+                                <a href="caption-generator.html"><span class="icon">📱</span> Caption Generator</a>
+                            </div>
+                            <div class="mega-column">
+                                <h3>Productivity & PDF</h3>
+                                <a href="AI-summarizer.html"><span class="icon">📚</span> AI Summarizer</a>
+                                <a href="index.html#pdf-tools"><span class="icon">📑</span> All 31 PDF Tools</a>
+                                <a href="ai-task-planner.html"><span class="icon">📅</span> AI Task Planner</a>
+                                <a href="meeting-minutes.html"><span class="icon">📝</span> Meeting Minutes AI</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="index.html#pricing">Pricing</a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-buttons" style="display: flex; align-items: center; gap: 15px;">
+                <div class="crypto-nav-btn" onclick="window.location.href='mining-node.html'">
+                    🪙 $TOOL: <span id="headerBal">0.000</span>
+                </div>
+                <a href="#" class="login-btn" id="navLoginBtn">Login</a>
+                <a href="#" class="signup-btn" id="navSignupBtn">Sign up</a>
+                <a href="#" id="navProfileBtn" class="premium-profile-btn" style="display: none;"></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT SECTION FOR TERMS OF SERVICE -->
+    <section class="legal-wrapper">
+        <div class="legal-header">
+            <h1>Terms of Service</h1>
+            <p>Last Updated: August 2026</p>
+        </div>
+        
+        <div class="legal-content">
+            <p>Welcome to <strong>ToolVerse</strong>. By accessing or using our website, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, please refrain from using our platform.</p>
+
+            <h2>1. Description of Service</h2>
+            <p>ToolVerse provides a comprehensive suite of digital utilities, including 31 PDF manipulation tools and 17 AI-powered tools. These services are provided on an "as is" and "as available" basis. While our PDF tools operate entirely client-side for maximum privacy, our AI tools utilize external APIs (such as Groq) to generate responses.</p>
+
+            <h2>2. User Conduct & Acceptable Use</h2>
+            <p>When using ToolVerse, you agree not to:</p>
+            <ul>
+                <li>Use the service for any illegal, unauthorized, or malicious purpose.</li>
+                <li>Attempt to reverse-engineer, decompile, or hack the tool's source code or mining logic.</li>
+                <li>Abuse the AI generation endpoints by sending automated, high-frequency bot requests (DDoS).</li>
+                <li>Use our tools to generate hate speech, explicit content, or content that violates intellectual property rights.</li>
+            </ul>
+
+            <h2>3. $TOOL Beta Mining Program</h2>
+            <p>ToolVerse currently features a Beta token mining system. By participating, you acknowledge that:</p>
+            <ul>
+                <li>The `$TOOL` tokens mined are currently in a testing phase and hold no guaranteed real-world monetary value.</li>
+                <li>We reserve the right to reset, adjust, or modify mining balances, rates (e.g., the 3x boost), and mechanisms prior to any official Mainnet launch.</li>
+                <li>Attempting to manipulate the mining logic via browser console or scripts will result in an immediate account ban and forfeiture of all tokens.</li>
+            </ul>
+
+            <h2>4. User Accounts and Security</h2>
+            <p>To access certain features (like Pro Sandbox credits), you must register an account. You are responsible for safeguarding your login credentials and Two-Factor Authentication (2FA) settings. ToolVerse cannot and will not be liable for any loss or damage arising from your failure to secure your account.</p>
+
+            <h2>5. Intellectual Property</h2>
+            <p>The ToolVerse brand, logo, website design, and proprietary HTML/CSS/JavaScript code (including the glassmorphism UI and custom mining widget) are the exclusive property of ToolVerse. You may not copy, reproduce, or distribute our design assets without explicit written permission.</p>
+
+            <h2>6. Limitation of Liability</h2>
+            <p>In no event shall ToolVerse, its developers, or its partners be liable for any indirect, incidental, special, or consequential damages arising out of your use of our tools. This includes, but is not limited to, data loss during PDF processing, reliance on AI-generated content, or issues arising from third-party APIs.</p>
+
+            <h2>7. Changes to Terms</h2>
+            <p>We reserve the right to modify or replace these Terms at any time. We will provide notice of any significant changes by updating the date at the top of this page. Continued use of the platform after changes constitutes your acceptance of the new Terms.</p>
+        </div>
+    </section>
+
+    <!-- PROFESSIONAL FOOTER UPDATED -->
+    <footer class="toolverse-footer">
+        <div class="footer-container">
+            <!-- Brand Section -->
+            <div class="footer-col">
+                <div class="footer-brand">
+                    <span class="brand-icon">🚀</span>
+                    <span class="brand-text">ToolVerse</span>
+                </div>
+                <p class="brand-description">ToolVerse is your premium hub for fast, secure, and fully browser-based online tools. We run 100% client-side to guarantee your security and privacy.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <!-- Legal & Privacy -->
+            <div class="footer-col">
+                <h3>Legal & Privacy</h3>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                    <li><a href="legal-disclaimer.html">Legal Disclaimer</a></li>
+                </ul>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact-us.html">Contact Us</a></li>
+                    <li><a href="index.html#tools">All Categories</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="status.html">Status Page</a></li>
+                </ul>
+            </div>
+
+            <!-- Stay Updated -->
+            <div class="footer-col">
+                <h3>Stay Updated</h3>
+                <p style="margin-top: 0; margin-bottom: 15px; color: #cbd5e1; font-size: 0.95rem;">Subscribe to get updates about new tools and features.</p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" id="newsletterEmail" class="newsletter-input" placeholder="Enter your email" required>
+                    <button type="submit" id="newsletterBtn" class="newsletter-btn">Subscribe</button>
+                </form>
+                <div id="newsletterMsg" style="font-size: 13px; margin-top: 8px; min-height: 18px; font-weight: 500;"></div>
+                <div class="powered-by">
+                    <p style="margin-bottom: 8px; color: #94a3b8; font-size: 0.9rem;">Powered by:</p>
+                    <a href="#" class="groq-badge">⚡ Groq</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>© 2026 <strong>ToolVerse</strong>. Building the future of AI.</p>
+            </div>
+            <div class="footer-meta">
+                <div class="language-selector">English (US)</div>
+                <div class="responsive-indicator">Responsive</div>
+            </div>
+        </div>
+
+        <!-- AdSense Notice -->
+        <div class="footer-adsense-notice">
+            Google AdSense advertisements may appear throughout the platform. All advertisements comply with Google Ad Placement policies, keeping content clean and readable.
+        </div>
+    </footer>
+
+    <!-- MOVABLE / DRAGGABLE MINING WIDGET -->
+    <div class="mining-widget" id="draggableMiningWidget">
+        <div style="display: flex; align-items: center; gap: 15px; width: 100%; cursor: pointer;" onclick="window.location.href='mining-node.html'">
+            <div class="mining-icon">⛏️</div>
+            <div class="mining-stats">
+                <span class="mining-title">Mining $TOOL</span>
+                <span class="mining-rate">Live <span class="pulse-dot"></span></span>
+            </div>
+            <div class="mining-balance" id="widgetBal">0.000</div>
+        </div>
+        <div style="font-size: 9px; color: #fbbf24; margin-top: 2px; font-weight: 600; text-transform: uppercase; border-top: 1px dashed rgba(255,255,255,0.15); width: 100%; text-align: center; padding-top: 4px; letter-spacing: 0.5px;">Touch & Move Here</div>
+    </div>
+
+    <!-- COOKIE CONSENT POPUP -->
+    <div id="cookie-consent" class="cookie-popup">
+        <div class="cookie-icon">🍪</div>
+        <p>We use necessary cookies to make our website work. We would also like to use cookies to provide certain website functions, improve website performance and for analytics.</p>
+        <button class="cookie-btn accept-all" onclick="acceptCookies()">Accept all</button>
+        <button class="cookie-btn allow-selection" onclick="hideCookiePopup()">Allow selection</button>
+        <button class="cookie-btn reject-all" onclick="hideCookiePopup()">Reject All</button>
+        <a class="manage-prefs" onclick="hideCookiePopup()">Manage preferences</a>
+    </div>
+
+    <div class="crypto-modal" id="cryptoModal">
+        <div class="crypto-modal-content">
+            <span class="close-crypto" id="closeModalBtn">&times;</span>
+            <div class="crypto-header">
+                <div class="crypto-badge" id="miningStatusBadge">🚀 VIP MINING ACCESS</div>
+                <h2>$TOOL Dashboard</h2>
+                <p>Mine tokens for free before the official mainnet launch.</p>
+            </div>
+            <div class="crypto-balance-box">
+                <div class="balance-label">Your Total Mined Balance</div>
+                <div class="balance-amount"><span style="font-size: 2rem;">🪙</span> <span id="modalBal">0.000</span></div>
+                <div class="balance-usd" id="miningRateText">Mining Rate: +0.003 per 5 seconds</div>
+            </div>
+            <div class="crypto-actions">
+                <button class="action-btn boost-btn" id="boostBtn">⚡ Boost Mining 3x (Use a Tool)</button>
+                <button class="action-btn claim-btn" id="claimDailyBtn">🎁 Claim Daily Bonus (+50 $TOOL)</button>
+                <button class="action-btn invite-btn" onclick="alert('Invite link copied to clipboard!')">🔗 Copy Invite Link (+100 $TOOL)</button>
+            </div>
+            <p class="status-note">Keep using ToolVerse to mine faster.</p>
+        </div>
+    </div>
+
+    <!-- Modals (Auth, OTP, Profile) -->
+    <div class="auth-modal" id="firebaseAuthModal">
+        <div class="auth-modal-content">
+            <span class="close-auth" id="closeAuthModalBtn">&times;</span>
+            <h2 class="auth-title">ToolVerse</h2>
+            <p class="auth-subtitle">Access your professional toolkit</p>
+            
+            <input type="email" id="authEmail" class="auth-input" placeholder="Email Address" required>
+            <input type="password" id="authPassword" class="auth-input" placeholder="Password" required>
+
+            <button id="emailLoginBtn" class="auth-submit-btn">Continue with Email</button>
+            <div class="auth-divider">──────── OR ────────</div>
+            <button id="googleBtn" class="auth-google-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                Continue with Google
+            </button>
+            <div id="authMessageBox"></div>
+        </div>
+    </div>
+
+    <div class="auth-modal" id="otpVerificationModal">
+        <div class="auth-modal-content" style="max-width: 400px; text-align: center;">
+            <span class="close-auth" id="closeOtpModalBtn"><i class="fa-solid fa-xmark"></i></span>
+            <div style="font-size: 40px; margin-bottom: 10px;">🔒</div>
+            <h2 class="auth-title">Security Verification</h2>
+            <p class="auth-subtitle">Enter the 6-digit verification code sent to your registered email/phone.</p>
+            
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" class="otp-box" id="otp1" autofocus>
+                <input type="text" maxlength="1" class="otp-box" id="otp2">
+                <input type="text" maxlength="1" class="otp-box" id="otp3">
+                <input type="text" maxlength="1" class="otp-box" id="otp4">
+                <input type="text" maxlength="1" class="otp-box" id="otp5">
+                <input type="text" maxlength="1" class="otp-box" id="otp6">
+            </div>
+
+            <div style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">
+                Resend code in <span id="otpTimer" style="color: #4da6ff; font-weight: 600;">59</span>s
+            </div>
+
+            <button id="verifyOtpBtn" class="auth-submit-btn">Verify & Proceed</button>
+            <div id="otpMessageBox" style="margin-top: 15px; font-size: 13px;"></div>
+        </div>
+    </div>
+
+    <div class="auth-modal" id="userProfileModal">
+        <div class="auth-modal-content">
+            <span class="close-auth" id="closeProfileModalBtn"><i class="fa-solid fa-xmark"></i></span>
+            <h2 class="auth-title" style="text-align: center; font-size: 1.8rem; color: #fff;">Account Profile & Security</h2>
+            <p class="auth-subtitle" style="text-align: center;">Manage your personal info and Two-Factor Authentication (2FA).</p>
+
+            <div style="background: rgba(251, 191, 36, 0.05); border: 1px solid rgba(251, 191, 36, 0.3); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px;">
+                <span style="color: #cbd5e1; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Available Coin Balance</span><br>
+                <span style="font-size: 1.8rem; font-weight: 800; color: #fbbf24;">🪙 <span id="profileModalBal">0.000</span> $TOOL</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 5px;">
+                <input type="text" id="profFirstName" class="auth-input" style="margin: 0;" placeholder="First Name">
+                <input type="text" id="profLastName" class="auth-input" style="margin: 0;" placeholder="Last Name">
+            </div>
+            
+            <div style="display: flex; gap: 8px; margin-top: 5px; margin-bottom: 5px;">
+                <select id="profPhoneCode" class="auth-input" style="width: 38%; margin: 0;">
+                    <option value="" disabled selected>🏳️ Code</option>
+                </select>
+                <input type="tel" id="profPhone" class="auth-input" style="width: 62%; margin: 0;" placeholder="Phone Number">
+            </div>
+            
+            <div style="position: relative;">
+                <input type="text" id="profAddress" class="auth-input" style="margin-top: 5px; margin-bottom: 10px;" placeholder="Start typing your street address..." autocomplete="off">
+                <ul id="addressSuggestions" class="suggestions-box"></ul>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px;">
+                <select id="profCountry" class="auth-input" style="margin: 0;">
+                    <option value="" disabled selected>🏳️ Select Country</option>
+                </select>
+                <input type="text" id="profState" class="auth-input" style="margin: 0;" placeholder="State/Prov">
+                <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Zip Code">
+            </div>
+
+            <div style="background: rgba(77, 166, 255, 0.05); border: 1px solid rgba(77, 166, 255, 0.2); padding: 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                <div style="text-align: left;">
+                    <div style="font-weight: 600; font-size: 14px; color: #fff;">Two-Factor Authentication (2FA)</div>
+                    <div style="font-size: 12px; color: #94a3b8;">Secure your account with 6-digit OTP codes on login.</div>
+                </div>
+                <label style="position: relative; display: inline-block; width: 44px; min-width: 44px; height: 24px; flex-shrink: 0;">
+                    <input type="checkbox" id="twoFactorToggle" style="opacity: 0; width: 0; height: 0;">
+                    <span id="sliderSpan" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .3s; border-radius: 24px;"></span>
+                    <span id="sliderDot" style="position: absolute; content: ''; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%;"></span>
+                </label>
+            </div>
+
+            <button id="saveProfileBtn" class="auth-submit-btn" style="background-color: #4ade80; color: #121212;">Save Profile</button>
+            <button id="actualLogoutBtn" class="auth-submit-btn" style="background-color: transparent; border: 1px solid #ff4757; color: #ff4757; margin-top: 5px;">Sign Out Securely</button>
+        </div>
+    </div>
+
+    <!-- UI INTERACTION SCRIPT -->
+    <script>
+        function acceptCookies() { localStorage.setItem('toolverse_cookies_accepted', 'true'); hideCookiePopup(); }
+        function hideCookiePopup() { const popup = document.getElementById('cookie-consent'); if(popup) popup.style.display = 'none'; }
+    </script>
+
+    <!-- COUNTRIES & CODES DATABASE -->
+    <script>
+        const allWorldCountries = [
+            {n:"Afghanistan",c:"+93",f:"🇦🇫"},{n:"Albania",c:"+355",f:"🇦🇱"},{n:"Algeria",c:"+213",f:"🇩🇿"},
+            {n:"Andorra",c:"+376",f:"🇦🇩"},{n:"Angola",c:"+244",f:"🇦🇴"},{n:"Antigua and Barbuda",c:"+1",f:"🇦🇬"},
+            {n:"Argentina",c:"+54",f:"🇦🇷"},{n:"Armenia",c:"+374",f:"🇦🇲"},{n:"Australia",c:"+61",f:"🇦🇺"},
+            {n:"Austria",c:"+43",f:"🇦🇹"},{n:"Azerbaijan",c:"+994",f:"🇦🇿"},{n:"Bahamas",c:"+1",f:"🇧🇸"},
+            {n:"Bahrain",c:"+973",f:"🇧🇭"},{n:"Bangladesh",c:"+880",f:"🇧🇩"},{n:"Barbados",c:"+1",f:"🇧🇧"},
+            {n:"Belarus",c:"+375",f:"🇧🇾"},{n:"Belgium",c:"+32",f:"🇧🇪"},{n:"Belize",c:"+501",f:"🇧🇿"},
+            {n:"Benin",c:"+229",f:"🇧🇯"},{n:"Bhutan",c:"+975",f:"🇧🇹"},{n:"Bolivia",c:"+591",f:"🇧🇴"},
+            {n:"Bosnia and Herzegovina",c:"+387",f:"🇧🇦"},{n:"Botswana",c:"+267",f:"🇧🇼"},{n:"Brazil",c:"+55",f:"🇧🇷"},
+            {n:"Brunei",c:"+673",f:"🇧🇳"},{n:"Bulgaria",c:"+359",f:"🇧🇬"},{n:"Burkina Faso",c:"+226",f:"🇧🇫"},
+            {n:"Burundi",c:"+257",f:"🇧🇮"},{n:"Cambodia",c:"+855",f:"🇰🇭"},{n:"Cameroon",c:"+237",f:"🇨🇲"},
+            {n:"Canada",c:"+1",f:"🇨🇦"},{n:"Central African Republic",c:"+236",f:"🇨🇫"},{n:"Chad",c:"+235",f:"🇹🇩"},
+            {n:"Chile",c:"+56",f:"🇨🇱"},{n:"China",c:"+86",f:"🇨🇳"},{n:"Colombia",c:"+57",f:"🇨🇴"},
+            {n:"Comoros",c:"+269",f:"🇰🇲"},{n:"Congo",c:"+242",f:"🇨🇬"},{n:"Costa Rica",c:"+506",f:"🇨🇷"},
+            {n:"Croatia",c:"+385",f:"🇭🇷"},{n:"Cuba",c:"+53",f:"🇨🇺"},{n:"Cyprus",c:"+357",f:"🇨🇾"},
+            {n:"Czech Republic",c:"+420",f:"🇨🇿"},{n:"Denmark",c:"+45",f:"🇩🇰"},{n:"Djibouti",c:"+253",f:"🇩🇯"},
+            {n:"Dominican Republic",c:"+1",f:"🇩🇴"},{n:"Ecuador",c:"+593",f:"🇪🇨"},{n:"Egypt",c:"+20",f:"🇪🇬"},
+            {n:"El Salvador",c:"+503",f:"🇸🇻"},{n:"Eritrea",c:"+291",f:"🇪🇷"},{n:"Estonia",c:"+372",f:"🇪🇪"},
+            {n:"Eswatini",c:"+268",f:"🇸🇿"},{n:"Ethiopia",c:"+251",f:"🇪🇹"},{n:"Fiji",c:"+679",f:"🇫🇯"},
+            {n:"Finland",c:"+358",f:"🇫🇮"},{n:"France",c:"+33",f:"🇫🇷"},{n:"Gabon",c:"+241",f:"🇬🇦"},
+            {n:"Gambia",c:"+220",f:"🇬🇲"},{n:"Georgia",c:"+995",f:"🇬🇪"},{n:"Germany",c:"+49",f:"🇩🇪"},
+            {n:"Ghana",c:"+233",f:"🇬🇭"},{n:"Greece",c:"+30",f:"🇬🇷"},{n:"Grenada",c:"+1",f:"🇬🇩"},
+            {n:"Guatemala",c:"+502",f:"🇬🇹"},{n:"Guinea",c:"+224",f:"🇬🇳"},{n:"Haiti",c:"+509",f:"🇭🇹"},
+            {n:"Honduras",c:"+504",f:"🇭🇳"},{n:"Hungary",c:"+36",f:"🇭🇺"},{n:"Iceland",c:"+354",f:"🇮🇸"},
+            {n:"India",c:"+91",f:"🇮🇳"},{n:"Indonesia",c:"+62",f:"🇮🇩"},{n:"Iran",c:"+98",f:"🇮🇷"},
+            {n:"Iraq",c:"+964",f:"🇮🇶"},{n:"Ireland",c:"+353",f:"🇮🇪"},{n:"Israel",c:"+972",f:"🇮🇱"},
+            {n:"Italy",c:"+39",f:"🇮🇹"},{n:"Jamaica",c:"+1",f:"🇯🇲"},{n:"Japan",c:"+81",f:"🇯🇵"},
+            {n:"Jordan",c:"+962",f:"🇯🇴"},{n:"Kazakhstan",c:"+7",f:"🇰🇿"},{n:"Kenya",c:"+254",f:"🇰🇪"},
+            {n:"Kuwait",c:"+965",f:"🇰🇼"},{n:"Kyrgyzstan",c:"+996",f:"🇰🇬"},{n:"Laos",c:"+856",f:"🇱🇦"},
+            {n:"Latvia",c:"+371",f:"🇱🇻"},{n:"Lebanon",c:"+961",f:"🇱🇧"},{n:"Lesotho",c:"+266",f:"🇱🇸"},
+            {n:"Liberia",c:"+231",f:"🇱🇷"},{n:"Libya",c:"+218",f:"🇱🇾"},{n:"Lithuania",c:"+370",f:"🇱🇹"},
+            {n:"Luxembourg",c:"+352",f:"🇱🇺"},{n:"Madagascar",c:"+261",f:"🇲🇬"},{n:"Malawi",c:"+265",f:"🇲🇼"},
+            {n:"Malaysia",c:"+60",f:"🇲🇾"},{n:"Maldives",c:"+960",f:"🇲🇻"},{n:"Mali",c:"+223",f:"🇲🇱"},
+            {n:"Malta",c:"+356",f:"🇲🇹"},{n:"Mexico",c:"+52",f:"🇲🇽"},{n:"Moldova",c:"+373",f:"🇲🇩"},
+            {n:"Monaco",c:"+377",f:"🇲🇨"},{n:"Mongolia",c:"+976",f:"🇲🇳"},{n:"Montenegro",c:"+382",f:"🇲🇪"},
+            {n:"Morocco",c:"+212",f:"🇲🇦"},{n:"Mozambique",c:"+258",f:"🇲🇿"},{n:"Myanmar",c:"+95",f:"🇲🇲"},
+            {n:"Namibia",c:"+264",f:"🇳🇦"},{n:"Nepal",c:"+977",f:"🇳🇵"},{n:"Netherlands",c:"+31",f:"🇳🇱"},
+            {n:"New Zealand",c:"+64",f:"🇳🇿"},{n:"Nicaragua",c:"+505",f:"🇳🇮"},{n:"Niger",c:"+227",f:"🇳🇪"},
+            {n:"Nigeria",c:"+234",f:"🇳🇬"},{n:"North Korea",c:"+850",f:"🇰🇵"},{n:"Norway",c:"+47",f:"🇳🇴"},
+            {n:"Oman",c:"+968",f:"🇴🇲"},{n:"Pakistan",c:"+92",f:"🇵🇰"},{n:"Palestine",c:"+970",f:"🇵🇸"},
+            {n:"Panama",c:"+507",f:"🇵🇦"},{n:"Papua New Guinea",c:"+675",f:"🇵🇬"},{n:"Paraguay",c:"+595",f:"🇵🇾"},
+            {n:"Peru",c:"+51",f:"🇵🇪"},{n:"Philippines",c:"+63",f:"🇵🇭"},{n:"Poland",c:"+48",f:"🇵🇱"},
+            {n:"Portugal",c:"+351",f:"🇵🇹"},{n:"Qatar",c:"+974",f:"🇶🇦"},{n:"Romania",c:"+40",f:"🇷🇴"},
+            {n:"Russia",c:"+7",f:"🇷🇺"},{n:"Rwanda",c:"+250",f:"🇷🇼"},{n:"Saudi Arabia",c:"+966",f:"🇸🇦"},
+            {n:"Senegal",c:"+221",f:"🇸🇳"},{n:"Serbia",c:"+381",f:"🇷🇸"},{n:"Sierra Leone",c:"+232",f:"🇸🇱"},
+            {n:"Singapore",c:"+65",f:"🇸🇬"},{n:"Slovakia",c:"+421",f:"🇸🇰"},{n:"Slovenia",c:"+386",f:"🇸🇮"},
+            {n:"Somalia",c:"+252",f:"🇸🇴"},{n:"South Africa",c:"+27",f:"🇿🇦"},{n:"South Korea",c:"+82",f:"🇰🇷"},
+            {n:"Spain",c:"+34",f:"🇪🇸"},{n:"Sri Lanka",c:"+94",f:"🇱🇰"},{n:"Sudan",c:"+249",f:"🇸🇩"},
+            {n:"Sweden",c:"+46",f:"🇸🇪"},{n:"Switzerland",c:"+41",f:"🇨🇭"},{n:"Syria",c:"+963",f:"🇸🇾"},
+            {n:"Taiwan",c:"+886",f:"🇹🇼"},{n:"Tajikistan",c:"+992",f:"🇹🇯"},{n:"Tanzania",c:"+255",f:"🇹🇿"},
+            {n:"Thailand",c:"+66",f:"🇹🇭"},{n:"Togo",c:"+228",f:"🇹🇬"},{n:"Tunisia",c:"+216",f:"🇹🇳"},
+            {n:"Turkey",c:"+90",f:"🇹🇷"},{n:"Turkmenistan",c:"+993",f:"🇹🇲"},{n:"Uganda",c:"+256",f:"🇺🇬"},
+            {n:"Ukraine",c:"+380",f:"🇺🇦"},{n:"United Arab Emirates",c:"+971",f:"🇦🇪"},{n:"United Kingdom",c:"+44",f:"🇬🇧"},
+            {n:"United States",c:"+1",f:"🇺🇸"},{n:"Uruguay",c:"+598",f:"🇺🇾"},{n:"Uzbekistan",c:"+998",f:"🇺🇿"},
+            {n:"Venezuela",c:"+58",f:"🇻🇪"},{n:"Vietnam",c:"+84",f:"🇻🇳"},{n:"Yemen",c:"+967",f:"🇾🇪"},
+            {n:"Zambia",c:"+260",f:"🇿🇲"},{n:"Zimbabwe",c:"+263",f:"🇿🇼"}
+        ];
+
+        function injectCountries(dataList) {
+            const phoneCodeSelect = document.getElementById('profPhoneCode');
+            const countrySelect = document.getElementById('profCountry');
+            if(!phoneCodeSelect || !countrySelect) return;
+            
+            let pOptions = '<option value="" disabled selected>🏳️ Code</option>';
+            let cOptions = '<option value="" disabled selected>🏳️ Select Country</option>';
+            
+            dataList.forEach(item => {
+                pOptions += `<option value="${item.n}|${item.c}">${item.f} ${item.c}</option>`;
+                cOptions += `<option value="${item.n}">${item.f} ${item.n}</option>`;
+            });
+            
+            phoneCodeSelect.innerHTML = pOptions;
+            countrySelect.innerHTML = cOptions;
+
+            if(window.populateProfileData) {
+                const localData = localStorage.getItem('tv_user_profile');
+                if (localData) {
+                    try { window.populateProfileData(JSON.parse(localData)); } catch(e) {}
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            injectCountries(allWorldCountries);
+        });
+    </script>
+
+    <!-- FIREBASE & CORE LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
+            measurementId: "G-6VX2WPNECZ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app); 
+        const googleProvider = new GoogleAuthProvider();
+
+        const authModal = document.getElementById('firebaseAuthModal');
+        const userProfileModal = document.getElementById('userProfileModal');
+        const otpVerificationModal = document.getElementById('otpVerificationModal');
+        
+        const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
+        const closeProfileModalBtn = document.getElementById('closeProfileModalBtn');
+        const closeOtpModalBtn = document.getElementById('closeOtpModalBtn');
+        
+        const navLoginBtn = document.getElementById('navLoginBtn');
+        const navSignupBtn = document.getElementById('navSignupBtn');
+        const navProfileBtn = document.getElementById('navProfileBtn');
+        const actualLogoutBtn = document.getElementById('actualLogoutBtn');
+        const emailLoginBtn = document.getElementById('emailLoginBtn');
+        const saveProfileBtn = document.getElementById('saveProfileBtn');
+        
+        const authMessageBox = document.getElementById('authMessageBox');
+        const twoFactorToggle = document.getElementById('twoFactorToggle');
+
+        const profFirstName = document.getElementById('profFirstName');
+        const profLastName = document.getElementById('profLastName');
+        const profPhoneCode = document.getElementById('profPhoneCode');
+        const profPhone = document.getElementById('profPhone');
+        const profAddress = document.getElementById('profAddress');
+        const profCountry = document.getElementById('profCountry');
+        const profState = document.getElementById('profState');
+        const profZip = document.getElementById('profZip');
+
+        // ==========================================
+        // NEWSLETTER SUBSCRIPTION LOGIC
+        // ==========================================
+        const newsletterForm = document.getElementById('newsletterForm');
+        const newsletterEmail = document.getElementById('newsletterEmail');
+        const newsletterBtn = document.getElementById('newsletterBtn');
+        const newsletterMsg = document.getElementById('newsletterMsg');
+
+        if(newsletterForm) {
+            newsletterForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = newsletterEmail.value.trim();
+                if(!email) return;
+
+                newsletterBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
+                newsletterBtn.disabled = true;
+                newsletterMsg.innerHTML = '';
+
+                try {
+                    const savePromise = addDoc(collection(db, "subscribers"), {
+                        email: email,
+                        subscribedAt: new Date().toISOString()
+                    });
+                    
+                    await Promise.race([
+                        savePromise,
+                        new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout: Check Firebase Database Rules (Write Permission)")), 6000))
+                    ]);
+
+                    newsletterMsg.innerHTML = '<span style="color: #4ade80;">✅ Subscribed successfully!</span>';
+                    newsletterForm.reset();
+                } catch (error) {
+                    newsletterMsg.innerHTML = `<span style="color: #ff4757;">❌ Error: ${error.message}</span>`;
+                } finally {
+                    newsletterBtn.innerHTML = 'Subscribe';
+                    newsletterBtn.disabled = false;
+                    setTimeout(() => { newsletterMsg.innerHTML = ''; }, 6000);
+                }
+            });
+        }
+
+        window.populateProfileData = function(data) {
+            if(!data) return;
+            if(data.firstName) profFirstName.value = data.firstName;
+            if(data.lastName) profLastName.value = data.lastName;
+            
+            if(data.phoneCode) {
+                let exactMatch = Array.from(profPhoneCode.options).some(o => o.value === data.phoneCode);
+                if(exactMatch) {
+                    profPhoneCode.value = data.phoneCode;
+                } else {
+                    let oldMatch = Array.from(profPhoneCode.options).find(o => o.value.endsWith('|' + data.phoneCode) || o.value === data.phoneCode);
+                    if(oldMatch) profPhoneCode.value = oldMatch.value;
+                }
+            }
+            
+            if(data.phone) profPhone.value = data.phone;
+            if(data.address) profAddress.value = data.address;
+            if(data.country) profCountry.value = data.country;
+            if(data.state) profState.value = data.state;
+            if(data.zip) profZip.value = data.zip;
+        };
+
+        const localProfData = localStorage.getItem('tv_user_profile');
+        if(localProfData) {
+            try { window.populateProfileData(JSON.parse(localProfData)); } catch(e) {}
+        }
+
+        async function initializeUserInDB(user) {
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+            
+            if (!userSnap.exists()) {
+                await setDoc(userRef, {
+                    email: user.email,
+                    displayName: user.displayName || 'User',
+                    credits: 2500,
+                    plan: 'Sandbox',
+                    createdAt: new Date().toISOString()
+                });
+            } else {
+                window.populateProfileData(userSnap.data());
+                localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
+            }
+            updateCreditDisplay(user.uid);
+        }
+
+        // =========================================================
+        // VVIP CLOUD BRIDGE FIX - NEVER LOSE SPENT CREDITS AGAIN!
+        // =========================================================
+        async function updateCreditDisplay(uid) {
+            const userRef = doc(db, "users", uid);
+            const userSnap = await getDoc(userRef);
+            
+            if(userSnap.exists()) {
+                let dbCredits = userSnap.data().credits;
+                if (dbCredits === undefined) dbCredits = 2500;
+                
+                let localCreditsStr = localStorage.getItem('tv_agent_credits');
+                
+                if (localCreditsStr !== null) {
+                    let localCredits = parseInt(localCreditsStr);
+                    if (!isNaN(localCredits) && localCredits !== dbCredits) {
+                        dbCredits = localCredits; 
+                        await updateDoc(userRef, { credits: dbCredits }); 
+                    }
+                } else {
+                    localStorage.setItem('tv_agent_credits', dbCredits.toString());
+                }
+                
+                if(navProfileBtn) {
+                    const displayName = userSnap.data().firstName || (userSnap.data().displayName ? userSnap.data().displayName.split(' ')[0] : 'User');
+                    navProfileBtn.innerHTML = `
+                        <div class="profile-avatar-icon">🤖</div>
+                        <span>${displayName} | ⚡ ${dbCredits}</span>
+                    `;
+                }
+            }
+        }
+
+        if(saveProfileBtn) {
+            saveProfileBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if(saveProfileBtn.disabled) return;
+                
+                saveProfileBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Saving...';
+                saveProfileBtn.style.opacity = '0.9';
+                saveProfileBtn.disabled = true;
+
+                const profileData = {
+                    firstName: profFirstName.value.trim(),
+                    lastName: profLastName.value.trim(),
+                    phoneCode: profPhoneCode.value,
+                    phone: profPhone.value.trim(),
+                    address: profAddress.value.trim(),
+                    country: profCountry.value,
+                    state: profState.value.trim(),
+                    zip: profZip.value.trim()
+                };
+
+                localStorage.setItem('tv_user_profile', JSON.stringify(profileData));
+
+                if(auth && auth.currentUser) {
+                    const userRef = doc(db, "users", auth.currentUser.uid);
+                    updateDoc(userRef, profileData).catch(err => console.log("Cloud sync in background...", err));
+                    
+                    if(navProfileBtn && profileData.firstName) {
+                        let currHtml = navProfileBtn.innerHTML;
+                        navProfileBtn.innerHTML = currHtml.replace(/<span>.*?\|/, `<span>${profileData.firstName} |`);
+                    }
+                }
+
+                setTimeout(() => {
+                    saveProfileBtn.innerHTML = '✅ Saved Successfully!';
+                    saveProfileBtn.style.backgroundColor = '#10b981'; 
+                    saveProfileBtn.style.color = '#fff';
+                    
+                    setTimeout(() => {
+                        saveProfileBtn.innerHTML = 'Save Profile';
+                        saveProfileBtn.style.backgroundColor = '#4ade80';
+                        saveProfileBtn.style.color = '#121212';
+                        saveProfileBtn.style.opacity = '1';
+                        saveProfileBtn.disabled = false;
+                    }, 2000);
+                    
+                }, 800);
+            });
+        }
+
+        window.addEventListener('triggerCloudUpgrade', async () => {
+            if(auth.currentUser) {
+                const userRef = doc(db, "users", auth.currentUser.uid);
+                try {
+                    await updateDoc(userRef, { credits: 8000, plan: 'Pro Sandbox' });
+                    updateCreditDisplay(auth.currentUser.uid); // Refresh instantly
+                } catch(e) {}
+            }
+        });
+
+        const openAuthModal = (e) => { e.preventDefault(); authModal.style.display = 'flex'; authMessageBox.innerHTML = ''; };
+        if(navLoginBtn) navLoginBtn.addEventListener('click', openAuthModal);
+        if(navSignupBtn) navSignupBtn.addEventListener('click', openAuthModal);
+        
+        if(closeAuthModalBtn) closeAuthModalBtn.addEventListener('click', () => authModal.style.display = 'none');
+        if(closeProfileModalBtn) closeProfileModalBtn.addEventListener('click', () => userProfileModal.style.display = 'none');
+        if(closeOtpModalBtn) closeOtpModalBtn.addEventListener('click', () => otpVerificationModal.style.display = 'none');
+
+        window.addEventListener('click', (e) => { 
+            if (e.target === authModal) authModal.style.display = 'none'; 
+            if (e.target === userProfileModal) userProfileModal.style.display = 'none'; 
+            if (e.target === otpVerificationModal) otpVerificationModal.style.display = 'none'; 
+        });
+
+        let is2FAEnabled = localStorage.getItem('tv_2fa') === 'true';
+        twoFactorToggle.checked = is2FAEnabled;
+        updateToggleStyle(is2FAEnabled);
+
+        twoFactorToggle.addEventListener('change', () => {
+            is2FAEnabled = twoFactorToggle.checked;
+            localStorage.setItem('tv_2fa', is2FAEnabled);
+            updateToggleStyle(is2FAEnabled);
+        });
+
+        function updateToggleStyle(checked) {
+            const sliderSpan = document.getElementById('sliderSpan');
+            const sliderDot = document.getElementById('sliderDot');
+            if(checked) {
+                sliderSpan.style.backgroundColor = '#4ade80';
+                sliderDot.style.transform = 'translateX(20px)';
+            } else {
+                sliderSpan.style.backgroundColor = '#475569';
+                sliderDot.style.transform = 'translateX(0)';
+            }
+        }
+
+        if(navProfileBtn) {
+            navProfileBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                userProfileModal.style.display = 'flex';
+            });
+        }
+
+        document.getElementById('googleBtn').addEventListener('click', () => {
+            signInWithPopup(auth, googleProvider).then(async (result) => {
+                authModal.style.display = 'none';
+            }).catch((error) => { authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`; });
+        });
+
+        emailLoginBtn.addEventListener('click', () => {
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPassword').value;
+            if(!email || !password) return;
+
+            authMessageBox.innerHTML = `<span style="color: #38bdf8;">Authenticating securely...</span>`;
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => { authModal.style.display = 'none'; })
+                .catch((error) => {
+                    if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                        createUserWithEmailAndPassword(auth, email, password)
+                            .then((userCredential) => { authModal.style.display = 'none'; })
+                            .catch((err) => authMessageBox.innerHTML = `<span style="color: #ff4757;">${err.message}</span>`);
+                    } else {
+                        authMessageBox.innerHTML = `<span style="color: #ff4757;">${error.message}</span>`;
+                    }
+                });
+        });
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                if(navLoginBtn) navLoginBtn.style.display = 'none';
+                if(navSignupBtn) navSignupBtn.style.display = 'none';
+                if(navProfileBtn) navProfileBtn.style.display = 'flex';
+                
+                localStorage.setItem('ToolVerse_Auth', 'true');
+                localStorage.setItem('isLoggedIn', 'true');
+                
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+                if(!userSnap.exists()) {
+                    await setDoc(userRef, { email: user.email, displayName: user.displayName || 'User', credits: 2500, plan: 'Sandbox', createdAt: new Date().toISOString() });
+                } else {
+                    window.populateProfileData(userSnap.data());
+                    localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
+                }
+                
+                await updateCreditDisplay(user.uid);
+            } else {
+                if(navLoginBtn) navLoginBtn.style.display = 'block';
+                if(navSignupBtn) navSignupBtn.style.display = 'block';
+                if(navProfileBtn) navProfileBtn.style.display = 'none';
+                
+                localStorage.removeItem('tv_agent_credits');
+                localStorage.removeItem('ToolVerse_Auth');
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('tv_user_profile');
+            }
+        });
+
+        if(actualLogoutBtn) {
+            actualLogoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                signOut(auth).then(() => { userProfileModal.style.display = 'none'; });
+            });
+        }
+    </script>
+
+    <!-- MINING & WIDGET LOGIC -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
+            let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
+            let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
+
+            const headerBal = document.getElementById('headerBal');
+            const widgetBal = document.getElementById('widgetBal');
+            const modalBal = document.getElementById('modalBal');
+            const profileModalBal = document.getElementById('profileModalBal');
+            
+            const claimBtn = document.getElementById('claimDailyBtn');
+            const boostBtn = document.getElementById('boostBtn');
+            const cryptoModal = document.getElementById('cryptoModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+
+            let increment = isBoostActive ? 0.009 : 0.003;
+
+            let lastSavedTime = localStorage.getItem('toolVerseLastTime');
+            if (lastSavedTime) {
+                let currentTime = Date.now();
+                let timeDifference = currentTime - parseInt(lastSavedTime); 
+                let missedIntervals = Math.floor(timeDifference / 5000);
+                if (missedIntervals > 0) {
+                    toolBalance += (missedIntervals * increment); 
+                }
+            }
+
+            function updateDisplay() {
+                if(headerBal) headerBal.innerText = toolBalance.toFixed(3);
+                if(widgetBal) widgetBal.innerText = toolBalance.toFixed(3);
+                if(modalBal) modalBal.innerText = toolBalance.toFixed(3);
+                if(profileModalBal) profileModalBal.innerText = toolBalance.toFixed(3);
+                
+                localStorage.setItem('toolVerseBalance', toolBalance.toString());
+                localStorage.setItem('toolVerseLastTime', Date.now().toString());
+            }
+
+            if(closeModalBtn) closeModalBtn.addEventListener('click', () => cryptoModal.style.display = 'none');
+            window.addEventListener('click', (e) => { if (e.target === cryptoModal) cryptoModal.style.display = 'none'; });
+
+            if(isBoostActive && boostBtn) {
+                boostBtn.innerText = "⚡ 3x Boost Active!"; boostBtn.disabled = true;
+                document.getElementById('miningRateText').innerText = "Mining Rate: +0.009 per 5 seconds (Boosted)";
+                document.getElementById('miningStatusBadge').innerText = "🔥 3X BOOST ACTIVE";
+            }
+
+            setInterval(() => { toolBalance += increment; updateDisplay(); }, 5000);
+
+            if(boostBtn) {
+                boostBtn.addEventListener('click', () => {
+                    if(!isBoostActive) {
+                        isBoostActive = true; increment = 0.009; localStorage.setItem('toolVerseBoostActive', 'true');
+                        boostBtn.innerText = "⚡ 3x Boost Active!"; boostBtn.disabled = true;
+                        document.getElementById('miningRateText').innerText = "Mining Rate: +0.009 per 5 seconds (Boosted)";
+                        document.getElementById('miningStatusBadge').innerText = "🔥 3X BOOST ACTIVE";
+                    }
+                });
+            }
+
+            const today = new Date().toDateString();
+            if(lastClaimDate === today && claimBtn) { claimBtn.innerText = "🎁 Claimed Today"; claimBtn.disabled = true; }
+
+            if(claimBtn) {
+                claimBtn.addEventListener('click', () => {
+                    if(lastClaimDate !== today) {
+                        toolBalance += 50.000; localStorage.setItem('toolVerseLastClaim', today);
+                        claimBtn.innerText = "🎁 Claimed Today"; claimBtn.disabled = true;
+                        updateDisplay(); alert("Successfully claimed +50 $TOOL bonus!");
+                    }
+                });
+            }
+            updateDisplay();
+
+            const addressInput = document.getElementById('profAddress');
+            const suggestionsBox = document.getElementById('addressSuggestions');
+            let debounceTimer;
+
+            if (addressInput && suggestionsBox) {
+                addressInput.addEventListener('input', function() {
+                    clearTimeout(debounceTimer);
+                    const query = this.value.trim();
+                    if(query.length < 3) { suggestionsBox.style.display = 'none'; return; }
+                    
+                    suggestionsBox.innerHTML = '<li style="text-align:center; color:#94a3b8; padding: 15px;"><i class="fa-solid fa-spinner fa-spin"></i> Searching locations...</li>';
+                    suggestionsBox.style.display = 'block';
+
+                    debounceTimer = setTimeout(() => {
+                        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`)
+                        .then(res => res.json())
+                        .then(data => {
+                            suggestionsBox.innerHTML = '';
+                            if(data.length > 0) {
+                                data.forEach(place => {
+                                    let li = document.createElement('li');
+                                    li.innerHTML = `📍 ${place.display_name}`;
+                                    li.onclick = function() {
+                                        let addr = place.address || {}; let zip = addr.postcode || ''; let state = addr.state || addr.province || ''; let country = addr.country || '';
+                                        let fullAddressParts = place.display_name.split(',').map(s => s.trim());
+                                        let streetParts = fullAddressParts.filter(p => p !== country && p !== zip && p !== state);
+                                        
+                                        document.getElementById('profAddress').value = streetParts.join(', ');
+                                        document.getElementById('profState').value = state;
+                                        document.getElementById('profZip').value = zip;
+                                        
+                                        const countrySelect = document.getElementById('profCountry');
+                                        if(countrySelect && country) {
+                                            Array.from(countrySelect.options).forEach((opt, idx) => {
+                                                if(opt.value === country || opt.text.includes(country)) countrySelect.selectedIndex = idx;
+                                            });
+                                        }
+                                        suggestionsBox.style.display = 'none';
+                                    };
+                                    suggestionsBox.appendChild(li);
+                                });
+                            } else {
+                                suggestionsBox.innerHTML = '<li style="text-align:center; color:#ff4757; padding: 15px;">No results found</li>';
+                            }
+                        }).catch(err => { suggestionsBox.innerHTML = '<li style="text-align:center; color:#ff4757; padding: 15px;">Error fetching address</li>'; });
+                    }, 600);
+                });
+
+                document.addEventListener('click', function(e) {
+                    if(e.target !== addressInput && e.target !== suggestionsBox) suggestionsBox.style.display = 'none';
+                });
+            }
+
+            const widget = document.getElementById('draggableMiningWidget');
+            let isDragging = false, startX, startY;
+            function dragStart(e) {
+                if(e.target.tagName.toLowerCase() === 'span' || e.target.className === 'mining-inner' || e.target.className === 'mining-icon') return; 
+                isDragging = true;
+                const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+                startX = clientX - widget.offsetLeft; startY = clientY - widget.offsetTop;
+            }
+            function drag(e) {
+                if (!isDragging) return; e.preventDefault();
+                const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+                const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+                let newX = clientX - startX; let newY = clientY - startY;
+                widget.style.left = Math.max(10, Math.min(window.innerWidth - widget.offsetWidth - 10, newX)) + 'px';
+                widget.style.top = Math.max(10, Math.min(window.innerHeight - widget.offsetHeight - 10, newY)) + 'px';
+                widget.style.bottom = 'auto'; widget.style.right = 'auto';
+            }
+            function dragEnd() { isDragging = false; }
+            widget.addEventListener('mousedown', dragStart); document.addEventListener('mousemove', drag); document.addEventListener('mouseup', dragEnd);
+            widget.addEventListener('touchstart', dragStart, {passive: false}); document.addEventListener('touchmove', drag, {passive: false}); document.addEventListener('touchend', dragEnd);
+        });
+    </script>
+</body>
+</html>
