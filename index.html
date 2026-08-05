@@ -35,27 +35,12 @@
         }
 
         /* =========================================================
-           🚀 VVIP PREMIUM ROCKET LOGO ANIMATION (BLAST-OFF)
+           🚀 STATIC LOGO (AS REQUESTED)
            ========================================================= */
-        .logo-area, .footer-brand { cursor: pointer; position: relative; overflow: visible; z-index: 100;}
+        .logo-area, .footer-brand { cursor: pointer; position: relative; z-index: 100;}
         .logo-icon, .brand-icon {
             display: inline-block;
-            filter: drop-shadow(0px 5px 12px rgba(255, 153, 0, 0.6)) drop-shadow(0px 0px 5px rgba(255, 204, 0, 0.4));
-            animation: spaceFloat 3s ease-in-out infinite;
-            transform-origin: bottom left;
-            transition: opacity 0.2s ease;
-        }
-        @keyframes spaceFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-4px) rotate(6deg); filter: drop-shadow(0px 8px 15px rgba(255, 153, 0, 0.8)); }
-        }
-        .logo-area:hover .logo-icon, .footer-brand:hover .brand-icon {
-            animation: rocketBlast 0.7s cubic-bezier(0.5, -0.5, 0.2, 1.5) forwards;
-        }
-        @keyframes rocketBlast {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
-            20% { transform: translate(-3px, 3px) scale(0.9) rotate(-10deg); opacity: 1; filter: drop-shadow(0 0 25px rgba(255, 50, 0, 0.9)); } 
-            100% { transform: translate(60px, -60px) scale(0) rotate(45deg); opacity: 0; filter: drop-shadow(0 0 40px rgba(255, 204, 0, 1)); } 
+            transition: 0.3s ease;
         }
         .logo-area .logo-text, .brand-text {
             background: linear-gradient(135deg, #ffffff 0%, #ffcc00 100%);
@@ -67,7 +52,7 @@
         }
 
         /* =========================================================
-           ✨ LAUNCHPIST STYLE PREMIUM HERO SECTION
+           ✨ PREMIUM HERO SECTION STYLES
            ========================================================= */
         .ambient-glow { position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 70vw; height: 50vw; max-width: 800px; max-height: 600px; background: radial-gradient(ellipse, rgba(168, 85, 247, 0.15) 0%, rgba(56, 189, 248, 0.08) 40%, transparent 70%); filter: blur(50px); z-index: 0; pointer-events: none; animation: pulseGlow 8s ease-in-out infinite alternate; }
         @keyframes pulseGlow { 0% { transform: translateX(-50%) scale(0.9); opacity: 0.7; } 100% { transform: translateX(-50%) scale(1.1); opacity: 1; } }
@@ -412,9 +397,9 @@
     </section>
 
     <!-- NEW 31 PDF TOOLS SECTION WITH WORKING VVIP FILTERS -->
-    <section class="pdf-tools-section" id="pdf-tools">
-        <h1>Every tool you need to work with PDFs in one place</h1>
-        <p class="subtitle">Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
+    <section class="pdf-tools-section" id="pdf-tools" style="text-align: center; position: relative; z-index: 10;">
+        <h1 class="hero-main-title" style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 15px;">Every tool you need to work with PDFs in one place</h1>
+        <p class="hero-sub-text" style="max-width: 800px; margin: 0 auto 30px auto;">Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
 
         <div class="category-pills" style="cursor: pointer;">
             <span class="pdf-filter-btn active" data-filter="all" onclick="filterPDFTools('all', this)">All</span>
