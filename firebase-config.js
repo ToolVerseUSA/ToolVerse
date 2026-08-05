@@ -1,6 +1,6 @@
 // ToolVerse Firebase Configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdaNitIDnEnAM8",
+    apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
     authDomain: "toolverstoken.firebaseapp.com",
     projectId: "toolverstoken",
     storageBucket: "toolverstoken.firebasestorage.app",
