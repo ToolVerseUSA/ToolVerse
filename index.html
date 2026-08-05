@@ -460,10 +460,10 @@
             <div class="footer-col">
                 <h3>Legal & Privacy</h3>
                 <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Cookie Policy</a></li>
-                    <li><a href="#">Legal Disclaimer</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                    <li><a href="legal-disclaimer.html">Legal Disclaimer</a></li>
                 </ul>
             </div>
 
@@ -471,11 +471,11 @@
             <div class="footer-col">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact-us.html">Contact Us</a></li>
                     <li><a href="#tools">All Categories</a></li>
-                    <li><a href="#">Sitemap</a></li>
-                    <li><a href="#">Status Page</a></li>
+                    <li><a href="sitemap.html">Sitemap</a></li>
+                    <li><a href="status.html">Status Page</a></li>
                 </ul>
             </div>
 
@@ -483,10 +483,11 @@
             <div class="footer-col">
                 <h3>Stay Updated</h3>
                 <p style="margin-top: 0; margin-bottom: 15px; color: #cbd5e1; font-size: 0.95rem;">Subscribe to get updates about new tools and features.</p>
-                <form class="newsletter-form" onsubmit="event.preventDefault();">
-                    <input type="email" class="newsletter-input" placeholder="Enter your email" required>
-                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" id="newsletterEmail" class="newsletter-input" placeholder="Enter your email" required>
+                    <button type="submit" id="newsletterBtn" class="newsletter-btn">Subscribe</button>
                 </form>
+                <div id="newsletterMsg" style="font-size: 13px; margin-top: 8px; min-height: 18px; font-weight: 500;"></div>
                 <div class="powered-by">
                     <p style="margin-bottom: 8px; color: #94a3b8; font-size: 0.9rem;">Powered by:</p>
                     <a href="#" class="groq-badge">⚡ Groq</a>
@@ -811,7 +812,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
@@ -854,6 +855,41 @@
         const profCountry = document.getElementById('profCountry');
         const profState = document.getElementById('profState');
         const profZip = document.getElementById('profZip');
+
+        // ==========================================
+        // NEWSLETTER SUBSCRIPTION LOGIC
+        // ==========================================
+        const newsletterForm = document.getElementById('newsletterForm');
+        const newsletterEmail = document.getElementById('newsletterEmail');
+        const newsletterBtn = document.getElementById('newsletterBtn');
+        const newsletterMsg = document.getElementById('newsletterMsg');
+
+        if(newsletterForm) {
+            newsletterForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = newsletterEmail.value.trim();
+                if(!email) return;
+
+                newsletterBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
+                newsletterBtn.disabled = true;
+                newsletterMsg.innerHTML = '';
+
+                try {
+                    await addDoc(collection(db, "subscribers"), {
+                        email: email,
+                        subscribedAt: new Date().toISOString()
+                    });
+                    newsletterMsg.innerHTML = '<span style="color: #4ade80;">✅ Subscribed successfully!</span>';
+                    newsletterForm.reset();
+                } catch (error) {
+                    newsletterMsg.innerHTML = `<span style="color: #ff4757;">❌ Error: ${error.message}</span>`;
+                } finally {
+                    newsletterBtn.innerHTML = 'Subscribe';
+                    newsletterBtn.disabled = false;
+                    setTimeout(() => { newsletterMsg.innerHTML = ''; }, 5000);
+                }
+            });
+        }
 
         window.populateProfileData = function(data) {
             if(!data) return;
