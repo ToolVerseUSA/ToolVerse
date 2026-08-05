@@ -194,30 +194,46 @@
     <div id="toastMessage" class="custom-toast">Message goes here</div>
 
     <script>
-        // 🔒 Secure Live Mining Balance (Anti-Bot Protected)
+        // 🔒 Professional Cloud-Style Mining Balance (Offline/Background Supported & Anti-Bot)
         (function() {
             let savedBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.483120;
+            let lastSavedTime = parseInt(localStorage.getItem('toolVerseLastActive')) || Date.now();
             const balanceElement = document.getElementById('toolBalance');
-            let lastUpdate = Date.now(); // Anti-Speed Hack Tracker
+            
+            // 1. Calculate Offline/Background Earnings (Jab user website se chala gaya tha)
+            const currentTime = Date.now();
+            const timeDiff = currentTime - lastSavedTime;
+            
+            if (timeDiff > 0) {
+                // Calculate how many 150ms cycles were missed
+                const missedCycles = Math.floor(timeDiff / 150);
+                if (missedCycles > 0) {
+                    const missedYield = missedCycles * 0.000025; // Average yield per cycle
+                    savedBalance += missedYield;
+                }
+            }
             
             balanceElement.innerText = savedBalance.toFixed(6);
+            let lastUpdate = Date.now();
 
+            // 2. Real-time Mining Loop
             setInterval(() => {
-                // Anti-Bot: Inactive Tab Protection (Agar tab background me ho to mining stop)
-                if (document.hidden) return;
-
                 const now = Date.now();
-                const timeDiff = now - lastUpdate;
+                const currentDiff = now - lastUpdate;
 
-                // Anti-Bot: Speed validation (Sirf tabhi update karo jab asal waqt guzra ho)
-                if (timeDiff >= 140) { 
-                    const yieldAmount = Math.random() * 0.000050; 
+                // Anti-Bot: Sirf tabhi update karo jab asal waqt (140ms se zyada) guzra ho
+                if (currentDiff >= 140) { 
+                    // Agar tab background me chala jaye to browser timer slow kar deta hy, 
+                    // ye line automatically slow time ko cover kar legi
+                    const cycles = Math.floor(currentDiff / 150) || 1;
+                    const yieldAmount = cycles * (Math.random() * 0.000050); 
+                    
                     savedBalance += yieldAmount;
                     balanceElement.innerText = savedBalance.toFixed(6);
+                    
                     localStorage.setItem('toolVerseBalance', savedBalance.toString());
-                    lastUpdate = now;
-                } else {
-                    // Bot detected: Timer reset kar diya jayega bina balance badhaye
+                    localStorage.setItem('toolVerseLastActive', now.toString());
+                    
                     lastUpdate = now;
                 }
             }, 150);
