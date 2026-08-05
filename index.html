@@ -215,6 +215,20 @@
             setTimeout(() => { window.location.href = 'ai-agent.html'; }, 500);
         };
     </script>
+    
+    <!-- Firebase Auth Protection (Gatekeeper) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (!user) {
+                    window.location.href = 'login.html';
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 
