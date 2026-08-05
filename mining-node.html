@@ -194,18 +194,34 @@
     <div id="toastMessage" class="custom-toast">Message goes here</div>
 
     <script>
-        // Live Mining Balance
-        let savedBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.483120;
-        const balanceElement = document.getElementById('toolBalance');
-        
-        balanceElement.innerText = savedBalance.toFixed(6);
-
-        setInterval(() => {
-            const yieldAmount = Math.random() * 0.000050; 
-            savedBalance += yieldAmount;
+        // 🔒 Secure Live Mining Balance (Anti-Bot Protected)
+        (function() {
+            let savedBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.483120;
+            const balanceElement = document.getElementById('toolBalance');
+            let lastUpdate = Date.now(); // Anti-Speed Hack Tracker
+            
             balanceElement.innerText = savedBalance.toFixed(6);
-            localStorage.setItem('toolVerseBalance', savedBalance.toString());
-        }, 150);
+
+            setInterval(() => {
+                // Anti-Bot: Inactive Tab Protection (Agar tab background me ho to mining stop)
+                if (document.hidden) return;
+
+                const now = Date.now();
+                const timeDiff = now - lastUpdate;
+
+                // Anti-Bot: Speed validation (Sirf tabhi update karo jab asal waqt guzra ho)
+                if (timeDiff >= 140) { 
+                    const yieldAmount = Math.random() * 0.000050; 
+                    savedBalance += yieldAmount;
+                    balanceElement.innerText = savedBalance.toFixed(6);
+                    localStorage.setItem('toolVerseBalance', savedBalance.toString());
+                    lastUpdate = now;
+                } else {
+                    // Bot detected: Timer reset kar diya jayega bina balance badhaye
+                    lastUpdate = now;
+                }
+            }, 150);
+        })();
 
         // Withdraw Modal Toggle Logic
         const wModal = document.getElementById('withdrawModal');
@@ -250,6 +266,16 @@
             setTimeout(() => {
                 window.location.href = 'index.html#tools';
             }, 800);
+        });
+
+        // Anti-Bot: Block Developer Tools Shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || 
+               (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
+               (e.ctrlKey && (e.key === 'U' || e.key === 'u'))) {
+                e.preventDefault();
+                showToast("⚠️ Security Alert: Developer tools disabled.", "rgba(239, 68, 68, 0.9)");
+            }
         });
     </script>
 
