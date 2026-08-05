@@ -113,11 +113,23 @@
         }
     </style>
     
-    <!-- Firebase Auth Protection (Gatekeeper) -->
+    <!-- Firebase Auth Protection (Gatekeeper) Direct Cache-Proof -->
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-    <script src="firebase-config.js"></script>
     <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
+            measurementId: "G-6VX2WPNECZ"
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
         window.addEventListener('load', function() {
             firebase.auth().onAuthStateChanged(function(user) {
                 if (!user) {
