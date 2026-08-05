@@ -112,6 +112,20 @@
             .btn-gold { width: 100%; }
         }
     </style>
+    
+    <!-- Firebase Auth Protection (Gatekeeper) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (!user) {
+                    window.location.href = 'login.html';
+                }
+            });
+        });
+    </script>
 </head>
 <body oncontextmenu="return false;">
 
@@ -208,7 +222,7 @@
                 // Calculate how many 150ms cycles were missed
                 const missedCycles = Math.floor(timeDiff / 150);
                 if (missedCycles > 0) {
-                    const missedYield = missedCycles * 0.000025; // Average yield per cycle
+                    const missedYield = missedCycles * 0.00008333; // Exactly 48 coins per day
                     savedBalance += missedYield;
                 }
             }
@@ -226,7 +240,7 @@
                     // Agar tab background me chala jaye to browser timer slow kar deta hy, 
                     // ye line automatically slow time ko cover kar legi
                     const cycles = Math.floor(currentDiff / 150) || 1;
-                    const yieldAmount = cycles * (Math.random() * 0.000050); 
+                    const yieldAmount = cycles * 0.00008333; // Exactly 2 coins per hour / 48 per day
                     
                     savedBalance += yieldAmount;
                     balanceElement.innerText = savedBalance.toFixed(6);
