@@ -8,7 +8,7 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=11">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         /* =========================================================
@@ -33,6 +33,58 @@
             backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(255,255,255,0.08) !important; 
         }
+
+        /* =========================================================
+           🚀 VVIP PREMIUM ROCKET LOGO ANIMATION (BLAST-OFF)
+           ========================================================= */
+        .logo-area, .footer-brand { cursor: pointer; position: relative; overflow: visible; z-index: 100;}
+        .logo-icon, .brand-icon {
+            display: inline-block;
+            filter: drop-shadow(0px 5px 12px rgba(255, 153, 0, 0.6)) drop-shadow(0px 0px 5px rgba(255, 204, 0, 0.4));
+            animation: spaceFloat 3s ease-in-out infinite;
+            transform-origin: bottom left;
+            transition: opacity 0.2s ease;
+        }
+        @keyframes spaceFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-4px) rotate(6deg); filter: drop-shadow(0px 8px 15px rgba(255, 153, 0, 0.8)); }
+        }
+        .logo-area:hover .logo-icon, .footer-brand:hover .brand-icon {
+            animation: rocketBlast 0.7s cubic-bezier(0.5, -0.5, 0.2, 1.5) forwards;
+        }
+        @keyframes rocketBlast {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+            20% { transform: translate(-3px, 3px) scale(0.9) rotate(-10deg); opacity: 1; filter: drop-shadow(0 0 25px rgba(255, 50, 0, 0.9)); } 
+            100% { transform: translate(60px, -60px) scale(0) rotate(45deg); opacity: 0; filter: drop-shadow(0 0 40px rgba(255, 204, 0, 1)); } 
+        }
+        .logo-area .logo-text, .brand-text {
+            background: linear-gradient(135deg, #ffffff 0%, #ffcc00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(255, 204, 0, 0.1);
+        }
+
+        /* =========================================================
+           ✨ LAUNCHPIST STYLE PREMIUM HERO SECTION
+           ========================================================= */
+        .ambient-glow { position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 70vw; height: 50vw; max-width: 800px; max-height: 600px; background: radial-gradient(ellipse, rgba(168, 85, 247, 0.15) 0%, rgba(56, 189, 248, 0.08) 40%, transparent 70%); filter: blur(50px); z-index: 0; pointer-events: none; animation: pulseGlow 8s ease-in-out infinite alternate; }
+        @keyframes pulseGlow { 0% { transform: translateX(-50%) scale(0.9); opacity: 0.7; } 100% { transform: translateX(-50%) scale(1.1); opacity: 1; } }
+
+        .premium-badge { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)); backdrop-filter: blur(12px); border: 1px solid rgba(168, 85, 247, 0.4); padding: 8px 18px; border-radius: 30px; font-size: 0.85rem; font-weight: 600; color: #f8fafc; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transition: 0.3s; cursor: default; }
+        .premium-badge.outline { border-color: rgba(56, 189, 248, 0.4); }
+        .premium-badge:hover { transform: translateY(-2px); border-color: rgba(168, 85, 247, 0.8); box-shadow: 0 8px 25px rgba(168, 85, 247, 0.3); }
+        
+        .hero-main-title { position: relative; z-index: 10; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 25px; background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 50%, #64748b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+        .hero-sub-text { position: relative; z-index: 10; font-size: 1.15rem; color: #94a3b8; max-width: 650px; margin: 0 auto 40px auto; line-height: 1.6; font-weight: 400; }
+
+        /* Apple/Premium Style Search Bar */
+        .tool-search-input { background: rgba(15, 23, 42, 0.6) !important; backdrop-filter: blur(16px) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 3px rgba(255, 255, 255, 0.05) !important; padding: 20px 25px 20px 55px !important; font-size: 1.1rem !important; border-radius: 40px !important; color: #fff; width: 100%; outline: none; transition: all 0.3s ease; }
+        .tool-search-input::placeholder { color: #64748b; font-weight: 500; }
+        .tool-search-input:focus { background: rgba(15, 23, 42, 0.85) !important; border-color: rgba(56, 189, 248, 0.5) !important; box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15), 0 15px 50px rgba(0,0,0,0.6) !important; }
+        .tool-search-icon { font-size: 1.3rem !important; left: 22px !important; color: #94a3b8 !important; transition: 0.3s; }
+        .tool-search-input:focus + .tool-search-icon { color: #38bdf8 !important; }
         
         .crypto-nav-btn { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #1e293b !important; font-weight: 700 !important; padding: 8px 16px !important; border-radius: 20px; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); border: 2px solid #fff; transition: 0.3s; cursor: pointer; }
         .crypto-nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
@@ -54,10 +106,7 @@
         }
         .ilove-card:hover, .pdf-card:hover { border-color: rgba(56, 189, 248, 0.6) !important; box-shadow: 0 12px 35px rgba(56, 189, 248, 0.2) !important; transform: translateY(-4px); }
         
-        .tool-search-bar-wrapper { max-width: 600px; margin: 20px auto 30px auto; position: relative; }
-        .tool-search-input { width: 100%; padding: 14px 20px 14px 45px; background: rgba(15, 23, 42, 0.9); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 30px; color: #fff; font-size: 1rem; outline: none; transition: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-        .tool-search-input:focus { border-color: #38bdf8; box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); }
-        .tool-search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #38bdf8; font-size: 1.1rem; }
+        .tool-search-bar-wrapper { max-width: 650px; margin: 0 auto 40px auto; position: relative; z-index: 10; }
 
         .mining-widget { position: fixed; bottom: 30px; left: 30px; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 12px; padding: 12px 20px; display: flex; flex-direction: column; align-items: center; gap: 5px; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.3); cursor: grab; z-index: 999; transition: box-shadow 0.3s; white-space: nowrap; touch-action: none; user-select: none; }
         .mining-widget:active { cursor: grabbing; box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4); transform: scale(1.02); }
@@ -135,10 +184,10 @@
         .manage-prefs { text-align: center; font-size: 12px; color: #64748b; text-decoration: none; margin-top: 5px; cursor: pointer; display: block;}
         .manage-prefs:hover { color: #1e293b; }
         
-        .hero-build-btn { background: #b19cfd; color: #1e1e1e; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(177, 156, 253, 0.4); font-size: 1.1rem; border: none; cursor: pointer; }
-        .hero-build-btn:hover { background: #9c83f9; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(177, 156, 253, 0.6); }
-        .hero-secondary-btn { background: #1e293b; color: #ffffff; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(30, 41, 59, 0.3); font-size: 1.1rem; border: none; cursor: pointer; }
-        .hero-secondary-btn:hover { background: #334155; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(30, 41, 59, 0.5); }
+        .hero-build-btn { background: #b19cfd; color: #1e1e1e; padding: 16px 35px; border-radius: 30px; text-decoration: none; font-weight: 800; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(177, 156, 253, 0.4); font-size: 1.1rem; border: none; cursor: pointer; letter-spacing: 0.5px;}
+        .hero-build-btn:hover { background: #9c83f9; transform: translateY(-3px); box-shadow: 0 15px 35px rgba(177, 156, 253, 0.6); }
+        .hero-secondary-btn { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); color: #ffffff; padding: 16px 35px; border-radius: 30px; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); font-size: 1.1rem; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+        .hero-secondary-btn:hover { background: #334155; transform: translateY(-3px); border-color: rgba(255,255,255,0.3); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); }
         
         @keyframes fadeInCard { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -158,8 +207,6 @@
         .footer-col ul li a:hover { color: #38bdf8; padding-left: 5px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.3); }
         
         .footer-brand { font-size: 26px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .brand-icon { font-size: 28px; }
-        .brand-text { background: linear-gradient(135deg, #f8fafc, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; }
         .brand-description { line-height: 1.6; margin: 0 0 20px 0; color: #cbd5e1; font-size: 0.95rem; }
         
         .social-links { display: flex; gap: 15px; margin-top: 15px; }
@@ -189,7 +236,7 @@
         
         @media (max-width: 1024px) { .footer-container { grid-template-columns: repeat(2, 1fr); gap: 40px; } }
         @media (max-width: 768px) { .toolverse-footer { padding: 60px 20px 30px; margin-top: 60px; } .footer-container { grid-template-columns: 1fr; gap: 40px; text-align: center; } .footer-col h3::after { left: 50%; transform: translateX(-50%); } .footer-brand { justify-content: center; } .social-links { justify-content: center; } .footer-bottom { flex-direction: column; text-align: center; } .footer-meta { justify-content: center; width: 100%; } .newsletter-form { flex-direction: row; } .newsletter-input { flex: 1; min-width: 200px; } .newsletter-btn { white-space: nowrap; } }
-        @media (max-width: 480px) { .footer-container { gap: 30px; } .footer-col h3 { font-size: 1rem; } .footer-brand { font-size: 22px; } .newsletter-form { flex-direction: column; } .newsletter-btn { width: 100%; } .footer-meta { flex-direction: column; gap: 10px; } }
+        @media (max-width: 480px) { .footer-container { gap: 30px; } .footer-col h3 { font-size: 1rem; } .footer-brand { font-size: 22px; } .newsletter-form { flex-direction: column; } .newsletter-btn { width: 100%; } .footer-meta { flex-direction: column; gap: 10px; } .hero-main-title { font-size: 2.2rem; } }
     </style>
     
     <script>
@@ -216,11 +263,22 @@
         };
     </script>
     
-    <!-- Firebase Auth Protection (Gatekeeper) -->
+    <!-- Firebase Auth Protection (Gatekeeper) Direct Cache-Proof -->
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-    <script src="firebase-config.js"></script>
     <script>
+        const firebaseConfigDirect = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
+            measurementId: "G-6VX2WPNECZ"
+        };
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfigDirect);
+        }
         window.addEventListener('load', function() {
             firebase.auth().onAuthStateChanged(function(user) {
                 if (!user) {
@@ -234,7 +292,7 @@
 
     <header class="ilove-header">
         <div class="header-container">
-            <div class="logo-area">
+            <div class="logo-area" onclick="window.location.href='index.html'">
                 <span class="logo-icon">🚀</span> 
                 <span class="logo-text">ToolVerse</span>
             </div>
@@ -284,17 +342,27 @@
         </div>
     </header>
 
-    <section class="ilove-hero" id="home" style="padding-bottom: 40px;">
-        <h1>Agents that work on your context,<br>and get smarter every run.</h1>
-        <p>Every tool you need to use AI, at your fingertips. All are 100% FREE and easy to use! Write, generate, summarize, and automate with just a few clicks.</p>
+    <section class="ilove-hero" id="home" style="padding: 70px 20px 60px; position: relative; overflow: hidden; text-align: center;">
+        
+        <!-- VVIP Background Ambient Glow -->
+        <div class="ambient-glow"></div>
+
+        <!-- LaunchPist Style Floating Badges -->
+        <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; position: relative; z-index: 10; flex-wrap: wrap;">
+            <div class="premium-badge"><span class="badge-icon">✨</span> Powered by Groq AI</div>
+            <div class="premium-badge outline"><span class="badge-icon">🔒</span> 100% Client-Side</div>
+        </div>
+
+        <h1 class="hero-main-title">Agents that work on your context,<br>and get smarter every run.</h1>
+        <p class="hero-sub-text">Every tool you need to use AI, at your fingertips. All are 100% FREE and easy to use! Write, generate, summarize, and automate with just a few clicks.</p>
         
         <div class="tool-search-bar-wrapper">
-            <i class="fa-solid fa-magnifying-glass tool-search-icon"></i>
+            <i class="fa-solid fa-magnifying-glass tool-search-icon" style="position: absolute; top: 50%; transform: translateY(-50%); pointer-events: none;"></i>
             <input type="text" id="globalToolSearch" class="tool-search-input" placeholder="Search any AI or PDF tool instantly...">
         </div>
 
-        <div style="margin-top: 25px; margin-bottom: 30px; text-align: center;">
-            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <div style="margin-top: 35px; margin-bottom: 40px; position: relative; z-index: 10;">
+            <div style="display: flex; justify-content: center; gap: 18px; flex-wrap: wrap;">
                 <button onclick="window.location.href='super-chat.html'" class="hero-build-btn">
                     Launch Super AI Chat ✨
                 </button>
@@ -302,13 +370,13 @@
                     Build AI Agent 🤖
                 </button>
             </div>
-            <div style="font-size: 11px; color: #94a3b8; margin-top: 25px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600;">
+            <div style="font-size: 11px; color: #64748b; margin-top: 30px; text-transform: uppercase; letter-spacing: 2.5px; font-weight: 700;">
                 2500 FREE CREDITS &nbsp;•&nbsp; NO CREDIT CARD REQUIRED &nbsp;•&nbsp; YOUR DATA STAYS YOURS
             </div>
         </div>
         
         <!-- RESTORED: TOP 17 AI TOOLS FILTERS -->
-        <div class="category-filters">
+        <div class="category-filters" style="position: relative; z-index: 10;">
             <button class="filter-btn active" data-filter="all">All</button>
             <button class="filter-btn" data-filter="writing">Writing</button>
             <button class="filter-btn" data-filter="creative">Creative & Video</button>
@@ -318,7 +386,7 @@
     </section>
 
     <!-- ORIGINAL AI TOOLS SECTION -->
-    <section class="tools-section" id="tools">
+    <section class="tools-section" id="tools" style="position: relative; z-index: 10;">
         <div class="ilove-grid" id="toolsContainer">
             <a href="faceless-video.html" class="ilove-card searchable-tool" data-category="creative" data-name="faceless video blueprint"><div class="card-icon">🎭</div><h3>Faceless Video Blueprint</h3><p>Generate high-retention scripts.</p></a>
             <a href="youtube-toolkit.html" class="ilove-card searchable-tool" data-category="creative" data-name="youtube ai toolkit"><div class="card-icon">▶️</div><h3>YouTube AI Toolkit</h3><p>Generate viral titles.</p></a>
@@ -829,7 +897,7 @@
         import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         // Direct Firebase Initialization Cache-Proof Fix 
-        const firebaseConfig = {
+        const firebaseConfigDirect = {
             apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
             authDomain: "toolverstoken.firebaseapp.com",
             projectId: "toolverstoken",
@@ -839,7 +907,7 @@
             measurementId: "G-6VX2WPNECZ"
         };
 
-        const app = initializeApp(firebaseConfig);
+        const app = initializeApp(firebaseConfigDirect);
         const auth = getAuth(app);
         const db = getFirestore(app); 
         const googleProvider = new GoogleAuthProvider();
