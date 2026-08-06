@@ -13,6 +13,8 @@
     <meta property="og:url" content="https://toolverse-usa.vercel.app" /> 
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://toolverse-usa.vercel.app/social-banner.png" /> 
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     
     <!-- Twitter Card Tags -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -241,9 +243,14 @@
         .brand-description { line-height: 1.6; margin: 0 0 20px 0; color: #cbd5e1; font-size: 0.95rem; }
         
         /* UPDATED: SMART SHARE BUTTONS */
-        .social-links { display: flex; gap: 15px; margin-top: 15px; }
+        .social-links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 15px; }
         .social-links a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 8px; color: #38bdf8; transition: all 0.3s ease; font-size: 18px; text-decoration: none; }
         .social-links a:hover { background: rgba(56, 189, 248, 0.2); border-color: rgba(56, 189, 248, 0.5); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(56, 189, 248, 0.2); }
+        
+        /* NEW SHINY FOMO TEXT WIDGET */
+        .fomo-share-text { margin-top: 18px; font-size: 0.85rem; font-weight: 600; color: #f8fafc; background: linear-gradient(135deg, rgba(251, 191, 36, 0.08), rgba(245, 158, 11, 0.02)); border: 1px solid rgba(251, 191, 36, 0.3); padding: 12px 15px; border-radius: 8px; line-height: 1.5; box-shadow: 0 0 15px rgba(251, 191, 36, 0.1); animation: glowPulseWidget 2s infinite alternate; }
+        .fomo-share-text .highlight { color: #fbbf24; text-shadow: 0 0 10px rgba(251, 191, 36, 0.5); font-size: 1rem; font-weight: 900; }
+        @keyframes glowPulseWidget { from { box-shadow: 0 0 10px rgba(251, 191, 36, 0.1); border-color: rgba(251, 191, 36, 0.3); } to { box-shadow: 0 0 20px rgba(251, 191, 36, 0.4); border-color: rgba(251, 191, 36, 0.8); } }
         
         .newsletter-form { display: flex; flex-direction: column; gap: 10px; }
         .newsletter-input { padding: 12px 15px; background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 6px; color: #f8fafc; font-size: 0.9rem; transition: all 0.3s ease; font-family: 'Inter', sans-serif; }
@@ -585,6 +592,14 @@
                     <a href="https://www.facebook.com/sharer/sharer.php?u=https://toolverse-usa.vercel.app" target="_blank" title="Share ToolVerse on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="https://twitter.com/intent/tweet?text=I%20just%20found%20ToolVerse!%20Free%20Premium%20AI%20%26%20PDF%20Tools%20plus%20I%20am%20mining%20%24TOOL%20tokens%20for%20free.%20Join%20before%20the%20200K%20user%20Mainnet%20merger!%20%F0%9F%9A%80&url=https://toolverse-usa.vercel.app" target="_blank" title="Share ToolVerse on Twitter"><i class="fa-brands fa-twitter"></i></a>
                     <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://toolverse-usa.vercel.app" target="_blank" title="Share ToolVerse on LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://api.whatsapp.com/send?text=I%20just%20found%20ToolVerse!%20Free%20Premium%20AI%20%26%20PDF%20Tools%20plus%20I%20am%20mining%20%24TOOL%20tokens%20for%20free.%20%F0%9F%9A%80%20Join%20Now:%20https://toolverse-usa.vercel.app" target="_blank" title="Share ToolVerse on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://t.me/share/url?url=https://toolverse-usa.vercel.app&text=I%20just%20found%20ToolVerse!%20Free%20Premium%20AI%20%26%20PDF%20Tools%20plus%20I%20am%20mining%20%24TOOL%20tokens%20for%20free.%20%F0%9F%9A%80" target="_blank" title="Share ToolVerse on Telegram"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="https://www.tiktok.com/" target="_blank" title="Follow ToolVerse on TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+                
+                <!-- SHINY FOMO TEXT WIDGET -->
+                <div class="fomo-share-text">
+                    ✨ Share this post to your Social Media and chance to win <span class="highlight">100,000 $TOOL</span> hurry! 🚀
                 </div>
             </div>
 
