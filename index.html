@@ -180,23 +180,35 @@
         .pdf-filter-btn, .filter-btn { background: rgba(15, 23, 42, 0.6); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.08); transition: 0.3s; -webkit-tap-highlight-color: transparent !important; outline: none !important; user-select: none; }
         .filter-btn.active, .pdf-filter-btn.active { background: #38bdf8 !important; color: #0f172a !important; border-color: #38bdf8 !important; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4) !important;}
 
-        /* ========== VVIP PARTNERS LOGO STYLES ========== */
+        /* ========== VVIP PARTNERS LOGO STYLES (UPDATED WITH LINKS & GRADIENTS) ========== */
         .partners-section { padding: 40px 20px 60px; text-align: center; position: relative; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .partners-title { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 3px; font-weight: 800; margin-bottom: 40px; }
         .partners-track { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: clamp(30px, 5vw, 60px); max-width: 1100px; margin: 0 auto; }
-        .partner-logo { display: flex; align-items: center; gap: 10px; font-size: 1.4rem; font-weight: 800; color: #94a3b8; opacity: 0.4; filter: grayscale(100%); transition: all 0.4s ease; cursor: default; letter-spacing: -0.5px;}
-        .partner-logo:hover { opacity: 1; filter: grayscale(0%); transform: translateY(-3px); }
+        
+        .partner-logo { 
+            display: flex; align-items: center; gap: 10px; font-size: 1.4rem; font-weight: 800; 
+            transition: all 0.4s ease; cursor: pointer; letter-spacing: -0.5px; text-decoration: none; 
+            background: linear-gradient(135deg, #38bdf8, #a855f7); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
         .partner-logo i { font-size: 1.8rem; }
         
-        /* Hover Branding Colors */
-        .partner-logo.binance:hover { color: #F3BA2F; }
-        .partner-logo.openai:hover { color: #10a37f; }
-        .partner-logo.meta:hover { color: #0668E1; }
-        .partner-logo.groq:hover { color: #f55036; }
-        .partner-logo.firebase:hover { color: #FFCA28; }
-        .partner-logo.aws:hover { color: #FF9900; }
-        .partner-logo.eth:hover { color: #627EEA; }
-        .partner-logo.adobe:hover { color: #FF0000; }
+        /* Hover Effect: Show Original Brand Colors with Glow */
+        .partner-logo:hover { 
+            transform: translateY(-3px); 
+            background: none; 
+            -webkit-text-fill-color: currentcolor; 
+        }
+        
+        .partner-logo.binance:hover { color: #F3BA2F; text-shadow: 0 0 15px rgba(243, 186, 47, 0.4); }
+        .partner-logo.openai:hover { color: #10a37f; text-shadow: 0 0 15px rgba(16, 163, 127, 0.4); }
+        .partner-logo.meta:hover { color: #0668E1; text-shadow: 0 0 15px rgba(6, 104, 225, 0.4); }
+        .partner-logo.groq:hover { color: #f55036; text-shadow: 0 0 15px rgba(245, 80, 54, 0.4); }
+        .partner-logo.firebase:hover { color: #FFCA28; text-shadow: 0 0 15px rgba(255, 202, 40, 0.4); }
+        .partner-logo.aws:hover { color: #FF9900; text-shadow: 0 0 15px rgba(255, 153, 0, 0.4); }
+        .partner-logo.eth:hover { color: #627EEA; text-shadow: 0 0 15px rgba(98, 126, 234, 0.4); }
+        .partner-logo.adobe:hover { color: #FF0000; text-shadow: 0 0 15px rgba(255, 0, 0, 0.4); }
 
         /* ========== PROFESSIONAL FOOTER STYLES ========== */
         .toolverse-footer { background: linear-gradient(180deg, #0b0f19 0%, #070b14 100%); padding: 80px 20px 40px; color: #94a3b8; font-size: 0.95rem; }
@@ -525,18 +537,18 @@
         </div>
     </section>
 
-    <!-- ========== VVIP PARTNERS / TRUSTED BY SECTION ========== -->
+    <!-- ========== VVIP PARTNERS LOGO STYLES (UPDATED WITH LINKS & GRADIENTS) ========== -->
     <section class="partners-section">
         <div class="partners-title">Powering 17+ AI & 31+ PDF Tools alongside global industry leaders</div>
         <div class="partners-track">
-            <div class="partner-logo openai" title="OpenAI API Integration"><i class="fa-solid fa-brain"></i> OpenAI</div>
-            <div class="partner-logo groq" title="Groq Fast AI"><i class="fa-solid fa-bolt"></i> Groq</div>
-            <div class="partner-logo meta" title="Meta Llama Models"><i class="fa-brands fa-meta"></i> Meta Llama</div>
-            <div class="partner-logo adobe" title="Adobe PDF Technologies"><i class="fa-solid fa-file-pdf"></i> Adobe Tech</div>
-            <div class="partner-logo binance" title="Binance Smart Chain Partnership"><i class="fa-brands fa-btc"></i> Binance Chain</div>
-            <div class="partner-logo eth" title="Ethereum Network Mainnet"><i class="fa-brands fa-ethereum"></i> Ethereum</div>
-            <div class="partner-logo firebase" title="Google Firebase Security"><i class="fa-solid fa-database"></i> Firebase</div>
-            <div class="partner-logo aws" title="Amazon Web Services Cloud"><i class="fa-brands fa-aws"></i> AWS Cloud</div>
+            <a href="https://openai.com/" target="_blank" class="partner-logo openai" title="OpenAI API Integration"><i class="fa-solid fa-brain"></i> OpenAI</a>
+            <a href="https://groq.com/" target="_blank" class="partner-logo groq" title="Groq Fast AI"><i class="fa-solid fa-bolt"></i> Groq</a>
+            <a href="https://llama.meta.com/" target="_blank" class="partner-logo meta" title="Meta Llama Models"><i class="fa-brands fa-meta"></i> Meta Llama</a>
+            <a href="https://www.adobe.com/" target="_blank" class="partner-logo adobe" title="Adobe PDF Technologies"><i class="fa-solid fa-file-pdf"></i> Adobe Tech</a>
+            <a href="https://www.binance.com/" target="_blank" class="partner-logo binance" title="Binance Smart Chain Partnership"><i class="fa-brands fa-btc"></i> Binance Chain</a>
+            <a href="https://ethereum.org/" target="_blank" class="partner-logo eth" title="Ethereum Network Mainnet"><i class="fa-brands fa-ethereum"></i> Ethereum</a>
+            <a href="https://firebase.google.com/" target="_blank" class="partner-logo firebase" title="Google Firebase Security"><i class="fa-solid fa-database"></i> Firebase</a>
+            <a href="https://aws.amazon.com/" target="_blank" class="partner-logo aws" title="Amazon Web Services Cloud"><i class="fa-brands fa-aws"></i> AWS Cloud</a>
         </div>
     </section>
 
