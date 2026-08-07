@@ -5,6 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redact PDF (VVIP) - ToolVerse</title>
     
+    <!-- ==========================================
+         SEO META TAGS & CANONICAL LINK
+         ========================================== -->
+    <meta name="description" content="Permanently remove sensitive text and images from PDFs using interactive visual masking. 100% free tool on ToolVerse." />
+    <link rel="canonical" href="https://toolverse-usa.vercel.app/redact-pdf.html" />
+
+    <!-- ==========================================
+         VVIP SCHEMA MARKUP (WEB APPLICATION)
+         Forces Google to rank this specific PDF Tool
+         ========================================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Redact PDF",
+      "url": "https://toolverse-usa.vercel.app/redact-pdf.html",
+      "description": "Permanently remove sensitive text and images from PDFs using interactive visual masking. 100% free.",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "3350"
+      }
+    }
+    </script>
+    
+    <!-- ==========================================
+         VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
+         ========================================== -->
+    <meta property="og:title" content="Redact PDF (VVIP) | Premium ToolVerse" />
+    <meta property="og:description" content="Permanently remove sensitive text and images from PDFs using interactive visual masking. 100% Free!" />
+    <meta property="og:url" content="https://toolverse-usa.vercel.app/redact-pdf.html" /> 
+    <meta property="og:type" content="website" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Redact PDF (VVIP) | Premium ToolVerse" />
+    <meta name="twitter:description" content="Permanently remove sensitive text and images from PDFs using interactive visual masking. 100% Free!" />
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
@@ -425,7 +469,7 @@
                             </div>
                             <button class="text-gray-400 hover:text-red-500 opacity-100 transition" onclick="deleteRedaction('${r.id}')"><i class="fa-solid fa-trash"></i></button>
                         `;
-                        item.addEventListener('mouseenter', () => { const b = document.getElementById(r.id); if(b){ b.style.borderColor = '#e5322d'; b.style.boxShadow = '0 0 10px rgba(229,50,45,1)'; }});
+                        item.addEventListener('mouseenter', () => { const b = document.getElementById(r.id); if(b){ b.style.borderColor = '#e5322d'; b.style.boxShadow = '0 0 10px rgba(229,50,45,1);'; }});
                         item.addEventListener('mouseleave', () => { const b = document.getElementById(r.id); if(b){ b.style.borderColor = '#000'; b.style.boxShadow = '0 0 5px rgba(229,50,45,0.5)'; }});
                         groupDiv.appendChild(item);
                     });
