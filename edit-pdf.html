@@ -198,8 +198,8 @@
                 <!-- Pan Tool -->
                 <button id="tool-pan" onclick="setTool('pan')" class="toolbar-btn active w-10 h-10" title="Pan / Scroll"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/></svg></button>
                 <div class="w-px h-6 bg-gray-300"></div>
-                <!-- Text Tool -->
-                <button id="tool-text" onclick="setTool('text')" class="toolbar-btn w-10 h-10" title="Add Text"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M3 6h18M3 18h18"/></svg></button>
+                <!-- Text Tool (FIXED: Now shows 'T' icon) -->
+                <button id="tool-text" onclick="setTool('text')" class="toolbar-btn w-10 h-10" title="Add Text"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7V5h16v2M12 5v14M9 19h6"/></svg></button>
                 <!-- Pen Tool -->
                 <button id="tool-draw" onclick="setTool('draw')" class="toolbar-btn w-10 h-10" title="Draw / Sign"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
             </div>
@@ -291,10 +291,7 @@
         const thumbnailContainer = document.getElementById('thumbnail-container');
         
         function triggerFileInput() {
-            if(window.isUserLoggedIn === false) {
-                document.getElementById('authOverlay').style.display = 'flex';
-                return;
-            }
+            if(window.isUserLoggedIn === false) return;
             fileInput.click();
         }
 
