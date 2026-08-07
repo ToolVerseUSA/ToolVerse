@@ -289,6 +289,9 @@
                 totalPages = doc.getPageCount();
                 document.getElementById('pdfPageCount').innerText = totalPages;
                 document.getElementById('rangeInput').placeholder = `e.g., 1-${Math.min(3, totalPages)}`;
+                
+                // Pre-fill the input box to prevent empty range errors
+                document.getElementById('rangeInput').value = `1-${totalPages}`;
             } catch (error) {
                 alert("Error reading PDF. File might be heavily encrypted or corrupted.");
                 resetTool();
@@ -385,7 +388,7 @@
                     const pagesToExtract = parseRange(rangeStr, totalPages);
                     
                     if(pagesToExtract.length === 0) {
-                        alert("Invalid page range. Please check your input.");
+                        alert("Please enter a valid page range (e.g., 1-3) in the input box.");
                         overlay.classList.add('hidden');
                         return;
                     }
