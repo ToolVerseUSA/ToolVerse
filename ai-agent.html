@@ -333,9 +333,23 @@
             <div class="form-group" style="margin-top: 35px;">
                 <label>Underlying Model</label>
                 <select id="agentModel" class="form-control" onchange="window.triggerUnsaved()">
-                    <option value="llama3">Llama-3.3-70b (Ultra Fast - ToolVerse Core)</option>
-                    <option value="gpt4">GPT-4o (Premium)</option>
-                    <option value="claude">Claude 3.5 Sonnet (Premium)</option>
+                    <!-- Standard Tier (Fast & Efficient) -->
+                    <optgroup label="Standard Utility Tier">
+                        <option value="llama3">Llama-3.3-70b (Ultra Fast - ToolVerse Core)</option>
+                    </optgroup>
+                    
+                    <!-- Premium Tier (State-of-the-Art) -->
+                    <optgroup label="Premium Models">
+                        <option value="gpt4o">GPT-4o (Premium - State-of-the-Art Multimodal)</option>
+                        <option value="claude">Claude 3.5 Sonnet (Premium - Advanced Reasoning)</option>
+                    </optgroup>
+                    
+                    <!-- VVIP Tier (The New 'Higher' Models) -->
+                    <optgroup label="VVIP Deep Reasoning & Context Tier (Beta)">
+                        <option value="openai_o1">OpenAI o1 (VVIP Reasoning - 'Deep Thought')</option>
+                        <option value="gemini_15_pro">Gemini 1.5 Pro (VVIP Context - Massive Docs)</option>
+                        <option value="llama3_405b">Llama 3 405B (VVIP Scale - Open Weights)</option>
+                    </optgroup>
                 </select>
             </div>
             
@@ -534,6 +548,14 @@
             saveBar.classList.remove('show'); 
             isUnsaved = false;
             window.clearChat(agent.name);
+            
+            // Update Select dropdown value if available
+            const modelSelect = document.getElementById('agentModel');
+            if (agent.model) {
+                modelSelect.value = agent.model;
+            } else {
+                modelSelect.value = "llama3";
+            }
         }
 
         window.selectAgent = function(id) {
@@ -546,7 +568,7 @@
         window.createNewAgent = function() {
             if(isUnsaved && !confirm("Discard unsaved changes?")) return;
             const newId = Date.now();
-            const newAgent = { id: newId, name: 'New Custom Agent', prompt: 'You are a helpful AI assistant...', icon: '⚙️', web: false, mem: true, knowledge: [] };
+            const newAgent = { id: newId, name: 'New Custom Agent', prompt: 'You are a helpful AI assistant...', icon: '⚙️', web: false, mem: true, knowledge: [], model: 'llama3' };
             agents.unshift(newAgent); 
             activeAgentId = newId;
             saveToStorage(); 
@@ -605,6 +627,7 @@
                 agents[agentIndex].web = iWeb.checked; 
                 agents[agentIndex].mem = iMem.checked;
                 agents[agentIndex].knowledge = [...currentTempKnowledge]; // Save files
+                agents[agentIndex].model = document.getElementById('agentModel').value; // Save model selection
                 
                 saveToStorage(); 
                 renderAgentList(); 
