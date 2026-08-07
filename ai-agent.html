@@ -12,6 +12,12 @@
     <link rel="canonical" href="https://toolverse-usa.vercel.app/ai-agent.html" />
 
     <!-- ==========================================
+         VVIP LIBRARIES FOR FILE EXTRACTION (PDF & DOCX)
+         ========================================== -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
+    <!-- ==========================================
          VVIP SCHEMA MARKUP (WEB APPLICATION)
          ========================================== -->
     <script type="application/ld+json">
@@ -322,7 +328,7 @@
 
                 <div id="vectorLoader" class="vector-loader">
                     <div class="vector-spinner"></div>
-                    Encrypting & Vectorizing Data...
+                    Encrypting & Extracting Data...
                 </div>
 
                 <div id="fileList" class="file-list">
@@ -474,6 +480,9 @@
 
     <!-- State & UI Logic -->
     <script>
+        // PDF.js worker setup
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
         // Data Structure Updated to include 'knowledge' array
         let agents = JSON.parse(localStorage.getItem('toolverse_agents')) || [
             { id: 1, name: 'SEO Content Writer', prompt: 'You are an expert SEO content writer. Produce highly engaging, human-like content optimized for search engines.', icon: '✍️', web: false, mem: true, knowledge: [] },
@@ -521,7 +530,7 @@
                         <i class="fa-solid fa-file-pdf"></i>
                         <div class="file-details">
                             <span>${file.name}</span>
-                            <small>${file.size} • Vectorized</small>
+                            <small>${file.size} • Extracted successfully</small>
                         </div>
                     </div>
                     <button class="btn-delete-file" onclick="window.removeFile(${index})" title="Remove File">
@@ -583,34 +592,64 @@
         }
 
         // ==========================================
-        // VVIP FILE UPLOAD LOGIC
+        // VVIP FILE UPLOAD & TEXT EXTRACTION LOGIC
         // ==========================================
-        window.handleFileUpload = function(event) {
+        window.handleFileUpload = async function(event) {
             const file = event.target.files[0];
             if(!file) return;
 
-            // Show Fake Vectorizing Loader to look premium
             vectorLoader.style.display = 'flex';
             document.getElementById('fileInput').value = ''; // reset
 
-            setTimeout(() => {
-                vectorLoader.style.display = 'none';
-                
+            try {
+                let extractedText = "";
+                const fileType = file.name.toLowerCase();
+
+                if (fileType.endsWith(".pdf") || file.type === "application/pdf") {
+                    // PDF Extraction Logic
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+                        extractedText += textContent.items.map(s => s.str).join(" ") + "\n";
+                    }
+                } else if (fileType.endsWith(".docx")) {
+                    // DOCX Extraction Logic
+                    const arrayBuffer = await file.arrayBuffer();
+                    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+                    extractedText = result.value;
+                } else {
+                    // TXT or CSV Extraction Logic
+                    extractedText = await file.text();
+                }
+
+                // AI کو اوورلوڈ ہونے سے بچانے کے لیے ٹوکن لمٹ (Max 15000 chars)
+                if (extractedText.length > 15000) {
+                    extractedText = extractedText.substring(0, 15000) + "\n...[TRUNCATED FOR MEMORY LIMIT]";
+                }
+
                 // Format file size
                 let sizeStr = (file.size / 1024).toFixed(1) + ' KB';
                 if(file.size > 1024 * 1024) sizeStr = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
                 
-                // Push to temp array
+                // Push to temp array with extracted content
                 currentTempKnowledge.push({
                     name: file.name,
                     size: sizeStr,
-                    uploadedAt: Date.now()
+                    uploadedAt: Date.now(),
+                    content: extractedText // <--- VVIP: Data stored in memory!
                 });
                 
                 renderKnowledgeFiles(currentTempKnowledge);
                 window.triggerUnsaved();
-                
-            }, 2500); // 2.5 seconds of "processing"
+
+            } catch(err) {
+                console.error("File Extraction Error: ", err);
+                alert("⚠️ Could not read file. Please ensure it's a valid PDF, DOCX, or TXT.");
+            } finally {
+                vectorLoader.style.display = 'none';
+            }
         }
 
         window.removeFile = function(index) {
@@ -626,7 +665,7 @@
                 agents[agentIndex].prompt = iPrompt.value;
                 agents[agentIndex].web = iWeb.checked; 
                 agents[agentIndex].mem = iMem.checked;
-                agents[agentIndex].knowledge = [...currentTempKnowledge]; // Save files
+                agents[agentIndex].knowledge = [...currentTempKnowledge]; // Save files & text
                 agents[agentIndex].model = document.getElementById('agentModel').value; // Save model selection
                 
                 saveToStorage(); 
@@ -653,6 +692,9 @@
             chatArea.scrollTop = chatArea.scrollHeight;
         }
 
+        // ==========================================
+        // VVIP CONTEXT INJECTION (SENDING MESSAGE)
+        // ==========================================
         window.sendMessage = async function() {
             const msg = chatInput.value.trim();
             if(!msg) return;
@@ -689,13 +731,29 @@
             chatArea.scrollTop = chatArea.scrollHeight;
 
             const currentAgent = agents.find(a => a.id === activeAgentId);
-            const systemPrompt = currentAgent ? currentAgent.prompt : 'You are a helpful assistant.';
+            
+            // 1. Get base system prompt
+            let finalSystemPrompt = currentAgent ? currentAgent.prompt : 'You are a helpful assistant.';
+            
+            // 2. Inject Knowledge Base Text into the prompt
+            if (currentAgent && currentAgent.knowledge && currentAgent.knowledge.length > 0) {
+                let allKnowledgeText = currentAgent.knowledge.map(k => `[File: ${k.name}]\n${k.content}`).join("\n\n");
+                finalSystemPrompt += `\n\n--- IMPORTANT INSTRUCTION ---\nUse the following knowledge base to answer the user's questions. If the answer is found in the knowledge base, rely heavily on it.\n\n--- KNOWLEDGE BASE START ---\n${allKnowledgeText}\n--- KNOWLEDGE BASE END ---`;
+            }
+
+            // 3. Get the selected model
+            let selectedModel = currentAgent ? currentAgent.model : 'llama3';
 
             try {
                 const response = await fetch('/api/groq-handler', { 
                     method: 'POST', 
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ systemPrompt: systemPrompt, userPrompt: msg })
+                    // 4. Send updated prompt AND selected model to backend
+                    body: JSON.stringify({ 
+                        systemPrompt: finalSystemPrompt, 
+                        userPrompt: msg,
+                        model: selectedModel 
+                    })
                 });
                 
                 let reply = "";
