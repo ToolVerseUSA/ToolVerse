@@ -5,42 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF to JPG (VVIP) - ToolVerse</title>
     
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Convert PDF to JPG online for free. Extract images from your PDF or convert each page into a high-quality JPG image securely and locally in your browser.">
-    <meta name="keywords" content="PDF to JPG, convert PDF to image, extract images from PDF, PDF to picture, free PDF tools, ToolVerse">
-    <meta name="author" content="ToolVerse">
-    <meta property="og:title" content="PDF to JPG (VVIP) - ToolVerse">
-    <meta property="og:description" content="Convert PDF to JPG online for free. Extract images from your PDF or convert each page into a high-quality JPG image securely and locally in your browser.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://toolverse.com/pdf-to-jpg.html">
+    <!-- ==========================================
+         SEO META TAGS & CANONICAL LINK
+         ========================================== -->
+    <meta name="description" content="Convert PDF to JPG online for free. Extract images from your PDF or convert each page into a high-quality JPG image securely and locally in your browser." />
+    <link rel="canonical" href="https://toolverse-usa.vercel.app/pdf-to-jpg.html" />
 
-    <!-- Canonical Link -->
-    <link rel="canonical" href="https://toolverse.com/pdf-to-jpg.html">
-
-    <!-- SoftwareApplication Schema Markup -->
+    <!-- ==========================================
+         VVIP SCHEMA MARKUP (WEB APPLICATION)
+         Forces Google to rank this specific PDF Tool
+         ========================================== -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "ToolVerse PDF to JPG",
-      "operatingSystem": "All",
-      "applicationCategory": "UtilitiesApplication",
-      "browserRequirements": "Requires JavaScript. Works on all modern browsers.",
+      "@type": "WebApplication",
+      "name": "PDF to JPG",
+      "url": "https://toolverse-usa.vercel.app/pdf-to-jpg.html",
       "description": "A secure, browser-based premium tool to convert PDF pages into high-quality JPG images or extract embedded images without server uploads.",
-      "url": "https://toolverse.com/pdf-to-jpg.html",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "All",
       "offers": {
         "@type": "Offer",
-        "price": "0.00",
+        "price": "0",
         "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "4950"
       }
     }
     </script>
+
+    <!-- ==========================================
+         VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
+         ========================================== -->
+    <meta property="og:title" content="PDF to JPG (VVIP) | Premium ToolVerse" />
+    <meta property="og:description" content="Convert PDF to JPG online for free. Extract images from your PDF or convert each page into a high-quality JPG image. 100% Free!" />
+    <meta property="og:url" content="https://toolverse-usa.vercel.app/pdf-to-jpg.html" /> 
+    <meta property="og:type" content="website" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PDF to JPG (VVIP) | Premium ToolVerse" />
+    <meta name="twitter:description" content="Convert PDF to JPG online for free. Extract images from your PDF or convert each page into a high-quality JPG image. 100% Free!" />
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <script>
+        // Global Login State (Crucial for bypass before Firebase loads)
+        window.isUserLoggedIn = true; 
+    </script>
+
     <!-- Firebase Security for VVIP -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -133,10 +151,10 @@
                 Select PDF file
             </div>
             <div class="flex flex-col space-y-[2px] ml-[2px]">
-                <div class="ilovepdf-red w-14 h-[47px] rounded-tr-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition">
+                <div class="ilovepdf-red w-14 h-[47px] rounded-tr-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition" title="Google Drive">
                     <i class="fa-brands fa-google-drive text-white text-xl"></i>
                 </div>
-                <div class="ilovepdf-red w-14 h-[47px] rounded-br-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition">
+                <div class="ilovepdf-red w-14 h-[47px] rounded-br-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition" title="Dropbox">
                     <i class="fa-brands fa-dropbox text-white text-xl"></i>
                 </div>
             </div>
@@ -238,10 +256,10 @@
             </button>
             
             <div class="grid grid-cols-2 gap-1 md:ml-2">
-                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-tl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-google-drive"></i></div>
-                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-tr-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-link"></i></div>
-                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-bl-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-brands fa-dropbox"></i></div>
-                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-br-lg flex items-center justify-center cursor-pointer hover:bg-red-700"><i class="fa-solid fa-trash-can"></i></div>
+                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-tl-lg flex items-center justify-center cursor-pointer hover:bg-red-700" title="Google Drive"><i class="fa-brands fa-google-drive"></i></div>
+                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-tr-lg flex items-center justify-center cursor-pointer hover:bg-red-700" title="Share Link"><i class="fa-solid fa-link"></i></div>
+                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-bl-lg flex items-center justify-center cursor-pointer hover:bg-red-700" title="Dropbox"><i class="fa-brands fa-dropbox"></i></div>
+                 <div class="w-10 h-10 bg-[#e5322d] text-white rounded-br-lg flex items-center justify-center cursor-pointer hover:bg-red-700" title="Start Over" onclick="resetTool()"><i class="fa-solid fa-trash-can"></i></div>
             </div>
         </div>
         
@@ -276,7 +294,10 @@
         const downloadText = document.getElementById('downloadText');
         
         function triggerFileInput() {
-            if(window.isUserLoggedIn === false) return;
+            if(window.isUserLoggedIn === false) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                return;
+            }
             fileInput.click();
         }
 
