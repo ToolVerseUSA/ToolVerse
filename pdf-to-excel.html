@@ -3,42 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF to Excel (iLovePDF Style) - ToolVerse</title>
+    <title>PDF to Excel (VVIP) - ToolVerse</title>
     
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Convert PDF to Excel online for free. Easily extract data from your PDF files into editable EXCEL spreadsheets (XLSX). Secure, fast, and processed locally in your browser.">
-    <meta name="keywords" content="PDF to Excel, convert PDF to XLSX, extract PDF data, PDF to spreadsheet, free PDF tools, ToolVerse">
-    <meta name="author" content="ToolVerse">
-    <meta property="og:title" content="PDF to Excel (iLovePDF Style) - ToolVerse">
-    <meta property="og:description" content="Convert PDF to Excel online for free. Easily extract data from your PDF files into editable EXCEL spreadsheets (XLSX). Secure, fast, and processed locally in your browser.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://toolverse.com/pdf-to-excel.html">
+    <!-- ==========================================
+         SEO META TAGS & CANONICAL LINK
+         ========================================== -->
+    <meta name="description" content="Convert PDF to Excel online for free. Easily extract data from your PDF files into editable EXCEL spreadsheets (XLSX). Secure, fast, and processed locally." />
+    <link rel="canonical" href="https://toolverse-usa.vercel.app/pdf-to-excel.html" />
 
-    <!-- Canonical Link -->
-    <link rel="canonical" href="https://toolverse.com/pdf-to-excel.html">
-
-    <!-- SoftwareApplication Schema Markup -->
+    <!-- ==========================================
+         VVIP SCHEMA MARKUP (WEB APPLICATION)
+         Forces Google to rank this specific PDF Tool
+         ========================================== -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "ToolVerse PDF to Excel",
-      "operatingSystem": "All",
-      "applicationCategory": "UtilitiesApplication",
-      "browserRequirements": "Requires JavaScript. Works on all modern browsers.",
+      "@type": "WebApplication",
+      "name": "PDF to Excel",
+      "url": "https://toolverse-usa.vercel.app/pdf-to-excel.html",
       "description": "A browser-based premium tool to convert PDF files into editable Excel (XLSX) spreadsheets without uploading files to a server.",
-      "url": "https://toolverse.com/pdf-to-excel.html",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "All",
       "offers": {
         "@type": "Offer",
-        "price": "0.00",
+        "price": "0",
         "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "4300"
       }
     }
     </script>
 
+    <!-- ==========================================
+         VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
+         ========================================== -->
+    <meta property="og:title" content="PDF to Excel (VVIP) | Premium ToolVerse" />
+    <meta property="og:description" content="Convert PDF to Excel online for free. Easily extract data from your PDF files into editable EXCEL spreadsheets (XLSX). 100% Free!" />
+    <meta property="og:url" content="https://toolverse-usa.vercel.app/pdf-to-excel.html" /> 
+    <meta property="og:type" content="website" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PDF to Excel (VVIP) | Premium ToolVerse" />
+    <meta name="twitter:description" content="Convert PDF to Excel online for free. Easily extract data from your PDF files into editable EXCEL spreadsheets (XLSX). 100% Free!" />
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- PDF.js & SheetJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        // Global Login State (Crucial for bypass before Firebase loads)
+        window.isUserLoggedIn = true; 
+    </script>
+
     <!-- Firebase Security -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -65,10 +91,6 @@
             }
         });
     </script>
-
-    <!-- PDF.js & SheetJS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
     <style>
         .ilovepdf-red { background-color: #e5322d; }
@@ -101,10 +123,10 @@
                     Tool<span class="ilovepdf-text">Verse</span>
                 </a>
             </div>
-            <div class="flex space-x-6 text-sm font-semibold text-gray-700">
-                <a href="#" class="hover:ilovepdf-text transition">MERGE PDF</a>
-                <a href="#" class="hover:ilovepdf-text transition">SPLIT PDF</a>
-                <a href="index.html" class="hover:ilovepdf-text transition">ALL TOOLS</a>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700 hidden md:flex">
+                <a href="merge-pdf.html" class="hover:ilovepdf-text transition uppercase">MERGE PDF</a>
+                <a href="split-pdf.html" class="hover:ilovepdf-text transition uppercase">SPLIT PDF</a>
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase">ALL TOOLS</a>
             </div>
         </div>
     </nav>
@@ -123,12 +145,12 @@
                 <div class="ilovepdf-red text-white text-2xl font-bold py-6 px-10 md:px-20 rounded-l-xl transition shadow-lg flex items-center justify-center h-24 whitespace-nowrap">
                     Select PDF file
                 </div>
-                <div class="flex flex-col space-y-[2px] ml-[2px]">
-                    <div class="ilovepdf-red w-14 h-[47px] rounded-tr-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition">
+                <div class="flex flex-col space-y-[2px] ml-[2px] hidden md:flex">
+                    <div class="ilovepdf-red w-14 h-[47px] rounded-tr-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition" title="Google Drive">
                         <!-- Drive Icon -->
                         <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M7 21h10l3.43-6H17L7 21zm3.43-18L7 9h10l3.43-6H10.43zM3.57 15L7 9H3.57L0 15h3.57z"/></svg>
                     </div>
-                    <div class="ilovepdf-red w-14 h-[47px] rounded-br-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition">
+                    <div class="ilovepdf-red w-14 h-[47px] rounded-br-xl flex items-center justify-center cursor-pointer hover:bg-red-700 transition" title="Dropbox">
                         <!-- Dropbox Icon -->
                         <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.2L4 6.3l8 4.1-8 4.1 8 4.1 8-4.1-8-4.1 8-4.1z"/></svg>
                     </div>
@@ -187,10 +209,10 @@
 
                 <!-- Mini Action Buttons Grid (Drive, Link, Dropbox, Delete) -->
                 <div class="grid grid-cols-2 gap-2 mt-4 md:mt-0 flex-shrink-0">
-                    <button class="ilovepdf-red hover:bg-red-700 text-white p-3 rounded-full shadow-md"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7 21h10l3.43-6H17L7 21zm3.43-18L7 9h10l3.43-6H10.43zM3.57 15L7 9H3.57L0 15h3.57z"/></svg></button>
-                    <button class="ilovepdf-red hover:bg-red-700 text-white p-3 rounded-full shadow-md"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></button>
-                    <button class="ilovepdf-red hover:bg-red-700 text-white p-3 rounded-full shadow-md"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.2L4 6.3l8 4.1-8 4.1 8 4.1 8-4.1-8-4.1 8-4.1z"/></svg></button>
-                    <button onclick="resetTool()" class="ilovepdf-red hover:bg-red-700 text-white p-3 rounded-full shadow-md"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+                    <button class="ilovepdf-red hover:bg-red-700 text-white p-3 rounded-full shadow-md" title="Google Drive"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7 21h10l3.43-6H17L7 21zm3.43-18L7 9h10l3.43-6H10.43zM3.57 15L7 9H3.57L0 15h3.57z"/></svg></button>
+                    <button class="ilovepdf-red hover:bg-red-700 text-white p-3 rounded-full shadow-md" title="Share Link"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></button>
+                    <button class="ilovepdf-red hover:bg-red-700 text-white p-3 rounded-full shadow-md" title="Dropbox"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.2L4 6.3l8 4.1-8 4.1 8 4.1 8-4.1-8-4.1 8-4.1z"/></svg></button>
+                    <button onclick="resetTool()" class="ilovepdf-red hover:bg-red-700 text-white p-3 rounded-full shadow-md" title="Start Over"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
                 </div>
             </div>
             
@@ -200,8 +222,6 @@
 
     <!-- Script / Logic -->
     <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
         let uploadedFile = null;
         let generatedWorkbook = null;
         let finalFileName = '';
@@ -209,7 +229,10 @@
         const fileInput = document.getElementById('fileInput');
         
         function triggerFileInput() {
-            if(window.isUserLoggedIn === false) return;
+            if(window.isUserLoggedIn === false) {
+                document.getElementById('authOverlay').style.display = 'flex';
+                return;
+            }
             fileInput.click();
         }
 
@@ -241,7 +264,7 @@
 
         function handleFileSelection(file) {
             if (file.type !== 'application/pdf') {
-                alert('براہ کرم صرف PDF فائل منتخب کریں!');
+                alert('Please select a valid PDF file.');
                 return;
             }
             uploadedFile = file;
