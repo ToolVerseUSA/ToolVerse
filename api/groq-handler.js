@@ -3,12 +3,25 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { systemPrompt, userPrompt } = req.body;
+    // VVIP Update: Frontend سے model کا نام بھی ریسیو کریں گے
+    const { systemPrompt, userPrompt, model } = req.body;
 
     if (!process.env.GROQ_API_KEY) {
         console.error("🚨 Missing GROQ_API_KEY");
         return res.status(500).json({ error: 'API Key is missing in Vercel settings.' });
     }
+
+    // ==========================================
+    // VVIP MODEL ROUTING LOGIC
+    // ==========================================
+    let groqModel = "llama-3.3-70b-versatile"; // Default Fast Model
+
+    // اگر یوزر نے 405B (VVIP Scale) سلیکٹ کیا ہے
+    if (model === "llama3_405b") {
+        groqModel = "llama-3.1-405b-reasoning";
+    } 
+    // مستقبل میں GPT-4o یا Gemini کے لیے یہاں APIs لگیں گے، 
+    // فی الحال وہ بغیر کسی ایرر کے Groq کے سب سے بیسٹ ماڈل پر چلیں گے۔
 
     try {
         const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -18,14 +31,15 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                // 👇 یہاں میں نے Groq کا لیٹسٹ اور فاسٹ ماڈل اپڈیٹ کر دیا ہے 👇
-                model: "llama-3.3-70b-versatile", 
+                // 👇 اب یہ ڈائنامک (Dynamic) ہو گیا ہے 👇
+                model: groqModel, 
                 messages: [
                     { role: "system", content: systemPrompt },
                     { role: "user", content: userPrompt }
                 ],
                 temperature: 0.7,
-                max_tokens: 1500
+                // 👇 PDF کے لمبے جوابات کے لیے ٹوکنز بڑھا دیے گئے ہیں 👇
+                max_tokens: 4000 
             })
         });
 
