@@ -10,30 +10,30 @@ const statusText = document.getElementById('voice-status');
 const transcriptText = document.getElementById('voice-text');
 const waveIcon = document.getElementById('wave-icon');
 
-let isProcessing = false; // System کو اوورلوڈ ہونے سے بچانے کے لیے
+let isProcessing = false; 
+let isModalOpen = false; // یہ چیک کرنے کے لیے کہ یوزر نے ونڈو بند تو نہیں کی
 
 if (recognition) {
     recognition.continuous = false;
-    // Browser کی ڈیفالٹ زبان استعمال کرے گا، لیکن AI یوزر کی زبان میں ہی جواب دے گا
-    recognition.lang = navigator.language || 'en-US'; 
+    recognition.lang = 'en-US'; // English حروف کو کیچ کرنے کے لیے بہترین
     recognition.interimResults = false;
 
-    // 1. جب یوزر بولنا شروع کرے گا
+    // 1. جب یوزر بولنا شروع کرے
     recognition.onstart = () => {
         isProcessing = true;
         statusText.innerText = "Listening...";
         statusText.style.color = "#4ade80"; // Green
         waveIcon.style.color = "#4ade80";
-        waveIcon.classList.add('fa-beat-fade'); // لائیو اینیمیشن
-        transcriptText.innerHTML = "Speak your command...";
+        waveIcon.classList.add('fa-beat-fade');
+        waveIcon.classList.remove('fa-bounce', 'fa-flip');
     };
 
-    // 2. جب یوزر بولنا بند کر دے
+    // 2. جب آواز بند ہو
     recognition.onspeechend = () => {
         recognition.stop();
     };
 
-    // 3. جب یوزر کی آواز ٹیکسٹ میں بدل جائے اور AI کو بھیجی جائے
+    // 3. جب کمانڈ AI کو جائے
     recognition.onresult = async (event) => {
         const userCommand = event.results[0][0].transcript;
         transcriptText.innerHTML = `<span style="color: white; font-weight: bold;">You:</span> ${userCommand}`;
@@ -57,91 +57,98 @@ if (recognition) {
         speakText(aiResponse);
     };
 
-    // 4. ایرر ہینڈلنگ (اگر مائیک خراب ہو یا پرمیشن نہ ہو)
+    // 4. خاموشی یا ایرر پر آٹو ری سٹارٹ
     recognition.onerror = (event) => {
-        statusText.innerText = "Microphone Error";
-        statusText.style.color = "#ff4757"; // Red
+        if (event.error === 'no-speech' && isModalOpen) {
+            // اگر یوزر خاموش ہے تو بند مت کرو، دوبارہ مائیک آن کرو
+            setTimeout(() => { if(isModalOpen) recognition.start(); }, 1000);
+            return;
+        }
+        statusText.innerText = "Error: " + event.error;
+        statusText.style.color = "#ff4757"; 
         waveIcon.style.color = "#ff4757";
         waveIcon.classList.remove('fa-beat-fade', 'fa-bounce', 'fa-flip');
-        transcriptText.innerText = `Error: ${event.error}. Please allow microphone access.`;
         isProcessing = false;
-        
-        setTimeout(closeVoiceModal, 4000);
     };
 }
 
 // ماڈل اوپن کرنے کا فنکشن
 function toggleVoiceModal() {
     if (!recognition) { 
-        alert("⚠️ Voice Assistant is not supported in your current browser. Please use Google Chrome, Edge, or Safari."); 
+        alert("⚠️ Voice Assistant is not supported in your current browser."); 
         return; 
     }
-    if (isProcessing) return; // اگر پہلے سے چل رہا ہے تو دوبارہ کلک کام نہیں کرے گا
-    
+    isModalOpen = true;
     voiceModal.style.display = 'flex';
-    recognition.start();
+    transcriptText.innerHTML = "Speak your command...";
+    if (!isProcessing) recognition.start();
 }
 
 // ماڈل کلوز کرنے کا فنکشن
 function closeVoiceModal() {
+    isModalOpen = false;
     if(recognition) recognition.stop();
-    window.speechSynthesis.cancel();
+    window.speechSynthesis.cancel(); // AI کو چپ کروانا
     voiceModal.style.display = 'none';
     isProcessing = false;
     
-    // UI کو نارمل حالت میں لانا
+    // UI ری سیٹ
     waveIcon.classList.remove('fa-beat-fade', 'fa-bounce', 'fa-flip');
     waveIcon.style.color = "#38bdf8";
 }
 
-// AI کے ٹیکسٹ کو آواز میں بدلنے کا فول پروف فنکشن
+// AI کے ٹیکسٹ کو آواز میں بدلنے کا فنکشن
 function speakText(text) {
     if (!window.speechSynthesis) {
-        statusText.innerText = "Audio not supported on this device.";
-        setTimeout(closeVoiceModal, 4000);
+        statusText.innerText = "Audio not supported.";
+        isProcessing = false;
         return;
     }
 
-    // AI اکثر مارک ڈاؤن لگا دیتا ہے جو بولنے میں برا لگتا ہے، یہ اسے صاف کرے گا
-    const cleanText = text.replace(/[*#_`]/g, '');
-
+    window.speechSynthesis.cancel(); 
+    const cleanText = text.replace(/[*#_`]/g, ''); // فالتو نشانات صاف کرنا
     const msg = new SpeechSynthesisUtterance(cleanText);
     
+    msg.lang = 'en-US'; // Roman Urdu/Sindhi کے لیے سب سے بہترین آواز
+
+    // ⚡ VVIP FIX: جب AI بولنا ختم کرے، تو دوبارہ مائیک آن کرو (Continuous Loop)
     msg.onend = () => {
-        statusText.innerText = "Done.";
-        statusText.style.color = "#10b981";
+        if (!isModalOpen) return; // اگر یوزر نے Close کر دیا ہے تو مائیک آن مت کرو
+        
+        statusText.innerText = "Listening again...";
+        statusText.style.color = "#4ade80";
         waveIcon.classList.remove('fa-flip');
-        setTimeout(closeVoiceModal, 3000);
+        
+        setTimeout(() => {
+            if(isModalOpen) recognition.start();
+        }, 500); // آدھے سیکنڈ بعد مائیک دوبارہ آن ہو جائے گا
     };
 
     msg.onerror = () => {
-        statusText.innerText = "Done.";
-        setTimeout(closeVoiceModal, 3000);
+        if(isModalOpen) recognition.start();
     };
 
     window.speechSynthesis.speak(msg);
 }
 
-// Groq 70B Model سے کنکشن (فاسٹ اور بہترین جواب کے لیے)
+// Groq 70B Model سے کنکشن
 async function sendToAI(command) {
     try {
         const response = await fetch('/api/groq-handler', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                // VVIP PROMPT: یہ AI کو سختی سے ہدایت دے گا کہ مختصر اور یوزر کی زبان میں بات کرے
-                systemPrompt: "You are 'ToolVerse AI', a highly intelligent, polite, and premium voice assistant. Your job is to guide the user and answer their questions. CRITICAL RULE: You MUST reply in the exact same language the user speaks to you (e.g., if the user speaks Urdu, reply in Urdu. If English, reply in English). Keep your responses conversational, very concise (1 to 2 short sentences maximum), and completely free of special formatting like markdown, asterisks, or bold text so it reads cleanly as natural audio.",
+                // ⚡ VVIP PROMPT: زبانوں کا پکا علاج
+                systemPrompt: "You are 'ToolVerse AI', a highly intelligent and polite voice assistant. CRITICAL RULES: 1. Keep your answer to ONE short sentence only. 2. If the user speaks English, reply in English. 3. If the user speaks Urdu, Hindi, Punjabi or Sindhi, YOU MUST REPLY IN ROMAN URDU/HINDI (using English alphabets, e.g., 'Main theek hu, aap batayein me apki kya madad karu'). NEVER use Arabic/Urdu script because the text-to-speech engine cannot read it. DO NOT use markdown formatting.",
                 userPrompt: command,
                 model: 'llama-3.3-70b-versatile'
             })
         });
         
-        if (!response.ok) throw new Error("API Rate Limit or Network Error");
-        
+        if (!response.ok) throw new Error("API Network Error");
         const data = await response.json();
-        return data.result || "I'm sorry, I couldn't process that right now.";
+        return data.result || "Sorry, I missed that.";
     } catch (error) {
-        console.error("Voice AI Error:", error);
-        return "Sorry, I am facing a connection issue right now. Please try again.";
+        return "Connection issue. Please try again.";
     }
 }
