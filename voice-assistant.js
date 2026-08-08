@@ -21,11 +21,10 @@ if (recognition) {
     // 1. جب یوزر بولنا شروع کرے
     recognition.onstart = () => {
         isProcessing = true;
-        statusText.innerText = "Listening...";
+        statusText.innerHTML = "Listening...";
         statusText.style.color = "#4ade80"; // Green
+        waveIcon.className = "fa-solid fa-waveform fa-beat-fade"; // Wave icon during listening
         waveIcon.style.color = "#4ade80";
-        waveIcon.classList.add('fa-beat-fade');
-        waveIcon.classList.remove('fa-bounce', 'fa-flip');
     };
 
     // 2. جب آواز بند ہو
@@ -38,20 +37,18 @@ if (recognition) {
         const userCommand = event.results[0][0].transcript;
         transcriptText.innerHTML = `<span style="color: white; font-weight: bold;">You:</span> ${userCommand}`;
         
-        statusText.innerText = "Thinking...";
+        statusText.innerHTML = "Thinking...";
         statusText.style.color = "#f59e0b"; // Yellow
+        waveIcon.className = "fa-solid fa-waveform fa-bounce";
         waveIcon.style.color = "#f59e0b";
-        waveIcon.classList.remove('fa-beat-fade');
-        waveIcon.classList.add('fa-bounce');
 
         // AI سے جواب منگوانا
         const aiResponse = await sendToAI(userCommand);
         
-        statusText.innerText = "Speaking...";
+        statusText.innerHTML = "Speaking...";
         statusText.style.color = "#38bdf8"; // Blue
+        waveIcon.className = "fa-solid fa-waveform fa-flip";
         waveIcon.style.color = "#38bdf8";
-        waveIcon.classList.remove('fa-bounce');
-        waveIcon.classList.add('fa-flip');
 
         transcriptText.innerHTML += `<br><br><span style="color: #38bdf8; font-weight: bold;">AI:</span> ${aiResponse}`;
         speakText(aiResponse);
@@ -61,16 +58,13 @@ if (recognition) {
     recognition.onerror = (event) => {
         isProcessing = false;
         if (event.error === 'no-speech' && isModalOpen) {
-            statusText.innerText = "Tap the Wave icon to speak";
-            statusText.style.color = "#94a3b8";
-            waveIcon.style.color = "#94a3b8";
-            waveIcon.classList.remove('fa-beat-fade', 'fa-bounce', 'fa-flip');
+            showTapToSpeakUI();
             return;
         }
-        statusText.innerText = "Error: " + event.error;
+        statusText.innerHTML = "Error: " + event.error;
         statusText.style.color = "#ff4757"; 
+        waveIcon.className = "fa-solid fa-microphone-slash";
         waveIcon.style.color = "#ff4757";
-        waveIcon.classList.remove('fa-beat-fade', 'fa-bounce', 'fa-flip');
     };
 }
 
@@ -94,17 +88,27 @@ function closeVoiceModal() {
     window.speechSynthesis.cancel(); 
     voiceModal.style.display = 'none';
     
-    waveIcon.classList.remove('fa-beat-fade', 'fa-bounce', 'fa-flip');
+    waveIcon.className = "fa-solid fa-waveform";
     waveIcon.style.color = "#38bdf8";
+    statusText.innerHTML = "Listening...";
 }
 
-// Manual Override - یوزر آئیکن پر کلک کر کے خود مائیک آن کر سکے گا
+// یوزر کو واضح دکھانے کے لیے نیا VVIP UI فنکشن
+function showTapToSpeakUI() {
+    if (!isModalOpen) return;
+    
+    // Wave کو ہٹا کر چمکتا ہوا مائیکروفون دکھائیں
+    waveIcon.className = "fa-solid fa-microphone fa-fade";
+    waveIcon.style.color = "#38bdf8";
+    
+    // سادہ ٹیکسٹ کی جگہ ایک واضح کلک ایبل بٹن
+    statusText.innerHTML = `<span style="display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid #38bdf8; padding: 8px 25px; border-radius: 30px; font-size: 1.2rem; cursor: pointer; color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);">👇 Tap to Speak</span>`;
+}
+
+// Manual Override - آئیکن یا بٹن پر کلک
 waveIcon.style.cursor = "pointer";
-waveIcon.onclick = () => {
-    if (!isProcessing && isModalOpen) {
-        forceStartRecognition();
-    }
-};
+waveIcon.onclick = () => { if (!isProcessing && isModalOpen) forceStartRecognition(); };
+statusText.onclick = () => { if (!isProcessing && isModalOpen) forceStartRecognition(); };
 
 function forceStartRecognition() {
     if (isProcessing) return;
@@ -118,7 +122,7 @@ function forceStartRecognition() {
 // AI کے ٹیکسٹ کو آواز میں بدلنے کا فنکشن
 function speakText(text) {
     if (!window.speechSynthesis) {
-        statusText.innerText = "Audio not supported.";
+        statusText.innerHTML = "Audio not supported.";
         isProcessing = false;
         return;
     }
@@ -133,15 +137,13 @@ function speakText(text) {
         isProcessing = false;
         if (!isModalOpen) return; 
         
-        // ⚡ VVIP FIX: آٹو مائیک سٹارٹ کرنے کے بجائے یوزر کو ٹیپ کرنے کا آپشن دیا ہے تاکہ موبائل کا مائیک لاک نہ ہو
-        statusText.innerText = "Tap the Wave icon to speak again";
-        statusText.style.color = "#94a3b8";
-        waveIcon.classList.remove('fa-flip');
-        waveIcon.style.color = "#94a3b8";
+        // ⚡ VVIP FIX: AI کے چپ ہوتے ہی واضح "Tap to Speak" بٹن دکھائیں
+        showTapToSpeakUI();
     };
 
     msg.onerror = () => {
         isProcessing = false;
+        if(isModalOpen) showTapToSpeakUI();
     };
 
     window.speechSynthesis.speak(msg);
@@ -154,7 +156,6 @@ async function sendToAI(command) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                // ⚡ VVIP PROMPT: زبانوں کا پکا اور فول پروف علاج
                 systemPrompt: "You are 'ToolVerse AI', a highly intelligent voice assistant. CRITICAL LANGUAGE RULE: You MUST exactly match the user's language. IF the user's input is strictly English (e.g., 'how to learn english', 'what is your name'), you MUST reply in pure English. IF the user's input contains Urdu or Hindi (e.g., 'kaise ho', 'kya kar rahe ho'), you MUST reply in Roman Urdu/Hindi using English alphabets. Keep your answer to ONE short sentence. DO NOT use markdown.",
                 userPrompt: command,
                 model: 'llama-3.3-70b-versatile'
