@@ -11,11 +11,11 @@ const transcriptText = document.getElementById('voice-text');
 const waveIcon = document.getElementById('wave-icon');
 
 let isProcessing = false; 
-let isModalOpen = false; // یہ چیک کرنے کے لیے کہ یوزر نے ونڈو بند تو نہیں کی
+let isModalOpen = false; 
 
 if (recognition) {
     recognition.continuous = false;
-    recognition.lang = 'en-US'; // English حروف کو کیچ کرنے کے لیے بہترین
+    recognition.lang = 'en-US'; 
     recognition.interimResults = false;
 
     // 1. جب یوزر بولنا شروع کرے
@@ -57,44 +57,62 @@ if (recognition) {
         speakText(aiResponse);
     };
 
-    // 4. خاموشی یا ایرر پر آٹو ری سٹارٹ
+    // 4. خاموشی یا ایرر پر ہینڈلنگ
     recognition.onerror = (event) => {
+        isProcessing = false;
         if (event.error === 'no-speech' && isModalOpen) {
-            // اگر یوزر خاموش ہے تو بند مت کرو، دوبارہ مائیک آن کرو
-            setTimeout(() => { if(isModalOpen) recognition.start(); }, 1000);
+            statusText.innerText = "Tap the Wave icon to speak";
+            statusText.style.color = "#94a3b8";
+            waveIcon.style.color = "#94a3b8";
+            waveIcon.classList.remove('fa-beat-fade', 'fa-bounce', 'fa-flip');
             return;
         }
         statusText.innerText = "Error: " + event.error;
         statusText.style.color = "#ff4757"; 
         waveIcon.style.color = "#ff4757";
         waveIcon.classList.remove('fa-beat-fade', 'fa-bounce', 'fa-flip');
-        isProcessing = false;
     };
 }
 
 // ماڈل اوپن کرنے کا فنکشن
 function toggleVoiceModal() {
     if (!recognition) { 
-        alert("⚠️ Voice Assistant is not supported in your current browser."); 
+        alert("⚠️ Voice Assistant is not supported in your browser."); 
         return; 
     }
     isModalOpen = true;
     voiceModal.style.display = 'flex';
     transcriptText.innerHTML = "Speak your command...";
-    if (!isProcessing) recognition.start();
+    forceStartRecognition();
 }
 
 // ماڈل کلوز کرنے کا فنکشن
 function closeVoiceModal() {
     isModalOpen = false;
-    if(recognition) recognition.stop();
-    window.speechSynthesis.cancel(); // AI کو چپ کروانا
-    voiceModal.style.display = 'none';
     isProcessing = false;
+    if(recognition) recognition.stop();
+    window.speechSynthesis.cancel(); 
+    voiceModal.style.display = 'none';
     
-    // UI ری سیٹ
     waveIcon.classList.remove('fa-beat-fade', 'fa-bounce', 'fa-flip');
     waveIcon.style.color = "#38bdf8";
+}
+
+// ⚡ VVIP FIX: Manual Override - اگر مائیک اٹک جائے تو یوزر آئیکن پر کلک کر سکے
+waveIcon.style.cursor = "pointer";
+waveIcon.onclick = () => {
+    if (!isProcessing && isModalOpen) {
+        forceStartRecognition();
+    }
+};
+
+function forceStartRecognition() {
+    if (isProcessing) return;
+    try {
+        recognition.start();
+    } catch(e) {
+        console.log("Mic is already preparing...");
+    }
 }
 
 // AI کے ٹیکسٹ کو آواز میں بدلنے کا فنکشن
@@ -106,39 +124,43 @@ function speakText(text) {
     }
 
     window.speechSynthesis.cancel(); 
-    const cleanText = text.replace(/[*#_`]/g, ''); // فالتو نشانات صاف کرنا
+    const cleanText = text.replace(/[*#_`]/g, ''); 
     const msg = new SpeechSynthesisUtterance(cleanText);
     
-    msg.lang = 'en-US'; // Roman Urdu/Sindhi کے لیے سب سے بہترین آواز
+    msg.lang = 'en-US'; 
 
-    // ⚡ VVIP FIX: جب AI بولنا ختم کرے، تو دوبارہ مائیک آن کرو (Continuous Loop)
     msg.onend = () => {
-        if (!isModalOpen) return; // اگر یوزر نے Close کر دیا ہے تو مائیک آن مت کرو
+        isProcessing = false;
+        if (!isModalOpen) return; 
         
-        statusText.innerText = "Listening again...";
-        statusText.style.color = "#4ade80";
+        statusText.innerText = "Ready... Auto-starting...";
+        statusText.style.color = "#94a3b8";
         waveIcon.classList.remove('fa-flip');
+        waveIcon.style.color = "#94a3b8";
         
+        // ⚡ VVIP FIX: 1.5 سیکنڈ کا پکا وقفہ تاکہ موبائل کا مائیکروفون فری ہو سکے
         setTimeout(() => {
-            if(isModalOpen) recognition.start();
-        }, 500); // آدھے سیکنڈ بعد مائیک دوبارہ آن ہو جائے گا
+            if(isModalOpen && !isProcessing) {
+                forceStartRecognition();
+            }
+        }, 1500); 
     };
 
     msg.onerror = () => {
-        if(isModalOpen) recognition.start();
+        isProcessing = false;
+        if(isModalOpen) forceStartRecognition();
     };
 
     window.speechSynthesis.speak(msg);
 }
 
-// Groq 70B Model سے کنکشن
+// Groq Model سے کنکشن
 async function sendToAI(command) {
     try {
         const response = await fetch('/api/groq-handler', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                // ⚡ VVIP PROMPT: زبانوں کا پکا علاج
                 systemPrompt: "You are 'ToolVerse AI', a highly intelligent and polite voice assistant. CRITICAL RULES: 1. Keep your answer to ONE short sentence only. 2. If the user speaks English, reply in English. 3. If the user speaks Urdu, Hindi, Punjabi or Sindhi, YOU MUST REPLY IN ROMAN URDU/HINDI (using English alphabets, e.g., 'Main theek hu, aap batayein me apki kya madad karu'). NEVER use Arabic/Urdu script because the text-to-speech engine cannot read it. DO NOT use markdown formatting.",
                 userPrompt: command,
                 model: 'llama-3.3-70b-versatile'
