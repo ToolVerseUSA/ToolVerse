@@ -391,7 +391,6 @@
                             <div class="mega-column">
                                 <h3>Productivity & PDF</h3>
                                 <a href="AI-summarizer.html"><span class="icon">📚</span> AI Summarizer</a>
-                                <!-- VVIP DATA ANALYST TOOL ADDED HERE -->
                                 <a href="data-analyst.html"><span class="icon">📊</span> AI Data Analyst <span class="badge" style="background: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px; font-weight: bold;">VVIP</span></a>
                                 <a href="#pdf-tools"><span class="icon">📑</span> All 31 PDF Tools</a>
                                 <a href="ai-task-planner.html"><span class="icon">📅</span> AI Task Planner</a>
@@ -479,7 +478,6 @@
             <a href="grammar-checker.html" class="ilove-card searchable-tool" data-category="writing" data-name="grammar checker"><div class="card-icon">✅</div><h3>Grammar Checker</h3><p>Instantly fix grammatical errors.</p></a>
             <a href="resume-builder.html" class="ilove-card searchable-tool" data-category="writing" data-name="resume builder"><div class="card-icon">📄</div><h3>Resume Builder</h3><p>Create ATS-friendly resumes.</p></a>
 
-            <!-- VVIP DATA ANALYST TOOL ADDED HERE -->
             <a href="data-analyst.html" class="ilove-card searchable-tool" data-category="productivity" data-name="ai data analyst" style="border-color: rgba(59, 130, 246, 0.4); box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);">
                 <div class="badge-new" style="background: #3b82f6; color: white;">VVIP</div>
                 <div class="card-icon">📊</div>
@@ -1484,5 +1482,26 @@
             widget.addEventListener('touchstart', dragStart, {passive: false}); document.addEventListener('touchmove', drag, {passive: false}); document.addEventListener('touchend', dragEnd);
         });
     </script>
+
+    <!-- ==========================================
+         VVIP VOICE ASSISTANT WIDGET
+         ========================================== -->
+    <div id="voice-widget" onclick="toggleVoiceModal()" style="position: fixed; bottom: 100px; right: 30px; background: linear-gradient(135deg, #8b5cf6, #3b82f6); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 25px rgba(139, 92, 246, 0.4); z-index: 9998; border: 2px solid rgba(255,255,255,0.2); transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        <i class="fa-solid fa-microphone-lines" style="color: white; font-size: 1.5rem;"></i>
+    </div>
+
+    <!-- VOICE MODAL -->
+    <div id="voice-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 11, 20, 0.95); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(20px);">
+        <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(77, 166, 255, 0.15); padding: 40px; border-radius: 24px; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+            <i class="fa-solid fa-waveform" id="wave-icon" style="font-size: 4rem; color: #38bdf8; margin-bottom: 20px;"></i>
+            <h2 id="voice-status" style="margin: 0; color: white; font-size: 1.5rem;">Listening...</h2>
+            <p id="voice-text" style="color: #94a3b8; margin-top: 15px; min-height: 50px; font-size: 1rem;">Please speak now...</p>
+            <button onclick="closeVoiceModal()" style="background: #334155; border: none; padding: 10px 25px; border-radius: 8px; color: white; cursor: pointer; margin-top: 20px; font-weight: 600; transition: 0.3s;" onmouseover="this.style.background='#475569'" onmouseout="this.style.background='#334155'">Close</button>
+        </div>
+    </div>
+
+    <!-- Import Voice Logic -->
+    <script src="voice-assistant.js"></script>
+
 </body>
 </html>
