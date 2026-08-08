@@ -128,7 +128,7 @@
         @keyframes spin { 100% { transform: rotate(360deg); } }
         
         .progress-text { font-size: 1.8rem; font-weight: 800; color: white; margin-bottom: 10px; }
-        .progress-subtext { color: var(--primary); font-size: 1rem; font-weight: 600; }
+        .progress-subtext { color: var(--primary); font-size: 1rem; font-weight: 600; text-align: center; padding: 0 20px;}
         
         .progress-bar-container { width: 400px; height: 10px; background: #1e293b; border-radius: 10px; margin-top: 30px; overflow: hidden; }
         .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #3b82f6); width: 0%; transition: width 0.4s ease; }
@@ -231,6 +231,53 @@
     <script>
         let generatedArticles = [];
 
+        // VVIP FOOLPROOF MODULE: Smart API Fetcher with Auto-Retry
+        async function generateWithRetry(systemPrompt, userPrompt, articleNumber, maxRetries = 3) {
+            let attempt = 0;
+            
+            while (attempt < maxRetries) {
+                try {
+                    const response = await fetch('/api/groq-handler', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            systemPrompt: systemPrompt,
+                            userPrompt: userPrompt,
+                            model: 'llama-3.3-70b-versatile' // Fastest and most stable
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP Error ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    if (!data || !data.result) {
+                        throw new Error("Empty API Response");
+                    }
+                    
+                    return data.result;
+
+                } catch (error) {
+                    attempt++;
+                    console.warn(`Article ${articleNumber}: Attempt ${attempt} failed. Reason: ${error.message}`);
+                    
+                    if (attempt >= maxRetries) {
+                        throw new Error(`Failed after ${maxRetries} attempts.`);
+                    }
+
+                    // VVIP Auto-Recovery: Update UI and wait before retrying (Exponential Backoff)
+                    const waitTime = attempt * 5000; // Wait 5s, then 10s...
+                    document.getElementById('progSub').innerHTML = `<span style="color:#fbbf24;">API Cooling down... Auto-recovering (Attempt ${attempt}/${maxRetries}). Please wait.</span>`;
+                    
+                    await new Promise(resolve => setTimeout(resolve, waitTime));
+                    
+                    // Reset UI text for the retry
+                    document.getElementById('progSub').innerText = `Retrying Article ${articleNumber}...`;
+                }
+            }
+        }
+
         async function startBulkGeneration() {
             const niche = document.getElementById('nicheInput').value.trim();
             const count = parseInt(document.getElementById('countSlider').value);
@@ -252,9 +299,10 @@
 
             const systemPrompt = `You are an elite, top-tier SEO blog writer. Your job is to write highly engaging, original, and structurally perfect blog articles.`;
 
-            // Sequential Generation with VVIP Stabilization
+            // Sequential Generation with VVIP Stabilization & Auto-Retry
             for (let i = 1; i <= count; i++) {
                 updateProgress(i, count);
+                document.getElementById('progSub').innerText = `Writing SEO optimized content...`;
                 
                 const userPrompt = `Write a comprehensive, SEO-optimized blog article about "${niche}". 
                 This is article number ${i} of a series. Make the angle unique compared to generic articles.
@@ -263,21 +311,8 @@
                 Format: Use HTML tags (<h1>, <h2>, <p>, <ul>) for structuring. Do NOT wrap the output in markdown code blocks like \`\`\`html. Just provide the raw HTML content.`;
 
                 try {
-                    // ⚡ VVIP FIX: Stable Request using the fast and reliable 70b model
-                    const response = await fetch('/api/groq-handler', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            systemPrompt: systemPrompt,
-                            userPrompt: userPrompt,
-                            model: 'llama-3.3-70b-versatile' // Fastest & Stable
-                        })
-                    });
-
-                    if (!response.ok) throw new Error("API Limit reached, retrying...");
-                    
-                    const data = await response.json();
-                    let content = data.result;
+                    // Call the Foolproof Module
+                    let content = await generateWithRetry(systemPrompt, userPrompt, i);
                     
                     // Clean up markdown wrapping if the AI accidentally adds it
                     content = content.replace(/```html/g, '').replace(/```/g, '');
@@ -292,12 +327,15 @@
                     // Add to UI Grid dynamically
                     addArticleToGrid(title, content, i);
 
-                    // 🛑 VVIP BUFFER: Wait 1.5 seconds between articles to prevent server timeout/rate limiting
-                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    // 🛑 VVIP SMART BUFFER: Wait 2.5 seconds between SUCCESSFUL articles to guarantee no limits hit
+                    if (i < count) {
+                        document.getElementById('progSub').innerText = `Finalizing article ${i}... Preparing next.`;
+                        await new Promise(resolve => setTimeout(resolve, 2500));
+                    }
 
                 } catch (error) {
-                    console.error("Generation error on article " + i, error);
-                    addArticleToGrid(`Article ${i} - FAILED`, `<p style="color: #ff4757;">Technical delay. The process will continue...</p>`, i);
+                    console.error("Critical Generation Error on article " + i, error);
+                    addArticleToGrid(`Article ${i} - FAILED`, `<p style="color: #ff4757;">Failed to generate after multiple attempts due to API limits. The process will continue to the next article.</p>`, i);
                 }
             }
 
@@ -308,7 +346,7 @@
             if(generatedArticles.length > 0) {
                 document.getElementById('downloadZipBtn').style.display = 'flex';
             } else {
-                alert("Generation failed. Please try again with a smaller batch.");
+                alert("All generations failed. Please check your API key or try again later.");
             }
         }
 
