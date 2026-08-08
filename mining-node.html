@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$TOOL Mining Dashboard - VVIP</title>
+    <title>$TOOL Mining Dashboard - VVIP Web3</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -15,13 +15,20 @@
         body { background-color: #0b0f19; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
 
         /* ==========================================
-           HEADER NAVIGATION
+           HEADER NAVIGATION & WALLET BUTTON
            ========================================== */
         .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid rgba(251, 191, 36, 0.2); backdrop-filter: blur(10px); z-index: 100; position: sticky; top: 0; }
         .brand { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 10px; }
         .badge-pro { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #0b0f19; padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .header-actions { display: flex; align-items: center; gap: 15px; }
         .back-link { color: #94a3b8; text-decoration: none; font-weight: 600; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
         .back-link:hover { color: #38bdf8; }
+
+        /* VVIP Wallet Button */
+        .wallet-btn { background: linear-gradient(135deg, #38bdf8, #8b5cf6); color: #fff; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
+        .wallet-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5); }
+        .wallet-btn.connected { background: #4ade80; color: #0b0f19; box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4); pointer-events: none; }
 
         /* ==========================================
            MAIN GRID LAYOUT
@@ -111,15 +118,22 @@
             .ref-stat-item { margin: 0; }
             .action-item { flex-direction: column; align-items: flex-start; gap: 15px; }
             .action-btn { width: 100%; text-align: center; }
+            .header-actions { flex-direction: column-reverse; align-items: flex-end; gap: 10px;}
         }
     </style>
 </head>
 <body>
     
-    <!-- Top Navigation -->
+    <!-- Top Navigation with Web3 Connect -->
     <header class="dash-header">
         <a href="index.html" class="brand">🚀 ToolVerse <span class="badge-pro">Network</span></a>
-        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Hub</a>
+        
+        <div class="header-actions">
+            <button id="web3ConnectBtn" class="wallet-btn" onclick="connectWeb3Wallet()">
+                <i class="fa-solid fa-wallet"></i> Connect Wallet
+            </button>
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Hub</a>
+        </div>
     </header>
 
     <!-- Main Dashboard -->
@@ -209,7 +223,7 @@
                             <h4 style="color: #fbbf24;">Mainnet Withdrawal</h4>
                             <p>Transfer accumulated yield to your connected Web3 wallet.</p>
                         </div>
-                        <button class="action-btn primary" onclick="alert('Withdrawals will be enabled shortly after the official Mainnet launch!')">Withdraw Yield</button>
+                        <button class="action-btn primary" onclick="handleWithdrawClick()">Withdraw Yield</button>
                     </div>
                 </div>
             </div>
@@ -217,8 +231,49 @@
     </div>
 
     <!-- ==========================================
-         VVIP JAVASCRIPT LOGIC
+         VVIP FIREBASE & WEB3 LOGIC
          ========================================== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // VVIP Cache-Proof Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+            authDomain: "toolverstoken.firebaseapp.com",
+            projectId: "toolverstoken",
+            storageBucket: "toolverstoken.firebasestorage.app",
+            messagingSenderId: "762644487097",
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        window.db = getFirestore(app);
+        window.currentUserUid = null;
+
+        // Firebase Auth Listener
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                window.currentUserUid = user.uid;
+                
+                // Fetch dynamic Referral Link based on UID
+                const shortUid = user.uid.substring(0, 6).toLowerCase();
+                document.getElementById('refLink').value = `https://toolverse-usa.vercel.app/?ref=tv${shortUid}`;
+                
+                // Fetch existing wallet from DB if connected previously
+                const userRef = doc(window.db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if(userSnap.exists() && userSnap.data().walletAddress) {
+                    const savedWallet = userSnap.data().walletAddress;
+                    updateWalletUI(savedWallet);
+                    localStorage.setItem('tv_wallet_address', savedWallet);
+                }
+            }
+        });
+    </script>
+
     <script>
         // System Config
         const TOOL_TO_USD_RATE = 0.02; 
@@ -245,10 +300,10 @@
         }, 5000);
 
         // Professional Copy Function for Referral Link
-        function copyReferral() {
+        window.copyReferral = function() {
             const inputElement = document.getElementById("refLink");
             inputElement.select();
-            inputElement.setSelectionRange(0, 99999); // Mobile compatibility
+            inputElement.setSelectionRange(0, 99999); 
             navigator.clipboard.writeText(inputElement.value);
             
             const copyBtn = document.querySelector('.ref-btn');
@@ -264,6 +319,74 @@
                 copyBtn.style.color = '#0b0f19';
             }, 2500);
         }
+
+        // ==========================================
+        // VVIP WEB3 WALLET CONNECTION LOGIC (METAMASK)
+        // ==========================================
+        window.connectWeb3Wallet = async function() {
+            // Check if MetaMask or a Web3 wallet extension is installed
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    // Request account access from the user
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const walletAddress = accounts[0];
+                    
+                    // Update the UI
+                    updateWalletUI(walletAddress);
+                    
+                    // Show premium success alert
+                    alert("🎉 Secure Web3 Link Successful!\n\nYour address (" + formatAddress(walletAddress) + ") has been connected. Your mined $TOOL will be airdropped here upon Mainnet launch.");
+                    
+                    // Save to LocalStorage
+                    localStorage.setItem('tv_wallet_address', walletAddress);
+
+                    // VVIP: Securely save to Firebase Database if user is logged in
+                    if (window.currentUserUid && window.db) {
+                        import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js").then(module => {
+                            const userRef = module.doc(window.db, "users", window.currentUserUid);
+                            module.updateDoc(userRef, { walletAddress: walletAddress })
+                                .catch(e => console.error("Cloud Save Error", e));
+                        });
+                    }
+
+                } catch (error) {
+                    console.error("User rejected request or error occurred", error);
+                    alert("⚠️ Connection cancelled. Please authorize ToolVerse to link your wallet.");
+                }
+            } else {
+                alert("🦊 No Web3 Wallet detected!\n\nPlease install the MetaMask or Trust Wallet extension in your browser to connect.");
+            }
+        };
+
+        // UI Updater for Wallet Button
+        function updateWalletUI(address) {
+            const btn = document.getElementById('web3ConnectBtn');
+            btn.innerHTML = `<i class="fa-solid fa-check-circle"></i> Linked: ${formatAddress(address)}`;
+            btn.classList.add('connected');
+        }
+
+        // Helper: Formats 0x123456789abcd into 0x1234...abcd
+        function formatAddress(address) {
+            return address.slice(0, 6) + '...' + address.slice(-4);
+        }
+
+        // Withdraw Button Click Logic
+        window.handleWithdrawClick = function() {
+            const connectedWallet = localStorage.getItem('tv_wallet_address');
+            if(connectedWallet) {
+                alert(`🚀 Ready for Mainnet!\n\nYour withdrawal is queued for address: ${formatAddress(connectedWallet)}\nToken distribution will begin shortly after the official Mainnet launch.`);
+            } else {
+                alert("⚠️ Please connect your Web3 Wallet from the top right corner first before requesting a withdrawal.");
+            }
+        }
+
+        // Keep wallet connected across page reloads if saved locally
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedWallet = localStorage.getItem('tv_wallet_address');
+            if (savedWallet) {
+                updateWalletUI(savedWallet);
+            }
+        });
 
         // Initialize on load
         updateDashboardValues();
