@@ -98,7 +98,7 @@ function closeVoiceModal() {
     waveIcon.style.color = "#38bdf8";
 }
 
-// ⚡ VVIP FIX: Manual Override - اگر مائیک اٹک جائے تو یوزر آئیکن پر کلک کر سکے
+// Manual Override - یوزر آئیکن پر کلک کر کے خود مائیک آن کر سکے گا
 waveIcon.style.cursor = "pointer";
 waveIcon.onclick = () => {
     if (!isProcessing && isModalOpen) {
@@ -133,22 +133,15 @@ function speakText(text) {
         isProcessing = false;
         if (!isModalOpen) return; 
         
-        statusText.innerText = "Ready... Auto-starting...";
+        // ⚡ VVIP FIX: آٹو مائیک سٹارٹ کرنے کے بجائے یوزر کو ٹیپ کرنے کا آپشن دیا ہے تاکہ موبائل کا مائیک لاک نہ ہو
+        statusText.innerText = "Tap the Wave icon to speak again";
         statusText.style.color = "#94a3b8";
         waveIcon.classList.remove('fa-flip');
         waveIcon.style.color = "#94a3b8";
-        
-        // ⚡ VVIP FIX: 1.5 سیکنڈ کا پکا وقفہ تاکہ موبائل کا مائیکروفون فری ہو سکے
-        setTimeout(() => {
-            if(isModalOpen && !isProcessing) {
-                forceStartRecognition();
-            }
-        }, 1500); 
     };
 
     msg.onerror = () => {
         isProcessing = false;
-        if(isModalOpen) forceStartRecognition();
     };
 
     window.speechSynthesis.speak(msg);
@@ -161,7 +154,8 @@ async function sendToAI(command) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                systemPrompt: "You are 'ToolVerse AI', a highly intelligent and polite voice assistant. CRITICAL RULES: 1. Keep your answer to ONE short sentence only. 2. If the user speaks English, reply in English. 3. If the user speaks Urdu, Hindi, Punjabi or Sindhi, YOU MUST REPLY IN ROMAN URDU/HINDI (using English alphabets, e.g., 'Main theek hu, aap batayein me apki kya madad karu'). NEVER use Arabic/Urdu script because the text-to-speech engine cannot read it. DO NOT use markdown formatting.",
+                // ⚡ VVIP PROMPT: زبانوں کا پکا اور فول پروف علاج
+                systemPrompt: "You are 'ToolVerse AI', a highly intelligent voice assistant. CRITICAL LANGUAGE RULE: You MUST exactly match the user's language. IF the user's input is strictly English (e.g., 'how to learn english', 'what is your name'), you MUST reply in pure English. IF the user's input contains Urdu or Hindi (e.g., 'kaise ho', 'kya kar rahe ho'), you MUST reply in Roman Urdu/Hindi using English alphabets. Keep your answer to ONE short sentence. DO NOT use markdown.",
                 userPrompt: command,
                 model: 'llama-3.3-70b-versatile'
             })
