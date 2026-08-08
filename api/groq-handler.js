@@ -27,12 +27,13 @@ export default async function handler(req, res) {
         const { systemPrompt, userPrompt, model } = req.body;
 
         // 2. VVIP LOAD BALANCING (KEY POOLING)
-        // Distributes the load across multiple keys to handle 50k+ concurrent users seamlessly
+        // Distributes the load across 5 API keys to handle massive concurrent user traffic
         const API_KEYS = [
             process.env.GROQ_API_KEY,      // Master Key 1
             process.env.GROQ_API_KEY_2,    // Backup Key 2
             process.env.GROQ_API_KEY_3,    // Backup Key 3
-            process.env.GROQ_API_KEY_4     // Backup Key 4
+            process.env.GROQ_API_KEY_4,    // Backup Key 4
+            process.env.GROQ_API_KEY_5     // Backup Key 5
         ].filter(Boolean); // Filters out any undefined or missing keys automatically
 
         // Prevent server crash if no keys are configured in Vercel environment variables
@@ -66,7 +67,7 @@ export default async function handler(req, res) {
         // 4. ERROR HANDLING (Never Crash Frontend)
         if (!groqResponse.ok) {
             if (groqResponse.status === 429) {
-                // Gracefully handle rate limits during extreme traffic spikes (50k+ users)
+                // Gracefully handle rate limits during extreme traffic spikes
                 return res.status(200).json({ 
                     result: "🚦 The server is experiencing extremely high traffic. Please wait a few seconds and try again." 
                 });
