@@ -303,22 +303,33 @@
         .footer-adsense-notice { max-width: 1200px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); text-align: center; font-size: 0.8rem; color: #475569; }
 
         /* ==========================================
-           VVIP PREMIUM VOICE WIDGET STYLES
+           VVIP PREMIUM CSS ROBOT VOICE ASSISTANT WIDGET
            ========================================== */
         .premium-voice-btn { position: fixed; bottom: 100px; right: 20px; background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.95)); backdrop-filter: blur(15px); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 40px; padding: 8px 20px 8px 8px; display: flex; align-items: center; gap: 12px; cursor: pointer; z-index: 9998; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.15); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .premium-voice-btn:hover { transform: translateY(-5px); border-color: rgba(168, 85, 247, 0.6); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(168, 85, 247, 0.3); }
-        .voice-icon-wrapper { position: relative; width: 42px; height: 42px; background: linear-gradient(135deg, #38bdf8, #a855f7); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
-        .voice-icon-wrapper i { color: white; font-size: 1.1rem; z-index: 2; animation: micBreathe 2s infinite alternate; }
-        @keyframes micBreathe { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        
+        .robot-wrapper { position: relative; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
+        .robot-head { width: 38px; height: 34px; background: radial-gradient(circle at 30% 30%, #334155, #0f172a); border-radius: 40% 40% 45% 45%; position: relative; box-shadow: inset -2px -2px 8px rgba(0,0,0,0.8), inset 2px 2px 5px rgba(255,255,255,0.2), 0 0 15px rgba(56, 189, 248, 0.4); display: flex; justify-content: center; align-items: center; z-index: 2; animation: robotFloat 3s ease-in-out infinite; }
+        .robot-face { width: 22px; height: 14px; background: #000; border-radius: 6px; display: flex; justify-content: space-evenly; align-items: center; box-shadow: inset 0 0 5px rgba(0,0,0,1); animation: robotLookAround 8s infinite; }
+        .robot-eye { width: 5px; height: 5px; background: #38bdf8; border-radius: 50%; box-shadow: 0 0 8px #38bdf8, 0 0 15px #38bdf8; animation: robotBlink 4s infinite; }
+        .robot-ear { position: absolute; width: 4px; height: 10px; background: linear-gradient(to bottom, #38bdf8, #8b5cf6); top: 12px; border-radius: 2px; z-index: 1; box-shadow: 0 0 5px rgba(56, 189, 248, 0.5); }
+        .ear-left { left: -3px; }
+        .ear-right { right: -3px; }
+        
         .voice-pulse-ring { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; border: 2px solid #38bdf8; animation: pulseRing 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; z-index: 1; }
+        
+        @keyframes robotBlink { 0%, 2%, 100% { transform: scaleY(1); } 1% { transform: scaleY(0.1); } }
+        @keyframes robotLookAround { 0%, 100% { transform: translate(0, 0); } 15% { transform: translate(-3px, 1px); } 30% { transform: translate(3px, -1px); } 45% { transform: translate(0, 0); } 60% { transform: translate(0, -2px); } 75% { transform: translate(0, 2px); } }
+        @keyframes robotFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
         @keyframes pulseRing { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
+
         .voice-text-wrapper { display: flex; flex-direction: column; text-align: left; }
         .voice-btn-text { color: #f8fafc; font-weight: 800; font-size: 0.9rem; letter-spacing: 0.3px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
         .voice-btn-sub { color: #38bdf8; font-weight: 600; font-size: 0.7rem; margin-top: 2px; letter-spacing: 0.5px; }
         
         @media (max-width: 1024px) { .footer-container { grid-template-columns: repeat(2, 1fr); gap: 40px; } }
         @media (max-width: 768px) { .toolverse-footer { padding: 60px 20px 30px; margin-top: 60px; } .footer-container { grid-template-columns: 1fr; gap: 40px; text-align: center; } .footer-col h3::after { left: 50%; transform: translateX(-50%); } .footer-brand { justify-content: center; } .social-links { justify-content: center; } .footer-bottom { flex-direction: column; text-align: center; } .footer-meta { justify-content: center; width: 100%; } .newsletter-form { flex-direction: row; } .newsletter-input { flex: 1; min-width: 200px; } .newsletter-btn { white-space: nowrap; } }
-        @media (max-width: 480px) { .footer-container { gap: 30px; } .footer-col h3 { font-size: 1rem; } .footer-brand { font-size: 22px; } .newsletter-form { flex-direction: column; } .newsletter-btn { width: 100%; } .footer-meta { flex-direction: column; gap: 10px; } .hero-main-title { font-size: 2.2rem; } .premium-voice-btn { right: 15px; bottom: 90px; padding: 6px 15px 6px 6px; } .voice-icon-wrapper { width: 36px; height: 36px; } .voice-btn-text { font-size: 0.8rem; } .voice-btn-sub { font-size: 0.6rem; } }
+        @media (max-width: 480px) { .footer-container { gap: 30px; } .footer-col h3 { font-size: 1rem; } .footer-brand { font-size: 22px; } .newsletter-form { flex-direction: column; } .newsletter-btn { width: 100%; } .footer-meta { flex-direction: column; gap: 10px; } .hero-main-title { font-size: 2.2rem; } .premium-voice-btn { right: 15px; bottom: 90px; padding: 6px 15px 6px 6px; } .robot-wrapper { width: 36px; height: 36px; } .robot-head { width: 30px; height: 26px; } .robot-face { width: 18px; height: 10px; } .voice-btn-text { font-size: 0.8rem; } .voice-btn-sub { font-size: 0.6rem; } }
     </style>
     
     <script>
@@ -1497,11 +1508,18 @@
     </script>
 
     <!-- ==========================================
-         VVIP PREMIUM VOICE ASSISTANT WIDGET
+         VVIP PREMIUM CSS ROBOT VOICE ASSISTANT
          ========================================== -->
     <div id="voice-widget" onclick="toggleVoiceModal()" class="premium-voice-btn">
-        <div class="voice-icon-wrapper">
-            <i class="fa-solid fa-microphone-lines"></i>
+        <div class="robot-wrapper">
+            <div class="robot-head">
+                <div class="robot-ear ear-left"></div>
+                <div class="robot-ear ear-right"></div>
+                <div class="robot-face">
+                    <div class="robot-eye"></div>
+                    <div class="robot-eye"></div>
+                </div>
+            </div>
             <div class="voice-pulse-ring"></div>
         </div>
         <div class="voice-text-wrapper">
