@@ -3,323 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToolVerse - VIP Node Dashboard</title>
+    <title>$TOOL Mining Dashboard - VVIP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
-        /* Color Theme and Base Settings */
-        :root {
-            --bg-dark: #0b0f19;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --neon-gold: #ffcc00;
-            --neon-gold-glow: rgba(255, 204, 0, 0.4);
-            --text-main: #ffffff;
-            --text-muted: #8b9bb4;
-            --success: #10b981;
+        /* ==========================================
+           VVIP RESET & BASE STYLES
+           ========================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #0b0f19; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+
+        /* ==========================================
+           HEADER NAVIGATION
+           ========================================== */
+        .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(15, 23, 42, 0.8); border-bottom: 1px solid rgba(251, 191, 36, 0.2); backdrop-filter: blur(10px); z-index: 100; position: sticky; top: 0; }
+        .brand { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .badge-pro { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #0b0f19; padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+        .back-link { color: #94a3b8; text-decoration: none; font-weight: 600; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .back-link:hover { color: #38bdf8; }
+
+        /* ==========================================
+           MAIN GRID LAYOUT
+           ========================================== */
+        .dash-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; width: 100%; }
+
+        /* ==========================================
+           GLASSMORPHISM CARDS
+           ========================================== */
+        .glass-card { background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8)); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 30px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); position: relative; overflow: hidden; }
+
+        /* ==========================================
+           LEFT COLUMN: BALANCE & MINING VISUALIZER
+           ========================================== */
+        .balance-sec { text-align: center; margin-bottom: 20px; }
+        .balance-label { color: #94a3b8; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+        .balance-amount { font-size: 3.5rem; font-weight: 900; color: #fbbf24; text-shadow: 0 0 20px rgba(251, 191, 36, 0.3); display: flex; justify-content: center; align-items: baseline; gap: 10px; line-height: 1; }
+        .balance-amount span { font-size: 1.2rem; color: #cbd5e1; font-weight: 600; }
+        .balance-usd { color: #4ade80; font-size: 1.1rem; font-weight: 500; margin-top: 8px; background: rgba(74, 222, 128, 0.1); display: inline-block; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(74, 222, 128, 0.2); }
+
+        /* Neon Mining Animation */
+        .mining-visualizer { position: relative; height: 220px; display: flex; justify-content: center; align-items: center; margin: 30px 0; }
+        .ring { position: absolute; border-radius: 50%; border: 2px dashed rgba(251, 191, 36, 0.3); animation: rotateRing 10s linear infinite; }
+        .ring-1 { width: 190px; height: 190px; border-style: solid; border-color: rgba(251, 191, 36, 0.1); border-top-color: #fbbf24; animation-duration: 3s; }
+        .ring-2 { width: 150px; height: 150px; border-color: rgba(56, 189, 248, 0.2); border-bottom-color: #38bdf8; animation-direction: reverse; animation-duration: 5s; }
+        .ring-3 { width: 110px; height: 110px; border-style: dotted; border-color: rgba(168, 85, 247, 0.4); animation-duration: 8s; }
+        .core-node { width: 70px; height: 70px; background: linear-gradient(135deg, #fbbf24, #f59e0b); border-radius: 50%; box-shadow: 0 0 30px rgba(251, 191, 36, 0.6); display: flex; justify-content: center; align-items: center; font-size: 1.8rem; z-index: 10; animation: pulseCore 2s infinite alternate; color: #0b0f19; }
+
+        @keyframes rotateRing { 100% { transform: rotate(360deg); } }
+        @keyframes pulseCore { 0% { transform: scale(0.95); box-shadow: 0 0 20px rgba(251, 191, 36, 0.4); } 100% { transform: scale(1.05); box-shadow: 0 0 50px rgba(251, 191, 36, 0.8); } }
+
+        /* Node Stats Data */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 25px; }
+        .stat-box { background: rgba(15, 23, 42, 0.5); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.03); }
+        .stat-box h4 { color: #64748b; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .stat-box p { color: #fff; font-size: 1.1rem; font-weight: 700; }
+        .status-dot { display: inline-block; width: 8px; height: 8px; background: #4ade80; border-radius: 50%; margin-right: 6px; box-shadow: 0 0 8px #4ade80; animation: blink 1.5s infinite; }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        /* ==========================================
+           RIGHT COLUMN: REFERRALS & ACTIONS
+           ========================================== */
+        .referral-box { background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 20px; padding: 25px; margin-bottom: 25px; }
+        .referral-box h3 { color: #38bdf8; font-size: 1.2rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-weight: 800; }
+        .ref-desc { color: #94a3b8; font-size: 0.85rem; margin-bottom: 20px; line-height: 1.5; }
+        
+        .ref-input-group { display: flex; gap: 10px; margin-bottom: 25px; }
+        .ref-input { flex: 1; background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; color: #cbd5e1; padding: 14px 15px; border-radius: 10px; font-size: 0.9rem; outline: none; transition: 0.3s; }
+        .ref-input:focus { border-color: #38bdf8; }
+        .ref-btn { background: #38bdf8; color: #0b0f19; border: none; padding: 0 20px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 6px; }
+        .ref-btn:hover { background: #0284c7; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(56, 189, 248, 0.3); }
+
+        .ref-stats { display: flex; justify-content: space-between; border-top: 1px dashed rgba(56, 189, 248, 0.2); padding-top: 20px; }
+        .ref-stat-item { text-align: left; background: rgba(0,0,0,0.2); padding: 12px 20px; border-radius: 10px; flex: 1; margin: 0 5px; border: 1px solid rgba(255,255,255,0.02); }
+        .ref-stat-item:first-child { margin-left: 0; }
+        .ref-stat-item:last-child { margin-right: 0; }
+        .ref-stat-item span { display: block; color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .ref-stat-item strong { color: #fff; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; }
+
+        /* Network Action List */
+        .section-title { color: #fff; margin-bottom: 20px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; }
+        .action-list { display: flex; flex-direction: column; gap: 15px; }
+        .action-item { display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.5); padding: 18px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .action-item:hover { border-color: rgba(251, 191, 36, 0.3); background: rgba(15, 23, 42, 0.8); }
+        .action-info h4 { color: #f8fafc; font-size: 1rem; margin-bottom: 6px; font-weight: 700; }
+        .action-info p { color: #64748b; font-size: 0.8rem; }
+        
+        .action-btn { background: rgba(251, 191, 36, 0.1); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.5); padding: 10px 18px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.5px; }
+        .action-btn:hover { background: #fbbf24; color: #0b0f19; transform: translateY(-2px); }
+        
+        .action-btn.primary { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #0b0f19; border: none; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); }
+        .action-btn.primary:hover { box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
+
+        /* ==========================================
+           MOBILE RESPONSIVENESS
+           ========================================== */
+        @media (max-width: 992px) {
+            .dash-container { grid-template-columns: 1fr; }
         }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-dark);
-            background-image: radial-gradient(circle at 50% 0%, rgba(255,204,0,0.05) 0%, transparent 50%);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            
-            /* Prevent Chrome dictionary popup and text selection */
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        .dashboard-wrapper {
-            width: 100%;
-            max-width: 800px;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 30px;
-            margin-bottom: 24px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Section 1: Live Telemetry */
-        .telemetry-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; }
-        .stat-box { display: flex; flex-direction: column; gap: 6px; }
-        .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; }
-        .stat-value { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-        .status-dot { width: 10px; height: 10px; background-color: var(--success); border-radius: 50%; box-shadow: 0 0 12px var(--success); animation: pulse 2s infinite; }
-
-        /* Section 2: The Node Core */
-        .node-core { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 0; position: relative; }
-        .outer-ring { width: 240px; height: 240px; border-radius: 50%; border: 2px dashed rgba(255, 255, 255, 0.1); position: absolute; animation: spin 30s linear infinite; }
-        .inner-ring { width: 200px; height: 200px; border-radius: 50%; border: 1px solid rgba(255, 204, 0, 0.2); position: absolute; animation: spin-reverse 20s linear infinite; }
-        .core-display { position: relative; z-index: 10; text-align: center; background: radial-gradient(circle, rgba(255,204,0,0.1) 0%, transparent 70%); width: 180px; height: 180px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: inset 0 0 30px rgba(255,204,0,0.05); }
-        .live-balance { font-size: 34px; font-weight: 800; color: var(--neon-gold); text-shadow: 0 0 20px var(--neon-gold-glow); font-family: 'Courier New', Courier, monospace; letter-spacing: -1px; }
-        .currency-symbol { font-size: 13px; color: var(--text-muted); margin-top: 8px; letter-spacing: 3px; }
-
-        /* Golden Withdraw Button */
-        .withdraw-container { text-align: center; margin-top: -15px; margin-bottom: 30px; position: relative; z-index: 20; }
-        .btn-withdraw { background: linear-gradient(135deg, #ffcc00, #ff9900); color: #000; border: 2px solid #ffcc00; padding: 14px 40px; border-radius: 30px; font-weight: 800; font-size: 15px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 10px 25px rgba(255, 204, 0, 0.3); font-family: inherit; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-withdraw:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(255, 204, 0, 0.5); }
-
-        /* Section 3: Tasks */
-        .section-title { font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; margin-top: 10px; font-weight: 600; }
-        .task-list { display: flex; flex-direction: column; gap: 12px; }
-        .task-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: rgba(0, 0, 0, 0.3); border-radius: 14px; border: 1px solid transparent; transition: all 0.3s ease; }
-        .task-item:hover { border-color: rgba(255, 204, 0, 0.3); transform: translateY(-2px); background: rgba(255, 204, 0, 0.02); }
-        .task-info h4 { margin: 0 0 6px 0; font-size: 15px; color: #fff; font-weight: 600; }
-        .task-info p { margin: 0; font-size: 12px; color: var(--text-muted); }
-        .btn-gold { background: linear-gradient(90deg, #ffcc00, #ffaa00); color: #000; border: none; padding: 10px 24px; border-radius: 10px; font-weight: 700; font-size: 12px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(255, 204, 0, 0.2); }
-        .btn-gold:hover { box-shadow: 0 6px 20px rgba(255, 204, 0, 0.5); transform: scale(1.05); }
-
-        /* Premium Withdraw Lock Modal */
-        .premium-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center; }
-        .premium-modal-content { background: linear-gradient(180deg, #1a2333 0%, #0b0f19 100%); border: 1px solid var(--neon-gold); padding: 40px 30px; border-radius: 20px; text-align: center; width: 85%; max-width: 380px; box-shadow: 0 20px 50px rgba(255, 204, 0, 0.15); animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .modal-icon { font-size: 45px; margin-bottom: 15px; animation: gentle-shake 3s infinite ease-in-out; }
-        .premium-modal-content h3 { color: var(--neon-gold); margin: 0 0 10px 0; font-size: 22px; text-transform: uppercase; letter-spacing: 1px; }
-        .premium-modal-content p { color: #cbd5e1; font-size: 14px; line-height: 1.7; margin-bottom: 25px; font-weight: 500; }
-        .btn-outline-gold { background: transparent; border: 2px solid var(--neon-gold); color: var(--neon-gold); padding: 12px 30px; border-radius: 30px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.3s; letter-spacing: 1px; }
-        .btn-outline-gold:hover { background: var(--neon-gold); color: #000; }
-
-        /* Custom Toast Notification */
-        .custom-toast { visibility: hidden; width: 90%; max-width: 400px; box-sizing: border-box; background-color: rgba(16, 185, 129, 0.9); color: #fff; text-align: center; border-radius: 12px; padding: 16px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; font-size: 14px; font-weight: 600; transform: translateX(-50%); box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); opacity: 0; transition: opacity 0.5s, bottom 0.5s; }
-        .custom-toast.show { visibility: visible; opacity: 1; bottom: 50px; }
-
-        /* Animations */
-        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.7; } 50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 15px var(--success); } 100% { transform: scale(0.95); opacity: 0.7; } }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes gentle-shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
-
-        /* Mobile Responsive */
-        @media (max-width: 600px) {
-            .task-item { flex-direction: column; align-items: flex-start; gap: 15px; }
-            .btn-gold { width: 100%; }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; gap: 10px; }
+            .balance-amount { font-size: 2.8rem; }
+            .ref-input-group { flex-direction: column; }
+            .ref-btn { padding: 14px; justify-content: center; }
+            .ref-stats { flex-direction: column; gap: 10px; }
+            .ref-stat-item { margin: 0; }
+            .action-item { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .action-btn { width: 100%; text-align: center; }
         }
     </style>
-    
-    <!-- Firebase Auth Protection (Gatekeeper) Direct Cache-Proof -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
-            authDomain: "toolverstoken.firebaseapp.com",
-            projectId: "toolverstoken",
-            storageBucket: "toolverstoken.firebasestorage.app",
-            messagingSenderId: "762644487097",
-            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
-            measurementId: "G-6VX2WPNECZ"
-        };
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-
-        window.addEventListener('load', function() {
-            firebase.auth().onAuthStateChanged(function(user) {
-                if (!user) {
-                    window.location.href = 'login.html';
-                }
-            });
-        });
-    </script>
 </head>
-<body oncontextmenu="return false;">
+<body>
+    
+    <!-- Top Navigation -->
+    <header class="dash-header">
+        <a href="index.html" class="brand">🚀 ToolVerse <span class="badge-pro">Network</span></a>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Hub</a>
+    </header>
 
-    <div class="dashboard-wrapper">
-        <div class="glass-panel">
-            
-            <div class="telemetry-header">
-                <div class="stat-box">
-                    <span class="stat-label">Node Status</span>
-                    <span class="stat-value"><div class="status-dot"></div> Live & Connected</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-label">Active Hashrate</span>
-                    <span class="stat-value" style="color: var(--neon-gold);">1.5x Compute Power</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-label">VIP Tier</span>
-                    <span class="stat-value">Beta Pro</span>
-                </div>
+    <!-- Main Dashboard -->
+    <div class="dash-container">
+        
+        <!-- Left Side: Live Mining & Balance -->
+        <div class="glass-card">
+            <div class="balance-sec">
+                <div class="balance-label">Total Mined Yield</div>
+                <div class="balance-amount"><span id="mainBalance">605.359</span> <span>$TOOL</span></div>
+                <div class="balance-usd">≈ $ <span id="usdValue">12.10</span> USD</div>
             </div>
 
-            <div class="node-core">
-                <div class="outer-ring"></div>
-                <div class="inner-ring"></div>
-                <div class="core-display">
-                    <div class="live-balance" id="toolBalance">0.483120</div>
-                    <div class="currency-symbol">$TOOL YIELD</div>
+            <!-- VVIP Animated Node -->
+            <div class="mining-visualizer">
+                <div class="ring ring-1"></div>
+                <div class="ring ring-2"></div>
+                <div class="ring ring-3"></div>
+                <div class="core-node"><i class="fa-solid fa-bolt"></i></div>
+            </div>
+
+            <!-- Real-time Stats -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <h4>Node Status</h4>
+                    <p><span class="status-dot"></span>Live</p>
+                </div>
+                <div class="stat-box">
+                    <h4>Hashrate</h4>
+                    <p style="color: #fbbf24;">1.5x Boost</p>
+                </div>
+                <div class="stat-box">
+                    <h4>VIP Tier</h4>
+                    <p style="color: #38bdf8;">Beta Pro</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Withdraw Button -->
-            <div class="withdraw-container">
-                <button class="btn-withdraw" id="btn-show-withdraw">
-                    <span style="font-size: 18px;">🏦</span> Withdraw Yield
-                </button>
-            </div>
-
-            <div class="section-title">Network Contributions</div>
-            <div class="task-list">
+        <!-- Right Side: Referral Hub & Actions -->
+        <div>
+            <!-- VVIP Referral Hub -->
+            <div class="referral-box glass-card">
+                <h3><i class="fa-solid fa-users-rays"></i> Referral Network</h3>
+                <p class="ref-desc">Invite friends to join the ToolVerse revolution. Earn 10% of their lifetime mining yield plus a 500 $TOOL instant bonus for every active user!</p>
                 
-                <div class="task-item">
-                    <div class="task-info">
-                        <h4>Data Yield Mission</h4>
-                        <p>Complete a partner survey to boost your node hashrate.</p>
-                    </div>
-                    <button class="btn-gold" id="btn-survey">Initialize</button>
+                <div class="ref-input-group">
+                    <input type="text" id="refLink" class="ref-input" value="https://toolverse-usa.vercel.app/?ref=usscanada000" readonly>
+                    <button class="ref-btn" onclick="copyReferral()"><i class="fa-solid fa-copy"></i> Copy</button>
                 </div>
 
-                <div class="task-item">
-                    <div class="task-info">
-                        <h4>Expand Node Network</h4>
-                        <p>Invite 1 active user and receive +500 $TOOL allocation.</p>
+                <div class="ref-stats">
+                    <div class="ref-stat-item">
+                        <span>Active Invites</span>
+                        <strong><i class="fa-solid fa-user-check" style="color: #4ade80;"></i> 3 Users</strong>
                     </div>
-                    <button class="btn-gold" id="btn-referral">Copy Link</button>
-                </div>
-
-                <div class="task-item">
-                    <div class="task-info">
-                        <h4>Daily AI Invocations</h4>
-                        <p>Generate 3 prompts today to claim your bonus yield.</p>
+                    <div class="ref-stat-item">
+                        <span>Earned Bonus</span>
+                        <strong style="color: #fbbf24;"><i class="fa-solid fa-coins"></i> 1,500 $TOOL</strong>
                     </div>
-                    <button class="btn-gold" id="btn-tools">Execute</button>
                 </div>
+            </div>
 
+            <!-- Network Tasks -->
+            <div class="glass-card" style="padding: 25px;">
+                <h3 class="section-title">Network Contributions</h3>
+                
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-info">
+                            <h4>Data Yield Mission</h4>
+                            <p>Complete AI partner surveys to boost your node hashrate.</p>
+                        </div>
+                        <button class="action-btn">Initialize</button>
+                    </div>
+                    
+                    <div class="action-item">
+                        <div class="action-info">
+                            <h4>Daily AI Invocations</h4>
+                            <p>Generate 5 prompts today to claim your daily activity bonus.</p>
+                        </div>
+                        <button class="action-btn">Execute</button>
+                    </div>
+
+                    <!-- Highlighted Withdraw Action -->
+                    <div class="action-item" style="border-color: rgba(251, 191, 36, 0.4); background: rgba(251, 191, 36, 0.05);">
+                        <div class="action-info">
+                            <h4 style="color: #fbbf24;">Mainnet Withdrawal</h4>
+                            <p>Transfer accumulated yield to your connected Web3 wallet.</p>
+                        </div>
+                        <button class="action-btn primary" onclick="alert('Withdrawals will be enabled shortly after the official Mainnet launch!')">Withdraw Yield</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Premium Withdraw Lock Message -->
-    <div id="withdrawModal" class="premium-modal">
-        <div class="premium-modal-content">
-            <div class="modal-icon">🔒</div>
-            <h3>Beta Lock Active</h3>
-            <p>Withdrawals are currently locked in Beta. <b>$TOOL Token Generation Event (TGE)</b> and Wallet Withdrawals will be available in Mainnet Phase 2!</p>
-            <button class="btn-outline-gold" id="close-withdraw">Keep Mining</button>
-        </div>
-    </div>
-
-    <!-- Custom Toast Notification Box -->
-    <div id="toastMessage" class="custom-toast">Message goes here</div>
-
+    <!-- ==========================================
+         VVIP JAVASCRIPT LOGIC
+         ========================================== -->
     <script>
-        // 🔒 Professional Cloud-Style Mining Balance (Offline/Background Supported & Anti-Bot)
-        (function() {
-            let savedBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.483120;
-            let lastSavedTime = parseInt(localStorage.getItem('toolVerseLastActive')) || Date.now();
-            const balanceElement = document.getElementById('toolBalance');
-            
-            // 1. Calculate Offline/Background Earnings (Jab user website se chala gaya tha)
-            const currentTime = Date.now();
-            const timeDiff = currentTime - lastSavedTime;
-            
-            if (timeDiff > 0) {
-                // Calculate how many 150ms cycles were missed
-                const missedCycles = Math.floor(timeDiff / 150);
-                if (missedCycles > 0) {
-                    const missedYield = missedCycles * 0.00008333; // Exactly 48 coins per day
-                    savedBalance += missedYield;
-                }
-            }
-            
-            balanceElement.innerText = savedBalance.toFixed(6);
-            let lastUpdate = Date.now();
+        // System Config
+        const TOOL_TO_USD_RATE = 0.02; 
+        const BOOSTED_INCREMENT = 0.009;
+        
+        // Element References
+        const balanceEl = document.getElementById('mainBalance');
+        const usdEl = document.getElementById('usdValue');
+        
+        // Fetch or Initialize Balance
+        let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 605.359;
 
-            // 2. Real-time Mining Loop
-            setInterval(() => {
-                const now = Date.now();
-                const currentDiff = now - lastUpdate;
-
-                // Anti-Bot: Sirf tabhi update karo jab asal waqt (140ms se zyada) guzra ho
-                if (currentDiff >= 140) { 
-                    // Agar tab background me chala jaye to browser timer slow kar deta hy, 
-                    // ye line automatically slow time ko cover kar legi
-                    const cycles = Math.floor(currentDiff / 150) || 1;
-                    const yieldAmount = cycles * 0.00008333; // Exactly 2 coins per hour / 48 per day
-                    
-                    savedBalance += yieldAmount;
-                    balanceElement.innerText = savedBalance.toFixed(6);
-                    
-                    localStorage.setItem('toolVerseBalance', savedBalance.toString());
-                    localStorage.setItem('toolVerseLastActive', now.toString());
-                    
-                    lastUpdate = now;
-                }
-            }, 150);
-        })();
-
-        // Withdraw Modal Toggle Logic
-        const wModal = document.getElementById('withdrawModal');
-        document.getElementById('btn-show-withdraw').addEventListener('click', function() {
-            wModal.style.display = 'flex';
-        });
-        document.getElementById('close-withdraw').addEventListener('click', function() {
-            wModal.style.display = 'none';
-        });
-        window.addEventListener('click', function(e) {
-            if (e.target === wModal) wModal.style.display = 'none';
-        });
-
-        // Toast Notification Function
-        function showToast(message, color = "rgba(16, 185, 129, 0.9)") {
-            const toast = document.getElementById("toastMessage");
-            toast.innerText = message;
-            toast.style.backgroundColor = color;
-            toast.className = "custom-toast show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        // Core Update Function
+        function updateDashboardValues() {
+            balanceEl.innerText = toolBalance.toFixed(3);
+            usdEl.innerText = (toolBalance * TOOL_TO_USD_RATE).toFixed(2);
+            localStorage.setItem('toolVerseBalance', toolBalance.toString());
         }
 
-        // Task Buttons
-        document.getElementById("btn-survey").addEventListener("click", function() {
-            showToast("⏳ Connecting to Secure Offerwall Network...", "rgba(245, 158, 11, 0.9)");
+        // Real-time Mining Simulator (Runs every 5 seconds)
+        setInterval(() => {
+            toolBalance += BOOSTED_INCREMENT;
+            updateDashboardValues();
+        }, 5000);
+
+        // Professional Copy Function for Referral Link
+        function copyReferral() {
+            const inputElement = document.getElementById("refLink");
+            inputElement.select();
+            inputElement.setSelectionRange(0, 99999); // Mobile compatibility
+            navigator.clipboard.writeText(inputElement.value);
+            
+            const copyBtn = document.querySelector('.ref-btn');
+            const originalHTML = copyBtn.innerHTML;
+            
+            copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+            copyBtn.style.background = '#4ade80';
+            copyBtn.style.color = '#0b0f19';
+            
             setTimeout(() => {
-                showToast("Offerwall API ready for integration!", "rgba(16, 185, 129, 0.9)");
-            }, 2000);
-        });
+                copyBtn.innerHTML = originalHTML;
+                copyBtn.style.background = '#38bdf8';
+                copyBtn.style.color = '#0b0f19';
+            }, 2500);
+        }
 
-        document.getElementById("btn-referral").addEventListener("click", function() {
-            const dummyReferralLink = "https://project-hf1rg.vercel.app/?ref=VIP" + Math.floor(Math.random() * 9000 + 1000);
-            navigator.clipboard.writeText(dummyReferralLink).then(() => {
-                showToast("✅ Referral Link Copied: " + dummyReferralLink);
-            }).catch(err => {
-                showToast("❌ Failed to copy link.", "rgba(239, 68, 68, 0.9)");
-            });
-        });
-
-        document.getElementById("btn-tools").addEventListener("click", function() {
-            showToast("🚀 Redirecting to AI Tools Array...");
-            setTimeout(() => {
-                window.location.href = 'index.html#tools';
-            }, 800);
-        });
-
-        // Anti-Bot: Block Developer Tools Shortcuts
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'F12' || 
-               (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) ||
-               (e.ctrlKey && (e.key === 'U' || e.key === 'u'))) {
-                e.preventDefault();
-                showToast("⚠️ Security Alert: Developer tools disabled.", "rgba(239, 68, 68, 0.9)");
-            }
-        });
+        // Initialize on load
+        updateDashboardValues();
     </script>
-
 </body>
 </html>
