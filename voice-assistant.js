@@ -22,8 +22,8 @@ if (recognition) {
     recognition.onstart = () => {
         isProcessing = true;
         statusText.innerHTML = "Listening...";
-        statusText.style.color = "#4ade80"; // Green
-        waveIcon.className = "fa-solid fa-waveform fa-beat-fade"; // Wave icon during listening
+        statusText.style.color = "#4ade80"; 
+        waveIcon.className = "fa-solid fa-waveform fa-beat-fade"; 
         waveIcon.style.color = "#4ade80";
     };
 
@@ -38,7 +38,7 @@ if (recognition) {
         transcriptText.innerHTML = `<span style="color: white; font-weight: bold;">You:</span> ${userCommand}`;
         
         statusText.innerHTML = "Thinking...";
-        statusText.style.color = "#f59e0b"; // Yellow
+        statusText.style.color = "#f59e0b"; 
         waveIcon.className = "fa-solid fa-waveform fa-bounce";
         waveIcon.style.color = "#f59e0b";
 
@@ -46,7 +46,7 @@ if (recognition) {
         const aiResponse = await sendToAI(userCommand);
         
         statusText.innerHTML = "Speaking...";
-        statusText.style.color = "#38bdf8"; // Blue
+        statusText.style.color = "#38bdf8"; 
         waveIcon.className = "fa-solid fa-waveform fa-flip";
         waveIcon.style.color = "#38bdf8";
 
@@ -97,11 +97,9 @@ function closeVoiceModal() {
 function showTapToSpeakUI() {
     if (!isModalOpen) return;
     
-    // Wave کو ہٹا کر چمکتا ہوا مائیکروفون دکھائیں
     waveIcon.className = "fa-solid fa-microphone fa-fade";
     waveIcon.style.color = "#38bdf8";
     
-    // سادہ ٹیکسٹ کی جگہ ایک واضح کلک ایبل بٹن
     statusText.innerHTML = `<span style="display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid #38bdf8; padding: 8px 25px; border-radius: 30px; font-size: 1.2rem; cursor: pointer; color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);">👇 Tap to Speak</span>`;
 }
 
@@ -136,8 +134,6 @@ function speakText(text) {
     msg.onend = () => {
         isProcessing = false;
         if (!isModalOpen) return; 
-        
-        // ⚡ VVIP FIX: AI کے چپ ہوتے ہی واضح "Tap to Speak" بٹن دکھائیں
         showTapToSpeakUI();
     };
 
