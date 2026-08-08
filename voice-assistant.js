@@ -117,7 +117,7 @@ function forceStartRecognition() {
     }
 }
 
-// AI کے ٹیکسٹ کو آواز میں بدلنے کا فنکشن
+// AI کے ٹیکسٹ کو آواز میں بدلنے کا فنکشن (VVIP Voice Selection کے ساتھ)
 function speakText(text) {
     if (!window.speechSynthesis) {
         statusText.innerHTML = "Audio not supported.";
@@ -129,7 +129,18 @@ function speakText(text) {
     const cleanText = text.replace(/[*#_`]/g, ''); 
     const msg = new SpeechSynthesisUtterance(cleanText);
     
-    msg.lang = 'en-US'; 
+    // VVIP Voice Selection: براؤزر کی بہترین آواز ڈھونڈنا
+    const voices = window.speechSynthesis.getVoices();
+    const regionalVoice = voices.find(v => v.lang.includes('ur') || v.lang.includes('hi'));
+
+    if (regionalVoice) {
+        msg.voice = regionalVoice;
+        msg.lang = regionalVoice.lang;
+    } else {
+        msg.lang = 'en-US';
+    }
+
+    msg.rate = 1.0; 
 
     msg.onend = () => {
         isProcessing = false;
@@ -145,14 +156,14 @@ function speakText(text) {
     window.speechSynthesis.speak(msg);
 }
 
-// Groq Model سے کنکشن
+// Groq Model سے کنکشن (VVIP Phonetics Instruction کے ساتھ)
 async function sendToAI(command) {
     try {
         const response = await fetch('/api/groq-handler', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                systemPrompt: "You are 'ToolVerse AI', a highly intelligent voice assistant. CRITICAL LANGUAGE RULE: You MUST exactly match the user's language. IF the user's input is strictly English (e.g., 'how to learn english', 'what is your name'), you MUST reply in pure English. IF the user's input contains Urdu or Hindi (e.g., 'kaise ho', 'kya kar rahe ho'), you MUST reply in Roman Urdu/Hindi using English alphabets. Keep your answer to ONE short sentence. DO NOT use markdown.",
+                systemPrompt: "You are 'ToolVerse AI', a friendly and highly intelligent voice assistant. CRITICAL LANGUAGE RULE: You MUST exactly match the user's language. IF the user's input is strictly English, reply in pure English. IF the user's input contains Urdu, Hindi, Punjabi, or Sindhi, YOU MUST reply in Roman Urdu/Hindi using English alphabets. IMPORTANT PHONETICS: Write the Urdu/Hindi words as they sound phonetically in simple English so that a basic Text-to-Speech engine can pronounce them correctly (e.g., use 'bhai' not 'bhayi', 'kya' not 'kiya'). Keep your answer to ONE short sentence. DO NOT use markdown.",
                 userPrompt: command,
                 model: 'llama-3.3-70b-versatile'
             })
