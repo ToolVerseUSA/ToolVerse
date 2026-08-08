@@ -35,11 +35,15 @@
         .user-msg { background-color: var(--message-user); color: #0b0c10; align-self: flex-end; border-bottom-right-radius: 2px; }
         .ai-msg { background-color: var(--message-ai); color: var(--text-primary); align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #2a2e3d; border-radius: 2px 12px 12px 12px; }
 
-        .input-area { padding: 12px 15px; background-color: #12141a; border-top: 1px solid #2a2e3d; display: flex; gap: 10px; align-items: center; width: 100%; }
-        .chat-input { flex-grow: 1; background-color: var(--chat-bg); border: 1px solid #2a2e3d; color: white; padding: 12px 15px; border-radius: 25px; font-size: 16px; outline: none; resize: none; height: 50px; overflow: hidden; }
+        /* VVIP Mobile Safe Area & Input Layout */
+        .input-area { padding: 12px 15px; background-color: #12141a; border-top: 1px solid #2a2e3d; display: flex; flex-direction: column; gap: 8px; width: 100%; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+        .input-wrapper { display: flex; gap: 10px; align-items: center; width: 100%; }
+        .chat-input { flex-grow: 1; background-color: var(--chat-bg); border: 1px solid #2a2e3d; color: white; padding: 12px 15px; border-radius: 25px; font-size: 16px; outline: none; resize: none; height: 50px; overflow: hidden; transition: 0.3s; }
         .chat-input:focus { border-color: var(--accent-color); }
+        .chat-input:disabled { opacity: 0.6; cursor: not-allowed; }
         .send-btn { background-color: var(--accent-color); color: #0b0c10; border: none; border-radius: 50%; min-width: 50px; height: 50px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s;}
-        .send-btn:hover { transform: scale(1.05); }
+        .send-btn:hover:not(:disabled) { transform: scale(1.05); }
+        .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .typing-indicator { display: flex; gap: 4px; padding: 15px 18px; align-items: center;}
         .typing-dot { width: 6px; height: 6px; background: var(--text-primary); border-radius: 50%; animation: typing 1.4s infinite ease-in-out;}
@@ -75,13 +79,19 @@
     </div>
 
     <footer class="input-area">
-        <input type="text" class="chat-input" id="userInput" placeholder="Message Super AI...">
-        <button class="send-btn" id="sendBtn">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
-        </button>
+        <div class="input-wrapper">
+            <input type="text" class="chat-input" id="userInput" placeholder="Message Super AI...">
+            <button class="send-btn" id="sendBtn">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+        </div>
+        <!-- VVIP AdSense Disclaimer -->
+        <div style="text-align: center; font-size: 0.7rem; color: #5c6b7d; margin-top: 2px;">
+            Disclaimer: AI can make mistakes. Please verify important information.
+        </div>
     </footer>
 
     <script>
@@ -114,7 +124,11 @@
 
         window.triggerSendMessage = async function(hiddenContext = null) {
             const message = userInput.value.trim();
-            if (!message) return;
+            if (!message || sendBtn.disabled) return; // VVIP Fix: Prevent spam clicking
+
+            // VVIP Fix: Disable inputs during processing
+            userInput.disabled = true;
+            sendBtn.disabled = true;
 
             const userDiv = document.createElement('div');
             userDiv.className = 'message user-msg';
@@ -167,7 +181,13 @@
                     }
                     chatBox.appendChild(aiDiv);
                 }
+                
                 chatBox.scrollTop = chatBox.scrollHeight;
+                
+                // VVIP Fix: Re-enable inputs after response
+                userInput.disabled = false;
+                sendBtn.disabled = false;
+                userInput.focus();
                 
                 if (typeof window.deductCredits === 'function') window.deductCredits();
 
@@ -176,7 +196,7 @@
 
         sendBtn.addEventListener('click', () => window.triggerSendMessage(null));
         userInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') window.triggerSendMessage(null);
+            if (e.key === 'Enter' && !sendBtn.disabled) window.triggerSendMessage(null);
         });
     </script>
 
