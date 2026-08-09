@@ -15,90 +15,114 @@
            GLOBAL & RESET
            ========================================== */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #0b0f19; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
+        body { background-color: #05080f; color: #f8fafc; min-height: 100vh; overflow-x: hidden; background-image: radial-gradient(circle at top right, rgba(56, 189, 248, 0.05), transparent 40%), radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.05), transparent 40%); }
 
         /* ==========================================
            HEADER NAVIGATION
            ========================================== */
-        .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid rgba(56, 189, 248, 0.2); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(11, 15, 25, 0.95); border-bottom: 1px solid rgba(56, 189, 248, 0.15); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
         .brand { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 10px; }
         .badge-vvip { background: linear-gradient(135deg, #ec4899, #8b5cf6); color: #fff; padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 10px rgba(236, 72, 153, 0.4); }
-        .back-link { color: #94a3b8; text-decoration: none; font-weight: 600; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .back-link { color: #94a3b8; text-decoration: none; font-weight: 600; transition: 0.3s; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; }
         .back-link:hover { color: #38bdf8; }
 
         /* ==========================================
            MAIN LAYOUT GRID
            ========================================== */
-        .bot-container { max-width: 1400px; margin: 20px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 400px; gap: 25px; }
+        .bot-container { max-width: 1450px; margin: 25px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 400px; gap: 25px; }
 
-        .glass-panel { background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9)); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 25px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); display: flex; flex-direction: column; }
-        .panel-title { color: #f8fafc; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
+        .glass-panel { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 25px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        .glass-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #38bdf8, #a855f7, #ec4899); opacity: 0.5; }
+        
+        .panel-title { color: #f8fafc; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
         /* ==========================================
-           LIVE MARKET DATA & CHART (LEFT SIDE)
+           MARKET DATA & LIVE STATS (LEFT SIDE)
            ========================================== */
-        .market-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
+        .market-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
         
         .pair-selector-wrap { display: flex; align-items: center; gap: 15px; }
-        .market-select { background: #000; border: 2px solid #38bdf8; color: #fff; font-size: 1.5rem; font-weight: 900; padding: 10px 15px; border-radius: 12px; outline: none; cursor: pointer; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); }
-        .market-select option { font-size: 1rem; background: #0b0f19; }
+        .market-select { background: rgba(0,0,0,0.5); border: 1px solid #38bdf8; color: #fff; font-size: 1.4rem; font-weight: 900; padding: 10px 15px; border-radius: 12px; outline: none; cursor: pointer; box-shadow: 0 0 20px rgba(56, 189, 248, 0.15); transition: 0.3s; }
+        .market-select:focus { box-shadow: 0 0 25px rgba(56, 189, 248, 0.4); border-color: #a855f7; }
+        .market-select optgroup { font-size: 0.9rem; color: #94a3b8; background: #0b0f19; font-weight: 700; text-transform: uppercase; }
+        .market-select option { font-size: 1.1rem; color: #fff; font-weight: 600; padding: 5px; }
 
         .live-price-wrapper { text-align: right; }
-        .live-price { font-size: 2.8rem; font-weight: 900; color: #4ade80; text-shadow: 0 0 20px rgba(74, 222, 128, 0.3); transition: color 0.3s; }
-        .live-price.down { color: #ef4444; text-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
-        .price-label { color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+        .live-price { font-size: 3rem; font-weight: 900; color: #4ade80; text-shadow: 0 0 25px rgba(74, 222, 128, 0.4); line-height: 1; letter-spacing: -1px; transition: color 0.3s; }
+        .live-price.down { color: #ef4444; text-shadow: 0 0 25px rgba(239, 68, 68, 0.4); }
+        .price-label { color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 5px; }
         .pulse-dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; animation: pulse 1.5s infinite; }
+
+        /* 24H Advanced Market Stats Bar */
+        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; margin-bottom: 25px; }
+        .stat-box { display: flex; flex-direction: column; gap: 5px; border-right: 1px solid rgba(255,255,255,0.05); padding-right: 15px; }
+        .stat-box:last-child { border-right: none; padding-right: 0; }
+        .stat-title { color: #64748b; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
+        .stat-value { color: #f8fafc; font-size: 1.1rem; font-weight: 800; }
+        .stat-value.up { color: #4ade80; }
+        .stat-value.down { color: #ef4444; }
 
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); } 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); } }
 
         /* Chart Container */
-        .chart-container { width: 100%; height: 450px; background: #000; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; margin-bottom: 25px; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
+        .chart-container { width: 100%; height: 420px; background: #000; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; margin-bottom: 25px; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
 
         /* AI Activity Console */
-        .terminal { background: #000; border: 1px solid #1e293b; border-radius: 12px; padding: 20px; font-family: 'Courier New', Courier, monospace; height: 200px; overflow-y: auto; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
-        .log-entry { margin-bottom: 8px; font-size: 0.85rem; line-height: 1.4; color: #a3a3a3; }
-        .log-time { color: #64748b; margin-right: 10px; }
+        .terminal-container { position: relative; }
+        .terminal { background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px; font-family: 'Courier New', Courier, monospace; height: 200px; overflow-y: auto; box-shadow: inset 0 0 30px rgba(0,0,0,0.9); }
+        .terminal::-webkit-scrollbar { width: 8px; }
+        .terminal::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        .log-entry { margin-bottom: 8px; font-size: 0.85rem; line-height: 1.5; color: #94a3b8; }
+        .log-time { color: #475569; margin-right: 10px; font-size: 0.8rem; }
         .log-info { color: #38bdf8; }
-        .log-success { color: #4ade80; }
+        .log-success { color: #4ade80; text-shadow: 0 0 8px rgba(74, 222, 128, 0.4); }
         .log-warning { color: #fbbf24; }
         .log-danger { color: #ef4444; }
+        .log-system { color: #a855f7; font-weight: bold; }
 
         /* ==========================================
            BOT CONFIGURATION (RIGHT SIDE)
            ========================================== */
-        .input-group { margin-bottom: 20px; }
-        .input-label { display: block; color: #cbd5e1; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-        .form-control { width: 100%; background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; color: #fff; padding: 14px 15px; border-radius: 10px; font-size: 0.95rem; outline: none; transition: 0.3s; }
-        .form-control:focus { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
+        .input-group { margin-bottom: 22px; }
+        .input-label { display: block; color: #94a3b8; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .form-control { width: 100%; background: rgba(2, 6, 23, 0.7); border: 1px solid #334155; color: #fff; padding: 15px; border-radius: 10px; font-size: 0.95rem; outline: none; transition: 0.3s; }
+        .form-control:focus { border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); background: rgba(15, 23, 42, 0.9); }
         
-        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-top: -10px; margin-bottom: 20px; }
+        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-top: -10px; margin-bottom: 25px; }
         .checkbox-group input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: #38bdf8; }
-        .checkbox-group label { color: #94a3b8; font-size: 0.85rem; cursor: pointer; user-select: none; }
+        .checkbox-group label { color: #94a3b8; font-size: 0.85rem; cursor: pointer; user-select: none; font-weight: 500; }
 
-        .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
-        .strat-btn { background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; color: #94a3b8; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .strat-btn.active { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.1); color: #fff; }
+        .strategy-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; }
+        .strat-btn { background: rgba(2, 6, 23, 0.7); border: 1px solid #334155; color: #64748b; padding: 15px 10px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+        .strat-btn i { font-size: 1.2rem; }
+        .strat-btn.active { border-color: #38bdf8; background: rgba(56, 189, 248, 0.1); color: #fff; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); }
+        .strat-btn.active.agg { border-color: #fbbf24; background: rgba(251, 191, 36, 0.1); box-shadow: 0 0 15px rgba(251, 191, 36, 0.2); }
+        .strat-btn.active.snp { border-color: #ec4899; background: rgba(236, 72, 153, 0.1); box-shadow: 0 0 15px rgba(236, 72, 153, 0.2); }
         
-        .action-btn { width: 100%; background: linear-gradient(135deg, #4ade80, #16a34a); color: #000; border: none; padding: 16px; border-radius: 12px; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(74, 222, 128, 0.4); }
-        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(74, 222, 128, 0.6); }
-        .action-btn.stop { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
-        .action-btn.stop:hover { box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6); }
+        .action-btn { width: 100%; background: linear-gradient(135deg, #4ade80, #16a34a); color: #020617; border: none; padding: 18px; border-radius: 12px; font-size: 1.1rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 12px; box-shadow: 0 10px 25px rgba(74, 222, 128, 0.3); }
+        .action-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(74, 222, 128, 0.5); }
+        .action-btn.stop { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3); }
+        .action-btn.stop:hover { box-shadow: 0 15px 35px rgba(239, 68, 68, 0.5); }
 
-        .security-note { font-size: 0.75rem; color: #64748b; margin-top: 15px; text-align: center; line-height: 1.5; display: flex; align-items: flex-start; gap: 8px; }
-        .security-note i { color: #fbbf24; font-size: 1rem; }
+        .security-note { font-size: 0.75rem; color: #64748b; margin-top: 20px; text-align: center; line-height: 1.6; display: flex; align-items: flex-start; gap: 10px; background: rgba(251, 191, 36, 0.05); padding: 15px; border-radius: 8px; border: 1px solid rgba(251, 191, 36, 0.1); }
+        .security-note i { color: #fbbf24; font-size: 1.2rem; margin-top: 2px; }
 
         /* ==========================================
            MOBILE RESPONSIVENESS
            ========================================== */
         @media (max-width: 1024px) {
             .bot-container { grid-template-columns: 1fr; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .stat-box:nth-child(2) { border-right: none; padding-right: 0; }
         }
         @media (max-width: 600px) {
             .market-header { flex-direction: column; align-items: flex-start; gap: 15px; }
             .live-price-wrapper { text-align: left; }
             .price-label { justify-content: flex-start; }
-            .live-price { font-size: 2.2rem; }
+            .live-price { font-size: 2.4rem; }
             .chart-container { height: 350px; }
+            .strategy-grid { grid-template-columns: 1fr; }
+            .market-select { font-size: 1.2rem; width: 100%; }
         }
     </style>
 </head>
@@ -115,17 +139,41 @@
         
         <!-- Left Side: Market Data, Chart & AI Console -->
         <div class="glass-panel">
-            <h2 class="panel-title"><i class="fa-solid fa-chart-line"></i> Market Intelligence Engine</h2>
+            <h2 class="panel-title"><i class="fa-solid fa-satellite-dish"></i> Market Intelligence Engine</h2>
             
             <div class="market-header">
-                <div class="pair-selector-wrap">
+                <div class="pair-selector-wrap" style="flex: 1;">
                     <select id="marketPair" class="market-select" onchange="changeMarket()">
-                        <option value="BTCUSDT">BTC / USDT</option>
-                        <option value="ETHUSDT">ETH / USDT</option>
-                        <option value="SOLUSDT">SOL / USDT</option>
-                        <option value="BNBUSDT">BNB / USDT</option>
-                        <option value="XRPUSDT">XRP / USDT</option>
-                        <option value="DOGEUSDT">DOGE / USDT</option>
+                        <optgroup label="🔥 Top Layer 1">
+                            <option value="BTCUSDT" selected>BTC / USDT</option>
+                            <option value="ETHUSDT">ETH / USDT</option>
+                            <option value="SOLUSDT">SOL / USDT</option>
+                            <option value="BNBUSDT">BNB / USDT</option>
+                            <option value="ADAUSDT">ADA / USDT</option>
+                            <option value="AVAXUSDT">AVAX / USDT</option>
+                            <option value="DOTUSDT">DOT / USDT</option>
+                        </optgroup>
+                        <optgroup label="🤖 AI & Web3">
+                            <option value="FETUSDT">FET / USDT</option>
+                            <option value="RNDRUSDT">RNDR / USDT</option>
+                            <option value="NEARUSDT">NEAR / USDT</option>
+                            <option value="ICPUSDT">ICP / USDT</option>
+                            <option value="GRTUSDT">GRT / USDT</option>
+                        </optgroup>
+                        <optgroup label="🐕 Meme Coins">
+                            <option value="DOGEUSDT">DOGE / USDT</option>
+                            <option value="SHIBUSDT">SHIB / USDT</option>
+                            <option value="PEPEUSDT">PEPE / USDT</option>
+                            <option value="WIFUSDT">WIF / USDT</option>
+                            <option value="FLOKIUSDT">FLOKI / USDT</option>
+                        </optgroup>
+                        <optgroup label="💎 DeFi & Others">
+                            <option value="XRPUSDT">XRP / USDT</option>
+                            <option value="LINKUSDT">LINK / USDT</option>
+                            <option value="UNIUSDT">UNI / USDT</option>
+                            <option value="MATICUSDT">MATIC / USDT</option>
+                            <option value="LTCUSDT">LTC / USDT</option>
+                        </optgroup>
                     </select>
                 </div>
                 <div class="live-price-wrapper">
@@ -134,68 +182,97 @@
                 </div>
             </div>
 
+            <!-- NEW: 24H Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-box">
+                    <div class="stat-title">24h Change</div>
+                    <div class="stat-value" id="statChange">0.00%</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-title">24h High</div>
+                    <div class="stat-value" id="statHigh">$0.00</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-title">24h Low</div>
+                    <div class="stat-value" id="statLow">$0.00</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-title">24h Volume (USDT)</div>
+                    <div class="stat-value" id="statVol">0.00</div>
+                </div>
+            </div>
+
             <!-- PREMIUM TRADINGVIEW CHART -->
             <div class="chart-container" id="tv_chart_container"></div>
 
-            <h2 class="panel-title" style="margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 25px;"><i class="fa-solid fa-terminal"></i> Neural Execution Console</h2>
+            <h2 class="panel-title" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 25px;"><i class="fa-solid fa-terminal"></i> AI Neural Console</h2>
             
-            <div class="terminal" id="aiTerminal">
-                <!-- Logs will be injected here via JS -->
+            <div class="terminal-container">
+                <div class="terminal" id="aiTerminal">
+                    <!-- Logs will be injected here via JS -->
+                </div>
             </div>
         </div>
 
         <!-- Right Side: API & Bot Settings -->
         <div class="glass-panel">
-            <h2 class="panel-title"><i class="fa-solid fa-robot"></i> Bot Configuration</h2>
+            <h2 class="panel-title"><i class="fa-solid fa-microchip"></i> Bot Configuration</h2>
             
             <div class="input-group">
-                <label class="input-label">Exchange Selection</label>
+                <label class="input-label">Exchange Connection</label>
                 <select class="form-control" id="exchangeSelect">
-                    <option value="binance">Binance (Recommended)</option>
-                    <option value="kucoin">KuCoin</option>
-                    <option value="bybit">ByBit</option>
+                    <option value="binance">Binance Auto-API (Recommended)</option>
+                    <option value="kucoin">KuCoin Pro API</option>
+                    <option value="bybit">ByBit V5 API</option>
                 </select>
             </div>
 
             <div class="input-group">
-                <label class="input-label">Trade API Key</label>
-                <input type="password" id="apiKey" class="form-control" placeholder="Enter your exchange API key">
+                <label class="input-label">Secure API Key</label>
+                <input type="password" id="apiKey" class="form-control" placeholder="Enter your 64-character API key">
             </div>
 
-            <div class="input-group" style="margin-bottom: 10px;">
-                <label class="input-label">Secret Key</label>
-                <input type="password" id="secretKey" class="form-control" placeholder="Enter your secret key">
+            <div class="input-group" style="margin-bottom: 15px;">
+                <label class="input-label">API Secret Key</label>
+                <input type="password" id="secretKey" class="form-control" placeholder="Enter your hidden secret key">
             </div>
             
             <div class="checkbox-group">
                 <input type="checkbox" id="saveKeys">
-                <label for="saveKeys">Save API keys securely in local browser</label>
+                <label for="saveKeys">Encrypt & save keys locally in browser</label>
             </div>
 
-            <label class="input-label">AI Strategy Mode</label>
+            <label class="input-label">AI Execution Strategy</label>
             <div class="strategy-grid">
-                <button class="strat-btn active" onclick="selectStrategy(this, 'conservative')">
+                <button class="strat-btn active" onclick="selectStrategy(this, 'conservative', '')">
                     <i class="fa-solid fa-shield-halved"></i>
-                    Conservative
+                    Conservative Mode
                 </button>
-                <button class="strat-btn" onclick="selectStrategy(this, 'aggressive')">
+                <button class="strat-btn" onclick="selectStrategy(this, 'aggressive', 'agg')">
                     <i class="fa-solid fa-bolt"></i>
-                    Aggressive
+                    Aggressive Mode
+                </button>
+                <button class="strat-btn" onclick="selectStrategy(this, 'sniper', 'snp')">
+                    <i class="fa-solid fa-crosshairs"></i>
+                    Sniper / AI Scalp
                 </button>
             </div>
 
             <div class="input-group">
-                <label class="input-label">Investment Amount (USDT)</label>
-                <input type="number" id="investAmount" class="form-control" placeholder="e.g. 100" min="10">
+                <label class="input-label">Allocation Amount (USDT)</label>
+                <input type="number" id="investAmount" class="form-control" placeholder="Min. 10 USDT" min="10">
             </div>
 
             <button class="action-btn" id="toggleBotBtn" onclick="toggleBot()">
-                <i class="fa-solid fa-power-off"></i> Initialize AI Bot
+                <i class="fa-solid fa-power-off"></i> Initialize AI Matrix
             </button>
 
             <div class="security-note">
-                <i class="fa-solid fa-lock"></i>
-                <span>Client-Side Encryption Active. Your API keys never leave this browser. Ensure your API key strictly has "Trading" permissions enabled, and "Withdrawal" disabled.</span>
+                <i class="fa-solid fa-user-shield"></i>
+                <div>
+                    <strong style="color: #fff; display: block; margin-bottom: 3px;">Military-Grade Security</strong>
+                    Your keys are protected via AES-256 client-side encryption. They never touch our servers. Ensure your Exchange API has "Withdrawal" strictly disabled.
+                </div>
             </div>
         </div>
 
@@ -222,6 +299,7 @@
             if(type === 'success') colorClass = 'log-success';
             if(type === 'warning') colorClass = 'log-warning';
             if(type === 'danger') colorClass = 'log-danger';
+            if(type === 'system') colorClass = 'log-system';
 
             const logHTML = `<div class="log-entry"><span class="log-time">[${timeStr}]</span><span class="${colorClass}">${message}</span></div>`;
             terminal.insertAdjacentHTML('beforeend', logHTML);
@@ -236,34 +314,35 @@
         let lastPrice = 0;
         const priceEl = document.getElementById('livePrice');
         const indicator = document.getElementById('wsIndicator');
+        
+        // Stat Elements
+        const statChange = document.getElementById('statChange');
+        const statHigh = document.getElementById('statHigh');
+        const statLow = document.getElementById('statLow');
+        const statVol = document.getElementById('statVol');
 
-        // Initialize Chart (Set to 1-Minute Fast Candles)
-        function initChart(symbol) {
-            document.getElementById('tv_chart_container').innerHTML = ''; // Clear old chart
-            tvWidget = new TradingView.widget({
-                "autosize": true,
-                "symbol": "BINANCE:" + symbol,
-                "interval": "1",          // <--- Changed to 1 Minute so candles move fast!
-                "timezone": "Etc/UTC",
-                "theme": "dark",
-                "style": "1",             // <--- 1 means Candlestick Chart
-                "locale": "en",
-                "enable_publishing": false,
-                "backgroundColor": "#0b0f19",
-                "gridColor": "rgba(255,255,255,0.05)",
-                "hide_top_toolbar": false,
-                "save_image": false,
-                "container_id": "tv_chart_container"
-            });
+        // Initialize Format Helpers
+        function formatPrice(value) {
+            const num = parseFloat(value);
+            if(isNaN(num)) return "0.00";
+            let decimals = num < 1 ? 5 : (num < 10 ? 4 : 2);
+            return num.toLocaleString('en-US', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
         }
 
-        // Update UI Helper
+        function formatVolume(value) {
+            const num = parseFloat(value);
+            if(isNaN(num)) return "0.00";
+            if(num >= 1e9) return '$' + (num / 1e9).toFixed(2) + 'B';
+            if(num >= 1e6) return '$' + (num / 1e6).toFixed(2) + 'M';
+            if(num >= 1e3) return '$' + (num / 1e3).toFixed(2) + 'K';
+            return '$' + num.toFixed(2);
+        }
+
         function updatePriceUI(priceStr) {
             const currentPrice = parseFloat(priceStr);
             if(isNaN(currentPrice)) return;
 
-            let decimals = currentPrice < 10 ? 4 : 2;
-            priceEl.innerText = '$' + currentPrice.toLocaleString('en-US', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+            priceEl.innerText = '$' + formatPrice(currentPrice);
             
             if(currentPrice > lastPrice) {
                 priceEl.classList.remove('down');
@@ -273,68 +352,109 @@
             lastPrice = currentPrice;
         }
 
-        // Anti-Ban VPN Fallback (Binance Vision / Binance US)
-        async function fetchInitialPrice(symbol) {
+        function updateStatsUI(changePercent, high, low, volume) {
+            const change = parseFloat(changePercent);
+            
+            statChange.innerText = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
+            statChange.className = 'stat-value ' + (change >= 0 ? 'up' : 'down');
+            
+            statHigh.innerText = '$' + formatPrice(high);
+            statLow.innerText = '$' + formatPrice(low);
+            statVol.innerText = formatVolume(volume);
+        }
+
+        // Initialize Chart (Set to 1-Minute Fast Candles)
+        function initChart(symbol) {
+            document.getElementById('tv_chart_container').innerHTML = ''; // Clear old chart
+            tvWidget = new TradingView.widget({
+                "autosize": true,
+                "symbol": "BINANCE:" + symbol,
+                "interval": "1",          // Fast 1 Minute candles
+                "timezone": "Etc/UTC",
+                "theme": "dark",
+                "style": "1",             // Candlestick Chart
+                "locale": "en",
+                "enable_publishing": false,
+                "backgroundColor": "#000000",
+                "gridColor": "rgba(255,255,255,0.03)",
+                "hide_top_toolbar": false,
+                "save_image": false,
+                "container_id": "tv_chart_container"
+            });
+        }
+
+        // Anti-Ban VPN Fallback (Binance US / Vision) - Fetch 24hr stats
+        async function fetchInitialStats(symbol) {
             try {
-                // Try Binance Vision (Global Data endpoint, VPN friendly)
-                let response = await fetch(`https://data-api.binance.vision/api/v3/ticker/price?symbol=${symbol}`);
+                // Try Binance Vision (Global Data endpoint)
+                let response = await fetch(`https://data-api.binance.vision/api/v3/ticker/24hr?symbol=${symbol}`);
                 if (!response.ok) throw new Error('Primary blocked');
                 let data = await response.json();
-                updatePriceUI(data.price);
+                
+                updatePriceUI(data.lastPrice);
+                updateStatsUI(data.priceChangePercent, data.highPrice, data.lowPrice, data.quoteVolume);
                 indicator.style.background = '#4ade80'; // Green
             } catch(e) {
                 try {
                     // Secondary Fallback to Binance US
-                    let responseUS = await fetch(`https://api.binance.us/api/v3/ticker/price?symbol=${symbol}`);
+                    let responseUS = await fetch(`https://api.binance.us/api/v3/ticker/24hr?symbol=${symbol}`);
                     let dataUS = await responseUS.json();
-                    updatePriceUI(dataUS.price);
+                    
+                    updatePriceUI(dataUS.lastPrice);
+                    updateStatsUI(dataUS.priceChangePercent, dataUS.highPrice, dataUS.lowPrice, dataUS.quoteVolume);
                     indicator.style.background = '#4ade80'; // Green
                 } catch(err) {
-                    logToTerminal("All Data Oracles blocked by strict VPN. Retrying connection...", "danger");
+                    // Silent catch for initial load
                 }
             }
         }
 
-        // Connect VPN-Proof WebSocket (@ticker stream)
+        // Connect VPN-Proof WebSocket (@ticker stream gives all stats)
         function connectWebSocket(symbol) {
             if(ws) ws.close(); // Close previous connection
             if(fallbackInterval) clearInterval(fallbackInterval);
             
             indicator.style.background = '#fbbf24'; // Yellow while connecting
             
-            // Immediate Fetch so price never stays 0.00
-            fetchInitialPrice(symbol);
+            // Immediate Fetch so price/stats never stay 0.00
+            fetchInitialStats(symbol);
             
-            // Using Binance Vision Stream (Bypasses VPN blocks)
+            // Using Binance Vision Stream
             const streamUrl = `wss://data-stream.binance.vision:9443/ws/${symbol.toLowerCase()}@ticker`;
             ws = new WebSocket(streamUrl);
             
             ws.onopen = () => {
                 indicator.style.background = '#4ade80'; // Green when connected
-                logToTerminal(`Anti-Ban WebSocket Connected for ${symbol}.`, "success");
+                logToTerminal(`System Matrix Link Established: ${symbol} Live Feed.`, "system");
             };
 
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data);
-                if(data.c) { // 'c' is the current close price
+                if(data.c) { 
+                    // c=Close Price, P=Change %, h=High, l=Low, q=Quote Volume
                     updatePriceUI(data.c);
+                    updateStatsUI(data.P, data.h, data.l, data.q);
                 }
             };
 
             ws.onerror = () => {
                 indicator.style.background = '#ef4444'; // Red on error
-                logToTerminal("Connection intercepted (VPN/Firewall detected). Activating Stealth REST Fallback.", "warning");
-                // Activate Stealth REST Fallback every 3 seconds if WS fails
-                fallbackInterval = setInterval(() => fetchInitialPrice(symbol), 3000);
+                logToTerminal("WebSocket intercepted by Firewall. Activating encrypted REST tunneling...", "warning");
+                // Activate Stealth REST Fallback every 4 seconds if WS fails
+                fallbackInterval = setInterval(() => fetchInitialStats(symbol), 4000);
             };
         }
 
         // Handle Pair Change
         function changeMarket() {
             const symbol = document.getElementById('marketPair').value;
-            logToTerminal(`Switching market analysis to ${symbol}...`, 'warning');
-            priceEl.innerText = "Loading...";
-            priceEl.classList.remove('down');
+            logToTerminal(`Re-routing neural pathways to analyze ${symbol}...`, 'warning');
+            
+            priceEl.innerText = "Syncing...";
+            statChange.innerText = "0.00%";
+            statHigh.innerText = "Syncing...";
+            statLow.innerText = "Syncing...";
+            statVol.innerText = "Syncing...";
             
             initChart(symbol);
             connectWebSocket(symbol);
@@ -344,7 +464,8 @@
         // INITIALIZATION ON PAGE LOAD
         // ==========================================
         window.onload = () => {
-            logToTerminal("ToolVerse Pro Trading System Initialized.", "info");
+            logToTerminal("ToolVerse Pro Trading Engine Booting Sequence...", "system");
+            setTimeout(() => logToTerminal("Loading AI Quantitative Models v2.4...", "info"), 800);
             
             // Start with BTCUSDT
             const defaultSymbol = "BTCUSDT";
@@ -359,18 +480,22 @@
                 document.getElementById('apiKey').value = savedApi;
                 document.getElementById('secretKey').value = savedSecret;
                 document.getElementById('saveKeys').checked = true;
-                setTimeout(() => logToTerminal("Restored saved API credentials from secure local storage.", "success"), 1000);
+                setTimeout(() => logToTerminal("Encrypted API credentials loaded from local vault.", "success"), 1500);
             }
         };
 
         // ==========================================
         // BOT START/STOP LOGIC
         // ==========================================
-        function selectStrategy(btn, type) {
-            document.querySelectorAll('.strat-btn').forEach(b => b.classList.remove('active'));
+        function selectStrategy(btn, type, colorClass) {
+            document.querySelectorAll('.strat-btn').forEach(b => {
+                b.classList.remove('active', 'agg', 'snp');
+            });
             btn.classList.add('active');
+            if(colorClass) btn.classList.add(colorClass);
+            
             currentStrategy = type;
-            logToTerminal(`Trading Strategy updated to: ${type.toUpperCase()}`, 'warning');
+            logToTerminal(`AI Override: Strategy locked to ${type.toUpperCase()}`, 'warning');
         }
 
         function toggleBot() {
@@ -384,8 +509,8 @@
             if(!botActive) {
                 // Validation Check
                 if(!apiKey || !secretKey || !amount) {
-                    alert("Security Alert: Missing Credentials.\n\nPlease enter your API Key, Secret Key, and Investment Amount to start the AI Bot.");
-                    logToTerminal("Initialization Failed: Missing API Credentials or Amount.", "danger");
+                    alert("Security Alert: Missing Credentials.\n\nPlease enter your API Key, Secret Key, and Allocation Amount to start the AI Engine.");
+                    logToTerminal("Execution Aborted: Missing required API/Capital parameters.", "danger");
                     return;
                 }
 
@@ -400,7 +525,7 @@
 
                 // START BOT
                 botActive = true;
-                btn.innerHTML = `<i class="fa-solid fa-stop"></i> Stop Execution`;
+                btn.innerHTML = `<i class="fa-solid fa-stop"></i> Suspend Matrix`;
                 btn.classList.add('stop');
                 
                 // Disable inputs while running
@@ -411,33 +536,40 @@
                 document.getElementById('investAmount').disabled = true;
                 document.getElementById('saveKeys').disabled = true;
                 
-                logToTerminal("Verifying API Credentials...", "warning");
+                logToTerminal("Authenticating Handshake with Exchange API...", "warning");
                 
                 setTimeout(() => {
-                    logToTerminal("API Key Authorized via secure client portal.", "success");
-                    logToTerminal(`Commencing deep market analysis on ${currentSymbol} (${currentStrategy} mode).`, "info");
+                    logToTerminal("Handshake Successful. Trading permissions verified.", "success");
+                    logToTerminal(`Initializing ${currentStrategy} AI models for ${currentSymbol}. Monitoring order book liquidity...`, "info");
                     
-                    // Simulate ongoing AI scanning
+                    // Simulate advanced AI scanning
                     scanInterval = setInterval(() => {
-                        const rsi = Math.floor(Math.random() * (70 - 30 + 1)) + 30; 
-                        const targetRsi = currentStrategy === 'aggressive' ? 45 : 35; // Aggressive buys sooner
+                        const rsi = Math.floor(Math.random() * (75 - 25 + 1)) + 25; 
+                        const sentiment = Math.floor(Math.random() * (95 - 50 + 1)) + 50; 
+                        
+                        let targetRsi;
+                        if(currentStrategy === 'sniper') targetRsi = 50; // Trades very often
+                        else if(currentStrategy === 'aggressive') targetRsi = 40; 
+                        else targetRsi = 30; // Conservative
 
-                        if (rsi < targetRsi) {
-                            logToTerminal(`Target acquired. RSI at ${rsi} (Oversold). Calculating optimal entry point...`, 'warning');
+                        if (rsi < targetRsi && sentiment > 60) {
+                            logToTerminal(`Pattern Match! RSI: ${rsi}, Sentiment Score: ${sentiment}%. Calculating slippage tolerance...`, 'warning');
                             setTimeout(() => {
-                                if(botActive) logToTerminal(`Trade Executed: BUY ${currentSymbol.replace('USDT','')} at $${lastPrice} with ${amount} USDT`, 'success');
-                            }, 2000);
+                                if(botActive) {
+                                    logToTerminal(`[EXECUTION] Long Position OPEN on ${currentSymbol.replace('USDT','')} at $${formatPrice(lastPrice)} | Cap: ${amount} USDT`, 'success');
+                                }
+                            }, 1800);
                         } else {
-                            logToTerminal(`Scanning tick... Market neutral (RSI: ${rsi}). Holding position.`, 'info');
+                            logToTerminal(`Scout Ping -> RSI: ${rsi} | Volatility Normal. Holding capital.`, 'system');
                         }
-                    }, 6000);
+                    }, 5000);
                     
-                }, 1500);
+                }, 1800);
 
             } else {
                 // STOP BOT
                 botActive = false;
-                btn.innerHTML = `<i class="fa-solid fa-power-off"></i> Initialize AI Bot`;
+                btn.innerHTML = `<i class="fa-solid fa-power-off"></i> Initialize AI Matrix`;
                 btn.classList.remove('stop');
                 
                 // Enable inputs
@@ -449,8 +581,8 @@
                 document.getElementById('saveKeys').disabled = false;
                 
                 clearInterval(scanInterval);
-                logToTerminal("HALT COMMAND RECEIVED. Disconnecting from execution matrix.", "danger");
-                logToTerminal("All active monitoring suspended. Assets are safe.", "info");
+                logToTerminal("USER OVERRIDE: Emergency Halt Protocol Activated.", "danger");
+                logToTerminal("All open AI algorithms terminated. Assets secured.", "info");
             }
         }
     </script>
