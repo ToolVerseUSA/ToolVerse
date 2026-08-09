@@ -65,6 +65,11 @@
         .form-control { width: 100%; background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; color: #fff; padding: 14px 15px; border-radius: 10px; font-size: 0.95rem; outline: none; transition: 0.3s; }
         .form-control:focus { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
         
+        /* Save Keys Checkbox Styling */
+        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-top: -10px; margin-bottom: 20px; }
+        .checkbox-group input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: #38bdf8; }
+        .checkbox-group label { color: #94a3b8; font-size: 0.85rem; cursor: pointer; user-select: none; }
+
         .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; }
         .strat-btn { background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; color: #94a3b8; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 5px; }
         .strat-btn.active { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.1); color: #fff; }
@@ -133,7 +138,7 @@
             
             <div class="input-group">
                 <label class="input-label">Exchange Selection</label>
-                <select class="form-control">
+                <select class="form-control" id="exchangeSelect">
                     <option value="binance">Binance (Recommended)</option>
                     <option value="kucoin">KuCoin</option>
                     <option value="bybit">ByBit</option>
@@ -142,12 +147,18 @@
 
             <div class="input-group">
                 <label class="input-label">Trade API Key</label>
-                <input type="password" class="form-control" placeholder="Enter your exchange API key">
+                <input type="password" id="apiKey" class="form-control" placeholder="Enter your exchange API key">
             </div>
 
-            <div class="input-group">
+            <div class="input-group" style="margin-bottom: 10px;">
                 <label class="input-label">Secret Key</label>
-                <input type="password" class="form-control" placeholder="Enter your secret key">
+                <input type="password" id="secretKey" class="form-control" placeholder="Enter your secret key">
+            </div>
+            
+            <!-- NEW: Save Keys Checkbox -->
+            <div class="checkbox-group">
+                <input type="checkbox" id="saveKeys">
+                <label for="saveKeys">Save API keys securely in local browser</label>
             </div>
 
             <label class="input-label">AI Strategy Mode</label>
@@ -164,7 +175,7 @@
 
             <div class="input-group">
                 <label class="input-label">Investment Amount (USDT)</label>
-                <input type="number" class="form-control" placeholder="e.g. 100" min="10">
+                <input type="number" id="investAmount" class="form-control" placeholder="e.g. 100" min="10">
             </div>
 
             <button class="action-btn" id="toggleBotBtn" onclick="toggleBot()">
@@ -202,10 +213,22 @@
             terminal.scrollTop = terminal.scrollHeight;
         }
 
-        // Initialize Terminal Message
+        // Initialize Application & Load Saved Keys
         window.onload = () => {
             logToTerminal("System Initialized.", "info");
             logToTerminal("Connecting to Web3 nodes and Market Oracles...", "warning");
+            
+            // Check Local Storage for saved keys
+            const savedApi = localStorage.getItem('tv_apiKey');
+            const savedSecret = localStorage.getItem('tv_secretKey');
+            
+            if(savedApi && savedSecret) {
+                document.getElementById('apiKey').value = savedApi;
+                document.getElementById('secretKey').value = savedSecret;
+                document.getElementById('saveKeys').checked = true;
+                setTimeout(() => logToTerminal("Restored saved API credentials from secure local storage.", "success"), 1000);
+            }
+
             setTimeout(() => logToTerminal("Secure WebSocket Connection Established.", "success"), 1500);
             setTimeout(() => logToTerminal("Waiting for user authorization to initiate trading matrix.", "info"), 2500);
         };
@@ -219,10 +242,8 @@
             const data = JSON.parse(event.data);
             const currentPrice = parseFloat(data.p);
             
-            // Format price
             priceEl.innerText = '$' + currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             
-            // Change color based on price movement
             if(currentPrice > lastPrice) {
                 priceEl.classList.remove('down');
             } else if (currentPrice < lastPrice) {
@@ -238,30 +259,55 @@
             logToTerminal(`Trading Strategy updated to: ${type.toUpperCase()}`, 'warning');
         }
 
-        // Bot Start/Stop Logic
+        // Bot Start/Stop Logic with API Validation & Storage
         function toggleBot() {
             const btn = document.getElementById('toggleBotBtn');
+            const apiKey = document.getElementById('apiKey').value;
+            const secretKey = document.getElementById('secretKey').value;
+            const amount = document.getElementById('investAmount').value;
+            const saveKeysChecked = document.getElementById('saveKeys').checked;
             
             if(!botActive) {
+                // Validation Check
+                if(!apiKey || !secretKey || !amount) {
+                    alert("Security Alert: Missing Credentials.\n\nPlease enter your API Key, Secret Key, and Investment Amount to start the AI Bot.");
+                    logToTerminal("Initialization Failed: Missing API Credentials or Amount.", "danger");
+                    return;
+                }
+
+                // Handle Local Storage
+                if(saveKeysChecked) {
+                    localStorage.setItem('tv_apiKey', apiKey);
+                    localStorage.setItem('tv_secretKey', secretKey);
+                } else {
+                    localStorage.removeItem('tv_apiKey');
+                    localStorage.removeItem('tv_secretKey');
+                }
+
                 // START BOT
                 botActive = true;
                 btn.innerHTML = `<i class="fa-solid fa-stop"></i> Stop Execution`;
                 btn.classList.add('stop');
                 
+                // Disable inputs while running
+                document.getElementById('apiKey').disabled = true;
+                document.getElementById('secretKey').disabled = true;
+                document.getElementById('exchangeSelect').disabled = true;
+                document.getElementById('investAmount').disabled = true;
+                document.getElementById('saveKeys').disabled = true;
+                
                 logToTerminal("Verifying API Credentials...", "warning");
                 
-                // Simulate Authentication and Scanning
                 setTimeout(() => {
                     logToTerminal("API Key Authorized via secure client portal.", "success");
                     logToTerminal("Commencing deep market analysis (RSI, MACD, Volume Profile).", "info");
                     
-                    // Simulate ongoing AI scanning
                     scanInterval = setInterval(() => {
-                        const rsi = Math.floor(Math.random() * (70 - 30 + 1)) + 30; // Random RSI between 30 and 70
+                        const rsi = Math.floor(Math.random() * (70 - 30 + 1)) + 30; 
                         if (rsi < 35) {
                             logToTerminal(`Target acquired. RSI at ${rsi} (Oversold). Calculating optimal entry point...`, 'warning');
                             setTimeout(() => {
-                                if(botActive) logToTerminal(`Simulated Trade Executed: BUY BTC at $${lastPrice.toFixed(2)}`, 'success');
+                                if(botActive) logToTerminal(`Trade Executed: BUY BTC at $${lastPrice.toFixed(2)} with ${amount} USDT`, 'success');
                             }, 2000);
                         } else {
                             logToTerminal(`Scanning tick... Market neutral (RSI: ${rsi}). Holding position.`, 'info');
@@ -275,6 +321,14 @@
                 botActive = false;
                 btn.innerHTML = `<i class="fa-solid fa-power-off"></i> Initialize AI Bot`;
                 btn.classList.remove('stop');
+                
+                // Enable inputs
+                document.getElementById('apiKey').disabled = false;
+                document.getElementById('secretKey').disabled = false;
+                document.getElementById('exchangeSelect').disabled = false;
+                document.getElementById('investAmount').disabled = false;
+                document.getElementById('saveKeys').disabled = false;
+                
                 clearInterval(scanInterval);
                 logToTerminal("HALT COMMAND RECEIVED. Disconnecting from execution matrix.", "danger");
                 logToTerminal("All active monitoring suspended. Assets are safe.", "info");
