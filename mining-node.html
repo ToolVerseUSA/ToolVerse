@@ -321,37 +321,46 @@
         }
 
         // ==========================================
-        // VVIP WEB3 WALLET CONNECTION LOGIC (METAMASK)
+        // VVIP WEB3 WALLET CONNECTION LOGIC (ADVANCED MOBILE FIX)
         // ==========================================
         window.connectWeb3Wallet = async function() {
-            // Check if MetaMask or a Web3 wallet extension is installed
+            const btn = document.getElementById('web3ConnectBtn');
+            const originalHTML = btn.innerHTML;
+
             if (typeof window.ethereum !== 'undefined') {
                 try {
-                    // Request account access from the user
+                    // Show Loading State
+                    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Connecting...`;
+                    
+                    // Request accounts
                     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                     const walletAddress = accounts[0];
                     
-                    // Update the UI
+                    // Update UI
                     updateWalletUI(walletAddress);
-                    
-                    // Show premium success alert
-                    alert("🎉 Secure Web3 Link Successful!\n\nYour address (" + formatAddress(walletAddress) + ") has been connected. Your mined $TOOL will be airdropped here upon Mainnet launch.");
-                    
-                    // Save to LocalStorage
+                    alert("🎉 Secure Web3 Link Successful!\n\nYour address (" + formatAddress(walletAddress) + ") has been connected.");
                     localStorage.setItem('tv_wallet_address', walletAddress);
 
-                    // VVIP: Securely save to Firebase Database if user is logged in
+                    // Sync to Firebase
                     if (window.currentUserUid && window.db) {
                         import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js").then(module => {
                             const userRef = module.doc(window.db, "users", window.currentUserUid);
-                            module.updateDoc(userRef, { walletAddress: walletAddress })
-                                .catch(e => console.error("Cloud Save Error", e));
+                            module.updateDoc(userRef, { walletAddress: walletAddress }).catch(e => console.error("Cloud Save Error", e));
                         });
                     }
 
                 } catch (error) {
-                    console.error("User rejected request or error occurred", error);
-                    alert("⚠️ Connection cancelled. Please authorize ToolVerse to link your wallet.");
+                    btn.innerHTML = originalHTML; // Reset Button
+                    console.error("Wallet Error:", error);
+                    
+                    // VVIP Mobile Error Handling
+                    if (error.code === 4001) {
+                        alert("⚠️ Connection cancelled by user.");
+                    } else if (error.code === -32002) {
+                        alert("⏳ A connection request is already waiting in the background!\n\nPlease check your MetaMask notifications or switch tabs inside the app to approve it.");
+                    } else {
+                        alert("⚠️ Error connecting: " + (error.message || "Unknown error"));
+                    }
                 }
             } else {
                 alert("🦊 No Web3 Wallet detected!\n\nPlease install the MetaMask or Trust Wallet extension in your browser to connect.");
