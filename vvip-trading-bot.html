@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToolVerse VVIP AI Trading Bot</title>
+    <title>ToolVerse VVIP AI Trading Bot | Pro Terminal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- TradingView Lightweight Charts Library -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
     <style>
         /* ==========================================
            GLOBAL & RESET
@@ -17,7 +20,7 @@
         /* ==========================================
            HEADER NAVIGATION
            ========================================== */
-        .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid rgba(56, 189, 248, 0.2); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .dash-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid rgba(56, 189, 248, 0.2); position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
         .brand { font-size: 1.5rem; font-weight: 800; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 10px; }
         .badge-vvip { background: linear-gradient(135deg, #ec4899, #8b5cf6); color: #fff; padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 10px rgba(236, 72, 153, 0.4); }
         .back-link { color: #94a3b8; text-decoration: none; font-weight: 600; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
@@ -26,20 +29,20 @@
         /* ==========================================
            MAIN LAYOUT GRID
            ========================================== */
-        .bot-container { max-width: 1300px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 400px; gap: 25px; }
+        .bot-container { max-width: 1400px; margin: 20px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 400px; gap: 25px; }
 
-        .glass-panel { background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9)); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 25px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); }
+        .glass-panel { background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9)); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 25px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); display: flex; flex-direction: column; }
         .panel-title { color: #f8fafc; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; }
 
         /* ==========================================
-           LIVE MARKET DATA (LEFT SIDE)
+           LIVE MARKET DATA & CHART (LEFT SIDE)
            ========================================== */
-        .market-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px; }
-        .pair-info { display: flex; align-items: center; gap: 15px; }
-        .crypto-icon { width: 50px; height: 50px; background: #f59e0b; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; color: #fff; box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
-        .pair-name { font-size: 1.8rem; font-weight: 900; line-height: 1.1; }
-        .exchange-badge { color: #94a3b8; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .market-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
         
+        .pair-selector-wrap { display: flex; align-items: center; gap: 15px; }
+        .market-select { background: #000; border: 2px solid #38bdf8; color: #fff; font-size: 1.5rem; font-weight: 900; padding: 10px 15px; border-radius: 12px; outline: none; cursor: pointer; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); }
+        .market-select option { font-size: 1rem; background: #0b0f19; }
+
         .live-price-wrapper { text-align: right; }
         .live-price { font-size: 2.8rem; font-weight: 900; color: #4ade80; text-shadow: 0 0 20px rgba(74, 222, 128, 0.3); transition: color 0.3s; }
         .live-price.down { color: #ef4444; text-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
@@ -48,9 +51,12 @@
 
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); } 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); } }
 
+        /* Chart Container */
+        .chart-container { width: 100%; height: 450px; background: #000; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden; margin-bottom: 25px; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
+
         /* AI Activity Console */
-        .terminal { background: #000; border: 1px solid #1e293b; border-radius: 12px; padding: 20px; font-family: 'Courier New', Courier, monospace; height: 350px; overflow-y: auto; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
-        .log-entry { margin-bottom: 10px; font-size: 0.85rem; line-height: 1.4; color: #a3a3a3; }
+        .terminal { background: #000; border: 1px solid #1e293b; border-radius: 12px; padding: 20px; font-family: 'Courier New', Courier, monospace; height: 200px; overflow-y: auto; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
+        .log-entry { margin-bottom: 8px; font-size: 0.85rem; line-height: 1.4; color: #a3a3a3; }
         .log-time { color: #64748b; margin-right: 10px; }
         .log-info { color: #38bdf8; }
         .log-success { color: #4ade80; }
@@ -65,7 +71,6 @@
         .form-control { width: 100%; background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; color: #fff; padding: 14px 15px; border-radius: 10px; font-size: 0.95rem; outline: none; transition: 0.3s; }
         .form-control:focus { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); }
         
-        /* Save Keys Checkbox Styling */
         .checkbox-group { display: flex; align-items: center; gap: 10px; margin-top: -10px; margin-bottom: 20px; }
         .checkbox-group input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: #38bdf8; }
         .checkbox-group label { color: #94a3b8; font-size: 0.85rem; cursor: pointer; user-select: none; }
@@ -89,10 +94,11 @@
             .bot-container { grid-template-columns: 1fr; }
         }
         @media (max-width: 600px) {
-            .market-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .market-header { flex-direction: column; align-items: flex-start; gap: 15px; }
             .live-price-wrapper { text-align: left; }
             .price-label { justify-content: flex-start; }
             .live-price { font-size: 2.2rem; }
+            .chart-container { height: 350px; }
         }
     </style>
 </head>
@@ -100,32 +106,38 @@
 
     <!-- Header -->
     <header class="dash-header">
-        <a href="index.html" class="brand">🚀 ToolVerse <span class="badge-vvip">Trading AI</span></a>
+        <a href="index.html" class="brand">🚀 ToolVerse <span class="badge-vvip">Pro Trading AI</span></a>
         <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Hub</a>
     </header>
 
     <!-- Main Application -->
     <div class="bot-container">
         
-        <!-- Left Side: Market Data & AI Console -->
+        <!-- Left Side: Market Data, Chart & AI Console -->
         <div class="glass-panel">
             <h2 class="panel-title"><i class="fa-solid fa-chart-line"></i> Market Intelligence Engine</h2>
             
             <div class="market-header">
-                <div class="pair-info">
-                    <div class="crypto-icon"><i class="fa-brands fa-bitcoin"></i></div>
-                    <div>
-                        <div class="pair-name">BTC / USDT</div>
-                        <div class="exchange-badge">Global Market Average</div>
-                    </div>
+                <div class="pair-selector-wrap">
+                    <select id="marketPair" class="market-select" onchange="changeMarket()">
+                        <option value="BTCUSDT">BTC / USDT</option>
+                        <option value="ETHUSDT">ETH / USDT</option>
+                        <option value="SOLUSDT">SOL / USDT</option>
+                        <option value="BNBUSDT">BNB / USDT</option>
+                        <option value="XRPUSDT">XRP / USDT</option>
+                        <option value="DOGEUSDT">DOGE / USDT</option>
+                    </select>
                 </div>
                 <div class="live-price-wrapper">
-                    <div class="price-label">Live Market Price <div class="pulse-dot"></div></div>
-                    <div class="live-price" id="btcPrice">$0.00</div>
+                    <div class="price-label">Live Market Price <div class="pulse-dot" id="wsIndicator"></div></div>
+                    <div class="live-price" id="livePrice">$0.00</div>
                 </div>
             </div>
 
-            <h2 class="panel-title" style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 25px;"><i class="fa-solid fa-terminal"></i> Neural Execution Console</h2>
+            <!-- PREMIUM TRADINGVIEW CHART -->
+            <div class="chart-container" id="tv_chart_container"></div>
+
+            <h2 class="panel-title" style="margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 25px;"><i class="fa-solid fa-terminal"></i> Neural Execution Console</h2>
             
             <div class="terminal" id="aiTerminal">
                 <!-- Logs will be injected here via JS -->
@@ -155,7 +167,6 @@
                 <input type="password" id="secretKey" class="form-control" placeholder="Enter your secret key">
             </div>
             
-            <!-- NEW: Save Keys Checkbox -->
             <div class="checkbox-group">
                 <input type="checkbox" id="saveKeys">
                 <label for="saveKeys">Save API keys securely in local browser</label>
@@ -192,10 +203,13 @@
 
     <!-- Application Logic -->
     <script>
-        // Terminal Logger
+        // ==========================================
+        // TERMINAL LOGIC
+        // ==========================================
         const terminal = document.getElementById('aiTerminal');
         let botActive = false;
         let scanInterval;
+        let currentStrategy = 'conservative';
 
         function logToTerminal(message, type = 'info') {
             const now = new Date();
@@ -213,10 +227,95 @@
             terminal.scrollTop = terminal.scrollHeight;
         }
 
-        // Initialize Application & Load Saved Keys
+        // ==========================================
+        // TRADINGVIEW CHART & LIVE PRICE LOGIC
+        // ==========================================
+        let tvWidget;
+        let ws;
+        let lastPrice = 0;
+        const priceEl = document.getElementById('livePrice');
+        const indicator = document.getElementById('wsIndicator');
+
+        // Initialize Chart
+        function initChart(symbol) {
+            document.getElementById('tv_chart_container').innerHTML = ''; // Clear old chart
+            tvWidget = new TradingView.widget({
+                "autosize": true,
+                "symbol": "BINANCE:" + symbol,
+                "interval": "15",
+                "timezone": "Etc/UTC",
+                "theme": "dark",
+                "style": "1",
+                "locale": "en",
+                "enable_publishing": false,
+                "backgroundColor": "#0b0f19",
+                "gridColor": "rgba(255,255,255,0.05)",
+                "hide_top_toolbar": false,
+                "save_image": false,
+                "container_id": "tv_chart_container"
+            });
+        }
+
+        // Connect Fast WebSocket (@ticker stream)
+        function connectWebSocket(symbol) {
+            if(ws) ws.close(); // Close previous connection
+            
+            indicator.style.background = '#fbbf24'; // Yellow while connecting
+            
+            // Binance @ticker stream is much faster and reliable for UI updates
+            const streamUrl = `wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}@ticker`;
+            ws = new WebSocket(streamUrl);
+            
+            ws.onopen = () => {
+                indicator.style.background = '#4ade80'; // Green when connected
+                logToTerminal(`Secure WebSocket Connected for ${symbol}.`, "success");
+            };
+
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                if(data.c) { // 'c' is the current close price in @ticker
+                    const currentPrice = parseFloat(data.c);
+                    
+                    // Format based on value (DOGE needs more decimals than BTC)
+                    let decimals = currentPrice < 10 ? 4 : 2;
+                    priceEl.innerText = '$' + currentPrice.toLocaleString('en-US', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+                    
+                    if(currentPrice > lastPrice) {
+                        priceEl.classList.remove('down');
+                    } else if (currentPrice < lastPrice) {
+                        priceEl.classList.add('down');
+                    }
+                    lastPrice = currentPrice;
+                }
+            };
+
+            ws.onerror = () => {
+                indicator.style.background = '#ef4444'; // Red on error
+                logToTerminal("WebSocket connection error. Retrying...", "danger");
+            };
+        }
+
+        // Handle Pair Change
+        function changeMarket() {
+            const symbol = document.getElementById('marketPair').value;
+            logToTerminal(`Switching market analysis to ${symbol}...`, 'warning');
+            priceEl.innerText = "Loading...";
+            priceEl.classList.remove('down');
+            
+            initChart(symbol);
+            connectWebSocket(symbol);
+        }
+
+        // ==========================================
+        // INITIALIZATION ON PAGE LOAD
+        // ==========================================
         window.onload = () => {
-            logToTerminal("System Initialized.", "info");
-            logToTerminal("Connecting to Web3 nodes and Market Oracles...", "warning");
+            logToTerminal("ToolVerse Pro Trading System Initialized.", "info");
+            
+            // Start with BTCUSDT
+            const defaultSymbol = "BTCUSDT";
+            initChart(defaultSymbol);
+            connectWebSocket(defaultSymbol);
             
             // Check Local Storage for saved keys
             const savedApi = localStorage.getItem('tv_apiKey');
@@ -228,44 +327,25 @@
                 document.getElementById('saveKeys').checked = true;
                 setTimeout(() => logToTerminal("Restored saved API credentials from secure local storage.", "success"), 1000);
             }
-
-            setTimeout(() => logToTerminal("Secure WebSocket Connection Established.", "success"), 1500);
-            setTimeout(() => logToTerminal("Waiting for user authorization to initiate trading matrix.", "info"), 2500);
         };
 
-        // Live Market Data (Binance WebSocket)
-        let lastPrice = 0;
-        const priceEl = document.getElementById('btcPrice');
-        const ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@trade');
-        
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            const currentPrice = parseFloat(data.p);
-            
-            priceEl.innerText = '$' + currentPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            
-            if(currentPrice > lastPrice) {
-                priceEl.classList.remove('down');
-            } else if (currentPrice < lastPrice) {
-                priceEl.classList.add('down');
-            }
-            lastPrice = currentPrice;
-        };
-
-        // UI Strategy Selection
+        // ==========================================
+        // BOT START/STOP LOGIC
+        // ==========================================
         function selectStrategy(btn, type) {
             document.querySelectorAll('.strat-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            currentStrategy = type;
             logToTerminal(`Trading Strategy updated to: ${type.toUpperCase()}`, 'warning');
         }
 
-        // Bot Start/Stop Logic with API Validation & Storage
         function toggleBot() {
             const btn = document.getElementById('toggleBotBtn');
             const apiKey = document.getElementById('apiKey').value;
             const secretKey = document.getElementById('secretKey').value;
             const amount = document.getElementById('investAmount').value;
             const saveKeysChecked = document.getElementById('saveKeys').checked;
+            const currentSymbol = document.getElementById('marketPair').value;
             
             if(!botActive) {
                 // Validation Check
@@ -290,6 +370,7 @@
                 btn.classList.add('stop');
                 
                 // Disable inputs while running
+                document.getElementById('marketPair').disabled = true;
                 document.getElementById('apiKey').disabled = true;
                 document.getElementById('secretKey').disabled = true;
                 document.getElementById('exchangeSelect').disabled = true;
@@ -300,14 +381,17 @@
                 
                 setTimeout(() => {
                     logToTerminal("API Key Authorized via secure client portal.", "success");
-                    logToTerminal("Commencing deep market analysis (RSI, MACD, Volume Profile).", "info");
+                    logToTerminal(`Commencing deep market analysis on ${currentSymbol} (${currentStrategy} mode).`, "info");
                     
+                    // Simulate ongoing AI scanning
                     scanInterval = setInterval(() => {
                         const rsi = Math.floor(Math.random() * (70 - 30 + 1)) + 30; 
-                        if (rsi < 35) {
+                        const targetRsi = currentStrategy === 'aggressive' ? 45 : 35; // Aggressive buys sooner
+
+                        if (rsi < targetRsi) {
                             logToTerminal(`Target acquired. RSI at ${rsi} (Oversold). Calculating optimal entry point...`, 'warning');
                             setTimeout(() => {
-                                if(botActive) logToTerminal(`Trade Executed: BUY BTC at $${lastPrice.toFixed(2)} with ${amount} USDT`, 'success');
+                                if(botActive) logToTerminal(`Trade Executed: BUY ${currentSymbol.replace('USDT','')} at $${lastPrice} with ${amount} USDT`, 'success');
                             }, 2000);
                         } else {
                             logToTerminal(`Scanning tick... Market neutral (RSI: ${rsi}). Holding position.`, 'info');
@@ -323,6 +407,7 @@
                 btn.classList.remove('stop');
                 
                 // Enable inputs
+                document.getElementById('marketPair').disabled = false;
                 document.getElementById('apiKey').disabled = false;
                 document.getElementById('secretKey').disabled = false;
                 document.getElementById('exchangeSelect').disabled = false;
