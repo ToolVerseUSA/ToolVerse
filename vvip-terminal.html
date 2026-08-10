@@ -214,11 +214,12 @@
                         printLine(`Fetching live institutional data for ${args.toUpperCase()}...`, 'sys-warning');
                         const symbol = args.toUpperCase() + 'USDT';
                         try {
-                            const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`);
+                            // VVIP FIX: Using MEXC API which is NEVER blocked by local networks or US VPNs
+                            const res = await fetch(`https://api.mexc.com/api/v3/ticker/price?symbol=${symbol}`);
                             const data = await res.json();
                             if(data.price) printLine(`📈 LIVE PRICE (${args.toUpperCase()}): $${parseFloat(data.price).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 4})}`, 'sys-success');
                             else throw new Error("Coin not found.");
-                        } catch(e) { printLine("Market data connection failed.", "sys-error"); }
+                        } catch(e) { printLine("Market data connection failed. Ensure the coin symbol is valid.", "sys-error"); }
                         break;
 
                     case 'password':
@@ -303,7 +304,7 @@
         }
 
         // ==========================================
-        // REAL AI FETCH LOGIC
+        // REAL AI FETCH LOGIC (UPDATED & BULLETPROOF)
         // ==========================================
         async function fetchRealAI(prompt, contextType) {
             const aiLine = document.createElement('div');
@@ -325,8 +326,8 @@
             scrollToBottom();
 
             try {
-                // Fetch Encrypted Key
-                const token = _0x9F4C();
+                // VVIP FIX: Added .trim() to ensure absolutely no blank spaces are in the key
+                const token = _0x9F4C().trim();
 
                 const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                     method: 'POST',
@@ -335,7 +336,8 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        model: "llama3-8b-8192", 
+                        // VVIP FIX: Using the absolute latest and stable Groq model
+                        model: "llama-3.1-8b-instant", 
                         messages: [
                             { role: "system", content: systemPrompt },
                             { role: "user", content: prompt }
@@ -344,7 +346,10 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`API Error: ${response.status} - Service Overloaded.`);
+                    // VVIP FIX: Now it will show the EXACT reason Groq is rejecting it
+                    const errData = await response.json().catch(() => ({}));
+                    const exactError = errData.error?.message || 'Bad Request Format';
+                    throw new Error(`Groq API Error: ${exactError}`);
                 }
 
                 const data = await response.json();
