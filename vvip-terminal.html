@@ -214,11 +214,12 @@
                         printLine(`Fetching live institutional data for ${args.toUpperCase()}...`, 'sys-warning');
                         const symbol = args.toUpperCase() + 'USDT';
                         try {
-                            // VVIP FIX: Using MEXC API which is NEVER blocked by local networks or US VPNs
-                            const res = await fetch(`https://api.mexc.com/api/v3/ticker/price?symbol=${symbol}`);
+                            // VVIP FOOLPROOF FIX: Using a Global Proxy to completely bypass US VPNs, CORS, and ISP blocks!
+                            const targetUrl = encodeURIComponent(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`);
+                            const res = await fetch(`https://api.allorigins.win/raw?url=${targetUrl}`);
                             const data = await res.json();
                             if(data.price) printLine(`📈 LIVE PRICE (${args.toUpperCase()}): $${parseFloat(data.price).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 4})}`, 'sys-success');
-                            else throw new Error("Coin not found.");
+                            else throw new Error("Coin not found on exchange.");
                         } catch(e) { printLine("Market data connection failed. Ensure the coin symbol is valid.", "sys-error"); }
                         break;
 
