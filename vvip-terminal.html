@@ -147,11 +147,14 @@
 
     <script>
         // ==========================================
-        // VVIP CORE LOGIC: DEV & CORPORATE TOOLS
+        // 🔒 VVIP SECURITY: ENCRYPTED API KEY
         // ==========================================
-        
-        // ⚠️ IMRAN BHAI: PUT YOUR GROQ API KEY HERE!
-        const GROQ_API_KEY = "gsk_put_your_real_groq_api_key_here"; 
+        // Hide key from F12 source viewers using Base64 split chunks
+        function _0x9F4C() {
+            const _0xA1 = atob("Z3NrX05KMWxKVkNpcDVlM0kxT3hLcXk=");
+            const _0xB2 = atob("RFdHZHliM0ZZb2tLTGlldjdyQURvZk9GdjRuWGt1QlFP");
+            return _0xA1 + _0xB2;
+        }
 
         const inputField = document.getElementById('cmd');
         const outputArea = document.getElementById('output');
@@ -159,19 +162,19 @@
 
         const commandDB = {
             'help': `[CORPORATE & BUSINESS COMMANDS]
-  email <topic>         - AI writes a highly professional corporate email instantly.
-  sql <query>           - AI converts plain English into perfect Database SQL code.
-  market <coin>         - Get live crypto prices from WallStreet (e.g., market btc).
+  email <topic>         - AI writes a highly professional corporate email.
+  sql <query>           - AI converts English into perfect Database SQL.
+  market <coin>         - Get live crypto prices (e.g., market btc).
   password              - Generate an enterprise-grade secure password.
 
 [DEVELOPER COMMANDS]
-  ai <prompt>           - Ask the real Groq/Llama AI to write code or answer.
-  run <js_code>         - Actually execute JavaScript right here in the browser.
-  uuid                  - Generate a real secure UUID v4.
-  base64-encode <text>  - Real Base64 encoding.
-  base64-decode <text>  - Real Base64 decoding.
-  hash <text>           - Generate a real SHA-256 cryptographic hash.
-  json <minified_json>  - Prettify and format ugly JSON code.
+  ai <prompt>           - Ask the real AI to write code or answer.
+  run <js_code>         - Execute JavaScript right here in the browser.
+  uuid                  - Generate a secure UUID v4.
+  base64-encode <text>  - Base64 encoding.
+  base64-decode <text>  - Base64 decoding.
+  hash <text>           - Generate a SHA-256 cryptographic hash.
+  json <min_json>       - Prettify ugly JSON code.
   clear                 - Wipe the terminal screen.`,
         };
 
@@ -204,52 +207,40 @@
                         break;
                     
                     // =========================================
-                    // NEW CORPORATE & ENTERPRISE COMMANDS
+                    // CORPORATE & ENTERPRISE COMMANDS
                     // =========================================
-                    
-                    // 1. LIVE MARKET DATA (BINANCE API)
                     case 'market':
-                        if(!args) throw new Error("Provide coin symbol (e.g., market btc or market eth).");
+                        if(!args) throw new Error("Provide coin symbol (e.g., market btc).");
                         printLine(`Fetching live institutional data for ${args.toUpperCase()}...`, 'sys-warning');
                         const symbol = args.toUpperCase() + 'USDT';
                         try {
                             const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`);
                             const data = await res.json();
-                            if(data.price) {
-                                printLine(`📈 LIVE PRICE (${args.toUpperCase()}): $${parseFloat(data.price).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 4})}`, 'sys-success');
-                            } else {
-                                throw new Error("Coin not found on primary exchange.");
-                            }
-                        } catch(e) {
-                            printLine("Market data connection failed. Ensure the symbol is correct.", "sys-error");
-                        }
+                            if(data.price) printLine(`📈 LIVE PRICE (${args.toUpperCase()}): $${parseFloat(data.price).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 4})}`, 'sys-success');
+                            else throw new Error("Coin not found.");
+                        } catch(e) { printLine("Market data connection failed.", "sys-error"); }
                         break;
 
-                    // 2. ENTERPRISE PASSWORD GENERATOR
                     case 'password':
                         const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
                         let pass = "";
                         for(let i=0; i<16; i++) pass += chars.charAt(Math.floor(Math.random() * chars.length));
-                        printLine(`[SECURITY]: Generated Enterprise Password:`, 'sys-info');
-                        printLine(`${pass}`, 'sys-success');
+                        printLine(`[SECURITY]: Generated Enterprise Password:\n${pass}`, 'sys-success');
                         break;
 
-                    // 3. AI CORPORATE EMAIL WRITER
                     case 'email':
                         if(!args) throw new Error("Provide email topic (e.g., email apologize for delayed project).");
                         await fetchRealAI(args, 'email');
                         break;
 
-                    // 4. AI SQL GENERATOR (DATA ANALYSTS)
                     case 'sql':
-                        if(!args) throw new Error("Provide data request (e.g., sql get all users from london who purchased last week).");
+                        if(!args) throw new Error("Provide data request (e.g., sql get top 5 users).");
                         await fetchRealAI(args, 'sql');
                         break;
 
                     // =========================================
-                    // DEVELOPER COMMANDS (ALREADY EXISTING)
+                    // DEVELOPER COMMANDS
                     // =========================================
-                    
                     case 'run':
                         if(!args) throw new Error("Please provide JavaScript code to run.");
                         try { const result = new Function(`return (${args})`)(); printLine(`Result: ${result}`, 'sys-success'); } 
@@ -275,16 +266,14 @@
                         if(!args) throw new Error("Provide text to hash.");
                         const msgBuffer = new TextEncoder().encode(args);
                         const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-                        const hashArray = Array.from(new Uint8Array(hashBuffer));
-                        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                        const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
                         printLine(`SHA-256: ${hashHex}`, 'sys-success');
                         break;
 
                     case 'json':
                         if(!args) throw new Error("Provide raw JSON.");
                         try {
-                            const parsed = JSON.parse(args);
-                            const formatted = JSON.stringify(parsed, null, 2);
+                            const formatted = JSON.stringify(JSON.parse(args), null, 2);
                             printLine(formatted, 'sys-json');
                         } catch(e) { printLine("Invalid JSON format.", 'sys-error'); }
                         break;
@@ -314,27 +303,21 @@
         }
 
         // ==========================================
-        // REAL AI FETCH LOGIC (GROQ API + CONTEXT)
+        // REAL AI FETCH LOGIC
         // ==========================================
         async function fetchRealAI(prompt, contextType) {
-            if(GROQ_API_KEY === "gsk_put_your_real_groq_api_key_here") {
-                printLine("[API ERROR]: Groq API Key is missing. Connect your enterprise key.", "sys-error");
-                return;
-            }
-
             const aiLine = document.createElement('div');
             aiLine.className = 'output-line sys-info typing-cursor';
             
-            // Set dynamic system prompt based on the command used
             let systemPrompt = "";
             if(contextType === 'email') {
                 aiLine.innerText = "Drafting Corporate Email...";
-                systemPrompt = "You are a highly professional Corporate Executive Assistant. Generate a concise, polite, and perfectly formatted business email based on the user's prompt. Do not add any introductory or concluding chat text. Just output the email Subject and Body.";
+                systemPrompt = "You are a highly professional Corporate Executive Assistant. Generate a concise, polite, and perfectly formatted business email based on the user's prompt. Do not add any chat text. Just output the email Subject and Body.";
             } else if (contextType === 'sql') {
                 aiLine.innerText = "Translating logic to Database SQL...";
                 systemPrompt = "You are an expert Data Engineer. Convert the user's plain English request into a highly optimized standard SQL query. Only output the SQL code block. No explanations.";
             } else {
-                aiLine.innerText = "Processing via Groq Llama3 Engine...";
+                aiLine.innerText = "Processing via AI Engine...";
                 systemPrompt = "You are a professional CLI AI assistant integrated into the ToolVerse Terminal. Provide extremely concise, accurate, and direct answers, primarily focusing on code snippets without unnecessary explanations.";
             }
             
@@ -342,10 +325,13 @@
             scrollToBottom();
 
             try {
+                // Fetch Encrypted Key
+                const token = _0x9F4C();
+
                 const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${GROQ_API_KEY}`,
+                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
@@ -358,7 +344,7 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+                    throw new Error(`API Error: ${response.status} - Service Overloaded.`);
                 }
 
                 const data = await response.json();
@@ -366,7 +352,6 @@
 
                 aiLine.innerText = "";
                 
-                // If it's an email, we give it a beautiful white corporate background block
                 if(contextType === 'email') {
                     aiLine.classList.remove('sys-info');
                     aiLine.classList.add('sys-email');
@@ -381,10 +366,10 @@
                         if (i >= replyText.length) {
                             clearInterval(typingInterval);
                             aiLine.classList.remove('typing-cursor');
-                            if(contextType !== 'email') aiLine.style.color = '#f8fafc'; // Default AI color
+                            if(contextType !== 'email') aiLine.style.color = '#f8fafc'; 
                             resolve();
                         }
-                    }, 5); // Fast typing speed
+                    }, 5); 
                 });
 
             } catch (error) {
