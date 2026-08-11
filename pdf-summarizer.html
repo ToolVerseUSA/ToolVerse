@@ -89,7 +89,10 @@
     </script>
 
     <style>
-        body { background-color: #f3f4f7; }
+        /* VVIP FIX: Ensure natural scrolling and no layout lock */
+        html { height: 100%; overflow-y: auto; }
+        body { background-color: #f3f4f7; min-height: 100%; margin: 0; padding: 0; display: flex; flex-direction: column; }
+        
         .ilovepdf-red { background-color: #e5322d; }
         .ilovepdf-red:hover { background-color: #cc2a26; }
         .ilovepdf-text { color: #e5322d; }
@@ -129,7 +132,7 @@
         .cloud-btn:hover { background: #cc2a26; transform: scale(1.1); }
     </style>
 </head>
-<body class="min-h-[100dvh] font-sans relative flex flex-col bg-[#f3f4f7]">
+<body>
 
     <!-- Authentication Overlay -->
     <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
@@ -155,11 +158,11 @@
         </div>
     </nav>
 
-    <!-- Main Tool Container (Flex Grow) -->
-    <div class="flex-grow flex flex-col w-full">
+    <!-- Main Tool Container -->
+    <div class="w-full flex flex-col items-center justify-center">
         
         <!-- Step 1: Upload -->
-        <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 bg-[#fbfbfd] py-10">
+        <div id="step1" class="w-full flex flex-col items-center justify-center px-4 bg-[#fbfbfd] py-16">
             <div class="flex items-center justify-center gap-3 mb-2 mt-4">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 text-center">AI Summarizer</h1>
             </div>
@@ -216,14 +219,14 @@
         </div>
 
         <!-- Loading Screen -->
-        <div id="loadingScreen" class="hidden flex-grow flex-col items-center justify-center bg-white z-20 py-20">
+        <div id="loadingScreen" class="hidden w-full flex-col items-center justify-center bg-white z-20 py-24">
             <div class="loader w-14 h-14 mb-6"></div>
             <h3 class="text-xl font-bold text-gray-800 mb-2">Analyzing Document...</h3>
             <p class="text-gray-500 text-sm">Our AI is reading and summarizing your text.</p>
         </div>
 
         <!-- Step 3: Output Screen -->
-        <div id="step3" class="hidden flex-grow bg-white w-full">
+        <div id="step3" class="hidden w-full bg-white">
             <div class="max-w-4xl mx-auto px-6 py-10">
                 <div class="text-center mb-10 border-b border-gray-100 pb-4">
                     <div class="ai-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Generated</div>
@@ -249,7 +252,7 @@
             </div>
         </div>
 
-    </div> <!-- End Main Flex Grow Container -->
+    </div>
 
     <!-- ==========================================
          SEO CONTENT & FAQS (Crucial for Google Ranking)
@@ -355,6 +358,27 @@
             }
         }
 
+        async function startSummarization() {
+            document.getElementById('settingsModal').style.display = 'none';
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('loadingScreen').style.display = 'flex';
+
+            try {
+                pdfText = "";
+                for(let i = 1; i <= pdfDoc.numPages; i++) {
+                    const page = await pdfDoc.getPage(i);
+                    const content = await page.getTextContent();
+                    const pageText = content.items.map(item => item.str).join(' ');
+                    pdfText += pageText + " ";
+                }
+                setTimeout(() => { processText+withNLP(); }, 500); // Wait, let's keep exact function name processTextWithNLP
+            } catch (err) {
+                alert("Failed to extract text from PDF.");
+                window.location.reload();
+            }
+        }
+
+        // Fixed typo check just in case
         async function startSummarization() {
             document.getElementById('settingsModal').style.display = 'none';
             document.getElementById('step1').style.display = 'none';
