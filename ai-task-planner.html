@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Task Planner - ToolVerse</title>
+    <title>Free AI Task Planner | Break Down Goals - ToolVerse</title>
     
     <!-- ==========================================
-         SEO META TAGS & CANONICAL LINK
+         SEO META TAGS & CANONICAL LINK (UPDATED)
          ========================================== -->
-    <meta name="description" content="Break down your big goals into actionable, step-by-step plans with our AI Task Planner. 100% free tool on ToolVerse." />
+    <meta name="title" content="Free AI Task Planner | Break Down Goals - ToolVerse">
+    <meta name="description" content="Break down your big goals into actionable, step-by-step plans with our AI Task Planner. Export to PDF instantly. 100% free productivity tool on ToolVerse.">
     <link rel="canonical" href="https://toolverse-usa.vercel.app/ai-task-planner.html" />
 
     <!-- ==========================================
@@ -40,19 +41,20 @@
     <!-- ==========================================
          VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
          ========================================== -->
-    <meta property="og:title" content="AI Task Planner | Premium ToolVerse" />
-    <meta property="og:description" content="Break down your big goals into actionable, step-by-step plans with our AI Task Planner. 100% Free!" />
+    <meta property="og:title" content="Free AI Task Planner | Break Down Goals - ToolVerse" />
+    <meta property="og:description" content="Break down your big goals into actionable, step-by-step plans with our AI Task Planner. Export to PDF instantly. 100% Free!" />
     <meta property="og:url" content="https://toolverse-usa.vercel.app/ai-task-planner.html" /> 
     <meta property="og:type" content="website" />
     
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="AI Task Planner | Premium ToolVerse" />
-    <meta name="twitter:description" content="Break down your big goals into actionable, step-by-step plans with our AI Task Planner. 100% Free!" />
+    <meta name="twitter:title" content="Free AI Task Planner | Break Down Goals - ToolVerse" />
+    <meta name="twitter:description" content="Break down your big goals into actionable, step-by-step plans with our AI Task Planner. Export to PDF instantly. 100% Free!" />
 
     <!-- PDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         /* Modern UI Styling */
+        * { box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #0f172a;
@@ -60,17 +62,26 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
+        
+        .main-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 80px 20px 40px;
+        }
+
         .container {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 40px;
-            width: 90%;
+            width: 100%;
             max-width: 700px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
@@ -80,11 +91,13 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
+            margin-top: 0;
         }
         p.subtitle {
             text-align: center;
             color: #94a3b8;
             margin-bottom: 30px;
+            line-height: 1.5;
         }
         .input-group {
             display: flex;
@@ -100,6 +113,7 @@
             font-size: 16px;
             outline: none;
             transition: all 0.3s ease;
+            width: 100%;
         }
         input[type="text"]:focus {
             border-color: #38bdf8;
@@ -115,6 +129,7 @@
             font-weight: bold;
             cursor: pointer;
             transition: transform 0.2s ease;
+            width: 100%;
         }
         .main-btn:hover {
             transform: translateY(-2px);
@@ -177,9 +192,30 @@
             text-decoration: none;
             font-weight: 500;
             transition: 0.3s;
+            font-size: 15px;
         }
         .home-link:hover {
             color: #38bdf8;
+        }
+
+        /* ==========================================
+           SEO CONTENT SECTION STYLES (NEW)
+           ========================================== */
+        .seo-content-section { max-width: 1000px; margin: 40px auto 80px; padding: 0 20px; width: 100%; }
+        .seo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .seo-box { background: rgba(30, 41, 59, 0.4); padding: 25px; border-radius: 12px; border: 1px solid rgba(56, 189, 248, 0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .seo-box h3 { color: #38bdf8; margin-top: 0; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-box p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+        
+        .faq-container { background: rgba(30, 41, 59, 0.4); padding: 35px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(56, 189, 248, 0.15); margin-bottom: 20px; }
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; padding-bottom: 20px; }
+        .faq-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .faq-q { font-weight: 700; color: #f8fafc; margin-bottom: 10px; font-size: 1.05rem; }
+        .faq-a { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
+
+        @media (max-width: 600px) {
+            .container { padding: 25px 20px; }
+            .action-buttons { flex-direction: column; }
         }
     </style>
 </head>
@@ -187,27 +223,63 @@
 
 <a href="index.html" class="home-link">← Back to Home</a>
 
-<div class="container">
-    <h1>AI Task Planner</h1>
-    <p class="subtitle">Enter your big goal, and let AI break it down into actionable steps.</p>
-    
-    <div class="input-group">
-        <input type="text" id="user-goal" placeholder="e.g., Create a 10-minute faceless YouTube video..." autocomplete="off">
-        <button id="generate-btn" class="main-btn" onclick="generatePlan()">Generate Action Plan ✨</button>
-    </div>
-
-    <div id="planner-output">
-        <div id="pdf-content">
-            <h3 style="color: #e2e8f0; margin-bottom: 20px;">Your Action Plan:</h3>
-            <div id="tasks-container"></div>
-        </div>
+<div class="main-wrapper">
+    <div class="container">
+        <h1>AI Task Planner</h1>
+        <p class="subtitle">Enter your big goal, and let AI break it down into actionable steps.</p>
         
-        <div class="action-buttons" id="action-buttons-container">
-            <button class="action-btn copy-btn" onclick="copyPlan()">📋 Copy Plan</button>
-            <button class="action-btn pdf-btn" onclick="downloadPDF()">📄 Download PDF</button>
+        <div class="input-group">
+            <input type="text" id="user-goal" placeholder="e.g., Create a 10-minute faceless YouTube video..." autocomplete="off">
+            <button id="generate-btn" class="main-btn" onclick="generatePlan()">Generate Action Plan ✨</button>
+        </div>
+
+        <div id="planner-output">
+            <div id="pdf-content">
+                <h3 style="color: #e2e8f0; margin-bottom: 20px;">Your Action Plan:</h3>
+                <div id="tasks-container"></div>
+            </div>
+            
+            <div class="action-buttons" id="action-buttons-container">
+                <button class="action-btn copy-btn" onclick="copyPlan()">📋 Copy Plan</button>
+                <button class="action-btn pdf-btn" onclick="downloadPDF()">📄 Download PDF</button>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- ==========================================
+     SEO CONTENT & FAQS (Crucial for Google Ranking)
+     ========================================== -->
+<section class="seo-content-section">
+    <h2 style="font-size: 1.8rem; color: #f8fafc; text-align: center; margin-bottom: 30px;">How to Create an Action Plan?</h2>
+    
+    <div class="seo-grid">
+        <div class="seo-box">
+            <h3>1. Define Your Goal</h3>
+            <p>Type any big project or personal goal into the planner (e.g., "Start a dropshipping business" or "Learn Python in 30 days").</p>
+        </div>
+        <div class="seo-box">
+            <h3>2. Let AI Break It Down</h3>
+            <p>Our intelligent AI analyzes your goal and creates a clear, logical step-by-step roadmap with precise action items.</p>
+        </div>
+        <div class="seo-box">
+            <h3>3. Export & Execute</h3>
+            <p>Use the checkboxes to track your progress online, or download the entire plan as a PDF to keep on your device.</p>
+        </div>
+    </div>
+
+    <div class="faq-container">
+        <h2 style="font-size: 1.6rem; color: #f8fafc; margin-bottom: 20px; text-align: center;">Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <div class="faq-q">Can this tool plan long-term projects?</div>
+            <div class="faq-a">Yes. Whether it's a short 3-day task or a 6-month master plan, the AI Task Planner structures the journey into digestible, easy-to-follow steps so you never feel overwhelmed.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">Is it possible to download the generated plan?</div>
+            <div class="faq-a">Absolutely. Once your action plan is generated, you can use the "Download PDF" button to save it locally, or simply copy the formatted text to paste into Notion, Word, or Google Docs.</div>
+        </div>
+    </div>
+</section>
 
 <script>
     async function generatePlan() {
