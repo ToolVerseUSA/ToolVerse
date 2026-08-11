@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Agent Studio - ToolVerse Pro</title>
+    <title>Free AI Agent Studio | Build Custom AI Bots - ToolVerse</title>
     
     <!-- ==========================================
-         SEO META TAGS & CANONICAL LINK
+         SEO META TAGS & CANONICAL LINK (UPDATED)
          ========================================== -->
-    <meta name="description" content="Build, configure, and test custom AI agents with powerful system prompts and live internet capabilities instantly. 100% free on ToolVerse." />
+    <meta name="title" content="Free AI Agent Studio | Build Custom AI Bots - ToolVerse">
+    <meta name="description" content="Build, configure, and deploy custom AI agents with powerful system prompts, knowledge bases, and live internet capabilities instantly. 100% free on ToolVerse.">
     <link rel="canonical" href="https://toolverse-usa.vercel.app/ai-agent.html" />
 
     <!-- ==========================================
@@ -45,14 +46,14 @@
     <!-- ==========================================
          VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
          ========================================== -->
-    <meta property="og:title" content="AI Agent Studio - ToolVerse Pro" />
-    <meta property="og:description" content="Build, configure, and test custom AI agents with powerful system prompts and live internet capabilities instantly. 100% Free!" />
+    <meta property="og:title" content="Free AI Agent Studio | Build Custom AI Bots - ToolVerse" />
+    <meta property="og:description" content="Build, configure, and deploy custom AI agents with powerful system prompts, knowledge bases, and live internet capabilities instantly. 100% Free!" />
     <meta property="og:url" content="https://toolverse-usa.vercel.app/ai-agent.html" /> 
     <meta property="og:type" content="website" />
     
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="AI Agent Studio - ToolVerse Pro" />
-    <meta name="twitter:description" content="Build, configure, and test custom AI agents with powerful system prompts and live internet capabilities instantly. 100% Free!" />
+    <meta name="twitter:title" content="Free AI Agent Studio | Build Custom AI Bots - ToolVerse" />
+    <meta name="twitter:description" content="Build, configure, and deploy custom AI agents with powerful system prompts, knowledge bases, and live internet capabilities instantly. 100% Free!" />
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -73,6 +74,7 @@
             --danger: #ef4444;
         }
 
+        /* VVIP FIX: Removed height:100vh and overflow:hidden to allow scroll to SEO section */
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-dark);
@@ -81,10 +83,10 @@
                 radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
             color: var(--text-main);
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         /* Top Navigation */
@@ -132,11 +134,12 @@
             justify-content: center;
         }
 
-        /* Main Workspace Layout */
+        /* Main Workspace Layout - Changed to min-height */
         .workspace {
             display: grid;
             grid-template-columns: 260px 1fr 400px;
-            height: calc(100vh - 65px);
+            min-height: calc(100vh - 65px);
+            border-bottom: 1px solid var(--border-color);
         }
 
         /* Custom Scrollbar */
@@ -159,7 +162,7 @@
         .agent-info p { margin: 3px 0 0; font-size: 0.75rem; color: var(--text-muted); }
 
         /* Middle: Configuration Panel */
-        .config-panel { padding: 30px 40px; overflow-y: auto; position: relative; padding-bottom: 100px; }
+        .config-panel { padding: 30px 40px; overflow-y: auto; position: relative; padding-bottom: 100px; height: calc(100vh - 65px); }
         .config-header { margin-bottom: 30px; }
         .config-header h2 { margin: 0; font-size: 1.8rem; }
         .config-header p { color: var(--text-muted); margin: 5px 0 0; font-size: 0.95rem; }
@@ -209,8 +212,8 @@
         input:checked + .slider:before { transform: translateX(20px); }
 
         /* Right: Playground / Testing */
-        .playground { border-left: 1px solid var(--border-color); background: rgba(15, 23, 42, 0.6); display: flex; flex-direction: column; }
-        .play-header { padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .playground { border-left: 1px solid var(--border-color); background: rgba(15, 23, 42, 0.6); display: flex; flex-direction: column; height: calc(100vh - 65px); }
+        .play-header { padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
         .play-header h3 { margin: 0; font-size: 1rem; display: flex; align-items: center; gap: 8px; }
         .play-header h3::before { content: ''; display: block; width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); }
         .btn-clear { background: transparent; border: none; color: var(--text-muted); font-size: 0.8rem; cursor: pointer; transition: 0.2s;}
@@ -221,7 +224,7 @@
         .chat-user { align-self: flex-end; background: #3b82f6; color: white; border-bottom-right-radius: 2px; }
         .chat-agent { align-self: flex-start; background: #1e293b; color: #cbd5e1; border: 1px solid #334155; border-bottom-left-radius: 2px; }
         
-        .input-area { padding: 20px; border-top: 1px solid var(--border-color); background: rgba(5, 11, 20, 0.5); }
+        .input-area { padding: 20px; border-top: 1px solid var(--border-color); background: rgba(5, 11, 20, 0.5); flex-shrink: 0; }
         .chat-input-wrapper { display: flex; gap: 10px; position: relative; }
         .chat-input { flex: 1; background: #0f172a; border: 1px solid #334155; padding: 14px 45px 14px 15px; border-radius: 10px; color: white; font-family: inherit; outline: none; }
         .chat-input:focus { border-color: var(--primary); }
@@ -233,10 +236,26 @@
         .save-btn { background: var(--success); color: #050b14; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); transition: 0.3s; }
         .save-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5); }
 
+        /* ==========================================
+           SEO CONTENT SECTION (NEW)
+           ========================================== */
+        .seo-content-section { max-width: 1400px; margin: 60px auto; padding: 0 20px; width: 100%; }
+        .seo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 40px; }
+        .seo-box { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); padding: 30px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .seo-box h3 { color: #8b5cf6; margin-top: 0; font-size: 1.2rem; margin-bottom: 12px; }
+        .seo-box p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+        
+        .faq-container { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(139, 92, 246, 0.2); margin-bottom: 60px; }
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; padding-bottom: 20px; }
+        .faq-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .faq-q { font-weight: 700; color: #f8fafc; margin-bottom: 10px; font-size: 1.05rem; }
+        .faq-a { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
+
         @media (max-width: 1024px) {
             .workspace { grid-template-columns: 1fr; overflow-y: auto; height: auto; }
             .sidebar { border-right: none; border-bottom: 1px solid var(--border-color); max-height: 250px; }
-            .playground { border-left: none; border-top: 1px solid var(--border-color); height: 500px; }
+            .config-panel { height: auto; padding-bottom: 40px; border-bottom: 1px solid var(--border-color); }
+            .playground { border-left: none; height: 500px; }
             body { overflow: auto; }
         }
 
@@ -411,6 +430,44 @@
             </div>
         </div>
     </div>
+
+    <!-- ==========================================
+         SEO CONTENT & FAQS (Crucial for Google Ranking)
+         ========================================== -->
+    <section class="seo-content-section">
+        <h2 style="font-size: 2rem; color: #f8fafc; text-align: center; margin-bottom: 30px;">How to Build Your Custom AI Agent?</h2>
+        
+        <div class="seo-grid">
+            <div class="seo-box">
+                <h3>1. Write the System Prompt</h3>
+                <p>Give your agent a brain. Tell it exactly who it is (e.g., "You are a Senior Copywriter") and define its rules, tone, and strict boundaries.</p>
+            </div>
+            <div class="seo-box">
+                <h3>2. Train on Your Data</h3>
+                <p>Upload your own PDFs, Word documents, or CSV files directly into the Knowledge Base. The AI will read these files and answer questions based strictly on your data.</p>
+            </div>
+            <div class="seo-box">
+                <h3>3. Test & Deploy</h3>
+                <p>Use the live playground on the right to chat with your agent. Once it's perfect, click 'Deploy' to get a shareable link or embed code for your website.</p>
+            </div>
+        </div>
+
+        <div class="faq-container">
+            <h2 style="font-size: 1.8rem; color: #f8fafc; margin-bottom: 20px; text-align: center;">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <div class="faq-q">Can I embed my AI agent on my own website?</div>
+                <div class="faq-a">Yes! Once you have configured and saved your agent, simply click the "Deploy Agent" button in the top right corner. You will be provided with an iFrame code that you can copy and paste into any HTML page, WordPress site, or Shopify blog.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Does the Knowledge Base feature store my files publicly?</div>
+                <div class="faq-a">No. Your uploaded PDFs and documents are processed locally to extract the text, and the vector data is securely tied only to your specific AI agent within your encrypted Firebase cloud database. Nobody else can access your data.</div>
+            </div>
+            <div class="faq-item" style="border-bottom: none; padding-bottom: 0;">
+                <div class="faq-q">Which language model does the agent use?</div>
+                <div class="faq-a">You have full control! By default, the studio uses the ultra-fast Llama-3 model. However, you can switch the underlying model to GPT-4o, Claude 3.5 Sonnet, or Gemini 1.5 Pro depending on your logic and reasoning requirements.</div>
+            </div>
+        </div>
+    </section>
 
     <!-- ==========================================
          VVIP DEPLOY MODAL (UI)
