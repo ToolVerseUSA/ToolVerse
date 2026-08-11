@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI JSON Formatter Pro - ToolVerse</title>
+    <title>Free AI JSON Formatter Pro | Validate & Fix JSON - ToolVerse</title>
     
     <!-- ==========================================
-         SEO META TAGS & CANONICAL LINK
+         SEO META TAGS & CANONICAL LINK (UPDATED)
          ========================================== -->
-    <meta name="description" content="Format, validate, minify, and fix broken JSON files instantly with our AI JSON Formatter Pro. 100% free developer tool on ToolVerse." />
+    <meta name="title" content="Free AI JSON Formatter Pro | Validate & Fix JSON - ToolVerse">
+    <meta name="description" content="Format, validate, minify, and fix broken JSON files instantly with our AI JSON Formatter Pro. 100% free developer tool to repair syntax errors on ToolVerse.">
     <link rel="canonical" href="https://toolverse-usa.vercel.app/json-formatter.html" />
 
     <!-- ==========================================
@@ -40,13 +41,13 @@
     <!-- ==========================================
          VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
          ========================================== -->
-    <meta property="og:title" content="AI JSON Formatter Pro | Premium ToolVerse" />
+    <meta property="og:title" content="Free AI JSON Formatter Pro | Validate & Fix JSON - ToolVerse" />
     <meta property="og:description" content="Format, validate, minify, and fix broken JSON files instantly with our AI JSON Formatter Pro. 100% Free!" />
     <meta property="og:url" content="https://toolverse-usa.vercel.app/json-formatter.html" /> 
     <meta property="og:type" content="website" />
     
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="AI JSON Formatter Pro | Premium ToolVerse" />
+    <meta name="twitter:title" content="Free AI JSON Formatter Pro | Validate & Fix JSON - ToolVerse" />
     <meta name="twitter:description" content="Format, validate, minify, and fix broken JSON files instantly with our AI JSON Formatter Pro. 100% Free!" />
 
     <!-- PrismJS for Beautiful Syntax Highlighting -->
@@ -54,17 +55,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        * { box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0b1120;
             color: #f8fafc;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             position: relative;
         }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 60px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
         .home-link {
             position: absolute;
             top: 20px;
@@ -73,17 +86,21 @@
             text-decoration: none;
             font-weight: 500;
             transition: 0.3s;
+            font-size: 15px;
+            z-index: 100;
         }
         .home-link:hover {
             color: #ec4899;
         }
-        .header-area { text-align: center; margin-bottom: 30px; margin-top: 20px; }
+
+        .header-area { text-align: center; margin-bottom: 30px; }
         .header-area h1 {
             background: linear-gradient(to right, #f59e0b, #ec4899);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 2.5rem;
             margin-bottom: 5px;
+            margin-top: 0;
         }
         .header-area p { color: #94a3b8; font-size: 1rem; margin: 0; }
         
@@ -120,7 +137,7 @@
             min-height: 500px;
         }
         @media (max-width: 800px) {
-            .editor-container { grid-template-columns: 1fr; }
+            .editor-container { grid-template-columns: 1fr; min-height: auto; }
         }
 
         .pane {
@@ -130,6 +147,7 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            min-height: 400px;
         }
         .pane-header {
             background: #1e293b; padding: 12px 20px; font-weight: 700; color: #cbd5e1;
@@ -152,7 +170,7 @@
         /* AI Explanation Modal */
         #ai-explanation-box {
             display: none; background: rgba(236, 72, 153, 0.1); border-left: 4px solid #ec4899;
-            padding: 15px; margin: 20px 0; border-radius: 0 8px 8px 0; color: #fdf2f8; font-size: 0.95rem; line-height: 1.6;
+            padding: 15px; margin: 0 0 20px 0; border-radius: 0 8px 8px 0; color: #fdf2f8; font-size: 0.95rem; line-height: 1.6;
         }
         
         /* Loader Overlay */
@@ -161,55 +179,111 @@
             background: rgba(15, 23, 42, 0.9); z-index: 10; display: none;
             justify-content: center; align-items: center; flex-direction: column; color: #ec4899;
         }
+
+        /* ==========================================
+           SEO CONTENT SECTION STYLES (NEW)
+           ========================================== */
+        .seo-content-section { max-width: 1600px; margin: 40px auto 80px; padding: 0 20px; width: 100%; }
+        .seo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .seo-box { background: rgba(30, 41, 59, 0.4); padding: 25px; border-radius: 12px; border: 1px solid rgba(236, 72, 153, 0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .seo-box h3 { color: #ec4899; margin-top: 0; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-box p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+        
+        .faq-container { background: rgba(30, 41, 59, 0.4); padding: 35px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(236, 72, 153, 0.15); margin-bottom: 20px; }
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; padding-bottom: 20px; }
+        .faq-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .faq-q { font-weight: 700; color: #f8fafc; margin-bottom: 10px; font-size: 1.05rem; }
+        .faq-a { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
+
     </style>
 </head>
 <body>
 
     <a href="index.html" class="home-link">← Back to Home</a>
     
-    <div class="header-area">
-        <h1>{ AI JSON Formatter Pro }</h1>
-        <p>Format, Validate, Minify, and Fix broken JSON files with AI intelligence.</p>
-    </div>
+    <div class="main-wrapper">
+        <div class="header-area">
+            <h1>{ AI JSON Formatter Pro }</h1>
+            <p>Format, Validate, Minify, and Fix broken JSON files with AI intelligence.</p>
+        </div>
 
-    <div class="toolbar">
-        <button class="btn btn-primary" onclick="formatLocalJson()">🪄 Beautify JSON</button>
-        <button class="btn btn-secondary" onclick="minifyLocalJson()">🗜️ Minify</button>
-        <button class="btn btn-ai" id="fixAiBtn" onclick="processWithAI('fix')">✨ Fix Invalid JSON (AI)</button>
-        <button class="btn btn-ai" id="explainAiBtn" onclick="processWithAI('explain')" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);">🧠 Explain Schema (AI)</button>
-        <button class="btn btn-secondary" onclick="document.getElementById('input-json').value = ''; renderOutput('');">🗑️ Clear</button>
-    </div>
-    
-    <div id="ai-explanation-box"></div>
-
-    <div class="editor-container">
+        <div class="toolbar">
+            <button class="btn btn-primary" onclick="formatLocalJson()">🪄 Beautify JSON</button>
+            <button class="btn btn-secondary" onclick="minifyLocalJson()">🗜️ Minify</button>
+            <button class="btn btn-ai" id="fixAiBtn" onclick="processWithAI('fix')">✨ Fix Invalid JSON (AI)</button>
+            <button class="btn btn-ai" id="explainAiBtn" onclick="processWithAI('explain')" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);">🧠 Explain Schema (AI)</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('input-json').value = ''; renderOutput('');">🗑️ Clear</button>
+        </div>
         
-        <!-- Left Pane: Input -->
-        <div class="pane">
-            <div class="pane-header">
-                <span>📥 Input Data (Raw)</span>
-            </div>
-            <textarea id="input-json" class="raw-input" placeholder="Paste your messy or broken JSON array/object here..."></textarea>
-        </div>
+        <div id="ai-explanation-box"></div>
 
-        <!-- Right Pane: Output -->
-        <div class="pane">
-            <div class="pane-header">
-                <span>🚀 Output (Formatted)</span>
-                <div>
-                    <button class="btn btn-success" style="padding: 4px 10px; font-size: 12px;" onclick="copyOutput()">📋 Copy</button>
-                    <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px; margin-left: 5px;" onclick="downloadJson()">💾 Download</button>
+        <div class="editor-container">
+            
+            <!-- Left Pane: Input -->
+            <div class="pane">
+                <div class="pane-header">
+                    <span>📥 Input Data (Raw)</span>
                 </div>
+                <textarea id="input-json" class="raw-input" placeholder="Paste your messy or broken JSON array/object here..."></textarea>
             </div>
-            <div class="output-wrapper">
-                <div class="loader-overlay" id="loading-overlay">
-                    <div style="font-size: 30px; animation: spin 1s infinite linear;">⚙️</div>
-                    <p style="margin-top: 10px; font-weight: 600;">AI is analyzing...</p>
+
+            <!-- Right Pane: Output -->
+            <div class="pane">
+                <div class="pane-header">
+                    <span>🚀 Output (Formatted)</span>
+                    <div>
+                        <button class="btn btn-success" style="padding: 4px 10px; font-size: 12px;" onclick="copyOutput()">📋 Copy</button>
+                        <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 12px; margin-left: 5px;" onclick="downloadJson()">💾 Download</button>
+                    </div>
                 </div>
-                <pre><code id="output-code" class="language-json"></code></pre>
+                <div class="output-wrapper">
+                    <div class="loader-overlay" id="loading-overlay">
+                        <div style="font-size: 30px; animation: spin 1s infinite linear;">⚙️</div>
+                        <p style="margin-top: 10px; font-weight: 600;">AI is analyzing...</p>
+                    </div>
+                    <pre><code id="output-code" class="language-json"></code></pre>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- ==========================================
+         SEO CONTENT & FAQS (Crucial for Google Ranking)
+         ========================================== -->
+    <section class="seo-content-section">
+        <h2 style="font-size: 1.8rem; color: #f8fafc; text-align: center; margin-bottom: 30px;">How to Format and Fix JSON with AI?</h2>
+        
+        <div class="seo-grid">
+            <div class="seo-box">
+                <h3>1. Paste Raw Data</h3>
+                <p>Paste your ugly, minified, or broken JSON string into the left input pane. The editor handles extremely large datasets efficiently.</p>
+            </div>
+            <div class="seo-box">
+                <h3>2. Format or AI Fix</h3>
+                <p>Use "Beautify JSON" for valid code, or click "Fix Invalid JSON" to let our AI auto-correct missing commas, quotes, and syntax errors instantly.</p>
+            </div>
+            <div class="seo-box">
+                <h3>3. Export & Copy</h3>
+                <p>Once formatted, copy the clean JSON code directly to your clipboard or download it as a .json file for your development environment.</p>
+            </div>
+        </div>
+
+        <div class="faq-container">
+            <h2 style="font-size: 1.6rem; color: #f8fafc; margin-bottom: 20px; text-align: center;">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <div class="faq-q">Can AI really fix broken JSON syntax?</div>
+                <div class="faq-a">Yes! Standard formatters throw errors if a single comma or quote is missing. Our AI engine analyzes the context, repairs the broken structure, and outputs a 100% valid JSON payload.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">What does the "Explain Schema" button do?</div>
+                <div class="faq-a">If you receive a massive JSON response from an API and don't understand its structure, the AI will act as a Data Analyst. It reads the JSON and provides a clear, human-readable explanation of the schema and data types.</div>
+            </div>
+            <div class="faq-item" style="border-bottom: none; padding-bottom: 0;">
+                <div class="faq-q">Is my sensitive data kept private?</div>
+                <div class="faq-a">Absolutely. Standard beautification and minification happen 100% locally in your browser. Data is only sent to our secure API if you explicitly click the AI Fix or AI Explain buttons.</div>
+            </div>
+        </div>
+    </section>
 
     <!-- PrismJS Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
