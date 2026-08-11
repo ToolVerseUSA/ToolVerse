@@ -205,10 +205,8 @@
                         await fetchRealAI(args, 'general');
                         break;
 
-                    // VVIP FOOLPROOF FIX: AUTO-AI FALLBACK (No more red errors!)
                     default: 
-                        // Instead of throwing an error, we treat unknown commands as AI Chat!
-                        printLine(`[AI Agent]: Analyzing your input...`, 'sys-info');
+                        printLine(`[ToolVerse AI]: Thinking...`, 'sys-info');
                         await fetchRealAI(rawCmd, 'general');
                         break;
                 }
@@ -229,6 +227,10 @@
         async function fetchRealAI(prompt, contextType) {
             const aiLine = document.createElement('div');
             aiLine.className = 'output-line sys-info typing-cursor';
+            
+            // VVIP FIX: LIVE TIME INJECTION SO AI KNOWS THE EXACT CURRENT TIME
+            const currentTime = new Date().toLocaleString();
+            
             let systemPrompt = "";
             if(contextType === 'email') {
                 aiLine.innerText = "Drafting Corporate Email...";
@@ -238,7 +240,13 @@
                 systemPrompt = "You are a Data Engineer. Output only the SQL query code block.";
             } else {
                 aiLine.innerText = "Processing via AI Engine...";
-                systemPrompt = "You are a friendly, highly intelligent CLI AI assistant inside ToolVerse. Keep your answers concise, helpful, and naturally conversational if the user is just chatting.";
+                // VVIP FIX: INSANE JARVIS LEVEL PROMPT WITH POLYGLOT MASTERY
+                systemPrompt = `You are 'ToolVerse Core', an ultra-advanced, sentient-level AI assistant living inside the ToolVerse Enterprise Terminal. Your intelligence is unmatched. The current system time is ${currentTime}.
+CRITICAL RULES:
+1. POLYGLOT MASTER: You MUST instantly detect the user's language. If they use Roman Urdu/Hindi (e.g., 'bhai kya hal hy', 'mera matlab hy'), you MUST reply exactly like a native, street-smart speaker with a cool, friendly vibe (e.g., 'Haan bhai, batao kya masla hai? Main bilkul theek hoon.'). NO weird translations. Be fluent.
+2. ZERO FLUFF: Give brutal, direct, and insanely optimized answers. Be witty and confident like Iron Man's JARVIS.
+3. If they ask about the time, tell them the exact time you have in your memory.
+4. Keep answers concise. You are a CLI tool, act like a premium one.`;
             }
             outputArea.appendChild(aiLine);
             scrollToBottom();
@@ -276,7 +284,7 @@
                 });
             } catch (error) {
                 aiLine.classList.remove('typing-cursor');
-                aiLine.className = 'output-line sys-warning'; // Friendly yellow instead of scary red
+                aiLine.className = 'output-line sys-warning';
                 aiLine.innerText = `[Network Note]: ${error.message}`;
             }
         }
