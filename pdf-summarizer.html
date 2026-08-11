@@ -72,20 +72,36 @@
     </script>
 
     <style>
-        /* VVIP FIX: NORMAL SCROLLING BEHAVIOR */
-        html, body { overflow-x: hidden; margin: 0; padding: 0; }
-        body { background-color: #fbfbfd; font-family: sans-serif; display: block; }
-        
+        /* ==========================================
+           VVIP FIX: STANDARD SCROLLING LAYOUT
+           ========================================== */
+        html { scroll-behavior: smooth; }
+        body { 
+            background-color: #fbfbfd; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+        }
+
+        .main-tool-wrapper {
+            flex: 1; /* Takes remaining space but pushes footer down naturally */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+        }
+
+        /* Tool specific UI */
         .ilovepdf-red { background-color: #e5322d; }
         .ilovepdf-red:hover { background-color: #cc2a26; }
         .ilovepdf-text { color: #e5322d; }
         .loader { border: 4px solid #f3f3f3; border-top-color: #8b5cf6; border-radius: 50%; animation: spinner 1s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        ::-webkit-scrollbar { width: 6px; height: 6px;}
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 20px;}
         .modal-content { background: white; border-radius: 12px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: pop 0.3s ease-out;}
@@ -120,6 +136,14 @@
         
         .cloud-btn { width: 35px; height: 35px; border-radius: 50%; background: #e5322d; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; transition: 0.2s; border: 2px solid white; margin-bottom: 5px;}
         .cloud-btn:hover { background: #cc2a26; transform: scale(1.1); }
+
+        /* SEO Section Styling */
+        .seo-wrapper {
+            width: 100%;
+            background-color: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 80px 20px;
+        }
     </style>
 </head>
 <body>
@@ -135,8 +159,8 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-gray-200 z-40 relative h-[65px] flex items-center">
-        <div class="w-full px-4 flex justify-between items-center max-w-6xl mx-auto">
+    <nav class="bg-white shadow-sm border-b border-gray-200 z-40 relative h-[65px] flex items-center w-full">
+        <div class="w-full px-6 flex justify-between items-center max-w-7xl mx-auto">
             <div class="flex items-center space-x-4">
                 <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
                 <div class="h-6 w-px bg-gray-300 hidden md:block"></div>
@@ -148,20 +172,18 @@
         </div>
     </nav>
 
-    <!-- MAIN TOOL WRAPPER (Fixed for scrolling) -->
-    <main class="w-full min-h-[65vh] flex flex-col items-center justify-center py-16 bg-[#fbfbfd]">
+    <!-- Main Tool Container (Allows Natural Scrolling) -->
+    <div class="main-tool-wrapper">
         
-        <!-- Step 1: Upload -->
-        <div id="step1" class="w-full flex flex-col items-center justify-center px-4">
-            <div class="flex items-center justify-center gap-3 mb-2 mt-4">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 text-center">AI Summarizer</h1>
-            </div>
-            <p class="text-sm md:text-base text-gray-500 mb-8 text-center max-w-2xl">Summarize PDF reports, essays, and study guides with AI</p>
+        <!-- Step 1: Upload Box -->
+        <div id="step1" class="w-full max-w-2xl flex flex-col items-center justify-center text-center mt-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">AI Summarizer</h1>
+            <p class="text-sm md:text-base text-gray-500 mb-10">Summarize PDF reports, essays, and study guides with AI</p>
             
             <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
             
-            <div class="flex items-center gap-3 w-full max-w-xl justify-center">
-                <button class="ilovepdf-red text-white font-bold py-4 px-12 md:px-20 rounded-xl text-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 w-full max-w-[300px]" onclick="document.getElementById('fileInput').click()">
+            <div class="flex items-center justify-center gap-4 w-full">
+                <button class="ilovepdf-red text-white font-bold py-5 px-10 md:px-24 rounded-xl text-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 w-full max-w-[320px]" onclick="document.getElementById('fileInput').click()">
                     Select file
                 </button>
                 <div class="flex flex-col">
@@ -169,18 +191,18 @@
                     <button class="cloud-btn" title="Dropbox" onclick="alert('Dropbox integration active. Requires OAuth token setup.')"><i class="fa-brands fa-dropbox"></i></button>
                 </div>
             </div>
-            <p class="text-gray-400 font-medium text-xs mt-4">or drop file here</p>
+            <p class="text-gray-400 font-medium text-xs mt-6">or drop file here</p>
         </div>
 
         <!-- Loading Screen -->
-        <div id="loadingScreen" class="hidden w-full flex-col items-center justify-center">
+        <div id="loadingScreen" class="hidden w-full flex-col items-center justify-center mt-10">
             <div class="loader w-14 h-14 mb-6"></div>
             <h3 class="text-xl font-bold text-gray-800 mb-2">Analyzing Document...</h3>
             <p class="text-gray-500 text-sm">Our AI is reading and summarizing your text.</p>
         </div>
 
         <!-- Step 3: Output Screen -->
-        <div id="step3" class="hidden w-full bg-white max-w-4xl mx-auto px-6 py-10 shadow-sm border border-gray-200 rounded-2xl mt-8">
+        <div id="step3" class="hidden w-full bg-white max-w-4xl px-8 py-10 shadow-sm border border-gray-200 rounded-2xl mt-10">
             <div class="text-center mb-10 border-b border-gray-100 pb-4">
                 <div class="ai-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Generated</div>
                 <h2 class="text-lg font-bold text-gray-800">Summarize</h2>
@@ -190,6 +212,7 @@
             <div class="max-w-3xl mx-auto">
                 <h1 class="summary-title" id="summaryTitle">Document Summary</h1>
                 <ul class="summary-bullets" id="summaryContent" style="list-style-type: disc;"></ul>
+                
                 <div class="questions-box">
                     <div class="questions-header">
                         <span>Suggested questions:</span>
@@ -197,13 +220,15 @@
                     </div>
                     <div id="questionsContainer"></div>
                 </div>
+
                 <div class="flex items-center pt-4 border-t border-gray-100">
                     <button class="action-link" onclick="copyToClipboard()"><i class="fa-regular fa-copy"></i> Copy Text</button>
                     <button class="action-link" onclick="downloadSummary()"><i class="fa-solid fa-download"></i> Download</button>
                 </div>
             </div>
         </div>
-    </main>
+
+    </div>
 
     <!-- Settings Modal -->
     <div id="settingsModal" class="modal-overlay">
@@ -244,35 +269,35 @@
     <!-- ==========================================
          SEO CONTENT & FAQS (HIGH-CONTRAST VISIBLE DESIGN)
          ========================================== -->
-    <div class="w-full bg-slate-50 border-t border-gray-200 py-16">
-        <section class="max-w-6xl mx-auto px-6">
+    <div class="seo-wrapper">
+        <section class="max-w-6xl mx-auto">
             <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-12">How to Summarize a PDF File?</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
-                    <h3 class="text-red-600 font-bold text-xl mb-3 flex items-center gap-2">
-                        <span class="bg-red-100 text-red-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">1</span> 
+                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-200 shadow-sm transition hover:shadow-md">
+                    <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
+                        <span class="bg-red-100 text-[#e5322d] rounded-full w-8 h-8 flex items-center justify-center text-sm">1</span> 
                         Upload PDF
                     </h3>
                     <p class="text-gray-600 text-sm leading-relaxed">Select your PDF file from your device, or directly import it from Google Drive or Dropbox. Our system safely reads your document instantly.</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
-                    <h3 class="text-red-600 font-bold text-xl mb-3 flex items-center gap-2">
-                        <span class="bg-red-100 text-red-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">2</span> 
+                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-200 shadow-sm transition hover:shadow-md">
+                    <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
+                        <span class="bg-red-100 text-[#e5322d] rounded-full w-8 h-8 flex items-center justify-center text-sm">2</span> 
                         Set Preferences
                     </h3>
                     <p class="text-gray-600 text-sm leading-relaxed">Choose your summary length (Short, Medium, or Long) and select the AI processing mode. Hit continue to let the AI do the heavy lifting.</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
-                    <h3 class="text-red-600 font-bold text-xl mb-3 flex items-center gap-2">
-                        <span class="bg-red-100 text-red-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">3</span> 
+                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-200 shadow-sm transition hover:shadow-md">
+                    <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
+                        <span class="bg-red-100 text-[#e5322d] rounded-full w-8 h-8 flex items-center justify-center text-sm">3</span> 
                         Get Insights
                     </h3>
                     <p class="text-gray-600 text-sm leading-relaxed">Read your formatted executive summary. You can copy the text, download it, or click on suggested questions to chat directly with your document.</p>
                 </div>
             </div>
 
-            <div class="bg-white p-8 md:p-10 rounded-2xl border border-gray-200 shadow-md max-w-4xl mx-auto">
+            <div class="bg-white p-8 md:p-10 rounded-2xl border border-gray-200 shadow-lg max-w-4xl mx-auto">
                 <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
                 
                 <div class="border-b border-gray-200 pb-5 mb-5">
