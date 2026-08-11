@@ -6,32 +6,12 @@
     <title>Free AI PDF Summarizer | Extract Insights Fast - ToolVerse</title>
     
     <!-- ==========================================
-         SEO META TAGS & CANONICAL LINK
+         SEO META TAGS
          ========================================== -->
     <meta name="title" content="Free AI PDF Summarizer | Extract Insights Fast - ToolVerse">
     <meta name="description" content="Transform lengthy PDFs into clear, actionable summaries in seconds using AI. 100% free, secure, and client-side processed tool on ToolVerse.">
     <link rel="canonical" href="https://toolverse-usa.vercel.app/AI-summarizer.html" />
 
-    <!-- ==========================================
-         VVIP SCHEMA MARKUP
-         ========================================== -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "AI PDF Summarizer",
-      "url": "https://toolverse-usa.vercel.app/AI-summarizer.html",
-      "description": "Transform lengthy PDFs into clear, actionable summaries in seconds using AI. 100% free.",
-      "applicationCategory": "UtilityApplication",
-      "operatingSystem": "All",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
-    }
-    </script>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -42,43 +22,33 @@
         window.isUserLoggedIn = true; 
     </script>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        
-        if(localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true') {
-            document.addEventListener("DOMContentLoaded", () => {
-                const overlay = document.getElementById('authOverlay');
-                if(overlay) overlay.style.display = 'none';
-            });
-            window.isUserLoggedIn = true;
+    <style>
+        /* ==========================================
+           NUCLEAR OPTION: FORCING SCROLL
+           ========================================== */
+        html { 
+            height: auto !important; 
+            min-height: 100% !important; 
+            overflow-y: scroll !important; 
+            overflow-x: hidden !important; 
+        }
+        body { 
+            background-color: #fbfbfd !important; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+            margin: 0 !important; 
+            padding: 0 !important; 
+            height: auto !important;
+            min-height: 100% !important;
+            display: block !important; /* Killing flex completely on body */
+            overflow-y: visible !important;
+            position: relative !important;
         }
 
-        const firebaseConfig = { apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8", authDomain: "toolverstoken.firebaseapp.com", projectId: "toolverstoken", storageBucket: "toolverstoken.firebasestorage.app", messagingSenderId: "762644487097", appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468" };
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        
-        onAuthStateChanged(auth, (user) => {
-            if (user) { 
-                document.getElementById('authOverlay').style.display = 'none'; 
-                window.isUserLoggedIn = true; 
-                localStorage.setItem('ToolVerse_Auth', 'true');
-                localStorage.setItem('isLoggedIn', 'true');
-            } else if (localStorage.getItem('ToolVerse_Auth') !== 'true' && localStorage.getItem('isLoggedIn') !== 'true') { 
-                document.getElementById('authOverlay').style.display = 'flex'; 
-                window.isUserLoggedIn = false; 
-            }
-        });
-    </script>
-
-    <style>
-        /* VVIP FIX: NORMAL DOCUMENT SCROLLING (NO LOCKS) */
-        body { 
-            background-color: #fbfbfd; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0; 
-            padding: 0;
-            display: block; /* Removed Flex from body to ensure native mobile scrolling */
+        .main-block-wrapper {
+            display: block !important;
+            width: 100% !important;
+            padding: 40px 20px !important;
+            box-sizing: border-box !important;
         }
 
         /* Tool specific UI */
@@ -121,22 +91,39 @@
         
         .cloud-btn { width: 35px; height: 35px; border-radius: 50%; background: #e5322d; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; transition: 0.2s; border: 2px solid white; margin-bottom: 5px;}
         .cloud-btn:hover { background: #cc2a26; transform: scale(1.1); }
+
+        /* SEO Section Styling */
+        .seo-wrapper {
+            display: block !important;
+            width: 100% !important;
+            background-color: #0f172a !important;
+            border-top: 4px solid #e5322d !important;
+            padding: 80px 20px !important;
+            box-sizing: border-box !important;
+            margin-top: 50px !important;
+        }
+
+        /* Error Logger Console */
+        #debug-console {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.9);
+            color: #00ff00;
+            font-family: monospace;
+            font-size: 12px;
+            padding: 10px;
+            z-index: 999999;
+            overflow-y: auto;
+            border-top: 2px solid #00ff00;
+        }
     </style>
 </head>
+<!-- Removed all Tailwind body classes to prevent lock -->
 <body>
 
-    <!-- Authentication Overlay -->
-    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
-        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-purple-500">
-            <div class="text-5xl mb-4">🔒</div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
-            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
-            <a href="index.html" class="block w-full btn-purple font-bold py-3 px-4 rounded-xl">Go to Home to Login</a>
-        </div>
-    </div>
-
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-gray-200 z-40 relative h-[65px] flex items-center w-full">
+    <nav class="bg-white shadow-sm border-b border-gray-200 z-40 relative h-[65px] flex items-center w-full" style="display: flex !important;">
         <div class="w-full px-6 flex justify-between items-center max-w-7xl mx-auto">
             <div class="flex items-center space-x-4">
                 <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
@@ -149,11 +136,11 @@
         </div>
     </nav>
 
-    <!-- Main Tool Container (Allows Natural Scrolling) -->
-    <main class="w-full min-h-[70vh] flex flex-col items-center justify-center py-12 bg-[#fbfbfd]">
+    <!-- Main Tool Container (Forced Block) -->
+    <div class="main-block-wrapper">
         
         <!-- Step 1: Upload Box -->
-        <div id="step1" class="w-full max-w-2xl flex flex-col items-center justify-center text-center mt-4">
+        <div id="step1" style="max-width: 600px; margin: 0 auto; text-align: center;">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">AI Summarizer</h1>
             <p class="text-sm md:text-base text-gray-500 mb-10">Summarize PDF reports, essays, and study guides with AI</p>
             
@@ -172,14 +159,14 @@
         </div>
 
         <!-- Loading Screen -->
-        <div id="loadingScreen" class="hidden w-full flex-col items-center justify-center mt-10">
-            <div class="loader w-14 h-14 mb-6"></div>
+        <div id="loadingScreen" class="hidden flex-col items-center justify-center mt-10 text-center">
+            <div class="loader w-14 h-14 mb-6 mx-auto"></div>
             <h3 class="text-xl font-bold text-gray-800 mb-2">Analyzing Document...</h3>
             <p class="text-gray-500 text-sm">Our AI is reading and summarizing your text.</p>
         </div>
 
         <!-- Step 3: Output Screen -->
-        <div id="step3" class="hidden w-full bg-white max-w-4xl px-8 py-10 shadow-sm border border-gray-200 rounded-2xl mt-6">
+        <div id="step3" class="hidden bg-white max-w-4xl mx-auto px-8 py-10 shadow-sm border border-gray-200 rounded-2xl mt-10">
             <div class="text-center mb-10 border-b border-gray-100 pb-4">
                 <div class="ai-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Generated</div>
                 <h2 class="text-lg font-bold text-gray-800">Summarize</h2>
@@ -205,7 +192,53 @@
             </div>
         </div>
 
-    </main>
+    </div>
+
+    <!-- ==========================================
+         SEO CONTENT & FAQS (DARK BLUE DESIGN)
+         ========================================== -->
+    <div class="seo-wrapper">
+        <section class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl font-extrabold text-center text-white mb-12">How to Summarize a PDF File?</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-sm">
+                    <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
+                        <span class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">1</span> 
+                        Upload PDF
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">Select your PDF file from your device, or directly import it from Google Drive or Dropbox. Our system safely reads your document instantly.</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-sm">
+                    <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
+                        <span class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">2</span> 
+                        Set Preferences
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">Choose your summary length (Short, Medium, or Long) and select the AI processing mode. Hit continue to let the AI do the heavy lifting.</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-sm">
+                    <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
+                        <span class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">3</span> 
+                        Get Insights
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">Read your formatted executive summary. You can copy the text, download it, or click on suggested questions to chat directly with your document.</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 p-8 md:p-10 rounded-2xl border border-slate-700 shadow-lg max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-white mb-8 text-center">Frequently Asked Questions</h2>
+                
+                <div class="border-b border-slate-700 pb-5 mb-5">
+                    <div class="font-bold text-slate-200 mb-2 text-lg">Are my PDF files secure and private?</div>
+                    <div class="text-slate-400 text-sm leading-relaxed">Yes. ToolVerse prioritizes your privacy. The text extraction happens locally in your browser using secure protocols. Your original PDF document is never permanently stored on our servers.</div>
+                </div>
+                <div class="pb-2">
+                    <div class="font-bold text-slate-200 mb-2 text-lg">What does the "Super Chat" feature do?</div>
+                    <div class="text-slate-400 text-sm leading-relaxed">Once the AI summarizes your document, it suggests smart questions. Clicking on any question redirects you to our Super Chat tool, where you can "talk" to your PDF and ask highly specific follow-up questions.</div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <!-- Settings Modal -->
     <div id="settingsModal" class="modal-overlay">
@@ -244,56 +277,41 @@
     </div>
 
     <!-- ==========================================
-         SEO CONTENT & FAQS (DARK BLUE DESIGN)
+         LIVER ERROR & LAYOUT DEBUGGER CONSOLE
          ========================================== -->
-    <div class="w-full bg-[#0f172a] border-t-4 border-[#e5322d] py-16">
-        <section class="max-w-6xl mx-auto px-6">
-            <h2 class="text-3xl font-extrabold text-center text-white mb-12">How to Summarize a PDF File?</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-sm transition hover:border-[#e5322d]">
-                    <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
-                        <span class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">1</span> 
-                        Upload PDF
-                    </h3>
-                    <p class="text-slate-300 text-sm leading-relaxed">Select your PDF file from your device, or directly import it from Google Drive or Dropbox. Our system safely reads your document instantly.</p>
-                </div>
-                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-sm transition hover:border-[#e5322d]">
-                    <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
-                        <span class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">2</span> 
-                        Set Preferences
-                    </h3>
-                    <p class="text-slate-300 text-sm leading-relaxed">Choose your summary length (Short, Medium, or Long) and select the AI processing mode. Hit continue to let the AI do the heavy lifting.</p>
-                </div>
-                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-sm transition hover:border-[#e5322d]">
-                    <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
-                        <span class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">3</span> 
-                        Get Insights
-                    </h3>
-                    <p class="text-slate-300 text-sm leading-relaxed">Read your formatted executive summary. You can copy the text, download it, or click on suggested questions to chat directly with your document.</p>
-                </div>
-            </div>
-
-            <div class="bg-slate-800 p-8 md:p-10 rounded-2xl border border-slate-700 shadow-lg max-w-4xl mx-auto">
-                <h2 class="text-2xl font-bold text-white mb-8 text-center">Frequently Asked Questions</h2>
-                
-                <div class="border-b border-slate-700 pb-5 mb-5">
-                    <div class="font-bold text-slate-200 mb-2 text-lg">Are my PDF files secure and private?</div>
-                    <div class="text-slate-400 text-sm leading-relaxed">Yes. ToolVerse prioritizes your privacy. The text extraction happens locally in your browser using secure protocols. Your original PDF document is never permanently stored on our servers.</div>
-                </div>
-                
-                <div class="border-b border-slate-700 pb-5 mb-5">
-                    <div class="font-bold text-slate-200 mb-2 text-lg">Is the AI Summarizer completely free?</div>
-                    <div class="text-slate-400 text-sm leading-relaxed">Absolutely. The standard AI processing mode is 100% free. We also offer an Advanced AI mode for Premium users which provides deeper contextual understanding for complex research papers.</div>
-                </div>
-                
-                <div class="pb-2">
-                    <div class="font-bold text-slate-200 mb-2 text-lg">What does the "Super Chat" feature do?</div>
-                    <div class="text-slate-400 text-sm leading-relaxed">Once the AI summarizes your document, it suggests smart questions. Clicking on any question redirects you to our Super Chat tool, where you can "talk" to your PDF and ask highly specific follow-up questions.</div>
-                </div>
-            </div>
-        </section>
+    <div id="debug-console">
+        <b>[System Active] Checking layout...</b><br>
     </div>
+
+    <script>
+        // Debugging Script to catch what is breaking the scroll
+        const consoleEl = document.getElementById('debug-console');
+        function logDebug(msg) {
+            consoleEl.innerHTML += msg + "<br>";
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        window.onerror = function(message, source, lineno, colno, error) {
+            logDebug(`<span style="color:red">[ERROR] ${message} at line ${lineno}</span>`);
+        };
+
+        window.onload = function() {
+            setTimeout(() => {
+                let docHeight = document.documentElement.scrollHeight;
+                let winHeight = window.innerHeight;
+                let bodyHeight = document.body.scrollHeight;
+                logDebug(`Window Height: ${winHeight}px`);
+                logDebug(`Body Height: ${bodyHeight}px`);
+                logDebug(`Doc ScrollHeight: ${docHeight}px`);
+                
+                if (docHeight <= winHeight) {
+                    logDebug("<span style='color:orange'>WARNING: Content is NOT overflowing the screen. SEO section might be hidden or crushed!</span>");
+                } else {
+                    logDebug("<span style='color:lime'>SUCCESS: Page is scrollable! Scroll height is greater than window height.</span>");
+                }
+            }, 1000);
+        };
+    </script>
 
     <!-- App Logic Scripts -->
     <script>
@@ -301,7 +319,6 @@
         let pdfText = "";
         let originalFileName = "";
         let finalSummary = [];
-
         const stopWords = new Set(["the","a","and","to","of","in","is","that","it","for","on","with","as","was","at","by","an","be","this","which","or","from","but","not","are","have","has","all","their","there","were","you","your","we","our","they","can","will","would","if","what","when","how"]);
 
         function handleFile(input) {
@@ -370,11 +387,7 @@
         function processTextWithNLP() {
             let cleanText = pdfText.replace(/\s+/g, ' ').trim();
             if(cleanText.length < 15) {
-                renderResults([
-                    "We couldn't extract any text from this document.",
-                    "This usually happens when a PDF is a scanned image, or when it has been flattened/redacted.",
-                    "To see the AI Summarizer magic, please upload a standard text-based PDF."
-                ], []);
+                renderResults(["We couldn't extract text from this document."], []);
                 return;
             }
 
@@ -411,9 +424,7 @@
                 finalQuestions.push(`What are the key details regarding ${capitalize(topWords[0])} and ${capitalize(topWords[1])}?`);
                 finalQuestions.push(`How does the document explain the concept of ${capitalize(topWords[2])}?`);
                 finalQuestions.push(`What is the primary significance of ${capitalize(topWords[0])} in this context?`);
-                finalQuestions.push(`Can you elaborate on the sections discussing ${capitalize(topWords[1])}?`);
             } else {
-                finalQuestions.push("What is the main objective of this document?");
                 finalQuestions.push("What are the key takeaways?");
             }
 
@@ -427,7 +438,7 @@
             document.getElementById('step3').style.display = 'block';
 
             let title = originalFileName.replace('.pdf', '').replace(/[-_]/g, ' ');
-            document.getElementById('summaryTitle').innerText = capitalize(title) + " - Executive Summary";
+            document.getElementById('summaryTitle').innerText = capitalize(title) + " - Summary";
 
             const list = document.getElementById('summaryContent');
             list.innerHTML = '';
@@ -440,25 +451,18 @@
             const qContainer = document.getElementById('questionsContainer');
             qContainer.innerHTML = '';
             
-            if(questions.length === 0) {
-                qContainer.innerHTML = '<p class="text-sm text-gray-500 italic px-2">No suggested questions for this document format.</p>';
-            } else {
-                questions.forEach(q => {
-                    let btn = document.createElement('button');
-                    btn.className = 'q-btn';
-                    
-                    btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> ' + q;
-                    btn.onclick = () => {
-                        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading Super Chat...';
-                        localStorage.setItem('tv_chat_question', q);
-                        localStorage.setItem('tv_chat_context', summary.join(' ')); 
-                        setTimeout(() => {
-                            window.location.href = 'super-chat.html';
-                        }, 500);
-                    };
-                    qContainer.appendChild(btn);
-                });
-            }
+            questions.forEach(q => {
+                let btn = document.createElement('button');
+                btn.className = 'q-btn';
+                btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> ' + q;
+                btn.onclick = () => {
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading Super Chat...';
+                    localStorage.setItem('tv_chat_question', q);
+                    localStorage.setItem('tv_chat_context', summary.join(' ')); 
+                    setTimeout(() => { window.location.href = 'super-chat.html'; }, 500);
+                };
+                qContainer.appendChild(btn);
+            });
         }
 
         window.copyToClipboard = function() {
