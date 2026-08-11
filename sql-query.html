@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SQL Query AI Pro - ToolVerse</title>
+    <title>Free AI SQL Query Builder | Generate Database Code - ToolVerse</title>
     
     <!-- ==========================================
-         SEO META TAGS & CANONICAL LINK
+         SEO META TAGS & CANONICAL LINK (UPDATED)
          ========================================== -->
-    <meta name="description" content="Generate complex, optimized SQL and NoSQL database queries from simple English instantly with SQL Query AI Pro. 100% free tool on ToolVerse." />
+    <meta name="title" content="Free AI SQL Query Builder | Generate Database Code - ToolVerse">
+    <meta name="description" content="Generate complex, optimized SQL and NoSQL database queries from simple English instantly with our AI Builder. 100% free developer tool on ToolVerse.">
     <link rel="canonical" href="https://toolverse-usa.vercel.app/sql-query.html" />
 
     <!-- ==========================================
@@ -40,13 +41,13 @@
     <!-- ==========================================
          VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
          ========================================== -->
-    <meta property="og:title" content="SQL Query AI Pro | Premium ToolVerse" />
+    <meta property="og:title" content="Free AI SQL Query Builder | Generate Database Code - ToolVerse" />
     <meta property="og:description" content="Generate complex, optimized SQL and NoSQL database queries from simple English instantly with SQL Query AI Pro. 100% Free!" />
     <meta property="og:url" content="https://toolverse-usa.vercel.app/sql-query.html" /> 
     <meta property="og:type" content="website" />
     
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="SQL Query AI Pro | Premium ToolVerse" />
+    <meta name="twitter:title" content="Free AI SQL Query Builder | Generate Database Code - ToolVerse" />
     <meta name="twitter:description" content="Generate complex, optimized SQL and NoSQL database queries from simple English instantly with SQL Query AI Pro. 100% Free!" />
 
     <!-- PrismJS for SQL Syntax Highlighting -->
@@ -54,17 +55,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        * { box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background-color: #050b14; /* Deep dark blue/black */
             color: #f8fafc;
             margin: 0;
-            padding: 40px 20px;
+            padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             min-height: 100vh;
             position: relative;
         }
+
+        .main-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 80px 20px 40px;
+        }
+
         .home-link {
             position: absolute;
             top: 20px;
@@ -73,6 +85,8 @@
             text-decoration: none;
             font-weight: 500;
             transition: 0.3s;
+            font-size: 15px;
+            z-index: 100;
         }
         .home-link:hover {
             color: #10b981;
@@ -86,19 +100,19 @@
             width: 100%;
             max-width: 950px;
             box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8);
-            margin-top: 20px;
         }
         h1 {
             text-align: center;
             margin-bottom: 5px;
             font-size: 2.4rem;
+            margin-top: 0;
         }
         .gradient-text {
             background: linear-gradient(to right, #10b981, #3b82f6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        p.subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; }
+        p.subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; line-height: 1.5; }
         
         /* Database Selectors */
         .db-selector { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; justify-content: center; }
@@ -147,49 +161,108 @@
         }
         .explanation-box h3 { margin-top: 0; color: #3b82f6; font-size: 1.1rem; }
         .explanation-box div { color: #cbd5e1; font-size: 14px; line-height: 1.7; }
+
+        /* ==========================================
+           SEO CONTENT SECTION STYLES (NEW)
+           ========================================== */
+        .seo-content-section { max-width: 1000px; margin: 40px auto 80px; padding: 0 20px; width: 100%; }
+        .seo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .seo-box { background: rgba(30, 41, 59, 0.4); padding: 25px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .seo-box h3 { color: #10b981; margin-top: 0; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-box p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+        
+        .faq-container { background: rgba(30, 41, 59, 0.4); padding: 35px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(16, 185, 129, 0.15); margin-bottom: 20px; }
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; padding-bottom: 20px; }
+        .faq-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .faq-q { font-weight: 700; color: #f8fafc; margin-bottom: 10px; font-size: 1.05rem; }
+        .faq-a { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
+
+        @media (max-width: 600px) {
+            .container { padding: 30px 20px; }
+            h1 { font-size: 1.8rem; }
+        }
     </style>
 </head>
 <body>
 
-    <a href="index.html" class="home-link">← Back to Home</a>
-
-<div class="container">
-    <h1>🗄️ <span class="gradient-text">SQL Query AI Pro</span></h1>
-    <p class="subtitle">Generate complex, optimized database queries from simple English.</p>
-    
-    <div class="db-selector" id="db-selector">
-        <button class="db-btn active" onclick="selectDB(this, 'MySQL / MariaDB')">MySQL</button>
-        <button class="db-btn" onclick="selectDB(this, 'PostgreSQL')">PostgreSQL</button>
-        <button class="db-btn" onclick="selectDB(this, 'SQL Server (T-SQL)')">SQL Server</button>
-        <button class="db-btn" onclick="selectDB(this, 'MongoDB (NoSQL)')">MongoDB</button>
-        <button class="db-btn" onclick="selectDB(this, 'SQLite')">SQLite</button>
-    </div>
-
-    <div class="input-group">
-        <label>Database Context / Table Schema <span class="optional-tag">Optional</span></label>
-        <textarea id="schema-input" style="height: 70px;" placeholder="e.g., users(id, name, email, plan_id), plans(id, price) - Helps AI use exact column names"></textarea>
-    </div>
-
-    <div class="input-group">
-        <label>What data do you want to query?</label>
-        <textarea id="desc-input" style="height: 100px;" placeholder="e.g., Get the names and emails of all users who purchased a plan greater than $50 in the last 30 days..."></textarea>
-    </div>
-    
-    <button id="generate-btn" class="main-btn" onclick="generateQuery()">Generate Optimized Query ⚡</button>
-
-    <div id="output-section">
-        <div class="ide-header">
-            <span style="font-size: 13px; color: #94a3b8; font-weight: bold;">Generated Query</span>
-            <button class="copy-btn" onclick="copyQuery()">📋 Copy Code</button>
+<div class="main-wrapper">
+    <div class="container">
+        <a href="index.html" class="home-link">← Back to Home</a>
+        <h1>🗄️ <span class="gradient-text">SQL Query AI Pro</span></h1>
+        <p class="subtitle">Generate complex, optimized database queries from simple English.</p>
+        
+        <div class="db-selector" id="db-selector">
+            <button class="db-btn active" onclick="selectDB(this, 'MySQL / MariaDB')">MySQL</button>
+            <button class="db-btn" onclick="selectDB(this, 'PostgreSQL')">PostgreSQL</button>
+            <button class="db-btn" onclick="selectDB(this, 'SQL Server (T-SQL)')">SQL Server</button>
+            <button class="db-btn" onclick="selectDB(this, 'MongoDB (NoSQL)')">MongoDB</button>
+            <button class="db-btn" onclick="selectDB(this, 'SQLite')">SQLite</button>
         </div>
-        <pre><code id="out-query" class="language-sql"></code></pre>
 
-        <div class="explanation-box">
-            <h3>🧠 Query Breakdown & Optimization</h3>
-            <div id="out-explanation" style="white-space: pre-line;"></div>
+        <div class="input-group">
+            <label>Database Context / Table Schema <span class="optional-tag">Optional</span></label>
+            <textarea id="schema-input" style="height: 70px;" placeholder="e.g., users(id, name, email, plan_id), plans(id, price) - Helps AI use exact column names"></textarea>
+        </div>
+
+        <div class="input-group">
+            <label>What data do you want to query?</label>
+            <textarea id="desc-input" style="height: 100px;" placeholder="e.g., Get the names and emails of all users who purchased a plan greater than $50 in the last 30 days..."></textarea>
+        </div>
+        
+        <button id="generate-btn" class="main-btn" onclick="generateQuery()">Generate Optimized Query ⚡</button>
+
+        <div id="output-section">
+            <div class="ide-header">
+                <span style="font-size: 13px; color: #94a3b8; font-weight: bold;">Generated Query</span>
+                <button class="copy-btn" onclick="copyQuery()">📋 Copy Code</button>
+            </div>
+            <pre><code id="out-query" class="language-sql"></code></pre>
+
+            <div class="explanation-box">
+                <h3>🧠 Query Breakdown & Optimization</h3>
+                <div id="out-explanation" style="white-space: pre-line;"></div>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- ==========================================
+     SEO CONTENT & FAQS (Crucial for Google Ranking)
+     ========================================== -->
+<section class="seo-content-section">
+    <h2 style="font-size: 1.8rem; color: #f8fafc; text-align: center; margin-bottom: 30px;">How to Generate SQL Queries with AI?</h2>
+    
+    <div class="seo-grid">
+        <div class="seo-box">
+            <h3>1. Select Database</h3>
+            <p>Choose your specific relational (MySQL, PostgreSQL) or NoSQL (MongoDB) database so the AI writes the correct syntax and functions.</p>
+        </div>
+        <div class="seo-box">
+            <h3>2. Provide Schema (Optional)</h3>
+            <p>Paste your table names and columns. This step is optional, but it helps the AI generate a query that perfectly matches your real database.</p>
+        </div>
+        <div class="seo-box">
+            <h3>3. Describe & Generate</h3>
+            <p>Explain the data you need in plain English. The AI will write the SQL code and provide a breakdown explaining how the query operates.</p>
+        </div>
+    </div>
+
+    <div class="faq-container">
+        <h2 style="font-size: 1.6rem; color: #f8fafc; margin-bottom: 20px; text-align: center;">Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <div class="faq-q">Does the AI generate optimized SQL?</div>
+            <div class="faq-a">Yes. The AI acts as a Database Architect, meaning it will naturally prefer using optimized JOINs over subqueries and will structure the logic to run efficiently on large datasets.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">Can it write queries for NoSQL databases like MongoDB?</div>
+            <div class="faq-a">Absolutely. If you select MongoDB from the top menu, the AI will switch its syntax from standard SQL string generation to MongoDB JavaScript-based aggregation pipelines and query objects.</div>
+        </div>
+        <div class="faq-item" style="border-bottom: none; padding-bottom: 0;">
+            <div class="faq-q">Are my database schemas kept secure?</div>
+            <div class="faq-a">Your schema notes and queries are processed securely for the specific prompt generation. The data is never permanently stored on ToolVerse servers or used to train public databases.</div>
+        </div>
+    </div>
+</section>
 
 <!-- PrismJS Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
