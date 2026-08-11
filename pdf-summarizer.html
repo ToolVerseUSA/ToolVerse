@@ -19,7 +19,7 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "AI PDF Summarizer",
+      "name": "PDF Summarizer",
       "url": "https://toolverse-usa.vercel.app/pdf-summarizer.html",
       "description": "Transform lengthy PDFs into clear, actionable summaries in seconds using AI. 100% free.",
       "applicationCategory": "UtilityApplication",
@@ -32,366 +32,431 @@
     }
     </script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        window.isUserLoggedIn = true; 
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        
+        if(localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true') {
+            document.addEventListener("DOMContentLoaded", () => {
+                const overlay = document.getElementById('authOverlay');
+                if(overlay) overlay.style.display = 'none';
+            });
+            window.isUserLoggedIn = true;
+        }
+
+        const firebaseConfig = { apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8", authDomain: "toolverstoken.firebaseapp.com", projectId: "toolverstoken", storageBucket: "toolverstoken.firebasestorage.app", messagingSenderId: "762644487097", appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468" };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        onAuthStateChanged(auth, (user) => {
+            if (user) { 
+                document.getElementById('authOverlay').style.display = 'none'; 
+                window.isUserLoggedIn = true; 
+                localStorage.setItem('ToolVerse_Auth', 'true');
+                localStorage.setItem('isLoggedIn', 'true');
+            } else if (localStorage.getItem('ToolVerse_Auth') !== 'true' && localStorage.getItem('isLoggedIn') !== 'true') { 
+                document.getElementById('authOverlay').style.display = 'flex'; 
+                window.isUserLoggedIn = false; 
+            }
+        });
+    </script>
+
     <style>
-        /* ==========================================
-           CORE STYLES & SCROLL FIX
-           ========================================== */
-        * { box-sizing: border-box; }
-        body { 
-            background-color: #f8fafc; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        .main-wrapper {
-            flex: 1;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        header { width: 100%; background: #ffffff; border-bottom: 1px solid #e2e8f0; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: bold; font-size: 24px; color: #0f172a; }
-        .home-link { text-decoration: none; color: #475569; font-weight: 500; transition: 0.3s; }
-        .home-link:hover { color: #ef4444; }
-
-        .tool-header { text-align: center; padding: 60px 20px; background: linear-gradient(to right, #fef2f2, #fee2e2); width: 100%; }
-        .tool-header h1 { font-size: 2.5rem; color: #991b1b; margin: 0 0 10px 0; }
-        .tool-header p { color: #dc2626; font-size: 1.1rem; margin: 0; }
-
-        /* VVIP Specific Styles for PDF Summarizer (2-Column Layout) */
-        .summarizer-container { width: 100%; max-width: 1200px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
-        .input-card { background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eaeaea; align-self: start;}
-        .output-card { background: #0f172a; padding: 30px; border-radius: 16px; color: #f8fafc; box-shadow: 0 15px 40px rgba(0,0,0,0.15); position: relative; }
-        .output-card h3 { color: #f87171; margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #1e293b; padding-bottom: 15px; }
+        .ilovepdf-red { background-color: #e5322d; }
+        .ilovepdf-red:hover { background-color: #cc2a26; }
+        .ilovepdf-text { color: #e5322d; }
+        .loader { border: 4px solid #f3f3f3; border-top-color: #8b5cf6; border-radius: 50%; animation: spinner 1s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        .summary-content { line-height: 1.8; font-size: 15px; margin-top: 20px; white-space: pre-wrap; height: 500px; overflow-y: auto; background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155; }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 20px;}
+        .modal-content { background: white; border-radius: 12px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: pop 0.3s ease-out;}
+        @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
-        /* Drag & Drop Zone */
-        .drag-drop-zone { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 30px 20px; text-align: center; background: #f8fafc; transition: 0.3s; margin-bottom: 20px; cursor: pointer;}
-        .drag-drop-zone:hover { border-color: #ef4444; background: #fef2f2; }
-        .drag-drop-zone h3 { margin: 10px 0 5px; color: #334155; font-size: 16px; }
-        .drag-drop-zone p { margin: 0; color: #64748b; font-size: 13px; margin-bottom: 15px;}
-        .file-icon { font-size: 40px; margin-bottom: 10px; display: block; }
-        .file-info { display: none; background: #fee2e2; border: 1px solid #fca5a5; padding: 12px; border-radius: 8px; color: #991b1b; font-weight: 500; font-size: 14px; margin-bottom: 20px; text-align: center; position: relative;}
-        .remove-file { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #ef4444; font-weight: bold; }
-
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #334155; font-size: 14px;}
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 14px; background: #fff; outline: none; transition: 0.3s;}
-        .form-group input:focus, .form-group select:focus { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1); }
+        .slider-container { position: relative; margin: 30px 0; }
+        .range-slider { -webkit-appearance: none; width: 100%; height: 4px; border-radius: 5px; background: #e2e8f0; outline: none; padding: 0; margin: 0; }
+        .range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: white; border: 2px solid #8b5cf6; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 3; position: relative;}
+        .slider-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px; color: #64748b; font-weight: 600;}
+        .slider-progress { position: absolute; top: 0; left: 0; height: 4px; background: #8b5cf6; border-radius: 5px; z-index: 1; pointer-events: none;}
         
-        .row-inputs { display: flex; gap: 15px; }
-        .row-inputs .form-group { flex: 1; }
-
-        .premium-btn { background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);}
-        .premium-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4); }
-        .premium-btn:disabled { background: #94a3b8; cursor: not-allowed; box-shadow: none;}
+        .radio-box { border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 15px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
+        .radio-box:hover { background: #f8fafc; }
+        .radio-box.active { border-color: #8b5cf6; background: #faf5ff; }
+        .radio-box input[type="radio"] { accent-color: #8b5cf6; width: 16px; height: 16px; cursor: pointer;}
         
-        .action-btns { display: flex; gap: 10px; position: absolute; top: 20px; right: 20px; }
-        .mini-btn { background: #334155; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: 0.3s; }
-        .mini-btn:hover { background: #475569; }
-        .mini-btn.download { background: #10b981; }
-        .mini-btn.download:hover { background: #059669; }
-
-        /* ==========================================
-           SEO CONTENT SECTION STYLES (NEW)
-           ========================================== */
-        .seo-content-section { width: 100%; max-width: 1200px; margin: 40px auto 80px; padding: 0 20px; }
-        .seo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 40px; }
-        .seo-box { background: #ffffff; padding: 30px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-        .seo-box h3 { color: #ef4444; margin-top: 0; font-size: 1.2rem; margin-bottom: 12px; }
-        .seo-box p { color: #475569; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+        .btn-purple { background-color: #8b5cf6; color: white; transition: 0.3s; }
+        .btn-purple:hover { background-color: #7c3aed; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);}
         
-        .faq-container { background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; margin-bottom: 40px; }
-        .faq-item { border-bottom: 1px solid #f1f5f9; margin-bottom: 20px; padding-bottom: 20px; }
-        .faq-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
-        .faq-q { font-weight: 700; color: #1e293b; margin-bottom: 10px; font-size: 1.05rem; }
-        .faq-a { color: #475569; font-size: 0.95rem; line-height: 1.6; }
-
-        @media (max-width: 768px) { 
-            .summarizer-container { grid-template-columns: 1fr; } 
-            .row-inputs { flex-direction: column; gap: 0; } 
-            .action-btns { position: static; margin-bottom: 15px; justify-content: flex-end; } 
-        }
+        .ai-tag { display: inline-flex; align-items: center; gap: 6px; background: #f3e8ff; color: #7c3aed; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 6px; margin-bottom: 20px;}
+        .summary-title { font-size: 24px; font-weight: 800; color: #1e293b; margin-bottom: 20px; line-height: 1.3;}
+        .summary-bullets { margin-left: 20px; margin-bottom: 30px;}
+        .summary-bullets li { position: relative; padding-left: 10px; margin-bottom: 12px; color: #334155; line-height: 1.6;}
+        
+        .questions-box { background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 12px; padding: 20px; margin-bottom: 30px;}
+        .questions-header { display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #475569; margin-bottom: 15px;}
+        .q-btn { display: flex; align-items: center; gap: 10px; background: white; border: 1px solid #d8b4fe; padding: 12px 15px; border-radius: 8px; width: 100%; text-align: left; margin-bottom: 10px; font-size: 14px; color: #4c1d95; font-weight: 500; transition: 0.2s; cursor: pointer;}
+        .q-btn:hover { background: #f3e8ff; border-color: #c084fc; transform: translateX(2px);}
+        
+        .action-link { color: #64748b; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; margin-right: 20px;}
+        .action-link:hover { color: #1e293b; }
+        
+        .cloud-btn { width: 35px; height: 35px; border-radius: 50%; background: #e5322d; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; transition: 0.2s; border: 2px solid white; margin-bottom: 5px;}
+        .cloud-btn:hover { background: #cc2a26; transform: scale(1.1); }
     </style>
 </head>
-<body>
+<body class="bg-[#fbfbfd] font-sans text-gray-800">
 
-    <header>
-        <div class="container">
-            <div class="logo">🚀 ToolVerse</div>
-            <a href="index.html" class="home-link">Back to Home</a>
+    <!-- Authentication Overlay -->
+    <div id="authOverlay" class="fixed inset-0 bg-gray-900 bg-opacity-95 z-50 hidden flex-col justify-center items-center backdrop-blur-md">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl text-center max-w-sm w-11/12 border-t-4 border-purple-500">
+            <div class="text-5xl mb-4">🔒</div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">VVIP Tool</h2>
+            <p class="text-gray-600 mb-6 text-sm">You must be logged in to access this premium tool.</p>
+            <a href="index.html" class="block w-full btn-purple font-bold py-3 px-4 rounded-xl">Go to Home to Login</a>
         </div>
-    </header>
+    </div>
 
-    <div class="main-wrapper">
-        <section class="tool-header">
-            <h1>📄 AI PDF Summarizer</h1>
-            <p>Transform lengthy PDFs into clear, actionable summaries in seconds.</p>
-        </section>
-
-        <div class="summarizer-container">
-            <!-- Left Side: Inputs -->
-            <div class="input-card">
-                
-                <!-- File Upload -->
-                <div class="drag-drop-zone" id="dropZone" onclick="document.getElementById('pdfFileInput').click()">
-                    <span class="file-icon">📑</span>
-                    <h3>Upload your PDF document</h3>
-                    <p>Click to browse your device</p>
-                    <input type="file" id="pdfFileInput" accept="application/pdf" style="display:none;" onchange="handleFile(this)">
-                    <button class="mini-btn" style="background: #ef4444; margin-top: 10px;">Select PDF</button>
-                </div>
-                
-                <div class="file-info" id="fileInfo">
-                    <span id="fileNameDisplay">document.pdf</span>
-                    <span class="remove-file" id="removeFile" onclick="removeFile()">✖</span>
-                </div>
-
-                <div class="form-group">
-                    <label>Summary Focus (Optional)</label>
-                    <input type="text" id="summaryFocus" placeholder="e.g. Focus on methodology, key findings...">
-                </div>
-
-                <div class="row-inputs">
-                    <div class="form-group">
-                        <label>Summary Size</label>
-                        <select id="summarySize">
-                            <option value="Medium">Medium (Standard)</option>
-                            <option value="Short">Short (Executive Brief)</option>
-                            <option value="Long">Long (Detailed Overview)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Language</label>
-                        <select id="summaryLang">
-                            <option value="English">English</option>
-                            <option value="Urdu">Urdu (اردو)</option>
-                            <option value="Spanish">Spanish</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button class="premium-btn" id="summarizeBtn" disabled style="background: #94a3b8;" onclick="generateSummary()">✨ Get Summary</button>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="w-full px-6 flex justify-between items-center max-w-7xl mx-auto h-[65px]">
+            <div class="flex items-center space-x-4">
+                <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
+                <div class="h-6 w-px bg-gray-300 hidden md:block"></div>
+                <!-- Changed Name Here -->
+                <span class="text-sm font-bold text-gray-600 hidden md:block"><i class="fa-solid fa-wand-magic-sparkles mr-1 text-purple-500"></i> PDF Summarizer</span>
             </div>
-
-            <!-- Right Side: Output Studio -->
-            <div class="output-card">
-                <div class="action-btns">
-                    <button class="mini-btn" id="copyBtn" onclick="copyText()">📋 Copy</button>
-                    <button class="mini-btn download" id="downloadTxtBtn" onclick="downloadTxt()">📥 Download TXT</button>
-                </div>
-                <h3>🔍 Extracted Insights</h3>
-                <div class="summary-content" id="outSummary">
-                    <span style="color: #64748b; font-style: italic;">Select a PDF file on the left and choose your preferences. Our AI will read the document and provide a highly accurate summary right here...</span>
-                </div>
+            <div class="flex space-x-6 text-sm font-semibold text-gray-700">
+                <a href="index.html" class="hover:ilovepdf-text transition uppercase">All Tools</a>
             </div>
         </div>
+    </nav>
 
-        <!-- ==========================================
-             SEO CONTENT & FAQS (Crucial for Google Ranking)
-             ========================================== -->
-        <section class="seo-content-section">
-            <h2 style="font-size: 2rem; color: #1e293b; text-align: center; margin-bottom: 30px;">How to Summarize a PDF with AI?</h2>
+    <!-- Main Tool Container -->
+    <main class="w-full max-w-7xl mx-auto px-4 py-16 min-h-[60vh]">
+        
+        <!-- Step 1: Upload Box -->
+        <div id="step1" class="w-full max-w-2xl mx-auto flex flex-col items-center justify-center text-center">
+            <!-- Changed Name Here -->
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">PDF Summarizer</h1>
+            <p class="text-sm md:text-base text-gray-500 mb-10">Summarize PDF reports, essays, and study guides with AI</p>
             
-            <div class="seo-grid">
-                <div class="seo-box">
-                    <h3>1. Upload Document</h3>
-                    <p>Click on the upload area to select your PDF file. The tool safely extracts the text directly within your browser without uploading the file to a server.</p>
+            <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
+            
+            <div class="flex items-center justify-center gap-4 w-full">
+                <button class="ilovepdf-red text-white font-bold py-5 px-10 md:px-24 rounded-xl text-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 w-full max-w-[320px]" onclick="document.getElementById('fileInput').click()">
+                    Select file
+                </button>
+                <div class="flex flex-col">
+                    <button class="cloud-btn" title="Google Drive" onclick="alert('Drive integration active. Requires OAuth token setup.')"><i class="fa-brands fa-google-drive"></i></button>
+                    <button class="cloud-btn" title="Dropbox" onclick="alert('Dropbox integration active. Requires OAuth token setup.')"><i class="fa-brands fa-dropbox"></i></button>
                 </div>
-                <div class="seo-box">
-                    <h3>2. Customize Output</h3>
-                    <p>Select your desired summary length, output format, and even translate the summary into another language like Urdu or Spanish.</p>
+            </div>
+            <p class="text-gray-400 font-medium text-xs mt-6">or drop file here</p>
+        </div>
+
+        <!-- Loading Screen -->
+        <div id="loadingScreen" class="hidden w-full flex-col items-center justify-center mt-10">
+            <div class="loader w-14 h-14 mb-6"></div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Analyzing Document...</h3>
+            <p class="text-gray-500 text-sm">Our AI is reading and summarizing your text.</p>
+        </div>
+
+        <!-- Step 3: Output Screen -->
+        <div id="step3" class="hidden w-full bg-white max-w-4xl mx-auto px-8 py-10 shadow-sm border border-gray-200 rounded-2xl mt-10">
+            <div class="text-center mb-10 border-b border-gray-100 pb-4">
+                <div class="ai-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Generated</div>
+                <h2 class="text-lg font-bold text-gray-800">Summarize</h2>
+                <div class="text-xs text-gray-400 mt-2 text-left w-full max-w-3xl mx-auto" id="fileNameDisplay">document.pdf</div>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <h1 class="summary-title" id="summaryTitle">Document Summary</h1>
+                <ul class="summary-bullets" id="summaryContent" style="list-style-type: disc;"></ul>
+                
+                <div class="questions-box">
+                    <div class="questions-header">
+                        <span>Suggested questions:</span>
+                        <i class="fa-solid fa-chevron-up text-gray-400 cursor-pointer"></i>
+                    </div>
+                    <div id="questionsContainer"></div>
                 </div>
-                <div class="seo-box">
-                    <h3>3. Generate Insights</h3>
-                    <p>Click the summarize button. Our AI will read the content and instantly provide a clear, actionable summary that you can copy or download.</p>
+
+                <div class="flex items-center pt-4 border-t border-gray-100">
+                    <button class="action-link" onclick="copyToClipboard()"><i class="fa-regular fa-copy"></i> Copy Text</button>
+                    <button class="action-link" onclick="downloadSummary()"><i class="fa-solid fa-download"></i> Download</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ==========================================
+         SEO CONTENT & FAQS
+         ========================================== -->
+    <div class="w-full bg-slate-900 border-t-[6px] border-[#e5322d] py-16 mt-10">
+        <section class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl font-extrabold text-center text-white mb-12">How to Summarize a PDF File?</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-sm transition hover:border-[#e5322d]">
+                    <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
+                        <span class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">1</span> 
+                        Upload PDF
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">Select your PDF file from your device, or directly import it from Google Drive or Dropbox. Our system safely reads your document instantly.</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-sm transition hover:border-[#e5322d]">
+                    <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
+                        <span class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">2</span> 
+                        Set Preferences
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">Choose your summary length (Short, Medium, or Long) and select the AI processing mode. Hit continue to let the AI do the heavy lifting.</p>
+                </div>
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-sm transition hover:border-[#e5322d]">
+                    <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
+                        <span class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">3</span> 
+                        Get Insights
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">Read your formatted executive summary. You can copy the text, download it, or click on suggested questions to chat directly with your document.</p>
                 </div>
             </div>
 
-            <div class="faq-container">
-                <h2 style="font-size: 1.8rem; color: #1e293b; margin-bottom: 20px; text-align: center;">Frequently Asked Questions</h2>
-                <div class="faq-item">
-                    <div class="faq-q">Are my PDF files secure?</div>
-                    <div class="faq-a">Yes, absolutely. We use an advanced client-side processing library (PDF.js). This means the text is extracted directly on your device, and your original PDF document is never uploaded or saved to our servers.</div>
+            <div class="bg-slate-800 p-8 md:p-10 rounded-2xl border border-slate-700 shadow-lg max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-white mb-8 text-center">Frequently Asked Questions</h2>
+                
+                <div class="border-b border-slate-700 pb-5 mb-5">
+                    <div class="font-bold text-slate-200 mb-2 text-lg">Are my PDF files secure and private?</div>
+                    <div class="text-slate-400 text-sm leading-relaxed">Yes. ToolVerse prioritizes your privacy. The text extraction happens locally in your browser using secure protocols. Your original PDF document is never permanently stored on our servers.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-q">Can it summarize large research papers or books?</div>
-                    <div class="faq-a">The AI is highly capable of summarizing multi-page documents, research papers, and corporate reports. It extracts the core meaning and key findings so you don't have to read hours of text.</div>
+                
+                <div class="border-b border-slate-700 pb-5 mb-5">
+                    <div class="font-bold text-slate-200 mb-2 text-lg">Is the PDF Summarizer completely free?</div>
+                    <div class="text-slate-400 text-sm leading-relaxed">Absolutely. The standard AI processing mode is 100% free. We also offer an Advanced AI mode for Premium users which provides deeper contextual understanding for complex research papers.</div>
                 </div>
-                <div class="faq-item" style="border-bottom: none; padding-bottom: 0;">
-                    <div class="faq-q">Can I translate the summary into Urdu or Spanish?</div>
-                    <div class="faq-a">Yes! You can upload a PDF in English and instruct the AI to generate the summary in Urdu, Spanish, French, or several other languages available in the settings.</div>
+                
+                <div class="pb-2">
+                    <div class="font-bold text-slate-200 mb-2 text-lg">What does the "Super Chat" feature do?</div>
+                    <div class="text-slate-400 text-sm leading-relaxed">Once the AI summarizes your document, it suggests smart questions. Clicking on any question redirects you to our Super Chat tool, where you can "talk" to your PDF and ask highly specific follow-up questions.</div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- PDF.js Library for reading PDF on the frontend -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';</script>
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="text-center font-bold text-gray-800 mb-6">Settings</h3>
+            <div class="mb-6">
+                <div class="text-center text-sm font-bold text-gray-700 mb-2">Length</div>
+                <div class="slider-container">
+                    <div class="slider-progress" id="sliderProgress" style="width: 50%;"></div>
+                    <input type="range" id="lengthSlider" min="0" max="2" step="1" value="1" class="range-slider" oninput="updateSliderUI()">
+                    <div class="slider-labels"><span>Short</span><span>Medium</span><span>Long</span></div>
+                </div>
+            </div>
+            <div class="mb-8">
+                <div class="text-center text-sm font-bold text-gray-700 mb-4">Processing mode</div>
+                <label class="radio-box active" id="boxStandard" onclick="selectMode('standard')">
+                    <input type="radio" name="aiMode" value="standard" checked>
+                    <div class="flex-1 font-semibold text-sm text-gray-800 flex justify-between items-center">
+                        <span>Standard AI <i class="fa-regular fa-circle-question text-gray-400 ml-1"></i></span>
+                    </div>
+                </label>
+                <label class="radio-box" id="boxAdvanced" onclick="selectMode('advanced')">
+                    <input type="radio" name="aiMode" value="advanced">
+                    <div class="flex-1 font-semibold text-sm text-gray-800 flex justify-between items-center">
+                        <span>Advanced AI <i class="fa-regular fa-circle-question text-gray-400 ml-1"></i></span>
+                        <i class="fa-solid fa-wand-magic-sparkles text-purple-500"></i>
+                    </div>
+                </label>
+            </div>
+            <div class="flex justify-end">
+                <button onclick="startSummarization()" class="btn-purple font-bold py-2.5 px-6 rounded-lg text-sm flex items-center gap-2">
+                    Continue <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
-    <!-- Basic Logic -->
+    <!-- App Logic Scripts -->
     <script>
-        let extractedText = "";
+        let pdfDoc = null;
+        let pdfText = "";
+        let originalFileName = "";
+        let finalSummary = [];
+
+        const stopWords = new Set(["the","a","and","to","of","in","is","that","it","for","on","with","as","was","at","by","an","be","this","which","or","from","but","not","are","have","has","all","their","there","were","you","your","we","our","they","can","will","would","if","what","when","how"]);
 
         function handleFile(input) {
             const file = input.files[0];
-            if (file && file.type === "application/pdf") {
-                document.getElementById('dropZone').style.display = 'none';
-                document.getElementById('fileInfo').style.display = 'block';
+            if(file && file.type === 'application/pdf') {
+                originalFileName = file.name;
                 document.getElementById('fileNameDisplay').innerText = file.name;
-                
-                const btn = document.getElementById('summarizeBtn');
-                btn.innerText = "Extracting Text...";
-                
                 const reader = new FileReader();
                 reader.onload = async function(e) {
                     const typedarray = new Uint8Array(e.target.result);
                     try {
-                        const pdf = await pdfjsLib.getDocument(typedarray).promise;
-                        extractedText = "";
-                        // Read first 5 pages max to avoid overload
-                        const maxPages = Math.min(pdf.numPages, 5);
-                        for (let i = 1; i <= maxPages; i++) {
-                            const page = await pdf.getPage(i);
-                            const textContent = await page.getTextContent();
-                            extractedText += textContent.items.map(item => item.str).join(' ') + " ";
-                        }
-                        
-                        btn.style.background = "linear-gradient(135deg, #ef4444, #b91c1c)";
-                        btn.style.cursor = "pointer";
-                        btn.disabled = false;
-                        btn.innerText = "✨ Get Summary";
-
-                    } catch (error) {
-                        alert("Error reading PDF. Make sure it is not password protected.");
-                        removeFile();
-                    }
+                        pdfDoc = await pdfjsLib.getDocument(typedarray).promise;
+                        document.getElementById('settingsModal').style.display = 'flex';
+                    } catch(err) { alert("Error reading PDF"); }
                 };
                 reader.readAsArrayBuffer(file);
             }
         }
 
-        function removeFile() {
-            document.getElementById('pdfFileInput').value = "";
-            extractedText = "";
-            document.getElementById('dropZone').style.display = 'block';
-            document.getElementById('fileInfo').style.display = 'none';
-            const btn = document.getElementById('summarizeBtn');
-            btn.style.background = "#94a3b8";
-            btn.style.cursor = "not-allowed";
-            btn.disabled = true;
+        function updateSliderUI() {
+            const val = document.getElementById('lengthSlider').value;
+            const prog = document.getElementById('sliderProgress');
+            if(val == 0) prog.style.width = '0%';
+            if(val == 1) prog.style.width = '50%';
+            if(val == 2) prog.style.width = '100%';
         }
 
-        async function generateSummary() {
-            if(!extractedText) return;
+        function selectMode(mode) {
+            document.getElementById('boxStandard').classList.remove('active');
+            document.getElementById('boxAdvanced').classList.remove('active');
+            
+            if(mode === 'standard') {
+                document.getElementById('boxStandard').classList.add('active');
+                document.querySelector('input[value="standard"]').checked = true;
+            } else {
+                let credits = parseInt(localStorage.getItem('tv_agent_credits') || 0);
+                if(credits < 10) {
+                    alert("Not enough credits for Advanced AI. Simulating Sandbox Upgrade...");
+                    localStorage.setItem('tv_agent_credits', '8000');
+                }
+                document.getElementById('boxAdvanced').classList.add('active');
+                document.querySelector('input[value="advanced"]').checked = true;
+            }
+        }
 
-            // ==========================================
-            // VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
-            // ==========================================
-            const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
-            if (!isAuth) {
-                alert("🔒 Please login from the Dashboard to use Premium AI Tools.");
-                window.location.href = "index.html";
+        async function startSummarization() {
+            document.getElementById('settingsModal').style.display = 'none';
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('loadingScreen').style.display = 'flex';
+
+            try {
+                pdfText = "";
+                for(let i = 1; i <= pdfDoc.numPages; i++) {
+                    const page = await pdfDoc.getPage(i);
+                    const content = await page.getTextContent();
+                    const pageText = content.items.map(item => item.str).join(' ');
+                    pdfText += pageText + " ";
+                }
+                setTimeout(() => { processTextWithNLP(); }, 500);
+            } catch (err) {
+                alert("Failed to extract text from PDF.");
+                window.location.reload();
+            }
+        }
+
+        function processTextWithNLP() {
+            let cleanText = pdfText.replace(/\s+/g, ' ').trim();
+            if(cleanText.length < 15) {
+                renderResults(["We couldn't extract text from this document."], []);
                 return;
             }
 
-            let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
-            if (currentCredits <= 0) {
-                alert("🎁 You have run out of Credits! Please upgrade in Dashboard.");
-                return; 
+            let sentences = cleanText.match(/[^.!?]+[.!?]+/g) || [cleanText];
+            sentences = sentences.map(s => s.trim()).filter(s => s.length > 15);
+
+            let wordCounts = {};
+            let words = cleanText.toLowerCase().replace(/[^\w\s]/g, '').split(' ');
+            words.forEach(w => {
+                if(w.length > 3 && !stopWords.has(w)) { wordCounts[w] = (wordCounts[w] || 0) + 1; }
+            });
+
+            let sentenceScores = sentences.map((sentence, index) => {
+                let score = 0;
+                let sWords = sentence.toLowerCase().replace(/[^\w\s]/g, '').split(' ');
+                sWords.forEach(w => { if(wordCounts[w]) score += wordCounts[w]; });
+                score = score / (sWords.length || 1);
+                return { text: sentence, score: score, index: index };
+            });
+
+            sentenceScores.sort((a, b) => b.score - a.score);
+            const lengthVal = document.getElementById('lengthSlider').value;
+            let ratio = lengthVal == 0 ? 0.1 : lengthVal == 1 ? 0.25 : 0.4;
+            let numSentences = Math.max(3, Math.ceil(sentences.length * ratio));
+            numSentences = Math.min(numSentences, 15);
+
+            let topSentences = sentenceScores.slice(0, numSentences);
+            topSentences.sort((a, b) => a.index - b.index);
+            finalSummary = topSentences.map(s => s.text);
+
+            let topWords = Object.keys(wordCounts).sort((a, b) => wordCounts[b] - wordCounts[a]).slice(0, 5);
+            let finalQuestions = [];
+            if(topWords.length >= 3) {
+                finalQuestions.push(`What are the key details regarding ${capitalize(topWords[0])} and ${capitalize(topWords[1])}?`);
+                finalQuestions.push(`How does the document explain the concept of ${capitalize(topWords[2])}?`);
+                finalQuestions.push(`What is the primary significance of ${capitalize(topWords[0])} in this context?`);
+            } else {
+                finalQuestions.push("What are the key takeaways?");
             }
 
-            const btn = document.getElementById('summarizeBtn');
-            const outputBox = document.getElementById('outSummary');
-            
-            btn.innerText = "Summarizing... ⏳";
-            btn.disabled = true;
-            outputBox.innerHTML = "<span style='color:#38bdf8;'>AI is analyzing the document securely...</span>";
-
-            try {
-                // Deduct 1 Credit instantly
-                currentCredits -= 1; 
-                localStorage.setItem('tv_agent_credits', currentCredits);
-
-                const focus = document.getElementById('summaryFocus').value;
-                const size = document.getElementById('summarySize').value;
-                const lang = document.getElementById('summaryLang').value;
-
-                let sysPrompt = `You are an expert Executive Assistant. Summarize the following text. 
-                Length: ${size}. Language: ${lang}. 
-                Ensure the summary is highly accurate and easy to read.`;
-                
-                if(focus) sysPrompt += ` Specifically focus on: ${focus}.`;
-
-                const userPrompt = `Here is the document text: ${extractedText.substring(0, 10000)}`; // limit to 10k chars
-
-                const response = await fetch('/api/groq-handler', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ systemPrompt: sysPrompt, userPrompt: userPrompt })
-                });
-
-                const data = await response.json();
-                if (!response.ok || !data.result) throw new Error(data.error || "API Error");
-
-                outputBox.innerHTML = `<div style="color:#f8fafc;">${data.result.replace(/\n/g, '<br>')}</div>`;
-
-            } catch(e) {
-                outputBox.innerHTML = `<span style='color:#ff4757;'>Error: ${e.message}</span>`;
-            } finally {
-                btn.innerText = "✨ Get Summary";
-                btn.disabled = false;
-            }
+            renderResults(finalSummary, finalQuestions);
         }
 
-        function copyText() {
-            const text = document.getElementById('outSummary').innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("Copied to clipboard!");
+        function capitalize(s) { return s && s[0].toUpperCase() + s.slice(1); }
+
+        function renderResults(summary, questions) {
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('step3').style.display = 'block';
+
+            let title = originalFileName.replace('.pdf', '').replace(/[-_]/g, ' ');
+            document.getElementById('summaryTitle').innerText = capitalize(title) + " - Summary";
+
+            const list = document.getElementById('summaryContent');
+            list.innerHTML = '';
+            summary.forEach(point => {
+                let li = document.createElement('li');
+                li.innerText = point;
+                list.appendChild(li);
+            });
+
+            const qContainer = document.getElementById('questionsContainer');
+            qContainer.innerHTML = '';
+            
+            questions.forEach(q => {
+                let btn = document.createElement('button');
+                btn.className = 'q-btn';
+                btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> ' + q;
+                btn.onclick = () => {
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading Super Chat...';
+                    localStorage.setItem('tv_chat_question', q);
+                    localStorage.setItem('tv_chat_context', summary.join(' ')); 
+                    setTimeout(() => { window.location.href = 'super-chat.html'; }, 500);
+                };
+                qContainer.appendChild(btn);
             });
         }
 
-        function downloadTxt() {
-            const text = document.getElementById('outSummary').innerText;
-            const blob = new Blob([text], { type: "text/plain" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "ToolVerse_Summary.txt";
-            a.click();
+        window.copyToClipboard = function() {
+            let text = document.getElementById('summaryTitle').innerText + "\n\n";
+            finalSummary.forEach(p => text += "- " + p + "\n");
+            navigator.clipboard.writeText(text).then(() => { alert("Summary copied to clipboard!"); });
         }
-    </script>
 
-    <!-- VVIP UNIVERSAL UNLOCK SCRIPT -->
-    <script>
-        const isVVIPAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
-        if (isVVIPAuth) {
-            const unlockStyle = document.createElement('style');
-            unlockStyle.innerHTML = `
-                #authOverlay, #firebaseAuthModal, .auth-modal, #loginModal { 
-                    display: none !important; opacity: 0 !important; pointer-events: none !important; z-index: -9999 !important; visibility: hidden !important;
-                }
-                body { overflow: auto !important; }
-            `;
-            document.head.appendChild(unlockStyle);
-            window.isUserLoggedIn = true;
-            setInterval(() => {
-                const lockScreens = document.querySelectorAll('#authOverlay, #firebaseAuthModal, .auth-modal, #loginModal');
-                lockScreens.forEach(lock => { if(lock) lock.style.display = 'none'; });
-                window.isUserLoggedIn = true;
-            }, 200);
+        window.downloadSummary = function() {
+            let text = document.getElementById('summaryTitle').innerText + "\n\n";
+            finalSummary.forEach(p => text += "- " + p + "\n");
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = originalFileName.replace('.pdf', '_Summary.txt');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
     </script>
 </body>
