@@ -72,28 +72,13 @@
     </script>
 
     <style>
-        /* ==========================================
-           VVIP FIX: STANDARD SCROLLING LAYOUT
-           ========================================== */
-        html { scroll-behavior: smooth; }
+        /* VVIP FIX: NORMAL DOCUMENT SCROLLING (NO LOCKS) */
         body { 
             background-color: #fbfbfd; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0; 
-            padding: 0; 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; 
-            overflow-x: hidden; 
-        }
-
-        .main-tool-wrapper {
-            flex: 1; /* Takes remaining space but pushes footer down naturally */
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 60px 20px;
+            padding: 0;
+            display: block; /* Removed Flex from body to ensure native mobile scrolling */
         }
 
         /* Tool specific UI */
@@ -136,14 +121,6 @@
         
         .cloud-btn { width: 35px; height: 35px; border-radius: 50%; background: #e5322d; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; transition: 0.2s; border: 2px solid white; margin-bottom: 5px;}
         .cloud-btn:hover { background: #cc2a26; transform: scale(1.1); }
-
-        /* SEO Section Styling */
-        .seo-wrapper {
-            width: 100%;
-            background-color: #ffffff;
-            border-top: 1px solid #e2e8f0;
-            padding: 80px 20px;
-        }
     </style>
 </head>
 <body>
@@ -173,10 +150,10 @@
     </nav>
 
     <!-- Main Tool Container (Allows Natural Scrolling) -->
-    <div class="main-tool-wrapper">
+    <main class="w-full min-h-[70vh] flex flex-col items-center justify-center py-12 bg-[#fbfbfd]">
         
         <!-- Step 1: Upload Box -->
-        <div id="step1" class="w-full max-w-2xl flex flex-col items-center justify-center text-center mt-10">
+        <div id="step1" class="w-full max-w-2xl flex flex-col items-center justify-center text-center mt-4">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">AI Summarizer</h1>
             <p class="text-sm md:text-base text-gray-500 mb-10">Summarize PDF reports, essays, and study guides with AI</p>
             
@@ -202,7 +179,7 @@
         </div>
 
         <!-- Step 3: Output Screen -->
-        <div id="step3" class="hidden w-full bg-white max-w-4xl px-8 py-10 shadow-sm border border-gray-200 rounded-2xl mt-10">
+        <div id="step3" class="hidden w-full bg-white max-w-4xl px-8 py-10 shadow-sm border border-gray-200 rounded-2xl mt-6">
             <div class="text-center mb-10 border-b border-gray-100 pb-4">
                 <div class="ai-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Generated</div>
                 <h2 class="text-lg font-bold text-gray-800">Summarize</h2>
@@ -228,7 +205,7 @@
             </div>
         </div>
 
-    </div>
+    </main>
 
     <!-- Settings Modal -->
     <div id="settingsModal" class="modal-overlay">
@@ -267,52 +244,52 @@
     </div>
 
     <!-- ==========================================
-         SEO CONTENT & FAQS (HIGH-CONTRAST VISIBLE DESIGN)
+         SEO CONTENT & FAQS (DARK BLUE DESIGN)
          ========================================== -->
-    <div class="seo-wrapper">
-        <section class="max-w-6xl mx-auto">
-            <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-12">How to Summarize a PDF File?</h2>
+    <div class="w-full bg-[#0f172a] border-t-4 border-[#e5322d] py-16">
+        <section class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl font-extrabold text-center text-white mb-12">How to Summarize a PDF File?</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-200 shadow-sm transition hover:shadow-md">
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-sm transition hover:border-[#e5322d]">
                     <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
-                        <span class="bg-red-100 text-[#e5322d] rounded-full w-8 h-8 flex items-center justify-center text-sm">1</span> 
+                        <span class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">1</span> 
                         Upload PDF
                     </h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Select your PDF file from your device, or directly import it from Google Drive or Dropbox. Our system safely reads your document instantly.</p>
+                    <p class="text-slate-300 text-sm leading-relaxed">Select your PDF file from your device, or directly import it from Google Drive or Dropbox. Our system safely reads your document instantly.</p>
                 </div>
-                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-200 shadow-sm transition hover:shadow-md">
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-sm transition hover:border-[#e5322d]">
                     <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
-                        <span class="bg-red-100 text-[#e5322d] rounded-full w-8 h-8 flex items-center justify-center text-sm">2</span> 
+                        <span class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">2</span> 
                         Set Preferences
                     </h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Choose your summary length (Short, Medium, or Long) and select the AI processing mode. Hit continue to let the AI do the heavy lifting.</p>
+                    <p class="text-slate-300 text-sm leading-relaxed">Choose your summary length (Short, Medium, or Long) and select the AI processing mode. Hit continue to let the AI do the heavy lifting.</p>
                 </div>
-                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-200 shadow-sm transition hover:shadow-md">
+                <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-sm transition hover:border-[#e5322d]">
                     <h3 class="text-[#e5322d] font-bold text-xl mb-3 flex items-center gap-2">
-                        <span class="bg-red-100 text-[#e5322d] rounded-full w-8 h-8 flex items-center justify-center text-sm">3</span> 
+                        <span class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">3</span> 
                         Get Insights
                     </h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Read your formatted executive summary. You can copy the text, download it, or click on suggested questions to chat directly with your document.</p>
+                    <p class="text-slate-300 text-sm leading-relaxed">Read your formatted executive summary. You can copy the text, download it, or click on suggested questions to chat directly with your document.</p>
                 </div>
             </div>
 
-            <div class="bg-white p-8 md:p-10 rounded-2xl border border-gray-200 shadow-lg max-w-4xl mx-auto">
-                <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+            <div class="bg-slate-800 p-8 md:p-10 rounded-2xl border border-slate-700 shadow-lg max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-white mb-8 text-center">Frequently Asked Questions</h2>
                 
-                <div class="border-b border-gray-200 pb-5 mb-5">
-                    <div class="font-bold text-gray-800 mb-2 text-lg">Are my PDF files secure and private?</div>
-                    <div class="text-gray-600 text-sm leading-relaxed">Yes. ToolVerse prioritizes your privacy. The text extraction happens locally in your browser using secure protocols. Your original PDF document is never permanently stored on our servers.</div>
+                <div class="border-b border-slate-700 pb-5 mb-5">
+                    <div class="font-bold text-slate-200 mb-2 text-lg">Are my PDF files secure and private?</div>
+                    <div class="text-slate-400 text-sm leading-relaxed">Yes. ToolVerse prioritizes your privacy. The text extraction happens locally in your browser using secure protocols. Your original PDF document is never permanently stored on our servers.</div>
                 </div>
                 
-                <div class="border-b border-gray-200 pb-5 mb-5">
-                    <div class="font-bold text-gray-800 mb-2 text-lg">Is the AI Summarizer completely free?</div>
-                    <div class="text-gray-600 text-sm leading-relaxed">Absolutely. The standard AI processing mode is 100% free. We also offer an Advanced AI mode for Premium users which provides deeper contextual understanding for complex research papers.</div>
+                <div class="border-b border-slate-700 pb-5 mb-5">
+                    <div class="font-bold text-slate-200 mb-2 text-lg">Is the AI Summarizer completely free?</div>
+                    <div class="text-slate-400 text-sm leading-relaxed">Absolutely. The standard AI processing mode is 100% free. We also offer an Advanced AI mode for Premium users which provides deeper contextual understanding for complex research papers.</div>
                 </div>
                 
                 <div class="pb-2">
-                    <div class="font-bold text-gray-800 mb-2 text-lg">What does the "Super Chat" feature do?</div>
-                    <div class="text-gray-600 text-sm leading-relaxed">Once the AI summarizes your document, it suggests smart questions. Clicking on any question redirects you to our Super Chat tool, where you can "talk" to your PDF and ask highly specific follow-up questions.</div>
+                    <div class="font-bold text-slate-200 mb-2 text-lg">What does the "Super Chat" feature do?</div>
+                    <div class="text-slate-400 text-sm leading-relaxed">Once the AI summarizes your document, it suggests smart questions. Clicking on any question redirects you to our Super Chat tool, where you can "talk" to your PDF and ask highly specific follow-up questions.</div>
                 </div>
             </div>
         </section>
