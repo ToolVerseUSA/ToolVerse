@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meeting Minutes AI - ToolVerse</title>
+    <title>Free AI Meeting Minutes Generator | Smart Summaries - ToolVerse</title>
     
     <!-- ==========================================
-         SEO META TAGS & CANONICAL LINK
+         SEO META TAGS & CANONICAL LINK (UPDATED)
          ========================================== -->
-    <meta name="description" content="Transform your raw meeting notes and transcripts into professional, structured meeting minutes instantly using AI. 100% free tool on ToolVerse." />
+    <meta name="title" content="Free AI Meeting Minutes Generator | Smart Summaries - ToolVerse">
+    <meta name="description" content="Transform your raw meeting notes and transcripts into professional, structured meeting minutes instantly using AI. 100% free tool for businesses on ToolVerse.">
     <link rel="canonical" href="https://toolverse-usa.vercel.app/meeting-minutes.html" />
 
     <!-- ==========================================
@@ -40,28 +41,39 @@
     <!-- ==========================================
          VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
          ========================================== -->
-    <meta property="og:title" content="Meeting Minutes AI | Premium ToolVerse" />
+    <meta property="og:title" content="Free AI Meeting Minutes Generator | Smart Summaries - ToolVerse" />
     <meta property="og:description" content="Transform your raw meeting notes and transcripts into professional, structured meeting minutes instantly using AI. 100% Free!" />
     <meta property="og:url" content="https://toolverse-usa.vercel.app/meeting-minutes.html" /> 
     <meta property="og:type" content="website" />
     
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Meeting Minutes AI | Premium ToolVerse" />
+    <meta name="twitter:title" content="Free AI Meeting Minutes Generator | Smart Summaries - ToolVerse" />
     <meta name="twitter:description" content="Transform your raw meeting notes and transcripts into professional, structured meeting minutes instantly using AI. 100% Free!" />
 
     <!-- PDF Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
+        * { box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #0f172a;
             color: #f8fafc;
             margin: 0;
-            padding: 40px 20px;
+            padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             min-height: 100vh;
         }
+        
+        .main-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 80px 20px 40px;
+        }
+
         .container {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(10px);
@@ -81,6 +93,7 @@
             text-decoration: none;
             font-weight: 500;
             transition: 0.3s;
+            font-size: 15px;
         }
         .home-link:hover {
             color: #ec4899;
@@ -97,6 +110,7 @@
             text-align: center;
             color: #94a3b8;
             margin-bottom: 30px;
+            line-height: 1.5;
         }
         textarea {
             width: 100%;
@@ -109,7 +123,6 @@
             font-size: 15px;
             outline: none;
             resize: vertical;
-            box-sizing: border-box;
             font-family: inherit;
             margin-bottom: 15px;
         }
@@ -159,46 +172,105 @@
         .action-buttons { display: flex; gap: 10px; margin-top: 20px; }
         .action-btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; transition: 0.3s; }
         .copy-btn { background-color: #10b981; }
+        .copy-btn:hover { background-color: #059669; }
         .pdf-btn { background-color: #ef4444; }
+        .pdf-btn:hover { background-color: #dc2626; }
+
+        /* ==========================================
+           SEO CONTENT SECTION STYLES (NEW)
+           ========================================== */
+        .seo-content-section { max-width: 1000px; margin: 40px auto 80px; padding: 0 20px; width: 100%; }
+        .seo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .seo-box { background: rgba(30, 41, 59, 0.4); padding: 25px; border-radius: 12px; border: 1px solid rgba(168, 85, 247, 0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .seo-box h3 { color: #ec4899; margin-top: 0; font-size: 1.1rem; margin-bottom: 12px; }
+        .seo-box p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+        
+        .faq-container { background: rgba(30, 41, 59, 0.4); padding: 35px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(168, 85, 247, 0.15); margin-bottom: 20px; }
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; padding-bottom: 20px; }
+        .faq-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .faq-q { font-weight: 700; color: #f8fafc; margin-bottom: 10px; font-size: 1.05rem; }
+        .faq-a { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
+
+        @media (max-width: 600px) {
+            .container { padding: 30px 20px; }
+            .action-buttons { flex-direction: column; }
+            .action-table th, .action-table td { padding: 8px 5px; font-size: 12px; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <a href="index.html" class="home-link">← Back to Home</a>
-    <h1>Meeting Minutes AI</h1>
-    <p class="subtitle">Paste your raw meeting notes, transcript, or rough points below.</p>
-    
-    <textarea id="raw-notes" placeholder="e.g., We discussed the Q3 marketing budget. Sarah will handle social media ads by Friday. John needs to approve the $5k spend. Do we need more budget for TikTok?"></textarea>
-    <button id="generate-btn" class="main-btn" onclick="generateMinutes()">Generate Smart Minutes ⚡</button>
+<div class="main-wrapper">
+    <div class="container">
+        <a href="index.html" class="home-link">← Back to Home</a>
+        <h1>Meeting Minutes AI</h1>
+        <p class="subtitle">Paste your raw meeting notes, transcript, or rough points below.</p>
+        
+        <textarea id="raw-notes" placeholder="e.g., We discussed the Q3 marketing budget. Sarah will handle social media ads by Friday. John needs to approve the $5k spend. Do we need more budget for TikTok?"></textarea>
+        <button id="generate-btn" class="main-btn" onclick="generateMinutes()">Generate Smart Minutes ⚡</button>
 
-    <div id="output-section">
-        <div id="pdf-content">
-            <h2 style="text-align: center; color: #f8fafc; margin-bottom: 5px;">Executive Meeting Minutes</h2>
-            <p style="text-align: center; color: #94a3b8; font-size: 12px; margin-top: 0;">Generated by ToolVerse AI</p>
+        <div id="output-section">
+            <div id="pdf-content">
+                <h2 style="text-align: center; color: #f8fafc; margin-bottom: 5px;">Executive Meeting Minutes</h2>
+                <p style="text-align: center; color: #94a3b8; font-size: 12px; margin-top: 0;">Generated by ToolVerse AI</p>
 
-            <div class="section-title">📊 Executive Summary</div>
-            <p id="out-summary" style="color: #cbd5e1; font-size: 15px; line-height: 1.6;"></p>
+                <div class="section-title">📊 Executive Summary</div>
+                <p id="out-summary" style="color: #cbd5e1; font-size: 15px; line-height: 1.6;"></p>
 
-            <div class="section-title">✅ Key Decisions Made</div>
-            <ul id="out-decisions"></ul>
+                <div class="section-title">✅ Key Decisions Made</div>
+                <ul id="out-decisions"></ul>
 
-            <div class="section-title">🚀 Action Items</div>
-            <table class="action-table">
-                <thead><tr><th>Task Description</th><th>Assignee</th><th>Deadline</th></tr></thead>
-                <tbody id="out-actions"></tbody>
-            </table>
+                <div class="section-title">🚀 Action Items</div>
+                <table class="action-table">
+                    <thead><tr><th>Task Description</th><th>Assignee</th><th>Deadline</th></tr></thead>
+                    <tbody id="out-actions"></tbody>
+                </table>
 
-            <div class="section-title">❓ Open Questions</div>
-            <ul id="out-questions"></ul>
-        </div>
+                <div class="section-title">❓ Open Questions</div>
+                <ul id="out-questions"></ul>
+            </div>
 
-        <div class="action-buttons">
-            <button class="action-btn copy-btn" onclick="copyMinutes()">📋 Copy Notes</button>
-            <button class="action-btn pdf-btn" onclick="downloadPDF()">📄 Download PDF</button>
+            <div class="action-buttons">
+                <button class="action-btn copy-btn" onclick="copyMinutes()">📋 Copy Notes</button>
+                <button class="action-btn pdf-btn" onclick="downloadPDF()">📄 Download PDF</button>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- ==========================================
+     SEO CONTENT & FAQS (Crucial for Google Ranking)
+     ========================================== -->
+<section class="seo-content-section">
+    <h2 style="font-size: 1.8rem; color: #f8fafc; text-align: center; margin-bottom: 30px;">How to Generate AI Meeting Minutes?</h2>
+    
+    <div class="seo-grid">
+        <div class="seo-box">
+            <h3>1. Input Rough Notes</h3>
+            <p>Paste your scattered bullet points, raw meeting transcripts, or rough ideas into the text area.</p>
+        </div>
+        <div class="seo-box">
+            <h3>2. AI Processing</h3>
+            <p>The AI acts as an Executive Assistant, automatically categorizing your notes into summaries, decisions, and action items.</p>
+        </div>
+        <div class="seo-box">
+            <h3>3. Export & Share</h3>
+            <p>Once generated, you can copy the clean formatting to an email or download it directly as a professional PDF document.</p>
+        </div>
+    </div>
+
+    <div class="faq-container">
+        <h2 style="font-size: 1.6rem; color: #f8fafc; margin-bottom: 20px; text-align: center;">Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <div class="faq-q">Can it extract action items and deadlines automatically?</div>
+            <div class="faq-a">Yes! The AI engine is trained to identify who needs to do what and by when. It automatically structures this data into a clean, easy-to-read "Action Items" table.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-q">Is my meeting data stored securely?</div>
+            <div class="faq-a">Your privacy is guaranteed. The data is processed securely to generate your minutes and is never stored permanently on our servers or used to train public AI models.</div>
+        </div>
+    </div>
+</section>
 
 <script>
     async function generateMinutes() {
