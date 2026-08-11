@@ -6,21 +6,21 @@
     <title>Free AI PDF Summarizer | Extract Insights Fast - ToolVerse</title>
     
     <!-- ==========================================
-         SEO META TAGS & CANONICAL LINK (UPDATED)
+         SEO META TAGS & CANONICAL LINK
          ========================================== -->
     <meta name="title" content="Free AI PDF Summarizer | Extract Insights Fast - ToolVerse">
     <meta name="description" content="Transform lengthy PDFs into clear, actionable summaries in seconds using AI. 100% free, secure, and client-side processed tool on ToolVerse.">
-    <link rel="canonical" href="https://toolverse-usa.vercel.app/pdf-summarizer.html" />
+    <link rel="canonical" href="https://toolverse-usa.vercel.app/AI-summarizer.html" />
 
     <!-- ==========================================
-         VVIP SCHEMA MARKUP (WEB APPLICATION)
+         VVIP SCHEMA MARKUP
          ========================================== -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "AI PDF Summarizer",
-      "url": "https://toolverse-usa.vercel.app/pdf-summarizer.html",
+      "url": "https://toolverse-usa.vercel.app/AI-summarizer.html",
       "description": "Transform lengthy PDFs into clear, actionable summaries in seconds using AI. 100% free.",
       "applicationCategory": "UtilityApplication",
       "operatingSystem": "All",
@@ -28,27 +28,10 @@
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "ratingCount": "1740"
       }
     }
     </script>
     
-    <!-- ==========================================
-         VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
-         ========================================== -->
-    <meta property="og:title" content="Free AI PDF Summarizer | Extract Insights Fast - ToolVerse" />
-    <meta property="og:description" content="Transform lengthy PDFs into clear, actionable summaries in seconds using AI. 100% Free!" />
-    <meta property="og:url" content="https://toolverse-usa.vercel.app/pdf-summarizer.html" /> 
-    <meta property="og:type" content="website" />
-    
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Free AI PDF Summarizer | Extract Insights Fast - ToolVerse" />
-    <meta name="twitter:description" content="Transform lengthy PDFs into clear, actionable summaries in seconds using AI. 100% Free!" />
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -89,44 +72,52 @@
     </script>
 
     <style>
-        html { height: 100%; overflow-y: auto; }
-        body { background-color: #f3f4f7; min-height: 100%; margin: 0; padding: 0; display: flex; flex-direction: column; }
+        /* VVIP FIX: NORMAL SCROLLING BEHAVIOR */
+        html, body { overflow-x: hidden; margin: 0; padding: 0; }
+        body { background-color: #fbfbfd; font-family: sans-serif; display: block; }
         
         .ilovepdf-red { background-color: #e5322d; }
         .ilovepdf-red:hover { background-color: #cc2a26; }
         .ilovepdf-text { color: #e5322d; }
         .loader { border: 4px solid #f3f3f3; border-top-color: #8b5cf6; border-radius: 50%; animation: spinner 1s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .drag-area { transition: 0.3s; }
-        .drag-area.active { border-color: #e5322d; background-color: #fff5f5; }
+        
         ::-webkit-scrollbar { width: 6px; height: 6px;}
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; align-items: center; justify-content: center; backdrop-filter: blur(4px); padding: 20px;}
         .modal-content { background: white; border-radius: 12px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: pop 0.3s ease-out;}
         @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
         .slider-container { position: relative; margin: 30px 0; }
         .range-slider { -webkit-appearance: none; width: 100%; height: 4px; border-radius: 5px; background: #e2e8f0; outline: none; padding: 0; margin: 0; }
         .range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: white; border: 2px solid #8b5cf6; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 3; position: relative;}
         .slider-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px; color: #64748b; font-weight: 600;}
         .slider-progress { position: absolute; top: 0; left: 0; height: 4px; background: #8b5cf6; border-radius: 5px; z-index: 1; pointer-events: none;}
+        
         .radio-box { border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 15px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
         .radio-box:hover { background: #f8fafc; }
         .radio-box.active { border-color: #8b5cf6; background: #faf5ff; }
         .radio-box input[type="radio"] { accent-color: #8b5cf6; width: 16px; height: 16px; cursor: pointer;}
+        
         .btn-purple { background-color: #8b5cf6; color: white; transition: 0.3s; }
         .btn-purple:hover { background-color: #7c3aed; transform: translateY(-1px); box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);}
+        
         .ai-tag { display: inline-flex; align-items: center; gap: 6px; background: #f3e8ff; color: #7c3aed; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 6px; margin-bottom: 20px;}
         .summary-title { font-size: 24px; font-weight: 800; color: #1e293b; margin-bottom: 20px; line-height: 1.3;}
         .summary-bullets { margin-left: 20px; margin-bottom: 30px;}
         .summary-bullets li { position: relative; padding-left: 10px; margin-bottom: 12px; color: #334155; line-height: 1.6;}
+        
         .questions-box { background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 12px; padding: 20px; margin-bottom: 30px;}
         .questions-header { display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #475569; margin-bottom: 15px;}
         .q-btn { display: flex; align-items: center; gap: 10px; background: white; border: 1px solid #d8b4fe; padding: 12px 15px; border-radius: 8px; width: 100%; text-align: left; margin-bottom: 10px; font-size: 14px; color: #4c1d95; font-weight: 500; transition: 0.2s; cursor: pointer;}
         .q-btn:hover { background: #f3e8ff; border-color: #c084fc; transform: translateX(2px);}
+        
         .action-link { color: #64748b; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; margin-right: 20px;}
         .action-link:hover { color: #1e293b; }
+        
         .cloud-btn { width: 35px; height: 35px; border-radius: 50%; background: #e5322d; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; transition: 0.2s; border: 2px solid white; margin-bottom: 5px;}
         .cloud-btn:hover { background: #cc2a26; transform: scale(1.1); }
     </style>
@@ -144,7 +135,7 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="bg-white shadow-sm border-b border-gray-200 shrink-0 z-40 relative h-[65px] flex items-center">
+    <nav class="bg-white shadow-sm border-b border-gray-200 z-40 relative h-[65px] flex items-center">
         <div class="w-full px-4 flex justify-between items-center max-w-6xl mx-auto">
             <div class="flex items-center space-x-4">
                 <a href="index.html" class="text-2xl font-extrabold text-gray-900">Tool<span class="ilovepdf-text">Verse</span></a>
@@ -157,11 +148,11 @@
         </div>
     </nav>
 
-    <!-- Main Tool Container -->
-    <div class="w-full flex flex-col items-center justify-center">
+    <!-- MAIN TOOL WRAPPER (Fixed for scrolling) -->
+    <main class="w-full min-h-[65vh] flex flex-col items-center justify-center py-16 bg-[#fbfbfd]">
         
         <!-- Step 1: Upload -->
-        <div id="step1" class="w-full flex flex-col items-center justify-center px-4 bg-[#fbfbfd] py-16">
+        <div id="step1" class="w-full flex flex-col items-center justify-center px-4">
             <div class="flex items-center justify-center gap-3 mb-2 mt-4">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 text-center">AI Summarizer</h1>
             </div>
@@ -181,126 +172,122 @@
             <p class="text-gray-400 font-medium text-xs mt-4">or drop file here</p>
         </div>
 
-        <!-- Settings Modal -->
-        <div id="settingsModal" class="modal-overlay">
-            <div class="modal-content">
-                <h3 class="text-center font-bold text-gray-800 mb-6">Settings</h3>
-                <div class="mb-6">
-                    <div class="text-center text-sm font-bold text-gray-700 mb-2">Length</div>
-                    <div class="slider-container">
-                        <div class="slider-progress" id="sliderProgress" style="width: 50%;"></div>
-                        <input type="range" id="lengthSlider" min="0" max="2" step="1" value="1" class="range-slider" oninput="updateSliderUI()">
-                        <div class="slider-labels"><span>Short</span><span>Medium</span><span>Long</span></div>
-                    </div>
-                </div>
-                <div class="mb-8">
-                    <div class="text-center text-sm font-bold text-gray-700 mb-4">Processing mode</div>
-                    <label class="radio-box active" id="boxStandard" onclick="selectMode('standard')">
-                        <input type="radio" name="aiMode" value="standard" checked>
-                        <div class="flex-1 font-semibold text-sm text-gray-800 flex justify-between items-center">
-                            <span>Standard AI <i class="fa-regular fa-circle-question text-gray-400 ml-1"></i></span>
-                        </div>
-                    </label>
-                    <label class="radio-box" id="boxAdvanced" onclick="selectMode('advanced')">
-                        <input type="radio" name="aiMode" value="advanced">
-                        <div class="flex-1 font-semibold text-sm text-gray-800 flex justify-between items-center">
-                            <span>Advanced AI <i class="fa-regular fa-circle-question text-gray-400 ml-1"></i></span>
-                            <i class="fa-solid fa-wand-magic-sparkles text-purple-500"></i>
-                        </div>
-                    </label>
-                </div>
-                <div class="flex justify-end">
-                    <button onclick="startSummarization()" class="btn-purple font-bold py-2.5 px-6 rounded-lg text-sm flex items-center gap-2">
-                        Continue <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
         <!-- Loading Screen -->
-        <div id="loadingScreen" class="hidden w-full flex-col items-center justify-center bg-white z-20 py-24">
+        <div id="loadingScreen" class="hidden w-full flex-col items-center justify-center">
             <div class="loader w-14 h-14 mb-6"></div>
             <h3 class="text-xl font-bold text-gray-800 mb-2">Analyzing Document...</h3>
             <p class="text-gray-500 text-sm">Our AI is reading and summarizing your text.</p>
         </div>
 
         <!-- Step 3: Output Screen -->
-        <div id="step3" class="hidden w-full bg-white">
-            <div class="max-w-4xl mx-auto px-6 py-10">
-                <div class="text-center mb-10 border-b border-gray-100 pb-4">
-                    <div class="ai-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Generated</div>
-                    <h2 class="text-lg font-bold text-gray-800">Summarize</h2>
-                    <div class="text-xs text-gray-400 mt-2 text-left w-full max-w-3xl mx-auto" id="fileNameDisplay">document.pdf</div>
-                </div>
+        <div id="step3" class="hidden w-full bg-white max-w-4xl mx-auto px-6 py-10 shadow-sm border border-gray-200 rounded-2xl mt-8">
+            <div class="text-center mb-10 border-b border-gray-100 pb-4">
+                <div class="ai-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Generated</div>
+                <h2 class="text-lg font-bold text-gray-800">Summarize</h2>
+                <div class="text-xs text-gray-400 mt-2 text-left w-full max-w-3xl mx-auto" id="fileNameDisplay">document.pdf</div>
+            </div>
 
-                <div class="max-w-3xl mx-auto">
-                    <h1 class="summary-title" id="summaryTitle">Document Summary</h1>
-                    <ul class="summary-bullets" id="summaryContent" style="list-style-type: disc;"></ul>
-                    <div class="questions-box">
-                        <div class="questions-header">
-                            <span>Suggested questions:</span>
-                            <i class="fa-solid fa-chevron-up text-gray-400 cursor-pointer"></i>
-                        </div>
-                        <div id="questionsContainer"></div>
+            <div class="max-w-3xl mx-auto">
+                <h1 class="summary-title" id="summaryTitle">Document Summary</h1>
+                <ul class="summary-bullets" id="summaryContent" style="list-style-type: disc;"></ul>
+                <div class="questions-box">
+                    <div class="questions-header">
+                        <span>Suggested questions:</span>
+                        <i class="fa-solid fa-chevron-up text-gray-400 cursor-pointer"></i>
                     </div>
-                    <div class="flex items-center pt-4 border-t border-gray-100">
-                        <button class="action-link" onclick="copyToClipboard()"><i class="fa-regular fa-copy"></i> Copy Text</button>
-                        <button class="action-link" onclick="downloadSummary()"><i class="fa-solid fa-download"></i> Download</button>
-                    </div>
+                    <div id="questionsContainer"></div>
+                </div>
+                <div class="flex items-center pt-4 border-t border-gray-100">
+                    <button class="action-link" onclick="copyToClipboard()"><i class="fa-regular fa-copy"></i> Copy Text</button>
+                    <button class="action-link" onclick="downloadSummary()"><i class="fa-solid fa-download"></i> Download</button>
                 </div>
             </div>
         </div>
+    </main>
 
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="text-center font-bold text-gray-800 mb-6">Settings</h3>
+            <div class="mb-6">
+                <div class="text-center text-sm font-bold text-gray-700 mb-2">Length</div>
+                <div class="slider-container">
+                    <div class="slider-progress" id="sliderProgress" style="width: 50%;"></div>
+                    <input type="range" id="lengthSlider" min="0" max="2" step="1" value="1" class="range-slider" oninput="updateSliderUI()">
+                    <div class="slider-labels"><span>Short</span><span>Medium</span><span>Long</span></div>
+                </div>
+            </div>
+            <div class="mb-8">
+                <div class="text-center text-sm font-bold text-gray-700 mb-4">Processing mode</div>
+                <label class="radio-box active" id="boxStandard" onclick="selectMode('standard')">
+                    <input type="radio" name="aiMode" value="standard" checked>
+                    <div class="flex-1 font-semibold text-sm text-gray-800 flex justify-between items-center">
+                        <span>Standard AI <i class="fa-regular fa-circle-question text-gray-400 ml-1"></i></span>
+                    </div>
+                </label>
+                <label class="radio-box" id="boxAdvanced" onclick="selectMode('advanced')">
+                    <input type="radio" name="aiMode" value="advanced">
+                    <div class="flex-1 font-semibold text-sm text-gray-800 flex justify-between items-center">
+                        <span>Advanced AI <i class="fa-regular fa-circle-question text-gray-400 ml-1"></i></span>
+                        <i class="fa-solid fa-wand-magic-sparkles text-purple-500"></i>
+                    </div>
+                </label>
+            </div>
+            <div class="flex justify-end">
+                <button onclick="startSummarization()" class="btn-purple font-bold py-2.5 px-6 rounded-lg text-sm flex items-center gap-2">
+                    Continue <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- ==========================================
-         SEO CONTENT & FAQS (HIGH-CONTRAST VVIP STYLING)
+         SEO CONTENT & FAQS (HIGH-CONTRAST VISIBLE DESIGN)
          ========================================== -->
-    <div class="w-full bg-gradient-to-b from-purple-50 via-slate-100 to-slate-200 border-t-4 border-purple-600 mt-auto shadow-inner">
-        <section class="max-w-6xl mx-auto px-6 py-16">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-center text-slate-900 mb-4 tracking-tight">How to Summarize a PDF File?</h2>
-            <p class="text-center text-slate-600 mb-12 max-w-xl mx-auto text-sm md:text-base">Extract key insights and executive summaries in seconds using our advanced AI engine.</p>
+    <div class="w-full bg-slate-50 border-t border-gray-200 py-16">
+        <section class="max-w-6xl mx-auto px-6">
+            <h2 class="text-3xl font-extrabold text-center text-gray-900 mb-12">How to Summarize a PDF File?</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div class="bg-white p-8 rounded-2xl border-2 border-purple-100 shadow-md hover:shadow-xl transition duration-300">
-                    <h3 class="text-purple-700 font-extrabold text-xl mb-3 flex items-center gap-3">
-                        <span class="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">1</span> 
+                <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
+                    <h3 class="text-red-600 font-bold text-xl mb-3 flex items-center gap-2">
+                        <span class="bg-red-100 text-red-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">1</span> 
                         Upload PDF
                     </h3>
-                    <p class="text-slate-700 text-sm leading-relaxed font-medium">Select your PDF file from your device, or directly import it from Google Drive or Dropbox. Our system safely reads your document instantly.</p>
+                    <p class="text-gray-600 text-sm leading-relaxed">Select your PDF file from your device, or directly import it from Google Drive or Dropbox. Our system safely reads your document instantly.</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl border-2 border-purple-100 shadow-md hover:shadow-xl transition duration-300">
-                    <h3 class="text-purple-700 font-extrabold text-xl mb-3 flex items-center gap-3">
-                        <span class="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">2</span> 
+                <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
+                    <h3 class="text-red-600 font-bold text-xl mb-3 flex items-center gap-2">
+                        <span class="bg-red-100 text-red-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">2</span> 
                         Set Preferences
                     </h3>
-                    <p class="text-slate-700 text-sm leading-relaxed font-medium">Choose your summary length (Short, Medium, or Long) and select the AI processing mode. Hit continue to let the AI do the heavy lifting.</p>
+                    <p class="text-gray-600 text-sm leading-relaxed">Choose your summary length (Short, Medium, or Long) and select the AI processing mode. Hit continue to let the AI do the heavy lifting.</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl border-2 border-purple-100 shadow-md hover:shadow-xl transition duration-300">
-                    <h3 class="text-purple-700 font-extrabold text-xl mb-3 flex items-center gap-3">
-                        <span class="bg-purple-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow">3</span> 
+                <div class="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm">
+                    <h3 class="text-red-600 font-bold text-xl mb-3 flex items-center gap-2">
+                        <span class="bg-red-100 text-red-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">3</span> 
                         Get Insights
                     </h3>
-                    <p class="text-slate-700 text-sm leading-relaxed font-medium">Read your formatted executive summary. You can copy the text, download it, or click on suggested questions to chat directly with your document.</p>
+                    <p class="text-gray-600 text-sm leading-relaxed">Read your formatted executive summary. You can copy the text, download it, or click on suggested questions to chat directly with your document.</p>
                 </div>
             </div>
 
-            <div class="bg-white p-8 md:p-12 rounded-3xl border border-purple-200 shadow-xl max-w-4xl mx-auto">
-                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-8 text-center">Frequently Asked Questions</h2>
+            <div class="bg-white p-8 md:p-10 rounded-2xl border border-gray-200 shadow-md max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
                 
-                <div class="border-b border-slate-200 pb-6 mb-6">
-                    <div class="font-extrabold text-slate-900 text-base mb-2 flex items-center gap-2"><i class="fa-solid fa-circle-question text-purple-600"></i> Are my PDF files secure and private?</div>
-                    <div class="text-slate-700 text-sm leading-relaxed">Yes. ToolVerse prioritizes your privacy. The text extraction happens locally in your browser using secure protocols. Your original PDF document is never permanently stored on our servers.</div>
+                <div class="border-b border-gray-200 pb-5 mb-5">
+                    <div class="font-bold text-gray-800 mb-2 text-lg">Are my PDF files secure and private?</div>
+                    <div class="text-gray-600 text-sm leading-relaxed">Yes. ToolVerse prioritizes your privacy. The text extraction happens locally in your browser using secure protocols. Your original PDF document is never permanently stored on our servers.</div>
                 </div>
                 
-                <div class="border-b border-slate-200 pb-6 mb-6">
-                    <div class="font-extrabold text-slate-900 text-base mb-2 flex items-center gap-2"><i class="fa-solid fa-circle-question text-purple-600"></i> Is the AI Summarizer completely free?</div>
-                    <div class="text-slate-700 text-sm leading-relaxed">Absolutely. The standard AI processing mode is 100% free. We also offer an Advanced AI mode for Premium users which provides deeper contextual understanding for complex research papers.</div>
+                <div class="border-b border-gray-200 pb-5 mb-5">
+                    <div class="font-bold text-gray-800 mb-2 text-lg">Is the AI Summarizer completely free?</div>
+                    <div class="text-gray-600 text-sm leading-relaxed">Absolutely. The standard AI processing mode is 100% free. We also offer an Advanced AI mode for Premium users which provides deeper contextual understanding for complex research papers.</div>
                 </div>
                 
                 <div class="pb-2">
-                    <div class="font-extrabold text-slate-900 text-base mb-2 flex items-center gap-2"><i class="fa-solid fa-circle-question text-purple-600"></i> What does the "Super Chat" feature do?</div>
-                    <div class="text-slate-700 text-sm leading-relaxed">Once the AI summarizes your document, it suggests smart questions. Clicking on any question redirects you to our Super Chat tool, where you can "talk" to your PDF and ask highly specific follow-up questions.</div>
+                    <div class="font-bold text-gray-800 mb-2 text-lg">What does the "Super Chat" feature do?</div>
+                    <div class="text-gray-600 text-sm leading-relaxed">Once the AI summarizes your document, it suggests smart questions. Clicking on any question redirects you to our Super Chat tool, where you can "talk" to your PDF and ask highly specific follow-up questions.</div>
                 </div>
             </div>
         </section>
@@ -458,7 +445,6 @@
                     let btn = document.createElement('button');
                     btn.className = 'q-btn';
                     
-                    // VVIP REDIRECT TO SUPER CHAT
                     btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> ' + q;
                     btn.onclick = () => {
                         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading Super Chat...';
