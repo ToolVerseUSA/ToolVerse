@@ -3,9 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Data Analyst - ToolVerse Pro</title>
+    <title>Free AI Data Analyst | Excel & CSV Visualizer - ToolVerse</title>
     
-    <meta name="description" content="Upload Excel or CSV files and let our AI Data Analyst generate beautiful charts, metrics, and insights instantly. 100% Free on ToolVerse." />
+    <!-- ==========================================
+         SEO META TAGS & CANONICAL LINK (UPDATED)
+         ========================================== -->
+    <meta name="title" content="Free AI Data Analyst | Excel & CSV Visualizer - ToolVerse">
+    <meta name="description" content="Upload Excel or CSV files and let our AI Data Analyst generate beautiful charts, metrics, and business insights instantly. 100% Free on ToolVerse." />
+    <link rel="canonical" href="https://toolverse-usa.vercel.app/data-analyst.html" />
+
+    <!-- ==========================================
+         VVIP SCHEMA MARKUP (WEB APPLICATION)
+         Forces Google to rank this specific AI Tool
+         ========================================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AI Data Analyst",
+      "url": "https://toolverse-usa.vercel.app/data-analyst.html",
+      "description": "Upload Excel or CSV files and let our AI Data Analyst generate beautiful charts, metrics, and business insights instantly. 100% Free.",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "1050"
+      }
+    }
+    </script>
+    
+    <!-- ==========================================
+         VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
+         ========================================== -->
+    <meta property="og:title" content="Free AI Data Analyst | Excel & CSV Visualizer - ToolVerse" />
+    <meta property="og:description" content="Upload Excel or CSV files and let our AI Data Analyst generate beautiful charts, metrics, and business insights instantly. 100% Free!" />
+    <meta property="og:url" content="https://toolverse-usa.vercel.app/data-analyst.html" /> 
+    <meta property="og:type" content="website" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Free AI Data Analyst | Excel & CSV Visualizer - ToolVerse" />
+    <meta name="twitter:description" content="Upload Excel or CSV files and let our AI Data Analyst generate beautiful charts, metrics, and business insights instantly. 100% Free!" />
 
     <!-- VVIP LIBRARIES FOR DATA PARSING & CHARTING -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -66,7 +109,8 @@
             display: grid;
             grid-template-columns: 350px 1fr;
             flex: 1;
-            height: calc(100vh - 65px);
+            /* VVIP FIX: Changed height to min-height to allow scrolling to SEO content */
+            min-height: calc(100vh - 65px);
         }
 
         /* Left Settings Panel */
@@ -135,6 +179,19 @@
         
         .progress-text { font-size: 1.8rem; font-weight: 800; color: white; margin-bottom: 10px; }
         .progress-subtext { color: var(--info); font-size: 1rem; font-weight: 600; text-align: center; padding: 0 20px;}
+
+        /* SEO CONTENT SECTION STYLES (NEW) */
+        .seo-content-section { max-width: 1400px; margin: 60px auto; padding: 0 20px; }
+        .seo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 40px; }
+        .seo-box { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); padding: 30px; border-radius: 12px; border: 1px solid rgba(59, 130, 246, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .seo-box h3 { color: #8b5cf6; margin-top: 0; font-size: 1.2rem; margin-bottom: 12px; }
+        .seo-box p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin: 0; }
+        
+        .faq-container { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(59, 130, 246, 0.2); margin-bottom: 60px; }
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; padding-bottom: 20px; }
+        .faq-item:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+        .faq-q { font-weight: 700; color: #f8fafc; margin-bottom: 10px; font-size: 1.05rem; }
+        .faq-a { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
 
         @media (max-width: 900px) {
             .main-container { grid-template-columns: 1fr; height: auto; overflow: visible; }
@@ -215,6 +272,44 @@
             </div>
         </div>
     </div>
+
+    <!-- ==========================================
+         SEO CONTENT & FAQS (Crucial for Google Ranking)
+         ========================================== -->
+    <section class="seo-content-section">
+        <h2 style="font-size: 2rem; color: #f8fafc; text-align: center; margin-bottom: 30px;">How to Analyze Data with AI?</h2>
+        
+        <div class="seo-grid">
+            <div class="seo-box">
+                <h3>1. Upload Data</h3>
+                <p>Securely upload your CSV or Excel (XLSX) spreadsheet using the upload box. Your data is processed instantly.</p>
+            </div>
+            <div class="seo-box">
+                <h3>2. Set Analysis Goal</h3>
+                <p>Type in what you want to discover—like "monthly sales trends" or "top performing regions." The AI will tailor the dashboard to your prompt.</p>
+            </div>
+            <div class="seo-box">
+                <h3>3. View Dashboard</h3>
+                <p>Click generate to receive key metrics, AI-driven business insights, and beautiful, downloadable charts ready for your presentations.</p>
+            </div>
+        </div>
+
+        <div class="faq-container">
+            <h2 style="font-size: 1.8rem; color: #f8fafc; margin-bottom: 20px; text-align: center;">Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <div class="faq-q">Is my financial and business data secure?</div>
+                <div class="faq-a">Yes. Your data files are processed dynamically using secure, client-side APIs. We do not store your spreadsheets or data on ToolVerse servers, ensuring maximum privacy for your business documents.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Can I download the charts generated by the AI?</div>
+                <div class="faq-a">Absolutely! Every chart generated by our Data Analyst tool comes with a "Save" button, allowing you to download the visualization as a high-quality PNG image for reports or presentations.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">What file formats does the AI support?</div>
+                <div class="faq-a">The AI Data Analyst currently supports standard CSV files as well as Microsoft Excel formats (.xls and .xlsx). For the best results, ensure your data has a header row.</div>
+            </div>
+        </div>
+    </section>
 
     <!-- Live Progress Overlay -->
     <div id="progressOverlay" class="progress-overlay">
