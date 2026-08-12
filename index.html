@@ -132,6 +132,10 @@
         .premium-profile-btn:hover { background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(56, 189, 248, 0.25)); border-color: #38bdf8; box-shadow: 0 0 20px rgba(56, 189, 248, 0.6); transform: translateY(-2px); }
         .profile-avatar-icon { background: linear-gradient(135deg, #a855f7, #38bdf8); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         
+        /* CSS FOR THE NEW SUPPORT BUTTON */
+        .support-btn { background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%); color: white; font-weight: 700; padding: 8px 16px; border-radius: 20px; display: flex; align-items: center; gap: 6px; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4); transition: 0.3s; font-family: inherit; font-size: 0.9rem; }
+        .support-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6); }
+
         .ilove-card, .pdf-card { 
             background: linear-gradient(145deg, rgba(17, 24, 39, 0.8), rgba(15, 23, 42, 0.9)) !important; 
             backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.06) !important; 
@@ -428,6 +432,11 @@
             </nav>
 
             <div class="auth-buttons" style="display: flex; align-items: center; gap: 15px;">
+                <!-- NEW VVIP SUPPORT BUTTON -->
+                <button onclick="openSupportModal()" class="support-btn">
+                    <i class="fa-solid fa-mug-hot"></i> Support Us
+                </button>
+
                 <div class="crypto-nav-btn" onclick="window.location.href='mining-node.html'">
                     🪙 $TOOL: <span id="headerBal">0.000</span>
                 </div>
@@ -777,6 +786,64 @@
         <a class="manage-prefs" onclick="hideCookiePopup()">Manage preferences</a>
     </div>
 
+    <!-- SUPPORT / CRYPTO DONATION MODAL (NEW) -->
+    <div class="auth-modal" id="supportModal">
+        <div class="auth-modal-content" style="max-width: 450px; text-align: center; position: relative;">
+            <span class="close-auth" onclick="closeSupportModal()" style="position: absolute; top: 15px; right: 15px;"><i class="fa-solid fa-xmark"></i></span>
+            
+            <div style="font-size: 45px; color: #fbbf24; margin-bottom: 10px;"><i class="fa-brands fa-bitcoin"></i></div>
+            <h2 class="auth-title" style="font-size: 1.8rem; margin-bottom: 5px;">Support Our Work</h2>
+            <p class="auth-subtitle" style="font-size: 14px; margin-bottom: 25px; line-height: 1.5;">ToolVerse is 100% free. If our AI saved your time, consider supporting our server costs. <strong>Send $5 via Crypto</strong> and email us the screenshot to instantly receive <strong>10,000 $TOOL Tokens!</strong></p>
+            
+            <!-- Binance Payment Link -->
+            <div style="text-align: left; margin-bottom: 15px;">
+                <label style="font-size: 11px; font-weight: bold; color: #94a3b8; text-transform: uppercase;">Binance Payment Link (Fastest)</label>
+                <div style="display: flex; margin-top: 5px;">
+                    <input type="text" id="binanceId" value="https://s.binance.com/XRDvgLFA" readonly style="width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid #444; border-radius: 8px 0 0 8px; color: #cbd5e1; font-family: monospace; outline: none;">
+                    <button onclick="copySupportCrypto('binanceId')" style="background: #a855f7; color: white; border: none; padding: 0 15px; border-radius: 0 8px 8px 0; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#9333ea'" onmouseout="this.style.background='#a855f7'">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- USDT BEP20 Address -->
+            <div style="text-align: left; margin-bottom: 25px;">
+                <label style="font-size: 11px; font-weight: bold; color: #94a3b8; text-transform: uppercase;">USDT (BSC / BEP20) Address</label>
+                <div style="display: flex; margin-top: 5px;">
+                    <input type="text" id="usdtAddress" value="0x6df5a02f091da87e97229ba3f488f21547749ad4" readonly style="width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid #444; border-radius: 8px 0 0 8px; color: #cbd5e1; font-family: monospace; outline: none; font-size: 12px;">
+                    <button onclick="copySupportCrypto('usdtAddress')" style="background: #10b981; color: white; border: none; padding: 0 15px; border-radius: 0 8px 8px 0; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top: 10px;">
+                <p style="font-size: 12px; color: #94a3b8; margin: 0;">Send payment screenshot to:</p>
+                <p style="font-size: 15px; font-weight: bold; color: #a855f7; margin: 5px 0 0 0;">support@toolverse.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Modal Logic -->
+    <script>
+        function openSupportModal() { 
+            document.getElementById('supportModal').style.display = 'flex'; 
+        }
+        function closeSupportModal() { 
+            document.getElementById('supportModal').style.display = 'none'; 
+        }
+        function copySupportCrypto(id) {
+            const copyText = document.getElementById(id);
+            copyText.select();
+            document.execCommand("copy");
+            
+            const btn = copyText.nextElementSibling;
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+            setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
+        }
+    </script>
+
     <div class="crypto-modal" id="cryptoModal">
         <div class="crypto-modal-content">
             <span class="close-crypto" id="closeModalBtn">&times;</span>
@@ -1075,6 +1142,7 @@
         const authModal = document.getElementById('firebaseAuthModal');
         const userProfileModal = document.getElementById('userProfileModal');
         const otpVerificationModal = document.getElementById('otpVerificationModal');
+        const supportModal = document.getElementById('supportModal');
         
         const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
         const closeProfileModalBtn = document.getElementById('closeProfileModalBtn');
@@ -1285,6 +1353,7 @@
             if (e.target === authModal) authModal.style.display = 'none'; 
             if (e.target === userProfileModal) userProfileModal.style.display = 'none'; 
             if (e.target === otpVerificationModal) otpVerificationModal.style.display = 'none'; 
+            if (e.target === supportModal) supportModal.style.display = 'none';
         });
 
         let is2FAEnabled = localStorage.getItem('tv_2fa') === 'true';
