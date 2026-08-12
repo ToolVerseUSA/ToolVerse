@@ -36,6 +36,45 @@
       }
     }
     </script>
+
+    <!-- ==========================================
+         FAQ SCHEMA MARKUP (FOR GOOGLE RICH SNIPPETS)
+         ========================================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "Does compressing a PDF reduce its quality?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our advanced compression engine optimizes the internal structure of your PDF. If you select the 'Recommended Compression' level, it significantly reduces the file size while keeping text and images crisp and perfectly readable."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is it safe to compress confidential PDFs using ToolVerse?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely! Unlike other online tools, ToolVerse processes your PDF entirely locally within your browser. Your files are never uploaded to our servers, ensuring 100% privacy and security."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Which compression level should I choose?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For most everyday needs, 'Recommended' is the best choice. If you need to attach a massive PDF to an email and strict size limits apply, use 'Extreme Compression'. If you are compressing high-quality print files, select 'Less Compression'."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Can I compress PDF files on my mobile phone?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! Our Compress PDF tool is fully responsive and works seamlessly on Android, iOS, Windows, and macOS devices right from your web browser, with no app installation required."
+        }
+      }]
+    }
+    </script>
     
     <!-- ==========================================
          VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
@@ -121,6 +160,33 @@
         .level-btn { border: 2px solid #e2e8f0; transition: 0.3s; cursor: pointer; }
         .level-btn.active { border-color: #22c55e; background-color: #f0fdf4; }
         .level-btn.active .level-icon { color: #22c55e; }
+
+        /* ==========================================
+           SEO ARTICLE & FAQ CSS
+           ========================================== */
+        .seo-section { max-width: 1000px; margin: 40px auto 80px; padding: 40px 30px; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; text-align: left; }
+        .seo-section h2 { font-size: 28px; color: #1e293b; margin-bottom: 20px; font-weight: 800; letter-spacing: -0.5px; }
+        .seo-section h3 { font-size: 20px; color: #334155; margin: 30px 0 15px; font-weight: 700; }
+        .seo-section p { font-size: 16px; color: #475569; line-height: 1.8; margin-bottom: 15px; }
+        .seo-section ul { margin-left: 20px; margin-bottom: 20px; color: #475569; list-style-type: disc; }
+        .seo-section ul li { margin-bottom: 10px; line-height: 1.6; }
+        .seo-section ul li strong { color: #1e293b; }
+
+        .faq-container { margin-top: 50px; border-top: 2px solid #f1f5f9; padding-top: 40px; }
+        .faq-item { border-bottom: 1px solid #e2e8f0; margin-bottom: 15px; }
+        .faq-item details { width: 100%; }
+        .faq-item summary { font-size: 17px; font-weight: 600; color: #1e293b; padding: 15px 0; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; outline: none; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: #94a3b8; transition: transform 0.3s ease; }
+        .faq-item details[open] summary::after { transform: rotate(180deg); color: #22c55e; }
+        .faq-item .faq-answer { padding-bottom: 20px; color: #64748b; line-height: 1.7; font-size: 15px; animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .seo-section { padding: 30px 20px; margin: 20px 15px 60px; }
+            .seo-section h2 { font-size: 24px; }
+            .seo-section h3 { font-size: 18px; }
+        }
     </style>
 </head>
 <body class="min-h-[100dvh] h-[100dvh] font-sans relative flex flex-col overflow-hidden bg-gray-50">
@@ -149,24 +215,75 @@
         </div>
     </nav>
 
-    <!-- STEP 1: UPLOAD SCREEN -->
-    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 bg-white z-10 absolute inset-0 top-[65px]">
-        <div class="flex items-center justify-center gap-3 mb-4 mt-4">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 text-center">Compress PDF</h1>
-            <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide shadow-sm"><i class="fa-solid fa-leaf"></i> ECO</span>
+    <!-- STEP 1: UPLOAD SCREEN WITH SEO SECTION -->
+    <div id="step1" class="w-full bg-white z-10 absolute inset-0 top-[65px] overflow-y-auto">
+        <div class="w-full flex flex-col items-center justify-center min-h-[calc(100dvh-65px)] px-4 py-10">
+            <div class="flex items-center justify-center gap-3 mb-4 mt-4">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 text-center">Compress PDF</h1>
+                <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide shadow-sm"><i class="fa-solid fa-leaf"></i> ECO</span>
+            </div>
+            <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Reduce file size while optimizing for maximal PDF quality. 100% secure, processed locally.</p>
+            
+            <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
+            
+            <div id="dropZone" class="drag-area w-full max-w-3xl border-2 border-dashed border-gray-300 rounded-3xl bg-white p-16 md:p-20 flex flex-col items-center justify-center cursor-pointer hover:border-green-500 hover:bg-green-50 transition shadow-sm" onclick="document.getElementById('fileInput').click()">
+                <button class="theme-green text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 mb-4">
+                    Select PDF file
+                </button>
+                <p class="text-gray-500 font-medium text-sm">or drop PDF here</p>
+            </div>
+            
+            <div class="mt-8 text-xs text-gray-400 font-medium"><i class="fa-solid fa-lock"></i> 100% Client-Side Processing. No files are uploaded to any server.</div>
         </div>
-        <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Reduce file size while optimizing for maximal PDF quality. 100% secure, processed locally.</p>
-        
-        <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
-        
-        <div id="dropZone" class="drag-area w-full max-w-3xl border-2 border-dashed border-gray-300 rounded-3xl bg-white p-16 md:p-20 flex flex-col items-center justify-center cursor-pointer hover:border-green-500 hover:bg-green-50 transition shadow-sm" onclick="document.getElementById('fileInput').click()">
-            <button class="theme-green text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 mb-4">
-                Select PDF file
-            </button>
-            <p class="text-gray-500 font-medium text-sm">or drop PDF here</p>
-        </div>
-        
-        <div class="mt-8 text-xs text-gray-400 font-medium"><i class="fa-solid fa-lock"></i> 100% Client-Side Processing. No files are uploaded to any server.</div>
+
+        <!-- ==========================================
+             SEO ARTICLE & FAQ SECTION
+             ========================================== -->
+        <section class="seo-section">
+            <h2>How to Compress PDF Files Online for Free</h2>
+            <p>Dealing with oversized PDF files can be a headache, especially when trying to attach them to emails or upload them to web portals with strict file size limits. With the ToolVerse <strong>Compress PDF</strong> tool, you can drastically reduce the file size of your documents without sacrificing readability or quality.</p>
+            <p>Our VVIP compression tool offers a perfect balance of file optimization and clarity. Best of all, unlike traditional cloud-based tools, all compression is done right inside your browser. This means maximum speed and absolute privacy for your sensitive documents.</p>
+
+            <h3>Why Compress Your PDFs with ToolVerse?</h3>
+            <ul>
+                <li><strong>100% Secure & Private:</strong> Processing happens entirely on your local device. We never store, read, or upload your sensitive business reports or personal files to our servers.</li>
+                <li><strong>Multiple Compression Levels:</strong> Choose from Extreme, Recommended, or Less Compression based on your exact needs for visual quality versus file size.</li>
+                <li><strong>Email-Friendly Sizes:</strong> Say goodbye to "File too large" errors. Easily shrink megabytes down to kilobytes to share files instantly.</li>
+                <li><strong>Cross-Platform Compatibility:</strong> Work from anywhere. Our web-based tool functions flawlessly on Mac, Windows, Linux, and all mobile devices without app installations.</li>
+            </ul>
+
+            <div class="faq-container">
+                <h2>Frequently Asked Questions</h2>
+                
+                <div class="faq-item">
+                    <details>
+                        <summary>Does compressing a PDF reduce its quality?</summary>
+                        <div class="faq-answer">Our advanced compression engine optimizes the internal structure of your PDF. If you select the 'Recommended Compression' level, it significantly reduces the file size while keeping text and images crisp and perfectly readable.</div>
+                    </details>
+                </div>
+
+                <div class="faq-item">
+                    <details>
+                        <summary>Is it safe to compress confidential PDFs using ToolVerse?</summary>
+                        <div class="faq-answer">Absolutely! Unlike other online tools, ToolVerse processes your PDF entirely locally within your browser. Your files are never uploaded to our servers, ensuring 100% privacy and security.</div>
+                    </details>
+                </div>
+
+                <div class="faq-item">
+                    <details>
+                        <summary>Which compression level should I choose?</summary>
+                        <div class="faq-answer">For most everyday needs, 'Recommended' is the best choice. If you need to attach a massive PDF to an email and strict size limits apply, use 'Extreme Compression'. If you are compressing high-quality print files, select 'Less Compression'.</div>
+                    </details>
+                </div>
+
+                <div class="faq-item">
+                    <details>
+                        <summary>Can I compress PDF files on my mobile phone?</summary>
+                        <div class="faq-answer">Yes! Our Compress PDF tool is fully responsive and works seamlessly on Android, iOS, Windows, and macOS devices right from your web browser, with no app installation required.</div>
+                    </details>
+                </div>
+            </div>
+        </section>
     </div>
 
     <!-- STEP 2: WORKSPACE & SETTINGS -->
