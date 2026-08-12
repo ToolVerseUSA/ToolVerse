@@ -76,25 +76,25 @@
 
         /* Social Buttons */
         .google-btn { width: 100%; background: #ffffff; color: #1e293b; font-weight: 800; font-size: 1rem; padding: 15px; border: none; border-radius: 12px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 12px; transition: 0.3s; box-shadow: 0 4px 15px rgba(255,255,255,0.1); margin-bottom: 15px;}
-        .google-btn:hover { background: #f8fafc; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,255,255,0.25); }
+        .google-btn:hover:not(:disabled) { background: #f8fafc; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,255,255,0.25); }
+        .google-btn:disabled { background: #94a3b8; cursor: not-allowed; }
         .google-btn svg { width: 22px; height: 22px; }
 
         .social-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
         .social-btn { background: rgba(30, 41, 59, 0.6); color: #f8fafc; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; font-size: 1.3rem; }
-        .social-btn:hover { background: rgba(51, 65, 85, 0.8); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .social-btn.fb:hover { color: #1877F2; border-color: #1877F2; background: rgba(24, 119, 242, 0.1); }
-        .social-btn.apple:hover { color: #ffffff; border-color: #ffffff; background: rgba(255, 255, 255, 0.1); }
-        .social-btn.github:hover { color: #ffffff; border-color: #ffffff; background: rgba(255, 255, 255, 0.1); }
+        .social-btn:hover:not(:disabled) { background: rgba(51, 65, 85, 0.8); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .social-btn.fb:hover:not(:disabled) { color: #1877F2; border-color: #1877F2; background: rgba(24, 119, 242, 0.1); }
+        .social-btn.apple:hover:not(:disabled) { color: #ffffff; border-color: #ffffff; background: rgba(255, 255, 255, 0.1); }
+        .social-btn.github:hover:not(:disabled) { color: #ffffff; border-color: #ffffff; background: rgba(255, 255, 255, 0.1); }
+        .social-btn:disabled { background: #1e293b; color: #475569; cursor: not-allowed; }
 
-        .auth-message { margin-top: 20px; font-size: 0.9rem; font-weight: 600; min-height: 20px; border-radius: 8px; }
+        .auth-message { margin-top: 20px; font-size: 0.9rem; font-weight: 600; min-height: 20px; border-radius: 8px; line-height: 1.4; }
         
         /* Mode Switcher */
         .mode-toggle { display: inline-block; color: #38bdf8; font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 15px; text-decoration: underline; transition: 0.3s; }
         .mode-toggle:hover { color: #fbbf24; }
 
-        #recaptcha-container { display: flex; justify-content: center; margin-top: 15px; }
-
-        /* Hide Google reCAPTCHA Badge to keep UI clean */
+        /* Ensure recaptcha is completely hidden but functional */
         .grecaptcha-badge { visibility: hidden !important; opacity: 0 !important; }
     </style>
 </head>
@@ -106,6 +106,7 @@
             <div class="logo-sub">Premium User Portal</div>
         </div>
 
+        <!-- VVIP TABS -->
         <div class="auth-tabs">
             <div class="auth-tab active" onclick="switchMainTab('login')">Sign In</div>
             <div class="auth-tab" onclick="switchMainTab('register')">Sign Up</div>
@@ -156,6 +157,7 @@
                             <input type="tel" id="phoneNumberLogin" class="auth-input" placeholder="300 1234567">
                         </div>
                     </div>
+                    <!-- Added ID directly to button for Recaptcha binding -->
                     <button id="sendOtpLoginBtn" class="primary-btn">Send Secure OTP</button>
                 </div>
 
@@ -191,6 +193,7 @@
                     <label>Create Password</label>
                     <input type="password" id="regPassword" class="auth-input" placeholder="Minimum 6 characters">
                     
+                    <!-- Password Strength Meter -->
                     <div class="password-meter-container" id="passMeterContainer">
                         <div class="password-meter-bar" id="passMeterBar"></div>
                     </div>
@@ -213,6 +216,7 @@
                             <input type="tel" id="phoneNumberReg" class="auth-input" placeholder="300 1234567">
                         </div>
                     </div>
+                    <!-- Added ID directly to button for Recaptcha binding -->
                     <button id="sendOtpRegBtn" class="primary-btn signup-btn">Send SMS Code</button>
                 </div>
 
@@ -230,8 +234,6 @@
         </div>
 
         <div id="authMessage" class="auth-message"></div>
-        
-        <div id="recaptcha-container"></div>
 
         <div class="divider">Or connect with</div>
         
@@ -247,6 +249,7 @@
         </div>
     </div>
 
+    <!-- Complete Countries Database -->
     <script>
         const allWorldCountries = [
             {n:"Afghanistan",c:"+93",f:"🇦🇫"},{n:"Albania",c:"+355",f:"🇦🇱"},{n:"Algeria",c:"+213",f:"🇩🇿"},{n:"Andorra",c:"+376",f:"🇦🇩"},{n:"Angola",c:"+244",f:"🇦🇴"},
@@ -361,7 +364,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { 
-            getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, GithubAuthProvider,
+            getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, GithubAuthProvider,
             createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail,
             onAuthStateChanged, setPersistence, browserLocalPersistence, browserSessionPersistence,
             RecaptchaVerifier, signInWithPhoneNumber
@@ -390,15 +393,18 @@
 
         const authMessage = document.getElementById('authMessage');
 
-        // Clean reCAPTCHA instantiation
-        function getRecaptcha() {
-            if (!window.recaptchaVerifier) {
-                window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-                    'size': 'invisible'
-                });
+        // Setup Independent Recaptcha Verifiers explicitly bound to buttons
+        let recaptchaLogin = null;
+        let recaptchaReg = null;
+
+        auth.onAuthStateChanged(() => {
+            if(!recaptchaLogin) {
+                recaptchaLogin = new RecaptchaVerifier(auth, 'sendOtpLoginBtn', { 'size': 'invisible' });
             }
-            return window.recaptchaVerifier;
-        }
+            if(!recaptchaReg) {
+                recaptchaReg = new RecaptchaVerifier(auth, 'sendOtpRegBtn', { 'size': 'invisible' });
+            }
+        });
 
         async function checkAndCreateUser(user) {
             const userRef = doc(db, "users", user.uid);
@@ -498,32 +504,34 @@
         });
 
         // ==========================================
-        // 4. SOCIAL LOGINS (Foolproof Direct Popup)
+        // 4. SOCIAL LOGINS (100% Redirect for zero popups)
         // ==========================================
+        
+        getRedirectResult(auth).then(async (result) => {
+            if (result && result.user) {
+                authMessage.innerHTML = `<span style="color: #4ade80;">Verification Successful! Redirecting...</span>`;
+                await checkAndCreateUser(result.user);
+            }
+        }).catch((error) => {
+            if (!error.message.includes('configuration-not-found')) {
+                authMessage.innerHTML = `<span style="color: #ff4757;">Sign-In Error: ${error.message}</span>`;
+            }
+        });
+
         function handleSocialAuth(provider, providerName) {
             authMessage.innerHTML = `<span style="color: #38bdf8;">Connecting to ${providerName}... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
             
-            signInWithPopup(auth, provider).then(async (result) => {
-                await checkAndCreateUser(result.user);
-            }).catch((error) => {
-                if (error.message.includes('configuration-not-found')) {
-                    authMessage.innerHTML = `<span style="color: #fbbf24;">Note: Please configure the ${providerName} App ID in Firebase settings.</span>`;
-                } else if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
-                    authMessage.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
-                } else {
-                    authMessage.innerHTML = '';
-                }
-            });
+            // Strictly using Redirect to bypass ALL browser popup blockers securely
+            signInWithRedirect(auth, provider);
         }
 
-        // Must attach directly to click event to prevent mobile popup blocking
         document.getElementById('googleBtn').addEventListener('click', (e) => { e.preventDefault(); handleSocialAuth(googleProvider, 'Google'); });
         document.getElementById('facebookBtn').addEventListener('click', (e) => { e.preventDefault(); handleSocialAuth(fbProvider, 'Facebook'); });
         document.getElementById('appleBtn').addEventListener('click', (e) => { e.preventDefault(); handleSocialAuth(appleProvider, 'Apple'); });
         document.getElementById('githubBtn').addEventListener('click', (e) => { e.preventDefault(); handleSocialAuth(githubProvider, 'GitHub'); });
 
         // ==========================================
-        // 5. PHONE NUMBER OTP LOGIC
+        // 5. PHONE NUMBER OTP LOGIC (Foolproof)
         // ==========================================
         let confirmationResultObj = null;
 
@@ -535,30 +543,29 @@
                 authMessage.innerHTML = `<span style="color: #ff4757;">Please select a Country Code and enter a valid mobile number.</span>`; return;
             }
 
-            // Auto-format: Remove leading zero if user added it
-            rawNumber = rawNumber.replace(/^0+/, '');
-            const fullNumber = code + rawNumber;
+            // Remove spaces, dashes, and leading zeros
+            const digitsOnly = rawNumber.replace(/\D/g, '');
+            const cleanNumber = digitsOnly.replace(/^0+/, '');
+            const fullNumber = code + cleanNumber;
 
             const btn = document.getElementById(btnId);
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending OTP...';
             btn.disabled = true;
             authMessage.innerHTML = `<span style="color: #38bdf8;">Securing connection and sending SMS...</span>`;
 
-            const appVerifier = getRecaptcha();
+            const currentVerifier = btnId === 'sendOtpLoginBtn' ? recaptchaLogin : recaptchaReg;
 
-            signInWithPhoneNumber(auth, fullNumber, appVerifier)
+            signInWithPhoneNumber(auth, fullNumber, currentVerifier)
                 .then((confirmationResult) => {
                     confirmationResultObj = confirmationResult;
                     document.getElementById(formStep1).style.display = 'none';
                     document.getElementById(formStep2).style.display = 'block';
                     authMessage.innerHTML = '';
                 }).catch((error) => {
-                    authMessage.innerHTML = `<span style="color: #ff4757;">SMS Error: Invalid phone number format or security block. Ensure number is correct without leading zero.</span>`;
+                    authMessage.innerHTML = `<span style="color: #ff4757;">SMS Error: Verification failed. Please check your number or refresh the page.</span>`;
                     btn.innerHTML = btnId.includes('Login') ? 'Send Secure OTP' : 'Send SMS Code';
                     btn.disabled = false;
-                    if(window.recaptchaVerifier) {
-                        window.recaptchaVerifier.render().then(id => grecaptcha.reset(id));
-                    }
+                    if(currentVerifier) currentVerifier.render().then(id => grecaptcha.reset(id));
                 });
         }
 
@@ -583,6 +590,7 @@
             });
         }
 
+        // Attach Listeners
         document.getElementById('sendOtpLoginBtn').addEventListener('click', () => handleSendOTP('countryCodeLogin', 'phoneNumberLogin', 'sendOtpLoginBtn', 'phone-input-step', 'otp-verify-step-login'));
         document.getElementById('verifyOtpLoginBtn').addEventListener('click', () => handleVerifyOTP('otpCodeLogin', 'verifyOtpLoginBtn'));
 
