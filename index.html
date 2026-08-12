@@ -1415,21 +1415,35 @@
             }).catch((error) => { authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`; });
         });
 
+        // =======================================================
+        // NEW SECURE AUTHENTICATION LOGIC (FIXED FOR FIREBASE)
+        // =======================================================
         emailLoginBtn.addEventListener('click', () => {
-            const email = document.getElementById('authEmail').value;
-            const password = document.getElementById('authPassword').value;
-            if(!email || !password) return;
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value.trim();
+            if(!email || !password) {
+                authMessageBox.innerHTML = `<span style="color: #ff4757;">Please enter both email and password.</span>`;
+                return;
+            }
 
             authMessageBox.innerHTML = `<span style="color: #38bdf8;">Authenticating securely...</span>`;
+            
             signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => { authModal.style.display = 'none'; })
+                .then((userCredential) => { 
+                    authModal.style.display = 'none'; 
+                })
                 .catch((error) => {
-                    if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                    if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential' || error.code === 'auth/invalid-login-credentials') {
+                        authMessageBox.innerHTML = `<span style="color: #fbbf24;">Creating new account...</span>`;
                         createUserWithEmailAndPassword(auth, email, password)
-                            .then((userCredential) => { authModal.style.display = 'none'; })
-                            .catch((err) => authMessageBox.innerHTML = `<span style="color: #ff4757;">${err.message}</span>`);
+                            .then((userCredential) => { 
+                                authModal.style.display = 'none'; 
+                            })
+                            .catch((err) => {
+                                authMessageBox.innerHTML = `<span style="color: #ff4757;">Sign Up Error: ${err.message}</span>`;
+                            });
                     } else {
-                        authMessageBox.innerHTML = `<span style="color: #ff4757;">${error.message}</span>`;
+                        authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
                     }
                 });
         });
