@@ -36,6 +36,45 @@
       }
     }
     </script>
+
+    <!-- ==========================================
+         FAQ SCHEMA MARKUP (FOR GOOGLE RICH SNIPPETS)
+         ========================================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "Is it safe to split confidential PDF files here?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! Our Split PDF tool is completely secure. It processes your files locally using your browser's processing power. Your files are never uploaded to any external servers, ensuring absolute privacy."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How do I extract specific pages from a PDF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Simply upload your PDF, select the 'Custom Range' mode, and type the page numbers you wish to extract (for example, '1-3, 5, 8-10'). The tool will generate a new PDF containing only those specific pages."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Can I split a PDF into individual single-page files?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. Just select the 'Extract All' mode after uploading your document. The tool will separate every single page into its own PDF file and package them all into a convenient ZIP folder for you to download in one click."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Are there any file size limits for splitting PDFs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Because the extraction happens directly on your device rather than on a cloud server, there are no strict file size limits imposed by us. You can process large documents effortlessly as long as your device has enough memory."
+        }
+      }]
+    }
+    </script>
     
     <!-- ==========================================
          VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
@@ -116,6 +155,33 @@
         .mode-btn.active { border-color: #e5322d; background-color: #fef2f2; color: #e5322d; }
         
         .range-input:focus { box-shadow: 0 0 0 3px rgba(229, 50, 45, 0.1); border-color: #e5322d; outline: none;}
+
+        /* ==========================================
+           SEO ARTICLE & FAQ CSS
+           ========================================== */
+        .seo-section { max-width: 1000px; margin: 40px auto 80px; padding: 40px 30px; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; text-align: left; }
+        .seo-section h2 { font-size: 28px; color: #1e293b; margin-bottom: 20px; font-weight: 800; letter-spacing: -0.5px; }
+        .seo-section h3 { font-size: 20px; color: #334155; margin: 30px 0 15px; font-weight: 700; }
+        .seo-section p { font-size: 16px; color: #475569; line-height: 1.8; margin-bottom: 15px; }
+        .seo-section ul { margin-left: 20px; margin-bottom: 20px; color: #475569; list-style-type: disc; }
+        .seo-section ul li { margin-bottom: 10px; line-height: 1.6; }
+        .seo-section ul li strong { color: #1e293b; }
+
+        .faq-container { margin-top: 50px; border-top: 2px solid #f1f5f9; padding-top: 40px; }
+        .faq-item { border-bottom: 1px solid #e2e8f0; margin-bottom: 15px; }
+        .faq-item details { width: 100%; }
+        .faq-item summary { font-size: 17px; font-weight: 600; color: #1e293b; padding: 15px 0; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; outline: none; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: #94a3b8; transition: transform 0.3s ease; }
+        .faq-item details[open] summary::after { transform: rotate(180deg); color: #e5322d; }
+        .faq-item .faq-answer { padding-bottom: 20px; color: #64748b; line-height: 1.7; font-size: 15px; animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .seo-section { padding: 30px 20px; margin: 20px 15px 60px; }
+            .seo-section h2 { font-size: 24px; }
+            .seo-section h3 { font-size: 18px; }
+        }
     </style>
 </head>
 <body class="min-h-[100dvh] h-[100dvh] font-sans relative flex flex-col overflow-hidden bg-gray-50">
@@ -144,24 +210,75 @@
         </div>
     </nav>
 
-    <!-- STEP 1: UPLOAD SCREEN -->
-    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 bg-white z-10 absolute inset-0 top-[65px]">
-        <div class="flex items-center justify-center gap-3 mb-4 mt-4">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 text-center">Split PDF</h1>
-            <span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide shadow-sm"><i class="fa-solid fa-bolt"></i> FAST</span>
+    <!-- STEP 1: UPLOAD SCREEN WITH SEO SECTION -->
+    <div id="step1" class="w-full bg-white z-10 absolute inset-0 top-[65px] overflow-y-auto">
+        <div class="w-full flex flex-col items-center justify-center min-h-[calc(100dvh-65px)] px-4 py-10">
+            <div class="flex items-center justify-center gap-3 mb-4 mt-4">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 text-center">Split PDF</h1>
+                <span class="bg-gray-800 text-white text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide shadow-sm"><i class="fa-solid fa-bolt"></i> FAST</span>
+            </div>
+            <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Separate one page or a whole set easily. 100% secure, processed locally in your browser.</p>
+            
+            <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
+            
+            <div id="dropZone" class="drag-area w-full max-w-3xl border-2 border-dashed border-gray-300 rounded-3xl bg-white p-16 md:p-20 flex flex-col items-center justify-center cursor-pointer hover:border-red-500 hover:bg-red-50 transition shadow-sm" onclick="document.getElementById('fileInput').click()">
+                <button class="ilovepdf-red text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 mb-4">
+                    Select PDF file
+                </button>
+                <p class="text-gray-500 font-medium text-sm">or drop PDF here</p>
+            </div>
+            
+            <div class="mt-8 text-xs text-gray-400 font-medium"><i class="fa-solid fa-lock"></i> 100% Client-Side Processing. No files are uploaded to any server.</div>
         </div>
-        <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Separate one page or a whole set easily. 100% secure, processed locally in your browser.</p>
-        
-        <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
-        
-        <div id="dropZone" class="drag-area w-full max-w-3xl border-2 border-dashed border-gray-300 rounded-3xl bg-white p-16 md:p-20 flex flex-col items-center justify-center cursor-pointer hover:border-red-500 hover:bg-red-50 transition shadow-sm" onclick="document.getElementById('fileInput').click()">
-            <button class="ilovepdf-red text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 mb-4">
-                Select PDF file
-            </button>
-            <p class="text-gray-500 font-medium text-sm">or drop PDF here</p>
-        </div>
-        
-        <div class="mt-8 text-xs text-gray-400 font-medium"><i class="fa-solid fa-lock"></i> 100% Client-Side Processing. No files are uploaded to any server.</div>
+
+        <!-- ==========================================
+             SEO ARTICLE & FAQ SECTION
+             ========================================== -->
+        <section class="seo-section">
+            <h2>How to Split PDF Pages Online for Free</h2>
+            <p>Extracting specific pages or separating a large PDF document into individual files shouldn't be a hassle. With the ToolVerse <strong>Split PDF</strong> tool, you can instantly divide your documents into manageable parts or extract the exact pages you need directly in your web browser.</p>
+            <p>Whether you need to pull a single invoice from a monthly report or break down a massive ebook into chapter-by-chapter PDF files, our secure, client-side PDF splitter gets the job done in seconds without the need for premium software or paid subscriptions.</p>
+
+            <h3>Why Choose Our PDF Splitter?</h3>
+            <ul>
+                <li><strong>100% Secure & Private:</strong> Your PDF files are processed entirely on your local device. We never upload, store, or view your sensitive data.</li>
+                <li><strong>Custom Page Ranges:</strong> Easily specify custom page ranges (e.g., 1-5, 8, 11-13) to extract only the information that matters to you.</li>
+                <li><strong>Extract All Pages as ZIP:</strong> Need every page separated? Use our "Extract All" mode to instantly split a PDF into individual files and download them together in a neat ZIP archive.</li>
+                <li><strong>Lightning Fast:</strong> Utilizing advanced browser technology, large PDF files are processed instantly without waiting for server uploads or downloads.</li>
+            </ul>
+
+            <div class="faq-container">
+                <h2>Frequently Asked Questions</h2>
+                
+                <div class="faq-item">
+                    <details>
+                        <summary>Is it safe to split confidential PDF files here?</summary>
+                        <div class="faq-answer">Yes! Our Split PDF tool is completely secure. It processes your files locally using your browser's processing power. Your files are never uploaded to any external servers, ensuring absolute privacy.</div>
+                    </details>
+                </div>
+
+                <div class="faq-item">
+                    <details>
+                        <summary>How do I extract specific pages from a PDF?</summary>
+                        <div class="faq-answer">Simply upload your PDF, select the "Custom Range" mode, and type the page numbers you wish to extract (for example, "1-3, 5, 8-10"). The tool will generate a new PDF containing only those specific pages.</div>
+                    </details>
+                </div>
+
+                <div class="faq-item">
+                    <details>
+                        <summary>Can I split a PDF into individual single-page files?</summary>
+                        <div class="faq-answer">Absolutely. Just select the "Extract All" mode after uploading your document. The tool will separate every single page into its own PDF file and package them all into a convenient ZIP folder for you to download in one click.</div>
+                    </details>
+                </div>
+
+                <div class="faq-item">
+                    <details>
+                        <summary>Are there any file size limits for splitting PDFs?</summary>
+                        <div class="faq-answer">Because the extraction happens directly on your device rather than on a cloud server, there are no strict file size limits imposed by us. You can process large documents effortlessly as long as your device has enough memory.</div>
+                    </details>
+                </div>
+            </div>
+        </section>
     </div>
 
     <!-- STEP 2: WORKSPACE & SETTINGS -->
