@@ -3,207 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToolVerse - Secure Login</title>
-    <!-- Firebase Compat SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <title>Login / Sign Up - ToolVerse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* Color Theme and Base Settings */
-        :root {
-            --bg-dark: #0b0f19;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --neon-gold: #ffcc00;
-            --text-main: #ffffff;
-            --text-muted: #8b9bb4;
-            --error-red: #ef4444;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-dark);
-            background-image: radial-gradient(circle at 50% 0%, rgba(255,204,0,0.05) 0%, transparent 50%);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .login-container {
-            width: 100%;
-            max-width: 400px;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            text-align: center;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--neon-gold);
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            color: #fff;
-            font-size: 15px;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--neon-gold);
-            background: rgba(255, 204, 0, 0.02);
-        }
-
-        .btn-primary {
-            width: 100%;
-            background: linear-gradient(135deg, #ffcc00, #ff9900);
-            color: #000;
-            border: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 204, 0, 0.3);
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 20px 0;
-            color: var(--text-muted);
-            font-size: 12px;
-            text-transform: uppercase;
-        }
-
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .divider:not(:empty)::before { margin-right: .25em; }
-        .divider:not(:empty)::after { margin-left: .25em; }
-
-        .btn-google {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            border: 1px solid var(--glass-border);
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-google:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .error-message {
-            color: var(--error-red);
-            font-size: 13px;
-            margin-top: 10px;
-            display: none;
-        }
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #0b0f19; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        
+        .login-wrapper { background: #172033; padding: 40px 30px; border-radius: 20px; width: 100%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); text-align: center; }
+        .logo-text { color: #fbbf24; font-size: 2rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .subtitle { color: #94a3b8; font-size: 0.9rem; margin-bottom: 35px; }
+        
+        .input-group { text-align: left; margin-bottom: 20px; }
+        .input-group label { display: block; color: #cbd5e1; font-size: 0.75rem; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .input-group input { width: 100%; padding: 15px; background: #0b0f19; border: 1px solid #1e293b; border-radius: 12px; color: #fff; font-size: 1rem; outline: none; transition: 0.3s; }
+        .input-group input:focus { border-color: #fbbf24; box-shadow: 0 0 10px rgba(251, 191, 36, 0.15); }
+        
+        .main-btn { width: 100%; background: #fbbf24; color: #000; font-weight: 800; font-size: 1rem; padding: 16px; border: none; border-radius: 12px; cursor: pointer; transition: 0.3s; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .main-btn:hover { background: #f59e0b; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(251, 191, 36, 0.3); }
+        
+        .divider { display: flex; align-items: center; text-align: center; color: #64748b; font-size: 0.8rem; margin: 25px 0; font-weight: 600;}
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #1e293b; }
+        .divider:not(:empty)::before { margin-right: 1em; }
+        .divider:not(:empty)::after { margin-left: 1em; }
+        
+        .google-btn { width: 100%; background: #1e293b; color: #f8fafc; font-weight: 600; font-size: 1rem; padding: 15px; border: 1px solid #334155; border-radius: 12px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; }
+        .google-btn:hover { background: #334155; border-color: #475569; }
+        .google-btn svg { width: 22px; height: 22px; }
+        
+        #authMessageBox { margin-top: 20px; font-size: 0.85rem; font-weight: 500; min-height: 20px; line-height: 1.5; }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
-        <div class="glass-panel">
-            <div class="logo">ToolVerse</div>
-            <div class="subtitle">Secure Node Access & AI Tools</div>
-
-            <div class="input-group">
-                <label>Email</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
-            </div>
-            
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" id="password" placeholder="Enter your password" required>
-            </div>
-
-            <button class="btn-primary" id="loginBtn">Login / Sign Up</button>
-            
-            <div class="error-message" id="errorMessage"></div>
-
-            <div class="divider">Or</div>
-
-            <button class="btn-google" id="googleBtn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                </svg>
-                Continue with Google
-            </button>
+    <div class="login-wrapper">
+        <div class="logo-text">ToolVerse</div>
+        <div class="subtitle">Secure Node Access & AI Tools</div>
+        
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" id="authEmail" placeholder="Enter your email" required>
         </div>
+        
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="authPassword" placeholder="Enter your password" required>
+        </div>
+        
+        <button id="emailLoginBtn" class="main-btn">Login / Sign Up</button>
+        
+        <div id="authMessageBox"></div>
+        
+        <div class="divider">OR</div>
+        
+        <button id="googleBtn" class="google-btn">
+            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Continue with Google
+        </button>
     </div>
 
-    <!-- Direct Firebase Initialization (Cache Proof) -->
-    <script>
-        const firebaseConfig = {
+    <!-- FIREBASE & CORE LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        const firebaseConfigDirect = {
             apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
             authDomain: "toolverstoken.firebaseapp.com",
             projectId: "toolverstoken",
@@ -212,62 +78,148 @@
             appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
             measurementId: "G-6VX2WPNECZ"
         };
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
+
+        const app = initializeApp(firebaseConfigDirect);
+        const auth = getAuth(app);
+        const db = getFirestore(app); 
+        const googleProvider = new GoogleAuthProvider();
+
+        const emailLoginBtn = document.getElementById('emailLoginBtn');
+        const googleBtn = document.getElementById('googleBtn');
+        const authMessageBox = document.getElementById('authMessageBox');
+
+        // Check for Mobile Google Login Redirect Result
+        getRedirectResult(auth).then(async (result) => {
+            if (result && result.user) {
+                authMessageBox.innerHTML = `<span style="color: #4ade80;">Success! Redirecting... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
+                await checkAndCreateUser(result.user);
+                localStorage.setItem('ToolVerse_Auth', 'true');
+                localStorage.setItem('isLoggedIn', 'true');
+                window.location.href = 'index.html';
+            }
+        }).catch((error) => {
+            authMessageBox.innerHTML = `<span style="color: #ff4757;">Google Sign-In Error: ${error.message}</span>`;
+        });
+
+        async function checkAndCreateUser(user) {
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+            if(!userSnap.exists()) {
+                await setDoc(userRef, { 
+                    email: user.email, 
+                    displayName: user.displayName || 'User', 
+                    credits: 2500, 
+                    plan: 'Sandbox', 
+                    createdAt: new Date().toISOString() 
+                });
+            } else {
+                localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
+            }
         }
-    </script>
 
-    <script>
-        window.onload = function() {
-            const auth = firebase.auth();
-            const loginBtn = document.getElementById('loginBtn');
-            const googleBtn = document.getElementById('googleBtn');
-            const errorMsg = document.getElementById('errorMessage');
+        // =======================================================
+        // EMAIL SMART LOGIN / SIGNUP (FIXED)
+        // =======================================================
+        emailLoginBtn.addEventListener('click', () => {
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value.trim();
+            
+            if(!email || !password) {
+                authMessageBox.innerHTML = `<span style="color: #ff4757;">Please enter both email and password.</span>`;
+                return;
+            }
+            if(password.length < 6) {
+                authMessageBox.innerHTML = `<span style="color: #ff4757;">Password must be at least 6 characters.</span>`;
+                return;
+            }
 
-            auth.onAuthStateChanged(function(user) {
-                if (user) {
-                    window.location.href = 'index.html';
-                }
-            });
-
-            loginBtn.addEventListener('click', function() {
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-                
-                if(!email || !password) {
-                    errorMsg.style.display = 'block';
-                    errorMsg.innerText = "Please enter both email and password.";
-                    return;
-                }
-
-                loginBtn.innerText = "Processing...";
-                
-                auth.signInWithEmailAndPassword(email, password)
-                .catch(function(error) {
-                    if (error.code === 'auth/user-not-found') {
-                        auth.createUserWithEmailAndPassword(email, password)
-                        .catch(function(signUpError) {
-                            errorMsg.style.display = 'block';
-                            errorMsg.innerText = signUpError.message;
-                            loginBtn.innerText = "Login / Sign Up";
-                        });
+            emailLoginBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+            emailLoginBtn.disabled = true;
+            authMessageBox.innerHTML = `<span style="color: #38bdf8;">Authenticating securely...</span>`;
+            
+            // Step 1: Try to Login
+            signInWithEmailAndPassword(auth, email, password)
+                .then(async (userCredential) => { 
+                    await checkAndCreateUser(userCredential.user);
+                    localStorage.setItem('ToolVerse_Auth', 'true');
+                    localStorage.setItem('isLoggedIn', 'true');
+                    window.location.href = 'index.html'; 
+                })
+                .catch((error) => {
+                    // Step 2: If login fails due to missing user or invalid credentials, try to Sign Up
+                    if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential' || error.code === 'auth/invalid-login-credentials') {
+                        
+                        authMessageBox.innerHTML = `<span style="color: #fbbf24;">Creating new account...</span>`;
+                        
+                        createUserWithEmailAndPassword(auth, email, password)
+                            .then(async (userCredential) => { 
+                                await checkAndCreateUser(userCredential.user);
+                                localStorage.setItem('ToolVerse_Auth', 'true');
+                                localStorage.setItem('isLoggedIn', 'true');
+                                window.location.href = 'index.html'; 
+                            })
+                            .catch((err) => {
+                                // Step 3: If Sign Up fails because email exists, it means they just typed the wrong password
+                                if (err.code === 'auth/email-already-in-use') {
+                                    authMessageBox.innerHTML = `<span style="color: #ff4757;">Account already exists. Incorrect password!</span>`;
+                                } else {
+                                    authMessageBox.innerHTML = `<span style="color: #ff4757;">Sign Up Error: ${err.message}</span>`;
+                                }
+                                resetBtn();
+                            });
                     } else {
-                        errorMsg.style.display = 'block';
-                        errorMsg.innerText = error.message;
-                        loginBtn.innerText = "Login / Sign Up";
+                        authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
+                        resetBtn();
                     }
                 });
-            });
+        });
 
-            googleBtn.addEventListener('click', function() {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                auth.signInWithPopup(provider)
-                .catch(function(error) {
-                    errorMsg.style.display = 'block';
-                    errorMsg.innerText = error.message;
+        // =======================================================
+        // GOOGLE MOBILE & DESKTOP LOGIN (FIXED)
+        // =======================================================
+        googleBtn.addEventListener('click', () => {
+            authMessageBox.innerHTML = `<span style="color: #fbbf24;">Connecting to Google... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
+            googleBtn.disabled = true;
+
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // Mobile devices block popups, so we use safe redirect
+                signInWithRedirect(auth, googleProvider).catch(error => {
+                     authMessageBox.innerHTML = `<span style="color: #ff4757;">Redirect Error: ${error.message}</span>`;
+                     googleBtn.disabled = false;
                 });
-            });
-        };
+            } else {
+                // Desktop uses normal popup
+                signInWithPopup(auth, googleProvider).then(async (result) => {
+                    await checkAndCreateUser(result.user);
+                    localStorage.setItem('ToolVerse_Auth', 'true');
+                    localStorage.setItem('isLoggedIn', 'true');
+                    window.location.href = 'index.html';
+                }).catch((error) => {
+                    if (error.code === 'auth/popup-closed-by-user') {
+                        authMessageBox.innerHTML = `<span style="color: #ff4757;">Google Sign-In was closed. Please try again.</span>`;
+                    } else {
+                        authMessageBox.innerHTML = `<span style="color: #ff4757;">Google Error: ${error.message}</span>`;
+                    }
+                    googleBtn.disabled = false;
+                });
+            }
+        });
+
+        function resetBtn() {
+            emailLoginBtn.innerHTML = 'Login / Sign Up';
+            emailLoginBtn.disabled = false;
+        }
+
+        // Auto-redirect if already logged in
+        onAuthStateChanged(auth, (user) => {
+            if (user && window.location.pathname.includes('login.html')) {
+                localStorage.setItem('ToolVerse_Auth', 'true');
+                localStorage.setItem('isLoggedIn', 'true');
+                window.location.href = 'index.html';
+            }
+        });
     </script>
 </body>
 </html>
