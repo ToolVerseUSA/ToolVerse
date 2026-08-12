@@ -304,9 +304,12 @@ body {
     line-height: 1.4;
 }
 
-/* VVIP Fix: Cleaned up Media Queries */
 @media(max-width: 768px) {
+    .header-container { flex-direction: column; gap: 15px; padding: 15px; }
+    .nav-links { flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .mega-menu { display: none; }
     .ilove-hero h1 { font-size: 32px; }
+    
     .ilove-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .ilove-card { padding: 15px; min-height: 160px; border-radius: 10px; }
     .card-icon { font-size: 30px; margin-bottom: 12px; }
@@ -665,99 +668,4 @@ body {
     font-size: 1.2rem;
     color: #f8fafc;
     margin-bottom: 15px;
-}
-
-/* =========================================================
-   VVIP HAMBURGER MENU (MOBILE OVERLAY) - APPLE/KPMG STYLE
-   ========================================================= */
-@media (min-width: 1025px) {
-    .nav-actions-wrapper { display: contents; }
-    .hamburger-btn, .close-menu-btn, .mobile-menu-backdrop { display: none !important; }
-}
-
-@media (max-width: 1024px) {
-    /* Keep header in one line */
-    .ilove-header .header-container { 
-        flex-direction: row !important; 
-        padding: 15px 20px !important; 
-        justify-content: space-between !important;
-    }
-    
-    .hamburger-btn {
-        display: flex; align-items: center; justify-content: center;
-        background: transparent; border: none;
-        color: #f8fafc; font-size: 26px; cursor: pointer;
-        transition: color 0.3s; margin-left: auto;
-    }
-    .hamburger-btn:hover { color: #38bdf8; }
-
-    .mobile-menu-backdrop {
-        display: block; position: fixed; top: 0; left: 0;
-        width: 100vw; height: 100vh; background: rgba(0,0,0,0.6);
-        backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-        z-index: 10000; opacity: 0; visibility: hidden; transition: 0.4s ease;
-    }
-    .mobile-menu-backdrop.open { opacity: 1; visibility: visible; }
-
-    .nav-actions-wrapper {
-        position: fixed; top: 0; right: 0;
-        width: 320px; max-width: 85vw; height: 100vh;
-        background: rgba(11, 15, 25, 0.98);
-        border-left: 1px solid rgba(255,255,255,0.05);
-        box-shadow: -10px 0 40px rgba(0,0,0,0.8);
-        z-index: 10001;
-        display: flex; flex-direction: column;
-        padding: 80px 25px 40px; overflow-y: auto;
-        transform: translateX(100%);
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        will-change: transform;
-    }
-    .nav-actions-wrapper.open { transform: translateX(0); }
-
-    .close-menu-btn {
-        display: flex; align-items: center; justify-content: center;
-        position: absolute; top: 20px; right: 25px;
-        width: 40px; height: 40px; border-radius: 50%;
-        background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-        color: #94a3b8; font-size: 20px; cursor: pointer; transition: 0.3s;
-    }
-    .close-menu-btn:hover { background: rgba(255,71,87,0.2); color: #ff4757; transform: rotate(90deg); }
-
-    .main-nav { width: 100%; margin-bottom: 20px; }
-    .nav-links { flex-direction: column; width: 100%; gap: 10px; align-items: flex-start; }
-    .nav-links li { width: 100%; }
-    .nav-links a { 
-        display: flex; justify-content: space-between; align-items: center;
-        width: 100%; font-size: 1.1rem; padding: 12px 0; 
-        border-bottom: 1px solid rgba(255,255,255,0.05); color: #cbd5e1;
-        font-weight: 600; transition: 0.3s;
-    }
-    .nav-links a:hover { color: #38bdf8; padding-left: 8px; }
-    
-    .auth-buttons { 
-        flex-direction: column !important; width: 100% !important; gap: 15px !important; 
-        border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px !important; margin-top: auto !important;
-    }
-    .auth-buttons > * { width: 100%; justify-content: center; text-align: center; }
-
-    /* Mega Menu Mobile Logic */
-    .dropdown:hover .mega-menu:not(.mobile-open) { display: none !important; }
-    .mega-menu { 
-        position: static !important; transform: none !important; width: 100% !important; 
-        box-shadow: none !important; border: none !important;
-        background: rgba(255,255,255,0.03) !important; padding: 0 15px !important; margin-top: 0 !important;
-        display: none !important; visibility: visible !important; opacity: 1 !important; 
-        border-radius: 8px !important; margin-bottom: 10px !important;
-    }
-    .mega-menu.mobile-open { 
-        display: flex !important; flex-direction: column !important; gap: 20px !important; 
-        padding: 20px 15px !important; border-left: 2px solid #38bdf8 !important; border-radius: 0 8px 8px 0 !important;
-        animation: accordionSlide 0.3s ease forwards;
-    }
-    @keyframes accordionSlide { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .mega-column { width: 100%; }
-    .mega-column h3 { font-size: 0.8rem; color: #38bdf8; border-bottom: 1px solid rgba(56,189,248,0.2); padding-bottom: 8px; margin-bottom: 12px; }
-    .mega-column a { font-size: 0.95rem; padding: 10px 0; border-bottom: none; font-weight: 500; }
-    .mega-column a:hover { color: #fff; background: rgba(255,255,255,0.05); padding-left: 10px; border-radius: 6px; }
 }
