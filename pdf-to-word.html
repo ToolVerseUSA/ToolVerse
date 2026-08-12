@@ -36,6 +36,45 @@
       }
     }
     </script>
+
+    <!-- ==========================================
+         FAQ SCHEMA MARKUP (FOR GOOGLE RICH SNIPPETS)
+         ========================================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "How does the PDF to Word converter work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our tool uses advanced client-side processing to read the text content of your PDF and reconstruct it into an editable Microsoft Word (DOCX) format right in your browser."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is my confidential data safe during conversion?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. Since ToolVerse performs the PDF to Word conversion locally on your device, your files are never uploaded to our cloud servers. Your data remains 100% private and secure."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Does the converter preserve the exact layout of the PDF?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The 'Advanced Layout Preserving' mode attempts to maintain paragraph spacing and document structure as closely as possible. However, highly complex layouts with heavy graphics might require manual adjustments after conversion."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Can I convert scanned PDFs to Word?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "This standard converter extracts readable text. For scanned PDFs (images), you will first need to use our OCR tool to recognize the text before converting it to a Word document."
+        }
+      }]
+    }
+    </script>
     
     <!-- ==========================================
          VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
@@ -124,6 +163,33 @@
         .level-btn { border: 2px solid #e2e8f0; transition: 0.3s; cursor: pointer; }
         .level-btn.active { border-color: #2563eb; background-color: #eff6ff; }
         .level-btn.active .level-icon { color: #2563eb; }
+
+        /* ==========================================
+           SEO ARTICLE & FAQ CSS
+           ========================================== */
+        .seo-section { max-width: 1000px; margin: 40px auto 80px; padding: 40px 30px; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; text-align: left; }
+        .seo-section h2 { font-size: 28px; color: #1e293b; margin-bottom: 20px; font-weight: 800; letter-spacing: -0.5px; }
+        .seo-section h3 { font-size: 20px; color: #334155; margin: 30px 0 15px; font-weight: 700; }
+        .seo-section p { font-size: 16px; color: #475569; line-height: 1.8; margin-bottom: 15px; }
+        .seo-section ul { margin-left: 20px; margin-bottom: 20px; color: #475569; list-style-type: disc; }
+        .seo-section ul li { margin-bottom: 10px; line-height: 1.6; }
+        .seo-section ul li strong { color: #1e293b; }
+
+        .faq-container { margin-top: 50px; border-top: 2px solid #f1f5f9; padding-top: 40px; }
+        .faq-item { border-bottom: 1px solid #e2e8f0; margin-bottom: 15px; }
+        .faq-item details { width: 100%; }
+        .faq-item summary { font-size: 17px; font-weight: 600; color: #1e293b; padding: 15px 0; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; outline: none; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: #94a3b8; transition: transform 0.3s ease; }
+        .faq-item details[open] summary::after { transform: rotate(180deg); color: #2563eb; }
+        .faq-item .faq-answer { padding-bottom: 20px; color: #64748b; line-height: 1.7; font-size: 15px; animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .seo-section { padding: 30px 20px; margin: 20px 15px 60px; }
+            .seo-section h2 { font-size: 24px; }
+            .seo-section h3 { font-size: 18px; }
+        }
     </style>
 </head>
 <body class="min-h-[100dvh] h-[100dvh] font-sans relative flex flex-col overflow-hidden bg-gray-50">
@@ -152,24 +218,75 @@
         </div>
     </nav>
 
-    <!-- STEP 1: UPLOAD SCREEN -->
-    <div id="step1" class="w-full flex-grow flex flex-col items-center justify-center px-4 bg-white z-10 absolute inset-0 top-[65px]">
-        <div class="flex items-center justify-center gap-3 mb-4 mt-4">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 text-center">PDF to Word</h1>
-            <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide shadow-sm"><i class="fa-solid fa-bolt"></i> FAST</span>
+    <!-- STEP 1: UPLOAD SCREEN WITH SEO SECTION -->
+    <div id="step1" class="w-full bg-white z-10 absolute inset-0 top-[65px] overflow-y-auto">
+        <div class="w-full flex flex-col items-center justify-center min-h-[calc(100dvh-65px)] px-4 py-10">
+            <div class="flex items-center justify-center gap-3 mb-4 mt-4">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 text-center">PDF to Word</h1>
+                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide shadow-sm"><i class="fa-solid fa-bolt"></i> FAST</span>
+            </div>
+            <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Easily convert your PDF files into easy to edit DOCX documents instantly and securely in your browser.</p>
+            
+            <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
+            
+            <div id="dropZone" class="drag-area w-full max-w-3xl border-2 border-dashed border-gray-300 rounded-3xl bg-white p-16 md:p-20 flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition shadow-sm" onclick="document.getElementById('fileInput').click()">
+                <button class="theme-blue text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 mb-4">
+                    Select PDF file
+                </button>
+                <p class="text-gray-500 font-medium text-sm">or drop PDF here</p>
+            </div>
+            
+            <div class="mt-8 text-xs text-gray-400 font-medium"><i class="fa-solid fa-lock"></i> 100% Client-Side Processing. No files are uploaded to any server.</div>
         </div>
-        <p class="text-xl text-gray-600 mb-10 text-center max-w-2xl">Easily convert your PDF files into easy to edit DOCX documents instantly and securely in your browser.</p>
-        
-        <input type="file" id="fileInput" accept=".pdf" class="hidden" onchange="handleFile(this)">
-        
-        <div id="dropZone" class="drag-area w-full max-w-3xl border-2 border-dashed border-gray-300 rounded-3xl bg-white p-16 md:p-20 flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition shadow-sm" onclick="document.getElementById('fileInput').click()">
-            <button class="theme-blue text-white font-bold py-5 px-10 rounded-xl text-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1 mb-4">
-                Select PDF file
-            </button>
-            <p class="text-gray-500 font-medium text-sm">or drop PDF here</p>
-        </div>
-        
-        <div class="mt-8 text-xs text-gray-400 font-medium"><i class="fa-solid fa-lock"></i> 100% Client-Side Processing. No files are uploaded to any server.</div>
+
+        <!-- ==========================================
+             SEO ARTICLE & FAQ SECTION
+             ========================================== -->
+        <section class="seo-section">
+            <h2>How to Convert PDF to Word Online for Free</h2>
+            <p>Editing text in a PDF document can be incredibly frustrating. Whether you need to update a resume, modify a contract, or edit a report, the easiest solution is to convert it into a Microsoft Word document. With ToolVerse's <strong>PDF to Word</strong> converter, you can transform static PDFs into fully editable DOCX files in just a few clicks.</p>
+            <p>Unlike other converters that require you to upload your sensitive files to unknown cloud servers, our premium tool runs entirely inside your browser. This guarantees lightning-fast conversion speeds and absolute privacy for your confidential documents.</p>
+
+            <h3>Why Choose Our PDF to Word Converter?</h3>
+            <ul>
+                <li><strong>100% Secure & Private:</strong> We value your privacy. Your files never leave your computer. The entire conversion process happens locally using advanced JavaScript capabilities.</li>
+                <li><strong>Accurate Text Extraction:</strong> Easily extract text while maintaining basic formatting and structure so you don't have to retype anything manually.</li>
+                <li><strong>Two Processing Modes:</strong> Choose between 'Standard Text Extraction' for fast content grabbing or 'Advanced Layout Preserving' to attempt maintaining paragraph structures.</li>
+                <li><strong>No Registration Required:</strong> Convert as many documents as you need without limits or annoying watermarks.</li>
+            </ul>
+
+            <div class="faq-container">
+                <h2>Frequently Asked Questions</h2>
+                
+                <div class="faq-item">
+                    <details>
+                        <summary>How does the PDF to Word converter work?</summary>
+                        <div class="faq-answer">Our tool uses advanced client-side processing to read the text content of your PDF and reconstruct it into an editable Microsoft Word (DOCX) format right in your browser.</div>
+                    </details>
+                </div>
+
+                <div class="faq-item">
+                    <details>
+                        <summary>Is my confidential data safe during conversion?</summary>
+                        <div class="faq-answer">Absolutely. Since ToolVerse performs the PDF to Word conversion locally on your device, your files are never uploaded to our cloud servers. Your data remains 100% private and secure.</div>
+                    </details>
+                </div>
+
+                <div class="faq-item">
+                    <details>
+                        <summary>Does the converter preserve the exact layout of the PDF?</summary>
+                        <div class="faq-answer">The 'Advanced Layout Preserving' mode attempts to maintain paragraph spacing and document structure as closely as possible. However, highly complex layouts with heavy graphics might require manual adjustments after conversion.</div>
+                    </details>
+                </div>
+
+                <div class="faq-item">
+                    <details>
+                        <summary>Can I convert scanned PDFs to Word?</summary>
+                        <div class="faq-answer">This standard converter extracts readable text. For scanned PDFs (images), you will first need to use our OCR (Optical Character Recognition) tool to recognize the text before converting it to a Word document.</div>
+                    </details>
+                </div>
+            </div>
+        </section>
     </div>
 
     <!-- STEP 2: WORKSPACE & SETTINGS -->
@@ -258,7 +375,7 @@
 
         const dropZone = document.getElementById('dropZone');
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('active'); });
+        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('active'); });
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault(); dropZone.classList.remove('active');
             if(e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
