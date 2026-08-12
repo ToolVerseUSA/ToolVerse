@@ -3,70 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login / Sign Up - ToolVerse</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>ToolVerse | Premium Access Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        * { box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #0b0f19; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        /* =========================================================
+           VVIP FACEBOOK/INSTAGRAM LEVEL PREMIUM UI
+           ========================================================= */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
+        body { background-color: #050b14; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-image: radial-gradient(circle at 50% -20%, #1e293b 0%, #050b14 80%); padding: 20px; }
         
-        .login-wrapper { background: #172033; padding: 40px 30px; border-radius: 20px; width: 100%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); text-align: center; }
-        .logo-text { color: #fbbf24; font-size: 2rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
-        .subtitle { color: #94a3b8; font-size: 0.9rem; margin-bottom: 35px; }
+        .auth-container { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 45px 35px; width: 100%; max-width: 440px; box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.05); text-align: center; position: relative; overflow: hidden; }
         
-        .input-group { text-align: left; margin-bottom: 20px; }
-        .input-group label { display: block; color: #cbd5e1; font-size: 0.75rem; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .input-group input { width: 100%; padding: 15px; background: #0b0f19; border: 1px solid #1e293b; border-radius: 12px; color: #fff; font-size: 1rem; outline: none; transition: 0.3s; }
-        .input-group input:focus { border-color: #fbbf24; box-shadow: 0 0 10px rgba(251, 191, 36, 0.15); }
-        
-        .main-btn { width: 100%; background: #fbbf24; color: #000; font-weight: 800; font-size: 1rem; padding: 16px; border: none; border-radius: 12px; cursor: pointer; transition: 0.3s; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.5px;}
-        .main-btn:hover { background: #f59e0b; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(251, 191, 36, 0.3); }
-        
-        .divider { display: flex; align-items: center; text-align: center; color: #64748b; font-size: 0.8rem; margin: 25px 0; font-weight: 600;}
-        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #1e293b; }
-        .divider:not(:empty)::before { margin-right: 1em; }
-        .divider:not(:empty)::after { margin-left: 1em; }
-        
-        .google-btn { width: 100%; background: #1e293b; color: #f8fafc; font-weight: 600; font-size: 1rem; padding: 15px; border: 1px solid #334155; border-radius: 12px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; }
-        .google-btn:hover { background: #334155; border-color: #475569; }
+        .logo-area { margin-bottom: 30px; }
+        .logo-text { font-size: 2.2rem; font-weight: 900; background: linear-gradient(135deg, #ffffff 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; }
+        .logo-sub { color: #94a3b8; font-size: 0.85rem; font-weight: 500; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* VVIP Tabs System */
+        .auth-tabs { display: flex; background: rgba(0,0,0,0.5); border-radius: 14px; padding: 6px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.05); }
+        .auth-tab { flex: 1; padding: 14px 0; font-size: 0.95rem; font-weight: 700; color: #64748b; cursor: pointer; border-radius: 10px; transition: all 0.3s ease; }
+        .auth-tab.active { background: #38bdf8; color: #0f172a; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
+
+        .auth-view { display: none; animation: fadeIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; }
+        .auth-view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Info Banners */
+        .info-banner { background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 12px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .info-banner.signup { background: rgba(74, 222, 128, 0.1); border-color: rgba(74, 222, 128, 0.2); color: #4ade80; }
+
+        /* Form Elements */
+        .input-group { text-align: left; margin-bottom: 20px; position: relative; }
+        .input-group label { display: block; font-size: 0.75rem; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .auth-input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; padding: 15px 16px; font-size: 1rem; transition: all 0.3s ease; }
+        .auth-input:focus { border-color: #38bdf8; background: rgba(0,0,0,0.6); box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15); }
+        .auth-input::placeholder { color: #475569; font-weight: 500; }
+
+        /* Phone Input Specific */
+        .phone-group { display: flex; gap: 10px; }
+        .country-select { width: 38%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; padding: 15px 10px; font-size: 0.9rem; cursor: pointer; outline: none; appearance: none; }
+        .country-select:focus { border-color: #38bdf8; }
+        .country-select option { background: #0f172a; color: #fff; }
+
+        /* Buttons */
+        .primary-btn { width: 100%; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; font-weight: 800; font-size: 1.05rem; padding: 16px; border: none; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 5px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); }
+        .primary-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5); }
+        .primary-btn:disabled { background: #475569; color: #94a3b8; cursor: not-allowed; box-shadow: none; transform: none; }
+
+        .signup-btn { background: linear-gradient(135deg, #4ade80 0%, #10b981 100%); box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3); }
+        .signup-btn:hover:not(:disabled) { box-shadow: 0 8px 25px rgba(74, 222, 128, 0.5); }
+
+        /* Remember Me (Facebook Style) */
+        .remember-wrapper { display: flex; align-items: center; gap: 10px; text-align: left; margin: 0 0 20px 0; cursor: pointer; user-select: none; }
+        .remember-wrapper input { width: 18px; height: 18px; cursor: pointer; accent-color: #38bdf8; }
+        .remember-wrapper span { font-size: 0.9rem; color: #f8fafc; font-weight: 600; }
+        .remember-sub { font-size: 0.75rem; color: #64748b; display: block; margin-left: 28px; margin-top: -2px; font-weight: 500; }
+
+        .divider { display: flex; align-items: center; text-align: center; color: #64748b; font-size: 0.8rem; margin: 30px 0; font-weight: 700; letter-spacing: 1px; }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .divider:not(:empty)::before { margin-right: 15px; }
+        .divider:not(:empty)::after { margin-left: 15px; }
+
+        /* Social Buttons */
+        .google-btn { width: 100%; background: #ffffff; color: #1e293b; font-weight: 800; font-size: 1rem; padding: 15px; border: none; border-radius: 12px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 12px; transition: 0.3s; box-shadow: 0 4px 15px rgba(255,255,255,0.1); margin-bottom: 15px;}
+        .google-btn:hover { background: #f8fafc; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,255,255,0.25); }
         .google-btn svg { width: 22px; height: 22px; }
+
+        .social-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        .social-btn { background: rgba(30, 41, 59, 0.6); color: #f8fafc; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; font-size: 1.3rem; }
+        .social-btn:hover { background: rgba(51, 65, 85, 0.8); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .social-btn.fb:hover { color: #1877F2; border-color: #1877F2; background: rgba(24, 119, 242, 0.1); }
+        .social-btn.apple:hover { color: #ffffff; border-color: #ffffff; background: rgba(255, 255, 255, 0.1); }
+        .social-btn.github:hover { color: #ffffff; border-color: #ffffff; background: rgba(255, 255, 255, 0.1); }
+
+        .auth-message { margin-top: 20px; font-size: 0.9rem; font-weight: 600; min-height: 20px; border-radius: 8px; }
         
-        #authMessageBox { margin-top: 20px; font-size: 0.85rem; font-weight: 500; min-height: 20px; line-height: 1.5; }
+        /* Phone Mode Switcher */
+        .mode-toggle { display: inline-block; color: #38bdf8; font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 15px; text-decoration: underline; transition: 0.3s; }
+        .mode-toggle:hover { color: #fbbf24; }
+
+        #recaptcha-container { display: flex; justify-content: center; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="login-wrapper">
-        <div class="logo-text">ToolVerse</div>
-        <div class="subtitle">Secure Node Access & AI Tools</div>
-        
-        <div class="input-group">
-            <label>Email</label>
-            <input type="email" id="authEmail" placeholder="Enter your email" required>
+    <div class="auth-container">
+        <div class="logo-area">
+            <div class="logo-text"><i class="fa-solid fa-rocket" style="color: #38bdf8;"></i> ToolVerse</div>
+            <div class="logo-sub">Premium User Portal</div>
         </div>
-        
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" id="authPassword" placeholder="Enter your password" required>
+
+        <!-- VVIP TABS -->
+        <div class="auth-tabs">
+            <div class="auth-tab active" onclick="switchMainTab('login')">Sign In</div>
+            <div class="auth-tab" onclick="switchMainTab('register')">Sign Up</div>
         </div>
-        
-        <button id="emailLoginBtn" class="main-btn">Login / Sign Up</button>
-        
-        <div id="authMessageBox"></div>
-        
-        <div class="divider">OR</div>
+
+        <!-- ==========================================
+             1. LOGIN VIEW (For returning users)
+             ========================================== -->
+        <div id="view-login" class="auth-view active">
+            
+            <div class="info-banner">
+                <i class="fa-solid fa-user-check"></i> Welcome back! Please login.
+            </div>
+
+            <!-- Login: Email -->
+            <div id="login-email-form">
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" class="auth-input" placeholder="Enter registered email">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" class="auth-input" placeholder="••••••••">
+                </div>
+                
+                <label class="remember-wrapper">
+                    <input type="checkbox" id="rememberMe" checked>
+                    <div>
+                        <span>Remember me</span>
+                        <span class="remember-sub">No login required next time</span>
+                    </div>
+                </label>
+
+                <button id="doEmailLoginBtn" class="primary-btn">Log In Securely</button>
+                <div class="mode-toggle" onclick="togglePhoneMode('login')">Login via Phone Number instead</div>
+            </div>
+
+            <!-- Login: Phone Number -->
+            <div id="login-phone-form" style="display: none;">
+                <div id="phone-input-step">
+                    <div class="input-group">
+                        <label>Mobile Number (For OTP)</label>
+                        <div class="phone-group">
+                            <select id="countryCodeLogin" class="country-select">
+                                <option value="" disabled selected>Code</option>
+                                <!-- JS Populated -->
+                            </select>
+                            <input type="tel" id="phoneNumberLogin" class="auth-input" placeholder="300 1234567">
+                        </div>
+                    </div>
+                    <button id="sendOtpLoginBtn" class="primary-btn">Send Secure OTP</button>
+                </div>
+
+                <div id="otp-verify-step-login" style="display: none;">
+                    <div class="info-banner signup" style="margin-bottom: 15px;"><i class="fa-solid fa-envelope-circle-check"></i> OTP sent to your phone!</div>
+                    <div class="input-group">
+                        <label>Enter 6-Digit Code</label>
+                        <input type="text" id="otpCodeLogin" class="auth-input" placeholder="• • • • • •" maxlength="6" style="text-align: center; font-size: 1.5rem; letter-spacing: 10px; font-weight: bold;">
+                    </div>
+                    <button id="verifyOtpLoginBtn" class="primary-btn">Verify & Login</button>
+                </div>
+
+                <div class="mode-toggle" onclick="togglePhoneMode('login')">Go back to Email Login</div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             2. REGISTER VIEW (For new users)
+             ========================================== -->
+        <div id="view-register" class="auth-view">
+            
+            <div class="info-banner signup">
+                <i class="fa-solid fa-sparkles"></i> First time here? Create a free account.
+            </div>
+            
+            <!-- Register: Email -->
+            <div id="reg-email-form">
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="regEmail" class="auth-input" placeholder="name@example.com">
+                </div>
+                <div class="input-group">
+                    <label>Create Password</label>
+                    <input type="password" id="regPassword" class="auth-input" placeholder="Minimum 6 characters">
+                </div>
+                
+                <button id="doEmailRegBtn" class="primary-btn signup-btn">Sign Up Now</button>
+                <div class="mode-toggle" onclick="togglePhoneMode('register')">Sign up via Phone Number instead</div>
+            </div>
+
+            <!-- Register: Phone Number -->
+            <div id="reg-phone-form" style="display: none;">
+                <div id="phone-input-step-reg">
+                    <div class="input-group">
+                        <label>Mobile Number (For Registration)</label>
+                        <div class="phone-group">
+                            <select id="countryCodeReg" class="country-select">
+                                <option value="" disabled selected>Code</option>
+                                <!-- JS Populated -->
+                            </select>
+                            <input type="tel" id="phoneNumberReg" class="auth-input" placeholder="300 1234567">
+                        </div>
+                    </div>
+                    <button id="sendOtpRegBtn" class="primary-btn signup-btn">Send SMS Code</button>
+                </div>
+
+                <div id="otp-verify-step-reg" style="display: none;">
+                    <div class="info-banner signup" style="margin-bottom: 15px;"><i class="fa-solid fa-envelope-circle-check"></i> Registration code sent!</div>
+                    <div class="input-group">
+                        <label>Enter 6-Digit Code</label>
+                        <input type="text" id="otpCodeReg" class="auth-input" placeholder="• • • • • •" maxlength="6" style="text-align: center; font-size: 1.5rem; letter-spacing: 10px; font-weight: bold;">
+                    </div>
+                    <button id="verifyOtpRegBtn" class="primary-btn signup-btn">Verify & Create Account</button>
+                </div>
+
+                <div class="mode-toggle" onclick="togglePhoneMode('register')">Go back to Email Sign Up</div>
+            </div>
+        </div>
+
+        <div id="authMessage" class="auth-message"></div>
+        <div id="recaptcha-container"></div> <!-- Invisible reCAPTCHA -->
+
+        <div class="divider">OR CONNECT WITH</div>
         
         <button id="googleBtn" class="google-btn">
             <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
             Continue with Google
         </button>
+
+        <!-- New Premium Social Buttons -->
+        <div class="social-grid">
+            <button id="facebookBtn" class="social-btn fb" title="Login with Facebook"><i class="fa-brands fa-facebook-f"></i></button>
+            <button id="appleBtn" class="social-btn apple" title="Login with Apple"><i class="fa-brands fa-apple"></i></button>
+            <button id="githubBtn" class="social-btn github" title="Login with GitHub"><i class="fa-brands fa-github"></i></button>
+        </div>
     </div>
 
-    <!-- FIREBASE & CORE LOGIC -->
+    <!-- COUNTRIES DATABASE FOR PHONE OTP -->
+    <script>
+        const worldCountries = [
+            {n:"Pakistan",c:"+92"}, {n:"India",c:"+91"}, {n:"USA/Canada",c:"+1"}, {n:"UK",c:"+44"}, {n:"UAE",c:"+971"},
+            {n:"Saudi Arabia",c:"+966"}, {n:"Bangladesh",c:"+880"}, {n:"Afghanistan",c:"+93"}, {n:"Australia",c:"+61"},
+            {n:"Germany",c:"+49"}, {n:"France",c:"+33"}, {n:"Italy",c:"+39"}, {n:"Spain",c:"+34"}, {n:"Oman",c:"+968"},
+            {n:"Qatar",c:"+974"}, {n:"Kuwait",c:"+965"}, {n:"Bahrain",c:"+973"}, {n:"Malaysia",c:"+60"}, {n:"Singapore",c:"+65"}
+        ];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            let options = '<option value="" disabled selected>Code</option>';
+            worldCountries.forEach(item => { options += `<option value="${item.c}">${item.c} (${item.n})</option>`; });
+            document.getElementById('countryCodeLogin').innerHTML = options;
+            document.getElementById('countryCodeReg').innerHTML = options;
+        });
+
+        function switchMainTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.auth-view').forEach(el => el.classList.remove('active'));
+            document.getElementById('authMessage').innerHTML = '';
+            
+            if(tab === 'login') {
+                document.querySelectorAll('.auth-tab')[0].classList.add('active');
+                document.getElementById('view-login').classList.add('active');
+            } else {
+                document.querySelectorAll('.auth-tab')[1].classList.add('active');
+                document.getElementById('view-register').classList.add('active');
+            }
+        }
+
+        let loginPhoneMode = false;
+        let regPhoneMode = false;
+
+        function togglePhoneMode(view) {
+            document.getElementById('authMessage').innerHTML = '';
+            if(view === 'login') {
+                loginPhoneMode = !loginPhoneMode;
+                document.getElementById('login-email-form').style.display = loginPhoneMode ? 'none' : 'block';
+                document.getElementById('login-phone-form').style.display = loginPhoneMode ? 'block' : 'none';
+            } else {
+                regPhoneMode = !regPhoneMode;
+                document.getElementById('reg-email-form').style.display = regPhoneMode ? 'none' : 'block';
+                document.getElementById('reg-phone-form').style.display = regPhoneMode ? 'block' : 'none';
+            }
+        }
+    </script>
+
+    <!-- FIREBASE & CORE AUTH LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { 
+            getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, GithubAuthProvider,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword, 
+            onAuthStateChanged, setPersistence, browserLocalPersistence, browserSessionPersistence,
+            RecaptchaVerifier, signInWithPhoneNumber, signInWithRedirect, getRedirectResult
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfigDirect = {
@@ -82,32 +303,22 @@
         const app = initializeApp(firebaseConfigDirect);
         const auth = getAuth(app);
         const db = getFirestore(app); 
+
+        // Providers setup
         const googleProvider = new GoogleAuthProvider();
+        const fbProvider = new FacebookAuthProvider();
+        const appleProvider = new OAuthProvider('apple.com');
+        const githubProvider = new GithubAuthProvider();
 
-        const emailLoginBtn = document.getElementById('emailLoginBtn');
-        const googleBtn = document.getElementById('googleBtn');
-        const authMessageBox = document.getElementById('authMessageBox');
-
-        // Check for Mobile Google Login Redirect Result
-        getRedirectResult(auth).then(async (result) => {
-            if (result && result.user) {
-                authMessageBox.innerHTML = `<span style="color: #4ade80;">Success! Redirecting... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
-                await checkAndCreateUser(result.user);
-                localStorage.setItem('ToolVerse_Auth', 'true');
-                localStorage.setItem('isLoggedIn', 'true');
-                window.location.href = 'index.html';
-            }
-        }).catch((error) => {
-            authMessageBox.innerHTML = `<span style="color: #ff4757;">Google Sign-In Error: ${error.message}</span>`;
-        });
+        const authMessage = document.getElementById('authMessage');
 
         async function checkAndCreateUser(user) {
             const userRef = doc(db, "users", user.uid);
             const userSnap = await getDoc(userRef);
             if(!userSnap.exists()) {
                 await setDoc(userRef, { 
-                    email: user.email, 
-                    displayName: user.displayName || 'User', 
+                    email: user.email || user.phoneNumber || 'Social User', 
+                    displayName: user.displayName || 'VVIP User', 
                     credits: 2500, 
                     plan: 'Sandbox', 
                     createdAt: new Date().toISOString() 
@@ -115,106 +326,197 @@
             } else {
                 localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
             }
+            localStorage.setItem('ToolVerse_Auth', 'true');
+            localStorage.setItem('isLoggedIn', 'true');
+            window.location.href = 'index.html';
         }
 
-        // =======================================================
-        // EMAIL SMART LOGIN / SIGNUP (FIXED)
-        // =======================================================
-        emailLoginBtn.addEventListener('click', () => {
-            const email = document.getElementById('authEmail').value.trim();
-            const password = document.getElementById('authPassword').value.trim();
-            
+        // ==========================================
+        // 1. EMAIL LOGIN (With Remember Me)
+        // ==========================================
+        document.getElementById('doEmailLoginBtn').addEventListener('click', async () => {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const rememberMe = document.getElementById('rememberMe').checked;
+
             if(!email || !password) {
-                authMessageBox.innerHTML = `<span style="color: #ff4757;">Please enter both email and password.</span>`;
-                return;
-            }
-            if(password.length < 6) {
-                authMessageBox.innerHTML = `<span style="color: #ff4757;">Password must be at least 6 characters.</span>`;
-                return;
+                authMessage.innerHTML = `<span style="color: #ff4757;">Please enter both email and password.</span>`; return;
             }
 
-            emailLoginBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
-            emailLoginBtn.disabled = true;
-            authMessageBox.innerHTML = `<span style="color: #38bdf8;">Authenticating securely...</span>`;
-            
-            // Step 1: Try to Login
-            signInWithEmailAndPassword(auth, email, password)
-                .then(async (userCredential) => { 
-                    await checkAndCreateUser(userCredential.user);
-                    localStorage.setItem('ToolVerse_Auth', 'true');
-                    localStorage.setItem('isLoggedIn', 'true');
-                    window.location.href = 'index.html'; 
-                })
-                .catch((error) => {
-                    // Step 2: If login fails due to missing user or invalid credentials, try to Sign Up
-                    if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential' || error.code === 'auth/invalid-login-credentials') {
-                        
-                        authMessageBox.innerHTML = `<span style="color: #fbbf24;">Creating new account...</span>`;
-                        
-                        createUserWithEmailAndPassword(auth, email, password)
-                            .then(async (userCredential) => { 
-                                await checkAndCreateUser(userCredential.user);
-                                localStorage.setItem('ToolVerse_Auth', 'true');
-                                localStorage.setItem('isLoggedIn', 'true');
-                                window.location.href = 'index.html'; 
-                            })
-                            .catch((err) => {
-                                // Step 3: If Sign Up fails because email exists, it means they just typed the wrong password
-                                if (err.code === 'auth/email-already-in-use') {
-                                    authMessageBox.innerHTML = `<span style="color: #ff4757;">Account already exists. Incorrect password!</span>`;
-                                } else {
-                                    authMessageBox.innerHTML = `<span style="color: #ff4757;">Sign Up Error: ${err.message}</span>`;
-                                }
-                                resetBtn();
-                            });
-                    } else {
-                        authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
-                        resetBtn();
-                    }
-                });
+            const btn = document.getElementById('doEmailLoginBtn');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Authenticating...';
+            btn.disabled = true;
+
+            try {
+                const persistenceType = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+                await setPersistence(auth, persistenceType);
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                authMessage.innerHTML = `<span style="color: #4ade80;">Login Successful! Redirecting...</span>`;
+                await checkAndCreateUser(userCredential.user);
+            } catch (error) {
+                authMessage.innerHTML = `<span style="color: #ff4757;">Error: Incorrect Email or Password. If you are a new user, please click "Sign Up" above.</span>`;
+                btn.innerHTML = 'Log In Securely';
+                btn.disabled = false;
+            }
         });
 
-        // =======================================================
-        // GOOGLE MOBILE & DESKTOP LOGIN (FIXED)
-        // =======================================================
-        googleBtn.addEventListener('click', () => {
-            authMessageBox.innerHTML = `<span style="color: #fbbf24;">Connecting to Google... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
-            googleBtn.disabled = true;
+        // ==========================================
+        // 2. EMAIL SIGN UP (Strictly for New Users)
+        // ==========================================
+        document.getElementById('doEmailRegBtn').addEventListener('click', async () => {
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value.trim();
 
+            if(!email || password.length < 6) {
+                authMessage.innerHTML = `<span style="color: #ff4757;">Please provide a valid email and a password (min 6 chars).</span>`; return;
+            }
+
+            const btn = document.getElementById('doEmailRegBtn');
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Creating Account...';
+            btn.disabled = true;
+
+            try {
+                await setPersistence(auth, browserLocalPersistence);
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                authMessage.innerHTML = `<span style="color: #4ade80;">Account Created! Redirecting...</span>`;
+                await checkAndCreateUser(userCredential.user);
+            } catch (error) {
+                if (error.code === 'auth/email-already-in-use') {
+                    authMessage.innerHTML = `<span style="color: #ff4757;">Account already exists. Please go to the "Sign In" tab.</span>`;
+                } else {
+                    authMessage.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
+                }
+                btn.innerHTML = 'Sign Up Now';
+                btn.disabled = false;
+            }
+        });
+
+        // ==========================================
+        // 3. SOCIAL LOGINS (Google, Facebook, Apple, GitHub)
+        // ==========================================
+        
+        // Handle Mobile Redirect Results to avoid "Invalid Action" crashes
+        getRedirectResult(auth).then(async (result) => {
+            if (result && result.user) {
+                authMessage.innerHTML = `<span style="color: #4ade80;">Success! Redirecting...</span>`;
+                await checkAndCreateUser(result.user);
+            }
+        }).catch((error) => {
+            if(error.message.includes('configuration-not-found')) {
+                authMessage.innerHTML = `<span style="color: #fbbf24;">Note: Please configure this provider's App ID in Firebase.</span>`;
+            } else {
+                authMessage.innerHTML = `<span style="color: #ff4757;">Auth Error: ${error.message}</span>`;
+            }
+        });
+
+        function handleSocialAuth(provider, providerName) {
+            authMessage.innerHTML = `<span style="color: #38bdf8;">Connecting to ${providerName}... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             
             if (isMobile) {
-                // Mobile devices block popups, so we use safe redirect
-                signInWithRedirect(auth, googleProvider).catch(error => {
-                     authMessageBox.innerHTML = `<span style="color: #ff4757;">Redirect Error: ${error.message}</span>`;
-                     googleBtn.disabled = false;
+                signInWithRedirect(auth, provider).catch(err => {
+                    if(err.message.includes('configuration-not-found')) {
+                        authMessage.innerHTML = `<span style="color: #fbbf24;">Note: You need to add the ${providerName} App ID in Firebase first.</span>`;
+                    } else {
+                        authMessage.innerHTML = `<span style="color: #ff4757;">Error: ${err.message}</span>`;
+                    }
                 });
             } else {
-                // Desktop uses normal popup
-                signInWithPopup(auth, googleProvider).then(async (result) => {
+                signInWithPopup(auth, provider).then(async (result) => {
                     await checkAndCreateUser(result.user);
-                    localStorage.setItem('ToolVerse_Auth', 'true');
-                    localStorage.setItem('isLoggedIn', 'true');
-                    window.location.href = 'index.html';
                 }).catch((error) => {
-                    if (error.code === 'auth/popup-closed-by-user') {
-                        authMessageBox.innerHTML = `<span style="color: #ff4757;">Google Sign-In was closed. Please try again.</span>`;
+                    if (error.code === 'auth/configuration-not-found') {
+                        authMessage.innerHTML = `<span style="color: #fbbf24;">Note: You need to add the ${providerName} App ID in Firebase first.</span>`;
+                    } else if (error.code !== 'auth/popup-closed-by-user') {
+                        authMessage.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
                     } else {
-                        authMessageBox.innerHTML = `<span style="color: #ff4757;">Google Error: ${error.message}</span>`;
+                        authMessage.innerHTML = '';
                     }
-                    googleBtn.disabled = false;
                 });
             }
-        });
-
-        function resetBtn() {
-            emailLoginBtn.innerHTML = 'Login / Sign Up';
-            emailLoginBtn.disabled = false;
         }
+
+        document.getElementById('googleBtn').addEventListener('click', () => handleSocialAuth(googleProvider, 'Google'));
+        document.getElementById('facebookBtn').addEventListener('click', () => handleSocialAuth(fbProvider, 'Facebook'));
+        document.getElementById('appleBtn').addEventListener('click', () => handleSocialAuth(appleProvider, 'Apple'));
+        document.getElementById('githubBtn').addEventListener('click', () => handleSocialAuth(githubProvider, 'GitHub'));
+
+        // ==========================================
+        // 4. PHONE NUMBER OTP LOGIC (Invisible reCAPTCHA)
+        // ==========================================
+        let confirmationResultObj = null;
+
+        function initRecaptcha() {
+            if (!window.recaptchaVerifier) {
+                window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+                    'size': 'invisible',
+                    'callback': (response) => {}
+                });
+            }
+        }
+
+        function handleSendOTP(codeId, phoneId, btnId, formStep1, formStep2) {
+            const code = document.getElementById(codeId).value;
+            const number = document.getElementById(phoneId).value.trim();
+            
+            if(!code || !number) {
+                authMessage.innerHTML = `<span style="color: #ff4757;">Select Country Code and enter valid number.</span>`; return;
+            }
+
+            const fullNumber = code + number;
+            const btn = document.getElementById(btnId);
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending OTP...';
+            btn.disabled = true;
+            authMessage.innerHTML = `<span style="color: #38bdf8;">Securing connection...</span>`;
+
+            initRecaptcha();
+            const appVerifier = window.recaptchaVerifier;
+
+            signInWithPhoneNumber(auth, fullNumber, appVerifier)
+                .then((confirmationResult) => {
+                    confirmationResultObj = confirmationResult;
+                    document.getElementById(formStep1).style.display = 'none';
+                    document.getElementById(formStep2).style.display = 'block';
+                    authMessage.innerHTML = '';
+                }).catch((error) => {
+                    authMessage.innerHTML = `<span style="color: #ff4757;">SMS Error: ${error.message}</span>`;
+                    btn.innerHTML = btnId.includes('Login') ? 'Send Secure OTP' : 'Send SMS Code';
+                    btn.disabled = false;
+                    if(window.recaptchaVerifier) window.recaptchaVerifier.render().then(id => grecaptcha.reset(id));
+                });
+        }
+
+        function handleVerifyOTP(otpId, btnId) {
+            const otpCode = document.getElementById(otpId).value.trim();
+            if(otpCode.length !== 6) {
+                authMessage.innerHTML = `<span style="color: #ff4757;">Enter valid 6-digit OTP.</span>`; return;
+            }
+
+            const btn = document.getElementById(btnId);
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Verifying...';
+            btn.disabled = true;
+
+            confirmationResultObj.confirm(otpCode).then(async (result) => {
+                authMessage.innerHTML = `<span style="color: #4ade80;">Phone Verified! Redirecting...</span>`;
+                await setPersistence(auth, browserLocalPersistence);
+                await checkAndCreateUser(result.user);
+            }).catch((error) => {
+                authMessage.innerHTML = `<span style="color: #ff4757;">Invalid OTP Code. Try again.</span>`;
+                btn.innerHTML = btnId.includes('Login') ? 'Verify & Login' : 'Verify & Create Account';
+                btn.disabled = false;
+            });
+        }
+
+        // Attach Phone Listeners
+        document.getElementById('sendOtpLoginBtn').addEventListener('click', () => handleSendOTP('countryCodeLogin', 'phoneNumberLogin', 'sendOtpLoginBtn', 'phone-input-step', 'otp-verify-step-login'));
+        document.getElementById('verifyOtpLoginBtn').addEventListener('click', () => handleVerifyOTP('otpCodeLogin', 'verifyOtpLoginBtn'));
+
+        document.getElementById('sendOtpRegBtn').addEventListener('click', () => handleSendOTP('countryCodeReg', 'phoneNumberReg', 'sendOtpRegBtn', 'phone-input-step-reg', 'otp-verify-step-reg'));
+        document.getElementById('verifyOtpRegBtn').addEventListener('click', () => handleVerifyOTP('otpCodeReg', 'verifyOtpRegBtn'));
 
         // Auto-redirect if already logged in
         onAuthStateChanged(auth, (user) => {
-            if (user && window.location.pathname.includes('login.html')) {
+            if (user) {
                 localStorage.setItem('ToolVerse_Auth', 'true');
                 localStorage.setItem('isLoggedIn', 'true');
                 window.location.href = 'index.html';
