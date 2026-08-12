@@ -63,13 +63,13 @@
         .signup-btn { background: linear-gradient(135deg, #4ade80 0%, #10b981 100%); box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3); }
         .signup-btn:hover:not(:disabled) { box-shadow: 0 8px 25px rgba(74, 222, 128, 0.5); }
 
-        /* Remember Me (Facebook Style) */
+        /* Remember Me */
         .remember-wrapper { display: flex; align-items: center; gap: 10px; text-align: left; margin: 0 0 20px 0; cursor: pointer; user-select: none; }
         .remember-wrapper input { width: 18px; height: 18px; cursor: pointer; accent-color: #38bdf8; }
         .remember-wrapper span { font-size: 0.9rem; color: #f8fafc; font-weight: 600; }
         .remember-sub { font-size: 0.75rem; color: #64748b; display: block; margin-left: 28px; margin-top: -2px; font-weight: 500; }
 
-        .divider { display: flex; align-items: center; text-align: center; color: #64748b; font-size: 0.8rem; margin: 30px 0; font-weight: 700; letter-spacing: 1px; }
+        .divider { display: flex; align-items: center; text-align: center; color: #64748b; font-size: 0.8rem; margin: 30px 0; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .divider:not(:empty)::before { margin-right: 15px; }
         .divider:not(:empty)::after { margin-left: 15px; }
@@ -88,7 +88,7 @@
 
         .auth-message { margin-top: 20px; font-size: 0.9rem; font-weight: 600; min-height: 20px; border-radius: 8px; }
         
-        /* Phone Mode Switcher */
+        /* Mode Switcher */
         .mode-toggle { display: inline-block; color: #38bdf8; font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 15px; text-decoration: underline; transition: 0.3s; }
         .mode-toggle:hover { color: #fbbf24; }
 
@@ -110,7 +110,7 @@
         </div>
 
         <!-- ==========================================
-             1. LOGIN VIEW (لاگ ان سیکشن)
+             1. LOGIN VIEW
              ========================================== -->
         <div id="view-login" class="auth-view active">
             
@@ -158,7 +158,7 @@
                 </div>
 
                 <div id="otp-verify-step-login" style="display: none;">
-                    <div class="info-banner signup" style="margin-bottom: 15px;"><i class="fa-solid fa-envelope-circle-check"></i> OTP sent to your phone!</div>
+                    <div class="info-banner signup" style="margin-bottom: 15px;"><i class="fa-solid fa-envelope-circle-check"></i> Verification code sent!</div>
                     <div class="input-group">
                         <label>Enter 6-Digit Code</label>
                         <input type="text" id="otpCodeLogin" class="auth-input" placeholder="• • • • • •" maxlength="6" style="text-align: center; font-size: 1.5rem; letter-spacing: 10px; font-weight: bold;">
@@ -171,7 +171,7 @@
         </div>
 
         <!-- ==========================================
-             2. REGISTER VIEW (سائن اپ سیکشن)
+             2. REGISTER VIEW
              ========================================== -->
         <div id="view-register" class="auth-view">
             
@@ -229,9 +229,9 @@
         </div>
 
         <div id="authMessage" class="auth-message"></div>
-        <div id="recaptcha-container"></div> <!-- Invisible reCAPTCHA Container -->
+        <div id="recaptcha-container"></div> <!-- Invisible reCAPTCHA -->
 
-        <div class="divider">OR CONNECT WITH</div>
+        <div class="divider">Or connect with</div>
         
         <button id="googleBtn" class="google-btn">
             <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
@@ -246,7 +246,7 @@
         </div>
     </div>
 
-    <!-- تمام ممالک کی مکمل لسٹ اور UI لاجک -->
+    <!-- Complete Countries Database -->
     <script>
         const allWorldCountries = [
             {n:"Afghanistan",c:"+93",f:"🇦🇫"},{n:"Albania",c:"+355",f:"🇦🇱"},{n:"Algeria",c:"+213",f:"🇩🇿"},{n:"Andorra",c:"+376",f:"🇦🇩"},{n:"Angola",c:"+244",f:"🇦🇴"},
@@ -288,7 +288,7 @@
             document.getElementById('countryCodeReg').innerHTML = options;
         });
 
-        // پاسورڈ کی طاقت جانچنے والا لاجک (Password Strength Meter)
+        // Password Strength Meter
         const regPassword = document.getElementById('regPassword');
         const passMeterContainer = document.getElementById('passMeterContainer');
         const passMeterBar = document.getElementById('passMeterBar');
@@ -390,13 +390,11 @@
 
         const authMessage = document.getElementById('authMessage');
 
-        // reCAPTCHA انیشلائزیشن (پیج لوڈ ہوتے ہی ریڈی کرنے کے لیے)
-        let recaptchaVerifierGlobal;
-        auth.onAuthStateChanged((user) => {
-            if (!recaptchaVerifierGlobal) {
-                recaptchaVerifierGlobal = new RecaptchaVerifier(auth, 'recaptcha-container', {
-                    'size': 'invisible'
-                });
+        // Setup Invisible reCAPTCHA globally
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+            'size': 'invisible',
+            'callback': (response) => {
+                // reCAPTCHA solved
             }
         });
 
@@ -420,25 +418,25 @@
         }
 
         // ==========================================
-        // 1. FORGOT PASSWORD LOGIC (پاسورڈ بھول جانا)
+        // 1. FORGOT PASSWORD
         // ==========================================
         document.getElementById('forgotPasswordBtn').addEventListener('click', () => {
             const email = document.getElementById('loginEmail').value.trim();
             if(!email) {
-                authMessage.innerHTML = `<span style="color: #fbbf24;">پاسورڈ تبدیل کرنے کے لیے پہلے اوپر اپنا ای میل لکھیں۔</span>`; return;
+                authMessage.innerHTML = `<span style="color: #fbbf24;">Please enter your email address in the field below first to reset password.</span>`; return;
             }
-            authMessage.innerHTML = `<span style="color: #38bdf8;">پروسیس ہو رہا ہے... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
+            authMessage.innerHTML = `<span style="color: #38bdf8;">Processing... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
             sendPasswordResetEmail(auth, email)
                 .then(() => {
-                    authMessage.innerHTML = `<span style="color: #4ade80;">پاسورڈ ری سیٹ لنک آپ کے ای میل پر بھیج دیا گیا ہے! اپنا ان باکس چیک کریں۔</span>`;
+                    authMessage.innerHTML = `<span style="color: #4ade80;">Password reset link sent! Check your email inbox.</span>`;
                 })
                 .catch((error) => {
-                    authMessage.innerHTML = `<span style="color: #ff4757;">ایرر: اکاؤنٹ نہیں ملا یا ای میل غلط ہے۔</span>`;
+                    authMessage.innerHTML = `<span style="color: #ff4757;">Error: Account not found or invalid email.</span>`;
                 });
         });
 
         // ==========================================
-        // 2. EMAIL LOGIN (With Remember Me)
+        // 2. EMAIL LOGIN
         // ==========================================
         document.getElementById('doEmailLoginBtn').addEventListener('click', async () => {
             const email = document.getElementById('loginEmail').value.trim();
@@ -446,7 +444,7 @@
             const rememberMe = document.getElementById('rememberMe').checked;
 
             if(!email || !password) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">براہ کرم ای میل اور پاسورڈ دونوں درج کریں۔</span>`; return;
+                authMessage.innerHTML = `<span style="color: #ff4757;">Please enter both email and password.</span>`; return;
             }
 
             const btn = document.getElementById('doEmailLoginBtn');
@@ -457,24 +455,24 @@
                 const persistenceType = rememberMe ? browserLocalPersistence : browserSessionPersistence;
                 await setPersistence(auth, persistenceType);
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                authMessage.innerHTML = `<span style="color: #4ade80;">لاگ ان کامیاب! ری ڈائریکٹ ہو رہا ہے...</span>`;
+                authMessage.innerHTML = `<span style="color: #4ade80;">Login Successful! Redirecting...</span>`;
                 await checkAndCreateUser(userCredential.user);
             } catch (error) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">ایرر: پاسورڈ غلط ہے یا آپ کا اکاؤنٹ موجود نہیں۔ نیا اکاؤنٹ بنانے کے لیے "Sign Up" پر کلک کریں۔</span>`;
+                authMessage.innerHTML = `<span style="color: #ff4757;">Error: Incorrect Email or Password. If you are a new user, please click "Sign Up" above.</span>`;
                 btn.innerHTML = 'Log In Securely';
                 btn.disabled = false;
             }
         });
 
         // ==========================================
-        // 3. EMAIL SIGN UP (Strictly for New Users)
+        // 3. EMAIL SIGN UP
         // ==========================================
         document.getElementById('doEmailRegBtn').addEventListener('click', async () => {
             const email = document.getElementById('regEmail').value.trim();
             const password = document.getElementById('regPassword').value.trim();
 
             if(!email || password.length < 6) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">براہ کرم درست ای میل اور کم از کم 6 ہندسوں کا پاسورڈ درج کریں۔</span>`; return;
+                authMessage.innerHTML = `<span style="color: #ff4757;">Please provide a valid email and a password (min 6 chars).</span>`; return;
             }
 
             const btn = document.getElementById('doEmailRegBtn');
@@ -484,13 +482,13 @@
             try {
                 await setPersistence(auth, browserLocalPersistence);
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                authMessage.innerHTML = `<span style="color: #4ade80;">اکاؤنٹ بن گیا! ری ڈائریکٹ ہو رہا ہے...</span>`;
+                authMessage.innerHTML = `<span style="color: #4ade80;">Account Created! Redirecting...</span>`;
                 await checkAndCreateUser(userCredential.user);
             } catch (error) {
                 if (error.code === 'auth/email-already-in-use') {
-                    authMessage.innerHTML = `<span style="color: #ff4757;">یہ اکاؤنٹ پہلے سے موجود ہے۔ براہ کرم "Sign In" کے آپشن سے لاگ ان کریں۔</span>`;
+                    authMessage.innerHTML = `<span style="color: #ff4757;">Account already exists. Please go to the "Sign In" tab.</span>`;
                 } else {
-                    authMessage.innerHTML = `<span style="color: #ff4757;">ایرر: ${error.message}</span>`;
+                    authMessage.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
                 }
                 btn.innerHTML = 'Sign Up Now';
                 btn.disabled = false;
@@ -498,44 +496,22 @@
         });
 
         // ==========================================
-        // 4. SOCIAL LOGINS (مستقل اور فول پروف طریقہ)
+        // 4. SOCIAL LOGINS (Google, Facebook, Apple, GitHub)
         // ==========================================
-        
-        // موبائل ری ڈائریکٹ رزلٹ ہینڈلر
-        getRedirectResult(auth).then(async (result) => {
-            if (result && result.user) {
-                authMessage.innerHTML = `<span style="color: #4ade80;">لاگ ان کامیاب! تصدیق ہو رہی ہے...</span>`;
-                await checkAndCreateUser(result.user);
-            }
-        }).catch((error) => {
-            if (!error.message.includes('configuration-not-found')) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">لاگ ان ناکام: ${error.message}</span>`;
-            }
-        });
-
         function handleSocialAuth(provider, providerName) {
-            authMessage.innerHTML = `<span style="color: #38bdf8;">${providerName} کے ساتھ لاگ ان ہو رہا ہے... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
+            authMessage.innerHTML = `<span style="color: #38bdf8;">Connecting to ${providerName}... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
             
-            // موبائل براؤزر چیک کرنے کا پروفیشنل طریقہ
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
-            if (isMobile) {
-                // موبائل کے لیے 100% محفوظ طریقہ (No Popups)
-                signInWithRedirect(auth, provider);
-            } else {
-                // ڈیسک ٹاپ کے لیے پاپ اپ
-                signInWithPopup(auth, provider).then(async (result) => {
-                    await checkAndCreateUser(result.user);
-                }).catch((error) => {
-                    if (error.message.includes('configuration-not-found')) {
-                        authMessage.innerHTML = `<span style="color: #fbbf24;">نوٹ: فائر بیس میں ${providerName} کی سیٹنگز (App ID وغیرہ) آن نہیں ہیں۔</span>`;
-                    } else if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
-                        authMessage.innerHTML = `<span style="color: #ff4757;">ایرر: ${error.message}</span>`;
-                    } else {
-                        authMessage.innerHTML = '';
-                    }
-                });
-            }
+            signInWithPopup(auth, provider).then(async (result) => {
+                await checkAndCreateUser(result.user);
+            }).catch((error) => {
+                if (error.message.includes('configuration-not-found')) {
+                    authMessage.innerHTML = `<span style="color: #fbbf24;">Note: Please configure the ${providerName} App ID in Firebase settings.</span>`;
+                } else if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
+                    authMessage.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
+                } else {
+                    authMessage.innerHTML = '';
+                }
+            });
         }
 
         document.getElementById('googleBtn').addEventListener('click', () => handleSocialAuth(googleProvider, 'Google'));
@@ -544,42 +520,48 @@
         document.getElementById('githubBtn').addEventListener('click', () => handleSocialAuth(githubProvider, 'GitHub'));
 
         // ==========================================
-        // 5. PHONE NUMBER OTP LOGIC
+        // 5. PHONE NUMBER OTP LOGIC (Foolproof)
         // ==========================================
         let confirmationResultObj = null;
 
         function handleSendOTP(codeId, phoneId, btnId, formStep1, formStep2) {
             const code = document.getElementById(codeId).value;
-            const number = document.getElementById(phoneId).value.trim();
+            const rawNumber = document.getElementById(phoneId).value.trim();
             
-            if(!code || !number) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">براہ کرم کنٹری کوڈ منتخب کریں اور موبائل نمبر درج کریں۔</span>`; return;
+            if(!code || !rawNumber) {
+                authMessage.innerHTML = `<span style="color: #ff4757;">Please select a Country Code and enter a valid mobile number.</span>`; return;
             }
 
-            const fullNumber = code + number;
+            // Remove leading zero if user accidentally adds it (e.g. 0308 -> 308)
+            const cleanNumber = rawNumber.replace(/^0+/, '');
+            const fullNumber = code + cleanNumber;
+
             const btn = document.getElementById(btnId);
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending OTP...';
             btn.disabled = true;
-            authMessage.innerHTML = `<span style="color: #38bdf8;">کنکشن محفوظ بنایا جا رہا ہے...</span>`;
+            authMessage.innerHTML = `<span style="color: #38bdf8;">Securing connection and sending SMS...</span>`;
 
-            signInWithPhoneNumber(auth, fullNumber, recaptchaVerifierGlobal)
+            const appVerifier = window.recaptchaVerifier;
+
+            signInWithPhoneNumber(auth, fullNumber, appVerifier)
                 .then((confirmationResult) => {
                     confirmationResultObj = confirmationResult;
                     document.getElementById(formStep1).style.display = 'none';
                     document.getElementById(formStep2).style.display = 'block';
                     authMessage.innerHTML = '';
                 }).catch((error) => {
-                    authMessage.innerHTML = `<span style="color: #ff4757;">SMS ایرر: فون نمبر کا فارمیٹ غلط ہے یا سیکیورٹی بلاک کر رہی ہے۔</span>`;
+                    authMessage.innerHTML = `<span style="color: #ff4757;">SMS Error: Invalid phone number format or security block. Ensure number is correct without leading zero.</span>`;
                     btn.innerHTML = btnId.includes('Login') ? 'Send Secure OTP' : 'Send SMS Code';
                     btn.disabled = false;
-                    if(recaptchaVerifierGlobal) recaptchaVerifierGlobal.render().then(id => grecaptcha.reset(id));
+                    // Reset recaptcha safely
+                    if(window.recaptchaVerifier) window.recaptchaVerifier.render().then(id => grecaptcha.reset(id));
                 });
         }
 
         function handleVerifyOTP(otpId, btnId) {
             const otpCode = document.getElementById(otpId).value.trim();
             if(otpCode.length !== 6) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">براہ کرم 6 ہندسوں کا درست کوڈ درج کریں۔</span>`; return;
+                authMessage.innerHTML = `<span style="color: #ff4757;">Please enter a valid 6-digit verification code.</span>`; return;
             }
 
             const btn = document.getElementById(btnId);
@@ -587,24 +569,24 @@
             btn.disabled = true;
 
             confirmationResultObj.confirm(otpCode).then(async (result) => {
-                authMessage.innerHTML = `<span style="color: #4ade80;">نمبر تصدیق ہو گیا! لاگ ان ہو رہا ہے...</span>`;
+                authMessage.innerHTML = `<span style="color: #4ade80;">Verification Successful! Redirecting...</span>`;
                 await setPersistence(auth, browserLocalPersistence);
                 await checkAndCreateUser(result.user);
             }).catch((error) => {
-                authMessage.innerHTML = `<span style="color: #ff4757;">غلط او ٹی پی (OTP) کوڈ۔ دوبارہ کوشش کریں۔</span>`;
+                authMessage.innerHTML = `<span style="color: #ff4757;">Invalid Verification Code. Please try again.</span>`;
                 btn.innerHTML = btnId.includes('Login') ? 'Verify & Login' : 'Verify & Create Account';
                 btn.disabled = false;
             });
         }
 
-        // فون کے ایونٹ لسنرز (Event Listeners)
+        // Attach Listeners
         document.getElementById('sendOtpLoginBtn').addEventListener('click', () => handleSendOTP('countryCodeLogin', 'phoneNumberLogin', 'sendOtpLoginBtn', 'phone-input-step', 'otp-verify-step-login'));
         document.getElementById('verifyOtpLoginBtn').addEventListener('click', () => handleVerifyOTP('otpCodeLogin', 'verifyOtpLoginBtn'));
 
         document.getElementById('sendOtpRegBtn').addEventListener('click', () => handleSendOTP('countryCodeReg', 'phoneNumberReg', 'sendOtpRegBtn', 'phone-input-step-reg', 'otp-verify-step-reg'));
         document.getElementById('verifyOtpRegBtn').addEventListener('click', () => handleVerifyOTP('otpCodeReg', 'verifyOtpRegBtn'));
 
-        // اگر پہلے سے لاگ ان ہے تو ہوم پیج پر بھیج دیں
+        // Auto-redirect if already logged in
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 localStorage.setItem('ToolVerse_Auth', 'true');
