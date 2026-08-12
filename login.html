@@ -40,9 +40,13 @@
         .auth-input:focus { border-color: #38bdf8; background: rgba(0,0,0,0.6); box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15); }
         .auth-input::placeholder { color: #475569; font-weight: 500; }
 
+        /* Forgot Password Link */
+        .forgot-password { font-size: 0.8rem; color: #38bdf8; cursor: pointer; text-decoration: none; font-weight: 600; transition: 0.3s; float: right; margin-top: -24px; position: relative; z-index: 10; }
+        .forgot-password:hover { color: #fbbf24; text-decoration: underline; }
+
         /* Phone Input Specific */
         .phone-group { display: flex; gap: 10px; }
-        .country-select { width: 38%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; padding: 15px 10px; font-size: 0.9rem; cursor: pointer; outline: none; appearance: none; }
+        .country-select { width: 45%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; padding: 15px 10px; font-size: 0.9rem; cursor: pointer; outline: none; appearance: none; }
         .country-select:focus { border-color: #38bdf8; }
         .country-select option { background: #0f172a; color: #fff; }
 
@@ -101,7 +105,7 @@
         </div>
 
         <!-- ==========================================
-             1. LOGIN VIEW (For returning users)
+             1. LOGIN VIEW (لاگ ان سیکشن)
              ========================================== -->
         <div id="view-login" class="auth-view active">
             
@@ -117,6 +121,7 @@
                 </div>
                 <div class="input-group">
                     <label>Password</label>
+                    <span class="forgot-password" id="forgotPasswordBtn">Forgot Password?</span>
                     <input type="password" id="loginPassword" class="auth-input" placeholder="••••••••">
                 </div>
                 
@@ -140,7 +145,6 @@
                         <div class="phone-group">
                             <select id="countryCodeLogin" class="country-select">
                                 <option value="" disabled selected>Code</option>
-                                <!-- JS Populated -->
                             </select>
                             <input type="tel" id="phoneNumberLogin" class="auth-input" placeholder="300 1234567">
                         </div>
@@ -162,7 +166,7 @@
         </div>
 
         <!-- ==========================================
-             2. REGISTER VIEW (For new users)
+             2. REGISTER VIEW (سائن اپ سیکشن)
              ========================================== -->
         <div id="view-register" class="auth-view">
             
@@ -193,7 +197,6 @@
                         <div class="phone-group">
                             <select id="countryCodeReg" class="country-select">
                                 <option value="" disabled selected>Code</option>
-                                <!-- JS Populated -->
                             </select>
                             <input type="tel" id="phoneNumberReg" class="auth-input" placeholder="300 1234567">
                         </div>
@@ -224,7 +227,7 @@
             Continue with Google
         </button>
 
-        <!-- New Premium Social Buttons -->
+        <!-- Premium Social Buttons -->
         <div class="social-grid">
             <button id="facebookBtn" class="social-btn fb" title="Login with Facebook"><i class="fa-brands fa-facebook-f"></i></button>
             <button id="appleBtn" class="social-btn apple" title="Login with Apple"><i class="fa-brands fa-apple"></i></button>
@@ -232,18 +235,42 @@
         </div>
     </div>
 
-    <!-- COUNTRIES DATABASE FOR PHONE OTP -->
+    <!-- تمام ممالک کی لسٹ (All Countries Database) -->
     <script>
         const worldCountries = [
-            {n:"Pakistan",c:"+92"}, {n:"India",c:"+91"}, {n:"USA/Canada",c:"+1"}, {n:"UK",c:"+44"}, {n:"UAE",c:"+971"},
-            {n:"Saudi Arabia",c:"+966"}, {n:"Bangladesh",c:"+880"}, {n:"Afghanistan",c:"+93"}, {n:"Australia",c:"+61"},
-            {n:"Germany",c:"+49"}, {n:"France",c:"+33"}, {n:"Italy",c:"+39"}, {n:"Spain",c:"+34"}, {n:"Oman",c:"+968"},
-            {n:"Qatar",c:"+974"}, {n:"Kuwait",c:"+965"}, {n:"Bahrain",c:"+973"}, {n:"Malaysia",c:"+60"}, {n:"Singapore",c:"+65"}
+            {n:"Afghanistan",c:"+93",f:"🇦🇫"},{n:"Albania",c:"+355",f:"🇦🇱"},{n:"Algeria",c:"+213",f:"🇩🇿"},
+            {n:"Andorra",c:"+376",f:"🇦🇩"},{n:"Angola",c:"+244",f:"🇦🇴"},{n:"Argentina",c:"+54",f:"🇦🇷"},
+            {n:"Armenia",c:"+374",f:"🇦🇲"},{n:"Australia",c:"+61",f:"🇦🇺"},{n:"Austria",c:"+43",f:"🇦🇹"},
+            {n:"Azerbaijan",c:"+994",f:"🇦🇿"},{n:"Bahrain",c:"+973",f:"🇧🇭"},{n:"Bangladesh",c:"+880",f:"🇧🇩"},
+            {n:"Belarus",c:"+375",f:"🇧🇾"},{n:"Belgium",c:"+32",f:"🇧🇪"},{n:"Bolivia",c:"+591",f:"🇧🇴"},
+            {n:"Brazil",c:"+55",f:"🇧🇷"},{n:"Bulgaria",c:"+359",f:"🇧🇬"},{n:"Cambodia",c:"+855",f:"🇰🇭"},
+            {n:"Cameroon",c:"+237",f:"🇨🇲"},{n:"Canada/USA",c:"+1",f:"🇺🇸/🇨🇦"},{n:"Chile",c:"+56",f:"🇨🇱"},
+            {n:"China",c:"+86",f:"🇨🇳"},{n:"Colombia",c:"+57",f:"🇨🇴"},{n:"Costa Rica",c:"+506",f:"🇨🇷"},
+            {n:"Croatia",c:"+385",f:"🇭🇷"},{n:"Cuba",c:"+53",f:"🇨🇺"},{n:"Cyprus",c:"+357",f:"🇨🇾"},
+            {n:"Czech Republic",c:"+420",f:"🇨🇿"},{n:"Denmark",c:"+45",f:"🇩🇰"},{n:"Ecuador",c:"+593",f:"🇪🇨"},
+            {n:"Egypt",c:"+20",f:"🇪🇬"},{n:"Finland",c:"+358",f:"🇫🇮"},{n:"France",c:"+33",f:"🇫🇷"},
+            {n:"Germany",c:"+49",f:"🇩🇪"},{n:"Greece",c:"+30",f:"🇬🇷"},{n:"Hungary",c:"+36",f:"🇭🇺"},
+            {n:"India",c:"+91",f:"🇮🇳"},{n:"Indonesia",c:"+62",f:"🇮🇩"},{n:"Iran",c:"+98",f:"🇮🇷"},
+            {n:"Iraq",c:"+964",f:"🇮🇶"},{n:"Ireland",c:"+353",f:"🇮🇪"},{n:"Italy",c:"+39",f:"🇮🇹"},
+            {n:"Japan",c:"+81",f:"🇯🇵"},{n:"Jordan",c:"+962",f:"🇯🇴"},{n:"Kazakhstan",c:"+7",f:"🇰🇿"},
+            {n:"Kenya",c:"+254",f:"🇰🇪"},{n:"Kuwait",c:"+965",f:"🇰🇼"},{n:"Lebanon",c:"+961",f:"🇱🇧"},
+            {n:"Malaysia",c:"+60",f:"🇲🇾"},{n:"Mexico",c:"+52",f:"🇲🇽"},{n:"Morocco",c:"+212",f:"🇲🇦"},
+            {n:"Myanmar",c:"+95",f:"🇲🇲"},{n:"Nepal",c:"+977",f:"🇳🇵"},{n:"Netherlands",c:"+31",f:"🇳🇱"},
+            {n:"New Zealand",c:"+64",f:"🇳🇿"},{n:"Nigeria",c:"+234",f:"🇳🇬"},{n:"Norway",c:"+47",f:"🇳🇴"},
+            {n:"Oman",c:"+968",f:"🇴🇲"},{n:"Pakistan",c:"+92",f:"🇵🇰"},{n:"Palestine",c:"+970",f:"🇵🇸"},
+            {n:"Peru",c:"+51",f:"🇵🇪"},{n:"Philippines",c:"+63",f:"🇵🇭"},{n:"Poland",c:"+48",f:"🇵🇱"},
+            {n:"Portugal",c:"+351",f:"🇵🇹"},{n:"Qatar",c:"+974",f:"🇶🇦"},{n:"Romania",c:"+40",f:"🇷🇴"},
+            {n:"Russia",c:"+7",f:"🇷🇺"},{n:"Saudi Arabia",c:"+966",f:"🇸🇦"},{n:"Singapore",c:"+65",f:"🇸🇬"},
+            {n:"South Africa",c:"+27",f:"🇿🇦"},{n:"South Korea",c:"+82",f:"🇰🇷"},{n:"Spain",c:"+34",f:"🇪🇸"},
+            {n:"Sri Lanka",c:"+94",f:"🇱🇰"},{n:"Sweden",c:"+46",f:"🇸🇪"},{n:"Switzerland",c:"+41",f:"🇨🇭"},
+            {n:"Syria",c:"+963",f:"🇸🇾"},{n:"Taiwan",c:"+886",f:"🇹🇼"},{n:"Thailand",c:"+66",f:"🇹🇭"},
+            {n:"Turkey",c:"+90",f:"🇹🇷"},{n:"UAE",c:"+971",f:"🇦🇪"},{n:"UK",c:"+44",f:"🇬🇧"},
+            {n:"Ukraine",c:"+380",f:"🇺🇦"},{n:"Vietnam",c:"+84",f:"🇻🇳"},{n:"Yemen",c:"+967",f:"🇾🇪"}
         ];
 
         document.addEventListener("DOMContentLoaded", () => {
             let options = '<option value="" disabled selected>Code</option>';
-            worldCountries.forEach(item => { options += `<option value="${item.c}">${item.c} (${item.n})</option>`; });
+            worldCountries.forEach(item => { options += `<option value="${item.c}">${item.f} ${item.c} (${item.n})</option>`; });
             document.getElementById('countryCodeLogin').innerHTML = options;
             document.getElementById('countryCodeReg').innerHTML = options;
         });
@@ -283,11 +310,12 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { 
-            getAuth, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, GithubAuthProvider,
-            createUserWithEmailAndPassword, signInWithEmailAndPassword, 
+            getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, GithubAuthProvider,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail,
             onAuthStateChanged, setPersistence, browserLocalPersistence, browserSessionPersistence,
-            RecaptchaVerifier, signInWithPhoneNumber, signInWithRedirect, getRedirectResult
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+            RecaptchaVerifier, signInWithPhoneNumber
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"; // Standard Firebase module import
+        
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfigDirect = {
@@ -304,7 +332,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app); 
 
-        // Providers setup
         const googleProvider = new GoogleAuthProvider();
         const fbProvider = new FacebookAuthProvider();
         const appleProvider = new OAuthProvider('apple.com');
@@ -332,7 +359,25 @@
         }
 
         // ==========================================
-        // 1. EMAIL LOGIN (With Remember Me)
+        // 1. FORGOT PASSWORD LOGIC (پاسورڈ بھول جانا)
+        // ==========================================
+        document.getElementById('forgotPasswordBtn').addEventListener('click', () => {
+            const email = document.getElementById('loginEmail').value.trim();
+            if(!email) {
+                authMessage.innerHTML = `<span style="color: #fbbf24;">پاسورڈ تبدیل کرنے کے لیے پہلے اوپر اپنا ای میل لکھیں۔</span>`; return;
+            }
+            authMessage.innerHTML = `<span style="color: #38bdf8;">پروسیس ہو رہا ہے... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
+            sendPasswordResetEmail(auth, email)
+                .then(() => {
+                    authMessage.innerHTML = `<span style="color: #4ade80;">پاسورڈ ری سیٹ لنک آپ کے ای میل پر بھیج دیا گیا ہے! اپنا ان باکس چیک کریں۔</span>`;
+                })
+                .catch((error) => {
+                    authMessage.innerHTML = `<span style="color: #ff4757;">ایرر: اکاؤنٹ نہیں ملا یا ای میل غلط ہے۔</span>`;
+                });
+        });
+
+        // ==========================================
+        // 2. EMAIL LOGIN (With Remember Me)
         // ==========================================
         document.getElementById('doEmailLoginBtn').addEventListener('click', async () => {
             const email = document.getElementById('loginEmail').value.trim();
@@ -340,7 +385,7 @@
             const rememberMe = document.getElementById('rememberMe').checked;
 
             if(!email || !password) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Please enter both email and password.</span>`; return;
+                authMessage.innerHTML = `<span style="color: #ff4757;">براہ کرم ای میل اور پاسورڈ دونوں درج کریں۔</span>`; return;
             }
 
             const btn = document.getElementById('doEmailLoginBtn');
@@ -354,21 +399,21 @@
                 authMessage.innerHTML = `<span style="color: #4ade80;">Login Successful! Redirecting...</span>`;
                 await checkAndCreateUser(userCredential.user);
             } catch (error) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Error: Incorrect Email or Password. If you are a new user, please click "Sign Up" above.</span>`;
+                authMessage.innerHTML = `<span style="color: #ff4757;">ایرر: پاسورڈ غلط ہے یا آپ کا اکاؤنٹ موجود نہیں۔ نیا اکاؤنٹ بنانے کے لیے "Sign Up" پر کلک کریں۔</span>`;
                 btn.innerHTML = 'Log In Securely';
                 btn.disabled = false;
             }
         });
 
         // ==========================================
-        // 2. EMAIL SIGN UP (Strictly for New Users)
+        // 3. EMAIL SIGN UP (Strictly for New Users)
         // ==========================================
         document.getElementById('doEmailRegBtn').addEventListener('click', async () => {
             const email = document.getElementById('regEmail').value.trim();
             const password = document.getElementById('regPassword').value.trim();
 
             if(!email || password.length < 6) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Please provide a valid email and a password (min 6 chars).</span>`; return;
+                authMessage.innerHTML = `<span style="color: #ff4757;">براہ کرم درست ای میل اور کم از کم 6 ہندسوں کا پاسورڈ درج کریں۔</span>`; return;
             }
 
             const btn = document.getElementById('doEmailRegBtn');
@@ -382,7 +427,7 @@
                 await checkAndCreateUser(userCredential.user);
             } catch (error) {
                 if (error.code === 'auth/email-already-in-use') {
-                    authMessage.innerHTML = `<span style="color: #ff4757;">Account already exists. Please go to the "Sign In" tab.</span>`;
+                    authMessage.innerHTML = `<span style="color: #ff4757;">یہ اکاؤنٹ پہلے سے موجود ہے۔ براہ کرم "Sign In" کے آپشن سے لاگ ان کریں۔</span>`;
                 } else {
                     authMessage.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
                 }
@@ -392,43 +437,38 @@
         });
 
         // ==========================================
-        // 3. SOCIAL LOGINS (Google, Facebook, Apple, GitHub)
+        // 4. SOCIAL LOGINS (مستقل اور فول پروف طریقہ)
         // ==========================================
         
-        // Handle Mobile Redirect Results to avoid "Invalid Action" crashes
+        // موبائل ری ڈائریکٹ رزلٹ ہینڈلر
         getRedirectResult(auth).then(async (result) => {
             if (result && result.user) {
-                authMessage.innerHTML = `<span style="color: #4ade80;">Success! Redirecting...</span>`;
+                authMessage.innerHTML = `<span style="color: #4ade80;">لاگ ان کامیاب! تصدیق ہو رہی ہے...</span>`;
                 await checkAndCreateUser(result.user);
             }
         }).catch((error) => {
-            if(error.message.includes('configuration-not-found')) {
-                authMessage.innerHTML = `<span style="color: #fbbf24;">Note: Please configure this provider's App ID in Firebase.</span>`;
-            } else {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Auth Error: ${error.message}</span>`;
+            if (!error.message.includes('configuration-not-found')) {
+                authMessage.innerHTML = `<span style="color: #ff4757;">لاگ ان ناکام: ${error.message}</span>`;
             }
         });
 
         function handleSocialAuth(provider, providerName) {
-            authMessage.innerHTML = `<span style="color: #38bdf8;">Connecting to ${providerName}... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            authMessage.innerHTML = `<span style="color: #38bdf8;">${providerName} کے ساتھ لاگ ان ہو رہا ہے... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
+            
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
             if (isMobile) {
-                signInWithRedirect(auth, provider).catch(err => {
-                    if(err.message.includes('configuration-not-found')) {
-                        authMessage.innerHTML = `<span style="color: #fbbf24;">Note: You need to add the ${providerName} App ID in Firebase first.</span>`;
-                    } else {
-                        authMessage.innerHTML = `<span style="color: #ff4757;">Error: ${err.message}</span>`;
-                    }
-                });
+                // موبائل براؤزر کے لیے بغیر پاپ اپ والا محفوظ طریقہ
+                signInWithRedirect(auth, provider);
             } else {
+                // ڈیسک ٹاپ کے لیے پاپ اپ طریقہ
                 signInWithPopup(auth, provider).then(async (result) => {
                     await checkAndCreateUser(result.user);
                 }).catch((error) => {
-                    if (error.code === 'auth/configuration-not-found') {
-                        authMessage.innerHTML = `<span style="color: #fbbf24;">Note: You need to add the ${providerName} App ID in Firebase first.</span>`;
-                    } else if (error.code !== 'auth/popup-closed-by-user') {
-                        authMessage.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
+                    if (error.message.includes('configuration-not-found')) {
+                        authMessage.innerHTML = `<span style="color: #fbbf24;">نوٹ: فائر بیس میں ${providerName} کی سیٹنگز آن نہیں ہیں۔</span>`;
+                    } else if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
+                        authMessage.innerHTML = `<span style="color: #ff4757;">ایرر: ${error.message}</span>`;
                     } else {
                         authMessage.innerHTML = '';
                     }
@@ -442,7 +482,7 @@
         document.getElementById('githubBtn').addEventListener('click', () => handleSocialAuth(githubProvider, 'GitHub'));
 
         // ==========================================
-        // 4. PHONE NUMBER OTP LOGIC (Invisible reCAPTCHA)
+        // 5. PHONE NUMBER OTP LOGIC (Invisible reCAPTCHA)
         // ==========================================
         let confirmationResultObj = null;
 
@@ -460,7 +500,7 @@
             const number = document.getElementById(phoneId).value.trim();
             
             if(!code || !number) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Select Country Code and enter valid number.</span>`; return;
+                authMessage.innerHTML = `<span style="color: #ff4757;">براہ کرم کنٹری کوڈ منتخب کریں اور موبائل نمبر درج کریں۔</span>`; return;
             }
 
             const fullNumber = code + number;
@@ -479,7 +519,7 @@
                     document.getElementById(formStep2).style.display = 'block';
                     authMessage.innerHTML = '';
                 }).catch((error) => {
-                    authMessage.innerHTML = `<span style="color: #ff4757;">SMS Error: ${error.message}</span>`;
+                    authMessage.innerHTML = `<span style="color: #ff4757;">SMS ایرر: موبائل نمبر کا فارمیٹ غلط ہے یا فائر بیس سیٹنگز کا مسئلہ ہے۔</span>`;
                     btn.innerHTML = btnId.includes('Login') ? 'Send Secure OTP' : 'Send SMS Code';
                     btn.disabled = false;
                     if(window.recaptchaVerifier) window.recaptchaVerifier.render().then(id => grecaptcha.reset(id));
@@ -489,7 +529,7 @@
         function handleVerifyOTP(otpId, btnId) {
             const otpCode = document.getElementById(otpId).value.trim();
             if(otpCode.length !== 6) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Enter valid 6-digit OTP.</span>`; return;
+                authMessage.innerHTML = `<span style="color: #ff4757;">براہ کرم 6 ہندسوں کا درست کوڈ درج کریں۔</span>`; return;
             }
 
             const btn = document.getElementById(btnId);
@@ -501,7 +541,7 @@
                 await setPersistence(auth, browserLocalPersistence);
                 await checkAndCreateUser(result.user);
             }).catch((error) => {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Invalid OTP Code. Try again.</span>`;
+                authMessage.innerHTML = `<span style="color: #ff4757;">غلط او ٹی پی (OTP) کوڈ۔ دوبارہ کوشش کریں۔</span>`;
                 btn.innerHTML = btnId.includes('Login') ? 'Verify & Login' : 'Verify & Create Account';
                 btn.disabled = false;
             });
