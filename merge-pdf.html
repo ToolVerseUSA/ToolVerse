@@ -36,6 +36,45 @@
       }
     }
     </script>
+
+    <!-- ==========================================
+         FAQ SCHEMA MARKUP (FOR GOOGLE RICH SNIPPETS)
+         ========================================== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "Is it safe to merge PDF files using ToolVerse?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, absolutely. ToolVerse processes all PDF files locally within your browser. Your files are never uploaded to our servers, ensuring 100% privacy and data security."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How do I rearrange the order of my PDF files before merging?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Once you upload or drag and drop your PDF files into the workspace, you can simply click, hold, and drag the file thumbnails to reorder them exactly how you want them to appear in the final merged document."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is there a limit on file size or the number of PDFs I can merge?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Because the processing happens locally on your device, there are no strict artificial limits imposed by our servers. The only limit is your device's available memory (RAM)."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Can I merge PDF files on my Mac or mobile device?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! Since our Merge PDF tool is fully browser-based, it works flawlessly on Windows, macOS, Linux, Android, and iOS without requiring any software installation."
+        }
+      }]
+    }
+    </script>
     
     <!-- ==========================================
          VVIP META TAGS FOR SOCIAL MEDIA PREVIEWS
@@ -127,6 +166,33 @@
         }
         .btn-merge-action:hover { background: #c62828; transform: translateY(-2px); box-shadow: 0 15px 35px rgba(229, 50, 45, 0.4); }
         .btn-merge-action:disabled { background: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* ==========================================
+           SEO ARTICLE & FAQ CSS
+           ========================================== */
+        .seo-section { max-width: 1000px; margin: 60px auto; padding: 40px 30px; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; text-align: left; }
+        .seo-section h2 { font-size: 28px; color: #1e293b; margin-bottom: 20px; font-weight: 800; letter-spacing: -0.5px; }
+        .seo-section h3 { font-size: 20px; color: #334155; margin: 30px 0 15px; font-weight: 700; }
+        .seo-section p { font-size: 16px; color: #475569; line-height: 1.8; margin-bottom: 15px; }
+        .seo-section ul { margin-left: 20px; margin-bottom: 20px; color: #475569; }
+        .seo-section ul li { margin-bottom: 10px; line-height: 1.6; }
+        .seo-section ul li strong { color: #1e293b; }
+
+        .faq-container { margin-top: 50px; border-top: 2px solid #f1f5f9; padding-top: 40px; }
+        .faq-item { border-bottom: 1px solid #e2e8f0; margin-bottom: 15px; }
+        .faq-item details { width: 100%; }
+        .faq-item summary { font-size: 17px; font-weight: 600; color: #1e293b; padding: 15px 0; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; outline: none; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: #94a3b8; transition: transform 0.3s ease; }
+        .faq-item details[open] summary::after { transform: rotate(180deg); color: #e5322d; }
+        .faq-item .faq-answer { padding-bottom: 20px; color: #64748b; line-height: 1.7; font-size: 15px; animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .seo-section { padding: 30px 20px; margin: 40px 20px; }
+            .seo-section h2 { font-size: 24px; }
+            .seo-section h3 { font-size: 18px; }
+        }
     </style>
 </head>
 <body>
@@ -181,6 +247,55 @@
             </div>
         </div>
     </div>
+
+    <!-- ==========================================
+         SEO ARTICLE & FAQ SECTION
+         ========================================== -->
+    <section class="seo-section">
+        <h2>How to Merge PDF Files Online for Free</h2>
+        <p>Combining multiple PDF documents into a single file shouldn't be complicated or compromise your privacy. With the ToolVerse <strong>Merge PDF</strong> tool, you can seamlessly combine invoices, reports, scanned documents, and forms into one unified PDF directly within your web browser.</p>
+        <p>Whether you are a student organizing assignments or a professional consolidating business contracts, our PDF combiner offers the fastest and safest solution available online. Say goodbye to bloated software installations and premium subscriptions.</p>
+
+        <h3>Why Choose Our PDF Merger?</h3>
+        <ul>
+            <li><strong>100% Local Processing:</strong> Your files never leave your device. The entire merging process happens securely inside your browser using advanced JavaScript technology.</li>
+            <li><strong>Drag and Drop Ordering:</strong> Easily rearrange your uploaded documents into the perfect sequence before merging them.</li>
+            <li><strong>No File Size Limits:</strong> Because we don't upload your files to external servers, you are not bound by restrictive file size caps. Process massive PDFs flawlessly.</li>
+            <li><strong>Universal Compatibility:</strong> Access our free PDF utility from Mac, Windows, Linux, Android, or iOS devices seamlessly.</li>
+        </ul>
+
+        <div class="faq-container">
+            <h2>Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <details>
+                    <summary>Is it safe to merge PDF files using ToolVerse?</summary>
+                    <div class="faq-answer">Yes, absolutely. ToolVerse processes all PDF files locally within your browser. Your files are never uploaded to our servers, ensuring 100% privacy and data security. You can safely merge confidential business and personal documents.</div>
+                </details>
+            </div>
+
+            <div class="faq-item">
+                <details>
+                    <summary>How do I rearrange the order of my PDF files before merging?</summary>
+                    <div class="faq-answer">Once you upload or drag and drop your PDF files into the workspace, you can simply click, hold, and drag the file thumbnails to reorder them exactly how you want them to appear in the final merged document.</div>
+                </details>
+            </div>
+
+            <div class="faq-item">
+                <details>
+                    <summary>Is there a limit on file size or the number of PDFs I can merge?</summary>
+                    <div class="faq-answer">Because the processing happens locally on your device, there are no strict artificial limits imposed by our servers. The only limit is your device's available memory (RAM). Most modern devices can easily handle dozens of large PDF files at once.</div>
+                </details>
+            </div>
+
+            <div class="faq-item">
+                <details>
+                    <summary>Can I merge PDF files on my Mac or mobile device?</summary>
+                    <div class="faq-answer">Yes! Since our Merge PDF tool is fully browser-based, it works flawlessly on Windows, macOS, Linux, Android, and iOS without requiring any software app installation.</div>
+                </details>
+            </div>
+        </div>
+    </section>
 
     <!-- Required Libraries for Drag & Drop and PDF Merging -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
