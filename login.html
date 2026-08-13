@@ -49,12 +49,6 @@
         .password-meter-bar { height: 100%; width: 0%; background: #ff4757; transition: width 0.3s ease, background-color 0.3s ease; }
         .password-meter-text { font-size: 0.75rem; font-weight: 600; text-align: right; margin-top: 5px; display: none; }
 
-        /* Phone Input Specific */
-        .phone-group { display: flex; gap: 10px; }
-        .country-select { width: 45%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; padding: 15px 10px; font-size: 0.9rem; cursor: pointer; outline: none; appearance: none; }
-        .country-select:focus { border-color: #38bdf8; }
-        .country-select option { background: #0f172a; color: #fff; }
-
         /* Buttons */
         .primary-btn { width: 100%; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; font-weight: 800; font-size: 1.05rem; padding: 16px; border: none; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 5px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); }
         .primary-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5); }
@@ -80,22 +74,8 @@
         .google-btn:disabled { background: #94a3b8; cursor: not-allowed; }
         .google-btn svg { width: 22px; height: 22px; }
 
-        .social-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-        .social-btn { background: rgba(30, 41, 59, 0.6); color: #f8fafc; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; font-size: 1.3rem; }
-        .social-btn:hover:not(:disabled) { background: rgba(51, 65, 85, 0.8); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .social-btn.fb:hover:not(:disabled) { color: #1877F2; border-color: #1877F2; background: rgba(24, 119, 242, 0.1); }
-        .social-btn.apple:hover:not(:disabled) { color: #ffffff; border-color: #ffffff; background: rgba(255, 255, 255, 0.1); }
-        .social-btn.github:hover:not(:disabled) { color: #ffffff; border-color: #ffffff; background: rgba(255, 255, 255, 0.1); }
-        .social-btn:disabled { background: #1e293b; color: #475569; cursor: not-allowed; }
-
         .auth-message { margin-top: 20px; font-size: 0.9rem; font-weight: 600; min-height: 20px; border-radius: 8px; line-height: 1.4; text-align: center; }
         
-        /* Mode Switcher */
-        .mode-toggle { display: inline-block; color: #38bdf8; font-size: 0.85rem; font-weight: 700; cursor: pointer; margin-top: 15px; text-decoration: underline; transition: 0.3s; }
-        .mode-toggle:hover { color: #fbbf24; }
-
-        /* Keep CAPTCHA visible so users can complete it and failures are diagnosable. */
-        .recaptcha-box { display: flex; justify-content: center; margin: 8px 0 14px; min-height: 78px; }
     </style>
 </head>
 <body>
@@ -142,36 +122,6 @@
                 </label>
 
                 <button id="doEmailLoginBtn" class="primary-btn">Log In Securely</button>
-                <div class="mode-toggle" onclick="togglePhoneMode('login')">Login via Phone Number instead</div>
-            </div>
-
-            <!-- Login: Phone Number -->
-            <div id="login-phone-form" style="display: none;">
-                <div id="phone-input-step">
-                    <div class="input-group">
-                        <label>Mobile Number (For OTP)</label>
-                        <div class="phone-group">
-                            <select id="countryCodeLogin" class="country-select">
-                                <option value="" disabled selected>Code</option>
-                            </select>
-                            <input type="tel" id="phoneNumberLogin" class="auth-input" placeholder="300 1234567">
-                        </div>
-                    </div>
-                    <!-- Visible reCAPTCHA container -->
-                    <div id="recaptcha-login" class="recaptcha-box" aria-label="Security verification"></div>
-                    <button id="sendOtpLoginBtn" class="primary-btn" type="button">Send Secure OTP</button>
-                </div>
-
-                <div id="otp-verify-step-login" style="display: none;">
-                    <div class="info-banner signup" style="margin-bottom: 15px;"><i class="fa-solid fa-envelope-circle-check"></i> Verification code sent!</div>
-                    <div class="input-group">
-                        <label>Enter 6-Digit Code</label>
-                        <input type="text" id="otpCodeLogin" class="auth-input" placeholder="• • • • • •" maxlength="6" style="text-align: center; font-size: 1.5rem; letter-spacing: 10px; font-weight: bold;">
-                    </div>
-                    <button id="verifyOtpLoginBtn" class="primary-btn">Verify & Login</button>
-                </div>
-
-                <div class="mode-toggle" onclick="togglePhoneMode('login')">Go back to Email Login</div>
             </div>
         </div>
 
@@ -202,36 +152,6 @@
                 </div>
                 
                 <button id="doEmailRegBtn" class="primary-btn signup-btn">Sign Up Now</button>
-                <div class="mode-toggle" onclick="togglePhoneMode('register')">Sign up via Phone Number instead</div>
-            </div>
-
-            <!-- Register: Phone Number -->
-            <div id="reg-phone-form" style="display: none;">
-                <div id="phone-input-step-reg">
-                    <div class="input-group">
-                        <label>Mobile Number (For Registration)</label>
-                        <div class="phone-group">
-                            <select id="countryCodeReg" class="country-select">
-                                <option value="" disabled selected>Code</option>
-                            </select>
-                            <input type="tel" id="phoneNumberReg" class="auth-input" placeholder="300 1234567">
-                        </div>
-                    </div>
-                    <!-- Visible reCAPTCHA container -->
-                    <div id="recaptcha-register" class="recaptcha-box" aria-label="Security verification"></div>
-                    <button id="sendOtpRegBtn" class="primary-btn signup-btn" type="button">Send SMS Code</button>
-                </div>
-
-                <div id="otp-verify-step-reg" style="display: none;">
-                    <div class="info-banner signup" style="margin-bottom: 15px;"><i class="fa-solid fa-envelope-circle-check"></i> Registration code sent!</div>
-                    <div class="input-group">
-                        <label>Enter 6-Digit Code</label>
-                        <input type="text" id="otpCodeReg" class="auth-input" placeholder="• • • • • •" maxlength="6" style="text-align: center; font-size: 1.5rem; letter-spacing: 10px; font-weight: bold;">
-                    </div>
-                    <button id="verifyOtpRegBtn" class="primary-btn signup-btn">Verify & Create Account</button>
-                </div>
-
-                <div class="mode-toggle" onclick="togglePhoneMode('register')">Go back to Email Sign Up</div>
             </div>
         </div>
 
@@ -244,55 +164,10 @@
             Continue with Google
         </button>
 
-        <div class="social-grid">
-            <button id="facebookBtn" class="social-btn fb" title="Login with Facebook"><i class="fa-brands fa-facebook-f"></i></button>
-            <button id="appleBtn" class="social-btn apple" title="Login with Apple"><i class="fa-brands fa-apple"></i></button>
-            <button id="githubBtn" class="social-btn github" title="Login with GitHub"><i class="fa-brands fa-github"></i></button>
-        </div>
     </div>
 
-    <!-- Complete Countries Database -->
+    <!-- UI Logic -->
     <script>
-        const allWorldCountries = [
-            {n:"Afghanistan",c:"+93",f:"🇦🇫"},{n:"Albania",c:"+355",f:"🇦🇱"},{n:"Algeria",c:"+213",f:"🇩🇿"},{n:"Andorra",c:"+376",f:"🇦🇩"},{n:"Angola",c:"+244",f:"🇦🇴"},
-            {n:"Antigua and Barbuda",c:"+1",f:"🇦🇬"},{n:"Argentina",c:"+54",f:"🇦🇷"},{n:"Armenia",c:"+374",f:"🇦🇲"},{n:"Australia",c:"+61",f:"🇦🇺"},{n:"Austria",c:"+43",f:"🇦🇹"},
-            {n:"Azerbaijan",c:"+994",f:"🇦🇿"},{n:"Bahamas",c:"+1",f:"🇧🇸"},{n:"Bahrain",c:"+973",f:"🇧🇭"},{n:"Bangladesh",c:"+880",f:"🇧🇩"},{n:"Barbados",c:"+1",f:"🇧🇧"},
-            {n:"Belarus",c:"+375",f:"🇧🇾"},{n:"Belgium",c:"+32",f:"🇧🇪"},{n:"Belize",c:"+501",f:"🇧🇿"},{n:"Benin",c:"+229",f:"🇧🇯"},{n:"Bhutan",c:"+975",f:"🇧🇹"},
-            {n:"Bolivia",c:"+591",f:"🇧🇴"},{n:"Bosnia and Herzegovina",c:"+387",f:"🇧🇦"},{n:"Botswana",c:"+267",f:"🇧🇼"},{n:"Brazil",c:"+55",f:"🇧🇷"},{n:"Brunei",c:"+673",f:"🇧🇳"},
-            {n:"Bulgaria",c:"+359",f:"🇧🇬"},{n:"Burkina Faso",c:"+226",f:"🇧🇫"},{n:"Burundi",c:"+257",f:"🇧🇮"},{n:"Cabo Verde",c:"+238",f:"🇨🇻"},{n:"Cambodia",c:"+855",f:"🇰🇭"},
-            {n:"Cameroon",c:"+237",f:"🇨🇲"},{n:"Canada",c:"+1",f:"🇨🇦"},{n:"Central African Republic",c:"+236",f:"🇨🇫"},{n:"Chad",c:"+235",f:"🇹🇩"},{n:"Chile",c:"+56",f:"🇨🇱"},
-            {n:"China",c:"+86",f:"🇨🇳"},{n:"Colombia",c:"+57",f:"🇨🇴"},{n:"Comoros",c:"+269",f:"🇰🇲"},{n:"Congo",c:"+242",f:"🇨🇬"},{n:"Costa Rica",c:"+506",f:"🇨🇷"},
-            {n:"Croatia",c:"+385",f:"🇭🇷"},{n:"Cuba",c:"+53",f:"🇨🇺"},{n:"Cyprus",c:"+357",f:"🇨🇾"},{n:"Czechia",c:"+420",f:"🇨🇿"},{n:"Denmark",c:"+45",f:"🇩🇰"},
-            {n:"Djibouti",c:"+253",f:"🇩🇯"},{n:"Dominican Republic",c:"+1",f:"🇩🇴"},{n:"Ecuador",c:"+593",f:"🇪🇨"},{n:"Egypt",c:"+20",f:"🇪🇬"},{n:"El Salvador",c:"+503",f:"🇸🇻"},
-            {n:"Equatorial Guinea",c:"+240",f:"🇬🇶"},{n:"Eritrea",c:"+291",f:"🇪🇷"},{n:"Estonia",c:"+372",f:"🇪🇪"},{n:"Eswatini",c:"+268",f:"🇸🇿"},{n:"Ethiopia",c:"+251",f:"🇪🇹"},
-            {n:"Fiji",c:"+679",f:"🇫🇯"},{n:"Finland",c:"+358",f:"🇫🇮"},{n:"France",c:"+33",f:"🇫🇷"},{n:"Gabon",c:"+241",f:"🇬🇦"},{n:"Gambia",c:"+220",f:"🇬🇲"},
-            {n:"Georgia",c:"+995",f:"🇬🇪"},{n:"Germany",c:"+49",f:"🇩🇪"},{n:"Ghana",c:"+233",f:"🇬🇭"},{n:"Greece",c:"+30",f:"🇬🇷"},{n:"Grenada",c:"+1",f:"🇬🇩"},
-            {n:"Guatemala",c:"+502",f:"🇬🇹"},{n:"Guinea",c:"+224",f:"🇬🇳"},{n:"Guyana",c:"+1",f:"🇬🇾"},{n:"Haiti",c:"+509",f:"🇭🇹"},{n:"Honduras",c:"+504",f:"🇭🇳"},
-            {n:"Hungary",c:"+36",f:"🇭🇺"},{n:"Iceland",c:"+354",f:"🇮🇸"},{n:"India",c:"+91",f:"🇮🇳"},{n:"Indonesia",c:"+62",f:"🇮🇩"},{n:"Iran",c:"+98",f:"🇮🇷"},
-            {n:"Iraq",c:"+964",f:"🇮🇶"},{n:"Ireland",c:"+353",f:"🇮🇪"},{n:"Israel",c:"+972",f:"🇮🇱"},{n:"Italy",c:"+39",f:"🇮🇹"},{n:"Jamaica",c:"+1",f:"🇯🇲"},
-            {n:"Japan",c:"+81",f:"🇯🇵"},{n:"Jordan",c:"+962",f:"🇯🇴"},{n:"Kazakhstan",c:"+7",f:"🇰🇿"},{n:"Kenya",c:"+254",f:"🇰🇪"},{n:"Kuwait",c:"+965",f:"🇰🇼"},
-            {n:"Kyrgyzstan",c:"+996",f:"🇰🇬"},{n:"Laos",c:"+856",f:"🇱🇦"},{n:"Latvia",c:"+371",f:"🇱🇻"},{n:"Lebanon",c:"+961",f:"🇱🇧"},{n:"Libya",c:"+218",f:"🇱🇾"},
-            {n:"Lithuania",c:"+370",f:"🇱🇹"},{n:"Luxembourg",c:"+352",f:"🇱🇺"},{n:"Madagascar",c:"+261",f:"🇲🇬"},{n:"Malaysia",c:"+60",f:"🇲🇾"},{n:"Maldives",c:"+960",f:"🇲🇻"},
-            {n:"Mali",c:"+223",f:"🇲🇱"},{n:"Malta",c:"+356",f:"🇲🇹"},{n:"Mexico",c:"+52",f:"🇲🇽"},{n:"Moldova",c:"+373",f:"🇲🇩"},{n:"Monaco",c:"+377",f:"🇲🇨"},
-            {n:"Mongolia",c:"+976",f:"🇲🇳"},{n:"Morocco",c:"+212",f:"🇲🇦"},{n:"Myanmar",c:"+95",f:"🇲🇲"},{n:"Nepal",c:"+977",f:"🇳🇵"},{n:"Netherlands",c:"+31",f:"🇳🇱"},
-            {n:"New Zealand",c:"+64",f:"🇳🇿"},{n:"Nigeria",c:"+234",f:"🇳🇬"},{n:"Norway",c:"+47",f:"🇳🇴"},{n:"Oman",c:"+968",f:"🇴🇲"},{n:"Pakistan",c:"+92",f:"🇵🇰"},
-            {n:"Palestine",c:"+970",f:"🇵🇸"},{n:"Panama",c:"+507",f:"🇵🇦"},{n:"Paraguay",c:"+595",f:"🇵🇾"},{n:"Peru",c:"+51",f:"🇵🇪"},{n:"Philippines",c:"+63",f:"🇵🇭"},
-            {n:"Poland",c:"+48",f:"🇵🇱"},{n:"Portugal",c:"+351",f:"🇵🇹"},{n:"Qatar",c:"+974",f:"🇶🇦"},{n:"Romania",c:"+40",f:"🇷🇴"},{n:"Russia",c:"+7",f:"🇷🇺"},
-            {n:"Saudi Arabia",c:"+966",f:"🇸🇦"},{n:"Senegal",c:"+221",f:"🇸🇳"},{n:"Serbia",c:"+381",f:"🇷🇸"},{n:"Singapore",c:"+65",f:"🇸🇬"},{n:"Slovakia",c:"+421",f:"🇸🇰"},
-            {n:"South Africa",c:"+27",f:"🇿🇦"},{n:"South Korea",c:"+82",f:"🇰🇷"},{n:"Spain",c:"+34",f:"🇪🇸"},{n:"Sri Lanka",c:"+94",f:"🇱🇰"},{n:"Sweden",c:"+46",f:"🇸🇪"},
-            {n:"Switzerland",c:"+41",f:"🇨🇭"},{n:"Syria",c:"+963",f:"🇸🇾"},{n:"Taiwan",c:"+886",f:"🇹🇼"},{n:"Tajikistan",c:"+992",f:"🇹🇯"},{n:"Tanzania",c:"+255",f:"🇹🇿"},
-            {n:"Thailand",c:"+66",f:"🇹🇭"},{n:"Tunisia",c:"+216",f:"🇹🇳"},{n:"Turkey",c:"+90",f:"🇹🇷"},{n:"UAE",c:"+971",f:"🇦🇪"},{n:"UK",c:"+44",f:"🇬🇧"},
-            {n:"Ukraine",c:"+380",f:"🇺🇦"},{n:"USA",c:"+1",f:"🇺🇸"},{n:"Uzbekistan",c:"+998",f:"🇺🇿"},{n:"Vietnam",c:"+84",f:"🇻🇳"},{n:"Yemen",c:"+967",f:"🇾🇪"},
-            {n:"Zambia",c:"+260",f:"🇿🇲"},{n:"Zimbabwe",c:"+263",f:"🇿🇼"}
-        ];
-
-        document.addEventListener("DOMContentLoaded", () => {
-            let options = '<option value="" disabled selected>Code</option>';
-            allWorldCountries.forEach(item => { options += `<option value="${item.c}">${item.f} ${item.c} (${item.n})</option>`; });
-            document.getElementById('countryCodeLogin').innerHTML = options;
-            document.getElementById('countryCodeReg').innerHTML = options;
-        });
-
         // Password Strength Meter
         const regPassword = document.getElementById('regPassword');
         const passMeterContainer = document.getElementById('passMeterContainer');
@@ -344,32 +219,15 @@
                 document.getElementById('view-register').classList.add('active');
             }
         }
-
-        let loginPhoneMode = false;
-        let regPhoneMode = false;
-
-        function togglePhoneMode(view) {
-            document.getElementById('authMessage').innerHTML = '';
-            if(view === 'login') {
-                loginPhoneMode = !loginPhoneMode;
-                document.getElementById('login-email-form').style.display = loginPhoneMode ? 'none' : 'block';
-                document.getElementById('login-phone-form').style.display = loginPhoneMode ? 'block' : 'none';
-            } else {
-                regPhoneMode = !regPhoneMode;
-                document.getElementById('reg-email-form').style.display = regPhoneMode ? 'none' : 'block';
-                document.getElementById('reg-phone-form').style.display = regPhoneMode ? 'block' : 'none';
-            }
-        }
     </script>
 
     <!-- FIREBASE & CORE AUTH LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { 
-            getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider, GithubAuthProvider,
+            getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider,
             createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail,
-            onAuthStateChanged, setPersistence, browserLocalPersistence, browserSessionPersistence,
-            RecaptchaVerifier, signInWithPhoneNumber
+            onAuthStateChanged, setPersistence, browserLocalPersistence, browserSessionPersistence
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -389,48 +247,8 @@
         const db = getFirestore(app); 
 
         const googleProvider = new GoogleAuthProvider();
-        const fbProvider = new FacebookAuthProvider();
-        const appleProvider = new OAuthProvider('apple.com');
-        const githubProvider = new GithubAuthProvider();
 
         const authMessage = document.getElementById('authMessage');
-
-        // Render one visible verifier per phone form.
-        const recaptchaVerifiers = { login: null, register: null };
-        const recaptchaWidgetIds = { login: null, register: null };
-
-        async function getRecaptchaVerifier(mode) {
-            if (recaptchaVerifiers[mode]) return recaptchaVerifiers[mode];
-
-            const containerId = mode === 'login' ? 'recaptcha-login' : 'recaptcha-register';
-            const verifier = new RecaptchaVerifier(auth, containerId, {
-                size: 'normal',
-                'expired-callback': () => {
-                    authMessage.innerHTML = '<span style="color: #fbbf24;">Security check expired. Please complete it again.</span>';
-                }
-            });
-            recaptchaWidgetIds[mode] = await verifier.render();
-            recaptchaVerifiers[mode] = verifier;
-            return verifier;
-        }
-
-        function resetRecaptcha(mode) {
-            const widgetId = recaptchaWidgetIds[mode];
-            if (widgetId !== null && window.grecaptcha) window.grecaptcha.reset(widgetId);
-        }
-
-        function phoneErrorMessage(error) {
-            const errors = {
-                'auth/invalid-phone-number': 'The phone number is not in a valid format. Please ensure you select the correct country code and enter your mobile number without leading zeros.',
-                'auth/operation-not-allowed': 'The Phone sign-in provider is not enabled in the Firebase Console.',
-                'auth/unauthorized-domain': 'This deployed domain is not added to the Authorized domains in Firebase Authentication.',
-                'auth/too-many-requests': 'SMS requests are temporarily blocked due to unusual activity. Please try again later.',
-                'auth/quota-exceeded': 'The Firebase SMS quota has been exceeded.',
-                'auth/captcha-check-failed': 'Security verification failed. Please complete the CAPTCHA again.',
-                'auth/invalid-app-credential': 'The CAPTCHA credential is invalid or has expired. Please reload the page and try again.'
-            };
-            return errors[error.code] || `SMS verification failed (${error.code || 'unknown error'}).`;
-        }
 
         function socialErrorMessage(error) {
             const errors = {
@@ -447,7 +265,7 @@
             const userSnap = await getDoc(userRef);
             if(!userSnap.exists()) {
                 await setDoc(userRef, { 
-                    email: user.email || user.phoneNumber || 'Social User', 
+                    email: user.email || 'Social User', 
                     displayName: user.displayName || 'VVIP User', 
                     credits: 2500, 
                     plan: 'Sandbox', 
@@ -540,7 +358,7 @@
         });
 
         // ==========================================
-        // 4. SOCIAL LOGINS (100% Redirect for zero popups)
+        // 4. GOOGLE LOGIN (100% Redirect for zero popups)
         // ==========================================
         
         getRedirectResult(auth).then(async (result) => {
@@ -564,82 +382,6 @@
         }
 
         document.getElementById('googleBtn').addEventListener('click', (e) => { e.preventDefault(); handleSocialAuth(googleProvider, 'Google'); });
-        document.getElementById('facebookBtn').addEventListener('click', (e) => { e.preventDefault(); handleSocialAuth(fbProvider, 'Facebook'); });
-        document.getElementById('appleBtn').addEventListener('click', (e) => { e.preventDefault(); handleSocialAuth(appleProvider, 'Apple'); });
-        document.getElementById('githubBtn').addEventListener('click', (e) => { e.preventDefault(); handleSocialAuth(githubProvider, 'GitHub'); });
-
-        // ==========================================
-        // 5. PHONE NUMBER OTP LOGIC (Foolproof)
-        // ==========================================
-        let confirmationResultObj = null;
-
-        async function handleSendOTP(codeId, phoneId, btnId, formStep1, formStep2) {
-            const selectedCode = document.getElementById(codeId).value;
-            const rawNumber = document.getElementById(phoneId).value.trim();
-            if (!selectedCode || !rawNumber) {
-                authMessage.innerHTML = '<span style="color: #ff4757;">Please select a country code and enter your mobile number.</span>';
-                return;
-            }
-
-            const callingCode = selectedCode.replace(/\D/g, '');
-            let nationalNumber = rawNumber.replace(/\D/g, '');
-            if (nationalNumber.startsWith(callingCode)) nationalNumber = nationalNumber.slice(callingCode.length);
-            nationalNumber = nationalNumber.replace(/^0+/, '');
-            const fullNumber = `+${callingCode}${nationalNumber}`;
-
-            if (!/^\+[1-9]\d{7,14}$/.test(fullNumber)) {
-                authMessage.innerHTML = '<span style="color: #ff4757;">Please enter a valid international number.</span>';
-                return;
-            }
-
-            const btn = document.getElementById(btnId);
-            const mode = btnId === 'sendOtpLoginBtn' ? 'login' : 'register';
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending OTP...';
-            btn.disabled = true;
-            authMessage.innerHTML = '<span style="color: #38bdf8;">Please complete the security verification to receive the SMS code...</span>';
-
-            try {
-                const verifier = await getRecaptchaVerifier(mode);
-                const confirmationResult = await signInWithPhoneNumber(auth, fullNumber, verifier);
-                confirmationResultObj = confirmationResult;
-                document.getElementById(formStep1).style.display = 'none';
-                document.getElementById(formStep2).style.display = 'block';
-                authMessage.innerHTML = '';
-            } catch (error) {
-                console.error('Phone OTP send failed:', error, { fullNumber });
-                authMessage.innerHTML = `<span style="color: #ff4757;">${phoneErrorMessage(error)}</span>`;
-                btn.innerHTML = btnId.includes('Login') ? 'Send Secure OTP' : 'Send SMS Code';
-                btn.disabled = false;
-                resetRecaptcha(mode);
-            }
-        }
-
-        function handleVerifyOTP(otpId, btnId) {
-            const otpCode = document.getElementById(otpId).value.trim();
-            if(otpCode.length !== 6) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Please enter a valid 6-digit verification code.</span>`; return;
-            }
-
-            const btn = document.getElementById(btnId);
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Verifying...';
-            btn.disabled = true;
-
-            confirmationResultObj.confirm(otpCode).then(async (result) => {
-                authMessage.innerHTML = `<span style="color: #4ade80;">Verification Successful! Redirecting...</span>`;
-                await setPersistence(auth, browserLocalPersistence);
-                await completeAuth(result.user);
-            }).catch((error) => {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Invalid Verification Code. Please try again.</span>`;
-                btn.innerHTML = btnId.includes('Login') ? 'Verify & Login' : 'Verify & Create Account';
-                btn.disabled = false;
-            });
-        }
-
-        document.getElementById('sendOtpLoginBtn').addEventListener('click', () => handleSendOTP('countryCodeLogin', 'phoneNumberLogin', 'sendOtpLoginBtn', 'phone-input-step', 'otp-verify-step-login'));
-        document.getElementById('verifyOtpLoginBtn').addEventListener('click', () => handleVerifyOTP('otpCodeLogin', 'verifyOtpLoginBtn'));
-
-        document.getElementById('sendOtpRegBtn').addEventListener('click', () => handleSendOTP('countryCodeReg', 'phoneNumberReg', 'sendOtpRegBtn', 'phone-input-step-reg', 'otp-verify-step-reg'));
-        document.getElementById('verifyOtpRegBtn').addEventListener('click', () => handleVerifyOTP('otpCodeReg', 'verifyOtpRegBtn'));
 
         let isCompletingAuth = false;
         async function completeAuth(user) {
