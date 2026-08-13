@@ -1,340 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToolVerse | Premium Access Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { background-color: #050b14; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-image: radial-gradient(circle at 50% -20%, #1e293b 0%, #050b14 80%); padding: 20px; }
-        
-        .auth-container { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; padding: 45px 35px; width: 100%; max-width: 440px; box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.05); text-align: center; position: relative; overflow: hidden; }
-        
-        .logo-area { margin-bottom: 30px; }
-        .logo-text { font-size: 2.2rem; font-weight: 900; background: linear-gradient(135deg, #ffffff 0%, #fbbf24 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; }
-        .logo-sub { color: #94a3b8; font-size: 0.85rem; font-weight: 500; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+<script type="module">
+    // 1. Firebase SDKs کو امپورٹ کریں
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-        .auth-tabs { display: flex; background: rgba(0,0,0,0.5); border-radius: 14px; padding: 6px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.05); }
-        .auth-tab { flex: 1; padding: 14px 0; font-size: 0.95rem; font-weight: 700; color: #64748b; cursor: pointer; border-radius: 10px; transition: all 0.3s ease; }
-        .auth-tab.active { background: #38bdf8; color: #0f172a; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
+    // 2. آپ کے ToolVerse پروجیکٹ کی بالکل درست کنفیگریشن
+    const firebaseConfig = {
+      apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
+      authDomain: "toolverstoken.firebaseapp.com",
+      projectId: "toolverstoken",
+      storageBucket: "toolverstoken.firebasestorage.app",
+      messagingSenderId: "762644487097",
+      appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
+      measurementId: "G-6VX2WPNECZ"
+    };
 
-        .auth-view { display: none; animation: fadeIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; }
-        .auth-view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    // 3. Firebase کو انیشلائز (Initialize) کریں
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
-        .info-banner { background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2); color: #38bdf8; padding: 12px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .info-banner.signup { background: rgba(74, 222, 128, 0.1); border-color: rgba(74, 222, 128, 0.2); color: #4ade80; }
-
-        .input-group { text-align: left; margin-bottom: 20px; position: relative; }
-        .input-group label { display: block; font-size: 0.75rem; color: #cbd5e1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-        .auth-input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; padding: 15px 16px; font-size: 1rem; transition: all 0.3s ease; }
-        .auth-input:focus { border-color: #38bdf8; background: rgba(0,0,0,0.6); box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15); }
-        .auth-input::placeholder { color: #475569; font-weight: 500; }
-
-        .forgot-password { font-size: 0.8rem; color: #38bdf8; cursor: pointer; text-decoration: none; font-weight: 600; transition: 0.3s; float: right; margin-top: -24px; position: relative; z-index: 10; }
-        .forgot-password:hover { color: #fbbf24; text-decoration: underline; }
-
-        .password-meter-container { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 10px; overflow: hidden; display: none; transition: 0.3s ease; }
-        .password-meter-bar { height: 100%; width: 0%; background: #ff4757; transition: width 0.3s ease, background-color 0.3s ease; }
-        .password-meter-text { font-size: 0.75rem; font-weight: 600; text-align: right; margin-top: 5px; display: none; }
-
-        .primary-btn { width: 100%; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #000; font-weight: 800; font-size: 1.05rem; padding: 16px; border: none; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 5px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); }
-        .primary-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5); }
-        .primary-btn:disabled { background: #475569; color: #94a3b8; cursor: not-allowed; box-shadow: none; transform: none; }
-
-        .signup-btn { background: linear-gradient(135deg, #4ade80 0%, #10b981 100%); box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3); }
-        .signup-btn:hover:not(:disabled) { box-shadow: 0 8px 25px rgba(74, 222, 128, 0.5); }
-
-        .remember-wrapper { display: flex; align-items: center; gap: 10px; text-align: left; margin: 0 0 20px 0; cursor: pointer; user-select: none; }
-        .remember-wrapper input { width: 18px; height: 18px; cursor: pointer; accent-color: #38bdf8; }
-        .remember-wrapper span { font-size: 0.9rem; color: #f8fafc; font-weight: 600; }
-        .remember-sub { font-size: 0.75rem; color: #64748b; display: block; margin-left: 28px; margin-top: -2px; font-weight: 500; }
-
-        .divider { display: flex; align-items: center; text-align: center; color: #64748b; font-size: 0.8rem; margin: 30px 0; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
-        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .divider:not(:empty)::before { margin-right: 15px; }
-        .divider:not(:empty)::after { margin-left: 15px; }
-
-        .google-btn { width: 100%; background: #ffffff; color: #1e293b; font-weight: 800; font-size: 1rem; padding: 15px; border: none; border-radius: 12px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 12px; transition: 0.3s; box-shadow: 0 4px 15px rgba(255,255,255,0.1); margin-bottom: 15px;}
-        .google-btn:hover:not(:disabled) { background: #f8fafc; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,255,255,0.25); }
-        .google-btn:disabled { background: #94a3b8; cursor: not-allowed; }
-        .google-btn svg { width: 22px; height: 22px; }
-
-        .auth-message { margin-top: 20px; font-size: 0.9rem; font-weight: 600; min-height: 20px; border-radius: 8px; line-height: 1.4; text-align: center; }
-    </style>
-</head>
-<body>
-
-    <div class="auth-container">
-        <div class="logo-area">
-            <div class="logo-text"><i class="fa-solid fa-rocket" style="color: #38bdf8;"></i> ToolVerse</div>
-            <div class="logo-sub">Premium User Portal</div>
-        </div>
-
-        <div class="auth-tabs">
-            <div class="auth-tab active" onclick="switchMainTab('login')">Sign In</div>
-            <div class="auth-tab" onclick="switchMainTab('register')">Sign Up</div>
-        </div>
-
-        <!-- 1. LOGIN VIEW -->
-        <div id="view-login" class="auth-view active">
-            <div class="info-banner">
-                <i class="fa-solid fa-user-check"></i> Welcome back! Please login.
-            </div>
-
-            <div id="login-email-form">
-                <div class="input-group">
-                    <label>Email Address</label>
-                    <input type="email" id="loginEmail" class="auth-input" placeholder="Enter registered email">
-                </div>
-                <div class="input-group">
-                    <label>Password</label>
-                    <span class="forgot-password" id="forgotPasswordBtn">Forgot Password?</span>
-                    <input type="password" id="loginPassword" class="auth-input" placeholder="••••••••">
-                </div>
-                
-                <label class="remember-wrapper">
-                    <input type="checkbox" id="rememberMe" checked>
-                    <div>
-                        <span>Remember me</span>
-                        <span class="remember-sub">No login required next time</span>
-                    </div>
-                </label>
-
-                <button id="doEmailLoginBtn" class="primary-btn">Log In Securely</button>
-            </div>
-        </div>
-
-        <!-- 2. REGISTER VIEW -->
-        <div id="view-register" class="auth-view">
-            <div class="info-banner signup">
-                <i class="fa-solid fa-sparkles"></i> First time here? Create a free account.
-            </div>
-            
-            <div id="reg-email-form">
-                <div class="input-group">
-                    <label>Email Address</label>
-                    <input type="email" id="regEmail" class="auth-input" placeholder="name@example.com">
-                </div>
-                <div class="input-group">
-                    <label>Create Password</label>
-                    <input type="password" id="regPassword" class="auth-input" placeholder="Minimum 6 characters">
-                    
-                    <div class="password-meter-container" id="passMeterContainer">
-                        <div class="password-meter-bar" id="passMeterBar"></div>
-                    </div>
-                    <div class="password-meter-text" id="passMeterText"></div>
-                </div>
-                
-                <button id="doEmailRegBtn" class="primary-btn signup-btn">Sign Up Now</button>
-            </div>
-        </div>
-
-        <div id="authMessage" class="auth-message"></div>
-
-        <div class="divider">Or connect with</div>
-        
-        <button id="googleBtn" class="google-btn">
-            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-            Continue with Google
-        </button>
-    </div>
-
-    <!-- UI Logic -->
-    <script>
-        const regPassword = document.getElementById('regPassword');
-        const passMeterContainer = document.getElementById('passMeterContainer');
-        const passMeterBar = document.getElementById('passMeterBar');
-        const passMeterText = document.getElementById('passMeterText');
-
-        regPassword.addEventListener('input', () => {
-            const val = regPassword.value;
-            if(val.length > 0) {
-                passMeterContainer.style.display = 'block';
-                passMeterText.style.display = 'block';
-            } else {
-                passMeterContainer.style.display = 'none';
-                passMeterText.style.display = 'none';
-            }
-            
-            let strength = 0;
-            if(val.length >= 6) strength += 1;
-            if(val.length >= 10) strength += 1;
-            if(/[A-Z]/.test(val)) strength += 1;
-            if(/[0-9]/.test(val)) strength += 1;
-            if(/[^A-Za-z0-9]/.test(val)) strength += 1;
-
-            if(strength <= 2) {
-                passMeterBar.style.width = '33%';
-                passMeterBar.style.backgroundColor = '#ff4757';
-                passMeterText.innerHTML = '<span style="color:#ff4757">Weak Password</span>';
-            } else if(strength === 3 || strength === 4) {
-                passMeterBar.style.width = '66%';
-                passMeterBar.style.backgroundColor = '#fbbf24';
-                passMeterText.innerHTML = '<span style="color:#fbbf24">Medium Password</span>';
-            } else {
-                passMeterBar.style.width = '100%';
-                passMeterBar.style.backgroundColor = '#4ade80';
-                passMeterText.innerHTML = '<span style="color:#4ade80">Strong Password</span>';
-            }
+    // 4. Google Login کا فنکشن (بٹن کے لیے)
+    window.loginWithGoogle = function() {
+        signInWithPopup(auth, provider)
+        .then((result) => {
+            const user = result.user;
+            console.log("Login Successful!", user);
+            // لاگ ان کامیاب ہونے کے بعد ہوم پیج پر ری ڈائریکٹ کریں
+            window.location.href = "index.html"; 
+        })
+        .catch((error) => {
+            console.error("Error during login:", error.message);
+            alert("Google Sign-In Failed: " + error.message);
         });
+    };
 
-        function switchMainTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.auth-view').forEach(el => el.classList.remove('active'));
-            document.getElementById('authMessage').innerHTML = '';
+    // 5. Secure Sign-Out فنکشن (localStorage کلیئر کرنے کے ساتھ)
+    window.logoutUser = function() {
+        signOut(auth).then(() => {
+            // یہ لائن پرانے یوزر کے مائننگ ٹوکنز اور تمام کچرے کو براؤزر سے مکمل ڈیلیٹ کر دے گی
+            localStorage.clear(); 
             
-            if(tab === 'login') {
-                document.querySelectorAll('.auth-tab')[0].classList.add('active');
-                document.getElementById('view-login').classList.add('active');
-            } else {
-                document.querySelectorAll('.auth-tab')[1].classList.add('active');
-                document.getElementById('view-register').classList.add('active');
-            }
+            console.log("Logged out successfully.");
+            // لاگ آؤٹ ہونے کے بعد واپس لاگ ان پیج پر ری ڈائریکٹ کریں
+            window.location.href = "login.html";
+        }).catch((error) => {
+            console.error("Logout Error:", error.message);
+        });
+    };
+
+    // 6. یوزر کا سٹیٹس چیک کرنے والا آبزرور (Optional but helpful)
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log("Current active user:", user.email);
+        } else {
+            console.log("No user is currently logged in.");
         }
-    </script>
-
-    <!-- FIREBASE & ORIGINAL POPUP AUTH LOGIC -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { 
-            getAuth, signInWithPopup, GoogleAuthProvider,
-            createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail,
-            onAuthStateChanged, setPersistence, browserLocalPersistence, browserSessionPersistence
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-        const firebaseConfigDirect = {
-            apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
-            authDomain: "toolverstoken.firebaseapp.com",
-            projectId: "toolverstoken",
-            storageBucket: "toolverstoken.firebasestorage.app",
-            messagingSenderId: "762644487097",
-            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
-            measurementId: "G-6VX2WPNECZ"
-        };
-
-        const app = initializeApp(firebaseConfigDirect);
-        const auth = getAuth(app);
-        const db = getFirestore(app); 
-
-        const googleProvider = new GoogleAuthProvider();
-        const authMessage = document.getElementById('authMessage');
-
-        async function checkAndCreateUser(user) {
-            const userRef = doc(db, "users", user.uid);
-            const userSnap = await getDoc(userRef);
-            if(!userSnap.exists()) {
-                await setDoc(userRef, { 
-                    email: user.email || 'Google User', 
-                    displayName: user.displayName || 'VVIP User', 
-                    credits: 2500, 
-                    plan: 'Sandbox', 
-                    createdAt: new Date().toISOString() 
-                });
-            } else {
-                localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
-            }
-            localStorage.setItem('ToolVerse_Auth', 'true');
-            localStorage.setItem('isLoggedIn', 'true');
-            window.location.href = 'index.html';
-        }
-
-        // 1. FORGOT PASSWORD 
-        document.getElementById('forgotPasswordBtn').addEventListener('click', () => {
-            const email = document.getElementById('loginEmail').value.trim();
-            if(!email) {
-                authMessage.innerHTML = `<span style="color: #fbbf24;">Please enter your email address first.</span>`; return;
-            }
-            authMessage.innerHTML = `<span style="color: #38bdf8;">Processing... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
-            sendPasswordResetEmail(auth, email)
-                .then(() => {
-                    authMessage.innerHTML = `<span style="color: #4ade80;">Password reset link sent to your inbox!</span>`;
-                })
-                .catch((error) => {
-                    authMessage.innerHTML = `<span style="color: #ff4757;">Error: Invalid email or account not found.</span>`;
-                });
-        });
-
-        // 2. EMAIL LOGIN
-        document.getElementById('doEmailLoginBtn').addEventListener('click', async () => {
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            const rememberMe = document.getElementById('rememberMe').checked;
-
-            if(!email || !password) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Please enter both email and password.</span>`; return;
-            }
-
-            const btn = document.getElementById('doEmailLoginBtn');
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Authenticating...';
-            btn.disabled = true;
-
-            try {
-                const persistenceType = rememberMe ? browserLocalPersistence : browserSessionPersistence;
-                await setPersistence(auth, persistenceType);
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                authMessage.innerHTML = `<span style="color: #4ade80;">Login Successful! Redirecting...</span>`;
-                await checkAndCreateUser(userCredential.user);
-            } catch (error) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Error: Incorrect Email or Password.</span>`;
-                btn.innerHTML = 'Log In Securely';
-                btn.disabled = false;
-            }
-        });
-
-        // 3. EMAIL SIGN UP 
-        document.getElementById('doEmailRegBtn').addEventListener('click', async () => {
-            const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPassword').value.trim();
-
-            if(!email || password.length < 6) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Please provide a valid email and password (min 6 chars).</span>`; return;
-            }
-
-            const btn = document.getElementById('doEmailRegBtn');
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Creating Account...';
-            btn.disabled = true;
-
-            try {
-                await setPersistence(auth, browserLocalPersistence);
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                authMessage.innerHTML = `<span style="color: #4ade80;">Account Created! Redirecting...</span>`;
-                await checkAndCreateUser(userCredential.user);
-            } catch (error) {
-                if (error.code === 'auth/email-already-in-use') {
-                    authMessage.innerHTML = `<span style="color: #ff4757;">Account already exists. Please use "Sign In".</span>`;
-                } else {
-                    authMessage.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
-                }
-                btn.innerHTML = 'Sign Up Now';
-                btn.disabled = false;
-            }
-        });
-
-        // 4. GOOGLE LOGIN (ORIGINAL POPUP METHOD)
-        document.getElementById('googleBtn').addEventListener('click', async (e) => { 
-            e.preventDefault(); 
-            authMessage.innerHTML = `<span style="color: #38bdf8;">Connecting to Google... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
-            try {
-                const result = await signInWithPopup(auth, googleProvider);
-                authMessage.innerHTML = `<span style="color: #4ade80;">Google Sign-in successful! Redirecting...</span>`;
-                await checkAndCreateUser(result.user);
-            } catch (error) {
-                console.error('Google popup sign-in failed:', error);
-                authMessage.innerHTML = `<span style="color: #ff4757;">Error: Google Sign-in cancelled or blocked.</span>`;
-            }
-        });
-
-        onAuthStateChanged(auth, (user) => {
-            if (user && localStorage.getItem('ToolVerse_Auth') === 'true') {
-                // Keep session active
-            }
-        });
-    </script>
-</body>
-</html>
+    });
+</script>
