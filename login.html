@@ -225,7 +225,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { 
-            getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider,
+            getAuth, signInWithPopup, GoogleAuthProvider,
             createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail,
             onAuthStateChanged, setPersistence, browserLocalPersistence, browserSessionPersistence
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -255,7 +255,8 @@
                 'auth/operation-not-allowed': 'This sign-in provider is not enabled in the Firebase Console.',
                 'auth/unauthorized-domain': 'This domain is not added to the Authorized domains in Firebase Authentication.',
                 'auth/account-exists-with-different-credential': 'An account already exists with the same email address but different sign-in credentials. Please log in using the original method.',
-                'auth/redirect-cancelled-by-user': 'The sign-in process was cancelled. Please try again.'
+                'auth/popup-closed-by-user': 'The Google sign-in popup was closed before completion. Please try again.',
+                'auth/popup-blocked': 'Your browser blocked the sign-in popup. Please allow popups for this site.'
             };
             return errors[error.code] || `Sign-in failed (${error.code || 'unknown error'}).`;
         }
@@ -358,30 +359,20 @@
         });
 
         // ==========================================
-        // 4. GOOGLE LOGIN (100% Redirect for zero popups)
+        // 4. GOOGLE LOGIN (VVIP POPUP FIX)
         // ==========================================
-        
-        getRedirectResult(auth).then(async (result) => {
-            if (result && result.user) {
+        document.getElementById('googleBtn').addEventListener('click', async (e) => { 
+            e.preventDefault(); 
+            authMessage.innerHTML = `<span style="color: #38bdf8;">Connecting to Google... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
                 authMessage.innerHTML = `<span style="color: #4ade80;">Sign-in successful. Redirecting...</span>`;
                 await completeAuth(result.user);
-            }
-        }).catch((error) => {
-            console.error('Redirect sign-in failed:', error);
-            authMessage.innerHTML = `<span style="color: #ff4757;">${socialErrorMessage(error)}</span>`;
-        });
-
-        async function handleSocialAuth(provider, providerName) {
-            authMessage.innerHTML = `<span style="color: #38bdf8;">Connecting to ${providerName}... <i class="fa-solid fa-spinner fa-spin"></i></span>`;
-            try {
-                await signInWithRedirect(auth, provider);
             } catch (error) {
-                console.error(`${providerName} sign-in could not start:`, error);
+                console.error('Google sign-in failed:', error);
                 authMessage.innerHTML = `<span style="color: #ff4757;">${socialErrorMessage(error)}</span>`;
             }
-        }
-
-        document.getElementById('googleBtn').addEventListener('click', (e) => { e.preventDefault(); handleSocialAuth(googleProvider, 'Google'); });
+        });
 
         let isCompletingAuth = false;
         async function completeAuth(user) {
