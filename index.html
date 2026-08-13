@@ -1285,12 +1285,11 @@
                 
                 let localCreditsStr = localStorage.getItem('tv_agent_credits');
                 
-                // IF LOCAL STORAGE IS DIFFERENT THAN FIREBASE, IT MEANS TOOLS DEDUCTED IT!
                 if (localCreditsStr !== null) {
                     let localCredits = parseInt(localCreditsStr);
                     if (!isNaN(localCredits) && localCredits !== dbCredits) {
                         dbCredits = localCredits; 
-                        await updateDoc(userRef, { credits: dbCredits }); // FORCE SYNC TO FIREBASE
+                        await updateDoc(userRef, { credits: dbCredits }); 
                     }
                 } else {
                     localStorage.setItem('tv_agent_credits', dbCredits.toString());
@@ -1360,7 +1359,7 @@
                 const userRef = doc(db, "users", auth.currentUser.uid);
                 try {
                     await updateDoc(userRef, { credits: 8000, plan: 'Pro Sandbox' });
-                    updateCreditDisplay(auth.currentUser.uid); // Refresh instantly
+                    updateCreditDisplay(auth.currentUser.uid);
                 } catch(e) {}
             }
         });
@@ -1410,14 +1409,14 @@
         }
 
         document.getElementById('googleBtn').addEventListener('click', () => {
+            // ✨ MAGIC: Naya user aate hi purana sara local data/tokens saaf!
+            localStorage.clear();
+
             signInWithPopup(auth, googleProvider).then(async (result) => {
                 authModal.style.display = 'none';
             }).catch((error) => { authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`; });
         });
 
-        // =======================================================
-        // NEW SECURE AUTHENTICATION LOGIC (FIXED FOR FIREBASE)
-        // =======================================================
         emailLoginBtn.addEventListener('click', () => {
             const email = document.getElementById('authEmail').value.trim();
             const password = document.getElementById('authPassword').value.trim();
@@ -1430,6 +1429,8 @@
             
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => { 
+                    // ✨ MAGIC: Login par local storage clear!
+                    localStorage.clear();
                     authModal.style.display = 'none'; 
                 })
                 .catch((error) => {
@@ -1437,6 +1438,8 @@
                         authMessageBox.innerHTML = `<span style="color: #fbbf24;">Creating new account...</span>`;
                         createUserWithEmailAndPassword(auth, email, password)
                             .then((userCredential) => { 
+                                // ✨ MAGIC: Signup par bhi local storage clear!
+                                localStorage.clear();
                                 authModal.style.display = 'none'; 
                             })
                             .catch((err) => {
@@ -1482,7 +1485,10 @@
         if(actualLogoutBtn) {
             actualLogoutBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                signOut(auth).then(() => { userProfileModal.style.display = 'none'; });
+                signOut(auth).then(() => { 
+                    localStorage.clear(); // ✨ Logout par bhi sab saaf!
+                    userProfileModal.style.display = 'none'; 
+                });
             });
         }
     </script>
