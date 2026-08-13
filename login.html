@@ -226,6 +226,10 @@
         const authMessage = document.getElementById('authMessage');
 
         async function checkAndCreateUser(user) {
+            
+            // ✨ MAGIC: Purane user ka data aur mining tokens yahan se delete ho jayenge taa ke naya user zero se start le sake!
+            localStorage.clear();
+
             const userRef = doc(db, "users", user.uid);
             const userSnap = await getDoc(userRef);
             if(!userSnap.exists()) {
