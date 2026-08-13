@@ -129,6 +129,12 @@
                     <div class="password-meter-text" id="passMeterText"></div>
                 </div>
                 
+                <!-- NEW: Referral Code Input (Optional) -->
+                <div class="input-group">
+                    <label>Referral Code (Optional)</label>
+                    <input type="text" id="referralInput" class="auth-input" placeholder="Enter invite code for bonus">
+                </div>
+                
                 <button id="doEmailRegBtn" class="primary-btn signup-btn">Sign Up Now</button>
             </div>
         </div>
@@ -197,7 +203,7 @@
         }
     </script>
 
-    <!-- FIREBASE & ORIGINAL POPUP AUTH LOGIC -->
+    <!-- FIREBASE & PRO CLOUD LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { 
@@ -205,8 +211,7 @@
             createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail,
             onAuthStateChanged, setPersistence, browserLocalPersistence, browserSessionPersistence
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfigDirect = {
             apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
@@ -225,24 +230,49 @@
         const googleProvider = new GoogleAuthProvider();
         const authMessage = document.getElementById('authMessage');
 
-        async function checkAndCreateUser(user) {
-            
-            // ✨ MAGIC: Purane user ka data aur mining tokens yahan se delete ho jayenge taa ke naya user zero se start le sake!
-            localStorage.clear();
+        // Function to create a unique referral code
+        function generateReferralCode(email) {
+            const prefix = email.split('@')[0].substring(0, 4).toUpperCase();
+            const random = Math.floor(1000 + Math.random() * 9000);
+            return `${prefix}${random}`;
+        }
+
+        // Master function to handle Cloud User Creation (Foolproof)
+        async function checkAndCreateCloudUser(user, isSignup = false, sponsorCode = "") {
+            localStorage.clear(); // Always clean old junk
 
             const userRef = doc(db, "users", user.uid);
             const userSnap = await getDoc(userRef);
+            
+            // If user is truly new OR does not exist in our DB
             if(!userSnap.exists()) {
+                const newCode = generateReferralCode(user.email);
+                const currentTime = Date.now();
+                
                 await setDoc(userRef, { 
                     email: user.email || 'Google User', 
-                    displayName: user.displayName || 'VVIP User', 
+                    displayName: user.displayName || 'ToolVerse Member',
+                    cloudBalance: 0, // Solid DB Balance
+                    miningRate: 0.003, // Tokens per 5 sec
+                    lastMiningTime: currentTime, // Timestamp for calculation
+                    referralCode: newCode,
+                    referredBy: sponsorCode,
+                    totalReferrals: 0,
                     credits: 2500, 
                     plan: 'Sandbox', 
                     createdAt: new Date().toISOString() 
                 });
+
+                // Reward the sponsor if valid code was entered
+                if (sponsorCode) {
+                    // Note: Realistically we'd query to find the sponsor UID.
+                    // For now, saving referredBy is the strong foundation we need.
+                    localStorage.setItem('tv_referred_by', sponsorCode);
+                }
             } else {
                 localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
             }
+            
             localStorage.setItem('ToolVerse_Auth', 'true');
             localStorage.setItem('isLoggedIn', 'true');
             window.location.href = 'index.html';
@@ -264,7 +294,7 @@
                 });
         });
 
-        // 2. EMAIL LOGIN
+        // 2. EMAIL LOGIN (STRICTLY LOGIN - NO FALLBACK TO SIGNUP)
         document.getElementById('doEmailLoginBtn').addEventListener('click', async () => {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
@@ -281,20 +311,24 @@
             try {
                 const persistenceType = rememberMe ? browserLocalPersistence : browserSessionPersistence;
                 await setPersistence(auth, persistenceType);
+                
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 authMessage.innerHTML = `<span style="color: #4ade80;">Login Successful! Redirecting...</span>`;
-                await checkAndCreateUser(userCredential.user);
+                
+                await checkAndCreateCloudUser(userCredential.user, false);
             } catch (error) {
-                authMessage.innerHTML = `<span style="color: #ff4757;">Error: Incorrect Email or Password.</span>`;
+                console.error(error);
+                authMessage.innerHTML = `<span style="color: #ff4757;">Login Failed: Incorrect Email or Password.</span>`;
                 btn.innerHTML = 'Log In Securely';
                 btn.disabled = false;
             }
         });
 
-        // 3. EMAIL SIGN UP 
+        // 3. EMAIL SIGN UP (STRICTLY SIGNUP)
         document.getElementById('doEmailRegBtn').addEventListener('click', async () => {
             const email = document.getElementById('regEmail').value.trim();
             const password = document.getElementById('regPassword').value.trim();
+            const referralCode = document.getElementById('referralInput').value.trim();
 
             if(!email || password.length < 6) {
                 authMessage.innerHTML = `<span style="color: #ff4757;">Please provide a valid email and password (min 6 chars).</span>`; return;
@@ -308,10 +342,12 @@
                 await setPersistence(auth, browserLocalPersistence);
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 authMessage.innerHTML = `<span style="color: #4ade80;">Account Created! Redirecting...</span>`;
-                await checkAndCreateUser(userCredential.user);
+                
+                // Pass referral code to the Cloud User creator
+                await checkAndCreateCloudUser(userCredential.user, true, referralCode);
             } catch (error) {
                 if (error.code === 'auth/email-already-in-use') {
-                    authMessage.innerHTML = `<span style="color: #ff4757;">Account already exists. Please use "Sign In".</span>`;
+                    authMessage.innerHTML = `<span style="color: #ff4757;">This email is already registered. Please go to Sign In.</span>`;
                 } else {
                     authMessage.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
                 }
@@ -327,7 +363,9 @@
             try {
                 const result = await signInWithPopup(auth, googleProvider);
                 authMessage.innerHTML = `<span style="color: #4ade80;">Google Sign-in successful! Redirecting...</span>`;
-                await checkAndCreateUser(result.user);
+                
+                // The function checkAndCreateCloudUser handles whether they are new or old safely
+                await checkAndCreateCloudUser(result.user, false);
             } catch (error) {
                 console.error('Google popup sign-in failed:', error);
                 authMessage.innerHTML = `<span style="color: #ff4757;">Error: Google Sign-in cancelled or blocked.</span>`;
