@@ -1141,507 +1141,172 @@
         });
     </script>
 
-    <!-- FIREBASE & CORE LOGIC -->
+      <!-- FIREBASE & CLOUD MINING MODULE (VVIP LEVEL) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // Direct Firebase Initialization Cache-Proof Fix 
         const firebaseConfigDirect = {
             apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
             authDomain: "toolverstoken.firebaseapp.com",
             projectId: "toolverstoken",
             storageBucket: "toolverstoken.firebasestorage.app",
             messagingSenderId: "762644487097",
-            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468",
-            measurementId: "G-6VX2WPNECZ"
+            appId: "1:762644487097:web:dbd8d858e1dc6f3c1bb468"
         };
 
         const app = initializeApp(firebaseConfigDirect);
         const auth = getAuth(app);
         const db = getFirestore(app); 
-        const googleProvider = new GoogleAuthProvider();
 
-        const authModal = document.getElementById('firebaseAuthModal');
-        const userProfileModal = document.getElementById('userProfileModal');
-        const otpVerificationModal = document.getElementById('otpVerificationModal');
-        const supportModal = document.getElementById('supportModal');
-        
-        const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
-        const closeProfileModalBtn = document.getElementById('closeProfileModalBtn');
-        const closeOtpModalBtn = document.getElementById('closeOtpModalBtn');
-        
-        const navLoginBtn = document.getElementById('navLoginBtn');
-        const navSignupBtn = document.getElementById('navSignupBtn');
-        const navProfileBtn = document.getElementById('navProfileBtn');
-        const actualLogoutBtn = document.getElementById('actualLogoutBtn');
-        const emailLoginBtn = document.getElementById('emailLoginBtn');
-        const saveProfileBtn = document.getElementById('saveProfileBtn');
-        
-        const authMessageBox = document.getElementById('authMessageBox');
-        const twoFactorToggle = document.getElementById('twoFactorToggle');
+        // CLOUD MINING VARIABLES
+        let cloudBalance = 0;
+        let miningRate = 0.003;
+        let lastMiningTime = Date.now();
+        let isCloudMiningActive = false;
+        let miningInterval;
+        let syncInterval;
 
-        const profFirstName = document.getElementById('profFirstName');
-        const profLastName = document.getElementById('profLastName');
-        const profPhoneCode = document.getElementById('profPhoneCode');
-        const profPhone = document.getElementById('profPhone');
-        const profAddress = document.getElementById('profAddress');
-        const profCountry = document.getElementById('profCountry');
-        const profState = document.getElementById('profState');
-        const profZip = document.getElementById('profZip');
-
-        // ==========================================
-        // NEWSLETTER SUBSCRIPTION LOGIC
-        // ==========================================
-        const newsletterForm = document.getElementById('newsletterForm');
-        const newsletterEmail = document.getElementById('newsletterEmail');
-        const newsletterBtn = document.getElementById('newsletterBtn');
-        const newsletterMsg = document.getElementById('newsletterMsg');
-
-        if(newsletterForm) {
-            newsletterForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const email = newsletterEmail.value.trim();
-                if(!email) return;
-
-                newsletterBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
-                newsletterBtn.disabled = true;
-                newsletterMsg.innerHTML = '';
-
-                try {
-                    await addDoc(collection(db, "subscribers"), {
-                        email: email,
-                        subscribedAt: new Date().toISOString()
-                    });
-                    newsletterMsg.innerHTML = '<span style="color: #4ade80;">✅ Subscribed successfully!</span>';
-                    newsletterForm.reset();
-                } catch (error) {
-                    newsletterMsg.innerHTML = `<span style="color: #ff4757;">❌ Error: ${error.message}</span>`;
-                } finally {
-                    newsletterBtn.innerHTML = 'Subscribe';
-                    newsletterBtn.disabled = false;
-                    setTimeout(() => { newsletterMsg.innerHTML = ''; }, 5000);
-                }
-            });
-        }
-
-        window.populateProfileData = function(data) {
-            if(!data) return;
-            if(data.firstName) profFirstName.value = data.firstName;
-            if(data.lastName) profLastName.value = data.lastName;
-            
-            if(data.phoneCode) {
-                let exactMatch = Array.from(profPhoneCode.options).some(o => o.value === data.phoneCode);
-                if(exactMatch) {
-                    profPhoneCode.value = data.phoneCode;
-                } else {
-                    let oldMatch = Array.from(profPhoneCode.options).find(o => o.value.endsWith('|' + data.phoneCode) || o.value === data.phoneCode);
-                    if(oldMatch) profPhoneCode.value = oldMatch.value;
-                }
-            }
-            
-            if(data.phone) profPhone.value = data.phone;
-            if(data.address) profAddress.value = data.address;
-            if(data.country) profCountry.value = data.country;
-            if(data.state) profState.value = data.state;
-            if(data.zip) profZip.value = data.zip;
-        };
-
-        const localProfData = localStorage.getItem('tv_user_profile');
-        if(localProfData) {
-            try { window.populateProfileData(JSON.parse(localProfData)); } catch(e) {}
-        }
-
-        async function initializeUserInDB(user) {
-            const userRef = doc(db, "users", user.uid);
-            const userSnap = await getDoc(userRef);
-            
-            if (!userSnap.exists()) {
-                await setDoc(userRef, {
-                    email: user.email,
-                    displayName: user.displayName || 'User',
-                    credits: 2500,
-                    plan: 'Sandbox',
-                    createdAt: new Date().toISOString()
-                });
-            } else {
-                window.populateProfileData(userSnap.data());
-                localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
-            }
-            updateCreditDisplay(user.uid);
-        }
-
-        // =========================================================
-        // VVIP CLOUD BRIDGE FIX - NEVER LOSE SPENT CREDITS AGAIN!
-        // =========================================================
-        async function updateCreditDisplay(uid) {
-            const userRef = doc(db, "users", uid);
-            const userSnap = await getDoc(userRef);
-            
-            if(userSnap.exists()) {
-                let dbCredits = userSnap.data().credits;
-                if (dbCredits === undefined) dbCredits = 2500;
-                
-                let localCreditsStr = localStorage.getItem('tv_agent_credits');
-                
-                if (localCreditsStr !== null) {
-                    let localCredits = parseInt(localCreditsStr);
-                    if (!isNaN(localCredits) && localCredits !== dbCredits) {
-                        dbCredits = localCredits; 
-                        await updateDoc(userRef, { credits: dbCredits }); 
-                    }
-                } else {
-                    localStorage.setItem('tv_agent_credits', dbCredits.toString());
-                }
-                
-                if(navProfileBtn) {
-                    const displayName = userSnap.data().firstName || (userSnap.data().displayName ? userSnap.data().displayName.split(' ')[0] : 'User');
-                    navProfileBtn.innerHTML = `
-                        <div class="profile-avatar-icon">🤖</div>
-                        <span>${displayName} | ⚡ ${dbCredits}</span>
-                    `;
-                }
-            }
-        }
-
-        if(saveProfileBtn) {
-            saveProfileBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                if(saveProfileBtn.disabled) return;
-                
-                saveProfileBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Saving...';
-                saveProfileBtn.style.opacity = '0.9';
-                saveProfileBtn.disabled = true;
-
-                const profileData = {
-                    firstName: profFirstName.value.trim(),
-                    lastName: profLastName.value.trim(),
-                    phoneCode: profPhoneCode.value,
-                    phone: profPhone.value.trim(),
-                    address: profAddress.value.trim(),
-                    country: profCountry.value,
-                    state: profState.value.trim(),
-                    zip: profZip.value.trim()
-                };
-
-                localStorage.setItem('tv_user_profile', JSON.stringify(profileData));
-
-                if(auth && auth.currentUser) {
-                    const userRef = doc(db, "users", auth.currentUser.uid);
-                    updateDoc(userRef, profileData).catch(err => console.log("Cloud sync in background...", err));
-                    
-                    if(navProfileBtn && profileData.firstName) {
-                        let currHtml = navProfileBtn.innerHTML;
-                        navProfileBtn.innerHTML = currHtml.replace(/<span>.*?\|/, `<span>${profileData.firstName} |`);
-                    }
-                }
-
-                setTimeout(() => {
-                    saveProfileBtn.innerHTML = '✅ Saved Successfully!';
-                    saveProfileBtn.style.backgroundColor = '#10b981'; 
-                    saveProfileBtn.style.color = '#fff';
-                    
-                    setTimeout(() => {
-                        saveProfileBtn.innerHTML = 'Save Profile';
-                        saveProfileBtn.style.backgroundColor = '#4ade80';
-                        saveProfileBtn.style.color = '#121212';
-                        saveProfileBtn.style.opacity = '1';
-                        saveProfileBtn.disabled = false;
-                    }, 2000);
-                    
-                }, 800);
-            });
-        }
-
-        window.addEventListener('triggerCloudUpgrade', async () => {
-            if(auth.currentUser) {
-                const userRef = doc(db, "users", auth.currentUser.uid);
-                try {
-                    await updateDoc(userRef, { credits: 8000, plan: 'Pro Sandbox' });
-                    updateCreditDisplay(auth.currentUser.uid);
-                } catch(e) {}
-            }
-        });
-
-        const openAuthModal = (e) => { e.preventDefault(); authModal.style.display = 'flex'; authMessageBox.innerHTML = ''; };
-        if(navLoginBtn) navLoginBtn.addEventListener('click', openAuthModal);
-        if(navSignupBtn) navSignupBtn.addEventListener('click', openAuthModal);
-        
-        if(closeAuthModalBtn) closeAuthModalBtn.addEventListener('click', () => authModal.style.display = 'none');
-        if(closeProfileModalBtn) closeProfileModalBtn.addEventListener('click', () => userProfileModal.style.display = 'none');
-        if(closeOtpModalBtn) closeOtpModalBtn.addEventListener('click', () => otpVerificationModal.style.display = 'none');
-
-        window.addEventListener('click', (e) => { 
-            if (e.target === authModal) authModal.style.display = 'none'; 
-            if (e.target === userProfileModal) userProfileModal.style.display = 'none'; 
-            if (e.target === otpVerificationModal) otpVerificationModal.style.display = 'none'; 
-            if (e.target === supportModal) supportModal.style.display = 'none';
-        });
-
-        let is2FAEnabled = localStorage.getItem('tv_2fa') === 'true';
-        twoFactorToggle.checked = is2FAEnabled;
-        updateToggleStyle(is2FAEnabled);
-
-        twoFactorToggle.addEventListener('change', () => {
-            is2FAEnabled = twoFactorToggle.checked;
-            localStorage.setItem('tv_2fa', is2FAEnabled);
-            updateToggleStyle(is2FAEnabled);
-        });
-
-        function updateToggleStyle(checked) {
-            const sliderSpan = document.getElementById('sliderSpan');
-            const sliderDot = document.getElementById('sliderDot');
-            if(checked) {
-                sliderSpan.style.backgroundColor = '#4ade80';
-                sliderDot.style.transform = 'translateX(20px)';
-            } else {
-                sliderSpan.style.backgroundColor = '#475569';
-                sliderDot.style.transform = 'translateX(0)';
-            }
-        }
-
-        if(navProfileBtn) {
-            navProfileBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                userProfileModal.style.display = 'flex';
-            });
-        }
-
-        document.getElementById('googleBtn').addEventListener('click', () => {
-            // ✨ MAGIC: Naya user aate hi purana sara local data/tokens saaf!
-            localStorage.clear();
-
-            signInWithPopup(auth, googleProvider).then(async (result) => {
-                authModal.style.display = 'none';
-            }).catch((error) => { authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`; });
-        });
-
-        emailLoginBtn.addEventListener('click', () => {
-            const email = document.getElementById('authEmail').value.trim();
-            const password = document.getElementById('authPassword').value.trim();
-            if(!email || !password) {
-                authMessageBox.innerHTML = `<span style="color: #ff4757;">Please enter both email and password.</span>`;
-                return;
-            }
-
-            authMessageBox.innerHTML = `<span style="color: #38bdf8;">Authenticating securely...</span>`;
-            
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => { 
-                    // ✨ MAGIC: Login par local storage clear!
-                    localStorage.clear();
-                    authModal.style.display = 'none'; 
-                })
-                .catch((error) => {
-                    if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential' || error.code === 'auth/invalid-login-credentials') {
-                        authMessageBox.innerHTML = `<span style="color: #fbbf24;">Creating new account...</span>`;
-                        createUserWithEmailAndPassword(auth, email, password)
-                            .then((userCredential) => { 
-                                // ✨ MAGIC: Signup par bhi local storage clear!
-                                localStorage.clear();
-                                authModal.style.display = 'none'; 
-                            })
-                            .catch((err) => {
-                                authMessageBox.innerHTML = `<span style="color: #ff4757;">Sign Up Error: ${err.message}</span>`;
-                            });
-                    } else {
-                        authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
-                    }
-                });
-        });
-
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                if(navLoginBtn) navLoginBtn.style.display = 'none';
-                if(navSignupBtn) navSignupBtn.style.display = 'none';
-                if(navProfileBtn) navProfileBtn.style.display = 'flex';
-                
-                localStorage.setItem('ToolVerse_Auth', 'true');
-                localStorage.setItem('isLoggedIn', 'true');
-                
-                const userRef = doc(db, "users", user.uid);
-                const userSnap = await getDoc(userRef);
-                if(!userSnap.exists()) {
-                    await setDoc(userRef, { email: user.email, displayName: user.displayName || 'User', credits: 2500, plan: 'Sandbox', createdAt: new Date().toISOString() });
-                } else {
-                    window.populateProfileData(userSnap.data());
-                    localStorage.setItem('tv_user_profile', JSON.stringify(userSnap.data()));
-                }
-                
-                await updateCreditDisplay(user.uid);
-            } else {
-                if(navLoginBtn) navLoginBtn.style.display = 'block';
-                if(navSignupBtn) navSignupBtn.style.display = 'block';
-                if(navProfileBtn) navProfileBtn.style.display = 'none';
-                
-                localStorage.removeItem('tv_agent_credits');
-                localStorage.removeItem('ToolVerse_Auth');
-                localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('tv_user_profile');
-            }
-        });
-
-        if(actualLogoutBtn) {
-            actualLogoutBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                signOut(auth).then(() => { 
-                    localStorage.clear(); // ✨ Logout par bhi sab saaf!
-                    userProfileModal.style.display = 'none'; 
-                });
-            });
-        }
-    </script>
-
-    <!-- MINING & WIDGET LOGIC -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let toolBalance = parseFloat(localStorage.getItem('toolVerseBalance')) || 0.000;
-            let lastClaimDate = localStorage.getItem('toolVerseLastClaim');
-            let isBoostActive = localStorage.getItem('toolVerseBoostActive') === 'true';
-
+        function updateCloudDisplay() {
             const headerBal = document.getElementById('headerBal');
             const widgetBal = document.getElementById('widgetBal');
             const modalBal = document.getElementById('modalBal');
             const profileModalBal = document.getElementById('profileModalBal');
             
-            const claimBtn = document.getElementById('claimDailyBtn');
-            const boostBtn = document.getElementById('boostBtn');
-            const cryptoModal = document.getElementById('cryptoModal');
-            const closeModalBtn = document.getElementById('closeModalBtn');
+            if(headerBal) headerBal.innerText = cloudBalance.toFixed(3);
+            if(widgetBal) widgetBal.innerText = cloudBalance.toFixed(3);
+            if(modalBal) modalBal.innerText = cloudBalance.toFixed(3);
+            if(profileModalBal) profileModalBal.innerText = cloudBalance.toFixed(3);
+        }
 
-            let increment = isBoostActive ? 0.009 : 0.003;
+        async function startCloudMining(uid, data) {
+            cloudBalance = data.cloudBalance || 0;
+            miningRate = data.miningRate || 0.003;
+            lastMiningTime = data.lastMiningTime || Date.now();
 
-            let lastSavedTime = localStorage.getItem('toolVerseLastTime');
-            if (lastSavedTime) {
-                let currentTime = Date.now();
-                let timeDifference = currentTime - parseInt(lastSavedTime); 
-                let missedIntervals = Math.floor(timeDifference / 5000);
-                if (missedIntervals > 0) {
-                    toolBalance += (missedIntervals * increment); 
+            if(miningRate >= 0.009) {
+                const btn = document.getElementById('boostBtn');
+                if(btn) { btn.innerText = "⚡ 3x Boost Active!"; btn.disabled = true; }
+                const rateText = document.getElementById('miningRateText');
+                if(rateText) rateText.innerText = "Mining Rate: +0.009 per 5 seconds (Boosted)";
+                const badge = document.getElementById('miningStatusBadge');
+                if(badge) badge.innerText = "🔥 3X BOOST ACTIVE";
+            }
+
+            let currentTime = Date.now();
+            let timeDiffSeconds = Math.floor((currentTime - lastMiningTime) / 1000);
+            let intervals = Math.floor(timeDiffSeconds / 5);
+
+            if (intervals > 0) {
+                cloudBalance += (intervals * miningRate);
+                updateDoc(doc(db, "users", uid), {
+                    cloudBalance: cloudBalance,
+                    lastMiningTime: currentTime
+                }).catch(e=>console.log(e));
+            }
+
+            isCloudMiningActive = true;
+            updateCloudDisplay();
+
+            clearInterval(miningInterval);
+            clearInterval(syncInterval);
+
+            miningInterval = setInterval(() => {
+                if(isCloudMiningActive) {
+                    cloudBalance += miningRate;
+                    updateCloudDisplay();
                 }
-            }
+            }, 5000);
 
-            function updateDisplay() {
-                if(headerBal) headerBal.innerText = toolBalance.toFixed(3);
-                if(widgetBal) widgetBal.innerText = toolBalance.toFixed(3);
-                if(modalBal) modalBal.innerText = toolBalance.toFixed(3);
-                if(profileModalBal) profileModalBal.innerText = toolBalance.toFixed(3);
+            syncInterval = setInterval(() => {
+                if(isCloudMiningActive && auth.currentUser) {
+                    updateDoc(doc(db, "users", auth.currentUser.uid), {
+                        cloudBalance: cloudBalance,
+                        lastMiningTime: Date.now()
+                    }).catch(e=>console.log(e));
+                }
+            }, 30000);
+        }
+
+        // Referral Code Setup
+        function setupReferralDashboard(data) {
+            const refCodeEl = document.getElementById('userReferralCode');
+            const refCountEl = document.getElementById('totalReferralsCount');
+            if(refCodeEl && data.referralCode) refCodeEl.innerText = data.referralCode;
+            if(refCountEl && data.totalReferrals !== undefined) refCountEl.innerText = data.totalReferrals;
+        }
+
+        // Auth Gatekeeper Check
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const navProfileBtn = document.getElementById('navProfileBtn');
+                const navLoginBtn = document.getElementById('navLoginBtn');
+                const navSignupBtn = document.getElementById('navSignupBtn');
                 
-                localStorage.setItem('toolVerseBalance', toolBalance.toString());
-                localStorage.setItem('toolVerseLastTime', Date.now().toString());
-            }
-
-            if(closeModalBtn) closeModalBtn.addEventListener('click', () => cryptoModal.style.display = 'none');
-            window.addEventListener('click', (e) => { if (e.target === cryptoModal) cryptoModal.style.display = 'none'; });
-
-            if(isBoostActive && boostBtn) {
-                boostBtn.innerText = "⚡ 3x Boost Active!"; boostBtn.disabled = true;
-                document.getElementById('miningRateText').innerText = "Mining Rate: +0.009 per 5 seconds (Boosted)";
-                document.getElementById('miningStatusBadge').innerText = "🔥 3X BOOST ACTIVE";
-            }
-
-            setInterval(() => { toolBalance += increment; updateDisplay(); }, 5000);
-
-            if(boostBtn) {
-                boostBtn.addEventListener('click', () => {
-                    if(!isBoostActive) {
-                        isBoostActive = true; increment = 0.009; localStorage.setItem('toolVerseBoostActive', 'true');
-                        boostBtn.innerText = "⚡ 3x Boost Active!"; boostBtn.disabled = true;
-                        document.getElementById('miningRateText').innerText = "Mining Rate: +0.009 per 5 seconds (Boosted)";
-                        document.getElementById('miningStatusBadge').innerText = "🔥 3X BOOST ACTIVE";
-                    }
-                });
-            }
-
-            const today = new Date().toDateString();
-            if(lastClaimDate === today && claimBtn) { claimBtn.innerText = "🎁 Claimed Today"; claimBtn.disabled = true; }
-
-            if(claimBtn) {
-                claimBtn.addEventListener('click', () => {
-                    if(lastClaimDate !== today) {
-                        toolBalance += 50.000; localStorage.setItem('toolVerseLastClaim', today);
-                        claimBtn.innerText = "🎁 Claimed Today"; claimBtn.disabled = true;
-                        updateDisplay(); alert("Successfully claimed +50 $TOOL bonus!");
-                    }
-                });
-            }
-            updateDisplay();
-
-            const addressInput = document.getElementById('profAddress');
-            const suggestionsBox = document.getElementById('addressSuggestions');
-            let debounceTimer;
-
-            if (addressInput && suggestionsBox) {
-                addressInput.addEventListener('input', function() {
-                    clearTimeout(debounceTimer);
-                    const query = this.value.trim();
-                    if(query.length < 3) { suggestionsBox.style.display = 'none'; return; }
+                if(navLoginBtn) navLoginBtn.style.display = 'none';
+                if(navSignupBtn) navSignupBtn.style.display = 'none';
+                if(navProfileBtn) navProfileBtn.style.display = 'flex';
+                
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if(userSnap.exists()) {
+                    const data = userSnap.data();
+                    const displayName = data.firstName || (data.displayName ? data.displayName.split(' ')[0] : 'User');
                     
-                    suggestionsBox.innerHTML = '<li style="text-align:center; color:#94a3b8; padding: 15px;"><i class="fa-solid fa-spinner fa-spin"></i> Searching locations...</li>';
-                    suggestionsBox.style.display = 'block';
-
-                    debounceTimer = setTimeout(() => {
-                        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`)
-                        .then(res => res.json())
-                        .then(data => {
-                            suggestionsBox.innerHTML = '';
-                            if(data.length > 0) {
-                                data.forEach(place => {
-                                    let li = document.createElement('li');
-                                    li.innerHTML = `📍 ${place.display_name}`;
-                                    li.onclick = function() {
-                                        let addr = place.address || {}; let zip = addr.postcode || ''; let state = addr.state || addr.province || ''; let country = addr.country || '';
-                                        let fullAddressParts = place.display_name.split(',').map(s => s.trim());
-                                        let streetParts = fullAddressParts.filter(p => p !== country && p !== zip && p !== state);
-                                        
-                                        document.getElementById('profAddress').value = streetParts.join(', ');
-                                        document.getElementById('profState').value = state;
-                                        document.getElementById('profZip').value = zip;
-                                        
-                                        const countrySelect = document.getElementById('profCountry');
-                                        if(countrySelect && country) {
-                                            Array.from(countrySelect.options).forEach((opt, idx) => {
-                                                if(opt.value === country || opt.text.includes(country)) countrySelect.selectedIndex = idx;
-                                            });
-                                        }
-                                        suggestionsBox.style.display = 'none';
-                                    };
-                                    suggestionsBox.appendChild(li);
-                                });
-                            } else {
-                                suggestionsBox.innerHTML = '<li style="text-align:center; color:#ff4757; padding: 15px;">No results found</li>';
-                            }
-                        }).catch(err => { suggestionsBox.innerHTML = '<li style="text-align:center; color:#ff4757; padding: 15px;">Error fetching address</li>'; });
-                    }, 600);
-                });
-
-                document.addEventListener('click', function(e) {
-                    if(e.target !== addressInput && e.target !== suggestionsBox) suggestionsBox.style.display = 'none';
-                });
+                    if(navProfileBtn) {
+                        navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${displayName}</span>`;
+                    }
+                    
+                    startCloudMining(user.uid, data);
+                    setupReferralDashboard(data);
+                }
+            } else {
+                localStorage.clear();
+                window.location.href = 'login.html';
             }
+        });
 
+        // Logout Logic
+        const actualLogoutBtn = document.getElementById('actualLogoutBtn');
+        if(actualLogoutBtn) {
+            actualLogoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                signOut(auth).then(() => { 
+                    localStorage.clear();
+                    window.location.href = 'login.html';
+                });
+            });
+        }
+    </script>
+
+    <!-- WIDGET DRAGGING SCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
             const widget = document.getElementById('draggableMiningWidget');
-            let isDragging = false, startX, startY;
-            function dragStart(e) {
-                if(e.target.tagName.toLowerCase() === 'span' || e.target.className === 'mining-inner' || e.target.className === 'mining-icon') return; 
-                isDragging = true;
-                const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
-                const clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
-                startX = clientX - widget.offsetLeft; startY = clientY - widget.offsetTop;
+            if(widget) {
+                let isDragging = false, startX, startY;
+                function dragStart(e) {
+                    if(e.target.tagName.toLowerCase() === 'span' || e.target.className === 'mining-inner' || e.target.className === 'mining-icon') return; 
+                    isDragging = true;
+                    const clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+                    startX = clientX - widget.offsetLeft; startY = clientY - widget.offsetTop;
+                }
+                function drag(e) {
+                    if (!isDragging) return; e.preventDefault();
+                    const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+                    let newX = clientX - startX; let newY = clientY - startY;
+                    widget.style.left = Math.max(10, Math.min(window.innerWidth - widget.offsetWidth - 10, newX)) + 'px';
+                    widget.style.top = Math.max(10, Math.min(window.innerHeight - widget.offsetHeight - 10, newY)) + 'px';
+                    widget.style.bottom = 'auto'; widget.style.right = 'auto';
+                }
+                function dragEnd() { isDragging = false; }
+                widget.addEventListener('mousedown', dragStart); document.addEventListener('mousemove', drag); document.addEventListener('mouseup', dragEnd);
+                widget.addEventListener('touchstart', dragStart, {passive: false}); document.addEventListener('touchmove', drag, {passive: false}); document.addEventListener('touchend', dragEnd);
             }
-            function drag(e) {
-                if (!isDragging) return; e.preventDefault();
-                const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
-                const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
-                let newX = clientX - startX; let newY = clientY - startY;
-                widget.style.left = Math.max(10, Math.min(window.innerWidth - widget.offsetWidth - 10, newX)) + 'px';
-                widget.style.top = Math.max(10, Math.min(window.innerHeight - widget.offsetHeight - 10, newY)) + 'px';
-                widget.style.bottom = 'auto'; widget.style.right = 'auto';
-            }
-            function dragEnd() { isDragging = false; }
-            widget.addEventListener('mousedown', dragStart); document.addEventListener('mousemove', drag); document.addEventListener('mouseup', dragEnd);
-            widget.addEventListener('touchstart', dragStart, {passive: false}); document.addEventListener('touchmove', drag, {passive: false}); document.addEventListener('touchend', dragEnd);
         });
     </script>
 
