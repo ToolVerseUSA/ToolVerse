@@ -1249,9 +1249,12 @@
         const authModal = document.getElementById('firebaseAuthModal');
         const authMessageBox = document.getElementById('authMessageBox');
         
-        // --- NEW VVIP FEATURE: FORGOT PASSWORD LOGIC ---
-        document.getElementById('forgotPasswordBtn')?.addEventListener('click', () => {
-            const email = document.getElementById('authEmail').value.trim();
+             // --- VVIP FIXED: FORGOT PASSWORD LOGIC ---
+        document.getElementById('forgotPasswordBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            const emailField = document.getElementById('authEmail');
+            const email = emailField ? emailField.value.trim() : '';
+            
             if(!email) {
                 authMessageBox.innerHTML = `<span style="color: #fbbf24;">⚠️ Please enter your email in the box above first!</span>`;
                 return;
@@ -1261,6 +1264,7 @@
                 .then(() => { authMessageBox.innerHTML = `<span style="color: #4ade80;">✅ Password reset link sent to your email!</span>`; })
                 .catch((error) => { authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`; });
         });
+
         
         document.getElementById('googleBtn')?.addEventListener('click', () => {
             authMessageBox.innerHTML = `<span style="color: #38bdf8;">Connecting to Web3...</span>`;
@@ -1429,13 +1433,24 @@
             const navLoginBtn = document.getElementById('navLoginBtn');
             const navSignupBtn = document.getElementById('navSignupBtn');
             const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
+            const authMessageBox = document.getElementById('authMessageBox'); // نیا اضافہ
 
-            // 1. Open Auth Modal (Login / Sign Up)
-            if(navLoginBtn) navLoginBtn.addEventListener('click', (e) => { e.preventDefault(); if(authModal) authModal.style.display = 'flex'; });
-            if(navSignupBtn) navSignupBtn.addEventListener('click', (e) => { e.preventDefault(); if(authModal) authModal.style.display = 'flex'; });
+            // 1. Open Auth Modal (ساتھ ہی پرانا میسج صاف کرے گا)
+            if(navLoginBtn) navLoginBtn.addEventListener('click', (e) => { 
+                e.preventDefault(); 
+                if(authModal) authModal.style.display = 'flex'; 
+                if(authMessageBox) authMessageBox.innerHTML = ''; 
+            });
+            if(navSignupBtn) navSignupBtn.addEventListener('click', (e) => { 
+                e.preventDefault(); 
+                if(authModal) authModal.style.display = 'flex'; 
+                if(authMessageBox) authMessageBox.innerHTML = ''; 
+            });
             
             // 2. Close Auth Modal
-            if(closeAuthModalBtn) closeAuthModalBtn.addEventListener('click', () => { if(authModal) authModal.style.display = 'none'; });
+            if(closeAuthModalBtn) closeAuthModalBtn.addEventListener('click', () => { 
+                if(authModal) authModal.style.display = 'none'; 
+            });
 
             // 3. Open Profile Dashboard
             if(navProfileBtn) {
@@ -1458,7 +1473,6 @@
                 if(e.target === authModal) authModal.style.display = 'none';
             });
         });
-     </script>
+    </script>
 </body>
 </html>
-
