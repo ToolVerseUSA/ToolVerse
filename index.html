@@ -1351,8 +1351,21 @@
             const profileModal = document.getElementById('userProfileModal');
             const navProfileBtn = document.getElementById('navProfileBtn');
             const closeProfileModalBtn = document.getElementById('closeProfileModalBtn');
+            
+            // Login & Signup Auth Modal Variables
+            const authModal = document.getElementById('firebaseAuthModal');
+            const navLoginBtn = document.getElementById('navLoginBtn');
+            const navSignupBtn = document.getElementById('navSignupBtn');
+            const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
 
-            // 1. Open Profile Dashboard
+            // 1. Open Auth Modal (Login / Sign Up)
+            if(navLoginBtn) navLoginBtn.addEventListener('click', (e) => { e.preventDefault(); if(authModal) authModal.style.display = 'flex'; });
+            if(navSignupBtn) navSignupBtn.addEventListener('click', (e) => { e.preventDefault(); if(authModal) authModal.style.display = 'flex'; });
+            
+            // 2. Close Auth Modal
+            if(closeAuthModalBtn) closeAuthModalBtn.addEventListener('click', () => { if(authModal) authModal.style.display = 'none'; });
+
+            // 3. Open Profile Dashboard
             if(navProfileBtn) {
                 navProfileBtn.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -1360,18 +1373,17 @@
                 });
             }
 
-            // 2. Close Profile Dashboard
+            // 4. Close Profile Dashboard
             if(closeProfileModalBtn) {
                 closeProfileModalBtn.addEventListener('click', () => {
                     if(profileModal) profileModal.style.display = 'none';
                 });
             }
 
-            // 3. Click outside to close
+            // 5. Click outside to close any modal
             window.addEventListener('click', (e) => {
-                if(e.target === profileModal) {
-                    profileModal.style.display = 'none';
-                }
+                if(e.target === profileModal) profileModal.style.display = 'none';
+                if(e.target === authModal) authModal.style.display = 'none';
             });
         });
     </script>
