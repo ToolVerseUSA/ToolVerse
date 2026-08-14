@@ -380,9 +380,7 @@
         }
         window.addEventListener('load', function() {
             firebase.auth().onAuthStateChanged(function(user) {
-                if (!user) {
-                    window.location.href = 'login.html';
-                }
+                
             });
         });
     </script>
@@ -1142,10 +1140,13 @@
     </script>
 
       <!-- FIREBASE & CLOUD MINING MODULE (VVIP LEVEL) -->
+        <!-- ==========================================
+         VVIP FIREBASE, CLOUD MINING & AUTH LOGIC
+         ========================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfigDirect = {
             apiKey: "AIzaSyAKYuPIPpwkSZOHQ9jc3OdsNitIDnEnAM8",
@@ -1159,91 +1160,87 @@
         const app = initializeApp(firebaseConfigDirect);
         const auth = getAuth(app);
         const db = getFirestore(app); 
+        const googleProvider = new GoogleAuthProvider();
 
-        // CLOUD MINING VARIABLES
         let cloudBalance = 0;
         let miningRate = 0.003;
-        let lastMiningTime = Date.now();
         let isCloudMiningActive = false;
-        let miningInterval;
-        let syncInterval;
 
         function updateCloudDisplay() {
             const headerBal = document.getElementById('headerBal');
             const widgetBal = document.getElementById('widgetBal');
-            const modalBal = document.getElementById('modalBal');
             const profileModalBal = document.getElementById('profileModalBal');
             
             if(headerBal) headerBal.innerText = cloudBalance.toFixed(3);
             if(widgetBal) widgetBal.innerText = cloudBalance.toFixed(3);
-            if(modalBal) modalBal.innerText = cloudBalance.toFixed(3);
             if(profileModalBal) profileModalBal.innerText = cloudBalance.toFixed(3);
         }
 
         async function startCloudMining(uid, data) {
-            cloudBalance = data.cloudBalance || 0;
+            cloudBalance = data.cloudBalance || data.toolBalance || 0;
             miningRate = data.miningRate || 0.003;
-            lastMiningTime = data.lastMiningTime || Date.now();
-
-            if(miningRate >= 0.009) {
-                const btn = document.getElementById('boostBtn');
-                if(btn) { btn.innerText = "⚡ 3x Boost Active!"; btn.disabled = true; }
-                const rateText = document.getElementById('miningRateText');
-                if(rateText) rateText.innerText = "Mining Rate: +0.009 per 5 seconds (Boosted)";
-                const badge = document.getElementById('miningStatusBadge');
-                if(badge) badge.innerText = "🔥 3X BOOST ACTIVE";
-            }
-
-            let currentTime = Date.now();
-            let timeDiffSeconds = Math.floor((currentTime - lastMiningTime) / 1000);
-            let intervals = Math.floor(timeDiffSeconds / 5);
-
-            if (intervals > 0) {
-                cloudBalance += (intervals * miningRate);
-                updateDoc(doc(db, "users", uid), {
-                    cloudBalance: cloudBalance,
-                    lastMiningTime: currentTime
-                }).catch(e=>console.log(e));
-            }
-
+            
             isCloudMiningActive = true;
             updateCloudDisplay();
 
-            clearInterval(miningInterval);
-            clearInterval(syncInterval);
-
-            miningInterval = setInterval(() => {
+            setInterval(() => {
                 if(isCloudMiningActive) {
                     cloudBalance += miningRate;
                     updateCloudDisplay();
                 }
             }, 5000);
 
-            syncInterval = setInterval(() => {
+            setInterval(() => {
                 if(isCloudMiningActive && auth.currentUser) {
-                    updateDoc(doc(db, "users", auth.currentUser.uid), {
-                        cloudBalance: cloudBalance,
-                        lastMiningTime: Date.now()
+                    updateDoc(doc(db, "users", auth.currentUser.uid), { 
+                        cloudBalance: cloudBalance, 
+                        toolBalance: cloudBalance 
                     }).catch(e=>console.log(e));
                 }
-            }, 30000);
+            }, 15000);
         }
 
-        // Referral Code Setup
-        function setupReferralDashboard(data) {
-            const refCodeEl = document.getElementById('userReferralCode');
-            const refCountEl = document.getElementById('totalReferralsCount');
-            if(refCodeEl && data.referralCode) refCodeEl.innerText = data.referralCode;
-            if(refCountEl && data.totalReferrals !== undefined) refCountEl.innerText = data.totalReferrals;
-        }
+        const authModal = document.getElementById('firebaseAuthModal');
+        const authMessageBox = document.getElementById('authMessageBox');
+        
+        document.getElementById('googleBtn')?.addEventListener('click', () => {
+            authMessageBox.innerHTML = `<span style="color: #38bdf8;">Connecting to Google...</span>`;
+            signInWithPopup(auth, googleProvider).then(() => {
+                if(authModal) authModal.style.display = 'none';
+            }).catch((error) => { 
+                authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`; 
+            });
+        });
 
-        // Auth Gatekeeper Check
+        document.getElementById('emailLoginBtn')?.addEventListener('click', () => {
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value.trim();
+            if(!email || !password) {
+                authMessageBox.innerHTML = `<span style="color: #ff4757;">Please enter email and password.</span>`;
+                return;
+            }
+
+            authMessageBox.innerHTML = `<span style="color: #38bdf8;">Authenticating...</span>`;
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => { if(authModal) authModal.style.display = 'none'; })
+                .catch((error) => {
+                    if(error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                        authMessageBox.innerHTML = `<span style="color: #fbbf24;">Creating new account...</span>`;
+                        createUserWithEmailAndPassword(auth, email, password)
+                            .then(() => { if(authModal) authModal.style.display = 'none'; })
+                            .catch((err) => authMessageBox.innerHTML = `<span style="color: #ff4757;">Sign Up Error: ${err.message}</span>`);
+                    } else {
+                        authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`;
+                    }
+                });
+        });
+
         onAuthStateChanged(auth, async (user) => {
+            const navProfileBtn = document.getElementById('navProfileBtn');
+            const navLoginBtn = document.getElementById('navLoginBtn');
+            const navSignupBtn = document.getElementById('navSignupBtn');
+
             if (user) {
-                const navProfileBtn = document.getElementById('navProfileBtn');
-                const navLoginBtn = document.getElementById('navLoginBtn');
-                const navSignupBtn = document.getElementById('navSignupBtn');
-                
                 if(navLoginBtn) navLoginBtn.style.display = 'none';
                 if(navSignupBtn) navSignupBtn.style.display = 'none';
                 if(navProfileBtn) navProfileBtn.style.display = 'flex';
@@ -1251,34 +1248,39 @@
                 const userRef = doc(db, "users", user.uid);
                 const userSnap = await getDoc(userRef);
                 
-                if(userSnap.exists()) {
+                if(!userSnap.exists()) {
+                    const newUserData = { email: user.email, cloudBalance: 0, credits: 2500, createdAt: Date.now() };
+                    await setDoc(userRef, newUserData);
+                    startCloudMining(user.uid, newUserData);
+                    if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>User</span>`;
+                } else {
                     const data = userSnap.data();
                     const displayName = data.firstName || (data.displayName ? data.displayName.split(' ')[0] : 'User');
+                    if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${displayName}</span>`;
                     
-                    if(navProfileBtn) {
-                        navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${displayName}</span>`;
+                    let localBal = parseFloat(localStorage.getItem('toolVerseBalance')) || 0;
+                    let cloudBal = data.cloudBalance || data.toolBalance || 0;
+                    if(localBal > cloudBal) {
+                        data.cloudBalance = localBal; 
+                        await updateDoc(userRef, { cloudBalance: localBal, toolBalance: localBal });
                     }
-                    
                     startCloudMining(user.uid, data);
-                    setupReferralDashboard(data);
                 }
             } else {
-                localStorage.clear();
-                window.location.href = 'login.html';
+                if(navLoginBtn) navLoginBtn.style.display = 'block';
+                if(navSignupBtn) navSignupBtn.style.display = 'block';
+                if(navProfileBtn) navProfileBtn.style.display = 'none';
+                isCloudMiningActive = false;
             }
         });
 
-        // Logout Logic
-        const actualLogoutBtn = document.getElementById('actualLogoutBtn');
-        if(actualLogoutBtn) {
-            actualLogoutBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                signOut(auth).then(() => { 
-                    localStorage.clear();
-                    window.location.href = 'login.html';
-                });
+        document.getElementById('actualLogoutBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            signOut(auth).then(() => { 
+                document.getElementById('userProfileModal').style.display = 'none';
+                window.location.reload(); 
             });
-        }
+        });
     </script>
 
     <!-- WIDGET DRAGGING SCRIPT -->
