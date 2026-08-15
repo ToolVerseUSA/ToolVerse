@@ -988,31 +988,38 @@
                 </div>
             </div>
 
-            <!-- پروفائل فیلڈز -->
+                 <!-- پروفائل فیلڈز (VVIP FIXED WITH CITY & AUTO-FETCH) -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 5px;">
-                <input type="text" id="profFirstName" class="vvip-input" style="margin: 0;" placeholder="First Name">
-                <input type="text" id="profLastName" class="vvip-input" style="margin: 0;" placeholder="Last Name">
+                <input type="text" id="profFirstName" autocomplete="given-name" class="vvip-input" style="margin: 0;" placeholder="First Name">
+                <input type="text" id="profLastName" autocomplete="family-name" class="vvip-input" style="margin: 0;" placeholder="Last Name">
             </div>
             
             <div style="display: flex; gap: 8px; margin-top: 5px; margin-bottom: 5px;">
-                <select id="profPhoneCode" class="vvip-input" style="width: 38%; margin: 0;">
+                <select id="profPhoneCode" autocomplete="tel-country-code" class="vvip-input" style="width: 38%; margin: 0;">
                     <option value="" disabled selected>🏳️ Code</option>
                 </select>
-                <input type="tel" id="profPhone" class="vvip-input" style="width: 62%; margin: 0;" placeholder="Phone Number">
+                <input type="tel" id="profPhone" autocomplete="tel-national" class="vvip-input" style="width: 62%; margin: 0;" placeholder="Phone Number">
             </div>
             
             <div style="position: relative;">
-                <input type="text" id="profAddress" class="vvip-input" style="margin-top: 5px; margin-bottom: 10px;" placeholder="Start typing your street address..." autocomplete="off">
+                <input type="text" id="profAddress" autocomplete="street-address" class="vvip-input" style="margin-top: 5px; margin-bottom: 10px;" placeholder="Start typing your street address...">
                 <ul id="addressSuggestions" class="suggestions-box"></ul>
             </div>
             
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px;">
-                <select id="profCountry" class="vvip-input" style="margin: 0;">
+            <!-- City اور Country کی لائن -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                <select id="profCountry" autocomplete="country" class="vvip-input" style="margin: 0;">
                     <option value="" disabled selected>🏳️ Select Country</option>
                 </select>
-                <input type="text" id="profState" class="vvip-input" style="margin: 0;" placeholder="State/Prov">
-                <input type="text" id="profZip" class="vvip-input" style="margin: 0;" placeholder="Zip Code">
+                <input type="text" id="profCity" autocomplete="address-level2" class="vvip-input" style="margin: 0;" placeholder="City">
             </div>
+
+            <!-- State اور Zip Code کی لائن -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
+                <input type="text" id="profState" autocomplete="address-level1" class="vvip-input" style="margin: 0;" placeholder="State/Prov">
+                <input type="text" id="profZip" autocomplete="postal-code" class="vvip-input" style="margin: 0;" placeholder="Zip Code">
+            </div>
+
 
                       <!-- VVIP FIXED 2FA TOGGLE HTML -->
             <div style="background: rgba(77, 166, 255, 0.05); border: 1px solid rgba(77, 166, 255, 0.2); padding: 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
@@ -1324,6 +1331,8 @@
                     if(document.getElementById('profCountry')) document.getElementById('profCountry').value = userData.country || '';
                     if(document.getElementById('profState')) document.getElementById('profState').value = userData.state || '';
                     if(document.getElementById('profZip')) document.getElementById('profZip').value = userData.zip || '';
+                                   if(document.getElementById('profCity')) document.getElementById('profCity').value = userData.city || '';
+ 
                     if(document.getElementById('twoFactorToggle')) document.getElementById('twoFactorToggle').checked = userData.twoFactorEnabled || false;
                 }, 800); 
                 
@@ -1366,6 +1375,8 @@
                 country: document.getElementById('profCountry')?.value || '',
                 state: document.getElementById('profState')?.value.trim() || '',
                 zip: document.getElementById('profZip')?.value.trim() || '',
+                city: document.getElementById('profCity')?.value.trim() || '',
+                                
                 twoFactorEnabled: document.getElementById('twoFactorToggle')?.checked || false
             };
 
