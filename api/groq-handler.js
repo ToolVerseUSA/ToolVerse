@@ -42,7 +42,11 @@ export default async function handler(req, res) {
         const randomKey = API_KEYS[Math.floor(Math.random() * API_KEYS.length)];
 
         // 3. SEND REQUEST TO GROQ API
-        const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        // Append a strict instruction to stop it from wrapping the whole response in code blocks
+        const finalSystemPrompt = (systemPrompt || 'You are a helpful assistant.') + 
+            " IMPORTANT: DO NOT wrap your entire response in markdown code blocks (```). Provide plain professional text.";
+
+        const groqResponse = await fetch('[https://api.groq.com/openai/v1/chat/completions](https://api.groq.com/openai/v1/chat/completions)', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${randomKey}`,
@@ -51,7 +55,7 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 model: model || 'qwen/qwen3.6-27b',
                 messages: [
-                    { role: 'system', content: systemPrompt || 'You are a helpful assistant.' },
+                    { role: 'system', content: finalSystemPrompt },
                     { role: 'user', content: userPrompt || 'Hello' }
                 ],
                 temperature: 0.7,
@@ -73,9 +77,18 @@ export default async function handler(req, res) {
         let reply = data.choices[0].message.content;
 
         // ==========================================================
-        // VVIP FIX: REMOVE <think> BLOCKS FROM REASONING MODELS
+        // VVIP FIX: CLEAN UP AI OUTPUT FOR PROFESSIONAL DISPLAY
         // ==========================================================
+        
+        // Step A: Remove <think> blocks (Reasoning process)
         reply = reply.replace(/<think>[\s\S]*?<\/think>\n*/gi, '').trim();
+
+        // Step B: Remove Code Block wrappers (```) that cause the dark box/typewriter style
+        if (reply.startsWith('```')) {
+            reply = reply.replace(/^```[a-zA-Z]*\n?/, ''); // Remove top ```markdown
+            reply = reply.replace(/\n?```$/, ''); // Remove bottom ```
+            reply = reply.trim();
+        }
 
         // 5. SUCCESS RESPONSE
         return res.status(200).json({ result: reply });
