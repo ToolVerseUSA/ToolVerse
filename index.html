@@ -61,6 +61,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
+        /* VVIP 2FA TOGGLE ANIMATION FIX */
+    #twoFactorToggle:checked + #sliderTrack { background-color: #38bdf8 !important; }
+    #twoFactorToggle:checked ~ #sliderThumb { transform: translateX(20px); }
+    
         /* =========================================================
            VVIP FIX: KILL BLUE TAP HIGHLIGHT ON ALL MOBILES FOREVER
            ========================================================= */
@@ -1010,16 +1014,16 @@
                 <input type="text" id="profZip" class="vvip-input" style="margin: 0;" placeholder="Zip Code">
             </div>
 
-            <!-- آپ کا پرانا 2FA ٹوگل -->
+                      <!-- VVIP FIXED 2FA TOGGLE HTML -->
             <div style="background: rgba(77, 166, 255, 0.05); border: 1px solid rgba(77, 166, 255, 0.2); padding: 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
                 <div style="text-align: left;">
                     <div style="font-weight: 600; font-size: 14px; color: #fff;">Two-Factor Authentication (2FA)</div>
                     <div style="font-size: 12px; color: #94a3b8;">Secure your account with 6-digit OTP codes on login.</div>
                 </div>
-                <label style="position: relative; display: inline-block; width: 44px; min-width: 44px; height: 24px; flex-shrink: 0;">
+                <label style="position: relative; display: inline-block; width: 44px; min-width: 44px; height: 24px; flex-shrink: 0; cursor: pointer;">
                     <input type="checkbox" id="twoFactorToggle" style="opacity: 0; width: 0; height: 0;">
-                    <span id="sliderSpan" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .3s; border-radius: 24px;"></span>
-                    <span id="sliderDot" style="position: absolute; content: ''; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%;"></span>
+                    <span style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: .3s; border-radius: 24px;" id="sliderTrack"></span>
+                    <span style="position: absolute; content: ''; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%;" id="sliderThumb"></span>
                 </label>
             </div>
 
@@ -1391,13 +1395,14 @@
             }
         });
 
-        // VVIP FIX: Clear browser memory on logout to fix Trust Wallet issue
+             // VVIP FIX: Clear browser memory on logout to fix Trust Wallet issue
         document.getElementById('actualLogoutBtn')?.addEventListener('click', (e) => {
             e.preventDefault();
             signOut(auth).then(() => { 
-                localStorage.removeItem('walletAddress');
-                localStorage.removeItem('isWalletConnected');
-                localStorage.removeItem('toolVerseBalance');
+                // پوری لوکل سٹوریج اور والٹ کا ڈیٹا جڑ سے صاف کریں
+                localStorage.clear();
+                sessionStorage.clear();
+                
                 document.getElementById('userProfileModal').style.display = 'none';
                 window.location.reload(); 
             });
