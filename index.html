@@ -1179,7 +1179,7 @@
         });
     </script>
 
-    <!-- FIREBASE & CLOUD MINING MODULE (VVIP LEVEL) -->
+       <!-- FIREBASE & CLOUD MINING MODULE (VVIP LEVEL) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -1240,10 +1240,9 @@
         const authModal = document.getElementById('firebaseAuthModal');
         const authMessageBox = document.getElementById('authMessageBox');
         
-        // --- VVIP FIXED: FORGOT PASSWORD LOGIC ---
+        // --- FORGOT PASSWORD LOGIC ---
         document.getElementById('forgotPasswordBtn')?.addEventListener('click', (e) => {
             e.preventDefault();
-            
             const passBox = document.getElementById('authPassword');
             const loginBtn = document.getElementById('emailLoginBtn');
             if(passBox) passBox.style.display = 'none';
@@ -1296,7 +1295,6 @@
                 if(navSignupBtn) navSignupBtn.style.display = 'none';
                 if(navProfileBtn) navProfileBtn.style.display = 'flex';
                 
-                // --- NEW VVIP FEATURE: AUTO-GENERATE REFERRAL LINK ---
                 const shortUid = user.uid.substring(0, 6).toLowerCase();
                 const refLinkEl = document.getElementById('profileRefLink');
                 if(refLinkEl) refLinkEl.innerText = `https://toolverse-usa.vercel.app/?ref=tv${shortUid}`;
@@ -1304,29 +1302,39 @@
                 const userRef = doc(db, "users", user.uid);
                 const userSnap = await getDoc(userRef);
                 
+                let userData;
                 if(!userSnap.exists()) {
-                    const newUserData = { email: user.email, cloudBalance: 0, credits: 2500, createdAt: Date.now() };
-                    await setDoc(userRef, newUserData);
-                    startCloudMining(user.uid, newUserData);
-                    
-                    // یہ رہا آپ کا 2500 کریڈٹ دکھانے والا کوڈ
-                    if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>User | ⚡ 2500</span>`;
+                    userData = { email: user.email, cloudBalance: 0, credits: 2500, createdAt: Date.now() };
+                    await setDoc(userRef, userData);
                 } else {
-                    const data = userSnap.data();
-                    const credits = data.credits || 2500; // ڈیٹا بیس سے 2500 کریڈٹ پکڑے گا
-                    const displayName = data.firstName || (data.displayName ? data.displayName.split(' ')[0] : 'User');
-                    
-                    // پرانے یوزرز کو بھی 2500 کریڈٹ شو کرے گا
-                    if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${displayName} | ⚡ ${credits}</span>`;
-                    
-                    let localBal = parseFloat(localStorage.getItem('toolVerseBalance')) || 0;
-                    let cloudBal = data.cloudBalance || data.toolBalance || 0;
-                    if(localBal > cloudBal) {
-                        data.cloudBalance = localBal; 
-                        await updateDoc(userRef, { cloudBalance: localBal, toolBalance: localBal });
-                    }
-                    startCloudMining(user.uid, data);
+                    userData = userSnap.data();
                 }
+
+                // VVIP FIX: یوزر کا محفوظ کیا ہوا ڈیٹا ڈبوں میں واپس لائیں
+                setTimeout(() => {
+                    if(document.getElementById('profFirstName')) document.getElementById('profFirstName').value = userData.firstName || '';
+                    if(document.getElementById('profLastName')) document.getElementById('profLastName').value = userData.lastName || '';
+                    if(document.getElementById('profPhoneCode')) document.getElementById('profPhoneCode').value = userData.phoneCode || '';
+                    if(document.getElementById('profPhone')) document.getElementById('profPhone').value = userData.phone || '';
+                    if(document.getElementById('profAddress')) document.getElementById('profAddress').value = userData.address || '';
+                    if(document.getElementById('profCountry')) document.getElementById('profCountry').value = userData.country || '';
+                    if(document.getElementById('profState')) document.getElementById('profState').value = userData.state || '';
+                    if(document.getElementById('profZip')) document.getElementById('profZip').value = userData.zip || '';
+                    if(document.getElementById('twoFactorToggle')) document.getElementById('twoFactorToggle').checked = userData.twoFactorEnabled || false;
+                }, 800); 
+                
+                const credits = userData.credits || 2500; 
+                const displayName = userData.firstName || (userData.displayName ? userData.displayName.split(' ')[0] : 'User');
+                if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${displayName} | ⚡ ${credits}</span>`;
+                
+                let localBal = parseFloat(localStorage.getItem('toolVerseBalance')) || 0;
+                let cloudBal = userData.cloudBalance || userData.toolBalance || 0;
+                if(localBal > cloudBal) {
+                    userData.cloudBalance = localBal; 
+                    await updateDoc(userRef, { cloudBalance: localBal, toolBalance: localBal });
+                }
+                startCloudMining(user.uid, userData);
+                
             } else {
                 if(navLoginBtn) navLoginBtn.style.display = 'block';
                 if(navSignupBtn) navSignupBtn.style.display = 'block';
@@ -1335,9 +1343,61 @@
             }
         });
 
+        // --- NEW VVIP FEATURE: SAVE PROFILE DATA TO FIREBASE ---
+        document.getElementById('saveProfileBtn')?.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const user = auth.currentUser;
+            if(!user) return;
+
+            const btn = document.getElementById('saveProfileBtn');
+            const originalText = btn.innerText;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+
+            const profileData = {
+                firstName: document.getElementById('profFirstName')?.value.trim() || '',
+                lastName: document.getElementById('profLastName')?.value.trim() || '',
+                phoneCode: document.getElementById('profPhoneCode')?.value || '',
+                phone: document.getElementById('profPhone')?.value.trim() || '',
+                address: document.getElementById('profAddress')?.value.trim() || '',
+                country: document.getElementById('profCountry')?.value || '',
+                state: document.getElementById('profState')?.value.trim() || '',
+                zip: document.getElementById('profZip')?.value.trim() || '',
+                twoFactorEnabled: document.getElementById('twoFactorToggle')?.checked || false
+            };
+
+            try {
+                await updateDoc(doc(db, "users", user.uid), profileData);
+                btn.innerHTML = '✅ Profile Saved Successfully!';
+                btn.style.color = '#fff';
+                btn.style.background = '#10b981'; // Green Color
+                
+                // اوپر موجود نام بھی اپڈیٹ کریں
+                const navBtn = document.getElementById('navProfileBtn');
+                const nameToShow = profileData.firstName || 'User';
+                if(navBtn && navBtn.innerHTML.includes('⚡')) {
+                    const credits = navBtn.innerText.split('⚡')[1].trim();
+                    navBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${nameToShow} | ⚡ ${credits}</span>`;
+                }
+
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.background = 'rgba(74, 222, 128, 0.1)';
+                    btn.style.color = '#4ade80';
+                }, 2500);
+            } catch (error) {
+                console.error("Error:", error);
+                btn.innerHTML = '❌ Error Saving Data';
+                setTimeout(() => { btn.innerHTML = originalText; }, 2500);
+            }
+        });
+
+        // VVIP FIX: Clear browser memory on logout to fix Trust Wallet issue
         document.getElementById('actualLogoutBtn')?.addEventListener('click', (e) => {
             e.preventDefault();
             signOut(auth).then(() => { 
+                localStorage.removeItem('walletAddress');
+                localStorage.removeItem('isWalletConnected');
+                localStorage.removeItem('toolVerseBalance');
                 document.getElementById('userProfileModal').style.display = 'none';
                 window.location.reload(); 
             });
@@ -1357,6 +1417,7 @@
             }, 2000);
         }
     </script>
+
 
     <!-- WIDGET DRAGGING SCRIPT -->
     <script>
