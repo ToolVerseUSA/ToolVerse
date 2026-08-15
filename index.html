@@ -1244,7 +1244,6 @@
         document.getElementById('forgotPasswordBtn')?.addEventListener('click', (e) => {
             e.preventDefault();
             
-            // 1. پاسورڈ کا خانہ اور لاگ ان بٹن غائب کریں
             const passBox = document.getElementById('authPassword');
             const loginBtn = document.getElementById('emailLoginBtn');
             if(passBox) passBox.style.display = 'none';
@@ -1309,11 +1308,16 @@
                     const newUserData = { email: user.email, cloudBalance: 0, credits: 2500, createdAt: Date.now() };
                     await setDoc(userRef, newUserData);
                     startCloudMining(user.uid, newUserData);
-                    if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>User</span>`;
+                    
+                    // یہ رہا آپ کا 2500 کریڈٹ دکھانے والا کوڈ
+                    if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>User | ⚡ 2500</span>`;
                 } else {
                     const data = userSnap.data();
+                    const credits = data.credits || 2500; // ڈیٹا بیس سے 2500 کریڈٹ پکڑے گا
                     const displayName = data.firstName || (data.displayName ? data.displayName.split(' ')[0] : 'User');
-                    if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${displayName}</span>`;
+                    
+                    // پرانے یوزرز کو بھی 2500 کریڈٹ شو کرے گا
+                    if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${displayName} | ⚡ ${credits}</span>`;
                     
                     let localBal = parseFloat(localStorage.getItem('toolVerseBalance')) || 0;
                     let cloudBal = data.cloudBalance || data.toolBalance || 0;
@@ -1339,7 +1343,6 @@
             });
         });
         
-        // --- NEW VVIP FEATURE: COPY REFERRAL BUTTON ACTION ---
         window.copyProfileReferral = function() {
             const text = document.getElementById('profileRefLink').innerText;
             navigator.clipboard.writeText(text);
