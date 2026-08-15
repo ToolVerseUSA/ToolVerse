@@ -84,9 +84,6 @@
             border-bottom: 1px solid rgba(255,255,255,0.08) !important; 
         }
 
-        /* =========================================================
-           ðŸš€ STATIC LOGO (AS REQUESTED)
-           ========================================================= */
         .logo-area, .footer-brand { cursor: pointer; position: relative; z-index: 100;}
         .logo-icon, .brand-icon {
             display: inline-block;
@@ -102,7 +99,7 @@
         }
 
         /* =========================================================
-           âœ¨ PREMIUM HERO SECTION STYLES
+           ✨ PREMIUM HERO SECTION STYLES
            ========================================================= */
         .ambient-glow { position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 70vw; height: 50vw; max-width: 800px; max-height: 600px; background: radial-gradient(ellipse, rgba(168, 85, 247, 0.15) 0%, rgba(56, 189, 248, 0.08) 40%, transparent 70%); filter: blur(50px); z-index: 0; pointer-events: none; animation: pulseGlow 8s ease-in-out infinite alternate; }
         @keyframes pulseGlow { 0% { transform: translateX(-50%) scale(0.9); opacity: 0.7; } 100% { transform: translateX(-50%) scale(1.1); opacity: 1; } }
@@ -114,7 +111,6 @@
         .hero-main-title { position: relative; z-index: 10; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 25px; background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 50%, #64748b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 10px 40px rgba(0,0,0,0.6); }
         .hero-sub-text { position: relative; z-index: 10; font-size: 1.15rem; color: #94a3b8; max-width: 650px; margin: 0 auto 40px auto; line-height: 1.6; font-weight: 400; }
 
-        /* Apple/Premium Style Search Bar */
         .tool-search-input { background: rgba(15, 23, 42, 0.6) !important; backdrop-filter: blur(16px) !important; border: 1px solid rgba(255, 255, 255, 0.08) !important; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 3px rgba(255, 255, 255, 0.05) !important; padding: 20px 25px 20px 55px !important; font-size: 1.1rem !important; border-radius: 40px !important; color: #fff; width: 100%; outline: none; transition: all 0.3s ease; }
         .tool-search-input::placeholder { color: #64748b; font-weight: 500; }
         .tool-search-input:focus { background: rgba(15, 23, 42, 0.85) !important; border-color: rgba(56, 189, 248, 0.5) !important; box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15), 0 15px 50px rgba(0,0,0,0.6) !important; }
@@ -350,14 +346,14 @@
             localStorage.setItem('tv_plan', 'Pro Sandbox');
             
             const profBtn = document.getElementById('navProfileBtn');
-            if(profBtn && profBtn.innerHTML.includes('âš¡')) {
+            if(profBtn && profBtn.innerHTML.includes('⚡')) {
                 let name = profBtn.innerText.split('|')[0].trim();
-                profBtn.innerHTML = `<div class="profile-avatar-icon">ðŸ¤–</div><span>${name} | âš¡ 8000</span>`;
+                profBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${name} | ⚡ 8000</span>`;
             }
 
             window.dispatchEvent(new Event('triggerCloudUpgrade'));
 
-            alert("ðŸŽ‰ Success! Your account has been upgraded to the Pro Agent Sandbox. You now have 8,000 Credits!");
+            alert("🎉 Success! Your account has been upgraded to the Pro Agent Sandbox. You now have 8,000 Credits!");
             setTimeout(() => { window.location.href = 'ai-agent.html'; }, 500);
         };
     </script>
@@ -390,7 +386,7 @@
     <header class="ilove-header">
         <div class="header-container">
             <div class="logo-area" onclick="window.location.href='index.html'">
-                <span class="logo-icon">ðŸš€</span> 
+                <span class="logo-icon">🚀</span> 
                 <span class="logo-text">ToolVerse</span>
             </div>
             
@@ -398,31 +394,31 @@
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
                     <li class="dropdown">
-                        <a href="#tools" class="dropbtn">All AI Tools <span class="arrow">â–¼</span></a>
+                        <a href="#tools" class="dropbtn">All AI Tools <span class="arrow">▼</span></a>
                         <div class="mega-menu">
                             <div class="mega-column">
                                 <h3>Writing Tools</h3>
-                                <a href="email-writer.html"><span class="icon">âœ‰ï¸</span> Email Writer</a>
-                                <a href="grammar-checker.html"><span class="icon">âœ…</span> Grammar Checker</a>
-                                <a href="resume-builder.html"><span class="icon">ðŸ“„</span> Resume Builder</a>
+                                <a href="email-writer.html"><span class="icon">✉️</span> Email Writer</a>
+                                <a href="grammar-checker.html"><span class="icon">✅</span> Grammar Checker</a>
+                                <a href="resume-builder.html"><span class="icon">📄</span> Resume Builder</a>
                             </div>
                             <div class="mega-column">
                                 <h3>Creative AI</h3>
-                                <a href="faceless-video.html"><span class="icon">ðŸŽ­</span> Faceless Video AI <span class="badge" style="background: #ff4757; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px;">Hot</span></a>
-                                <a href="youtube-toolkit.html"><span class="icon">â–¶ï¸</span> YouTube Toolkit</a>
-                                <a href="thumbnail-downloader.html"><span class="icon">ðŸ–¼ï¸</span> 4K Thumbnail Downloader</a>
-                                <a href="transcript-extractor.html"><span class="icon">ðŸ“œ</span> Transcript Extractor</a>
-                                <a href="prompt-generator.html"><span class="icon">ðŸ’¡</span> Prompt Generator</a>
-                                <a href="caption-generator.html"><span class="icon">ðŸ“±</span> Caption Generator</a>
-                                <a href="bulk-blogger.html"><span class="icon">âš¡</span> Bulk Auto-Blogger <span class="badge" style="background: #f59e0b; color: #1e293b; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px; font-weight: bold;">VVIP</span></a>
+                                <a href="faceless-video.html"><span class="icon">🎭</span> Faceless Video AI <span class="badge" style="background: #ff4757; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px;">Hot</span></a>
+                                <a href="youtube-toolkit.html"><span class="icon">▶️</span> YouTube Toolkit</a>
+                                <a href="thumbnail-downloader.html"><span class="icon">🖼️</span> 4K Thumbnail Downloader</a>
+                                <a href="transcript-extractor.html"><span class="icon">📜</span> Transcript Extractor</a>
+                                <a href="prompt-generator.html"><span class="icon">💡</span> Prompt Generator</a>
+                                <a href="caption-generator.html"><span class="icon">📱</span> Caption Generator</a>
+                                <a href="bulk-blogger.html"><span class="icon">⚡</span> Bulk Auto-Blogger <span class="badge" style="background: #f59e0b; color: #1e293b; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px; font-weight: bold;">VVIP</span></a>
                             </div>
                             <div class="mega-column">
                                 <h3>Productivity & PDF</h3>
-                                <a href="AI-summarizer.html"><span class="icon">ðŸ“š</span> AI Summarizer</a>
-                                <a href="data-analyst.html"><span class="icon">ðŸ“Š</span> AI Data Analyst <span class="badge" style="background: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px; font-weight: bold;">VVIP</span></a>
-                                <a href="#pdf-tools"><span class="icon">ðŸ“‘</span> All 31 PDF Tools</a>
-                                <a href="ai-task-planner.html"><span class="icon">ðŸ“…</span> AI Task Planner</a>
-                                <a href="meeting-minutes.html"><span class="icon">ðŸ“</span> Meeting Minutes AI</a>
+                                <a href="AI-summarizer.html"><span class="icon">📚</span> AI Summarizer</a>
+                                <a href="data-analyst.html"><span class="icon">📊</span> AI Data Analyst <span class="badge" style="background: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px; font-weight: bold;">VVIP</span></a>
+                                <a href="#pdf-tools"><span class="icon">📑</span> All 31 PDF Tools</a>
+                                <a href="ai-task-planner.html"><span class="icon">📅</span> AI Task Planner</a>
+                                <a href="meeting-minutes.html"><span class="icon">📝</span> Meeting Minutes AI</a>
                             </div>
                         </div>
                     </li>
@@ -438,7 +434,7 @@
                 </button>
 
                 <div class="crypto-nav-btn" onclick="window.location.href='mining-node.html'">
-                    ðŸª™ $TOOL: <span id="headerBal">0.000</span>
+                    🪙 $TOOL: <span id="headerBal">0.000</span>
                 </div>
                 <a href="#" class="login-btn" id="navLoginBtn">Login</a>
                 <a href="#" class="signup-btn" id="navSignupBtn">Sign up</a>
@@ -454,8 +450,8 @@
 
         <!-- LaunchPist Style Floating Badges -->
         <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 30px; position: relative; z-index: 10; flex-wrap: wrap;">
-            <div class="premium-badge"><span class="badge-icon">âœ¨</span> Powered by Groq AI</div>
-            <div class="premium-badge outline"><span class="badge-icon">ðŸ”’</span> 100% Client-Side</div>
+            <div class="premium-badge"><span class="badge-icon">✨</span> Powered by Groq AI</div>
+            <div class="premium-badge outline"><span class="badge-icon">🔒</span> 100% Client-Side</div>
         </div>
 
         <h1 class="hero-main-title">Agents that work on your context,<br>and get smarter every run.</h1>
@@ -469,10 +465,10 @@
         <div style="margin-top: 35px; margin-bottom: 40px; position: relative; z-index: 10;">
             <div style="display: flex; justify-content: center; gap: 18px; flex-wrap: wrap;">
                 <button onclick="window.location.href='super-chat.html'" class="hero-build-btn">
-                    Launch Super AI Chat âœ¨
+                    Launch Super AI Chat ✨
                 </button>
                 <button onclick="window.location.href='ai-agent.html'" class="hero-secondary-btn">
-                    Build AI Agent ðŸ¤–
+                    Build AI Agent 🤖
                 </button>
             </div>
 
@@ -485,7 +481,7 @@
             </div>
 
             <div style="font-size: 11px; color: #64748b; margin-top: 30px; text-transform: uppercase; letter-spacing: 2.5px; font-weight: 700;">
-                2500 FREE CREDITS &nbsp;â€¢&nbsp; NO CREDIT CARD REQUIRED &nbsp;â€¢&nbsp; YOUR DATA STAYS YOURS
+                2500 FREE CREDITS &nbsp;•&nbsp; NO CREDIT CARD REQUIRED &nbsp;•&nbsp; YOUR DATA STAYS YOURS
             </div>
         </div>
         
@@ -502,16 +498,16 @@
     <!-- ORIGINAL AI TOOLS SECTION -->
     <section class="tools-section" id="tools" style="position: relative; z-index: 10;">
         <div class="ilove-grid" id="toolsContainer">
-            <a href="faceless-video.html" class="ilove-card searchable-tool" data-category="creative" data-name="faceless video blueprint"><div class="card-icon">ðŸŽ­</div><h3>Faceless Video Blueprint</h3><p>Generate high-retention scripts.</p></a>
-            <a href="youtube-toolkit.html" class="ilove-card searchable-tool" data-category="creative" data-name="youtube ai toolkit"><div class="card-icon">â–¶ï¸</div><h3>YouTube AI Toolkit</h3><p>Generate viral titles.</p></a>
-            <a href="thumbnail-downloader.html" class="ilove-card searchable-tool" data-category="creative" data-name="4k thumbnail downloader"><div class="card-icon">ðŸ–¼ï¸</div><h3>4K Thumbnail Downloader</h3><p>Extract thumbnails instantly.</p></a>
-            <a href="transcript-extractor.html" class="ilove-card searchable-tool" data-category="creative" data-name="transcript extractor"><div class="card-icon">ðŸ“œ</div><h3>Transcript Extractor</h3><p>Extract subtitles instantly.</p></a>
-            <a href="prompt-generator.html" class="ilove-card searchable-tool" data-category="creative" data-name="prompt generator"><div class="card-icon">ðŸ’¡</div><h3>Prompt Generator</h3><p>Create optimized prompts.</p></a>
-            <a href="caption-generator.html" class="ilove-card searchable-tool" data-category="creative" data-name="caption generator"><div class="card-icon">ðŸ“±</div><h3>Caption Generator</h3><p>Generate engaging captions.</p></a>
+            <a href="faceless-video.html" class="ilove-card searchable-tool" data-category="creative" data-name="faceless video blueprint"><div class="card-icon">🎭</div><h3>Faceless Video Blueprint</h3><p>Generate high-retention scripts.</p></a>
+            <a href="youtube-toolkit.html" class="ilove-card searchable-tool" data-category="creative" data-name="youtube ai toolkit"><div class="card-icon">▶️</div><h3>YouTube AI Toolkit</h3><p>Generate viral titles.</p></a>
+            <a href="thumbnail-downloader.html" class="ilove-card searchable-tool" data-category="creative" data-name="4k thumbnail downloader"><div class="card-icon">🖼️</div><h3>4K Thumbnail Downloader</h3><p>Extract thumbnails instantly.</p></a>
+            <a href="transcript-extractor.html" class="ilove-card searchable-tool" data-category="creative" data-name="transcript extractor"><div class="card-icon">📜</div><h3>Transcript Extractor</h3><p>Extract subtitles instantly.</p></a>
+            <a href="prompt-generator.html" class="ilove-card searchable-tool" data-category="creative" data-name="prompt generator"><div class="card-icon">💡</div><h3>Prompt Generator</h3><p>Create optimized prompts.</p></a>
+            <a href="caption-generator.html" class="ilove-card searchable-tool" data-category="creative" data-name="caption generator"><div class="card-icon">📱</div><h3>Caption Generator</h3><p>Generate engaging captions.</p></a>
             
             <a href="bulk-blogger.html" class="ilove-card searchable-tool" data-category="creative" data-name="bulk seo auto-blogger" style="border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 0 20px rgba(245, 158, 11, 0.1);">
                 <div class="badge-new" style="background: #f59e0b; color: #1e293b;">VVIP</div>
-                <div class="card-icon">âš¡</div>
+                <div class="card-icon">⚡</div>
                 <h3 style="color: #fcd34d;">Bulk Auto-Blogger</h3>
                 <p>Generate 50+ SEO articles in one click.</p>
             </a>
@@ -519,12 +515,12 @@
             <!-- NEW VVIP AI TRADING BOT CARD ADDED HERE -->
             <a href="vvip-trading-bot.html" class="ilove-card searchable-tool" data-category="productivity" data-name="vvip ai trading bot" style="border-color: rgba(236, 72, 153, 0.4); box-shadow: 0 0 20px rgba(236, 72, 153, 0.1);">
                 <div class="badge-new" style="background: linear-gradient(135deg, #ec4899, #8b5cf6); color: white;">VVIP</div>
-                <div class="card-icon">ðŸ“ˆ</div>
+                <div class="card-icon">📈</div>
                 <h3 style="color: #f472b6;">AI Trading Bot</h3>
                 <p>Auto-trade crypto securely via API.</p>
             </a>
 
-            <!-- ðŸ”¥ NEW: VVIP ENTERPRISE TERMINAL CARD -->
+            <!-- 🔥 NEW: VVIP ENTERPRISE TERMINAL CARD -->
             <a href="vvip-terminal.html" class="ilove-card searchable-tool" data-category="developers" data-name="vvip enterprise terminal ai developer command center" style="border-color: rgba(74, 222, 128, 0.4); box-shadow: 0 0 20px rgba(74, 222, 128, 0.1);">
                 <div class="badge-new" style="background: #4ade80; color: #050505; font-weight: bold;">VVIP</div>
                 <div class="card-icon" style="color: #4ade80;">>_</div>
@@ -532,26 +528,26 @@
                 <p>Retro CLI for Corporate AI & Developer Tools.</p>
             </a>
 
-            <a href="email-writer.html" class="ilove-card searchable-tool" data-category="writing" data-name="email writer"><div class="card-icon">âœ‰ï¸</div><h3>Email Writer</h3><p>Draft professional emails.</p></a>
-            <a href="grammar-checker.html" class="ilove-card searchable-tool" data-category="writing" data-name="grammar checker"><div class="card-icon">âœ…</div><h3>Grammar Checker</h3><p>Instantly fix grammatical errors.</p></a>
-            <a href="resume-builder.html" class="ilove-card searchable-tool" data-category="writing" data-name="resume builder"><div class="card-icon">ðŸ“„</div><h3>Resume Builder</h3><p>Create ATS-friendly resumes.</p></a>
+            <a href="email-writer.html" class="ilove-card searchable-tool" data-category="writing" data-name="email writer"><div class="card-icon">✉️</div><h3>Email Writer</h3><p>Draft professional emails.</p></a>
+            <a href="grammar-checker.html" class="ilove-card searchable-tool" data-category="writing" data-name="grammar checker"><div class="card-icon">✅</div><h3>Grammar Checker</h3><p>Instantly fix grammatical errors.</p></a>
+            <a href="resume-builder.html" class="ilove-card searchable-tool" data-category="writing" data-name="resume builder"><div class="card-icon">📄</div><h3>Resume Builder</h3><p>Create ATS-friendly resumes.</p></a>
 
             <a href="data-analyst.html" class="ilove-card searchable-tool" data-category="productivity" data-name="ai data analyst" style="border-color: rgba(59, 130, 246, 0.4); box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);">
                 <div class="badge-new" style="background: #3b82f6; color: white;">VVIP</div>
-                <div class="card-icon">ðŸ“Š</div>
+                <div class="card-icon">📊</div>
                 <h3 style="color: #93c5fd;">AI Data Analyst</h3>
                 <p>Upload Excel/CSV to generate instant Dashboards.</p>
             </a>
 
-            <a href="AI-summarizer.html" class="ilove-card searchable-tool" data-category="productivity" data-name="pdf summarizer ai summarizer"><div class="card-icon">ðŸ“š</div><h3>PDF Summarizer</h3><p>Extract key points.</p></a>
-            <a href="ai-task-planner.html" class="ilove-card searchable-tool" data-category="productivity" data-name="ai task planner"><div class="card-icon">ðŸ“…</div><h3>AI Task Planner</h3><p>Organize your day.</p></a>
-            <a href="meeting-minutes.html" class="ilove-card searchable-tool" data-category="productivity" data-name="meeting minutes ai"><div class="card-icon">ðŸ“</div><h3>Meeting Minutes AI</h3><p>Turn notes into summaries.</p></a>
+            <a href="AI-summarizer.html" class="ilove-card searchable-tool" data-category="productivity" data-name="pdf summarizer ai summarizer"><div class="card-icon">📚</div><h3>PDF Summarizer</h3><p>Extract key points.</p></a>
+            <a href="ai-task-planner.html" class="ilove-card searchable-tool" data-category="productivity" data-name="ai task planner"><div class="card-icon">📅</div><h3>AI Task Planner</h3><p>Organize your day.</p></a>
+            <a href="meeting-minutes.html" class="ilove-card searchable-tool" data-category="productivity" data-name="meeting minutes ai"><div class="card-icon">📝</div><h3>Meeting Minutes AI</h3><p>Turn notes into summaries.</p></a>
             
-            <a href="ai-agent.html" class="ilove-card searchable-tool" data-category="developers" data-name="ai agent automation"><div class="card-icon">ðŸ¤–</div><h3>AI Agent Automation</h3><p>Deploy multi-step autonomous workflows.</p></a>
-            <a href="code-generator.html" class="ilove-card searchable-tool" data-category="developers" data-name="code generator pro"><div class="card-icon">ðŸ’»</div><h3>Code Generator Pro</h3><p>Write optimized code snippets.</p></a>
-            <a href="json-formatter.html" class="ilove-card searchable-tool" data-category="developers" data-name="json formatter pro"><div class="card-icon">ðŸ› ï¸</div><h3>JSON Formatter Pro</h3><p>Format, Minify & Fix broken JSON with AI.</p></a>
-            <a href="regex-builder.html" class="ilove-card searchable-tool" data-category="developers" data-name="regex builder ai"><div class="card-icon">ðŸ”</div><h3>Regex Builder AI</h3><p>Generate, explain, and test RegEx with AI.</p></a>
-            <a href="sql-query.html" class="ilove-card searchable-tool" data-category="developers" data-name="sql query ai"><div class="card-icon">ðŸ—„ï¸</div><h3>SQL Query AI</h3><p>Translate text into SQL.</p></a>
+            <a href="ai-agent.html" class="ilove-card searchable-tool" data-category="developers" data-name="ai agent automation"><div class="card-icon">🤖</div><h3>AI Agent Automation</h3><p>Deploy multi-step autonomous workflows.</p></a>
+            <a href="code-generator.html" class="ilove-card searchable-tool" data-category="developers" data-name="code generator pro"><div class="card-icon">💻</div><h3>Code Generator Pro</h3><p>Write optimized code snippets.</p></a>
+            <a href="json-formatter.html" class="ilove-card searchable-tool" data-category="developers" data-name="json formatter pro"><div class="card-icon">🛠️</div><h3>JSON Formatter Pro</h3><p>Format, Minify & Fix broken JSON with AI.</p></a>
+            <a href="regex-builder.html" class="ilove-card searchable-tool" data-category="developers" data-name="regex builder ai"><div class="card-icon">🔍</div><h3>Regex Builder AI</h3><p>Generate, explain, and test RegEx with AI.</p></a>
+            <a href="sql-query.html" class="ilove-card searchable-tool" data-category="developers" data-name="sql query ai"><div class="card-icon">🗄️</div><h3>SQL Query AI</h3><p>Translate text into SQL.</p></a>
         </div>
     </section>
 
@@ -642,10 +638,10 @@
                     <div style="font-size: 2.5rem; font-weight: 800; color: #1e293b; margin: 15px 0;">$0 <span style="font-size: 1rem; color: #94a3b8; font-weight: 400;">/ forever</span></div>
                     <p style="color: #475569; font-size: 0.9rem; margin-bottom: 20px;">Ideal for casual creators exploring AI tools.</p>
                     <ul style="list-style: none; padding: 0; margin: 0 0 25px 0; color: #475569; font-size: 0.9rem; line-height: 2;">
-                        <li>âœ… Access to All Basic AI Tools</li>
-                        <li>âœ… 2,500 free credits</li>
-                        <li>âœ… Standard $TOOL Mining (+0.003/5s)</li>
-                        <li>âŒ Priority Support</li>
+                        <li>✅ Access to All Basic AI Tools</li>
+                        <li>✅ 2,500 free credits</li>
+                        <li>✅ Standard $TOOL Mining (+0.003/5s)</li>
+                        <li>❌ Priority Support</li>
                     </ul>
                 </div>
                 <button style="width: 100%; padding: 12px; background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; border-radius: 8px; font-weight: 700; cursor: pointer;">Current Plan</button>
@@ -708,7 +704,7 @@
             <!-- Brand Section -->
             <div class="footer-col">
                 <div class="footer-brand">
-                    <span class="brand-icon">ðŸš€</span>
+                    <span class="brand-icon">🚀</span>
                     <span class="brand-text">ToolVerse</span>
                 </div>
                 <p class="brand-description">ToolVerse is your premium hub for fast, secure, and fully browser-based online tools. We run 100% client-side to guarantee your security and privacy.</p>
@@ -725,7 +721,7 @@
                 
                 <!-- SHINY FOMO TEXT WIDGET -->
                 <div class="fomo-share-text">
-                    âœ¨ Share this post to your Social Media and chance to win <span class="highlight">100,000 $TOOL</span> hurry! ðŸš€
+                    ✨ Share this post to your Social Media and chance to win <span class="highlight">100,000 $TOOL</span> hurry! 🚀
                 </div>
             </div>
 
@@ -763,7 +759,7 @@
                 <div id="newsletterMsg" style="font-size: 13px; margin-top: 8px; min-height: 18px; font-weight: 500;"></div>
                 <div class="powered-by">
                     <p style="margin-bottom: 8px; color: #94a3b8; font-size: 0.9rem;">Powered by:</p>
-                    <a href="#" class="groq-badge">âš¡ Groq</a>
+                    <a href="#" class="groq-badge">⚡ Groq</a>
                 </div>
             </div>
         </div>
@@ -771,7 +767,7 @@
         <!-- Footer Bottom -->
         <div class="footer-bottom">
             <div class="footer-copyright">
-                <p>Â© 2026 <strong>ToolVerse</strong>. Building the future of AI.</p>
+                <p>© 2026 <strong>ToolVerse</strong>. Building the future of AI.</p>
             </div>
             <div class="footer-meta">
                 <div class="language-selector">English (US)</div>
@@ -788,7 +784,7 @@
     <!-- MOVABLE / DRAGGABLE MINING WIDGET -->
     <div class="mining-widget" id="draggableMiningWidget">
         <div style="display: flex; align-items: center; gap: 15px; width: 100%; cursor: pointer;" onclick="window.location.href='mining-node.html'">
-            <div class="mining-icon">â›ï¸</div>
+            <div class="mining-icon">⛏️</div>
             <div class="mining-stats">
                 <span class="mining-title">Mining $TOOL</span>
                 <span class="mining-rate">Live <span class="pulse-dot"></span></span>
@@ -800,7 +796,7 @@
 
     <!-- COOKIE CONSENT POPUP -->
     <div id="cookie-consent" class="cookie-popup">
-        <div class="cookie-icon">ðŸª</div>
+        <div class="cookie-icon">🍪</div>
         <p>We use necessary cookies to make our website work. We would also like to use cookies to provide certain website functions, improve website performance and for analytics.</p>
         <button class="cookie-btn accept-all" onclick="acceptCookies()">Accept all</button>
         <button class="cookie-btn allow-selection" onclick="hideCookiePopup()">Allow selection</button>
@@ -870,25 +866,25 @@
         <div class="crypto-modal-content">
             <span class="close-crypto" id="closeModalBtn">&times;</span>
             <div class="crypto-header">
-                <div class="crypto-badge" id="miningStatusBadge">ðŸš€ VIP MINING ACCESS</div>
+                <div class="crypto-badge" id="miningStatusBadge">🚀 VIP MINING ACCESS</div>
                 <h2>$TOOL Dashboard</h2>
                 <p>Mine tokens for free before the official mainnet launch.</p>
             </div>
             <div class="crypto-balance-box">
                 <div class="balance-label">Your Total Mined Balance</div>
-                <div class="balance-amount"><span style="font-size: 2rem;">ðŸª™</span> <span id="modalBal">0.000</span></div>
+                <div class="balance-amount"><span style="font-size: 2rem;">🪙</span> <span id="modalBal">0.000</span></div>
                 <div class="balance-usd" id="miningRateText">Mining Rate: +0.003 per 5 seconds</div>
             </div>
             <div class="crypto-actions">
-                <button class="action-btn boost-btn" id="boostBtn">âš¡ Boost Mining 3x (Use a Tool)</button>
-                <button class="action-btn claim-btn" id="claimDailyBtn">ðŸŽ Claim Daily Bonus (+50 $TOOL)</button>
-                <button class="action-btn invite-btn" onclick="alert('Invite link copied to clipboard!')">ðŸ”— Copy Invite Link (+100 $TOOL)</button>
+                <button class="action-btn boost-btn" id="boostBtn">⚡ Boost Mining 3x (Use a Tool)</button>
+                <button class="action-btn claim-btn" id="claimDailyBtn">🎁 Claim Daily Bonus (+50 $TOOL)</button>
+                <button class="action-btn invite-btn" onclick="alert('Invite link copied to clipboard!')">🔗 Copy Invite Link (+100 $TOOL)</button>
             </div>
             <p class="status-note">Keep using ToolVerse to mine faster.</p>
         </div>
     </div>
 
-        <!-- ==========================================
+    <!-- ==========================================
          VVIP MODALS (AUTH, OTP, PROFILE)
          ========================================== -->
     <style>
@@ -940,11 +936,11 @@
         </div>
     </div>
 
-    <!-- 2. VVIP OTP MODAL (Ø¢Ù¾ Ú©Ø§ Ù¾Ø±Ø§Ù†Ø§ Ú©Ø§Ù… Ù…Ø­ÙÙˆØ¸ ÛÛ’) -->
+    <!-- 2. VVIP OTP MODAL (آپ کا پرانا کام محفوظ ہے) -->
     <div class="auth-modal" id="otpVerificationModal">
         <div class="vvip-modal-content" style="max-width: 400px; text-align: center;">
             <span class="close-auth" id="closeOtpModalBtn" style="position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer;"><i class="fa-solid fa-xmark"></i></span>
-            <div style="font-size: 40px; margin-bottom: 10px;">ðŸ”’</div>
+            <div style="font-size: 40px; margin-bottom: 10px;">🔒</div>
             <h2 style="margin: 0 0 5px 0; font-size: 1.6rem; font-weight: 900; color: #fff;">Security Verification</h2>
             <p style="color: #94a3b8; font-size: 13px; margin-bottom: 20px;">Enter the 6-digit verification code sent to your registered email/phone.</p>
             
@@ -966,7 +962,7 @@
         </div>
     </div>
 
-    <!-- 3. VVIP PROFILE MODAL (Ø¢Ù¾ Ú©Ø§ Ù¾Ø±Ø§Ù†Ø§ Ú©Ø§Ù… + Ø±ÛŒÙØ±Ù„ Ø³Ø³Ù¹Ù…) -->
+    <!-- 3. VVIP PROFILE MODAL -->
     <div class="auth-modal" id="userProfileModal">
         <div class="vvip-modal-content" style="max-width: 480px;">
             <span class="close-auth" id="closeProfileModalBtn" style="position: absolute; top: 15px; right: 20px; font-size: 24px; color: #94a3b8; cursor: pointer;">&times;</span>
@@ -975,10 +971,10 @@
 
             <div style="background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05)); border: 1px solid rgba(251, 191, 36, 0.3); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px;">
                 <span style="color: #cbd5e1; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Available Coin Balance</span><br>
-                <span style="font-size: 1.8rem; font-weight: 800; color: #fbbf24;">ðŸª™ <span id="profileModalBal">0.000</span> $TOOL</span>
+                <span style="font-size: 1.8rem; font-weight: 800; color: #fbbf24;">🪙 <span id="profileModalBal">0.000</span> $TOOL</span>
             </div>
 
-            <!-- VVIP REFERRAL SYSTEM (Ù†ÛŒØ§) -->
+            <!-- VVIP REFERRAL SYSTEM -->
             <div style="text-align: left; margin-bottom: 15px;">
                 <div style="font-size: 13px; font-weight: 800; color: #fff; margin-bottom: 5px;"><i class="fa-solid fa-users-rays"></i> Personal Referral Link</div>
                 <div style="font-size: 11.5px; color: #94a3b8;">Share to earn 10% of your friends' lifetime mining yield!</div>
@@ -988,7 +984,7 @@
                 </div>
             </div>
 
-            <!-- Ù¾Ø±Ø§Ù†Û’ ÙÛŒÙ„ÚˆØ² (VVIP Ø³Ù¹Ø§Ø¦Ù„ Ú©Û’ Ø³Ø§ØªÚ¾) -->
+            <!-- پروفائل فیلڈز -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 5px;">
                 <input type="text" id="profFirstName" class="vvip-input" style="margin: 0;" placeholder="First Name">
                 <input type="text" id="profLastName" class="vvip-input" style="margin: 0;" placeholder="Last Name">
@@ -996,7 +992,7 @@
             
             <div style="display: flex; gap: 8px; margin-top: 5px; margin-bottom: 5px;">
                 <select id="profPhoneCode" class="vvip-input" style="width: 38%; margin: 0;">
-                    <option value="" disabled selected>ðŸ³ï¸ Code</option>
+                    <option value="" disabled selected>🏳️ Code</option>
                 </select>
                 <input type="tel" id="profPhone" class="vvip-input" style="width: 62%; margin: 0;" placeholder="Phone Number">
             </div>
@@ -1008,13 +1004,13 @@
             
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px;">
                 <select id="profCountry" class="vvip-input" style="margin: 0;">
-                    <option value="" disabled selected>ðŸ³ï¸ Select Country</option>
+                    <option value="" disabled selected>🏳️ Select Country</option>
                 </select>
                 <input type="text" id="profState" class="vvip-input" style="margin: 0;" placeholder="State/Prov">
                 <input type="text" id="profZip" class="vvip-input" style="margin: 0;" placeholder="Zip Code">
             </div>
 
-            <!-- Ø¢Ù¾ Ú©Ø§ Ù¾Ø±Ø§Ù†Ø§ 2FA Ù¹ÙˆÚ¯Ù„ -->
+            <!-- آپ کا پرانا 2FA ٹوگل -->
             <div style="background: rgba(77, 166, 255, 0.05); border: 1px solid rgba(77, 166, 255, 0.2); padding: 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
                 <div style="text-align: left;">
                     <div style="font-weight: 600; font-size: 14px; color: #fff;">Two-Factor Authentication (2FA)</div>
@@ -1055,9 +1051,7 @@
 
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    // Remove active from all
                     filterBtns.forEach(b => b.classList.remove('active'));
-                    // Add active to clicked
                     btn.classList.add('active');
                     
                     const filterValue = btn.getAttribute('data-filter');
@@ -1099,61 +1093,61 @@
     <!-- COUNTRIES & CODES DATABASE -->
     <script>
         const allWorldCountries = [
-            {n:"Afghanistan",c:"+93",f:"ðŸ‡¦ðŸ‡«"},{n:"Albania",c:"+355",f:"ðŸ‡¦ðŸ‡±"},{n:"Algeria",c:"+213",f:"ðŸ‡©ðŸ‡¿"},
-            {n:"Andorra",c:"+376",f:"ðŸ‡¦ðŸ‡©"},{n:"Angola",c:"+244",f:"ðŸ‡¦ðŸ‡´"},{n:"Antigua and Barbuda",c:"+1",f:"ðŸ‡¦ðŸ‡¬"},
-            {n:"Argentina",c:"+54",f:"ðŸ‡¦ðŸ‡·"},{n:"Armenia",c:"+374",f:"ðŸ‡¦ðŸ‡²"},{n:"Australia",c:"+61",f:"ðŸ‡¦ðŸ‡º"},
-            {n:"Austria",c:"+43",f:"ðŸ‡¦ðŸ‡¹"},{n:"Azerbaijan",c:"+994",f:"ðŸ‡¦ðŸ‡¿"},{n:"Bahamas",c:"+1",f:"ðŸ‡§ðŸ‡¸"},
-            {n:"Bahrain",c:"+973",f:"ðŸ‡§ðŸ‡­"},{n:"Bangladesh",c:"+880",f:"ðŸ‡§ðŸ‡©"},{n:"Barbados",c:"+1",f:"ðŸ‡§ðŸ‡§"},
-            {n:"Belarus",c:"+375",f:"ðŸ‡§ðŸ‡¾"},{n:"Belgium",c:"+32",f:"ðŸ‡§ðŸ‡ª"},{n:"Belize",c:"+501",f:"ðŸ‡§ðŸ‡¿"},
-            {n:"Benin",c:"+229",f:"ðŸ‡§ðŸ‡¯"},{n:"Bhutan",c:"+975",f:"ðŸ‡§ðŸ‡¹"},{n:"Bolivia",c:"+591",f:"ðŸ‡§ðŸ‡´"},
-            {n:"Bosnia and Herzegovina",c:"+387",f:"ðŸ‡§ðŸ‡¦"},{n:"Botswana",c:"+267",f:"ðŸ‡§ðŸ‡¼"},{n:"Brazil",c:"+55",f:"ðŸ‡§ðŸ‡·"},
-            {n:"Brunei",c:"+673",f:"ðŸ‡§ðŸ‡³"},{n:"Bulgaria",c:"+359",f:"ðŸ‡§ðŸ‡¬"},{n:"Burkina Faso",c:"+226",f:"ðŸ‡§ðŸ‡«"},
-            {n:"Burundi",c:"+257",f:"ðŸ‡§ðŸ‡®"},{n:"Cambodia",c:"+855",f:"ðŸ‡°ðŸ‡­"},{n:"Cameroon",c:"+237",f:"ðŸ‡¨ðŸ‡²"},
-            {n:"Canada",c:"+1",f:"ðŸ‡¨ðŸ‡¦"},{n:"Central African Republic",c:"+236",f:"ðŸ‡¨ðŸ‡«"},{n:"Chad",c:"+235",f:"ðŸ‡¹ðŸ‡©"},
-            {n:"Chile",c:"+56",f:"ðŸ‡¨ðŸ‡±"},{n:"China",c:"+86",f:"ðŸ‡¨ðŸ‡³"},{n:"Colombia",c:"+57",f:"ðŸ‡¨ðŸ‡´"},
-            {n:"Comoros",c:"+269",f:"ðŸ‡°ðŸ‡²"},{n:"Congo",c:"+242",f:"ðŸ‡¨ðŸ‡¬"},{n:"Costa Rica",c:"+506",f:"ðŸ‡¨ðŸ‡·"},
-            {n:"Croatia",c:"+385",f:"ðŸ‡­ðŸ‡·"},{n:"Cuba",c:"+53",f:"ðŸ‡¨ðŸ‡º"},{n:"Cyprus",c:"+357",f:"ðŸ‡¨ðŸ‡¾"},
-            {n:"Czech Republic",c:"+420",f:"ðŸ‡¨ðŸ‡¿"},{n:"Denmark",c:"+45",f:"ðŸ‡©ðŸ‡°"},{n:"Djibouti",c:"+253",f:"ðŸ‡©ðŸ‡¯"},
-            {n:"Dominican Republic",c:"+1",f:"ðŸ‡©ðŸ‡´"},{n:"Ecuador",c:"+593",f:"ðŸ‡ªðŸ‡¨"},{n:"Egypt",c:"+20",f:"ðŸ‡ªðŸ‡¬"},
-            {n:"El Salvador",c:"+503",f:"ðŸ‡¸ðŸ‡»"},{n:"Eritrea",c:"+291",f:"ðŸ‡ªðŸ‡·"},{n:"Estonia",c:"+372",f:"ðŸ‡ªðŸ‡ª"},
-            {n:"Eswatini",c:"+268",f:"ðŸ‡¸ðŸ‡¿"},{n:"Ethiopia",c:"+251",f:"ðŸ‡ªðŸ‡¹"},{n:"Fiji",c:"+679",f:"ðŸ‡«ðŸ‡¯"},
-            {n:"Finland",c:"+358",f:"ðŸ‡«ðŸ‡®"},{n:"France",c:"+33",f:"ðŸ‡«ðŸ‡·"},{n:"Gabon",c:"+241",f:"ðŸ‡¬ðŸ‡¦"},
-            {n:"Gambia",c:"+220",f:"ðŸ‡¬ðŸ‡²"},{n:"Georgia",c:"+995",f:"ðŸ‡¬ðŸ‡ª"},{n:"Germany",c:"+49",f:"ðŸ‡©ðŸ‡ª"},
-            {n:"Ghana",c:"+233",f:"ðŸ‡¬ðŸ‡­"},{n:"Greece",c:"+30",f:"ðŸ‡¬ðŸ‡·"},{n:"Grenada",c:"+1",f:"ðŸ‡¬ðŸ‡©"},
-            {n:"Guatemala",c:"+502",f:"ðŸ‡¬ðŸ‡¹"},{n:"Guinea",c:"+224",f:"ðŸ‡¬ðŸ‡³"},{n:"Haiti",c:"+509",f:"ðŸ‡­ðŸ‡¹"},
-            {n:"Honduras",c:"+504",f:"ðŸ‡­ðŸ‡³"},{n:"Hungary",c:"+36",f:"ðŸ‡­ðŸ‡º"},{n:"Iceland",c:"+354",f:"ðŸ‡®ðŸ‡¸"},
-            {n:"India",c:"+91",f:"ðŸ‡®ðŸ‡³"},{n:"Indonesia",c:"+62",f:"ðŸ‡®ðŸ‡©"},{n:"Iran",c:"+98",f:"ðŸ‡®ðŸ‡·"},
-            {n:"Iraq",c:"+964",f:"ðŸ‡®ðŸ‡¶"},{n:"Ireland",c:"+353",f:"ðŸ‡®ðŸ‡ª"},{n:"Israel",c:"+972",f:"ðŸ‡®ðŸ‡±"},
-            {n:"Italy",c:"+39",f:"ðŸ‡®ðŸ‡¹"},{n:"Jamaica",c:"+1",f:"ðŸ‡¯ðŸ‡²"},{n:"Japan",c:"+81",f:"ðŸ‡¯ðŸ‡µ"},
-            {n:"Jordan",c:"+962",f:"ðŸ‡¯ðŸ‡´"},{n:"Kazakhstan",c:"+7",f:"ðŸ‡°ðŸ‡¿"},{n:"Kenya",c:"+254",f:"ðŸ‡°ðŸ‡ª"},
-            {n:"Kuwait",c:"+965",f:"ðŸ‡°ðŸ‡¼"},{n:"Kyrgyzstan",c:"+996",f:"ðŸ‡°ðŸ‡¬"},{n:"Laos",c:"+856",f:"ðŸ‡±ðŸ‡¦"},
-            {n:"Latvia",c:"+371",f:"ðŸ‡±ðŸ‡»"},{n:"Lebanon",c:"+961",f:"ðŸ‡±ðŸ‡§"},{n:"Lesotho",c:"+266",f:"ðŸ‡±ðŸ‡¸"},
-            {n:"Liberia",c:"+231",f:"ðŸ‡±ðŸ‡·"},{n:"Libya",c:"+218",f:"ðŸ‡±ðŸ‡¾"},{n:"Lithuania",c:"+370",f:"ðŸ‡±ðŸ‡¹"},
-            {n:"Luxembourg",c:"+352",f:"ðŸ‡±ðŸ‡º"},{n:"Madagascar",c:"+261",f:"ðŸ‡²ðŸ‡¬"},{n:"Malawi",c:"+265",f:"ðŸ‡²ðŸ‡¼"},
-            {n:"Malaysia",c:"+60",f:"ðŸ‡²ðŸ‡¾"},{n:"Maldives",c:"+960",f:"ðŸ‡²ðŸ‡»"},{n:"Mali",c:"+223",f:"ðŸ‡²ðŸ‡±"},
-            {n:"Malta",c:"+356",f:"ðŸ‡²ðŸ‡¹"},{n:"Mexico",c:"+52",f:"ðŸ‡²ðŸ‡½"},{n:"Moldova",c:"+373",f:"ðŸ‡²ðŸ‡©"},
-            {n:"Monaco",c:"+377",f:"ðŸ‡²ðŸ‡¨"},{n:"Mongolia",c:"+976",f:"ðŸ‡²ðŸ‡³"},{n:"Montenegro",c:"+382",f:"ðŸ‡²ðŸ‡ª"},
-            {n:"Morocco",c:"+212",f:"ðŸ‡²ðŸ‡¦"},{n:"Mozambique",c:"+258",f:"ðŸ‡²ðŸ‡¿"},{n:"Myanmar",c:"+95",f:"ðŸ‡²ðŸ‡²"},
-            {n:"Namibia",c:"+264",f:"ðŸ‡³ðŸ‡¦"},{n:"Nepal",c:"+977",f:"ðŸ‡³ðŸ‡µ"},{n:"Netherlands",c:"+31",f:"ðŸ‡³ðŸ‡±"},
-            {n:"New Zealand",c:"+64",f:"ðŸ‡³ðŸ‡¿"},{n:"Nicaragua",c:"+505",f:"ðŸ‡³ðŸ‡®"},{n:"Niger",c:"+227",f:"ðŸ‡³ðŸ‡ª"},
-            {n:"Nigeria",c:"+234",f:"ðŸ‡³ðŸ‡¬"},{n:"North Korea",c:"+850",f:"ðŸ‡°ðŸ‡µ"},{n:"Norway",c:"+47",f:"ðŸ‡³ðŸ‡´"},
-            {n:"Oman",c:"+968",f:"ðŸ‡´ðŸ‡²"},{n:"Pakistan",c:"+92",f:"ðŸ‡µðŸ‡°"},{n:"Palestine",c:"+970",f:"ðŸ‡µðŸ‡¸"},
-            {n:"Panama",c:"+507",f:"ðŸ‡µðŸ‡¦"},{n:"Papua New Guinea",c:"+675",f:"ðŸ‡µðŸ‡¬"},{n:"Paraguay",c:"+595",f:"ðŸ‡µðŸ‡¾"},
-            {n:"Peru",c:"+51",f:"ðŸ‡µðŸ‡ª"},{n:"Philippines",c:"+63",f:"ðŸ‡µðŸ‡­"},{n:"Poland",c:"+48",f:"ðŸ‡µðŸ‡±"},
-            {n:"Portugal",c:"+351",f:"ðŸ‡µðŸ‡¹"},{n:"Qatar",c:"+974",f:"ðŸ‡¶ðŸ‡¦"},{n:"Romania",c:"+40",f:"ðŸ‡·ðŸ‡´"},
-            {n:"Russia",c:"+7",f:"ðŸ‡·ðŸ‡º"},{n:"Rwanda",c:"+250",f:"ðŸ‡·ðŸ‡¼"},{n:"Saudi Arabia",c:"+966",f:"ðŸ‡¸ðŸ‡¦"},
-            {n:"Senegal",c:"+221",f:"ðŸ‡¸ðŸ‡³"},{n:"Serbia",c:"+381",f:"ðŸ‡·ðŸ‡¸"},{n:"Sierra Leone",c:"+232",f:"ðŸ‡¸ðŸ‡±"},
-            {n:"Singapore",c:"+65",f:"ðŸ‡¸ðŸ‡¬"},{n:"Slovakia",c:"+421",f:"ðŸ‡¸ðŸ‡°"},{n:"Slovenia",c:"+386",f:"ðŸ‡¸ðŸ‡®"},
-            {n:"Somalia",c:"+252",f:"ðŸ‡¸ðŸ‡´"},{n:"South Africa",c:"+27",f:"ðŸ‡¿ðŸ‡¦"},{n:"South Korea",c:"+82",f:"ðŸ‡°ðŸ‡·"},
-            {n:"Spain",c:"+34",f:"ðŸ‡ªðŸ‡¸"},{n:"Sri Lanka",c:"+94",f:"ðŸ‡±ðŸ‡°"},{n:"Sudan",c:"+249",f:"ðŸ‡¸ðŸ‡©"},
-            {n:"Sweden",c:"+46",f:"ðŸ‡¸ðŸ‡ª"},{n:"Switzerland",c:"+41",f:"ðŸ‡¨ðŸ‡­"},{n:"Syria",c:"+963",f:"ðŸ‡¸ðŸ‡¾"},
-            {n:"Taiwan",c:"+886",f:"ðŸ‡¹ðŸ‡¼"},{n:"Tajikistan",c:"+992",f:"ðŸ‡¹ðŸ‡¯"},{n:"Tanzania",c:"+255",f:"ðŸ‡¹ðŸ‡¿"},
-            {n:"Thailand",c:"+66",f:"ðŸ‡¹ðŸ‡­"},{n:"Togo",c:"+228",f:"ðŸ‡¹ðŸ‡¬"},{n:"Tunisia",c:"+216",f:"ðŸ‡¹ðŸ‡³"},
-            {n:"Turkey",c:"+90",f:"ðŸ‡¹ðŸ‡·"},{n:"Turkmenistan",c:"+993",f:"ðŸ‡¹ðŸ‡²"},{n:"Uganda",c:"+256",f:"ðŸ‡ºðŸ‡¬"},
-            {n:"Ukraine",c:"+380",f:"ðŸ‡ºðŸ‡¦"},{n:"United Arab Emirates",c:"+971",f:"ðŸ‡¦ðŸ‡ª"},{n:"United Kingdom",c:"+44",f:"ðŸ‡¬ðŸ‡§"},
-            {n:"United States",c:"+1",f:"ðŸ‡ºðŸ‡¸"},{n:"Uruguay",c:"+598",f:"ðŸ‡ºðŸ‡¾"},{n:"Uzbekistan",c:"+998",f:"ðŸ‡ºðŸ‡¿"},
-            {n:"Venezuela",c:"+58",f:"ðŸ‡»ðŸ‡ª"},{n:"Vietnam",c:"+84",f:"ðŸ‡»ðŸ‡³"},{n:"Yemen",c:"+967",f:"ðŸ‡¾ðŸ‡ª"},
-            {n:"Zambia",c:"+260",f:"ðŸ‡¿ðŸ‡²"},{n:"Zimbabwe",c:"+263",f:"ðŸ‡¿ðŸ‡¼"}
+            {n:"Afghanistan",c:"+93",f:"🇦🇫"},{n:"Albania",c:"+355",f:"🇦🇱"},{n:"Algeria",c:"+213",f:"🇩🇿"},
+            {n:"Andorra",c:"+376",f:"🇦🇩"},{n:"Angola",c:"+244",f:"🇦🇴"},{n:"Antigua and Barbuda",c:"+1",f:"🇦🇬"},
+            {n:"Argentina",c:"+54",f:"🇦🇷"},{n:"Armenia",c:"+374",f:"🇦🇲"},{n:"Australia",c:"+61",f:"🇦🇺"},
+            {n:"Austria",c:"+43",f:"🇦🇹"},{n:"Azerbaijan",c:"+994",f:"🇦🇿"},{n:"Bahamas",c:"+1",f:"🇧🇸"},
+            {n:"Bahrain",c:"+973",f:"🇧🇭"},{n:"Bangladesh",c:"+880",f:"🇧🇩"},{n:"Barbados",c:"+1",f:"🇧🇧"},
+            {n:"Belarus",c:"+375",f:"🇧🇾"},{n:"Belgium",c:"+32",f:"🇧🇪"},{n:"Belize",c:"+501",f:"🇧🇿"},
+            {n:"Benin",c:"+229",f:"🇧🇯"},{n:"Bhutan",c:"+975",f:"🇧🇹"},{n:"Bolivia",c:"+591",f:"🇧🇴"},
+            {n:"Bosnia and Herzegovina",c:"+387",f:"🇧🇦"},{n:"Botswana",c:"+267",f:"🇧🇼"},{n:"Brazil",c:"+55",f:"🇧🇷"},
+            {n:"Brunei",c:"+673",f:"🇧🇳"},{n:"Bulgaria",c:"+359",f:"🇧🇬"},{n:"Burkina Faso",c:"+226",f:"🇧🇫"},
+            {n:"Burundi",c:"+257",f:"🇧🇮"},{n:"Cambodia",c:"+855",f:"🇰🇭"},{n:"Cameroon",c:"+237",f:"🇨🇲"},
+            {n:"Canada",c:"+1",f:"🇨🇦"},{n:"Central African Republic",c:"+236",f:"🇨🇫"},{n:"Chad",c:"+235",f:"🇹🇩"},
+            {n:"Chile",c:"+56",f:"🇨🇱"},{n:"China",c:"+86",f:"🇨🇳"},{n:"Colombia",c:"+57",f:"🇨🇴"},
+            {n:"Comoros",c:"+269",f:"🇰🇲"},{n:"Congo",c:"+242",f:"🇨🇬"},{n:"Costa Rica",c:"+506",f:"🇨🇷"},
+            {n:"Croatia",c:"+385",f:"🇭🇷"},{n:"Cuba",c:"+53",f:"🇨🇺"},{n:"Cyprus",c:"+357",f:"🇨🇾"},
+            {n:"Czech Republic",c:"+420",f:"🇨🇿"},{n:"Denmark",c:"+45",f:"🇩🇰"},{n:"Djibouti",c:"+253",f:"🇩🇯"},
+            {n:"Dominican Republic",c:"+1",f:"🇩🇴"},{n:"Ecuador",c:"+593",f:"🇪🇨"},{n:"Egypt",c:"+20",f:"🇪🇬"},
+            {n:"El Salvador",c:"+503",f:"🇸🇻"},{n:"Eritrea",c:"+291",f:"🇪🇷"},{n:"Estonia",c:"+372",f:"🇪🇪"},
+            {n:"Eswatini",c:"+268",f:"🇸🇿"},{n:"Ethiopia",c:"+251",f:"🇪🇹"},{n:"Fiji",c:"+679",f:"🇫🇯"},
+            {n:"Finland",c:"+358",f:"🇫🇮"},{n:"France",c:"+33",f:"🇫🇷"},{n:"Gabon",c:"+241",f:"🇬🇦"},
+            {n:"Gambia",c:"+220",f:"🇬🇲"},{n:"Georgia",c:"+995",f:"🇬🇪"},{n:"Germany",c:"+49",f:"🇩🇪"},
+            {n:"Ghana",c:"+233",f:"🇬🇭"},{n:"Greece",c:"+30",f:"🇬🇷"},{n:"Grenada",c:"+1",f:"🇬🇩"},
+            {n:"Guatemala",c:"+502",f:"🇬🇹"},{n:"Guinea",c:"+224",f:"🇬🇳"},{n:"Haiti",c:"+509",f:"🇭🇹"},
+            {n:"Honduras",c:"+504",f:"🇭🇳"},{n:"Hungary",c:"+36",f:"🇭🇺"},{n:"Iceland",c:"+354",f:"🇮🇸"},
+            {n:"India",c:"+91",f:"🇮🇳"},{n:"Indonesia",c:"+62",f:"🇮🇩"},{n:"Iran",c:"+98",f:"🇮🇷"},
+            {n:"Iraq",c:"+964",f:"🇮🇶"},{n:"Ireland",c:"+353",f:"🇮🇪"},{n:"Israel",c:"+972",f:"🇮🇱"},
+            {n:"Italy",c:"+39",f:"🇮🇹"},{n:"Jamaica",c:"+1",f:"🇯🇲"},{n:"Japan",c:"+81",f:"🇯🇵"},
+            {n:"Jordan",c:"+962",f:"🇯🇴"},{n:"Kazakhstan",c:"+7",f:"🇰🇿"},{n:"Kenya",c:"+254",f:"🇰🇪"},
+            {n:"Kuwait",c:"+965",f:"🇰🇼"},{n:"Kyrgyzstan",c:"+996",f:"🇰🇬"},{n:"Laos",c:"+856",f:"🇱🇦"},
+            {n:"Latvia",c:"+371",f:"🇱🇻"},{n:"Lebanon",c:"+961",f:"🇱🇧"},{n:"Lesotho",c:"+266",f:"🇱🇸"},
+            {n:"Liberia",c:"+231",f:"🇱🇷"},{n:"Libya",c:"+218",f:"🇱🇾"},{n:"Lithuania",c:"+370",f:"🇱🇹"},
+            {n:"Luxembourg",c:"+352",f:"🇱🇺"},{n:"Madagascar",c:"+261",f:"🇲🇬"},{n:"Malawi",c:"+265",f:"🇲🇼"},
+            {n:"Malaysia",c:"+60",f:"🇲🇾"},{n:"Maldives",c:"+960",f:"🇲🇻"},{n:"Mali",c:"+223",f:"🇲🇱"},
+            {n:"Malta",c:"+356",f:"🇲🇹"},{n:"Mexico",c:"+52",f:"🇲🇽"},{n:"Moldova",c:"+373",f:"🇲🇩"},
+            {n:"Monaco",c:"+377",f:"🇲🇨"},{n:"Mongolia",c:"+976",f:"🇲🇳"},{n:"Montenegro",c:"+382",f:"🇲🇪"},
+            {n:"Morocco",c:"+212",f:"🇲🇦"},{n:"Mozambique",c:"+258",f:"🇲🇿"},{n:"Myanmar",c:"+95",f:"🇲🇲"},
+            {n:"Namibia",c:"+264",f:"🇳🇦"},{n:"Nepal",c:"+977",f:"🇳🇵"},{n:"Netherlands",c:"+31",f:"🇳🇱"},
+            {n:"New Zealand",c:"+64",f:"🇳🇿"},{n:"Nicaragua",c:"+505",f:"🇳🇮"},{n:"Niger",c:"+227",f:"🇳🇪"},
+            {n:"Nigeria",c:"+234",f:"🇳🇬"},{n:"North Korea",c:"+850",f:"🇰🇵"},{n:"Norway",c:"+47",f:"🇳🇴"},
+            {n:"Oman",c:"+968",f:"🇴🇲"},{n:"Pakistan",c:"+92",f:"🇵🇰"},{n:"Palestine",c:"+970",f:"🇵🇸"},
+            {n:"Panama",c:"+507",f:"🇵🇦"},{n:"Papua New Guinea",c:"+675",f:"🇵🇬"},{n:"Paraguay",c:"+595",f:"🇵🇾"},
+            {n:"Peru",c:"+51",f:"🇵🇪"},{n:"Philippines",c:"+63",f:"🇵🇭"},{n:"Poland",c:"+48",f:"🇵🇱"},
+            {n:"Portugal",c:"+351",f:"🇵🇹"},{n:"Qatar",c:"+974",f:"🇶🇦"},{n:"Romania",c:"+40",f:"🇷🇴"},
+            {n:"Russia",c:"+7",f:"🇷🇺"},{n:"Rwanda",c:"+250",f:"🇷🇼"},{n:"Saudi Arabia",c:"+966",f:"🇸🇦"},
+            {n:"Senegal",c:"+221",f:"🇸🇳"},{n:"Serbia",c:"+381",f:"🇷🇸"},{n:"Sierra Leone",c:"+232",f:"🇸🇱"},
+            {n:"Singapore",c:"+65",f:"🇸🇬"},{n:"Slovakia",c:"+421",f:"🇸🇰"},{n:"Slovenia",c:"+386",f:"🇸🇮"},
+            {n:"Somalia",c:"+252",f:"🇸🇴"},{n:"South Africa",c:"+27",f:"🇿🇦"},{n:"South Korea",c:"+82",f:"🇰🇷"},
+            {n:"Spain",c:"+34",f:"🇪🇸"},{n:"Sri Lanka",c:"+94",f:"🇱🇰"},{n:"Sudan",c:"+249",f:"🇸🇩"},
+            {n:"Sweden",c:"+46",f:"🇸🇪"},{n:"Switzerland",c:"+41",f:"🇨🇭"},{n:"Syria",c:"+963",f:"🇸🇾"},
+            {n:"Taiwan",c:"+886",f:"🇹🇼"},{n:"Tajikistan",c:"+992",f:"🇹🇯"},{n:"Tanzania",c:"+255",f:"🇹🇿"},
+            {n:"Thailand",c:"+66",f:"🇹🇭"},{n:"Togo",c:"+228",f:"🇹🇬"},{n:"Tunisia",c:"+216",f:"🇹🇳"},
+            {n:"Turkey",c:"+90",f:"🇹🇷"},{n:"Turkmenistan",c:"+993",f:"🇹🇲"},{n:"Uganda",c:"+256",f:"🇺🇬"},
+            {n:"Ukraine",c:"+380",f:"🇺🇦"},{n:"United Arab Emirates",c:"+971",f:"🇦🇪"},{n:"United Kingdom",c:"+44",f:"🇬🇧"},
+            {n:"United States",c:"+1",f:"🇺🇸"},{n:"Uruguay",c:"+598",f:"🇺🇾"},{n:"Uzbekistan",c:"+998",f:"🇺🇿"},
+            {n:"Venezuela",c:"+58",f:"🇻🇪"},{n:"Vietnam",c:"+84",f:"🇻🇳"},{n:"Yemen",c:"+967",f:"🇾🇪"},
+            {n:"Zambia",c:"+260",f:"🇿🇲"},{n:"Zimbabwe",c:"+263",f:"🇿🇼"}
         ];
 
         function injectCountries(dataList) {
@@ -1161,8 +1155,8 @@
             const countrySelect = document.getElementById('profCountry');
             if(!phoneCodeSelect || !countrySelect) return;
             
-            let pOptions = '<option value="" disabled selected>ðŸ³ï¸ Code</option>';
-            let cOptions = '<option value="" disabled selected>ðŸ³ï¸ Select Country</option>';
+            let pOptions = '<option value="" disabled selected>🏳️ Code</option>';
+            let cOptions = '<option value="" disabled selected>🏳️ Select Country</option>';
             
             dataList.forEach(item => {
                 pOptions += `<option value="${item.n}|${item.c}">${item.f} ${item.c}</option>`;
@@ -1185,10 +1179,7 @@
         });
     </script>
 
-      <!-- FIREBASE & CLOUD MINING MODULE (VVIP LEVEL) -->
-            <!-- ==========================================
-         VVIP FIREBASE, CLOUD MINING & AUTH LOGIC
-         ========================================== -->
+    <!-- FIREBASE & CLOUD MINING MODULE (VVIP LEVEL) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -1249,7 +1240,7 @@
         const authModal = document.getElementById('firebaseAuthModal');
         const authMessageBox = document.getElementById('authMessageBox');
         
-      // --- VVIP FIXED: FORGOT PASSWORD LOGIC ---
+        // --- VVIP FIXED: FORGOT PASSWORD LOGIC ---
         document.getElementById('forgotPasswordBtn')?.addEventListener('click', (e) => {
             e.preventDefault();
             
@@ -1271,7 +1262,6 @@
                 .then(() => { authMessageBox.innerHTML = `<span style="color: #4ade80;">✅ Password reset link sent to your email!</span>`; })
                 .catch((error) => { authMessageBox.innerHTML = `<span style="color: #ff4757;">Error: ${error.message}</span>`; });
         });
-
         
         document.getElementById('googleBtn')?.addEventListener('click', () => {
             authMessageBox.innerHTML = `<span style="color: #38bdf8;">Connecting to Web3...</span>`;
@@ -1319,11 +1309,11 @@
                     const newUserData = { email: user.email, cloudBalance: 0, credits: 2500, createdAt: Date.now() };
                     await setDoc(userRef, newUserData);
                     startCloudMining(user.uid, newUserData);
-                    if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">ðŸ¤–</div><span>User</span>`;
+                    if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>User</span>`;
                 } else {
                     const data = userSnap.data();
                     const displayName = data.firstName || (data.displayName ? data.displayName.split(' ')[0] : 'User');
-                    if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">ðŸ¤–</div><span>${displayName}</span>`;
+                    if(navProfileBtn) navProfileBtn.innerHTML = `<div class="profile-avatar-icon">🤖</div><span>${displayName}</span>`;
                     
                     let localBal = parseFloat(localStorage.getItem('toolVerseBalance')) || 0;
                     let cloudBal = data.cloudBalance || data.toolBalance || 0;
@@ -1410,7 +1400,7 @@
             <div class="voice-pulse-ring"></div>
         </div>
         <div class="voice-text-wrapper">
-            <span class="voice-btn-text">AI Assistant âœ¨</span>
+            <span class="voice-btn-text">AI Assistant ✨</span>
             <span class="voice-btn-sub">How can I help you?</span>
         </div>
     </div>
@@ -1428,7 +1418,7 @@
     <!-- Import Voice Logic -->
     <script src="voice-assistant.js"></script>
     
-<!-- UI MODALS FIX SCRIPT -->
+    <!-- UI MODALS FIX SCRIPT -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const profileModal = document.getElementById('userProfileModal');
