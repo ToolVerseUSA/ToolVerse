@@ -54,7 +54,7 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: model || 'llama-3.3-70b-versatile',
+                model: model || 'qwen/qwen3.6-27b',
                 messages: [
                     { role: 'system', content: systemPrompt || 'You are a helpful assistant.' },
                     { role: 'user', content: userPrompt || 'Hello' }
