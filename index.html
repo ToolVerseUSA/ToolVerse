@@ -1553,6 +1553,127 @@
                 if(e.target === authModal) authModal.style.display = 'none';
             });
         });
+                // ==========================================
+        // VVIP GLOBAL ADDRESS AUTO-FETCH (SUPER PREMIUM)
+        // ==========================================
+        const addressInput = document.getElementById('profAddress');
+        const suggestionsBox = document.getElementById('addressSuggestions');
+        let addressDebounceTimer;
+
+        if(addressInput && suggestionsBox) {
+            // Style the suggestions box to look premium & VVIP
+            suggestionsBox.style.position = 'absolute';
+            suggestionsBox.style.width = '100%';
+            suggestionsBox.style.background = '#0b0f19';
+            suggestionsBox.style.border = '1px solid rgba(56, 189, 248, 0.3)';
+            suggestionsBox.style.borderRadius = '8px';
+            suggestionsBox.style.zIndex = '9999';
+            suggestionsBox.style.maxHeight = '220px';
+            suggestionsBox.style.overflowY = 'auto';
+            suggestionsBox.style.display = 'none';
+            suggestionsBox.style.marginTop = '2px';
+            suggestionsBox.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
+            suggestionsBox.style.padding = '0';
+            suggestionsBox.style.listStyle = 'none';
+
+            addressInput.addEventListener('input', function() {
+                clearTimeout(addressDebounceTimer);
+                const query = this.value.trim();
+
+                if (query.length < 3) {
+                    suggestionsBox.style.display = 'none';
+                    return;
+                }
+
+                // Wait 500ms after user stops typing to fetch data (Saves API load)
+                addressDebounceTimer = setTimeout(async () => {
+                    try {
+                        // Fetch from Free Global API (OpenStreetMap/Photon)
+                        const response = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=5`);
+                        const data = await response.json();
+
+                        suggestionsBox.innerHTML = '';
+
+                        if (data.features && data.features.length > 0) {
+                            data.features.forEach(feature => {
+                                const p = feature.properties;
+                                
+                                // Build full address string smartly
+                                let addressParts = [];
+                                if (p.housenumber && p.street) addressParts.push(`${p.housenumber} ${p.street}`);
+                                else if (p.street) addressParts.push(p.street);
+                                else if (p.name) addressParts.push(p.name);
+
+                                if (p.city || p.town || p.village) addressParts.push(p.city || p.town || p.village);
+                                if (p.state) addressParts.push(p.state);
+                                if (p.country) addressParts.push(p.country);
+
+                                const fullText = addressParts.join(', ');
+
+                                // Create Premium List Item
+                                const li = document.createElement('li');
+                                li.style.padding = '12px 15px';
+                                li.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                                li.style.cursor = 'pointer';
+                                li.style.color = '#fff';
+                                li.style.fontSize = '13px';
+                                li.style.transition = '0.2s';
+                                li.innerHTML = `<i class="fa-solid fa-location-dot" style="color: #38bdf8; margin-right: 10px;"></i> ${fullText}`;
+
+                                // Hover Effects
+                                li.onmouseover = () => li.style.background = 'rgba(56, 189, 248, 0.1)';
+                                li.onmouseout = () => li.style.background = 'transparent';
+
+                                // On Click -> Auto-fill everything magically!
+                                li.onclick = () => {
+                                    // 1. Fill Address Bar
+                                    addressInput.value = (p.housenumber && p.street) ? `${p.housenumber} ${p.street}` : (p.street || p.name || '');
+                                    
+                                    // 2. Fill City
+                                    if(document.getElementById('profCity')) document.getElementById('profCity').value = p.city || p.town || p.village || p.county || '';
+                                    
+                                    // 3. Fill State
+                                    if(document.getElementById('profState')) document.getElementById('profState').value = p.state || '';
+                                    
+                                    // 4. Fill Zip Code
+                                    if(document.getElementById('profZip')) document.getElementById('profZip').value = p.postcode || '';
+
+                                    // 5. Fill Country Dropdown
+                                    if(document.getElementById('profCountry') && p.countrycode) {
+                                        const cc = p.countrycode.toUpperCase(); 
+                                        const select = document.getElementById('profCountry');
+                                        for(let i=0; i < select.options.length; i++) {
+                                            // Match exact code (e.g. US, PK) or UK/GB exception
+                                            if(select.options[i].value === cc || (cc === 'GB' && select.options[i].value === 'UK')) {
+                                                select.selectedIndex = i;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    suggestionsBox.style.display = 'none';
+                                };
+
+                                suggestionsBox.appendChild(li);
+                            });
+                            suggestionsBox.style.display = 'block';
+                        } else {
+                            suggestionsBox.style.display = 'none';
+                        }
+                    } catch (e) {
+                        console.log('Address fetch error', e);
+                    }
+                }, 500); 
+            });
+
+            // Hide suggestions when clicking somewhere else
+            document.addEventListener('click', (e) => {
+                if (e.target !== addressInput && e.target !== suggestionsBox) {
+                    suggestionsBox.style.display = 'none';
+                }
+            });
+        }
+
     </script>
 </body>
 </html>
