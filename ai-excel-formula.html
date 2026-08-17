@@ -7,6 +7,29 @@
     <meta name="description" content="Generate complex Excel and Google Sheets formulas instantly using AI. Just type your problem and get the exact formula with explanations for free.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- SEO FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "How does the AI Excel Formula Generator work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Simply describe what you want to achieve in plain English. For example, 'Sum column A if column B is greater than 100'. The AI will instantly generate the correct Excel or Google Sheets formula."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is this tool completely free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! The ToolVerse AI Excel Formula generator is free to use for your daily office and data analysis tasks."
+        }
+      }]
+    }
+    </script>
+
     <style>
         :root {
             --bg-dark: #0f172a;
@@ -27,26 +50,180 @@
                               radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.05), transparent 40%);
             min-height: 100vh;
         }
-        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; }
-        .logo { font-size: 24px; font-weight: 800; color: white; text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        .back-btn { color: var(--text-muted); text-decoration: none; font-size: 14px; padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px; transition: 0.3s; }
-        .back-btn:hover { background: var(--panel-bg); color: white; }
-        .hero { text-align: center; margin-bottom: 50px; }
-        .hero h1 { font-size: 42px; margin-bottom: 15px; background: linear-gradient(135deg, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { color: var(--text-muted); font-size: 18px; max-width: 600px; margin: 0 auto; }
-        .app-container { background: var(--panel-bg); backdrop-filter: blur(16px); border: 1px solid var(--border); border-radius: 24px; padding: 40px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-        .input-group label { display: block; font-weight: 600; margin-bottom: 10px; color: #cbd5e1; }
-        .prompt-box { width: 100%; background: #0f172a; border: 1px solid var(--border); border-radius: 16px; padding: 20px; color: white; font-size: 16px; min-height: 120px; resize: vertical; box-sizing: border-box; outline: none; font-family: inherit; transition: 0.3s; }
-        .prompt-box:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
-        .btn-generate { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #8b5cf6, #d946ef); color: white; border: none; padding: 16px 32px; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; width: 100%; justify-content: center; margin-top: 20px; transition: 0.3s; box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.4); }
-        .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(139, 92, 246, 0.5); }
-        .output-container { display: none; margin-top: 30px; animation: fadeIn 0.5s ease; }
-        .formula-box { background: #020617; border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative; font-family: monospace; font-size: 18px; color: #10b981; word-break: break-all; }
-        .copy-btn { position: absolute; top: 15px; right: 15px; background: var(--panel-bg); border: 1px solid var(--border); color: white; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 13px; transition: 0.3s; }
-        .copy-btn:hover { background: white; color: black; }
-        .explanation-box { background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 15px; color: #cbd5e1; font-size: 15px; }
-        .loader { display: none; width: 24px; height: 24px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .back-btn {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: var(--panel-bg);
+            color: white;
+        }
+        .hero {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: var(--text-muted);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .app-container {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #cbd5e1;
+        }
+        .prompt-box {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            color: white;
+            font-size: 16px;
+            min-height: 120px;
+            resize: vertical;
+            box-sizing: border-box;
+            outline: none;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        .prompt-box:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+        .btn-generate {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #8b5cf6, #d946ef);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            justify-content: center;
+            margin-top: 20px;
+            transition: 0.3s;
+            box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.4);
+        }
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(139, 92, 246, 0.5);
+        }
+        .output-container {
+            display: none;
+            margin-top: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        .formula-box {
+            background: #020617;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            font-family: monospace;
+            font-size: 18px;
+            color: #10b981;
+            word-break: break-all;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+        .copy-btn:hover {
+            background: white;
+            color: black;
+        }
+        .explanation-box {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            color: #cbd5e1;
+            font-size: 15px;
+        }
+        .seo-section {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+        }
+        .seo-section h2 { font-size: 28px; color: white; margin-bottom: 20px; }
+        .seo-section h3 { color: #e2e8f0; margin-top: 30px; }
+        .seo-section p { color: var(--text-muted); margin-bottom: 15px; }
+        .faq-box {
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .faq-box h4 { margin: 0 0 10px 0; color: white; font-size: 16px; }
+        .faq-box p { margin: 0; font-size: 14px; }
+        .loader {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
         @keyframes spin { to { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -59,22 +236,61 @@
         <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Tools</a>
     </header>
 
+    <section class="hero">
+        <h1>AI Excel Formula Generator</h1>
+        <p>Turn your plain English instructions into complex Excel or Google Sheets formulas in seconds using live AI.</p>
+    </section>
+
     <main class="app-container">
-        <textarea id="userPrompt" class="prompt-box" placeholder="Describe your Excel problem..."></textarea>
+        <div class="input-group">
+            <label for="userPrompt">Describe your Excel or Sheets problem:</label>
+            <textarea id="userPrompt" class="prompt-box" placeholder="e.g., I have dates in Column A and total sales in Column B. Give me the total sales for only the month of January..."></textarea>
+            
+            <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                <span style="font-size: 12px; color: #94a3b8;">Quick Fill:</span>
+                <span onclick="fillPrompt('Extract the first name from a full name in Column A')" style="background: rgba(139, 92, 246, 0.2); color: #c4b5fd; font-size: 12px; padding: 4px 10px; border-radius: 12px; cursor: pointer; border: 1px solid rgba(139, 92, 246, 0.4);">Extract First Name</span>
+                <span onclick="fillPrompt('Sum Column B only if Column A contains the word Paid')" style="background: rgba(139, 92, 246, 0.2); color: #c4b5fd; font-size: 12px; padding: 4px 10px; border-radius: 12px; cursor: pointer; border: 1px solid rgba(139, 92, 246, 0.4);">Conditional Sum</span>
+                <span onclick="fillPrompt('VLOOKUP alternative to find a value to the left using INDEX and MATCH')" style="background: rgba(139, 92, 246, 0.2); color: #c4b5fd; font-size: 12px; padding: 4px 10px; border-radius: 12px; cursor: pointer; border: 1px solid rgba(139, 92, 246, 0.4);">Advanced Lookup</span>
+            </div>
+        </div>
+
         <button id="generateBtn" class="btn-generate" onclick="generateFormulaWithGroq()">
             <span id="btnText"><i class="fa-solid fa-bolt"></i> Generate via Groq AI</span>
             <div id="loader" class="loader"></div>
         </button>
 
         <div id="outputContainer" class="output-container">
-            <div class="formula-box"><span id="resultFormula"></span><button class="copy-btn" onclick="copyToClipboard()">Copy</button></div>
+            <label style="color: #cbd5e1; font-weight: 600; display: block; margin-bottom: 10px;">VVIP Formatted Formula:</label>
+            <div class="formula-box">
+                <span id="resultFormula"></span>
+                <button class="copy-btn" onclick="copyToClipboard()"><i class="fa-regular fa-copy"></i> Copy</button>
+            </div>
+            
+            <label style="color: #cbd5e1; font-weight: 600; display: block; margin-top: 20px; margin-bottom: 10px;">AI Explanation:</label>
             <div class="explanation-box" id="resultExplanation"></div>
         </div>
     </main>
+
+    <section class="seo-section">
+        <h2>Write Complex Excel Formulas with AI</h2>
+        <p>Struggling with VLOOKUP, INDEX MATCH, or nested IF statements? The ToolVerse AI Excel Formula Generator is designed for data analysts, accountants, and office professionals.</p>
+        
+        <h3 style="margin-top: 40px; margin-bottom: 20px;">Frequently Asked Questions (FAQs)</h3>
+        <div class="faq-box">
+            <h4>Does this work for Google Sheets too?</h4>
+            <p>Yes, the formulas generated are fully compatible with both Microsoft Excel and Google Sheets.</p>
+        </div>
+        <div class="faq-box">
+            <h4>Is my data secure?</h4>
+            <p>Absolutely. We do not store your descriptions or logic. The process is completely secure and anonymous.</p>
+        </div>
+    </section>
 </div>
 
 <script>
-    function fillPrompt(text) { document.getElementById('userPrompt').value = text; }
+    function fillPrompt(text) {
+        document.getElementById('userPrompt').value = text;
+    }
 
     function highlightExcelSyntax(formula) {
         return formula
@@ -90,14 +306,15 @@
         return new Promise((resolve) => {
             function type() {
                 if (i < text.length) {
-                    // Type plain text only during the loop
-                    element.textContent = text.substring(0, i + 1);
+                    // Saaf typing bina html tags torey
+                    element.innerHTML = text.substring(0, i + 1);
                     i++;
                     setTimeout(type, speed);
                 } else {
-                    // Apply highlighting ONLY when finished
-                    if(isCode) element.innerHTML = highlightExcelSyntax(text);
-                    else element.innerHTML = text;
+                    // Jab typing poori ho jaye tou final color effect lagao
+                    if(isCode) {
+                        element.innerHTML = highlightExcelSyntax(text);
+                    }
                     resolve();
                 }
             }
@@ -107,51 +324,101 @@
 
     async function generateFormulaWithGroq() {
         const promptText = document.getElementById('userPrompt').value;
-        if (!promptText.trim()) return alert("Please describe your Excel problem.");
+        if (!promptText.trim()) {
+            alert("Please describe your Excel problem first.");
+            return;
+        }
 
         const btn = document.getElementById('generateBtn');
+        const btnText = document.getElementById('btnText');
+        const loader = document.getElementById('loader');
+        const output = document.getElementById('outputContainer');
+
         btn.disabled = true;
-        document.getElementById('btnText').style.display = 'none';
-        document.getElementById('loader').style.display = 'block';
-        document.getElementById('outputContainer').style.display = 'none';
+        btnText.style.display = 'none';
+        loader.style.display = 'block';
+        output.style.display = 'none';
 
         try {
+            const systemPromptText = "You are an expert Excel and Google Sheets formula generator. You MUST reply exactly in this format:\nFORMULA: [Insert exact formula here]\nEXPLANATION: [Insert a brief 2-sentence explanation here]";
+
             const response = await fetch('/api/groq-handler', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({ 
-                    systemPrompt: "You are an expert Excel formula generator. Reply EXACTLY in this format: FORMULA: [formula] EXPLANATION: [explanation]",
+                    systemPrompt: systemPromptText,
                     userPrompt: promptText,
-                    model: "qwen/qwen3.6-27b" 
+                    model: "qwen/qwen3.6-27b"
                 })
             });
 
+            if (!response.ok) {
+                throw new Error("Backend connection failed.");
+            }
+
             const data = await response.json();
+
+            if (data.result && (data.result.includes("⚠️") || data.result.includes("🚦") || data.result.includes("🔌"))) {
+                throw new Error(data.result); 
+            }
+
             const rawResult = data.result || "";
-            const parts = rawResult.split("EXPLANATION:");
-            const finalFormula = parts[0].replace("FORMULA:", "").trim();
-            const finalExplanation = parts[1] ? parts[1].trim() : "";
+            let finalFormula = "";
+            let finalExplanation = "";
+
+            if (rawResult.includes("FORMULA:") && rawResult.includes("EXPLANATION:")) {
+                const parts = rawResult.split("EXPLANATION:");
+                finalFormula = parts[0].replace("FORMULA:", "").trim();
+                finalExplanation = parts[1].trim();
+            } else {
+                const splitResult = rawResult.split('\n');
+                finalFormula = splitResult[0].replace("FORMULA:", "").trim();
+                finalExplanation = splitResult.slice(1).join('\n').replace("EXPLANATION:", "").trim();
+            }
 
             btn.disabled = false;
-            document.getElementById('btnText').style.display = 'inline-block';
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('outputContainer').style.display = 'block';
+            btnText.style.display = 'inline-block';
+            loader.style.display = 'none';
+            output.style.display = 'block';
+            output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            document.getElementById('resultFormula').innerHTML = '';
+            document.getElementById('resultExplanation').innerHTML = '';
             
-            await typeWriterEffect('resultFormula', finalFormula, 15, true);
-            await typeWriterEffect('resultExplanation', finalExplanation, 5, false);
+            await typeWriterEffect('resultFormula', finalFormula, 20, true);
+            await typeWriterEffect('resultExplanation', finalExplanation, 10, false);
 
         } catch (error) {
-            alert("Error: " + error.message);
+            console.error(error);
+            alert(error.message || "Oops! Something went wrong.");
             btn.disabled = false;
-            document.getElementById('btnText').style.display = 'inline-block';
-            document.getElementById('loader').style.display = 'none';
+            btnText.style.display = 'inline-block';
+            loader.style.display = 'none';
         }
     }
 
     function copyToClipboard() {
-        navigator.clipboard.writeText(document.getElementById('resultFormula').textContent);
-        alert("Copied!");
+        const formulaHtml = document.getElementById('resultFormula').innerHTML;
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = formulaHtml;
+        const rawFormula = tempDiv.textContent || tempDiv.innerText || "";
+        
+        navigator.clipboard.writeText(rawFormula).then(() => {
+            const copyBtn = document.querySelector('.copy-btn');
+            copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+            copyBtn.style.background = '#10b981';
+            copyBtn.style.borderColor = '#10b981';
+            
+            setTimeout(() => {
+                copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy';
+                copyBtn.style.background = 'var(--panel-bg)';
+                copyBtn.style.borderColor = 'var(--border)';
+            }, 2000);
+        });
     }
 </script>
+
 </body>
 </html>
