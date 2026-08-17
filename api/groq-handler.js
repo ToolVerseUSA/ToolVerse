@@ -24,6 +24,14 @@ export default async function handler(req, res) {
     try {
         const { systemPrompt, userPrompt, model } = req.body;
 
+        // =========================================================
+        // VVIP MODEL AUTO-FIX INTERCEPTOR (SAVES ALL BROKEN TOOLS)
+        // =========================================================
+        let finalModel = model || 'qwen/qwen3.6-27b';
+        if (finalModel.toLowerCase().includes("llama") || finalModel.includes("8192") || finalModel.includes("70b-versatile")) {
+            finalModel = "qwen/qwen3.6-27b"; // Auto-upgrade old requests to the new blazing-fast Qwen model
+        }
+
         // 2. VVIP LOAD BALANCING (KEY POOLING)
         const API_KEYS = [
             process.env.GROQ_API_KEY,      
@@ -49,7 +57,7 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: model || 'qwen/qwen3.6-27b',
+                model: finalModel, // 👈 Using the protected/upgraded model here
                 messages: [
                     { role: 'system', content: systemPrompt || 'You are a helpful assistant.' },
                     { role: 'user', content: userPrompt || 'Hello' }
