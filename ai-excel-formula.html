@@ -238,7 +238,7 @@
 
     <section class="hero">
         <h1>AI Excel Formula Generator</h1>
-        <p>Turn your plain English instructions into complex Excel or Google Sheets formulas in seconds using live Groq AI.</p>
+        <p>Turn your plain English instructions into complex Excel or Google Sheets formulas in seconds using live AI.</p>
     </section>
 
     <main class="app-container">
@@ -334,53 +334,74 @@
         const loader = document.getElementById('loader');
         const output = document.getElementById('outputContainer');
 
+        // Show UI Loading State
         btn.disabled = true;
         btnText.style.display = 'none';
         loader.style.display = 'block';
         output.style.display = 'none';
 
-        // KEY HAS BEEN SAFELY REMOVED FROM FRONTEND
-        const GROQ_API_KEY = ""; 
-
         try {
-            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            // VVIP System Prompt for exact formatting
+            const systemPromptText = "You are an expert Excel and Google Sheets formula generator. You MUST reply exactly in this format:\nFORMULA: [Insert exact formula here]\nEXPLANATION: [Insert a brief 2-sentence explanation here]";
+
+            // Calling your Master VVIP Backend (groq-handler.js)
+            const response = await fetch('/api/groq-handler', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${GROQ_API_KEY}`,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    model: "llama3-8b-8192",
-                    messages: [
-                        { role: "system", content: "You are an expert Excel and Google Sheets formula generator. Only return a JSON object with two keys: 'formula' (the exact excel formula string without quotes or markdown) and 'explanation' (a brief 2 sentence explanation)." },
-                        { role: "user", content: promptText }
-                    ],
-                    response_format: { type: "json_object" }
+                body: JSON.stringify({ 
+                    systemPrompt: systemPromptText,
+                    userPrompt: promptText,
+                    model: "llama3-8b-8192" // Fast model for data tasks
                 })
             });
 
             if (!response.ok) {
-                throw new Error("API Key missing or invalid.");
+                throw new Error("Backend connection failed. Please check your network.");
             }
 
             const data = await response.json();
-            const aiResult = JSON.parse(data.choices[0].message.content);
 
+            // Checking for Load Balancing Warnings from your backend
+            if (data.result && (data.result.includes("⚠️") || data.result.includes("🚦") || data.result.includes("🔌"))) {
+                throw new Error(data.result); 
+            }
+
+            // Extracting Formula and Explanation from AI response
+            const rawResult = data.result || "";
+            let finalFormula = "";
+            let finalExplanation = "";
+
+            if (rawResult.includes("FORMULA:") && rawResult.includes("EXPLANATION:")) {
+                const parts = rawResult.split("EXPLANATION:");
+                finalFormula = parts[0].replace("FORMULA:", "").trim();
+                finalExplanation = parts[1].trim();
+            } else {
+                // Fallback if the AI doesn't format exactly as requested
+                const splitResult = rawResult.split('\n');
+                finalFormula = splitResult[0].replace("FORMULA:", "").trim();
+                finalExplanation = splitResult.slice(1).join('\n').replace("EXPLANATION:", "").trim();
+            }
+
+            // Hide Loader & Show Result
             btn.disabled = false;
             btnText.style.display = 'inline-block';
             loader.style.display = 'none';
             output.style.display = 'block';
             output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
+            // Clear old text
             document.getElementById('resultFormula').innerHTML = '';
             document.getElementById('resultExplanation').innerHTML = '';
             
-            await typeWriterEffect('resultFormula', aiResult.formula, 20, true);
-            await typeWriterEffect('resultExplanation', aiResult.explanation, 10, false);
+            // Run VVIP Typing Effects
+            await typeWriterEffect('resultFormula', finalFormula, 20, true);
+            await typeWriterEffect('resultExplanation', finalExplanation, 10, false);
 
         } catch (error) {
-            console.error(error);
-            alert("API connection is secure. We now need to link your api.handlers.js file to make it work!");
+            console.error("Frontend Error:", error);
+            alert(error.message || "Oops! Something went wrong. Please try again.");
             btn.disabled = false;
             btnText.style.display = 'inline-block';
             loader.style.display = 'none';
