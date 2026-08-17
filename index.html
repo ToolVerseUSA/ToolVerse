@@ -501,31 +501,7 @@
 
     <!-- ORIGINAL AI TOOLS SECTION -->
     <section class="tools-section" id="tools" style="position: relative; z-index: 10;">
-     <!-- FILTER BUTTONS -->
-<div style="text-align: center; margin: 20px 0; z-index: 20; position: relative; padding-bottom: 20px;">
-    <button onclick="filterTools('all')" style="padding: 10px 20px; margin: 5px; background: #ef4444; color: white; border-radius: 8px; border: none; cursor: pointer;">All</button>
-    <button onclick="filterTools('creative')" style="padding: 10px 20px; margin: 5px; background: #333; color: white; border-radius: 8px; border: none; cursor: pointer;">Creative</button>
-    <button onclick="filterTools('pdf')" style="padding: 10px 20px; margin: 5px; background: #333; color: white; border-radius: 8px; border: none; cursor: pointer;">PDF</button>
-</div>
-
-<script>
-function filterTools(category) {
-    const tools = document.querySelectorAll('.searchable-tool');
-    tools.forEach(tool => {
-        if (category === 'all') {
-            tool.style.display = 'block';
-        } else {
-            if (tool.getAttribute('data-category') === category) {
-                tool.style.display = 'block';
-            } else {
-                tool.style.display = 'none';
-            }
-        }
-    });
-}
-</script>
-
-   <div class="ilove-grid" id="toolsContainer">
+            <div class="ilove-grid" id="toolsContainer">
           <a href="faceless-video.html" class="ilove-card searchable-tool" data-category="creative" data-name="faceless video blueprint"><div class="card-icon">🎭</div><h3>Faceless Video Blueprint</h3><p>Generate high-retention scripts.</p></a>
             <a href="youtube-toolkit.html" class="ilove-card searchable-tool" data-category="creative" data-name="youtube ai toolkit"><div class="card-icon">▶️</div><h3>YouTube AI Toolkit</h3><p>Generate viral titles.</p></a>
             <a href="thumbnail-downloader.html" class="ilove-card searchable-tool" data-category="creative" data-name="4k thumbnail downloader"><div class="card-icon">🖼️</div><h3>4K Thumbnail Downloader</h3><p>Extract thumbnails instantly.</p></a>
