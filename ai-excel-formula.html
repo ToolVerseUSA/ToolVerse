@@ -292,12 +292,13 @@
         document.getElementById('userPrompt').value = text;
     }
 
-    function highlightExcelSyntax(formula) {
+        function highlightExcelSyntax(formula) {
         return formula
-            .replace(/([A-Z0-9_]+)(?=\()/g, '<span style="color: #60a5fa; font-weight: bold;">$1</span>')
-            .replace(/("[^"]*")/g, '<span style="color: #f43f5e;">$1</span>')
-            .replace(/([A-Z]+[0-9]+(:[A-Z]+[0-9]+)?|[A-Z]+:[A-Z]+)/g, '<span style="color: #a78bfa;">$1</span>');
+            .replace(/([A-Z0-9_]+)(?=\()/g, "<span style='color: #60a5fa; font-weight: bold;'>$1</span>")
+            .replace(/("[^"]*")/g, "<span style='color: #f43f5e;'>$1</span>")
+            .replace(/([A-Z]+[0-9]+(:[A-Z]+[0-9]+)?|[A-Z]+:[A-Z]+)/g, "<span style='color: #a78bfa;'>$1</span>");
     }
+
 
     async function typeWriterEffect(elementId, text, speed = 10, isCode = false) {
         const element = document.getElementById(elementId);
