@@ -360,7 +360,7 @@
                 <select id="agentModel" class="form-control" onchange="window.triggerUnsaved()">
                     <!-- Standard Tier (Fast & Efficient) -->
                     <optgroup label="Standard Utility Tier">
-                        <option value="llama3">Llama-3.3-70b (Ultra Fast - ToolVerse Core)</option>
+                        <option value="qwen/qwen3.6-27b">Qwen 27B (Ultra Fast - ToolVerse Core)</option>
                     </optgroup>
                     
                     <!-- Premium Tier (State-of-the-Art) -->
@@ -624,7 +624,7 @@
             if (agent.model) {
                 modelSelect.value = agent.model;
             } else {
-                modelSelect.value = "llama3";
+                modelSelect.value = "qwen/qwen3.6-27b";
             }
         }
 
@@ -638,7 +638,7 @@
         window.createNewAgent = function() {
             if(isUnsaved && !confirm("Discard unsaved changes?")) return;
             const newId = Date.now();
-            const newAgent = { id: newId, name: 'New Custom Agent', prompt: 'You are a helpful AI assistant...', icon: '⚙️', web: false, mem: true, knowledge: [], model: 'llama3' };
+            const newAgent = { id: newId, name: 'New Custom Agent', prompt: 'You are a helpful AI assistant...', icon: '⚙️', web: false, mem: true, knowledge: [], model: 'qwen/qwen3.6-27b' };
             agents.unshift(newAgent); 
             activeAgentId = newId;
             saveToStorage(); 
@@ -806,7 +806,7 @@
             }
 
             // 3. Get the selected model
-            let selectedModel = currentAgent ? currentAgent.model : 'llama3';
+            let selectedModel = currentAgent ? currentAgent.model : 'qwen/qwen3.6-27b';
 
             try {
                 const response = await fetch('/api/groq-handler', { 
