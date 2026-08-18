@@ -70,7 +70,7 @@ export default async function handler(req, res) {
                     { role: 'user', content: userPrompt || 'Hello' }
                 ],
                 temperature: 0.4, 
-                max_tokens: 6000  // سب کے لیے سیف لمٹ
+                max_tokens: 4000  // سب کے لیے سیف لمٹ
             })
         });
 
