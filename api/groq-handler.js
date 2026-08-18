@@ -27,11 +27,11 @@ export default async function handler(req, res) {
         // =========================================================
         // SMART ROUTER (100% Working & Supported Model)
         // =========================================================
-        let finalModel = model || "llama-3.1-8b-instant"; 
+        let finalModel = model || "qwen/qwen3.6-27b"; 
         
         if (systemPrompt && systemPrompt.includes("10x AI Software Engineer")) {
             // Code Generator کے لیے 100% سپورٹڈ اور سٹیبل ماڈل
-            finalModel = "llama-3.1-8b-instant"; 
+            finalModel = "qwen/qwen3.6-27b"; 
         } 
         else {
             // باقی پرانے ٹولز (Data Analyst وغیرہ) اپنے پرانے ماڈل پر ہی رہیں گے
