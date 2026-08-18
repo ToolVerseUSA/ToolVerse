@@ -35,7 +35,7 @@ export default async function handler(req, res) {
         } 
         else {
             // باقی پرانے ٹولز (Data Analyst وغیرہ) اپنے پرانے ماڈل پر ہی رہیں گے
-            finalModel = model || "llama-3.1-8b-instant"; 
+            finalModel = model || "qwen/qwen3.6-27b"; 
         }
 
         // 2. LOAD BALANCING
