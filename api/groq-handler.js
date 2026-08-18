@@ -1,7 +1,7 @@
 // =================================================================
 // VVIP GROQ API HANDLER - TOOLVERSE PRO (50K+ CONCURRENT LOAD)
 // =================================================================
-
+export const maxDuration = 60; // VVIP Timeout Unlocker
 export default async function handler(req, res) {
     // 1. VVIP SECURITY: CORS Protection
     const allowedOrigins = ['https://toolverse-usa.vercel.app', 'http://localhost:3000'];
