@@ -25,13 +25,13 @@ export default async function handler(req, res) {
         const { systemPrompt, userPrompt, model } = req.body;
 
         // =========================================================
-        // SMART ROUTER (128K Heavy-Duty King)
+        // SMART ROUTER (100% Working & Supported Model)
         // =========================================================
         let finalModel = model || "llama-3.1-8b-instant"; 
         
         if (systemPrompt && systemPrompt.includes("10x AI Software Engineer")) {
-            // Groq کا سب سے لیٹسٹ اور بڑی میموری والا ماڈل جو کبھی نہیں کٹے گا
-            finalModel = "llama-3.3-70b-versatile"; 
+            // Code Generator کے لیے 100% سپورٹڈ اور سٹیبل ماڈل
+            finalModel = "llama-3.1-8b-instant"; 
         } 
         else {
             // باقی پرانے ٹولز (Data Analyst وغیرہ) اپنے پرانے ماڈل پر ہی رہیں گے
@@ -67,7 +67,7 @@ export default async function handler(req, res) {
                     { role: 'user', content: userPrompt || 'Hello' }
                 ],
                 temperature: 0.4, 
-                max_tokens: 6000 // اب ہم اسے پوری پاور دے سکتے ہیں
+                max_tokens: 6000
             })
         });
 
