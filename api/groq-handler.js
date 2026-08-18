@@ -1,5 +1,5 @@
 // =================================================================
-// VVIP GROQ API HANDLER - TOOLVERSE PRO (FINAL FIX)
+// VVIP GROQ API HANDLER - TOOLVERSE PRO (FINAL FIX + LIVE SEARCH)
 // =================================================================
 export const maxDuration = 60; 
 
@@ -22,7 +22,49 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { systemPrompt, userPrompt, model } = req.body;
+        // یہاں ہم نے useWebSearch کا سگنل فرنٹ اینڈ سے ریسیو کرنے کی سیٹنگ کر دی ہے
+        const { systemPrompt, userPrompt, model, useWebSearch } = req.body;
+
+        // =========================================================
+        // 1. LIVE WEB SEARCH LOGIC (TAVILY API) 🌐
+        // =========================================================
+        let finalUserPrompt = userPrompt || 'Hello';
+
+        if (useWebSearch) {
+            const tavilyApiKey = process.env.TAVILY_API_KEY;
+            
+            if (!tavilyApiKey) {
+                console.log("⚠️ Tavily API Key missing in Vercel!");
+            } else {
+                try {
+                    // Tavily API کو کال کر کے لائیو ڈیٹا لانا
+                    const searchResponse = await fetch('https://api.tavily.com/search', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'api-key': tavilyApiKey
+                        },
+                        body: JSON.stringify({
+                            query: userPrompt,
+                            search_depth: "basic",
+                            max_results: 3
+                        })
+                    });
+
+                    if (searchResponse.ok) {
+                        const searchData = await searchResponse.json();
+                        // انٹرنیٹ سے آنے والے رزلٹس کو ایک جگہ اکٹھا کرنا
+                        const searchContext = searchData.results.map(r => `Title: ${r.title}\nContent: ${r.content}`).join('\n\n');
+                        
+                        // یوزر کے سوال کے ساتھ لائیو انٹرنیٹ کا ڈیٹا جوڑ کر ماڈل کو بھیجنا
+                        finalUserPrompt = `[LIVE WEB SEARCH RESULTS]\n${searchContext}\n\n[USER QUESTION]\n${userPrompt}\n\nInstructions: Answer the user's question using the live web search results provided above.`;
+                    }
+                } catch (searchError) {
+                    console.error("Web Search Error:", searchError);
+                    // اگر سرچ میں کوئی مسئلہ آئے تو پرانا پرامپٹ ہی چلے گا
+                }
+            }
+        }
 
         // =========================================================
         // SMART ROUTER (100% Working & Supported Model)
@@ -64,7 +106,8 @@ export default async function handler(req, res) {
                 model: finalModel, 
                 messages: [
                     { role: 'system', content: systemPrompt || 'You are an elite developer.' },
-                    { role: 'user', content: userPrompt || 'Hello' }
+                    // یہاں اب ہم finalUserPrompt بھیجیں گے جس میں لائیو سرچ شامل ہو گی (اگر آن ہوئی تو)
+                    { role: 'user', content: finalUserPrompt } 
                 ],
                 temperature: 0.4, 
                 max_tokens: 6000
@@ -80,7 +123,15 @@ export default async function handler(req, res) {
         const data = await groqResponse.json();
         let reply = data.choices[0].message.content;
 
-        reply = reply.replace(/<think>[\s\S]*?<\/think>\n*/gi, '').trim();
+        // =========================================================
+        // BULLETPROOF <THINK> TAG CLEANER (Upgraded)
+        // =========================================================
+        // 1. Remove standard closed <think> tags
+        reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '');
+        // 2. Remove any unclosed or leftover <think> tags
+        reply = reply.replace(/<think>[\s\S]*/gi, '');
+        // 3. Clean up any leading/trailing garbage or extra spaces
+        reply = reply.trim();
 
         return res.status(200).json({ result: reply });
 
