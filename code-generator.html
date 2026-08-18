@@ -67,7 +67,6 @@
             min-height: 100vh;
         }
 
-        /* VVIP FIX: Wrapper for proper scrolling */
         .main-wrapper {
             width: 100%;
             display: flex;
@@ -196,11 +195,9 @@
             border-radius: 0 8px 8px 0;
         }
         .meta-box h4 { margin: 0 0 8px 0; color: #60a5fa; }
-        .meta-box p { margin: 0; color: #cbd5e1; font-size: 14px; line-height: 1.5; }
+        .meta-box p { margin: 0; color: #cbd5e1; font-size: 14px; line-height: 1.5; white-space: pre-line; }
 
-        /* ==========================================
-           SEO CONTENT SECTION STYLES (NEW)
-           ========================================== */
+        /* SEO CONTENT SECTION STYLES */
         .seo-content-section { max-width: 1000px; margin: 40px auto 80px; padding: 0 20px; width: 100%; }
         .seo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
         .seo-box { background: rgba(30, 41, 59, 0.4); padding: 25px; border-radius: 12px; border: 1px solid rgba(74, 222, 128, 0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
@@ -235,7 +232,6 @@
         <button id="generate-btn" class="main-btn" onclick="generateCode()">Generate Pro Code 🚀</button>
 
         <div id="output-section">
-            
             <div class="meta-box" style="margin-bottom: 20px; border-left-color: #4ade80; background: rgba(74, 222, 128, 0.05);">
                 <h4 style="color: #4ade80;">🧠 AI Thought Process:</h4>
                 <p id="out-thought"></p>
@@ -262,7 +258,7 @@
 </div>
 
 <!-- ==========================================
-     SEO CONTENT & FAQS (Crucial for Google Ranking)
+     SEO CONTENT & FAQS
      ========================================== -->
 <section class="seo-content-section">
     <h2 style="font-size: 1.8rem; color: #f8fafc; text-align: center; margin-bottom: 30px;">How to Generate Code with AI?</h2>
@@ -301,7 +297,6 @@
 
 <!-- PrismJS for Syntax Highlighting -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-<!-- Add standard languages -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
@@ -319,9 +314,6 @@
         
         if(!prompt) { alert("Please describe the code you want to generate!"); return; }
 
-        // ==========================================
-        // VVIP AUTH & FAST CREDIT CHECK (0ms Delay)
-        // ==========================================
         const isAuth = localStorage.getItem('ToolVerse_Auth') === 'true' || localStorage.getItem('isLoggedIn') === 'true';
         if (!isAuth) {
             alert("🔒 Please login from the Dashboard to use Premium Tools.");
@@ -343,20 +335,29 @@
         outputSection.style.display = 'none';
         
         try {
-            // Deduct 2 Credits instantly (Premium Task)
             currentCredits -= 2; 
             localStorage.setItem('tv_agent_credits', currentCredits);
 
-            // Strict System Prompt to enforce JSON formatting
+            // VVIP BULLETPROOF PROMPT (No JSON used!)
             const systemPrompt = `You are an elite 10x AI Software Engineer. Generate high-quality, production-ready code based on the user's request.
-            You MUST respond with ONLY a raw JSON object. Do not include any markdown formatting like \`\`\`json, backticks, or conversational text outside the JSON.
-            Use exactly this JSON structure:
-            {
-                "thought_process": "A brief 1-2 sentence explanation of your logical approach.",
-                "language": "The primary programming language used (e.g., javascript, python, html, css, jsx). Do NOT use special characters.",
-                "code": "The actual raw code. Ensure it is properly formatted.",
-                "instructions": "Brief instructions on how to use or run the code."
-            }`;
+            DO NOT USE JSON. You MUST structure your entire response using ONLY these exact tags:
+            
+            [THOUGHTS]
+            Brief explanation of your logic and approach.
+            [/THOUGHTS]
+            
+            [LANGUAGE]
+            The primary programming language used (e.g., javascript, python, html, css). No special characters.
+            [/LANGUAGE]
+            
+            [CODE]
+            Write the complete raw code here. Do not wrap it in markdown backticks.
+            [/CODE]
+            
+            [INSTRUCTIONS]
+            Brief instructions on how to use or run the code.
+            [/INSTRUCTIONS]`;
+
             const userPrompt = `Language specified: ${language || 'Auto-detect'}\nRequest: ${prompt}`;
 
             const response = await fetch('/api/groq-handler', {
@@ -365,57 +366,49 @@
                 body: JSON.stringify({ 
                     systemPrompt, 
                     userPrompt,
-                    model: "qwen/qwen3.6-27b" // 👈 VVIP FIX: Ensured Qwen is strictly used!
+                    model: "qwen/qwen3.6-27b"
                 })
             });
 
             const responseData = await response.json();
-            if (!response.ok || !responseData.result) throw new Error(responseData.error || "Server Error: API did not respond properly.");
+            if (!response.ok || !responseData.result) throw new Error("Server Error: API did not respond properly.");
 
-            // ==========================================
-            // VVIP ROBUST JSON PARSER & FALLBACK
-            // ==========================================
-            let cleanJSON = responseData.result.replace(/```json/gi, '').replace(/```/g, '').trim();
-            let data = {};
+            // VVIP BULLETPROOF PARSER
+            const rawText = responseData.result;
             
-            try {
-                data = JSON.parse(cleanJSON);
-            } catch (jsonError) {
-                // FALLBACK MODE: If JSON is cut off due to code length, we extract manually using Regex
-                console.warn("JSON parsing failed, engaging VVIP Regex Fallback...");
-                
-                const thoughtMatch = cleanJSON.match(/"thought_process"\s*:\s*"([^"]*)"/);
-                const langMatch = cleanJSON.match(/"language"\s*:\s*"([^"]*)"/);
-                const codeMatch = cleanJSON.match(/"code"\s*:\s*"([\s\S]*?)",?\n?\s*("instructions"|})/);
-                
-                data.thought_process = thoughtMatch ? thoughtMatch[1] : "Generated optimized code structure.";
-                data.language = langMatch ? langMatch[1] : (language || 'javascript');
-                // Unescape JSON specific characters if using fallback
-                let rawExtractedCode = codeMatch ? codeMatch[1] : "/* Code generation reached max length limit. Please try splitting your request. */";
-                data.code = rawExtractedCode.replace(/\\n/g, '\n').replace(/\\"/g, '"').replace(/\\\\/g, '\\').replace(/\\t/g, '\t');
-                data.instructions = "Code extracted via fallback mode due to extreme length.";
+            const extractData = (tag) => {
+                // Extracts data even if the closing tag is missing (due to length limits)
+                const regex = new RegExp(`\\[${tag}\\]([\\s\\S]*?)(?:\\[\\/${tag}\\]|$)`, 'i');
+                const match = rawText.match(regex);
+                return match ? match[1].trim() : "";
+            };
+
+            const outThought = extractData("THOUGHTS") || "Designing optimized code structure...";
+            let outLang = extractData("LANGUAGE").toLowerCase() || (language ? language.toLowerCase() : "javascript");
+            const outInstructions = extractData("INSTRUCTIONS") || "Code generated successfully. Review before deploying.";
+            
+            let outCode = extractData("CODE");
+            
+            // Ultimate fallback if AI forgot the [CODE] tag entirely
+            if(!outCode) {
+                outCode = rawText.replace(/\[\/?(THOUGHTS|LANGUAGE|INSTRUCTIONS)\][\s\S]*?(?=\[|$)/gi, '').trim();
+                outCode = outCode.replace(/```[a-z]*\n?/gi, '').replace(/```/g, '').trim();
             }
 
-            // Populate Text Areas
-            document.getElementById('out-thought').innerText = data.thought_process || "Analyzing logic...";
-            document.getElementById('out-instructions').innerText = data.instructions || "Run the code in your preferred environment.";
+            // Populate UI
+            document.getElementById('out-thought').innerText = outThought;
+            document.getElementById('out-instructions').innerText = outInstructions;
             
-            // Set Language Badge
-            let detectedLang = data.language ? data.language.toLowerCase() : 'javascript';
-            if(detectedLang === 'html') detectedLang = 'markup'; // PrismJS uses 'markup' for HTML
-            document.getElementById('out-lang').innerText = detectedLang;
+            if(outLang === 'html') outLang = 'markup'; 
+            document.getElementById('out-lang').innerText = outLang;
 
-            // Handle Code & Syntax Highlighting
             const codeElement = document.getElementById('out-code');
-            rawGeneratedCode = data.code || "// Code generation failed."; 
+            rawGeneratedCode = outCode || "// Generation failed or produced empty code."; 
             
-            // Protect HTML tags from rendering as actual HTML in the pre block
             codeElement.textContent = rawGeneratedCode; 
-            codeElement.className = `language-${detectedLang}`;
+            codeElement.className = `language-${outLang}`;
             
-            // Trigger Prism to highlight the new code
             Prism.highlightElement(codeElement);
-
             outputSection.style.display = 'block';
 
         } catch (error) {
