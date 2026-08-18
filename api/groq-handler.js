@@ -1,5 +1,5 @@
 // =================================================================
-// VVIP GROQ API HANDLER - TOOLVERSE PRO (CLEAN & FAST)
+// VVIP GROQ API HANDLER - TOOLVERSE PRO (FINAL FIX)
 // =================================================================
 export const maxDuration = 60; 
 
@@ -22,23 +22,23 @@ export default async function handler(req, res) {
     }
 
     try {
-        // 1. WEB SEARCH SIGNAL REMOVED - KEEPING IT CLEAN
         const { systemPrompt, userPrompt, model } = req.body;
-        const finalUserPrompt = userPrompt || 'Hello';
 
         // =========================================================
-        // 2. SMART ROUTER (100% SAFE - GROQ NEW MODEL & CODE GEN)
+        // SMART ROUTER (100% Working & Supported Model)
         // =========================================================
         let finalModel = model || "qwen/qwen3.6-27b"; 
-
-        // Code Generator Pro کی فل پاور کے لیے سمارٹ راؤٹر سلامت ہے!
+        
         if (systemPrompt && systemPrompt.includes("10x AI Software Engineer")) {
+            // Code Generator کے لیے 100% سپورٹڈ اور سٹیبل ماڈل
             finalModel = "qwen/qwen3.6-27b"; 
         } 
-        
-        // =========================================================
-        // 3. LOAD BALANCING
-        // =========================================================
+        else {
+            // باقی پرانے ٹولز (Data Analyst وغیرہ) اپنے پرانے ماڈل پر ہی رہیں گے
+            finalModel = model || "qwen/qwen3.6-27b"; 
+        }
+
+        // 2. LOAD BALANCING
         const API_KEYS = [
             process.env.GROQ_API_KEY,      
             process.env.GROQ_API_KEY_2,    
@@ -53,9 +53,7 @@ export default async function handler(req, res) {
 
         const randomKey = API_KEYS[Math.floor(Math.random() * API_KEYS.length)];
 
-        // =========================================================
-        // 4. GROQ API CALL (FULL 6000 TOKENS RESTORED)
-        // =========================================================
+        // 3. GROQ API CALL
         const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -66,13 +64,14 @@ export default async function handler(req, res) {
                 model: finalModel, 
                 messages: [
                     { role: 'system', content: systemPrompt || 'You are an elite developer.' },
-                    { role: 'user', content: finalUserPrompt } 
+                    { role: 'user', content: userPrompt || 'Hello' }
                 ],
                 temperature: 0.4, 
-                max_tokens: 6000 // 🚀 واپس 6000 ٹوکنز پر سیٹ کر دیا گیا ہے!
+                max_tokens: 6000
             })
         });
 
+        // 4. ERROR HANDLING
         if (!groqResponse.ok) {
             const errData = await groqResponse.text();
             throw new Error(`Groq API Error ${groqResponse.status}: ${errData}`);
@@ -81,17 +80,34 @@ export default async function handler(req, res) {
         const data = await groqResponse.json();
         let reply = data.choices[0].message.content;
 
-        // =========================================================
-        // 5. BULLETPROOF <THINK> TAG CLEANER
-        // =========================================================
-        reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '');
-        reply = reply.replace(/<think>[\s\S]*/gi, '');
-        reply = reply.trim();
+        reply = reply.replace(/<think>[\s\S]*?<\/think>\n*/gi, '').trim();
 
         return res.status(200).json({ result: reply });
 
     } catch (error) {
         console.error("Backend Error:", error);
-        return res.status(200).json({ result: `[ERROR_LOG]\n${error.message}` });
+        const errorMsg = `[THOUGHTS]
+Server encountered a critical error. Scanning details...
+[/THOUGHTS]
+[LANGUAGE]
+javascript
+[/LANGUAGE]
+[CODE]
+/* 
+===========================================
+ ⚠️ SYSTEM ERROR REPORT 
+===========================================
+عمران بھائی، مسئلہ یہ ہے:
+
+${error.message}
+
+===========================================
+*/
+[/CODE]
+[INSTRUCTIONS]
+Please read the exact error above to find the root cause.
+[/INSTRUCTIONS]`;
+
+        return res.status(200).json({ result: errorMsg });
     }
 }
