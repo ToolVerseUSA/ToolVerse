@@ -199,7 +199,7 @@
         .vector-spinner { width: 16px; height: 16px; border: 2px solid var(--success); border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; }
 
         /* Tools & Toggles */
-        .toggles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .toggles-grid { display: grid; grid-template-columns: 1fr; gap: 15px; } /* Updated to 1 column for clean layout */
         .toggle-card { background: #0f172a; border: 1px solid #334155; padding: 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; }
         .toggle-info h4 { margin: 0; font-size: 0.9rem; font-weight: 600; }
         .toggle-info p { margin: 4px 0 0; font-size: 0.75rem; color: var(--text-muted); }
@@ -381,13 +381,7 @@
             <div class="form-group" style="margin-top: 30px;">
                 <label style="margin-bottom: 15px;">Advanced Capabilities (Context & Tools)</label>
                 <div class="toggles-grid">
-                    <div class="toggle-card">
-                        <div class="toggle-info">
-                            <h4>Web Browsing</h4>
-                            <p>Agent can search the live internet.</p>
-                        </div>
-                        <label class="switch"><input type="checkbox" id="tglWeb" onchange="window.triggerUnsaved()"><span class="slider"></span></label>
-                    </div>
+                    <!-- Web Browsing removed -->
                     <div class="toggle-card">
                         <div class="toggle-info">
                             <h4>Long-term Memory</h4>
@@ -544,10 +538,10 @@
         // PDF.js worker setup
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-        // Data Structure Updated to include 'knowledge' array
+        // Data Structure Updated to include 'knowledge' array - Web Browsing removed
         let agents = JSON.parse(localStorage.getItem('toolverse_agents')) || [
-            { id: 1, name: 'SEO Content Writer', prompt: 'You are an expert SEO content writer. Produce highly engaging, human-like content optimized for search engines.', icon: '✍️', web: false, mem: true, knowledge: [] },
-            { id: 2, name: 'Code Reviewer Pro', prompt: 'You are a senior software engineer. Review code provided by the user, identify bugs, and suggest optimized rewrites.', icon: '💻', web: false, mem: true, knowledge: [] }
+            { id: 1, name: 'SEO Content Writer', prompt: 'You are an expert SEO content writer. Produce highly engaging, human-like content optimized for search engines.', icon: '✍️', mem: true, knowledge: [] },
+            { id: 2, name: 'Code Reviewer Pro', prompt: 'You are a senior software engineer. Review code provided by the user, identify bugs, and suggest optimized rewrites.', icon: '💻', mem: true, knowledge: [] }
         ];
         
         let activeAgentId = agents[0].id;
@@ -563,7 +557,6 @@
         
         const iName = document.getElementById('agentName');
         const iPrompt = document.getElementById('agentPrompt');
-        const iWeb = document.getElementById('tglWeb');
         const iMem = document.getElementById('tglMem');
         const fileListEl = document.getElementById('fileList');
         const vectorLoader = document.getElementById('vectorLoader');
@@ -608,7 +601,6 @@
             
             iName.value = agent.name; 
             iPrompt.value = agent.prompt; 
-            iWeb.checked = agent.web || false; 
             iMem.checked = agent.mem !== false; 
             
             // Load Knowledge Base Files
@@ -638,7 +630,7 @@
         window.createNewAgent = function() {
             if(isUnsaved && !confirm("Discard unsaved changes?")) return;
             const newId = Date.now();
-            const newAgent = { id: newId, name: 'New Custom Agent', prompt: 'You are a helpful AI assistant...', icon: '⚙️', web: false, mem: true, knowledge: [], model: 'qwen/qwen3.6-27b' };
+            const newAgent = { id: newId, name: 'New Custom Agent', prompt: 'You are a helpful AI assistant...', icon: '⚙️', mem: true, knowledge: [], model: 'qwen/qwen3.6-27b' };
             agents.unshift(newAgent); 
             activeAgentId = newId;
             saveToStorage(); 
@@ -724,7 +716,6 @@
             if(agentIndex > -1) {
                 agents[agentIndex].name = iName.value; 
                 agents[agentIndex].prompt = iPrompt.value;
-                agents[agentIndex].web = iWeb.checked; 
                 agents[agentIndex].mem = iMem.checked;
                 agents[agentIndex].knowledge = [...currentTempKnowledge]; // Save files & text
                 agents[agentIndex].model = document.getElementById('agentModel').value; // Save model selection
@@ -816,8 +807,7 @@
                     body: JSON.stringify({ 
                         systemPrompt: finalSystemPrompt, 
                         userPrompt: msg,
-                        model: selectedModel,
-                        useWebSearch: iWeb.checked // 🌐 👈 یہ ہے وہ جادوئی لائن جو ہم نے شامل کی ہے!
+                        model: selectedModel
                     })
                 });
                 
@@ -873,7 +863,6 @@
                     agentName: currentAgent.name,
                     systemPrompt: currentAgent.prompt,
                     model: document.getElementById('agentModel').value,
-                    webEnabled: currentAgent.web || false,
                     memoryEnabled: currentAgent.mem !== false,
                     knowledgeBaseFiles: currentAgent.knowledge || [], // Data Saved!
                     createdAt: new Date().toISOString()
