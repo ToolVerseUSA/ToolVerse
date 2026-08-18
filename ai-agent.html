@@ -816,7 +816,8 @@
                     body: JSON.stringify({ 
                         systemPrompt: finalSystemPrompt, 
                         userPrompt: msg,
-                        model: selectedModel 
+                        model: selectedModel,
+                        useWebSearch: iWeb.checked // 🌐 👈 یہ ہے وہ جادوئی لائن جو ہم نے شامل کی ہے!
                     })
                 });
                 
