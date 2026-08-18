@@ -1,7 +1,8 @@
 // =================================================================
-// VVIP GROQ API HANDLER - TOOLVERSE PRO (50K+ CONCURRENT LOAD)
+// VVIP GROQ API HANDLER - TOOLVERSE PRO (SMART ROUTER)
 // =================================================================
-export const maxDuration = 60; // VVIP Timeout Unlocker
+export const maxDuration = 60; // 👈 VVIP Timeout Unlocker
+
 export default async function handler(req, res) {
     // 1. VVIP SECURITY: CORS Protection
     const allowedOrigins = ['https://toolverse-usa.vercel.app', 'http://localhost:3000'];
@@ -25,11 +26,17 @@ export default async function handler(req, res) {
         const { systemPrompt, userPrompt, model } = req.body;
 
         // =========================================================
-        // VVIP MODEL AUTO-FIX INTERCEPTOR (SAVES ALL BROKEN TOOLS)
+        // VVIP SMART ROUTER (ماڈلز کو کنٹرول کرنے والا دماغ)
         // =========================================================
-        let finalModel = model || 'qwen/qwen3.6-27b';
-        if (finalModel.toLowerCase().includes("llama") || finalModel.includes("8192") || finalModel.includes("70b-versatile")) {
-            finalModel = "qwen/qwen3.6-27b"; // Auto-upgrade old requests to the new blazing-fast Qwen model
+        let finalModel = model || "qwen/qwen3.6-27b";
+        
+        // 1. اگر Code Generator کی باری ہے (ہیوی کوڈنگ) تو Llama 3 استعمال کرو
+        if (systemPrompt && systemPrompt.includes("10x AI Software Engineer")) {
+            finalModel = "llama3-70b-8192";
+        } 
+        // 2. باقی تمام پرانے/خراب ماڈلز کو پکڑ کر واپس Qwen پر رکھو (تاکہ Data Analyst خراب نہ ہو)
+        else if (finalModel.includes("versatile") || finalModel.toLowerCase().includes("llama-3.3")) {
+            finalModel = "qwen/qwen3.6-27b";
         }
 
         // 2. VVIP LOAD BALANCING (KEY POOLING)
@@ -57,13 +64,13 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: finalModel, // 👈 Using the protected/upgraded model here
+                model: finalModel, 
                 messages: [
-                    { role: 'system', content: systemPrompt || 'You are a helpful assistant.' },
+                    { role: 'system', content: systemPrompt || 'You are an elite developer.' },
                     { role: 'user', content: userPrompt || 'Hello' }
                 ],
-                temperature: 0.7,
-                max_tokens: 4000
+                temperature: 0.4, 
+                max_tokens: 6000  // سب کے لیے سیف لمٹ
             })
         });
 
@@ -80,9 +87,7 @@ export default async function handler(req, res) {
         const data = await groqResponse.json();
         let reply = data.choices[0].message.content;
 
-        // ==========================================================
-        // VVIP FIX: REMOVE <think> BLOCKS FROM REASONING MODELS
-        // ==========================================================
+        // Remove <think> blocks if any
         reply = reply.replace(/<think>[\s\S]*?<\/think>\n*/gi, '').trim();
 
         // 5. SUCCESS RESPONSE
