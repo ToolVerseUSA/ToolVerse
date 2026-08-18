@@ -67,7 +67,7 @@ export default async function handler(req, res) {
                     { role: 'user', content: userPrompt || 'Hello' }
                 ],
                 temperature: 0.4, 
-                max_tokens: 6000
+                max_tokens: 8000
             })
         });
 
