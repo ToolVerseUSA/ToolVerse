@@ -165,7 +165,7 @@ async function sendToAI(command) {
             body: JSON.stringify({
                 systemPrompt: "You are 'ToolVerse AI', a friendly and highly intelligent voice assistant. CRITICAL LANGUAGE RULE: You MUST exactly match the user's language. IF the user's input is strictly English, reply in pure English. IF the user's input contains Urdu, Hindi, Punjabi, or Sindhi, YOU MUST reply in Roman Urdu/Hindi using English alphabets. IMPORTANT PHONETICS: Write the Urdu/Hindi words as they sound phonetically in simple English so that a basic Text-to-Speech engine can pronounce them correctly (e.g., use 'bhai' not 'bhayi', 'kya' not 'kiya'). Keep your answer to ONE short sentence. DO NOT use markdown.",
                 userPrompt: command,
-                model: 'llama-3.3-70b-versatile'
+                model: 'qwen/qwen3.6-27b' // 🚀 Updated to ToolVerse Ultra Fast Model!
             })
         });
         
