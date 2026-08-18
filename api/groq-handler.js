@@ -1,10 +1,9 @@
 // =================================================================
-// VVIP GROQ API HANDLER - TOOLVERSE PRO (X-RAY DIAGNOSTIC MODE)
+// VVIP GROQ API HANDLER - TOOLVERSE PRO (FINAL FIX)
 // =================================================================
-export const maxDuration = 60; // 👈 VVIP Timeout Unlocker
+export const maxDuration = 60; 
 
 export default async function handler(req, res) {
-    // 1. CORS Protection
     const allowedOrigins = ['https://toolverse-usa.vercel.app', 'http://localhost:3000'];
     const origin = req.headers.origin;
     
@@ -26,15 +25,17 @@ export default async function handler(req, res) {
         const { systemPrompt, userPrompt, model } = req.body;
 
         // =========================================================
-        // SMART ROUTER (Mixtral 32K for Heavy Code)
+        // SMART ROUTER (128K Heavy-Duty King)
         // =========================================================
         let finalModel = model || "llama-3.1-8b-instant"; 
         
         if (systemPrompt && systemPrompt.includes("10x AI Software Engineer")) {
-            finalModel = "mixtral-8x7b-32768"; // 👈 32,000 Memory Limit! (Never fails on length)
+            // Groq کا سب سے لیٹسٹ اور بڑی میموری والا ماڈل جو کبھی نہیں کٹے گا
+            finalModel = "llama-3.3-70b-versatile"; 
         } 
-        else if (finalModel.includes("versatile") || finalModel.includes("qwen")) {
-            finalModel = "llama-3.1-70b-versatile"; // Safe model for other tools
+        else {
+            // باقی پرانے ٹولز (Data Analyst وغیرہ) اپنے پرانے ماڈل پر ہی رہیں گے
+            finalModel = model || "llama-3.1-8b-instant"; 
         }
 
         // 2. LOAD BALANCING
@@ -47,7 +48,7 @@ export default async function handler(req, res) {
         ].filter(Boolean); 
 
         if (API_KEYS.length === 0) {
-            throw new Error("Server API keys are not configured in Vercel Environment Variables!");
+            throw new Error("Server API keys are not configured in Vercel!");
         }
 
         const randomKey = API_KEYS[Math.floor(Math.random() * API_KEYS.length)];
@@ -66,11 +67,11 @@ export default async function handler(req, res) {
                     { role: 'user', content: userPrompt || 'Hello' }
                 ],
                 temperature: 0.4, 
-                max_tokens: 7000
+                max_tokens: 6000 // اب ہم اسے پوری پاور دے سکتے ہیں
             })
         });
 
-        // 4. X-RAY ERROR CHECKING (یہاں سے ہمیں اصلی بیماری پتا چلے گی)
+        // 4. ERROR HANDLING
         if (!groqResponse.ok) {
             const errData = await groqResponse.text();
             throw new Error(`Groq API Error ${groqResponse.status}: ${errData}`);
@@ -79,17 +80,12 @@ export default async function handler(req, res) {
         const data = await groqResponse.json();
         let reply = data.choices[0].message.content;
 
-        // Remove <think> blocks
         reply = reply.replace(/<think>[\s\S]*?<\/think>\n*/gi, '').trim();
 
         return res.status(200).json({ result: reply });
 
     } catch (error) {
         console.error("Backend Error:", error);
-        
-        // =========================================================
-        // X-RAY DIAGNOSTIC RESPONSE TO FRONTEND
-        // =========================================================
         const errorMsg = `[THOUGHTS]
 Server encountered a critical error. Scanning details...
 [/THOUGHTS]
