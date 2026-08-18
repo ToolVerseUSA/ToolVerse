@@ -1,10 +1,10 @@
 // =================================================================
-// VVIP GROQ API HANDLER - TOOLVERSE PRO (SMART ROUTER)
+// VVIP GROQ API HANDLER - TOOLVERSE PRO (X-RAY DIAGNOSTIC MODE)
 // =================================================================
 export const maxDuration = 60; // 👈 VVIP Timeout Unlocker
 
 export default async function handler(req, res) {
-    // 1. VVIP SECURITY: CORS Protection
+    // 1. CORS Protection
     const allowedOrigins = ['https://toolverse-usa.vercel.app', 'http://localhost:3000'];
     const origin = req.headers.origin;
     
@@ -26,20 +26,18 @@ export default async function handler(req, res) {
         const { systemPrompt, userPrompt, model } = req.body;
 
         // =========================================================
-        // VVIP SMART ROUTER (ماڈلز کو کنٹرول کرنے والا دماغ)
+        // SMART ROUTER (Mixtral 32K for Heavy Code)
         // =========================================================
-        let finalModel = model || "qwen/qwen3.6-27b";
+        let finalModel = model || "llama-3.1-8b-instant"; 
         
-        // 1. اگر Code Generator کی باری ہے (ہیوی کوڈنگ) تو Llama 3 استعمال کرو
         if (systemPrompt && systemPrompt.includes("10x AI Software Engineer")) {
-            finalModel = "llama3-70b-8192";
+            finalModel = "mixtral-8x7b-32768"; // 👈 32,000 Memory Limit! (Never fails on length)
         } 
-        // 2. باقی تمام پرانے/خراب ماڈلز کو پکڑ کر واپس Qwen پر رکھو (تاکہ Data Analyst خراب نہ ہو)
-        else if (finalModel.includes("versatile") || finalModel.toLowerCase().includes("llama-3.3")) {
-            finalModel = "qwen/qwen3.6-27b";
+        else if (finalModel.includes("versatile") || finalModel.includes("qwen")) {
+            finalModel = "llama-3.1-70b-versatile"; // Safe model for other tools
         }
 
-        // 2. VVIP LOAD BALANCING (KEY POOLING)
+        // 2. LOAD BALANCING
         const API_KEYS = [
             process.env.GROQ_API_KEY,      
             process.env.GROQ_API_KEY_2,    
@@ -49,14 +47,12 @@ export default async function handler(req, res) {
         ].filter(Boolean); 
 
         if (API_KEYS.length === 0) {
-            return res.status(200).json({ 
-                result: "⚠️ Server API keys are not configured. Please contact the administrator." 
-            });
+            throw new Error("Server API keys are not configured in Vercel Environment Variables!");
         }
 
         const randomKey = API_KEYS[Math.floor(Math.random() * API_KEYS.length)];
 
-        // 3. SEND REQUEST TO GROQ API
+        // 3. GROQ API CALL
         const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -70,33 +66,52 @@ export default async function handler(req, res) {
                     { role: 'user', content: userPrompt || 'Hello' }
                 ],
                 temperature: 0.4, 
-                max_tokens: 3500  // سب کے لیے سیف لمٹ
+                max_tokens: 7000
             })
         });
 
-        // 4. ERROR HANDLING
+        // 4. X-RAY ERROR CHECKING (یہاں سے ہمیں اصلی بیماری پتا چلے گی)
         if (!groqResponse.ok) {
-            if (groqResponse.status === 429) {
-                return res.status(200).json({ 
-                    result: "🚦 The server is experiencing extremely high traffic. Please wait a few seconds and try again." 
-                });
-            }
-            throw new Error(`API Connection Failed: ${groqResponse.status}`);
+            const errData = await groqResponse.text();
+            throw new Error(`Groq API Error ${groqResponse.status}: ${errData}`);
         }
 
         const data = await groqResponse.json();
         let reply = data.choices[0].message.content;
 
-        // Remove <think> blocks if any
+        // Remove <think> blocks
         reply = reply.replace(/<think>[\s\S]*?<\/think>\n*/gi, '').trim();
 
-        // 5. SUCCESS RESPONSE
         return res.status(200).json({ result: reply });
 
     } catch (error) {
         console.error("Backend Error:", error);
-        return res.status(200).json({ 
-            result: "🔌 Network connection is overloaded right now. Attempting to reconnect, please try again." 
-        });
+        
+        // =========================================================
+        // X-RAY DIAGNOSTIC RESPONSE TO FRONTEND
+        // =========================================================
+        const errorMsg = `[THOUGHTS]
+Server encountered a critical error. Scanning details...
+[/THOUGHTS]
+[LANGUAGE]
+javascript
+[/LANGUAGE]
+[CODE]
+/* 
+===========================================
+ ⚠️ SYSTEM ERROR REPORT 
+===========================================
+عمران بھائی، مسئلہ یہ ہے:
+
+${error.message}
+
+===========================================
+*/
+[/CODE]
+[INSTRUCTIONS]
+Please read the exact error above to find the root cause.
+[/INSTRUCTIONS]`;
+
+        return res.status(200).json({ result: errorMsg });
     }
 }
