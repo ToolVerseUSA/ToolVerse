@@ -362,15 +362,39 @@
             const response = await fetch('/api/groq-handler', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ systemPrompt, userPrompt })
+                body: JSON.stringify({ 
+                    systemPrompt, 
+                    userPrompt,
+                    model: "qwen/qwen3.6-27b" // 👈 VVIP FIX: Ensured Qwen is strictly used!
+                })
             });
 
             const responseData = await response.json();
             if (!response.ok || !responseData.result) throw new Error(responseData.error || "Server Error: API did not respond properly.");
 
-            // Clean up possible markdown added by AI and parse JSON
+            // ==========================================
+            // VVIP ROBUST JSON PARSER & FALLBACK
+            // ==========================================
             let cleanJSON = responseData.result.replace(/```json/gi, '').replace(/```/g, '').trim();
-            const data = JSON.parse(cleanJSON);
+            let data = {};
+            
+            try {
+                data = JSON.parse(cleanJSON);
+            } catch (jsonError) {
+                // FALLBACK MODE: If JSON is cut off due to code length, we extract manually using Regex
+                console.warn("JSON parsing failed, engaging VVIP Regex Fallback...");
+                
+                const thoughtMatch = cleanJSON.match(/"thought_process"\s*:\s*"([^"]*)"/);
+                const langMatch = cleanJSON.match(/"language"\s*:\s*"([^"]*)"/);
+                const codeMatch = cleanJSON.match(/"code"\s*:\s*"([\s\S]*?)",?\n?\s*("instructions"|})/);
+                
+                data.thought_process = thoughtMatch ? thoughtMatch[1] : "Generated optimized code structure.";
+                data.language = langMatch ? langMatch[1] : (language || 'javascript');
+                // Unescape JSON specific characters if using fallback
+                let rawExtractedCode = codeMatch ? codeMatch[1] : "/* Code generation reached max length limit. Please try splitting your request. */";
+                data.code = rawExtractedCode.replace(/\\n/g, '\n').replace(/\\"/g, '"').replace(/\\\\/g, '\\').replace(/\\t/g, '\t');
+                data.instructions = "Code extracted via fallback mode due to extreme length.";
+            }
 
             // Populate Text Areas
             document.getElementById('out-thought').innerText = data.thought_process || "Analyzing logic...";
