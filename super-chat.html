@@ -64,7 +64,8 @@
 
     <header class="chat-header">
         <select class="model-selector" id="aiModel">
-            <option value="llama-3">Llama 3 (Ultra Fast - 5 Credits)</option>
+            <!-- VVIP FIX: Updated to the new Qwen Model -->
+            <option value="qwen/qwen3.6-27b">Qwen 27B (Ultra Fast - 5 Credits)</option>
             <option value="claude-3-5" disabled>Claude 3.5 Sonnet 🔒</option>
             <option value="gpt-4o" disabled>GPT-4o 🔒</option>
         </select>
@@ -124,9 +125,8 @@
 
         window.triggerSendMessage = async function(hiddenContext = null) {
             const message = userInput.value.trim();
-            if (!message || sendBtn.disabled) return; // VVIP Fix: Prevent spam clicking
+            if (!message || sendBtn.disabled) return; 
 
-            // VVIP Fix: Disable inputs during processing
             userInput.disabled = true;
             sendBtn.disabled = true;
 
@@ -151,19 +151,26 @@
 
             setTimeout(async () => {
                 try {
-                    const response = await fetch('/api/super-chat', {
+                    // VVIP FIX: Route to our Master Backend (groq-handler) instead of super-chat
+                    const response = await fetch('/api/groq-handler', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ message: finalPrompt, model: aiModel.value })
+                        body: JSON.stringify({ 
+                            systemPrompt: "You are ToolVerse Super AI, a highly advanced, helpful, and smart assistant.",
+                            userPrompt: finalPrompt, 
+                            model: aiModel.value 
+                        })
                     });
+                    
                     const data = await response.json();
                     
                     chatBox.removeChild(typingDiv);
                     const aiDiv = document.createElement('div');
                     aiDiv.className = 'message ai-msg';
 
-                    if (response.ok && data.reply) {
-                        let cleanText = data.reply.replace(/\*\*/g, '').replace(/\*/g, '').replace(/###/g, '').replace(/`/g, '');           
+                    // VVIP FIX: Expecting data.result from groq-handler
+                    if (response.ok && data.result) {
+                        let cleanText = data.result.replace(/\*\*/g, '').replace(/\*/g, '').replace(/###/g, '').replace(/`/g, '');           
                         aiDiv.innerHTML = cleanText.replace(/\n/g, '<br>'); 
                     } else {
                         throw new Error("No API");
@@ -184,14 +191,13 @@
                 
                 chatBox.scrollTop = chatBox.scrollHeight;
                 
-                // VVIP Fix: Re-enable inputs after response
                 userInput.disabled = false;
                 sendBtn.disabled = false;
                 userInput.focus();
                 
                 if (typeof window.deductCredits === 'function') window.deductCredits();
 
-            }, 1500); 
+            }, 1000); 
         }
 
         sendBtn.addEventListener('click', () => window.triggerSendMessage(null));
@@ -246,7 +252,7 @@
             }
         });
 
-        // VVIP EXACT SYNC (No more increments misbehaving)
+        // VVIP EXACT SYNC
         window.deductCredits = async function() {
             let currentCredits = parseInt(localStorage.getItem('tv_agent_credits') || "0");
             if (currentCredits >= COST_PER_MESSAGE) {
@@ -257,7 +263,7 @@
                 if(currentUser) {
                     try {
                         const userRef = doc(db, "users", currentUser.uid);
-                        await updateDoc(userRef, { credits: currentCredits }); // Force Exact Amount to DB
+                        await updateDoc(userRef, { credits: currentCredits }); 
                     } catch(e) { console.error("Cloud Sync Error", e); }
                 }
             }
