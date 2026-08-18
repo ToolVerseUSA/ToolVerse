@@ -1,100 +1,178 @@
-// =================================================================
-// VVIP GROQ API HANDLER - TOOLVERSE PRO (SMART TOKEN ROUTER)
-// =================================================================
-export const maxDuration = 60; 
+// ==========================================
+// VVIP VOICE ASSISTANT MODULE - TOOLVERSE PRO
+// ==========================================
 
-export default async function handler(req, res) {
-    const allowedOrigins = ['https://toolverse-usa.vercel.app', 'http://localhost:3000'];
-    const origin = req.headers.origin;
-    
-    if (allowedOrigins.includes(origin)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = SpeechRecognition ? new SpeechRecognition() : null;
 
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
-    }
+const voiceModal = document.getElementById('voice-modal');
+const statusText = document.getElementById('voice-status');
+const transcriptText = document.getElementById('voice-text');
+const waveIcon = document.getElementById('wave-icon');
 
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed. Use POST.' });
-    }
+let isProcessing = false; 
+let isModalOpen = false; 
 
-    try {
-        const { systemPrompt, userPrompt, model } = req.body;
-        const finalUserPrompt = userPrompt || 'Hello';
-        let finalModel = model || "qwen/qwen3.6-27b"; 
+if (recognition) {
+    recognition.continuous = false;
+    recognition.lang = 'en-US'; 
+    recognition.interimResults = false;
 
-        // =========================================================
-        // SMART TOKEN ROUTER (MAGIC FIX) 🧠
-        // =========================================================
-        let dynamicMaxTokens = 2000; // عام ٹولز کے لیے درمیانی سیف لمٹ
+    // 1. جب یوزر بولنا شروع کرے
+    recognition.onstart = () => {
+        isProcessing = true;
+        statusText.innerHTML = "Listening...";
+        statusText.style.color = "#4ade80"; 
+        waveIcon.className = "fa-solid fa-waveform fa-beat-fade"; 
+        waveIcon.style.color = "#4ade80";
+    };
 
-        if (systemPrompt && systemPrompt.includes("10x AI Software Engineer")) {
-            // 🚀 Code Generator کے لیے فل پاور (کوئی کوڈ نہیں کٹے گا)
-            finalModel = "qwen/qwen3.6-27b"; 
-            dynamicMaxTokens = 6000; 
-        } 
-        else if (systemPrompt && systemPrompt.includes("ToolVerse AI")) {
-            // 🎙️ Voice Assistant کے لیے انتہائی کم ٹوکنز (کبھی Error 429 نہیں آئے گا)
-            dynamicMaxTokens = 300; 
-        }
+    // 2. جب آواز بند ہو
+    recognition.onspeechend = () => {
+        recognition.stop();
+    };
+
+    // 3. جب کمانڈ AI کو جائے
+    recognition.onresult = async (event) => {
+        const userCommand = event.results[0][0].transcript;
+        transcriptText.innerHTML = `<span style="color: white; font-weight: bold;">You:</span> ${userCommand}`;
         
-        // =========================================================
-        // LOAD BALANCING
-        // =========================================================
-        const API_KEYS = [
-            process.env.GROQ_API_KEY,      
-            process.env.GROQ_API_KEY_2,    
-            process.env.GROQ_API_KEY_3,    
-            process.env.GROQ_API_KEY_4,    
-            process.env.GROQ_API_KEY_5     
-        ].filter(Boolean); 
+        statusText.innerHTML = "Thinking...";
+        statusText.style.color = "#f59e0b"; 
+        waveIcon.className = "fa-solid fa-waveform fa-bounce";
+        waveIcon.style.color = "#f59e0b";
 
-        if (API_KEYS.length === 0) {
-            throw new Error("Server API keys are not configured in Vercel!");
+        // AI سے جواب منگوانا
+        const aiResponse = await sendToAI(userCommand);
+        
+        statusText.innerHTML = "Speaking...";
+        statusText.style.color = "#38bdf8"; 
+        waveIcon.className = "fa-solid fa-waveform fa-flip";
+        waveIcon.style.color = "#38bdf8";
+
+        transcriptText.innerHTML += `<br><br><span style="color: #38bdf8; font-weight: bold;">AI:</span> ${aiResponse}`;
+        speakText(aiResponse);
+    };
+
+    // 4. خاموشی یا ایرر پر ہینڈلنگ
+    recognition.onerror = (event) => {
+        isProcessing = false;
+        if (event.error === 'no-speech' && isModalOpen) {
+            showTapToSpeakUI();
+            return;
         }
+        statusText.innerHTML = "Error: " + event.error;
+        statusText.style.color = "#ff4757"; 
+        waveIcon.className = "fa-solid fa-microphone-slash";
+        waveIcon.style.color = "#ff4757";
+    };
+}
 
-        const randomKey = API_KEYS[Math.floor(Math.random() * API_KEYS.length)];
+// ماڈل اوپن کرنے کا فنکشن
+function toggleVoiceModal() {
+    if (!recognition) { 
+        alert("⚠️ Voice Assistant is not supported in your browser."); 
+        return; 
+    }
+    isModalOpen = true;
+    voiceModal.style.display = 'flex';
+    transcriptText.innerHTML = "Speak your command...";
+    forceStartRecognition();
+}
 
-        // =========================================================
-        // GROQ API CALL
-        // =========================================================
-        const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+// ماڈل کلوز کرنے کا فنکشن
+function closeVoiceModal() {
+    isModalOpen = false;
+    isProcessing = false;
+    if(recognition) recognition.stop();
+    window.speechSynthesis.cancel(); 
+    voiceModal.style.display = 'none';
+    
+    waveIcon.className = "fa-solid fa-waveform";
+    waveIcon.style.color = "#38bdf8";
+    statusText.innerHTML = "Listening...";
+}
+
+// یوزر کو واضح دکھانے کے لیے نیا VVIP UI فنکشن
+function showTapToSpeakUI() {
+    if (!isModalOpen) return;
+    
+    waveIcon.className = "fa-solid fa-microphone fa-fade";
+    waveIcon.style.color = "#38bdf8";
+    
+    statusText.innerHTML = `<span style="display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid #38bdf8; padding: 8px 25px; border-radius: 30px; font-size: 1.2rem; cursor: pointer; color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);">👇 Tap to Speak</span>`;
+}
+
+// Manual Override - آئیکن یا بٹن پر کلک
+waveIcon.style.cursor = "pointer";
+waveIcon.onclick = () => { if (!isProcessing && isModalOpen) forceStartRecognition(); };
+statusText.onclick = () => { if (!isProcessing && isModalOpen) forceStartRecognition(); };
+
+function forceStartRecognition() {
+    if (isProcessing) return;
+    try {
+        recognition.start();
+    } catch(e) {
+        console.log("Mic is already preparing...");
+    }
+}
+
+// AI کے ٹیکسٹ کو آواز میں بدلنے کا فنکشن (VVIP Voice Selection کے ساتھ)
+function speakText(text) {
+    if (!window.speechSynthesis) {
+        statusText.innerHTML = "Audio not supported.";
+        isProcessing = false;
+        return;
+    }
+
+    window.speechSynthesis.cancel(); 
+    const cleanText = text.replace(/[*#_`]/g, ''); 
+    const msg = new SpeechSynthesisUtterance(cleanText);
+    
+    // VVIP Voice Selection: براؤزر کی بہترین آواز ڈھونڈنا
+    const voices = window.speechSynthesis.getVoices();
+    const regionalVoice = voices.find(v => v.lang.includes('ur') || v.lang.includes('hi'));
+
+    if (regionalVoice) {
+        msg.voice = regionalVoice;
+        msg.lang = regionalVoice.lang;
+    } else {
+        msg.lang = 'en-US';
+    }
+
+    msg.rate = 1.0; 
+
+    msg.onend = () => {
+        isProcessing = false;
+        if (!isModalOpen) return; 
+        showTapToSpeakUI();
+    };
+
+    msg.onerror = () => {
+        isProcessing = false;
+        if(isModalOpen) showTapToSpeakUI();
+    };
+
+    window.speechSynthesis.speak(msg);
+}
+
+// Groq Model سے کنکشن (VVIP Phonetics Instruction کے ساتھ)
+async function sendToAI(command) {
+    try {
+        const response = await fetch('/api/groq-handler', {
             method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${randomKey}`,
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                model: finalModel, 
-                messages: [
-                    { role: 'system', content: systemPrompt || 'You are an elite developer.' },
-                    { role: 'user', content: finalUserPrompt } 
-                ],
-                temperature: 0.4, 
-                max_tokens: dynamicMaxTokens // 👈 اب یہ خود فیصلہ کرے گا کہ کسے کتنے ٹوکنز دینے ہیں!
+                systemPrompt: "You are 'ToolVerse AI', a friendly and highly intelligent voice assistant. CRITICAL LANGUAGE RULE: You MUST exactly match the user's language. IF the user's input is strictly English, reply in pure English. IF the user's input contains Urdu, Hindi, Punjabi, or Sindhi, YOU MUST reply in Roman Urdu/Hindi using English alphabets. IMPORTANT PHONETICS: Write the Urdu/Hindi words as they sound phonetically in simple English so that a basic Text-to-Speech engine can pronounce them correctly (e.g., use 'bhai' not 'bhayi', 'kya' not 'kiya'). Keep your answer to ONE short sentence. DO NOT use markdown.",
+                userPrompt: command,
+                model: 'qwen/qwen3.6-27b' // 🚀 Updated to ToolVerse Ultra Fast Model!
             })
         });
-
-        if (!groqResponse.ok) {
-            const errData = await groqResponse.text();
-            throw new Error(`Groq API Error ${groqResponse.status}: ${errData}`);
-        }
-
-        const data = await groqResponse.json();
-        let reply = data.choices[0].message.content;
-
-        // BULLETPROOF <THINK> TAG CLEANER
-        reply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '');
-        reply = reply.replace(/<think>[\s\S]*/gi, '');
-        reply = reply.trim();
-
-        return res.status(200).json({ result: reply });
-
+        
+        if (!response.ok) throw new Error("API Network Error");
+        const data = await response.json();
+        return data.result || "Sorry, I missed that.";
     } catch (error) {
-        console.error("Backend Error:", error);
-        return res.status(200).json({ result: `[ERROR_LOG]\n${error.message}` });
+        return "Connection issue. Please try again.";
     }
 }
