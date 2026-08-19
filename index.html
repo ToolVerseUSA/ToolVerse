@@ -1,75 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Can I Afford This? | US Financial Decision Engine</title>
-    <meta name="description" content="Calculate if you can afford your lifestyle in any US city. Real-time cost of living analyzer for smarter financial decisions.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background: #0f172a; font-family: 'Inter', sans-serif; }
-        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ToolVerse is a US financial cost of living calculator that helps you understand how comfortably your salary supports your rent." />
+  <meta name="keywords" content="US financial cost of living calculator, affordability calculator, rent calculator, financial score" />
+  <meta name="author" content="ToolVerse" />
+  <meta name="theme-color" content="#07111f" />
+  <meta property="og:title" content="ToolVerse: US Money Decision Engine" />
+  <meta property="og:description" content="Calculate your real financial score in seconds." />
+  <meta property="og:type" content="website" />
+  <title>ToolVerse — Can I Afford This?</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+          colors: { ink: '#07111f', panel: '#0d1a2b', cyanx: '#22d3ee', purplex: '#a78bfa' },
+          boxShadow: { glow: '0 0 40px rgba(34,211,238,.14)', purpleglow: '0 0 40px rgba(167,139,250,.16)' }
+        }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { color-scheme: dark; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #07111f; }
+    h1, h2, h3, .brand { font-family: 'Space Grotesk', sans-serif; }
+    .grid-bg { background-image: linear-gradient(rgba(148,163,184,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.055) 1px, transparent 1px); background-size: 42px 42px; }
+    .glass { background: linear-gradient(135deg, rgba(20,39,63,.78), rgba(11,24,41,.72)); border: 1px solid rgba(148,163,184,.16); backdrop-filter: blur(18px); }
+    .ring-progress { transition: stroke-dashoffset 900ms cubic-bezier(.22,1,.36,1); transform: rotate(-90deg); transform-origin: 50% 50%; }
+    .number-input::-webkit-inner-spin-button, .number-input::-webkit-outer-spin-button { opacity: .55; }
+    .input-wrap:focus-within { border-color: rgba(34,211,238,.8); box-shadow: 0 0 0 4px rgba(34,211,238,.09); }
+    .fade-up { animation: fadeUp .7s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
 </head>
-<body>
+<body class="min-h-screen overflow-x-hidden text-slate-100">
+  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute -left-40 -top-40 h-[28rem] w-[28rem] rounded-full bg-cyan-400/10 blur-[120px]"></div>
+    <div class="absolute -right-40 top-56 h-[30rem] w-[30rem] rounded-full bg-violet-500/10 blur-[130px]"></div>
+  </div>
 
-    <div class="max-w-2xl mx-auto mt-10 p-6">
-        <!-- Header -->
-        <div class="text-center mb-10">
-            <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 mb-4">Can I Afford This?</h1>
-            <p class="text-slate-400 text-lg">Calculate your real financial score in seconds.</p>
+  <header class="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-10">
+    <a href="#home" class="brand flex items-center gap-3 text-lg font-bold tracking-tight" aria-label="ToolVerse home">
+      <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-violet-400 text-sm font-black text-slate-950 shadow-glow">TV</span>
+      <span>Tool<span class="text-cyan-300">Verse</span></span>
+    </a>
+    <nav class="flex items-center gap-2 text-sm text-slate-300" aria-label="Main navigation">
+      <a class="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white" href="#home">Home</a>
+      <a class="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white" href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="home" class="grid-bg">
+    <section class="mx-auto max-w-7xl px-5 pb-16 pt-12 sm:px-8 sm:pt-20 lg:px-10 lg:pb-24">
+      <div class="mx-auto max-w-3xl text-center fade-up">
+        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-[.18em] text-cyan-200">
+          <span class="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_12px_#67e8f9]"></span>
+          US Money Decision Engine
         </div>
+        <h1 class="text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">Can I <span class="bg-gradient-to-r from-cyan-300 via-sky-200 to-violet-300 bg-clip-text text-transparent">Afford This?</span></h1>
+        <p class="mx-auto mt-6 max-w-xl text-base leading-7 text-slate-400 sm:text-lg">Calculate your real financial score in seconds. Turn two numbers into a clearer picture of your monthly breathing room.</p>
+      </div>
 
-        <!-- Calculator Card -->
-        <div class="glass p-8 rounded-3xl shadow-2xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="text-sm text-slate-400">Annual Salary ($)</label>
-                    <input type="number" id="salary" class="w-full mt-2 p-4 bg-slate-900 rounded-xl border border-slate-700 text-white outline-none focus:ring-2 focus:ring-cyan-500" placeholder="e.g. 75000">
-                </div>
-                <div>
-                    <label class="text-sm text-slate-400">Monthly Rent ($)</label>
-                    <input type="number" id="rent" class="w-full mt-2 p-4 bg-slate-900 rounded-xl border border-slate-700 text-white outline-none focus:ring-2 focus:ring-cyan-500" placeholder="e.g. 2000">
-                </div>
+      <div class="mx-auto mt-12 grid max-w-5xl gap-5 lg:grid-cols-[1.05fr_.95fr] lg:gap-6">
+        <section class="glass rounded-3xl p-6 shadow-glow sm:p-8 fade-up" aria-labelledby="calculator-title">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[.18em] text-cyan-300">01 / Your inputs</p>
+              <h2 id="calculator-title" class="mt-3 text-2xl font-bold text-white">Set your monthly baseline</h2>
+              <p class="mt-2 text-sm leading-6 text-slate-400">Use gross annual income and your expected monthly rent.</p>
             </div>
-            
-            <button onclick="analyze()" class="w-full mt-8 p-4 bg-gradient-to-r from-cyan-600 to-purple-600 rounded-xl font-bold text-lg hover:opacity-90 transition">
-                Generate My Financial Score 📊
+            <div class="hidden h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/[.04] text-cyan-300 sm:grid" aria-hidden="true">$</div>
+          </div>
+
+          <form id="affordability-form" class="mt-8 space-y-5" novalidate>
+            <label class="block">
+              <span class="mb-2 block text-sm font-semibold text-slate-200">Annual Salary ($)</span>
+              <span class="input-wrap flex items-center rounded-2xl border border-white/10 bg-slate-950/40 px-4 transition">
+                <span class="mr-3 text-slate-500">$</span>
+                <input id="salary" class="number-input w-full bg-transparent py-3.5 text-lg font-semibold text-white outline-none placeholder:text-slate-600" type="number" min="1" step="1000" placeholder="85,000" inputmode="numeric" required />
+              </span>
+            </label>
+            <label class="block">
+              <span class="mb-2 block text-sm font-semibold text-slate-200">Monthly Rent ($)</span>
+              <span class="input-wrap flex items-center rounded-2xl border border-white/10 bg-slate-950/40 px-4 transition">
+                <span class="mr-3 text-slate-500">$</span>
+                <input id="rent" class="number-input w-full bg-transparent py-3.5 text-lg font-semibold text-white outline-none placeholder:text-slate-600" type="number" min="1" step="50" placeholder="2,100" inputmode="numeric" required />
+              </span>
+            </label>
+            <p id="error-message" class="hidden rounded-xl border border-rose-300/20 bg-rose-300/10 px-3 py-2 text-sm text-rose-200" role="alert"></p>
+            <button class="group flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-300 to-violet-300 px-5 py-4 font-bold text-slate-950 shadow-[0_10px_35px_rgba(34,211,238,.18)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_40px_rgba(167,139,250,.25)] focus:outline-none focus:ring-4 focus:ring-cyan-300/20" type="submit">
+              Calculate Score
+              <span class="transition group-hover:translate-x-1">→</span>
             </button>
-        </div>
+          </form>
+          <p class="mt-5 text-center text-xs leading-5 text-slate-500">Educational estimate only. This tool does not provide financial advice.</p>
+        </section>
 
-        <!-- Result Section -->
-        <div id="result" class="hidden mt-8 glass p-8 rounded-3xl text-center animate-in fade-in zoom-in duration-500">
-            <h2 class="text-2xl font-bold text-white mb-6">Your Financial Health</h2>
-            <div class="flex justify-center mb-6">
-                <div id="score-circle" class="w-40 h-40 rounded-full border-8 border-cyan-500 flex items-center justify-center text-4xl font-bold text-cyan-400">0</div>
+        <section class="glass relative overflow-hidden rounded-3xl p-6 shadow-purpleglow sm:p-8 fade-up" aria-live="polite" aria-labelledby="result-title">
+          <div class="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-violet-400/10 blur-3xl"></div>
+          <div class="relative flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[.18em] text-violet-300">02 / Your result</p>
+              <h2 id="result-title" class="mt-3 text-2xl font-bold text-white">Financial Score</h2>
             </div>
-            <p id="analysis" class="text-slate-300 text-lg mb-6"></p>
-            <button onclick="shareResult()" class="w-full p-3 bg-slate-700 rounded-xl hover:bg-slate-600 transition">Share My Score 📤</button>
-        </div>
+            <span id="status-pill" class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-400">Waiting for inputs</span>
+          </div>
+
+          <div class="relative mt-8 flex flex-col items-center">
+            <div class="relative h-56 w-56">
+              <svg class="h-full w-full" viewBox="0 0 120 120" aria-label="Financial score progress">
+                <circle cx="60" cy="60" r="49" fill="none" stroke="rgba(148,163,184,.12)" stroke-width="8" />
+                <circle id="progress-ring" class="ring-progress" cx="60" cy="60" r="49" fill="none" stroke="#67e8f9" stroke-linecap="round" stroke-width="8" stroke-dasharray="307.88" stroke-dashoffset="307.88" />
+              </svg>
+              <div class="absolute inset-0 grid place-items-center text-center">
+                <div><div id="score-value" class="text-6xl font-bold tracking-tight text-white">—</div><div class="mt-1 text-xs font-semibold uppercase tracking-[.2em] text-slate-500">out of 100</div></div>
+              </div>
+            </div>
+            <p id="analysis" class="mt-5 max-w-sm text-center text-base leading-7 text-slate-300">Enter your salary and rent to reveal your personalized affordability analysis.</p>
+            <div class="mt-7 grid w-full grid-cols-2 gap-3">
+              <div class="rounded-2xl border border-white/10 bg-white/[.035] p-4"><p class="text-xs text-slate-500">Rent-to-income</p><p id="ratio-value" class="mt-1 text-xl font-bold text-white">—</p></div>
+              <div class="rounded-2xl border border-white/10 bg-white/[.035] p-4"><p class="text-xs text-slate-500">Est. monthly gross</p><p id="income-value" class="mt-1 text-xl font-bold text-white">—</p></div>
+            </div>
+            <button id="share-button" class="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[.04] px-5 py-3.5 text-sm font-semibold text-slate-200 transition hover:border-cyan-300/40 hover:bg-cyan-300/10 hover:text-cyan-100 focus:outline-none focus:ring-4 focus:ring-cyan-300/10" type="button" disabled>
+              <span aria-hidden="true">↗</span><span id="share-label">Share Result</span>
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <div class="mx-auto mt-8 grid max-w-5xl gap-4 text-sm sm:grid-cols-3">
+        <div class="rounded-2xl border border-white/10 bg-white/[.025] p-5"><div class="mb-3 text-cyan-300">◎</div><h3 class="font-bold text-white">Fast by design</h3><p class="mt-1 leading-6 text-slate-500">A quick signal for your next money decision.</p></div>
+        <div class="rounded-2xl border border-white/10 bg-white/[.025] p-5"><div class="mb-3 text-violet-300">⌁</div><h3 class="font-bold text-white">Clear context</h3><p class="mt-1 leading-6 text-slate-500">See your housing ratio alongside your score.</p></div>
+        <div class="rounded-2xl border border-white/10 bg-white/[.025] p-5"><div class="mb-3 text-cyan-300">✦</div><h3 class="font-bold text-white">Private inputs</h3><p class="mt-1 leading-6 text-slate-500">Calculations happen locally in your browser.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact" class="border-t border-white/10 bg-slate-950/40">
+    <div class="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-8 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-10">
+      <div><a href="#home" class="brand font-bold text-white">Tool<span class="text-cyan-300">Verse</span></a><p class="mt-1 text-sm text-slate-500">Tools for clearer decisions.</p></div>
+      <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-400" aria-label="Footer navigation">
+        <a href="#privacy" class="transition hover:text-cyan-300">Privacy Policy</a><a href="#terms" class="transition hover:text-cyan-300">Terms of Service</a><a href="mailto:hello@toolverse.example" class="transition hover:text-cyan-300">Contact Us</a>
+      </nav>
+      <p class="text-xs text-slate-600">© <span id="year"></span> ToolVerse. All rights reserved.</p>
     </div>
+    <div id="privacy" class="sr-only">ToolVerse processes calculator inputs locally and does not transmit them.</div><div id="terms" class="sr-only">ToolVerse provides educational estimates and not financial advice.</div>
+  </footer>
 
-    <script>
-        function analyze() {
-            const salary = parseFloat(document.getElementById('salary').value);
-            const rent = parseFloat(document.getElementById('rent').value);
-            
-            if(!salary || !rent) return alert("Please fill both fields!");
+  <script>
+    (() => {
+      const form = document.getElementById('affordability-form');
+      const salaryInput = document.getElementById('salary');
+      const rentInput = document.getElementById('rent');
+      const errorMessage = document.getElementById('error-message');
+      const ring = document.getElementById('progress-ring');
+      const scoreValue = document.getElementById('score-value');
+      const analysis = document.getElementById('analysis');
+      const ratioValue = document.getElementById('ratio-value');
+      const incomeValue = document.getElementById('income-value');
+      const statusPill = document.getElementById('status-pill');
+      const shareButton = document.getElementById('share-button');
+      const shareLabel = document.getElementById('share-label');
+      const circumference = 2 * Math.PI * 49;
+      let latestResult = null;
 
-            const monthlyIncome = salary / 12;
-            const rentRatio = (rent / monthlyIncome) * 100;
-            let score = Math.max(0, Math.min(100, Math.round(100 - (rentRatio))));
-            
-            document.getElementById('result').classList.remove('hidden');
-            document.getElementById('score-circle').innerText = score;
-            
-            let message = rentRatio > 35 ? "Warning: Your housing costs are too high. Consider downsizing." : "Great! Your housing ratio is healthy.";
-            document.getElementById('analysis').innerText = message;
+      document.getElementById('year').textContent = new Date().getFullYear();
+      ring.style.strokeDasharray = circumference;
+
+      const money = value => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
+      const setStatus = (label, color) => { statusPill.textContent = label; statusPill.className = `rounded-full border px-3 py-1 text-xs font-semibold ${color}`; };
+
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const salary = Number(salaryInput.value);
+        const rent = Number(rentInput.value);
+        if (!Number.isFinite(salary) || !Number.isFinite(rent) || salary <= 0 || rent <= 0) {
+          errorMessage.textContent = 'Please enter a valid salary and monthly rent greater than zero.';
+          errorMessage.classList.remove('hidden');
+          return;
         }
+        errorMessage.classList.add('hidden');
+        const monthlyIncome = salary / 12;
+        const ratio = rent / monthlyIncome;
+        const score = Math.max(0, Math.min(100, Math.round(100 - Math.max(0, ratio - 0.2) * 166.67)));
+        const offset = circumference * (1 - score / 100);
+        const isHealthy = ratio <= 0.3;
+        const isWatch = ratio <= 0.4;
+        latestResult = { score, ratio, salary, rent };
+        scoreValue.textContent = score;
+        ratioValue.textContent = `${(ratio * 100).toFixed(1)}%`;
+        incomeValue.textContent = money(monthlyIncome);
+        ring.style.strokeDashoffset = offset;
+        ring.style.stroke = isHealthy ? '#67e8f9' : isWatch ? '#c4b5fd' : '#fb7185';
+        if (isHealthy) { setStatus('Healthy range', 'border-cyan-300/20 bg-cyan-300/10 text-cyan-200'); analysis.textContent = 'Strong signal: your rent sits in a comfortable range relative to gross income.'; }
+        else if (isWatch) { setStatus('Worth reviewing', 'border-violet-300/20 bg-violet-300/10 text-violet-200'); analysis.textContent = 'Watch your margin: housing costs are taking a meaningful share of your gross income.'; }
+        else { setStatus('High pressure', 'border-rose-300/20 bg-rose-300/10 text-rose-200'); analysis.textContent = 'Warning: your housing costs are too high for this income level. Consider a lower-cost option.'; }
+        shareButton.disabled = false;
+        shareButton.classList.remove('opacity-50', 'cursor-not-allowed');
+      });
 
-        function shareResult() {
-            alert("Score copied to clipboard! Share it on social media.");
-        }
-    </script>
+      shareButton.addEventListener('click', async () => {
+        if (!latestResult) return;
+        const text = `My ToolVerse Financial Score is ${latestResult.score}/100 with a ${(latestResult.ratio * 100).toFixed(1)}% rent-to-income ratio. Check yours: ${window.location.href}`;
+        try { await navigator.clipboard.writeText(text); shareLabel.textContent = 'Copied to clipboard'; }
+        catch { shareLabel.textContent = 'Copy unavailable'; }
+        setTimeout(() => { shareLabel.textContent = 'Share Result'; }, 2200);
+      });
+    })();
+  </script>
 </body>
 </html>
