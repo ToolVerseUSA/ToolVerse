@@ -1,509 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Use ToolVerse's free US cost of living and rent affordability calculator to estimate take-home pay, taxes, debt impact, rent-to-income ratio, and a financial score." />
-  <meta name="keywords" content="US cost of living calculator, rent affordability calculator, take-home pay calculator, salary calculator, debt-to-income calculator, financial score" />
-  <meta name="author" content="ToolVerse" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Free US affordability calculator: estimate 2026 take-home pay, rent affordability, debt pressure, monthly expenses, money left, and a transparent Financial Score." />
+  <meta name="keywords" content="can I afford this, affordability calculator, rent affordability calculator, salary affordability calculator, take home pay calculator, US budget calculator, salary after tax calculator" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="theme-color" content="#07111f" />
+  <meta name="author" content="ToolVerse" />
   <meta property="og:site_name" content="ToolVerse" />
-  <meta property="og:title" content="US Cost of Living & Rent Affordability Calculator | ToolVerse" />
-  <meta property="og:description" content="Estimate take-home pay, taxes, rent, debt impact, and your financial score in seconds." />
+  <meta property="og:title" content="Can I Afford This? | Free US Affordability Calculator" />
+  <meta property="og:description" content="See how your income, rent, debt, and everyday expenses affect your estimated take-home pay and monthly breathing room." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://toolverse-usa.vercel.app/" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Can I Afford This? | ToolVerse" />
+  <meta name="twitter:description" content="A private, browser-based US rent and affordability calculator." />
   <link rel="canonical" href="https://toolverse-usa.vercel.app/" />
-  <title>US Cost of Living & Rent Affordability Calculator | ToolVerse</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2322d3ee'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial' font-size='29' font-weight='700' fill='%2307111f'%3ETV%3C/text%3E%3C/svg%3E" />
+  <title>Can I Afford This? | Free US Affordability Calculator | ToolVerse</title>
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {"@type": "WebApplication", "name": "ToolVerse US Money Decision Engine", "url": "https://toolverse-usa.vercel.app/", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "description": "A free frontend-only US cost of living, rent affordability, take-home pay, and financial score calculator.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}},
-      {"@type": "Organization", "name": "ToolVerse", "url": "https://toolverse-usa.vercel.app/"},
-      {"@type": "FAQPage", "mainEntity": [
-        {"@type": "Question", "name": "What does the ToolVerse financial score measure?", "acceptedAnswer": {"@type": "Answer", "text": "The score is an educational estimate based on rent, monthly debt payments, estimated take-home pay, and the selected state's simplified tax rate. It is not financial advice or a lending decision."}},
-        {"@type": "Question", "name": "How is estimated take-home pay calculated?", "acceptedAnswer": {"@type": "Answer", "text": "ToolVerse subtracts a simplified federal tax estimate and an average state tax estimate from gross monthly income. Actual paychecks vary based on filing status, deductions, credits, benefits, and local taxes."}},
-        {"@type": "Question", "name": "Does ToolVerse store my salary or rent?", "acceptedAnswer": {"@type": "Answer", "text": "Calculations run in the browser. Recent calculations may be stored locally in the browser's Local Storage, and are not sent to a ToolVerse server by this single-file website."}}
-      ]}
-    ]
-  }
+  {"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"ToolVerse US Affordability Calculator","url":"https://toolverse-usa.vercel.app/","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"A free, browser-based US affordability and take-home pay estimate tool."},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this calculator free?","acceptedAnswer":{"@type":"Answer","text":"Yes. ToolVerse is free to use and does not require an account."}},{"@type":"Question","name":"Is my financial information stored?","acceptedAnswer":{"@type":"Answer","text":"Calculations run in your browser. Recent calculations are stored only in this browser when Local Storage is available."}},{"@type":"Question","name":"Is this a tax calculator?","acceptedAnswer":{"@type":"Answer","text":"It is an educational take-home pay estimate, not a tax filing or certified tax calculator."}}]}]}
   </script>
-
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
-          colors: { ink: '#07111f', panel: '#0d1a2b', cyanx: '#22d3ee', purplex: '#a78bfa' },
-          boxShadow: { glow: '0 0 40px rgba(34,211,238,.14)', purpleglow: '0 0 40px rgba(167,139,250,.16)' }
-        }
-      }
-    };
-  </script>
-  <!-- Frontend-only visualization and PDF export dependencies -->
+  <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','ui-sans-serif','system-ui','sans-serif']},boxShadow:{glow:'0 0 42px rgba(34,211,238,.14)',purpleglow:'0 0 42px rgba(167,139,250,.15)'}}}};</script>
   <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
-    :root { color-scheme: dark; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; background: #07111f; }
-    h1, h2, h3, .brand { font-family: 'Space Grotesk', sans-serif; }
-    .grid-bg { background-image: linear-gradient(rgba(148,163,184,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.055) 1px, transparent 1px); background-size: 42px 42px; }
-    .glass { background: linear-gradient(135deg, rgba(20,39,63,.78), rgba(11,24,41,.72)); border: 1px solid rgba(148,163,184,.16); backdrop-filter: blur(18px); }
-    .ring-progress { transition: stroke-dashoffset 900ms cubic-bezier(.22,1,.36,1); transform: rotate(-90deg); transform-origin: 50% 50%; }
-    .number-input::-webkit-inner-spin-button, .number-input::-webkit-outer-spin-button { opacity: .55; }
-    .input-wrap:focus-within { border-color: rgba(34,211,238,.8); box-shadow: 0 0 0 4px rgba(34,211,238,.09); }
-    .fade-up { animation: fadeUp .7s ease both; }
-    .chart-shell { height: 250px; }
-    .pdf-report { position: absolute; left: -10000px; top: 0; width: 800px; background: #ffffff; color: #0f172a; padding: 42px; font-family: Arial, sans-serif; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    :root{color-scheme:dark}html{scroll-behavior:smooth}body{font-family:Inter,ui-sans-serif,system-ui,sans-serif;background:#07111f}.grid-bg{background-image:linear-gradient(rgba(148,163,184,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.045) 1px,transparent 1px);background-size:42px 42px}.glass{background:linear-gradient(135deg,rgba(20,39,63,.82),rgba(11,24,41,.76));border:1px solid rgba(148,163,184,.16);backdrop-filter:blur(18px)}.input-wrap:focus-within{border-color:rgba(34,211,238,.8);box-shadow:0 0 0 4px rgba(34,211,238,.1)}.focus-ring:focus-visible{outline:3px solid rgba(103,232,249,.85);outline-offset:3px}.ring-progress{transition:stroke-dashoffset .9s cubic-bezier(.22,1,.36,1);transform:rotate(-90deg);transform-origin:50% 50%}.chart-shell{height:260px}.pdf-report{position:absolute;left:-10000px;top:0;width:800px;background:#fff;color:#0f172a;padding:42px;font-family:Arial,sans-serif}.no-motion *{animation:none!important;transition:none!important}@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}select{color-scheme:dark}summary{list-style:none}summary::-webkit-details-marker{display:none}
   </style>
 </head>
 <body class="min-h-screen overflow-x-hidden text-slate-100">
-  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-    <div class="absolute -left-40 -top-40 h-[28rem] w-[28rem] rounded-full bg-cyan-400/10 blur-[120px]"></div>
-    <div class="absolute -right-40 top-56 h-[30rem] w-[30rem] rounded-full bg-violet-500/10 blur-[130px]"></div>
-  </div>
-
+  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden"><div class="absolute -left-40 -top-40 h-[28rem] w-[28rem] rounded-full bg-cyan-400/10 blur-[120px]"></div><div class="absolute -right-40 top-56 h-[30rem] w-[30rem] rounded-full bg-violet-500/10 blur-[130px]"></div></div>
   <header class="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-10">
-    <a href="#home" class="brand flex items-center gap-3 text-lg font-bold tracking-tight" aria-label="ToolVerse home">
-      <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-violet-400 text-sm font-black text-slate-950 shadow-glow">TV</span>
-      <span>Tool<span class="text-cyan-300">Verse</span></span>
-    </a>
-    <nav class="flex items-center gap-2 text-sm text-white font-medium" aria-label="Main navigation">
-      <a class="rounded-lg px-3 py-2 transition hover:bg-white/10" href="#home">Ho<span class="text-cyan-300">me</span></a>
-      <button id="nav-contact-btn" class="rounded-lg px-3 py-2 transition hover:bg-white/10 cursor-pointer" type="button">Con<span class="text-cyan-300">tact</span></button>
-    </nav>
+    <a href="#home" class="focus-ring flex items-center gap-3 text-lg font-bold tracking-tight" aria-label="ToolVerse home"><span class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-violet-400 text-sm font-black text-slate-950 shadow-glow">TV</span><span>Tool<span class="text-cyan-300">Verse</span></span></a>
+    <nav class="flex items-center gap-1 text-sm text-slate-300" aria-label="Main navigation"><a class="focus-ring rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white" href="#calculator">Calculator</a><a class="focus-ring rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white" href="#how-it-works">How it works</a><a class="focus-ring rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white" href="#contact">Contact</a></nav>
   </header>
-
   <main id="home" class="grid-bg">
-    <section class="mx-auto max-w-7xl px-5 pb-16 pt-12 sm:px-8 sm:pt-20 lg:px-10 lg:pb-24">
-      <div class="mx-auto max-w-3xl text-center fade-up">
-        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-[.18em] text-cyan-200">
-          <span class="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_12px_#67e8f9]"></span>
-          US Money Decision Engine
-        </div>
-        <h1 class="text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">Can I <span class="bg-gradient-to-r from-cyan-300 via-sky-200 to-violet-300 bg-clip-text text-transparent">Afford This?</span></h1>
-        <p class="mx-auto mt-6 max-w-xl text-base leading-7 text-slate-400 sm:text-lg">Use this free US cost of living calculator to estimate take-home pay, housing costs, debt pressure, and your real monthly breathing room.</p>
-      </div>
-
-      <div class="mx-auto mt-12 grid max-w-5xl gap-5 lg:grid-cols-[1.05fr_.95fr] lg:gap-6">
-        <section class="glass rounded-3xl p-6 shadow-glow sm:p-8 fade-up" aria-labelledby="calculator-title">
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-[.18em] text-cyan-300">01 / Your inputs</p>
-              <h2 id="calculator-title" class="mt-3 text-2xl font-bold text-white">Set your monthly baseline</h2>
-              <p class="mt-2 text-sm leading-6 text-slate-400">Use gross income, housing, debt, and state to estimate your monthly breathing room.</p>
-            </div>
-            <div class="hidden h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-white/[.04] text-cyan-300 sm:grid" aria-hidden="true">$</div>
-          </div>
-
-          <form id="affordability-form" class="mt-8 space-y-5" novalidate>
-            <label class="block">
-              <span class="mb-2 block text-sm font-semibold text-slate-200">Annual Salary ($)</span>
-              <span class="input-wrap flex items-center rounded-2xl border border-white/10 bg-slate-950/40 px-4 transition">
-                <span class="mr-3 text-slate-500">$</span>
-                <input id="salary" class="number-input w-full bg-transparent py-3.5 text-lg font-semibold text-white outline-none placeholder:text-slate-600" type="number" min="1" step="1000" placeholder="85,000" inputmode="numeric" required />
-              </span>
-            </label>
-            <label class="block">
-              <span class="mb-2 block text-sm font-semibold text-slate-200">Monthly Rent ($)</span>
-              <span class="input-wrap flex items-center rounded-2xl border border-white/10 bg-slate-950/40 px-4 transition">
-                <span class="mr-3 text-slate-500">$</span>
-                <input id="rent" class="number-input w-full bg-transparent py-3.5 text-lg font-semibold text-white outline-none placeholder:text-slate-600" type="number" min="1" step="50" placeholder="2,100" inputmode="numeric" required />
-              </span>
-            </label>
-            <label class="block">
-              <span class="mb-2 block text-sm font-semibold text-slate-200">Monthly Debt Payments ($)</span>
-              <span class="input-wrap flex items-center rounded-2xl border border-white/10 bg-slate-950/40 px-4 transition">
-                <span class="mr-3 text-slate-500">$</span>
-                <input id="debt" class="number-input w-full bg-transparent py-3.5 text-lg font-semibold text-white outline-none placeholder:text-slate-600" type="number" min="0" step="50" placeholder="450" inputmode="numeric" value="0" />
-              </span>
-            </label>
-            <label class="block">
-              <span class="mb-2 block text-sm font-semibold text-slate-200">US State</span>
-              <span class="input-wrap flex items-center rounded-2xl border border-white/10 bg-slate-950/40 px-4 transition">
-                <span class="mr-3 text-slate-500">⌖</span>
-                <select id="state" class="w-full appearance-none bg-transparent py-3.5 text-lg font-semibold text-white outline-none">
-                  <option value="CA">California</option><option value="TX">Texas</option><option value="NY">New York</option><option value="FL">Florida</option><option value="WA">Washington</option><option value="IL">Illinois</option><option value="PA">Pennsylvania</option><option value="OH">Ohio</option><option value="GA">Georgia</option><option value="NC">North Carolina</option><option value="MI">Michigan</option><option value="NJ">New Jersey</option><option value="VA">Virginia</option><option value="AZ">Arizona</option><option value="MA">Massachusetts</option>
-                </select>
-              </span>
-              <span class="mt-2 block text-xs text-slate-500">Simplified average state income-tax estimate; federal tax modeled at 22%.</span>
-            </label>
-            <p id="error-message" class="hidden rounded-xl border border-rose-300/20 bg-rose-300/10 px-3 py-2 text-sm text-rose-200" role="alert"></p>
-            <button class="group flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-300 to-violet-300 px-5 py-4 font-bold text-slate-950 shadow-[0_10px_35px_rgba(34,211,238,.18)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_40px_rgba(167,139,250,.25)] focus:outline-none focus:ring-4 focus:ring-cyan-300/20" type="submit">
-              Calculate Score
-              <span class="transition group-hover:translate-x-1">→</span>
-            </button>
-          </form>
-          <p class="mt-5 text-center text-xs leading-5 text-slate-500">Educational estimate only. This tool does not provide financial advice.</p>
+    <section class="mx-auto max-w-7xl px-5 pb-16 pt-10 sm:px-8 sm:pt-16 lg:px-10 lg:pb-24">
+      <div class="mx-auto max-w-3xl text-center"><div class="mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-[.16em] text-cyan-200"><span class="h-1.5 w-1.5 rounded-full bg-cyan-300"></span>Free US Affordability Calculator</div><h1 class="text-4xl font-bold leading-[1.04] tracking-tight text-white sm:text-6xl">Can I <span class="bg-gradient-to-r from-cyan-300 via-sky-200 to-violet-300 bg-clip-text text-transparent">Afford This?</span></h1><p class="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-400 sm:text-lg">See how your salary, rent, debt, and everyday expenses affect your estimated take-home pay, monthly breathing room, and Financial Score.</p><div class="mt-5 flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-semibold text-slate-400"><span>✓ Free</span><span>✓ No login</span><span>✓ Private</span><span>✓ Runs in your browser</span></div></div>
+      <div id="calculator" class="mx-auto mt-10 grid max-w-6xl gap-5 lg:grid-cols-[1fr_1fr] lg:gap-6">
+        <section class="glass rounded-3xl p-6 shadow-glow sm:p-8" aria-labelledby="calculator-title"><div><p class="text-xs font-semibold uppercase tracking-[.18em] text-cyan-300">01 / Your inputs</p><h2 id="calculator-title" class="mt-3 text-2xl font-bold text-white">Build your monthly baseline</h2><p class="mt-2 text-sm leading-6 text-slate-400">Start with the essentials. Add more expenses only if you want a more complete picture.</p></div>
+          <form id="affordability-form" class="mt-7 space-y-4" novalidate>
+            <div class="grid gap-4 sm:grid-cols-2"><label class="block"><span class="mb-2 block text-sm font-semibold text-slate-200">Income amount</span><span class="input-wrap flex items-center rounded-2xl border border-white/10 bg-slate-950/40 px-4"><span class="mr-3 text-slate-500">$</span><input id="income" class="number-input w-full bg-transparent py-3.5 text-lg font-semibold text-white outline-none placeholder:text-slate-600" type="number" min="1" max="100000000" step="100" placeholder="85,000" inputmode="decimal" required aria-describedby="income-help" /></span><span id="income-help" class="mt-1.5 block text-xs text-slate-500">Use annual salary, monthly income, or pay amount.</span></label><label class="block"><span class="mb-2 block text-sm font-semibold text-slate-200">Income mode</span><select id="income-mode" class="input-wrap focus-ring w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3.5 text-lg font-semibold text-white outline-none"><option value="annual">Annual salary</option><option value="monthly">Monthly income</option><option value="biweekly">Biweekly paycheck</option><option value="weekly">Weekly paycheck</option><option value="hourly">Hourly wage</option></select></label></div>
+            <div id="hours-wrap" class="hidden"><label class="block"><span class="mb-2 block text-sm font-semibold text-slate-200">Hours per week</span><input id="hours-week" class="input-wrap focus-ring w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3.5 text-white outline-none" type="number" min="1" max="168" value="40" inputmode="decimal" /></label></div>
+            <div class="grid gap-4 sm:grid-cols-2"><label class="block"><span class="mb-2 block text-sm font-semibold text-slate-200">Monthly rent</span><span class="input-wrap flex items-center rounded-2xl border border-white/10 bg-slate-950/40 px-4"><span class="mr-3 text-slate-500">$</span><input id="rent" class="number-input w-full bg-transparent py-3.5 text-lg font-semibold text-white outline-none placeholder:text-slate-600" type="number" min="0" max="1000000" step="25" placeholder="2,100" inputmode="decimal" required /></span></label><label class="block"><span class="mb-2 block text-sm font-semibold text-slate-200">Monthly debt payments</span><span class="input-wrap flex items-center rounded-2xl border border-white/10 bg-slate-950/40 px-4"><span class="mr-3 text-slate-500">$</span><input id="debt" class="number-input w-full bg-transparent py-3.5 text-lg font-semibold text-white outline-none placeholder:text-slate-600" type="number" min="0" max="1000000" step="25" value="0" inputmode="decimal" /></span></label></div>
+            <div class="grid gap-4 sm:grid-cols-2"><label class="block"><span class="mb-2 block text-sm font-semibold text-slate-200">US state</span><select id="state" class="input-wrap focus-ring w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3.5 text-white outline-none"></select></label><label class="block"><span class="mb-2 block text-sm font-semibold text-slate-200">Filing status</span><select id="filing-status" class="input-wrap focus-ring w-full rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3.5 text-white outline-none"><option value="single">Single</option><option value="mfj">Married filing jointly</option><option value="hoh">Head of household</option></select></label></div>
+            <details id="expense-details" class="rounded-2xl border border-white/10 bg-white/[.025] p-4"><summary class="focus-ring flex cursor-pointer items-center justify-between rounded-lg text-sm font-bold text-white"><span>Add more monthly expenses</span><span aria-hidden="true" class="text-cyan-300">＋</span></summary><p class="mt-2 text-xs leading-5 text-slate-500">Optional: add expenses for a more realistic cash-flow estimate. Leave unknown categories at zero.</p><div class="mt-4 grid gap-3 sm:grid-cols-2"><label><span class="mb-1 block text-xs text-slate-400">Groceries</span><input data-expense="groceries" class="expense-input input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" max="100000" value="0" /></label><label><span class="mb-1 block text-xs text-slate-400">Utilities</span><input data-expense="utilities" class="expense-input input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" max="100000" value="0" /></label><label><span class="mb-1 block text-xs text-slate-400">Transportation</span><input data-expense="transportation" class="expense-input input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" max="100000" value="0" /></label><label><span class="mb-1 block text-xs text-slate-400">Car payment</span><input data-expense="carPayment" class="expense-input input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" max="100000" value="0" /></label><label><span class="mb-1 block text-xs text-slate-400">Car insurance</span><input data-expense="carInsurance" class="expense-input input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" max="100000" value="0" /></label><label><span class="mb-1 block text-xs text-slate-400">Health insurance</span><input data-expense="healthInsurance" class="expense-input input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" max="100000" value="0" /></label><label><span class="mb-1 block text-xs text-slate-400">Childcare</span><input data-expense="childcare" class="expense-input input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" max="100000" value="0" /></label><label><span class="mb-1 block text-xs text-slate-400">Student loans</span><input data-expense="studentLoans" class="expense-input input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" max="100000" value="0" /></label><label><span class="mb-1 block text-xs text-slate-400">Credit card payments</span><input data-expense="creditCards" class="expense-input input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" max="100000" value="0" /></label><label><span class="mb-1 block text-xs text-slate-400">Other debt</span><input data-expense="otherDebt" class="expense-input input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" max="100000" value="0" /></label><label class="sm:col-span-2"><span class="mb-1 block text-xs text-slate-400">Other monthly expenses / lifestyle</span><input data-expense="other" class="expense-input input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" max="100000" value="0" /></label></div></details>
+            <p id="error-message" class="hidden rounded-xl border border-rose-300/20 bg-rose-300/10 px-3 py-2 text-sm text-rose-200" role="alert" aria-live="assertive"></p><button class="focus-ring group flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-300 to-violet-300 px-5 py-4 font-bold text-slate-950 shadow-[0_10px_35px_rgba(34,211,238,.18)] transition hover:-translate-y-0.5" type="submit">Calculate My Affordability <span aria-hidden="true" class="transition group-hover:translate-x-1">→</span></button>
+          </form><p class="mt-5 text-center text-xs leading-5 text-slate-500">Estimates are for educational and planning purposes only—not financial, tax, or legal advice.</p>
         </section>
-
-        <section class="glass relative overflow-hidden rounded-3xl p-6 shadow-purpleglow sm:p-8 fade-up" aria-live="polite" aria-labelledby="result-title">
-          <div class="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-violet-400/10 blur-3xl"></div>
-          <div class="relative flex items-start justify-between gap-4">
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-[.18em] text-violet-300">02 / Your result</p>
-              <h2 id="result-title" class="mt-3 text-2xl font-bold text-white">Financial Score</h2>
-            </div>
-            <span id="status-pill" class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-400">Waiting for inputs</span>
-          </div>
-
-          <div class="relative mt-8 flex flex-col items-center">
-            <div class="relative h-56 w-56">
-              <svg class="h-full w-full" viewBox="0 0 120 120" aria-label="Financial score progress">
-                <circle cx="60" cy="60" r="49" fill="none" stroke="rgba(148,163,184,.12)" stroke-width="8" />
-                <circle id="progress-ring" class="ring-progress" cx="60" cy="60" r="49" fill="none" stroke="#67e8f9" stroke-linecap="round" stroke-width="8" stroke-dasharray="307.88" stroke-dashoffset="307.88" />
-              </svg>
-              <div class="absolute inset-0 grid place-items-center text-center">
-                <div><div id="score-value" class="text-6xl font-bold tracking-tight text-white">—</div><div class="mt-1 text-xs font-semibold uppercase tracking-[.2em] text-slate-500">out of 100</div></div>
-              </div>
-            </div>
-            <p id="analysis" class="mt-5 max-w-sm text-center text-base leading-7 text-slate-300">Enter your salary and rent to reveal your personalized affordability analysis.</p>
-            <div class="mt-7 grid w-full grid-cols-2 gap-3">
-              <div class="rounded-2xl border border-white/10 bg-white/[.035] p-4"><p class="text-xs text-slate-500">Rent-to-income</p><p id="ratio-value" class="mt-1 text-xl font-bold text-white">—</p></div>
-              <div class="rounded-2xl border border-white/10 bg-white/[.035] p-4"><p class="text-xs text-slate-500">Monthly gross</p><p id="income-value" class="mt-1 text-xl font-bold text-white">—</p></div>
-              <div class="rounded-2xl border border-cyan-300/15 bg-cyan-300/[.04] p-4"><p class="text-xs text-slate-500">Est. take-home</p><p id="takehome-value" class="mt-1 text-xl font-bold text-cyan-200">—</p></div>
-              <div class="rounded-2xl border border-violet-300/15 bg-violet-300/[.04] p-4"><p class="text-xs text-slate-500">Monthly debt</p><p id="debt-value" class="mt-1 text-xl font-bold text-violet-200">—</p></div>
-            </div>
-            <button id="share-button" class="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[.04] px-5 py-3.5 text-sm font-semibold text-slate-200 transition hover:border-cyan-300/40 hover:bg-cyan-300/10 hover:text-cyan-100 focus:outline-none focus:ring-4 focus:ring-cyan-300/10" type="button" disabled>
-              <span aria-hidden="true">↗</span><span id="share-label">Share Result</span>
-            </button>
-            <button id="pdf-button" class="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-violet-300/20 bg-violet-300/10 px-5 py-3.5 text-sm font-semibold text-violet-100 transition hover:border-violet-200/50 hover:bg-violet-300/20 focus:outline-none focus:ring-4 focus:ring-violet-300/10 disabled:cursor-not-allowed disabled:opacity-40" type="button" disabled>
-              <span aria-hidden="true">▣</span><span id="pdf-label">Download PDF Report</span>
-            </button>
-          </div>
-        </section>
+        <section class="glass relative overflow-hidden rounded-3xl p-6 shadow-purpleglow sm:p-8" aria-live="polite" aria-labelledby="result-title"><div class="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-violet-400/10 blur-3xl"></div><div class="relative flex items-start justify-between gap-4"><div><p class="text-xs font-semibold uppercase tracking-[.18em] text-violet-300">02 / Your answer</p><h2 id="result-title" class="mt-3 text-2xl font-bold text-white">Financial Score</h2></div><span id="status-pill" class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-400">Waiting for inputs</span></div><div class="relative mt-6 flex flex-col items-center"><div class="relative h-48 w-48 sm:h-56 sm:w-56"><svg class="h-full w-full" viewBox="0 0 120 120" role="img" aria-label="Financial score progress"><circle cx="60" cy="60" r="49" fill="none" stroke="rgba(148,163,184,.12)" stroke-width="8"/><circle id="progress-ring" class="ring-progress" cx="60" cy="60" r="49" fill="none" stroke="#67e8f9" stroke-linecap="round" stroke-width="8" stroke-dasharray="307.88" stroke-dashoffset="307.88"/></svg><div class="absolute inset-0 grid place-items-center text-center"><div><div id="score-value" class="text-6xl font-bold text-white">—</div><div class="mt-1 text-xs font-semibold uppercase tracking-[.18em] text-slate-500">out of 100</div></div></div></div><div id="verdict" class="mt-4 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-bold text-slate-300">Calculate to see your verdict</div><p id="analysis" class="mt-4 max-w-sm text-center text-base leading-7 text-slate-300">Enter your income, rent, and state to reveal your personalized affordability analysis.</p><div class="mt-6 grid w-full grid-cols-2 gap-3"><div class="rounded-2xl border border-white/10 bg-white/[.035] p-4"><p class="text-xs text-slate-500">Money left / deficit</p><p id="remaining-value" class="mt-1 text-xl font-bold text-white">—</p></div><div class="rounded-2xl border border-white/10 bg-white/[.035] p-4"><p class="text-xs text-slate-500">Est. take-home</p><p id="takehome-value" class="mt-1 text-xl font-bold text-cyan-200">—</p></div><div class="rounded-2xl border border-white/10 bg-white/[.035] p-4"><p class="text-xs text-slate-500">Housing ratio</p><p id="ratio-value" class="mt-1 text-xl font-bold text-white">—</p></div><div class="rounded-2xl border border-white/10 bg-white/[.035] p-4"><p class="text-xs text-slate-500">Recommended rent</p><p id="recommendation-value" class="mt-1 text-xl font-bold text-violet-200">—</p></div></div><div class="mt-5 grid w-full grid-cols-2 gap-3"><button id="share-button" class="focus-ring flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[.04] px-4 py-3 text-sm font-semibold text-slate-200 transition hover:border-cyan-300/40 hover:bg-cyan-300/10 disabled:cursor-not-allowed disabled:opacity-40" type="button" disabled><span aria-hidden="true">↗</span><span id="share-label">Share result</span></button><button id="pdf-button" class="focus-ring flex min-h-12 items-center justify-center gap-2 rounded-2xl border border-violet-300/20 bg-violet-300/10 px-4 py-3 text-sm font-semibold text-violet-100 transition hover:bg-violet-300/20 disabled:cursor-not-allowed disabled:opacity-40" type="button" disabled><span aria-hidden="true">▣</span><span id="pdf-label">PDF report</span></button></div></div></section>
       </div>
+      <section class="mx-auto mt-6 grid max-w-6xl gap-5 lg:grid-cols-[1.08fr_.92fr]" aria-label="Affordability explanation and rent recommendation"><article class="glass rounded-3xl p-6 sm:p-8" aria-labelledby="why-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-cyan-300">03 / Why this score</p><h2 id="why-title" class="mt-3 text-2xl font-bold text-white">Why your Financial Score looks this way</h2><div id="score-breakdown-empty" class="mt-6 rounded-2xl border border-dashed border-white/10 bg-white/[.02] p-5 text-sm leading-6 text-slate-500">Your category scores will appear after you calculate.</div><div id="score-breakdown" class="mt-6 hidden space-y-3"></div></article><article class="glass rounded-3xl p-6 shadow-glow sm:p-8" aria-labelledby="rent-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-violet-300">04 / Rent guidance</p><h2 id="rent-title" class="mt-3 text-2xl font-bold text-white">How much rent can I afford?</h2><p class="mt-2 text-sm leading-6 text-slate-400">These ranges use your estimated take-home pay and existing commitments. They are planning estimates, not guarantees.</p><div id="rent-recommendations" class="mt-6 hidden space-y-3"></div><div id="rent-empty" class="mt-6 rounded-2xl border border-dashed border-white/10 bg-white/[.02] p-5 text-sm leading-6 text-slate-500">Calculate to see conservative, balanced, and maximum rent guidance.</div></article></section>
+      <section class="mx-auto mt-6 grid max-w-6xl gap-5 lg:grid-cols-[1fr_.9fr]" aria-label="What-if scenarios and budget map"><article class="glass rounded-3xl p-6 sm:p-8" aria-labelledby="whatif-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-cyan-300">05 / What if?</p><h2 id="whatif-title" class="mt-3 text-2xl font-bold text-white">Try a different rent or salary</h2><p class="mt-2 text-sm leading-6 text-slate-400">Adjust the scenario instantly without changing your saved baseline.</p><div class="mt-6"><label for="whatif-rent" class="flex items-center justify-between text-sm font-semibold text-slate-200"><span>Scenario rent</span><output id="whatif-rent-output" for="whatif-rent" class="text-cyan-200">—</output></label><input id="whatif-rent" class="mt-3 w-full accent-cyan-300" type="range" min="500" max="6000" step="25" value="2100" /></div><label class="mt-5 block"><span class="mb-2 block text-sm font-semibold text-slate-200">Scenario annual salary</span><input id="whatif-salary" class="input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-3 text-white outline-none" type="number" min="1" max="100000000" step="1000" placeholder="Use baseline salary" /></label><div id="whatif-result" class="mt-6 rounded-2xl border border-white/10 bg-slate-950/25 p-5 text-sm leading-7 text-slate-300">Calculate your baseline first to explore scenarios.</div></article><article class="glass rounded-3xl p-6 shadow-purpleglow sm:p-8" aria-labelledby="budget-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-violet-300">06 / Budget map</p><h2 id="budget-title" class="mt-3 text-2xl font-bold text-white">Recommended vs. your budget</h2><p class="mt-2 text-sm leading-6 text-slate-400">The 50/30/20 rule is a starting point. Your actual categories reflect the inputs you provided.</p><div id="budget-empty" class="mt-6 rounded-2xl border border-dashed border-white/10 bg-white/[.02] p-5 text-sm leading-6 text-slate-500">Calculate to see the budget map.</div><div id="budget-content" class="mt-6 hidden"><div class="chart-shell rounded-2xl border border-white/10 bg-slate-950/25 p-3"><canvas id="budget-chart" aria-label="Budget allocation donut chart"></canvas></div><div id="budget-rows" class="mt-4 space-y-2"></div><p class="mt-4 text-xs leading-5 text-slate-600">Needs include rent and essential expenses. Wants use the optional lifestyle field. Savings is the amount left after the inputs provided.</p></div></article></section>
+      <section class="mx-auto mt-6 grid max-w-6xl gap-5 lg:grid-cols-2" aria-label="Local history and tax methodology"><article class="glass rounded-3xl p-6 sm:p-8" aria-labelledby="history-title"><div class="flex items-start justify-between gap-3"><div><p class="text-xs font-semibold uppercase tracking-[.18em] text-cyan-300">07 / Private history</p><h2 id="history-title" class="mt-3 text-2xl font-bold text-white">Recent calculations</h2></div><button id="clear-history" class="focus-ring hidden rounded-lg px-2 py-2 text-xs font-semibold text-slate-500 hover:bg-rose-300/10 hover:text-rose-200" type="button">Clear</button></div><div id="history-empty" class="mt-6 rounded-2xl border border-dashed border-white/10 bg-white/[.02] p-5 text-sm leading-6 text-slate-500">Your last five scenarios will appear here for easy comparison.</div><div id="history-list" class="mt-5 hidden space-y-2"></div><button id="clear-data" class="focus-ring mt-5 w-full rounded-xl border border-rose-300/15 bg-rose-300/5 px-4 py-3 text-sm font-semibold text-rose-200 hover:bg-rose-300/10" type="button">Clear my local data</button><p class="mt-3 text-xs leading-5 text-slate-600">Saved only in this browser. No account or server upload is required.</p></article><article class="glass rounded-3xl p-6 sm:p-8" aria-labelledby="method-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-violet-300">08 / Transparent estimates</p><h2 id="method-title" class="mt-3 text-2xl font-bold text-white">How this estimate is calculated</h2><div class="mt-5 space-y-3 text-sm leading-6 text-slate-400"><p>Federal income tax uses progressive 2026 brackets and standard deductions by filing status. Payroll taxes include employee Social Security, Medicare, and the additional Medicare threshold where applicable.</p><p>State income tax uses simplified state planning rates for all states and Washington, D.C. Actual state liability can differ because of brackets, deductions, credits, local taxes, and residency rules.</p><p>Housing, debt, cash flow, savings capacity, and essential-expense pressure contribute to the Financial Score. The result is a decision aid, not certified tax advice.</p></div><div class="mt-5 border-t border-white/10 pt-4 text-xs leading-5 text-slate-500"><p>Method references: <a class="text-cyan-300 underline" href="https://www.irs.gov/instructions/i1040gi" target="_blank" rel="noreferrer">IRS Form 1040 guidance</a>, <a class="text-cyan-300 underline" href="https://www.ssa.gov/oact/cola/cbb.html" target="_blank" rel="noreferrer">SSA 2026 wage base</a>, and <a class="text-cyan-300 underline" href="https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026" target="_blank" rel="noreferrer">IRS 2026 inflation adjustments</a>.</p></div></article></section>
+      <section class="mx-auto mt-6 grid max-w-6xl gap-5 lg:grid-cols-2" aria-label="Additional financial planning tools"><article class="glass rounded-3xl p-6 sm:p-8" aria-labelledby="retirement-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-cyan-300">09 / Future view</p><h2 id="retirement-title" class="mt-3 text-2xl font-bold text-white">Retirement readiness projection</h2><p class="mt-2 text-sm leading-6 text-slate-400">Use your age, savings, and current savings rate to estimate a path toward age 67.</p><div class="mt-5 grid gap-3 sm:grid-cols-3"><label><span class="mb-1 block text-xs text-slate-400">Current age</span><input id="ret-age" class="input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="18" max="66" value="30" /></label><label><span class="mb-1 block text-xs text-slate-400">Current savings</span><input id="ret-savings" class="input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" step="1000" value="10000" /></label><label><span class="mb-1 block text-xs text-slate-400">Savings rate</span><input id="ret-rate" class="input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" max="80" value="20" /></label></div><div id="ret-result" class="mt-5 rounded-2xl border border-cyan-300/15 bg-cyan-300/[.04] p-4 text-sm leading-7 text-slate-300">Calculate your affordability baseline to see the projection.</div></article><article class="glass rounded-3xl p-6 sm:p-8" aria-labelledby="currency-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-violet-300">10 / Global lens</p><h2 id="currency-title" class="mt-3 text-2xl font-bold text-white">International currency comparison</h2><p class="mt-2 text-sm leading-6 text-slate-400">Compare a US rent or expense amount using transparent, static reference rates. No live API is used.</p><div class="mt-5 grid gap-3 sm:grid-cols-2"><label><span class="mb-1 block text-xs text-slate-400">US dollar amount</span><input id="fx-amount" class="input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" value="2100" /></label><label><span class="mb-1 block text-xs text-slate-400">Compare in</span><select id="fx-currency" class="input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none"><option value="EUR">Euro (EUR)</option><option value="GBP">British Pound (GBP)</option><option value="CAD">Canadian Dollar (CAD)</option><option value="JPY">Japanese Yen (JPY)</option><option value="MXN">Mexican Peso (MXN)</option><option value="INR">Indian Rupee (INR)</option></select></label></div><div id="fx-result" class="mt-5 rounded-2xl border border-violet-300/15 bg-violet-300/[.04] p-4 text-lg font-bold text-violet-200">—</div></article><article class="glass rounded-3xl p-6 sm:p-8" aria-labelledby="amort-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-cyan-300">11 / Debt strategy</p><h2 id="amort-title" class="mt-3 text-2xl font-bold text-white">Debt payoff amortization</h2><p class="mt-2 text-sm leading-6 text-slate-400">See how an extra payment changes payoff time and interest.</p><div class="mt-5 grid gap-3 sm:grid-cols-3"><label><span class="mb-1 block text-xs text-slate-400">Balance</span><input id="amort-balance" class="input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" value="25000" /></label><label><span class="mb-1 block text-xs text-slate-400">APR %</span><input id="amort-apr" class="input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" value="7.5" /></label><label><span class="mb-1 block text-xs text-slate-400">Monthly payment</span><input id="amort-payment" class="input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="1" value="450" /></label><label><span class="mb-1 block text-xs text-slate-400">Extra payment</span><input id="amort-extra" class="input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none" type="number" min="0" value="100" /></label></div><button id="amort-run" class="focus-ring mt-4 min-h-12 w-full rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-sm font-bold text-cyan-100" type="button">Update payoff estimate</button><div id="amort-result" class="mt-4 rounded-2xl border border-white/10 bg-white/[.03] p-4 text-sm leading-7 text-slate-300">—</div></article><article class="glass rounded-3xl p-6 sm:p-8" aria-labelledby="tax-compare-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-violet-300">12 / Relocation lens</p><h2 id="tax-compare-title" class="mt-3 text-2xl font-bold text-white">Zero-tax-state comparison</h2><p class="mt-2 text-sm leading-6 text-slate-400">Compare your selected state with a state that has a zero modeled individual income-tax rate.</p><div class="mt-5 grid gap-3 sm:grid-cols-2"><label><span class="mb-1 block text-xs text-slate-400">Compare against</span><select id="zero-tax" class="input-wrap focus-ring w-full rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5 text-white outline-none"><option value="TX">Texas</option><option value="FL">Florida</option><option value="NV">Nevada</option><option value="WY">Wyoming</option></select></label><div id="tax-compare-result" class="rounded-2xl border border-violet-300/15 bg-violet-300/[.04] p-3 text-sm leading-6 text-violet-100">Calculate your baseline to compare.</div></div></article></section>
 
-      <!-- Advanced breakdown and browser-only calculation history -->
-      <section class="mx-auto mt-8 grid max-w-5xl gap-5 lg:grid-cols-[1.1fr_.9fr]" aria-label="Budget breakdown and recent calculations">
-        <article class="glass rounded-3xl p-6 shadow-glow sm:p-8" aria-labelledby="breakdown-title">
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-[.18em] text-cyan-300">03 / Budget map</p>
-              <h2 id="breakdown-title" class="mt-3 text-2xl font-bold text-white">Your 50 / 30 / 20 breakdown</h2>
-              <p class="mt-2 max-w-lg text-sm leading-6 text-slate-400">A simple monthly allocation guide based on your estimated gross income.</p>
-            </div>
-            <span class="hidden rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-3 py-2 text-xs font-bold text-cyan-200 sm:block">RULE OF THUMB</span>
-          </div>
-          <div id="breakdown-empty" class="mt-7 rounded-2xl border border-dashed border-white/10 bg-white/[.02] p-5 text-sm leading-6 text-slate-500">Calculate a score to see suggested amounts for needs, wants, and savings or debt.</div>
-          <div id="breakdown-content" class="mt-7 hidden space-y-5">
-            <div class="h-3 overflow-hidden rounded-full bg-slate-950/70" aria-label="50 percent needs, 30 percent wants, 20 percent savings or debt">
-              <div class="flex h-full w-full"><span class="w-1/2 bg-cyan-300"></span><span class="w-[30%] bg-violet-300"></span><span class="w-1/5 bg-fuchsia-300"></span></div>
-            </div>
-            <div class="chart-shell relative rounded-2xl border border-white/10 bg-slate-950/25 p-3"><canvas id="budget-chart" aria-label="Donut chart showing the 50/30/20 budget breakdown"></canvas></div>
-            <div class="grid gap-3 sm:grid-cols-3">
-              <div class="rounded-2xl border border-cyan-300/15 bg-cyan-300/[.06] p-4"><div class="flex items-center justify-between"><span class="h-2 w-2 rounded-full bg-cyan-300"></span><span class="text-xs font-bold text-cyan-200">50%</span></div><p class="mt-4 text-sm font-semibold text-white">Needs</p><p id="needs-value" class="mt-1 text-xl font-bold text-cyan-200">—</p><p class="mt-1 text-xs text-slate-500">housing, food, utilities</p></div>
-              <div class="rounded-2xl border border-violet-300/15 bg-violet-300/[.06] p-4"><div class="flex items-center justify-between"><span class="h-2 w-2 rounded-full bg-violet-300"></span><span class="text-xs font-bold text-violet-200">30%</span></div><p class="mt-4 text-sm font-semibold text-white">Wants</p><p id="wants-value" class="mt-1 text-xl font-bold text-violet-200">—</p><p class="mt-1 text-xs text-slate-500">fun, subscriptions, extras</p></div>
-              <div class="rounded-2xl border border-fuchsia-300/15 bg-fuchsia-300/[.06] p-4"><div class="flex items-center justify-between"><span class="h-2 w-2 rounded-full bg-fuchsia-300"></span><span class="text-xs font-bold text-fuchsia-200">20%</span></div><p class="mt-4 text-sm font-semibold text-white">Savings / Debt</p><p id="savings-value" class="mt-1 text-xl font-bold text-fuchsia-200">—</p><p class="mt-1 text-xs text-slate-500">goals, emergency fund</p></div>
-            </div>
-            <p class="text-xs leading-5 text-slate-500">This guideline uses gross monthly income and is for education—not individualized financial advice.</p>
-          </div>
-        </article>
-
-        <article class="glass rounded-3xl p-6 shadow-purpleglow sm:p-8" aria-labelledby="history-title">
-          <div class="flex items-start justify-between gap-3"><div><p class="text-xs font-semibold uppercase tracking-[.18em] text-violet-300">04 / Local history</p><h2 id="history-title" class="mt-3 text-2xl font-bold text-white">Recent calculations</h2></div><button id="clear-history" class="hidden rounded-lg px-2 py-1 text-xs font-semibold text-slate-500 transition hover:bg-rose-300/10 hover:text-rose-200" type="button">Clear</button></div>
-          <div id="history-empty" class="mt-7 rounded-2xl border border-dashed border-white/10 bg-white/[.02] p-5 text-sm leading-6 text-slate-500">Your last five calculations will appear here for easy comparison.</div>
-          <div id="history-list" class="mt-5 hidden space-y-2"></div>
-          <p class="mt-5 text-xs leading-5 text-slate-600">Stored only in this browser using Local Storage. Nothing is sent to a server.</p>
-        </article>
-      </section>
-
-      <section class="mx-auto mt-8 max-w-5xl rounded-3xl border border-white/10 bg-white/[.025] p-6 sm:p-8" aria-labelledby="how-it-works-title">
-        <p class="text-xs font-semibold uppercase tracking-[.18em] text-cyan-300">05 / Learn more</p>
-        <h2 id="how-it-works-title" class="mt-3 text-2xl font-bold text-white">A simple US affordability check</h2>
-        <div class="mt-5 grid gap-5 text-sm leading-7 text-slate-400 md:grid-cols-3">
-          <div><h3 class="font-bold text-white">Estimate take-home pay</h3><p class="mt-1">Select a state and enter annual salary to see a simplified after-tax monthly income estimate.</p></div>
-          <div><h3 class="font-bold text-white">Measure fixed costs</h3><p class="mt-1">Add monthly rent and debt payments to understand how much of your income is committed.</p></div>
-          <div><h3 class="font-bold text-white">Compare your margin</h3><p class="mt-1">Review the score, cash-flow chart, and 50/30/20 guide before making a housing decision.</p></div>
-        </div>
-        <div class="mt-7 grid gap-4 border-t border-white/10 pt-6 md:grid-cols-3">
-          <details class="rounded-2xl border border-white/10 bg-slate-950/20 p-4"><summary class="cursor-pointer font-semibold text-white">What does the score measure?</summary><p class="mt-3 text-sm leading-6 text-slate-400">It is an educational estimate based on rent, debt, estimated take-home pay, and the selected state's simplified tax rate. It is not financial advice or a lending decision.</p></details>
-          <details class="rounded-2xl border border-white/10 bg-slate-950/20 p-4"><summary class="cursor-pointer font-semibold text-white">How accurate are the tax estimates?</summary><p class="mt-3 text-sm leading-6 text-slate-400">The calculator uses simplified average rates. Actual paychecks vary with filing status, deductions, credits, benefits, local taxes, and other payroll factors.</p></details>
-          <details class="rounded-2xl border border-white/10 bg-slate-950/20 p-4"><summary class="cursor-pointer font-semibold text-white">Are my inputs private?</summary><p class="mt-3 text-sm leading-6 text-slate-400">Calculations run locally in your browser. Recent calculations may be saved in Local Storage and are not sent to a ToolVerse server.</p></details>
-        </div>
-      </section>
-
-      <div class="mx-auto mt-8 grid max-w-5xl gap-4 text-sm sm:grid-cols-3">
-        <div class="rounded-2xl border border-white/10 bg-white/[.025] p-5"><div class="mb-3 text-cyan-300">◎</div><h3 class="font-bold text-white">Fast by design</h3><p class="mt-1 leading-6 text-slate-500">A quick signal for your next money decision.</p></div>
-        <div class="rounded-2xl border border-white/10 bg-white/[.025] p-5"><div class="mb-3 text-violet-300">⌁</div><h3 class="font-bold text-white">Clear context</h3><p class="mt-1 leading-6 text-slate-500">See your housing ratio alongside your score.</p></div>
-        <div class="rounded-2xl border border-white/10 bg-white/[.025] p-5"><div class="mb-3 text-cyan-300">✦</div><h3 class="font-bold text-white">Private inputs</h3><p class="mt-1 leading-6 text-slate-500">Calculations happen locally in your browser.</p></div>
-      </div>
+      <section id="how-it-works" class="mx-auto mt-10 max-w-6xl rounded-3xl border border-white/10 bg-white/[.025] p-6 sm:p-8" aria-labelledby="how-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-cyan-300">Learn before you decide</p><h2 id="how-title" class="mt-3 text-2xl font-bold text-white">A practical US affordability check</h2><div class="mt-5 grid gap-6 text-sm leading-7 text-slate-400 md:grid-cols-2"><div><h3 class="font-bold text-white">How much rent can I afford?</h3><p class="mt-1">A common starting point is 25%–30% of estimated take-home pay, but debt, childcare, insurance, transportation, and savings goals can make a lower amount more comfortable.</p></div><div><h3 class="font-bold text-white">What percentage should go to housing?</h3><p class="mt-1">The calculator flags housing pressure around the 30% take-home range, then looks at debt and remaining cash rather than relying on one rule alone.</p></div><div><h3 class="font-bold text-white">How is the Financial Score calculated?</h3><p class="mt-1">It blends housing burden, debt burden, monthly cash flow, savings capacity, and essential-expense pressure. Each category is shown so the score is explainable.</p></div><div><h3 class="font-bold text-white">How does estimated take-home pay work?</h3><p class="mt-1">Gross income is converted to annual income, then estimated federal income tax, state income tax, Social Security, and Medicare are subtracted. Benefits and deductions are not modeled.</p></div><div><h3 class="font-bold text-white">What is the 50/30/20 rule?</h3><p class="mt-1">It is a budgeting framework that suggests 50% for needs, 30% for wants, and 20% for savings or debt. Your actual budget may reasonably differ.</p></div><div><h3 class="font-bold text-white">Is $2,000 rent affordable on $70,000?</h3><p class="mt-1">It depends on state, filing status, debt, and other costs. Enter those details instead of relying on salary alone.</p></div></div><div class="mt-8 grid gap-4 border-t border-white/10 pt-6 md:grid-cols-3"><details class="rounded-2xl border border-white/10 bg-slate-950/20 p-4"><summary class="focus-ring cursor-pointer font-semibold text-white">Is this calculator free?</summary><p class="mt-3 text-sm leading-6 text-slate-400">Yes. There is no login or email requirement.</p></details><details class="rounded-2xl border border-white/10 bg-slate-950/20 p-4"><summary class="focus-ring cursor-pointer font-semibold text-white">Is my financial information stored?</summary><p class="mt-3 text-sm leading-6 text-slate-400">Inputs stay in your browser. Recent history is optional Local Storage data that you can clear at any time.</p></details><details class="rounded-2xl border border-white/10 bg-slate-950/20 p-4"><summary class="focus-ring cursor-pointer font-semibold text-white">Is this a tax calculator?</summary><p class="mt-3 text-sm leading-6 text-slate-400">No. It is a simplified educational estimate, not tax preparation or a filing result.</p></details><details class="rounded-2xl border border-white/10 bg-slate-950/20 p-4"><summary class="focus-ring cursor-pointer font-semibold text-white">Does it support all US states?</summary><p class="mt-3 text-sm leading-6 text-slate-400">Yes. The selector includes all 50 states plus Washington, D.C., with simplified planning rates.</p></details><details class="rounded-2xl border border-white/10 bg-slate-950/20 p-4"><summary class="focus-ring cursor-pointer font-semibold text-white">Can I use it without an account?</summary><p class="mt-3 text-sm leading-6 text-slate-400">Yes. The calculator is designed to work without signup.</p></details><details class="rounded-2xl border border-white/10 bg-slate-950/20 p-4"><summary class="focus-ring cursor-pointer font-semibold text-white">Does it work on mobile?</summary><p class="mt-3 text-sm leading-6 text-slate-400">Yes. Inputs use mobile-friendly numeric keyboards and the layout collapses into a single column.</p></details></div></section>
     </section>
   </main>
-
-  <footer id="footer-section" class="border-t border-white/10 bg-slate-950/40">
-    <div class="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-8 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-10">
-      <div>
-        <a href="#home" class="brand font-bold text-white">Tool<span class="text-cyan-300">Verse</span></a>
-        <p class="mt-1 text-sm text-white">Tools for clearer <span class="text-cyan-300">decisions.</span></p>
-      </div>
-      <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-white font-medium" aria-label="Footer navigation">
-        <button id="footer-privacy-btn" class="transition hover:opacity-80 cursor-pointer bg-transparent border-none" type="button">Privacy <span class="text-cyan-300">Policy</span></button>
-        <button id="footer-terms-btn" class="transition hover:opacity-80 cursor-pointer bg-transparent border-none" type="button">Terms of <span class="text-cyan-300">Service</span></button>
-        <button id="footer-disclaimer-btn" class="transition hover:opacity-80 cursor-pointer bg-transparent border-none" type="button">Dis<span class="text-cyan-300">claimer</span></button>
-        <button id="footer-contact-btn" class="transition hover:opacity-80 cursor-pointer bg-transparent border-none" type="button">Contact <span class="text-cyan-300">Us</span></button>
-      </nav>
-      <p class="text-xs text-white">© <span id="year"></span> Tool<span class="text-cyan-300">Verse</span>. All rights <span class="text-cyan-300">reserved.</span></p>
-    </div>
-    <p class="mx-auto max-w-7xl px-5 pb-6 text-center text-xs text-white sm:px-8 lg:px-10">Tool<span class="text-cyan-300">Verse</span> is an educational US cost of living calculator. Estimates are not a substitute for professional financial, tax, or legal <span class="text-cyan-300">advice.</span></p>
-  </footer>
-
-  <!-- Interactive Modal Overlay -->
-  <div id="info-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden" role="dialog" aria-modal="true">
-    <div class="glass w-full max-w-2xl rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl relative max-h-[85vh] overflow-y-auto">
-      <button id="modal-close" class="absolute top-5 right-5 text-slate-400 hover:text-white text-xl font-bold bg-white/5 h-9 w-9 rounded-full grid place-items-center transition">✕</button>
-      <h2 id="modal-title" class="text-2xl font-bold text-white mb-4">Modal Title</h2>
-      <div id="modal-body" class="text-slate-300 text-sm leading-7 space-y-4">
-        <!-- Content injected dynamically -->
-      </div>
-    </div>
-  </div>
-
+  <footer id="contact" class="border-t border-white/10 bg-slate-950/40"><div class="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-8 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-10"><div><a href="#home" class="focus-ring font-bold text-white">Tool<span class="text-cyan-300">Verse</span></a><p class="mt-1 text-sm text-slate-500">Private tools for clearer US money decisions.</p></div><nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-400" aria-label="Footer navigation"><a class="focus-ring hover:text-cyan-300" href="#privacy">Privacy</a><a class="focus-ring hover:text-cyan-300" href="#terms">Terms</a><a class="focus-ring hover:text-cyan-300" href="mailto:hello@toolverse.example">Contact</a></nav><p class="text-xs text-slate-600">© <span id="year"></span> ToolVerse</p></div><div id="privacy" class="sr-only">Calculations run locally in your browser. ToolVerse does not require an account or transmit calculator inputs.</div><div id="terms" class="sr-only">ToolVerse provides educational estimates and not financial, tax, or legal advice.</div><p class="mx-auto max-w-7xl px-5 pb-6 text-center text-xs text-slate-700 sm:px-8 lg:px-10">Estimates are for educational and planning purposes only and are not financial, tax, or legal advice.</p></footer>
+  <section id="pdf-report" class="pdf-report" aria-hidden="true"></section>
   <script>
-    (() => {
-      const form = document.getElementById('affordability-form');
-      const salaryInput = document.getElementById('salary');
-      const rentInput = document.getElementById('rent');
-      const debtInput = document.getElementById('debt');
-      const stateInput = document.getElementById('state');
-      const errorMessage = document.getElementById('error-message');
-      const ring = document.getElementById('progress-ring');
-      const scoreValue = document.getElementById('score-value');
-      const analysis = document.getElementById('analysis');
-      const ratioValue = document.getElementById('ratio-value');
-      const incomeValue = document.getElementById('income-value');
-      const takehomeValue = document.getElementById('takehome-value');
-      const debtValue = document.getElementById('debt-value');
-      const statusPill = document.getElementById('status-pill');
-      const shareButton = document.getElementById('share-button');
-      const shareLabel = document.getElementById('share-label');
-      const pdfButton = document.getElementById('pdf-button');
-      const pdfLabel = document.getElementById('pdf-label');
-      const budgetChartCanvas = document.getElementById('budget-chart');
-      let budgetChart = null;
-      const breakdownEmpty = document.getElementById('breakdown-empty');
-      const breakdownContent = document.getElementById('breakdown-content');
-      const needsValue = document.getElementById('needs-value');
-      const wantsValue = document.getElementById('wants-value');
-      const savingsValue = document.getElementById('savings-value');
-      const historyEmpty = document.getElementById('history-empty');
-      const historyList = document.getElementById('history-list');
-      const clearHistory = document.getElementById('clear-history');
-      const circumference = 2 * Math.PI * 49;
-      const historyKey = 'toolverse-recent-calculations-v2';
-      const stateTaxRates = { CA: 0.093, TX: 0, NY: 0.0685, FL: 0, WA: 0, IL: 0.0495, PA: 0.0307, OH: 0.04, GA: 0.055, NC: 0.0425, MI: 0.0425, NJ: 0.0637, VA: 0.0575, AZ: 0.025, MA: 0.05 };
-      const stateNames = { CA: 'California', TX: 'Texas', NY: 'New York', FL: 'Florida', WA: 'Washington', IL: 'Illinois', PA: 'Pennsylvania', OH: 'Ohio', GA: 'Georgia', NC: 'North Carolina', MI: 'Michigan', NJ: 'New Jersey', VA: 'Virginia', AZ: 'Arizona', MA: 'Massachusetts' };
-      const pdfReport = document.createElement('section');
-      pdfReport.className = 'pdf-report';
-      pdfReport.innerHTML = '<div id="pdf-report-content"></div>';
-      document.body.appendChild(pdfReport);
-      const pdfReportContent = document.getElementById('pdf-report-content');
-      let latestResult = null;
-      let history = [];
-
-      const updateBreakdown = (takeHomeMonthly, chartValues) => {
-        const allocations = [takeHomeMonthly * 0.5, takeHomeMonthly * 0.3, takeHomeMonthly * 0.2];
-        needsValue.textContent = money(allocations[0]);
-        wantsValue.textContent = money(allocations[1]);
-        savingsValue.textContent = money(allocations[2]);
-        breakdownEmpty.classList.add('hidden');
-        breakdownContent.classList.remove('hidden');
-        if (!window.Chart) return;
-        if (!budgetChart) initializeChart();
-        if (budgetChart) {
-          budgetChart.data.datasets[0].data = chartValues;
-          budgetChart.update();
-        }
-      };
-
-      const initializeChart = () => {
-        if (!window.Chart || !budgetChartCanvas) return;
-        budgetChart = new Chart(budgetChartCanvas, {
-          type: 'doughnut',
-          data: {
-            labels: ['Taxes', 'Debt', 'Rent', 'Remaining'],
-            datasets: [{ data: [0, 0, 0, 1], backgroundColor: ['#f0abfc', '#a78bfa', '#67e8f9', '#2dd4bf'], borderColor: '#0b1829', borderWidth: 5, hoverOffset: 8 }]
-          },
-          options: {
-            responsive: true, maintainAspectRatio: false, cutout: '68%',
-            plugins: {
-              legend: { position: 'bottom', labels: { color: '#cbd5e1', padding: 18, usePointStyle: true, pointStyle: 'circle', font: { family: 'DM Sans', size: 12 } } },
-              tooltip: { callbacks: { label: context => ` ${context.label}: ${money(context.raw)}` } }
-            }
-          }
-        });
-      };
-
-      const renderHistory = () => {
-        historyList.innerHTML = '';
-        const hasHistory = history.length > 0;
-        historyEmpty.classList.toggle('hidden', hasHistory);
-        historyList.classList.toggle('hidden', !hasHistory);
-        clearHistory.classList.toggle('hidden', !hasHistory);
-        history.forEach(item => {
-          const row = document.createElement('button');
-          row.type = 'button';
-          row.className = 'group flex w-full items-center justify-between rounded-2xl border border-white/10 bg-white/[.03] p-3 text-left transition hover:border-cyan-300/30 hover:bg-cyan-300/[.05]';
-          row.innerHTML = `<span><span class="block text-sm font-semibold text-white">${money(item.salary)} · ${money(item.rent)}/mo rent</span><span class="mt-1 block text-xs text-slate-500">${item.date} · ${stateNames[item.state] || 'US'} · ${(item.obligationRatio * 100 || item.ratio * 100).toFixed(1)}% obligations</span></span><span class="ml-3 text-lg font-bold ${item.score >= 70 ? 'text-cyan-200' : item.score >= 50 ? 'text-violet-200' : 'text-rose-200'}">${item.score}<span class="text-xs font-medium text-slate-500"> / 100</span></span>`;
-          row.addEventListener('click', () => { salaryInput.value = item.salary; rentInput.value = item.rent; debtInput.value = item.debt || 0; stateInput.value = item.state || 'CA'; form.requestSubmit(); });
-          historyList.appendChild(row);
-        });
-      };
-
-      try { history = JSON.parse(localStorage.getItem(historyKey) || '[]'); if (!Array.isArray(history)) history = []; } catch { history = []; }
-
-      document.getElementById('year').textContent = new Date().getFullYear();
-      ring.style.strokeDasharray = circumference;
-
-      const money = value => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
-      const setStatus = (label, color) => { statusPill.textContent = label; statusPill.className = `rounded-full border px-3 py-1 text-xs font-semibold ${color}`; };
-      renderHistory();
-
-      form.addEventListener('submit', event => {
-        event.preventDefault();
-        const salary = Number(salaryInput.value);
-        const rent = Number(rentInput.value);
-        const debt = Number(debtInput.value || 0);
-        const state = stateInput.value;
-        if (!Number.isFinite(salary) || !Number.isFinite(rent) || !Number.isFinite(debt) || salary <= 0 || rent <= 0 || debt < 0) {
-          errorMessage.textContent = 'Please enter a valid salary and rent. Debt payments can be zero but cannot be negative.';
-          errorMessage.classList.remove('hidden');
-          return;
-        }
-        errorMessage.classList.add('hidden');
-        const monthlyIncome = salary / 12;
-        const stateRate = stateTaxRates[state] ?? 0;
-        const federalTaxMonthly = (salary * 0.22) / 12;
-        const stateTaxMonthly = (salary * stateRate) / 12;
-        const taxesMonthly = federalTaxMonthly + stateTaxMonthly;
-        const takeHomeMonthly = Math.max(0, monthlyIncome - taxesMonthly);
-        const ratio = rent / Math.max(takeHomeMonthly, 1);
-        const obligationRatio = (rent + debt) / Math.max(takeHomeMonthly, 1);
-        const score = Math.max(0, Math.min(100, Math.round(100 - Math.max(0, ratio - 0.25) * 140 - Math.max(0, obligationRatio - 0.36) * 120)));
-        const remaining = Math.max(0, monthlyIncome - taxesMonthly - rent - debt);
-        const offset = circumference * (1 - score / 100);
-        const isHealthy = ratio <= 0.3 && obligationRatio <= 0.36;
-        const isWatch = obligationRatio <= 0.5;
-        latestResult = { score, ratio, obligationRatio, salary, rent, debt, state, stateRate, taxesMonthly, takeHomeMonthly, remaining };
-        updateBreakdown(takeHomeMonthly, [taxesMonthly, debt, rent, remaining]);
-        pdfReportContent.innerHTML = `<div style="border-bottom:3px solid #22d3ee;padding-bottom:18px;margin-bottom:26px"><div style="font-size:14px;font-weight:700;letter-spacing:2px;color:#0891b2;text-transform:uppercase">ToolVerse</div><h1 style="font-size:30px;margin:8px 0 0;color:#0f172a">Financial Decision Report</h1><p style="color:#64748b;margin:8px 0 0">Generated ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} · ${stateNames[state]}</p></div><div style="display:flex;gap:18px;margin-bottom:26px"><div style="flex:1;background:#ecfeff;border-radius:12px;padding:18px"><div style="font-size:12px;color:#0e7490;text-transform:uppercase;letter-spacing:1px">Financial score</div><div style="font-size:42px;font-weight:700;color:#0f172a;margin-top:5px">${score}<span style="font-size:18px;color:#64748b"> / 100</span></div></div><div style="flex:1;background:#f5f3ff;border-radius:12px;padding:18px"><div style="font-size:12px;color:#6d28d9;text-transform:uppercase;letter-spacing:1px">Estimated take-home</div><div style="font-size:30px;font-weight:700;color:#0f172a;margin-top:10px">${money(takeHomeMonthly)}<span style="font-size:14px;color:#64748b"> / mo</span></div></div></div><h2 style="font-size:20px;color:#0f172a;margin:0 0 12px">Monthly cash-flow allocation</h2><p style="color:#475569;margin:0 0 18px">Based on gross income of <strong>${money(monthlyIncome)}</strong>, estimated taxes of <strong>${money(taxesMonthly)}</strong>, and a simplified ${Math.round((0.22 + stateRate) * 100)}% combined tax rate.</p><div style="border:1px solid #e2e8f0;border-radius:12px;overflow:hidden"><div style="display:flex;padding:15px;border-bottom:1px solid #e2e8f0"><strong style="width:40%">Category</strong><strong>Monthly amount</strong></div><div style="display:flex;padding:15px;border-bottom:1px solid #e2e8f0"><span style="width:40%">Taxes (federal + state)</span><strong>${money(taxesMonthly)}</strong></div><div style="display:flex;padding:15px;border-bottom:1px solid #e2e8f0"><span style="width:40%">Rent</span><strong>${money(rent)}</strong></div><div style="display:flex;padding:15px;border-bottom:1px solid #e2e8f0"><span style="width:40%">Debt payments</span><strong>${money(debt)}</strong></div><div style="display:flex;padding:15px"><span style="width:40%">Remaining</span><strong>${money(remaining)}</strong></div></div><h2 style="font-size:20px;color:#0f172a;margin:28px 0 12px">50 / 30 / 20 guide from take-home pay</h2><p style="color:#475569;margin:0 0 18px">Needs: <strong>${money(takeHomeMonthly * 0.5)}</strong> · Wants: <strong>${money(takeHomeMonthly * 0.3)}</strong> · Savings / Debt: <strong>${money(takeHomeMonthly * 0.2)}</strong></p><p style="color:#64748b;line-height:1.6;margin-top:24px">${isHealthy ? 'Your housing and debt obligations are within a more comfortable range.' : isWatch ? 'Your combined housing and debt obligations are worth reviewing alongside other commitments.' : 'Your combined housing and debt obligations are high; consider reviewing your fixed monthly costs.'} This report is an educational estimate, not financial advice.</p>`;
-        history = [{ score, ratio, obligationRatio, salary, rent, debt, state, date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) }, ...history.filter(item => !(item.salary === salary && item.rent === rent && (item.debt || 0) === debt && (item.state || 'CA') === state))].slice(0, 5);
-        try { localStorage.setItem(historyKey, JSON.stringify(history)); } catch { /* Storage can be unavailable in private browsing. */ }
-        renderHistory();
-        scoreValue.textContent = score;
-        ratioValue.textContent = `${(ratio * 100).toFixed(1)}%`;
-        incomeValue.textContent = money(monthlyIncome);
-        takehomeValue.textContent = money(takeHomeMonthly);
-        debtValue.textContent = money(debt);
-        ring.style.strokeDashoffset = offset;
-        ring.style.stroke = isHealthy ? '#67e8f9' : isWatch ? '#c4b5fd' : '#fb7185';
-        if (isHealthy) { setStatus('Healthy range', 'border-cyan-300/20 bg-cyan-300/10 text-cyan-200'); analysis.textContent = `Strong signal: rent and debt use ${(obligationRatio * 100).toFixed(1)}% of estimated take-home pay in ${stateNames[state]}.`; }
-        else if (isWatch) { setStatus('Worth reviewing', 'border-violet-300/20 bg-violet-300/10 text-violet-200'); analysis.textContent = `Watch your margin: rent and debt use ${(obligationRatio * 100).toFixed(1)}% of estimated take-home pay.`; }
-        else { setStatus('High pressure', 'border-rose-300/20 bg-rose-300/10 text-rose-200'); analysis.textContent = 'Warning: your combined housing and debt costs are high for this estimated take-home pay.'; }
-        shareButton.disabled = false;
-        pdfButton.disabled = false;
-        shareButton.classList.remove('opacity-50', 'cursor-not-allowed');
-        pdfButton.classList.remove('opacity-40', 'cursor-not-allowed');
-      });
-
-      clearHistory.addEventListener('click', () => {
-        history = [];
-        try { localStorage.removeItem(historyKey); } catch { /* Ignore unavailable storage. */ }
-        renderHistory();
-      });
-
-      pdfButton.addEventListener('click', async () => {
-        if (!latestResult || !window.html2pdf) return;
-        pdfLabel.textContent = 'Preparing PDF…';
-        try {
-          await html2pdf().set({ margin: 0.45, filename: 'toolverse-financial-report.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, backgroundColor: '#ffffff', useCORS: true }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } }).from(pdfReport).save();
-          pdfLabel.textContent = 'PDF Downloaded';
-        } catch { pdfLabel.textContent = 'PDF unavailable'; }
-        setTimeout(() => { pdfLabel.textContent = 'Download PDF Report'; }, 2400);
-      });
-
-      shareButton.addEventListener('click', async () => {
-        if (!latestResult) return;
-        const text = `My ToolVerse Financial Score is ${latestResult.score}/100 in ${stateNames[latestResult.state]}, with ${money(latestResult.debt)}/mo debt and a ${(latestResult.ratio * 100).toFixed(1)}% rent-to-income ratio. Check yours: ${window.location.href}`;
-        try { await navigator.clipboard.writeText(text); shareLabel.textContent = 'Copied to clipboard'; }
-        catch { shareLabel.textContent = 'Copy unavailable'; }
-        setTimeout(() => { shareLabel.textContent = 'Share Result'; }, 2200);
-      });
-
-      // --- MODAL LOGIC FOR FOOTER LINKS ---
-      const modal = document.getElementById('info-modal');
-      const modalTitle = document.getElementById('modal-title');
-      const modalBody = document.getElementById('modal-body');
-      const modalClose = document.getElementById('modal-close');
-
-      const openModal = (title, htmlContent) => {
-        modalTitle.textContent = title;
-        modalBody.innerHTML = htmlContent;
-        modal.classList.remove('hidden');
-      };
-      const closeModal = () => modal.classList.add('hidden');
-
-      modalClose.addEventListener('click', closeModal);
-      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
-      document.getElementById('footer-privacy-btn').addEventListener('click', () => {
-        openModal('Privacy Policy', `
-          <p>At ToolVerse, accessible from our web application, your privacy is critically important to us. This Privacy Policy outlines the types of personal information that is received and collected and how it is used.</p>
-          <h3 class="text-lg font-bold text-cyan-300 mt-4">1. Data Processing & Local Storage</h3>
-          <p>All calculator inputs (salary, rent, debt, state) are processed entirely inside your web browser using local client-side execution. We do not store, log, or transmit your financial details to any external server. Your recent calculation history is stored exclusively in your browser's local storage.</p>
-          <h3 class="text-lg font-bold text-cyan-300 mt-4">2. Third-Party Advertising (Google AdSense)</h3>
-          <p>We may use third-party advertising companies to serve ads when you visit our website. These companies may use aggregated information about your visits to this and other websites in order to provide advertisements about goods and services of interest to you.</p>
-          <h3 class="text-lg font-bold text-cyan-300 mt-4">3. Cookies and Web Beacons</h3>
-          <p>Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to your website or other websites. Google's use of advertising cookies enables it and its partners to serve ads to your users based on their visit to your sites and/or other sites on the Internet.</p>
-          <h3 class="text-lg font-bold text-cyan-300 mt-4">4. Consent</h3>
-          <p>By using our website, you hereby consent to our Privacy Policy and agree to its Terms and Conditions.</p>
-        `);
-      });
-
-      document.getElementById('footer-terms-btn').addEventListener('click', () => {
-        openModal('Terms of Service', `
-          <p>Welcome to ToolVerse. By accessing and using our US Money Decision Engine, you agree to comply with the following terms and conditions.</p>
-          <h3 class="text-lg font-bold text-cyan-300 mt-4">1. Educational Use Only</h3>
-          <p>ToolVerse provides financial estimates, budgeting rules of thumb, and tax approximations for educational and informational purposes only. This tool does not constitute professional financial, legal, or tax advice.</p>
-          <h3 class="text-lg font-bold text-cyan-300 mt-4">2. No Warranty</h3>
-          <p>Calculations and estimations are provided "as is" without guarantees of absolute precision regarding state and federal tax codes. We are not liable for any financial decisions made based on these estimations.</p>
-          <h3 class="text-lg font-bold text-cyan-300 mt-4">3. User Responsibilities</h3>
-          <p>Users are responsible for verifying their own financial data and consulting with certified financial professionals before making major life choices.</p>
-        `);
-      });
-
-      document.getElementById('footer-disclaimer-btn').addEventListener('click', () => {
-        openModal('Disclaimer', `
-          <h3 class="text-lg font-bold text-cyan-300 mt-4">General Disclaimer</h3>
-          <p>The information provided by ToolVerse is for general informational and educational purposes only. All information on the Site is provided in good faith, however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the Site.</p>
-          <h3 class="text-lg font-bold text-cyan-300 mt-4">Financial & Legal Disclaimer</h3>
-          <p>The Site cannot and does not contain financial, tax, or legal advice. The financial information is provided for general informational and educational purposes only and is not a substitute for professional advice. Accordingly, before taking any actions based upon such information, we encourage you to consult with the appropriate professionals.</p>
-          <h3 class="text-lg font-bold text-cyan-300 mt-4">AdSense & Affiliate Disclaimer</h3>
-          <p>This site may contain links to affiliate websites, and we receive an affiliate commission for any purchases made by you on the affiliate website using such links. Additionally, this site uses Google AdSense to display ads. We do not endorse the products or services advertised.</p>
-        `);
-      });
-
-      const handleContactClick = () => {
-        openModal('Contact Us', `
-          <p>Have questions, suggestions, or feedback about the ToolVerse Money Decision Engine? We'd love to hear from you.</p>
-          <p>You can reach our support and development team directly via email at:</p>
-          <p class="p-4 mt-4 bg-slate-900 rounded-xl border border-cyan-500/30 text-cyan-300 font-mono text-center text-base sm:text-lg shadow-inner break-all">support.toolverseusa@gmail.com</p>
-          <p class="text-sm text-slate-400 mt-6">For advertising, AdSense compliance, or partnership inquiries, please include "Partnership" in your email subject line. We typically respond within 24–48 business hours.</p>
-        `);
-      };
-
-      document.getElementById('footer-contact-btn').addEventListener('click', handleContactClick);
-      const navContactBtn = document.getElementById('nav-contact-btn');
-      if (navContactBtn) navContactBtn.addEventListener('click', handleContactClick);
-
-    })();
+  (()=>{
+    const $=id=>document.getElementById(id), money=v=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(Number.isFinite(v)?v:0), pct=v=>`${(v*100).toFixed(1)}%`, clamp=(v,min=0,max=100)=>Math.max(min,Math.min(max,v));
+    const stateNames={AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',DC:'District of Columbia',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming'};
+    // Planning estimates, not state tax liabilities. Zero values reflect states without a broad individual income tax.
+    const stateRates={AL:.05,AK:0,AZ:.025,AR:.044,CA:.093,CO:.044,CT:.0699,DE:.066,DC:.085,FL:0,GA:.055,HI:.08,ID:.058,IL:.0495,IN:.03,IA:.057,KS:.057,KY:.04,LA:.0425,ME:.0715,MD:.0575,MA:.05,MI:.0425,MN:.079,MS:.05,MO:.048,MT:.0675,NE:.055,NV:0,NH:0,NJ:.0637,NM:.059,NY:.0685,NC:.0425,ND:.02,OH:.04,OK:.0475,OR:.08,PA:.0307,RI:.0599,SC:.07,SD:0,TN:0,TX:0,UT:.0465,VT:.066,VA:.0575,WA:0,WV:.055,WI:.0765,WY:0};
+    const brackets={single:[[12400,.10],[50400,.12],[105700,.22],[197700,.24],[252700,.32],[640600,.35],[Infinity,.37]],mfj:[[24800,.10],[100800,.12],[211400,.22],[395400,.24],[505400,.32],[768700,.35],[Infinity,.37]],hoh:[[17700,.10],[67450,.12],[105700,.22],[197750,.24],[252700,.32],[640600,.35],[Infinity,.37]]};
+    const deductions={single:16100,mfj:32200,hoh:24150};
+    const el={form:$('affordability-form'),income:$('income'),mode:$('income-mode'),hours:$('hours-week'),hoursWrap:$('hours-wrap'),rent:$('rent'),debt:$('debt'),state:$('state'),filing:$('filing-status'),error:$('error-message'),ring:$('progress-ring'),score:$('score-value'),verdict:$('verdict'),status:$('status-pill'),analysis:$('analysis'),remaining:$('remaining-value'),takehome:$('takehome-value'),ratio:$('ratio-value'),recommendation:$('recommendation-value'),scoreBreakdown:$('score-breakdown'),scoreEmpty:$('score-breakdown-empty'),rentRecommendations:$('rent-recommendations'),rentEmpty:$('rent-empty'),whatifRent:$('whatif-rent'),whatifRentOut:$('whatif-rent-output'),whatifSalary:$('whatif-salary'),whatifResult:$('whatif-result'),budgetEmpty:$('budget-empty'),budgetContent:$('budget-content'),budgetRows:$('budget-rows'),chart:$('budget-chart'),historyEmpty:$('history-empty'),historyList:$('history-list'),clearHistory:$('clear-history'),clearData:$('clear-data'),share:$('share-button'),shareLabel:$('share-label'),pdf:$('pdf-button'),pdfLabel:$('pdf-label'),pdfReport:$('pdf-report'),retAge:$('ret-age'),retSavings:$('ret-savings'),retRate:$('ret-rate'),retResult:$('ret-result'),fxAmount:$('fx-amount'),fxCurrency:$('fx-currency'),fxResult:$('fx-result'),amortBalance:$('amort-balance'),amortApr:$('amort-apr'),amortPayment:$('amort-payment'),amortExtra:$('amort-extra'),amortRun:$('amort-run'),amortResult:$('amort-result'),zeroTax:$('zero-tax'),taxCompare:$('tax-compare-result')};
+    const expenseInputs=[...document.querySelectorAll('.expense-input')], historyKey='toolverse-recent-calculations-v4'; let latest=null,history=[]; let chart=null; const circumference=2*Math.PI*49;
+    Object.entries(stateNames).forEach(([code,name])=>{const opt=document.createElement('option');opt.value=code;opt.textContent=name;if(code==='CA')opt.selected=true;el.state.appendChild(opt)});
+    const federalTax=(gross,status)=>{const taxable=Math.max(0,gross-deductions[status]);let tax=0,lower=0;for(const [upper,rate] of brackets[status]){const slice=Math.max(0,Math.min(taxable,upper)-lower);tax+=slice*rate;lower=upper;if(taxable<=upper)break}return tax};
+    const annualGross=()=>{const amount=Number(el.income.value),mode=el.mode.value; if(!Number.isFinite(amount)||amount<=0)return NaN;if(mode==='annual')return amount;if(mode==='monthly')return amount*12;if(mode==='biweekly')return amount*26;if(mode==='weekly')return amount*52;return amount*Number(el.hours.value||40)*52};
+    const taxEstimate=(gross,status,state)=>{const federal=federalTax(gross,status),social=Math.min(gross,184500)*.062,medicare=gross*.0145,additional= Math.max(0,gross-(status==='mfj'?250000:200000))*.009,stateTax=gross*(stateRates[state]||0);return{federal,stateTax,social,medicare,additional,total:federal+stateTax+social+medicare+additional}};
+    const readExpenses=()=>Object.fromEntries(expenseInputs.map(i=>[i.dataset.expense,Math.max(0,Number(i.value)||0)]));
+    const baseExpenseTotal=e=>Object.values(e).reduce((a,b)=>a+b,0);
+    const calculate=(gross,rentOverride=null)=>{const status=el.filing.value,state=el.state.value,rent=rentOverride==null?Math.max(0,Number(el.rent.value)||0):Math.max(0,rentOverride),debt=Math.max(0,Number(el.debt.value)||0),expenses=readExpenses(),tax=taxEstimate(gross,status,state),monthlyGross=gross/12,takehome=Math.max(0,(gross-tax.total)/12),essential=rent+debt+expenses.groceries+expenses.utilities+expenses.transportation+expenses.carPayment+expenses.carInsurance+expenses.healthInsurance+expenses.childcare+expenses.studentLoans+expenses.creditCards+expenses.otherDebt, wants=expenses.other, totalOutflow=essential+wants, remaining=takehome-totalOutflow, housing=rent/Math.max(takehome,1),debtBurden=debt/Math.max(takehome,1),cashflow=clamp((remaining/Math.max(takehome,1))*100),savings=clamp((Math.max(0,remaining)/Math.max(takehome,1))/.2*100),essentialScore=clamp(100-Math.max(0,essential/Math.max(takehome,1)-.5)*200),housingScore=clamp(100-Math.max(0,housing-.25)*200),debtScore=clamp(100-Math.max(0,debtBurden-.12)*250),score=Math.round(housingScore*.25+debtScore*.2+cashflow*.25+savings*.15+essentialScore*.15),conservative=Math.max(0,Math.min(takehome*.25,Math.max(0,takehome-(totalOutflow-rent)-takehome*.1))),balanced=Math.max(0,Math.min(takehome*.3,Math.max(0,takehome-(totalOutflow-rent)-takehome*.08))),maximum=Math.max(0,Math.min(takehome*.35,Math.max(0,takehome-(totalOutflow-rent)-takehome*.05)));let verdict='Likely Too Expensive',tone='rose';if(remaining>=takehome*.2&&housing<=.3&&debtBurden<=.36){verdict='Comfortably Affordable';tone='cyan'}else if(remaining>=takehome*.1){verdict='Affordable, but watch your budget';tone='amber'}else if(remaining>=0){verdict='Tight Budget';tone='orange'}return{gross,status,state,rent,debt,expenses,tax,monthlyGross,takehome,essential,wants,totalOutflow,remaining,housing,debtBurden,cashflow,savings,essentialScore,housingScore,debtScore,score,conservative,balanced,maximum,verdict,tone};};
+    const moneyLeftText=v=>v<0?`-${money(Math.abs(v))}`:money(v);
+    const updateStatus=(r)=>{const colors={cyan:'border-cyan-300/20 bg-cyan-300/10 text-cyan-200',amber:'border-amber-300/20 bg-amber-300/10 text-amber-200',orange:'border-orange-300/20 bg-orange-300/10 text-orange-200',rose:'border-rose-300/20 bg-rose-300/10 text-rose-200'};el.status.className=`rounded-full border px-3 py-1 text-xs font-semibold ${colors[r.tone]}`;el.status.textContent=r.tone==='cyan'?'Healthy range':r.tone==='rose'?'High pressure':'Worth reviewing';el.verdict.className=`mt-4 rounded-full border px-4 py-2 text-sm font-bold ${colors[r.tone]}`;el.verdict.textContent=r.verdict};
+    const renderBreakdown=(r)=>{el.scoreEmpty.classList.add('hidden');el.scoreBreakdown.classList.remove('hidden');const rows=[['Housing',r.housingScore,`Rent is ${pct(r.housing)} of estimated take-home pay.`],['Debt',r.debtScore,`Debt payments are ${pct(r.debtBurden)} of estimated take-home pay.`],['Cash flow',r.cashflow,`${moneyLeftText(r.remaining)} remains after the expenses provided.`],['Savings capacity',r.savings,`Estimated savings capacity is ${pct(Math.max(0,r.remaining)/Math.max(r.takehome,1))}.`],['Essential expenses',r.essentialScore,`Needs total ${money(r.essential)} per month.`]];el.scoreBreakdown.innerHTML=rows.map(([name,value,detail])=>`<div class="rounded-2xl border border-white/10 bg-white/[.03] p-4"><div class="flex items-center justify-between"><span class="text-sm font-semibold text-white">${name}</span><span class="text-sm font-bold text-cyan-200">${Math.round(value)}/100</span></div><div class="mt-2 h-2 overflow-hidden rounded-full bg-slate-950/70"><div class="h-full rounded-full bg-gradient-to-r from-cyan-300 to-violet-300" style="width:${value}%"></div></div><p class="mt-2 text-xs text-slate-500">${detail}</p></div>`).join('')};
+    const renderRent=(r)=>{el.rentEmpty.classList.add('hidden');el.rentRecommendations.classList.remove('hidden');el.rentRecommendations.innerHTML=[['Conservative',r.conservative,'Most room for savings and surprises.','cyan'],['Balanced',r.balanced,'A practical starting point for many budgets.','violet'],['Maximum',r.maximum,'A ceiling, not a target; review other expenses carefully.','rose']].map(([label,value,detail,tone])=>`<div class="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[.03] p-4"><div><p class="text-sm font-bold text-white">${label}</p><p class="mt-1 text-xs text-slate-500">${detail}</p></div><strong class="text-lg ${tone==='cyan'?'text-cyan-200':tone==='violet'?'text-violet-200':'text-rose-200'}">${money(value)}</strong></div>`).join('')};
+    const renderBudget=(r)=>{el.budgetEmpty.classList.add('hidden');el.budgetContent.classList.remove('hidden');const needs=r.essential,wants=r.wants,savings=Math.max(0,r.remaining),sum=Math.max(1,needs+wants+savings);el.budgetRows.innerHTML=[['Needs',needs/sum,.5,'cyan'],['Wants',wants/sum,.3,'violet'],['Savings & debt',savings/sum,.2,'fuchsia']].map(([label,actual,target,tone])=>`<div class="flex items-center justify-between rounded-xl border border-white/10 bg-white/[.03] px-4 py-3"><div><span class="text-sm font-semibold text-white">${label}</span><span class="ml-2 text-xs text-slate-500">Recommended ${Math.round(target*100)}%</span></div><span class="font-bold ${tone==='cyan'?'text-cyan-200':tone==='violet'?'text-violet-200':'text-fuchsia-200'}">${Math.round(actual*100)}%</span></div>`).join('');if(window.Chart){if(!chart)chart=new Chart(el.chart,{type:'doughnut',data:{labels:['Needs','Wants','Savings & debt'],datasets:[{data:[needs,wants,savings],backgroundColor:['#67e8f9','#a78bfa','#f0abfc'],borderColor:'#0b1829',borderWidth:5}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{position:'bottom',labels:{color:'#cbd5e1',usePointStyle:true,padding:16}},tooltip:{callbacks:{label:c=>` ${c.label}: ${money(c.raw)}`}}}}});else{chart.data.datasets[0].data=[needs,wants,savings];chart.update()}}};
+    const renderWhatIf=()=>{if(!latest)return;const rent=Number(el.whatifRent.value),salary=Number(el.whatifSalary.value)||latest.gross,r=calculate(salary,rent);el.whatifRentOut.textContent=money(rent);el.whatifResult.innerHTML=`<div class="grid grid-cols-2 gap-3"><div><span class="block text-xs text-slate-500">Score</span><strong class="text-lg text-white">${r.score}/100</strong></div><div><span class="block text-xs text-slate-500">Money left</span><strong class="text-lg text-cyan-200">${moneyLeftText(r.remaining)}</strong></div><div><span class="block text-xs text-slate-500">Housing ratio</span><strong class="text-lg text-white">${pct(r.housing)}</strong></div><div><span class="block text-xs text-slate-500">Verdict</span><strong class="text-sm text-violet-200">${r.verdict}</strong></div></div>`};
+    const renderHistory=()=>{const has=history.length>0;el.historyEmpty.classList.toggle('hidden',has);el.historyList.classList.toggle('hidden',!has);el.clearHistory.classList.toggle('hidden',!has);el.historyList.innerHTML=history.map((h,i)=>`<button data-history="${i}" class="focus-ring flex min-h-14 w-full items-center justify-between rounded-2xl border border-white/10 bg-white/[.03] p-3 text-left hover:border-cyan-300/30"><span><span class="block text-sm font-semibold text-white">${money(h.gross)} · ${money(h.rent)} rent</span><span class="mt-1 block text-xs text-slate-500">${h.date} · ${stateNames[h.state]} · ${h.verdict}</span></span><strong class="text-lg ${h.score>=70?'text-cyan-200':h.score>=50?'text-violet-200':'text-rose-200'}">${h.score}<span class="text-xs text-slate-500">/100</span></strong></button>`).join('');el.historyList.querySelectorAll('[data-history]').forEach(btn=>btn.addEventListener('click',()=>{const h=history[Number(btn.dataset.history)];el.income.value=h.input;el.mode.value=h.mode;el.rent.value=h.rent;el.debt.value=h.debt;el.state.value=h.state;el.filing.value=h.status;expenseInputs.forEach(i=>i.value=h.expenses?.[i.dataset.expense]||0);el.form.requestSubmit()}))};
+    const renderPdf=(r)=>{el.pdfReport.innerHTML=`<div style="border-bottom:3px solid #0891b2;padding-bottom:16px;margin-bottom:22px"><div style="font-size:13px;font-weight:700;letter-spacing:2px;color:#0891b2;text-transform:uppercase">ToolVerse</div><h1 style="font-size:28px;margin:8px 0;color:#0f172a">Can I Afford This?</h1><p style="color:#64748b">Generated ${new Date().toLocaleDateString()} · ${stateNames[r.state]}</p></div><h2 style="font-size:22px;color:#0f172a">${r.verdict}</h2><p style="font-size:38px;font-weight:700;margin:8px 0 20px">${r.score}<span style="font-size:16px;color:#64748b"> / 100</span></p><div style="border:1px solid #e2e8f0;border-radius:10px;padding:16px;line-height:1.8"><b>Estimated take-home:</b> ${money(r.takehome)}/month<br><b>Money left:</b> ${moneyLeftText(r.remaining)}<br><b>Housing ratio:</b> ${pct(r.housing)}<br><b>Recommended rent:</b> ${money(r.conservative)}–${money(r.maximum)}<br><b>Estimated taxes:</b> ${money(r.tax.total)}/month</div><h2 style="font-size:18px;margin:24px 0 8px">Monthly inputs</h2><p>Rent ${money(r.rent)} · Debt ${money(r.debt)} · Essential expenses ${money(r.essential)} · Wants ${money(r.wants)}</p><p style="color:#64748b;margin-top:24px;line-height:1.6">This report is an educational estimate, not financial, tax, or legal advice. Federal and payroll calculations use simplified 2026 assumptions; state rates are planning estimates.</p>`};
+    const currencyRates={EUR:.92,GBP:.79,CAD:1.36,JPY:149,MXN:17.1,INR:83.2};
+    const updateCurrency=()=>{const code=el.fxCurrency.value,amount=Math.max(0,Number(el.fxAmount.value)||0),value=amount*currencyRates[code],formatted=new Intl.NumberFormat('en-US',{style:'currency',currency:code,maximumFractionDigits:code==='JPY'?0:2}).format(value);el.fxResult.textContent=`${money(amount)} USD ≈ ${formatted} · reference rate only`};
+    const updateRetirement=(r)=>{const age=Number(el.retAge.value),savings=Math.max(0,Number(el.retSavings.value)||0),rate=clamp(Number(el.retRate.value)||0,0,80)/100;if(!r||age<18||age>=67){el.retResult.textContent='Calculate a valid baseline and use an age from 18 to 66.';return}const years=67-age,months=years*12,mr=Math.pow(1.06,1/12)-1,contribution=r.takehome*rate,projected=savings*Math.pow(1.06,years)+contribution*((Math.pow(1+mr,months)-1)/mr),target=Math.max(1,r.takehome*12*.8*25);el.retResult.innerHTML=`Projected at 67: <strong class="text-cyan-200">${money(projected)}</strong><br>Illustrative target: <strong class="text-violet-200">${money(target)}</strong><br><span class="text-slate-500">At ${Math.round(rate*100)}% savings, that is ${Math.round(projected/target*100)}% of the target. Uses a 6% annual return assumption.</span>`;return{projected,target,years}};
+    const amortize=(balance,apr,payment)=>{let b=Math.max(0,balance),interest=0,months=0,rate=Math.max(0,apr)/100/12;while(b>.01&&months<1200){const i=b*rate,p=Math.min(b,Math.max(0,payment-i));if(p<=0)break;b-=p;interest+=i;months++}return{months,interest}};
+    const updateAmortization=()=>{const balance=Math.max(0,Number(el.amortBalance.value)||0),apr=Math.max(0,Number(el.amortApr.value)||0),basePayment=Math.max(1,Number(el.amortPayment.value)||0),extra=Math.max(0,Number(el.amortExtra.value)||0);if(!balance){el.amortResult.textContent='Enter a debt balance to see the schedule.';return}const base=amortize(balance,apr,basePayment),accelerated=amortize(balance,apr,basePayment+extra);el.amortResult.innerHTML=`Base payment: <strong>${money(basePayment)}/mo</strong><br>With extra payment: <strong>${money(basePayment+extra)}/mo</strong><br>Estimated time saved: <strong class="text-cyan-200">${Math.max(0,base.months-accelerated.months)} months</strong><br>Estimated interest saved: <strong class="text-violet-200">${money(Math.max(0,base.interest-accelerated.interest))}</strong>`;};
+    const updateTaxComparison=(r)=>{if(!r)return;const zeroState=el.zeroTax.value,zeroTakehome=Math.max(0,(r.gross-federalTax(r.gross,r.status)-Math.min(r.gross,184500)*.062-r.gross*.0145-Math.max(0,r.gross-(r.status==='mfj'?250000:200000))*.009)/12),difference=Math.max(0,zeroTakehome-r.takehome);el.taxCompare.innerHTML=`${stateNames[r.state]} → ${stateNames[zeroState]}<br>Current: <strong>${money(r.takehome)}/mo</strong> · Zero-state scenario: <strong class="text-cyan-200">${money(zeroTakehome)}/mo</strong><br><span class="text-slate-500">Potential difference: ${money(difference)}/mo before moving costs and other tax factors.</span>`;return{zeroTakehome,difference}};
+    const render=()=>{const gross=annualGross();if(!Number.isFinite(gross)||gross<=0){el.error.textContent='Enter a valid positive income amount.';el.error.classList.remove('hidden');return null}const rent=Number(el.rent.value),debt=Number(el.debt.value)||0;if(!Number.isFinite(rent)||rent<0||!Number.isFinite(debt)||debt<0||rent>1000000||debt>1000000){el.error.textContent='Enter non-negative rent and debt amounts within a realistic range.';el.error.classList.remove('hidden');return null}if(expenseInputs.some(i=>!Number.isFinite(Number(i.value))||Number(i.value)<0)){el.error.textContent='Monthly expenses must be zero or greater.';el.error.classList.remove('hidden');return null}el.error.classList.add('hidden');el.error.textContent='';const r=calculate(gross);latest={...r,input:Number(el.income.value),mode:el.mode.value};el.score.textContent=r.score;el.remaining.textContent=moneyLeftText(r.remaining);el.takehome.textContent=money(r.takehome);el.ratio.textContent=pct(r.housing);el.recommendation.textContent=`${money(r.conservative)}–${money(r.maximum)}`;el.ring.style.strokeDashoffset=circumference*(1-r.score/100);el.ring.style.stroke=r.tone==='cyan'?'#67e8f9':r.tone==='rose'?'#fb7185':'#c4b5fd';el.analysis.textContent=`Based on the information provided, this appears ${r.tone==='cyan'?'comfortable':r.tone==='rose'?'under pressure':'possible with a closer budget review'}. You have ${moneyLeftText(r.remaining)} after the expenses provided.`;updateStatus(r);renderBreakdown(r);renderRent(r);renderBudget(r);el.whatifRent.value=r.rent;el.whatifSalary.value=r.gross;el.fxAmount.value=r.rent;updateCurrency();updateRetirement(r);updateTaxComparison(r);updateAmortization();renderWhatIf();renderPdf(r);el.share.disabled=false;el.pdf.disabled=false;history=[{...r,date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'})},...history.filter(h=>!(h.gross===r.gross&&h.rent===r.rent&&h.state===r.state&&h.status===r.status))].slice(0,5);try{localStorage.setItem(historyKey,JSON.stringify(history))}catch{}renderHistory();return r};
+    el.mode.addEventListener('change',()=>el.hoursWrap.classList.toggle('hidden',el.mode.value!=='hourly'));el.fxAmount.addEventListener('input',updateCurrency);el.fxCurrency.addEventListener('change',updateCurrency);el.amortRun.addEventListener('click',updateAmortization);el.zeroTax.addEventListener('change',()=>updateTaxComparison(latest));el.form.addEventListener('submit',e=>{e.preventDefault();render()});el.whatifRent.addEventListener('input',renderWhatIf);el.whatifSalary.addEventListener('input',renderWhatIf);el.share.addEventListener('click',async()=>{if(!latest)return;const text=`ToolVerse affordability result: ${latest.score}/100, ${latest.verdict}. Estimated money left: ${moneyLeftText(latest.remaining)}. View the calculator: ${location.href}`;try{if(navigator.share)await navigator.share({title:'Can I Afford This?',text});else await navigator.clipboard.writeText(text);el.shareLabel.textContent=navigator.share?'Shared':'Copied'}catch{try{await navigator.clipboard.writeText(text);el.shareLabel.textContent='Copied'}catch{el.shareLabel.textContent='Copy unavailable'}}setTimeout(()=>el.shareLabel.textContent='Share result',2200)});el.pdf.addEventListener('click',async()=>{if(!latest||!window.html2pdf)return;el.pdfLabel.textContent='Preparing…';try{await html2pdf().set({margin:.45,filename:'toolverse-affordability-report.pdf',image:{type:'jpeg',quality:.98},html2canvas:{scale:2,backgroundColor:'#fff'},jsPDF:{unit:'in',format:'letter',orientation:'portrait'}}).from(el.pdfReport).save();el.pdfLabel.textContent='Downloaded'}catch{el.pdfLabel.textContent='Unavailable'}setTimeout(()=>el.pdfLabel.textContent='PDF report',2200)});el.clearHistory.addEventListener('click',()=>{history=[];try{localStorage.removeItem(historyKey)}catch{}renderHistory()});el.clearData.addEventListener('click',()=>{try{localStorage.removeItem(historyKey)}catch{}history=[];renderHistory();el.form.reset();el.mode.value='annual';el.hoursWrap.classList.add('hidden');el.whatifResult.textContent='Calculate your baseline first to explore scenarios.';el.score.textContent='—';el.verdict.textContent='Calculate to see your verdict';el.share.disabled=true;el.pdf.disabled=true});
+    updateCurrency();updateAmortization();
+    try{history=JSON.parse(localStorage.getItem(historyKey)||'[]');if(!Array.isArray(history))history=[]}catch{history=[]}$('year').textContent=new Date().getFullYear();el.ring.style.strokeDasharray=circumference;renderHistory();el.whatifRentOut.textContent=money(Number(el.whatifRent.value));
+  })();
   </script>
 </body>
 </html>
