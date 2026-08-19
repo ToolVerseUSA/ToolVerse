@@ -1,5 +1,5 @@
 // ==========================================
-// VVIP VOICE ASSISTANT MODULE - TOOLVERSE PRO (QWEN FIXED)
+// VVIP VOICE ASSISTANT MODULE - TOOLVERSE PRO (FINAL)
 // ==========================================
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -60,7 +60,7 @@ if (recognition) {
     };
 }
 
-// 🚀 ماڈل اوپن کرنے کا فنکشن (Global Scope فکس کے ساتھ)
+// 🚀 ماڈل اوپن کرنے کا فنکشن 
 window.toggleVoiceModal = function() {
     if (!recognition) { 
         alert("⚠️ Voice Assistant is not supported in your browser."); 
@@ -72,7 +72,7 @@ window.toggleVoiceModal = function() {
     forceStartRecognition();
 };
 
-// 🚀 ماڈل کلوز کرنے کا فنکشن (Global Scope فکس کے ساتھ)
+// 🚀 ماڈل کلوز کرنے کا فنکشن 
 window.closeVoiceModal = function() {
     isModalOpen = false;
     isProcessing = false;
@@ -84,7 +84,7 @@ window.closeVoiceModal = function() {
     if(statusText) statusText.innerHTML = "Listening...";
 };
 
-// یوزر کو واضح دکھانے کے لیے نیا VVIP UI فنکشن
+// یوزر کو واضح دکھانے کے لیے UI فنکشن
 function showTapToSpeakUI() {
     if (!isModalOpen) return;
     
@@ -110,7 +110,7 @@ function forceStartRecognition() {
     }
 }
 
-// AI کے ٹیکسٹ کو آواز میں بدلنے کا فنکشن
+// AI کے ٹیکسٹ کو آواز میں بدلنے کا فنکشن (Voice Match)
 function speakText(text) {
     if (!window.speechSynthesis) {
         if(statusText) statusText.innerHTML = "Audio not supported.";
@@ -148,17 +148,17 @@ function speakText(text) {
     window.speechSynthesis.speak(msg);
 }
 
-// 🚀 Groq Model سے کنکشن (Fixed strictly for QWEN Model + Backend Router)
+// 🚀 Groq Model سے کنکشن (100% Foolproof Answer Extraction)
 async function sendToAI(command) {
     try {
         const response = await fetch('/api/groq-handler', {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
-                'X-Tool-Type': 'voice-assistant' // 👈 Vercel کو بتانے کے لیے کہ یہ Voice Assistant ہے
+                'X-Tool-Type': 'voice-assistant' 
             },
             body: JSON.stringify({
-                systemPrompt: "You are 'ToolVerse AI', a direct voice assistant. CRITICAL INSTRUCTION: You MUST NOT write 'Here's a thinking process' or explain your logic. DO NOT use lists or step-by-step breakdowns. Just give the FINAL 1-sentence answer directly. Match the user's language.",
+                systemPrompt: "You are 'ToolVerse AI', a helpful voice assistant. CRITICAL RULE: You MUST wrap your final spoken reply strictly inside [ANSWER] and [/ANSWER] tags. Example: [ANSWER]Main theek hoon, aap bataien?[/ANSWER]. Do not include the user's prompt in your answer. Give a direct 1-sentence reply matching the user's language.",
                 userPrompt: command,
                 model: 'qwen/qwen3.6-27b' 
             })
@@ -169,25 +169,17 @@ async function sendToAI(command) {
         
         let cleanResult = data.result || "Sorry, I missed that.";
         
-        // =========================================================
-        // 🛑 QWEN کے فالتو 'Thinking Process' کو کاٹنے کا پکا فلٹر 🛑
-        // =========================================================
+        // 🛑 نیا اور پکا فلٹر: صرف [ANSWER] کے اندر والی بات نکالے گا 🛑
+        const answerMatch = cleanResult.match(/\[ANSWER\]([\s\S]*?)\[\/ANSWER\]/i);
         
-        if (cleanResult.includes("Final Output Generation:**")) {
-            let splitText = cleanResult.split("Final Output Generation:**")[1];
-            cleanResult = splitText.split("- Verify constraints")[0];
-        } 
-        else if (cleanResult.includes("thinking process:")) {
-            const quotes = cleanResult.match(/"([^"]+)"/);
-            if (quotes && quotes[1]) {
-                cleanResult = quotes[1];
-            } else {
-                let lines = cleanResult.split('\n');
-                cleanResult = lines[lines.length - 1]; 
-            }
+        if (answerMatch && answerMatch[1]) {
+            cleanResult = answerMatch[1]; 
+        } else {
+            let lines = cleanResult.split('\n').filter(line => line.trim() !== '');
+            cleanResult = lines[lines.length - 1]; 
         }
 
-        // آخری صفائی
+        // آخری صفائی 
         return cleanResult.replace(/[*#_`~-]/g, '').trim();
 
     } catch (error) {
