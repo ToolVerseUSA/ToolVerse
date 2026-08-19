@@ -3,14 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ToolVerse is a US financial cost of living calculator that helps you understand how comfortably your salary supports your rent." />
-  <meta name="keywords" content="US financial cost of living calculator, affordability calculator, rent calculator, financial score" />
+  <meta name="description" content="Use ToolVerse's free US cost of living and rent affordability calculator to estimate take-home pay, taxes, debt impact, rent-to-income ratio, and a financial score." />
+  <meta name="keywords" content="US cost of living calculator, rent affordability calculator, take-home pay calculator, salary calculator, debt-to-income calculator, financial score" />
   <meta name="author" content="ToolVerse" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="theme-color" content="#07111f" />
-  <meta property="og:title" content="ToolVerse: US Money Decision Engine" />
-  <meta property="og:description" content="Calculate your real financial score in seconds." />
+  <meta property="og:site_name" content="ToolVerse" />
+  <meta property="og:title" content="US Cost of Living & Rent Affordability Calculator | ToolVerse" />
+  <meta property="og:description" content="Estimate take-home pay, taxes, rent, debt impact, and your financial score in seconds." />
   <meta property="og:type" content="website" />
-  <title>ToolVerse — Can I Afford This?</title>
+  <meta property="og:locale" content="en_US" />
+  <link rel="canonical" href="https://toolverse-usa.vercel.app/" />
+  <title>US Cost of Living & Rent Affordability Calculator | ToolVerse</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {"@type": "WebApplication", "name": "ToolVerse US Money Decision Engine", "url": "https://toolverse-usa.vercel.app/", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "description": "A free frontend-only US cost of living, rent affordability, take-home pay, and financial score calculator.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}},
+      {"@type": "Organization", "name": "ToolVerse", "url": "https://toolverse-usa.vercel.app/"},
+      {"@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": "What does the ToolVerse financial score measure?", "acceptedAnswer": {"@type": "Answer", "text": "The score is an educational estimate based on rent, monthly debt payments, estimated take-home pay, and the selected state's simplified tax rate. It is not financial advice or a lending decision."}},
+        {"@type": "Question", "name": "How is estimated take-home pay calculated?", "acceptedAnswer": {"@type": "Answer", "text": "ToolVerse subtracts a simplified federal tax estimate and an average state tax estimate from gross monthly income. Actual paychecks vary based on filing status, deductions, credits, benefits, and local taxes."}},
+        {"@type": "Question", "name": "Does ToolVerse store my salary or rent?", "acceptedAnswer": {"@type": "Answer", "text": "Calculations run in the browser. Recent calculations may be stored locally in the browser's Local Storage, and are not sent to a ToolVerse server by this single-file website."}}
+      ]}
+    ]
+  }
+  </script>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -25,8 +43,8 @@
     };
   </script>
   <!-- Frontend-only visualization and PDF export dependencies -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -59,7 +77,7 @@
     </a>
     <nav class="flex items-center gap-2 text-sm text-slate-300" aria-label="Main navigation">
       <a class="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white" href="#home">Home</a>
-      <button id="nav-contact-btn" class="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white cursor-pointer" type="button">Contact</button>
+      <a class="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white" href="#contact">Contact</a>
     </nav>
   </header>
 
@@ -71,7 +89,7 @@
           US Money Decision Engine
         </div>
         <h1 class="text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">Can I <span class="bg-gradient-to-r from-cyan-300 via-sky-200 to-violet-300 bg-clip-text text-transparent">Afford This?</span></h1>
-        <p class="mx-auto mt-6 max-w-xl text-base leading-7 text-slate-400 sm:text-lg">Calculate your real financial score in seconds. Turn two numbers into a clearer picture of your monthly breathing room.</p>
+        <p class="mx-auto mt-6 max-w-xl text-base leading-7 text-slate-400 sm:text-lg">Use this free US cost of living calculator to estimate take-home pay, housing costs, debt pressure, and your real monthly breathing room.</p>
       </div>
 
       <div class="mx-auto mt-12 grid max-w-5xl gap-5 lg:grid-cols-[1.05fr_.95fr] lg:gap-6">
@@ -197,6 +215,21 @@
         </article>
       </section>
 
+      <section class="mx-auto mt-8 max-w-5xl rounded-3xl border border-white/10 bg-white/[.025] p-6 sm:p-8" aria-labelledby="how-it-works-title">
+        <p class="text-xs font-semibold uppercase tracking-[.18em] text-cyan-300">05 / Learn more</p>
+        <h2 id="how-it-works-title" class="mt-3 text-2xl font-bold text-white">A simple US affordability check</h2>
+        <div class="mt-5 grid gap-5 text-sm leading-7 text-slate-400 md:grid-cols-3">
+          <div><h3 class="font-bold text-white">Estimate take-home pay</h3><p class="mt-1">Select a state and enter annual salary to see a simplified after-tax monthly income estimate.</p></div>
+          <div><h3 class="font-bold text-white">Measure fixed costs</h3><p class="mt-1">Add monthly rent and debt payments to understand how much of your income is committed.</p></div>
+          <div><h3 class="font-bold text-white">Compare your margin</h3><p class="mt-1">Review the score, cash-flow chart, and 50/30/20 guide before making a housing decision.</p></div>
+        </div>
+        <div class="mt-7 grid gap-4 border-t border-white/10 pt-6 md:grid-cols-3">
+          <details class="rounded-2xl border border-white/10 bg-slate-950/20 p-4"><summary class="cursor-pointer font-semibold text-white">What does the score measure?</summary><p class="mt-3 text-sm leading-6 text-slate-400">It is an educational estimate based on rent, debt, estimated take-home pay, and the selected state's simplified tax rate. It is not financial advice or a lending decision.</p></details>
+          <details class="rounded-2xl border border-white/10 bg-slate-950/20 p-4"><summary class="cursor-pointer font-semibold text-white">How accurate are the tax estimates?</summary><p class="mt-3 text-sm leading-6 text-slate-400">The calculator uses simplified average rates. Actual paychecks vary with filing status, deductions, credits, benefits, local taxes, and other payroll factors.</p></details>
+          <details class="rounded-2xl border border-white/10 bg-slate-950/20 p-4"><summary class="cursor-pointer font-semibold text-white">Are my inputs private?</summary><p class="mt-3 text-sm leading-6 text-slate-400">Calculations run locally in your browser. Recent calculations may be saved in Local Storage and are not sent to a ToolVerse server.</p></details>
+        </div>
+      </section>
+
       <div class="mx-auto mt-8 grid max-w-5xl gap-4 text-sm sm:grid-cols-3">
         <div class="rounded-2xl border border-white/10 bg-white/[.025] p-5"><div class="mb-3 text-cyan-300">◎</div><h3 class="font-bold text-white">Fast by design</h3><p class="mt-1 leading-6 text-slate-500">A quick signal for your next money decision.</p></div>
         <div class="rounded-2xl border border-white/10 bg-white/[.025] p-5"><div class="mb-3 text-violet-300">⌁</div><h3 class="font-bold text-white">Clear context</h3><p class="mt-1 leading-6 text-slate-500">See your housing ratio alongside your score.</p></div>
@@ -205,28 +238,17 @@
     </section>
   </main>
 
-  <footer id="contact-section" class="border-t border-white/10 bg-slate-950/40">
+  <footer id="contact" class="border-t border-white/10 bg-slate-950/40">
     <div class="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-8 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-10">
       <div><a href="#home" class="brand font-bold text-white">Tool<span class="text-cyan-300">Verse</span></a><p class="mt-1 text-sm text-slate-500">Tools for clearer decisions.</p></div>
       <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-slate-400" aria-label="Footer navigation">
-        <button id="footer-privacy-btn" class="transition hover:text-cyan-300 cursor-pointer bg-transparent border-none text-slate-400" type="button">Privacy Policy</button>
-        <button id="footer-terms-btn" class="transition hover:text-cyan-300 cursor-pointer bg-transparent border-none text-slate-400" type="button">Terms of Service</button>
-        <button id="footer-contact-btn" class="transition hover:text-cyan-300 cursor-pointer bg-transparent border-none text-slate-400" type="button">Contact Us</button>
+        <a href="#privacy" class="transition hover:text-cyan-300">Privacy Policy</a><a href="#terms" class="transition hover:text-cyan-300">Terms of Service</a><a href="mailto:hello@toolverse.example" class="transition hover:text-cyan-300">Contact Us</a>
       </nav>
       <p class="text-xs text-slate-600">© <span id="year"></span> ToolVerse. All rights reserved.</p>
     </div>
+    <div id="privacy" class="sr-only">ToolVerse processes calculator inputs locally and does not transmit them.</div><div id="terms" class="sr-only">ToolVerse provides educational estimates and not financial advice.</div>
+    <p class="mx-auto max-w-7xl px-5 pb-6 text-center text-xs text-slate-700 sm:px-8 lg:px-10">ToolVerse is an educational US cost of living calculator. Estimates are not a substitute for professional financial, tax, or legal advice.</p>
   </footer>
-
-  <!-- Interactive Modal Overlay -->
-  <div id="info-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden" role="dialog" aria-modal="true">
-    <div class="glass w-full max-w-lg rounded-3xl p-6 sm:p-8 border border-white/10 shadow-2xl relative max-h-[85vh] overflow-y-auto">
-      <button id="modal-close" class="absolute top-5 right-5 text-slate-400 hover:text-white text-xl font-bold bg-white/5 h-9 w-9 rounded-full grid place-items-center transition">✕</button>
-      <h2 id="modal-title" class="text-2xl font-bold text-white mb-4">Modal Title</h2>
-      <div id="modal-body" class="text-slate-300 text-sm leading-7 space-y-4">
-        <!-- Content injected dynamically -->
-      </div>
-    </div>
-  </div>
 
   <script>
     (() => {
@@ -258,58 +280,10 @@
       const historyEmpty = document.getElementById('history-empty');
       const historyList = document.getElementById('history-list');
       const clearHistory = document.getElementById('clear-history');
-      
-      // Modal Elements
-      const modal = document.getElementById('info-modal');
-      const modalTitle = document.getElementById('modal-title');
-      const modalBody = document.getElementById('modal-body');
-      const modalClose = document.getElementById('modal-close');
-
-      const openModal = (title, htmlContent) => {
-        modalTitle.textContent = title;
-        modalBody.innerHTML = htmlContent;
-        modal.classList.remove('hidden');
-      };
-      const closeModal = () => modal.classList.add('hidden');
-
-      modalClose.addEventListener('click', closeModal);
-      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
-      // Modal contents for Privacy, Terms, Contact
-      document.getElementById('footer-privacy-btn').addEventListener('click', () => {
-        openModal('Privacy Policy', `
-          <p>At ToolVerse, accessible from our web application, your privacy is critically important to us.</p>
-          <p><strong>1. Local Processing:</strong> All calculator inputs (salary, rent, debt, state) are processed entirely inside your web browser using local client-side execution. We do not store, log, or transmit your financial details to any external server.</p>
-          <p><strong>2. Local Storage:</strong> Your recent calculation history is stored exclusively in your browser's local storage for your convenience and can be cleared at any time.</p>
-          <p><strong>3. Analytics & Cookies:</strong> We do not track individual users or sell any data.</p>
-        `);
-      });
-
-      document.getElementById('footer-terms-btn').addEventListener('click', () => {
-        openModal('Terms of Service', `
-          <p>Welcome to ToolVerse. By accessing and using our US Money Decision Engine, you agree to comply with these terms.</p>
-          <p><strong>1. Educational Use Only:</strong> ToolVerse provides financial estimates, budgeting rules of thumb (like the 50/30/20 allocation), and tax approximations for educational and informational purposes only. This tool does not constitute professional financial, legal, or tax advice.</p>
-          <p><strong>2. No Warranty:</strong> Calculations and estimations are provided "as is" without guarantees of absolute precision regarding state and federal tax codes.</p>
-        `);
-      });
-
-      const handleContactClick = () => {
-        openModal('Contact Us', `
-          <p>Have questions, suggestions, or feedback about the ToolVerse Money Decision Engine? We'd love to hear from you.</p>
-          <p>You can reach our support and development team directly via email at:</p>
-          <p class="p-3 bg-slate-900 rounded-xl border border-cyan-500/30 text-cyan-300 font-mono text-center">support@toolverse.app</p>
-          <p class="text-xs text-slate-400">We typically respond within 24–48 business hours.</p>
-        `);
-      };
-
-      document.getElementById('footer-contact-btn').addEventListener('click', handleContactClick);
-      document.getElementById('nav-contact-btn').addEventListener('click', handleContactClick);
-
       const circumference = 2 * Math.PI * 49;
       const historyKey = 'toolverse-recent-calculations-v2';
       const stateTaxRates = { CA: 0.093, TX: 0, NY: 0.0685, FL: 0, WA: 0, IL: 0.0495, PA: 0.0307, OH: 0.04, GA: 0.055, NC: 0.0425, MI: 0.0425, NJ: 0.0637, VA: 0.0575, AZ: 0.025, MA: 0.05 };
       const stateNames = { CA: 'California', TX: 'Texas', NY: 'New York', FL: 'Florida', WA: 'Washington', IL: 'Illinois', PA: 'Pennsylvania', OH: 'Ohio', GA: 'Georgia', NC: 'North Carolina', MI: 'Michigan', NJ: 'New Jersey', VA: 'Virginia', AZ: 'Arizona', MA: 'Massachusetts' };
-      
       const pdfReport = document.createElement('section');
       pdfReport.className = 'pdf-report';
       pdfReport.innerHTML = '<div id="pdf-report-content"></div>';
