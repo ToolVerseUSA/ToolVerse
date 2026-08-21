@@ -3,4 +3,25 @@
   <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
+<!-- Google tag (gtag.js), loaded when the page becomes idle -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  function loadGoogleTag() {
+    var tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=G-6VX2WPNECZ';
+    tag.fetchPriority = 'low';
+    document.head.appendChild(tag);
+    gtag('js', new Date());
+    gtag('config', 'G-6VX2WPNECZ');
+  }
+  window.addEventListener('load', function () {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(loadGoogleTag);
+    } else {
+      window.setTimeout(loadGoogleTag, 0);
+    }
+  }, { once: true });
+</script>
 </head><body><div class="wrap"><header class="top"><a class="brand" href="index.html">Tool<b>Verse</b></a><nav class="nav" aria-label="Site navigation"><a href="index.html">Calculator</a><a href="privacy.html">Privacy</a><a href="contact.html">Contact</a></nav></header><main class="card"><a class="back" href="index.html">← Back to the calculator</a><h1>About ToolVerse</h1><p>ToolVerse is a focused US money decision engine built around one practical question: <strong>Can I afford this?</strong></p><div class="notice">The calculator is free, works without an account, and is designed to help people understand trade-offs before making a major money decision.</div><h2>What ToolVerse does</h2><p>ToolVerse helps users model salary, rent, debt, state taxes, filing status, recurring expenses, and savings assumptions in one browser-based experience. It translates those inputs into an estimated take-home amount, monthly breathing room, affordability verdict, Financial Score, and rent guidance.</p><h2>How it is designed</h2><p>The product favors transparency over false precision. Inputs are visible, the major score categories are explainable, tax assumptions are labeled as estimates, and users can clear their local history. Optional retirement, debt payoff, currency, and tax-comparison panels are presented as planning scenarios rather than promises.</p><h2>Privacy-first by default</h2><p>ToolVerse does not require a login for the calculator. Core calculations happen in the browser, and recent scenarios are stored locally only when Local Storage is available. Read the <a class="back" href="privacy.html">Privacy Policy</a> for details about CDNs, possible analytics, cookies, and future advertising.</p><h2>What ToolVerse is not</h2><p>ToolVerse is not a bank, lender, tax preparer, financial adviser, investment platform, real-estate broker, or legal service. It does not make lending decisions or guarantee that a rent amount, move, job, or investment is suitable for you.</p><h2>Contact ToolVerse</h2><p>Have a correction, accessibility concern, or product question? Visit the <a class="back" href="contact.html">Contact page</a>.</p></main><footer><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="disclaimer.html">Disclaimer</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><br>© 2026 ToolVerse.</footer></div></body></html>

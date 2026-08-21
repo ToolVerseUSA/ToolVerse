@@ -3,4 +3,25 @@
   <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
+<!-- Google tag (gtag.js), loaded when the page becomes idle -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  function loadGoogleTag() {
+    var tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=G-6VX2WPNECZ';
+    tag.fetchPriority = 'low';
+    document.head.appendChild(tag);
+    gtag('js', new Date());
+    gtag('config', 'G-6VX2WPNECZ');
+  }
+  window.addEventListener('load', function () {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(loadGoogleTag);
+    } else {
+      window.setTimeout(loadGoogleTag, 0);
+    }
+  }, { once: true });
+</script>
 </head><body><div class="wrap"><header class="top"><a class="brand" href="index.html">Tool<b>Verse</b></a><nav class="nav" aria-label="Legal navigation"><a href="index.html">Calculator</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav></header><main class="card"><a class="back" href="index.html">← Back to the affordability calculator</a><h1>Disclaimer</h1><p>Last updated: August 19, 2026</p><div class="notice"><strong>Important:</strong> ToolVerse does not provide financial, tax, legal, investment, lending, insurance, or housing advice.</div><h2>Planning estimates</h2><p>ToolVerse’s Financial Score, affordability verdict, take-home pay, rent recommendations, budget map, retirement projection, currency conversion, tax comparison, and amortization outputs are educational planning estimates. They are not guarantees, approvals, quotes, tax returns, pay stubs, or certified calculations.</p><h2>Tax and payroll limitations</h2><p>Federal calculations use simplified 2026 assumptions. State rates are broad planning estimates and do not model every state bracket, deduction, credit, local tax, residency rule, benefit, pretax contribution, or employer withholding practice. Confirm important tax questions with the IRS, your state revenue agency, or a qualified tax professional.</p><h2>Retirement, debt, and currency limitations</h2><p>Retirement projections depend on illustrative assumptions and do not predict investment performance. Amortization results depend on the balance, rate, payment, compounding, fees, and lender rules you enter. Currency comparisons use static reference rates and are not live exchange-rate quotes.</p><h2>Verify before acting</h2><p>Before signing a lease, changing jobs, moving states, refinancing debt, investing, filing taxes, or making another material decision, verify the numbers with current official information and an appropriately qualified professional.</p><h2>Advertising and third-party content</h2><p>Future advertising, analytics, affiliate links, or third-party resources may be provided by outside companies. Their presence does not constitute an endorsement, recommendation, or guarantee by ToolVerse.</p><h2>Contact</h2><p>Questions about this disclaimer can be sent through the <a class="back" href="contact.html">ToolVerse contact page</a>.</p></main><footer><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="disclaimer.html">Disclaimer</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><br>© 2026 ToolVerse.</footer></div></body></html>

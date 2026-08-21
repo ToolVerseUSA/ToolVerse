@@ -3,4 +3,25 @@
   <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
+<!-- Google tag (gtag.js), loaded when the page becomes idle -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  function loadGoogleTag() {
+    var tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=G-6VX2WPNECZ';
+    tag.fetchPriority = 'low';
+    document.head.appendChild(tag);
+    gtag('js', new Date());
+    gtag('config', 'G-6VX2WPNECZ');
+  }
+  window.addEventListener('load', function () {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(loadGoogleTag);
+    } else {
+      window.setTimeout(loadGoogleTag, 0);
+    }
+  }, { once: true });
+</script>
 </head><body><div class="wrap"><header class="top"><a class="brand" href="index.html">Tool<b>Verse</b></a><nav class="nav" aria-label="Legal navigation"><a href="index.html">Calculator</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav></header><main class="card"><a class="back" href="index.html">← Back to the affordability calculator</a><h1>Terms of Service</h1><p>Last updated: August 19, 2026</p><div class="notice">By using ToolVerse, you agree to use this site as an educational planning utility and not as a substitute for professional advice.</div><h2>Service description</h2><p>ToolVerse provides a browser-based US affordability calculator and related planning utilities, including take-home pay estimates, rent guidance, budgeting views, retirement projections, currency comparisons, and debt payoff illustrations.</p><h2>Educational estimates only</h2><p>Outputs are simplified estimates and may differ materially from your actual paycheck, tax liability, rent capacity, investment outcome, or debt payoff result. ToolVerse is not a bank, lender, tax preparer, investment adviser, financial planner, attorney, or credit decision-maker.</p><h2>Acceptable use</h2><p>You may use the site for personal planning and evaluation. Do not misuse the site, attempt to disrupt its operation, scrape it in a way that harms availability, introduce malicious code, or represent ToolVerse’s estimates as an official financial determination.</p><h2>Third-party resources and advertising</h2><p>The site may load public CDN libraries and may display analytics or advertising in a future release. Third-party services have their own terms and privacy policies. ToolVerse does not guarantee the availability, accuracy, or suitability of third-party content, ads, or conversion rates.</p><h2>Availability and changes</h2><p>ToolVerse may change, suspend, or discontinue features without notice. We may revise these terms when the product, vendors, legal requirements, or advertising practices change. Continued use after an update means you accept the revised terms.</p><h2>Limitation of liability</h2><p>To the fullest extent permitted by law, ToolVerse is provided on an “as is” and “as available” basis. You are responsible for verifying important financial, tax, legal, housing, and investment decisions with qualified professionals and official sources.</p><h2>Contact</h2><p>Questions about these terms can be sent through the <a class="back" href="contact.html">ToolVerse contact page</a>.</p></main><footer><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="disclaimer.html">Disclaimer</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><br>© 2026 ToolVerse.</footer></div></body></html>

@@ -3,4 +3,25 @@
   <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
+<!-- Google tag (gtag.js), loaded when the page becomes idle -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  function loadGoogleTag() {
+    var tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=G-6VX2WPNECZ';
+    tag.fetchPriority = 'low';
+    document.head.appendChild(tag);
+    gtag('js', new Date());
+    gtag('config', 'G-6VX2WPNECZ');
+  }
+  window.addEventListener('load', function () {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(loadGoogleTag);
+    } else {
+      window.setTimeout(loadGoogleTag, 0);
+    }
+  }, { once: true });
+</script>
 </head><body><div class="wrap"><header class="top"><a class="brand" href="index.html">Tool<b>Verse</b></a><nav class="nav" aria-label="Site navigation"><a href="index.html">Calculator</a><a href="about.html">About</a><a href="privacy.html">Privacy</a></nav></header><main class="card"><a class="back" href="index.html">← Back to the calculator</a><h1>Contact ToolVerse</h1><p>Use this page for product questions, accessibility feedback, privacy questions, or corrections to calculator copy and methodology.</p><h2>Corrections and feedback</h2><p>Please include the page URL, a short description of the issue, and the device or browser where you noticed it. Do not send account numbers, Social Security numbers, bank details, or other sensitive financial information.</p><div><a class="contact" href="mailto:support.toolverseusa@gmail.com">Email support.toolverseusa@gmail.com</a><a class="contact" href="https://github.com/ToolVerseUSA/ToolVerse/issues/new?title=ToolVerse%20feedback">Open a GitHub Issue</a></div><h2>What we can help with</h2><ul><li>Calculator behavior or a confusing result.</li><li>Accessibility, keyboard, or mobile usability concerns.</li><li>Privacy, Local Storage, advertising, or data questions.</li><li>Corrections to public methodology explanations.</li></ul><h2>Response expectations</h2><p>ToolVerse is a static, privacy-first project and does not promise a response time. Contacting ToolVerse does not create a client, advisory, tax, legal, or financial-planning relationship.</p></main><footer><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="disclaimer.html">Disclaimer</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><br>© 2026 ToolVerse.</footer></div></body></html>
