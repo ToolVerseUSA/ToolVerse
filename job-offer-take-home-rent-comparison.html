@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare two US job offers after estimated taxes, rent, debt, transportation, utilities, benefits, and recurring monthly costs with a private browser-based planning tool.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#07111f">
+  <meta name="author" content="ToolVerse">
+  <meta property="og:site_name" content="ToolVerse">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Job Offer Take-Home & Rent Comparison Calculator | ToolVerse">
+  <meta property="og:description" content="Compare two job and living scenarios after estimated taxes, rent, debt, and recurring costs.">
+  <meta property="og:url" content="https://toolverseusa.github.io/ToolVerse/job-offer-take-home-rent-comparison.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Job Offer Take-Home & Rent Comparison Calculator | ToolVerse">
+  <meta name="twitter:description" content="A private US planning tool for comparing two job and housing scenarios.">
+  <link rel="canonical" href="https://toolverseusa.github.io/ToolVerse/job-offer-take-home-rent-comparison.html">
+  <title>Job Offer Take-Home & Rent Comparison Calculator | ToolVerse</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="guides.css">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[{"@type":"WebPage","name":"Job Offer Take-Home & Rent Comparison Calculator","url":"https://toolverseusa.github.io/ToolVerse/job-offer-take-home-rent-comparison.html","description":"A browser-based US planning calculator that compares two job and housing scenarios after estimated taxes and entered monthly costs."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ToolVerse","item":"https://toolverseusa.github.io/ToolVerse/"},{"@type":"ListItem","position":2,"name":"Job Offer Comparison","item":"https://toolverseusa.github.io/ToolVerse/job-offer-take-home-rent-comparison.html"}]},{"@type":"WebApplication","name":"ToolVerse Job Offer Take-Home & Rent Comparison","url":"https://toolverseusa.github.io/ToolVerse/job-offer-take-home-rent-comparison.html","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Compare two US job and living scenarios using estimates of take-home pay and entered recurring costs."},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Should I compare job offers using gross salary or take-home pay?","acceptedAnswer":{"@type":"Answer","text":"Gross salary is a useful starting point, but take-home pay and recurring costs can make two offers feel very different month to month. This calculator estimates both scenarios from the inputs you provide."}},{"@type":"Question","name":"Why does the state change a job-offer comparison?","acceptedAnswer":{"@type":"Answer","text":"State income-tax rules and local circumstances can change estimated take-home pay. ToolVerse uses simplified state planning rates and does not calculate local taxes or an exact tax return."}},{"@type":"Question","name":"Does this calculator tell me which job to accept?","acceptedAnswer":{"@type":"Answer","text":"No. It shows the estimated monthly cash difference under the information you enter. Benefits, career goals, work conditions, family needs, local taxes, and other personal factors can matter too."}}]}]}
+  </script>
+  <!-- Google tag (gtag.js), loaded when the page becomes idle. No calculator values are sent. -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    function loadGoogleTag() {
+      var tag = document.createElement('script');
+      tag.async = true;
+      tag.src = 'https://www.googletagmanager.com/gtag/js?id=G-6VX2WPNECZ';
+      tag.fetchPriority = 'low';
+      document.head.appendChild(tag);
+      gtag('js', new Date());
+      gtag('config', 'G-6VX2WPNECZ');
+    }
+    window.addEventListener('load', function () {
+      if ('requestIdleCallback' in window) window.requestIdleCallback(loadGoogleTag);
+      else window.setTimeout(loadGoogleTag, 0);
+    }, { once:true });
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="index.html" aria-label="ToolVerse home"><span class="mark">TV</span><span>Tool<b>Verse</b></span></a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="index.html">Calculator</a><a href="cost-of-living-by-state.html">State guide</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+        <details class="guide-menu"><summary>Guides</summary><div class="guide-menu-panel"><a href="job-offer-take-home-rent-comparison.html">Compare Job Offers</a><a href="first-apartment-budget-calculator.html">First Apartment Budget</a><a href="salary-needed-for-rent-calculator.html">Salary Needed for Rent</a><a href="30-percent-rent-rule.html">30% Rent Rule</a><a href="salary-after-rent-calculator.html">Salary After Rent</a><a href="take-home-pay-vs-rent.html">Take-Home Pay vs Rent</a><a href="salary-rent-affordability-guide.html">Rent by Salary</a></div></details>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="breadcrumbs"><a href="index.html">ToolVerse</a><span>›</span>Compare job offers</div>
+      <div class="eyebrow">U.S. job and housing planning</div>
+      <h1>Compare Job Offers After Taxes, Rent, and Monthly Costs</h1>
+      <p class="lede">Compare two complete job-and-living scenarios. See which one leaves more estimated monthly cash after modeled taxes and the recurring costs you enter.</p>
+    </section>
+
+    <div class="grid">
+      <main class="main-card prose">
+        <div class="disclaimer"><strong>Planning information only.</strong> This calculator makes educational estimates, not tax returns, employment advice, lease approval decisions, or guarantees of affordability. Keep personal financial details private and enter only values you are comfortable using in your browser.</div>
+        <section class="tool-card calculator-card" aria-labelledby="job-tool-title">
+          <p class="section-label">Compare two scenarios</p>
+          <h2 id="job-tool-title">Job offer comparison</h2>
+          <p>Enter each offer with the state and living costs that apply to that scenario. All calculations happen in your browser; ToolVerse does not send these values to Google Analytics.</p>
+          <form id="job-offer-form" novalidate>
+            <div class="scenario-columns">
+              <fieldset class="scenario-fieldset"><legend>Offer A</legend>
+                <div class="tool-grid">
+                  <label>Salary or hourly wage<input data-offer="a" data-key="income" data-label="Offer A income" type="number" min="1" max="10000000" step="100" value="85000" inputmode="decimal" required></label>
+                  <label>Income type<select data-offer="a" data-key="income-mode"><option value="annual">Annual salary</option><option value="hourly">Hourly wage</option></select></label>
+                  <label data-offer="a" data-hours-wrap hidden>Hours per week<input data-offer="a" data-key="hours" data-label="Offer A hours" type="number" min="1" max="168" step="0.5" value="40" inputmode="decimal"></label>
+                  <label>US state<select class="state-select" data-offer="a" data-key="state" data-default-state="CA"></select></label>
+                  <label>Filing status<select data-offer="a" data-key="filing-status"><option value="single">Single</option><option value="mfj">Married filing jointly</option><option value="hoh">Head of household</option></select></label>
+                  <label>Monthly rent<input data-offer="a" data-key="rent" data-label="Offer A rent" type="number" min="0" max="1000000" step="25" value="2400" inputmode="decimal"></label>
+                  <label>Monthly debt<input data-offer="a" data-key="debt" data-label="Offer A debt" type="number" min="0" max="1000000" step="25" value="300" inputmode="decimal"></label>
+                  <label>Benefits / health deduction<input data-offer="a" data-key="benefits" data-label="Offer A benefit deduction" type="number" min="0" max="1000000" step="25" value="250" inputmode="decimal"></label>
+                  <label>Transportation / commute<input data-offer="a" data-key="transportation" data-label="Offer A transportation" type="number" min="0" max="1000000" step="25" value="250" inputmode="decimal"></label>
+                  <label>Utilities<input data-offer="a" data-key="utilities" data-label="Offer A utilities" type="number" min="0" max="1000000" step="25" value="180" inputmode="decimal"></label>
+                  <label>Other recurring costs<input data-offer="a" data-key="other" data-label="Offer A other costs" type="number" min="0" max="1000000" step="25" value="700" inputmode="decimal"></label>
+                  <label>One-time relocation cost <span class="optional">optional</span><input data-offer="a" data-key="relocation" data-label="Offer A relocation cost" type="number" min="0" max="1000000" step="100" value="0" inputmode="decimal"></label>
+                  <label>Cash reserve <span class="optional">optional</span><input data-offer="a" data-key="reserve" data-label="Offer A cash reserve" type="number" min="0" max="1000000" step="100" value="0" inputmode="decimal"></label>
+                </div>
+              </fieldset>
+              <fieldset class="scenario-fieldset"><legend>Offer B</legend>
+                <div class="tool-grid">
+                  <label>Salary or hourly wage<input data-offer="b" data-key="income" data-label="Offer B income" type="number" min="1" max="10000000" step="100" value="92000" inputmode="decimal" required></label>
+                  <label>Income type<select data-offer="b" data-key="income-mode"><option value="annual">Annual salary</option><option value="hourly">Hourly wage</option></select></label>
+                  <label data-offer="b" data-hours-wrap hidden>Hours per week<input data-offer="b" data-key="hours" data-label="Offer B hours" type="number" min="1" max="168" step="0.5" value="40" inputmode="decimal"></label>
+                  <label>US state<select class="state-select" data-offer="b" data-key="state" data-default-state="TX"></select></label>
+                  <label>Filing status<select data-offer="b" data-key="filing-status"><option value="single">Single</option><option value="mfj">Married filing jointly</option><option value="hoh">Head of household</option></select></label>
+                  <label>Monthly rent<input data-offer="b" data-key="rent" data-label="Offer B rent" type="number" min="0" max="1000000" step="25" value="2100" inputmode="decimal"></label>
+                  <label>Monthly debt<input data-offer="b" data-key="debt" data-label="Offer B debt" type="number" min="0" max="1000000" step="25" value="300" inputmode="decimal"></label>
+                  <label>Benefits / health deduction<input data-offer="b" data-key="benefits" data-label="Offer B benefit deduction" type="number" min="0" max="1000000" step="25" value="300" inputmode="decimal"></label>
+                  <label>Transportation / commute<input data-offer="b" data-key="transportation" data-label="Offer B transportation" type="number" min="0" max="1000000" step="25" value="120" inputmode="decimal"></label>
+                  <label>Utilities<input data-offer="b" data-key="utilities" data-label="Offer B utilities" type="number" min="0" max="1000000" step="25" value="180" inputmode="decimal"></label>
+                  <label>Other recurring costs<input data-offer="b" data-key="other" data-label="Offer B other costs" type="number" min="0" max="1000000" step="25" value="700" inputmode="decimal"></label>
+                  <label>One-time relocation cost <span class="optional">optional</span><input data-offer="b" data-key="relocation" data-label="Offer B relocation cost" type="number" min="0" max="1000000" step="100" value="3500" inputmode="decimal"></label>
+                  <label>Cash reserve <span class="optional">optional</span><input data-offer="b" data-key="reserve" data-label="Offer B cash reserve" type="number" min="0" max="1000000" step="100" value="8000" inputmode="decimal"></label>
+                </div>
+              </fieldset>
+            </div>
+            <p class="form-error" role="alert" aria-live="assertive" hidden></p>
+            <div class="tool-actions"><button class="button" type="submit">Compare monthly cash →</button><a class="button secondary" href="how-to-compare-job-offers-after-taxes-rent.html">Read the comparison guide</a></div>
+          </form>
+          <section class="tool-result result" tabindex="-1" aria-live="polite" hidden></section>
+        </section>
+
+        <h2>What this comparison estimates</h2>
+        <p>The calculator annualizes salary or hourly pay, subtracts simplified federal, payroll, and state planning estimates, then subtracts rent and the recurring costs you entered. It shows the remaining estimated monthly cash for each scenario and the difference between them.</p>
+        <h2>What can change the real result</h2>
+        <p>Actual tax liability can differ because of local taxes, credits, dependents, deductions, residency, benefit elections, bonuses, equity, variable hours, and withholding choices. A job decision can also involve growth, flexibility, family, commute quality, health coverage, and other non-cash factors that no calculator can weigh for you.</p>
+        <h2>Methodology and limitations</h2>
+        <p>ToolVerse uses the shared <strong>2026-planning-v1</strong> method, last reviewed August 22, 2026. Federal tax is modeled with progressive planning brackets and standard deductions by filing status. Employee Social Security and Medicare are included; state income tax is modeled with simplified state planning rates. The tool does not model local income taxes, actual W-4 withholding, credits, pretax retirement contributions, or employer-specific benefit rules.</p>
+        <div class="related"><h2>Continue your planning</h2><p>After comparing the offers, test a single scenario in the <a href="index.html">core affordability calculator</a>, review <a href="take-home-pay-vs-rent.html">take-home pay vs. rent</a>, or build a move-in plan with the <a href="first-apartment-budget-calculator.html">First Apartment Budget Calculator</a>.</p></div>
+        <section class="faq-section" aria-labelledby="job-faq-title"><h2 id="job-faq-title">Questions people ask</h2>
+          <details><summary>Should I compare job offers using gross salary or take-home pay?</summary><p class="faq-answer">Gross salary is a useful starting point, but take-home pay and recurring costs can make two offers feel very different month to month. This calculator estimates both scenarios from the inputs you provide.</p></details>
+          <details><summary>Why does the state change a job-offer comparison?</summary><p class="faq-answer">State income-tax rules and local circumstances can change estimated take-home pay. ToolVerse uses simplified state planning rates and does not calculate local taxes or an exact tax return.</p></details>
+          <details><summary>Does this calculator tell me which job to accept?</summary><p class="faq-answer">No. It shows the estimated monthly cash difference under the information you enter. Benefits, career goals, work conditions, family needs, local taxes, and other personal factors can matter too.</p></details>
+        </section>
+        <section class="source-card"><h2>Sources / methodology</h2><ul class="source-list"><li><a href="https://www.irs.gov/instructions/i1040gi" target="_blank" rel="noreferrer">IRS Form 1040 instructions</a><small>Federal filing status, income-tax, and standard-deduction context. Verify tax-year changes before relying on a planning estimate.</small></li><li><a href="https://www.ssa.gov/oact/cola/cbb.html" target="_blank" rel="noreferrer">Social Security Administration — Contribution and Benefit Base</a><small>Current annual Social Security wage-base reference used in the shared planning method.</small></li><li><a href="how-to-compare-job-offers-after-taxes-rent.html">ToolVerse job-offer comparison guide</a><small>Explains what the calculator includes and where it intentionally stops.</small></li></ul></section>
+      </main>
+      <aside class="side-card"><span class="badge">Complete scenario comparison</span><h2>Do not compare salary alone</h2><p>Two offers can produce different cash flow when state, rent, commuting, debt, benefits, and recurring costs change. Add only the costs you know; unknown fields can stay at zero.</p><a class="button" href="how-to-compare-job-offers-after-taxes-rent.html">How to compare offers</a><h2>Related tools</h2><ul class="link-list"><li><a href="first-apartment-budget-calculator.html">First Apartment Budget</a></li><li><a href="salary-needed-for-rent-calculator.html">Salary Needed for Rent</a></li><li><a href="index.html">Core affordability calculator</a></li></ul></aside>
+    </div>
+    <footer><div class="footer-links"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="disclaimer.html">Disclaimer</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a></div>© 2026 ToolVerse. Estimates are for educational and planning purposes only.<div class="footer-guides" aria-label="ToolVerse guides and calculators"><strong>Guides and calculators</strong><div class="footer-guide-links"><a href="job-offer-take-home-rent-comparison.html">Compare Job Offers</a><a href="first-apartment-budget-calculator.html">First Apartment Budget</a><a href="salary-needed-for-rent-calculator.html">Salary Needed for Rent</a><a href="30-percent-rent-rule.html">30% Rent Rule</a><a href="salary-after-rent-calculator.html">Salary After Rent</a><a href="take-home-pay-vs-rent.html">Take-Home Pay vs Rent</a><a href="cost-of-living-by-state.html">Cost of Living by State</a></div></div></footer>
+  </div>
+  <script src="toolverse-calculations.js" defer></script>
+  <script src="decision-tools.js" defer></script>
+</body>
+</html>
