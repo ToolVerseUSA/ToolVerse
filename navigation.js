@@ -1,8 +1,8 @@
 (() => {
   const menus = Array.from(document.querySelectorAll('[data-tv-menu]'));
-  if (!menus.length) return;
-
   const categoryToggles = Array.from(document.querySelectorAll('[data-mobile-accordion-toggle]'));
+  const footerToggles = Array.from(document.querySelectorAll('[data-footer-accordion-toggle]'));
+  if (!menus.length && !categoryToggles.length && !footerToggles.length) return;
 
   const closeOtherMenus = (active) => {
     menus.forEach((menu) => {
@@ -10,7 +10,7 @@
     });
   };
 
-  const setCategoryState = (toggle, expanded) => {
+  const setPanelState = (toggle, expanded) => {
     const panelId = toggle.getAttribute('aria-controls');
     const panel = panelId ? document.getElementById(panelId) : null;
     if (!panel) return;
@@ -18,21 +18,48 @@
     panel.hidden = !expanded;
   };
 
+  const setFooterState = (toggle, expanded) => {
+    setPanelState(toggle, expanded);
+  };
+
+  const syncFooterAccordions = () => {
+    const mobile = window.matchMedia ? window.matchMedia('(max-width: 980px)').matches : window.innerWidth <= 980;
+    footerToggles.forEach((toggle) => {
+      setFooterState(toggle, mobile ? toggle.getAttribute('aria-expanded') === 'true' : true);
+    });
+  };
+
   const closeMobileCategories = (mobileMenu) => {
     mobileMenu.querySelectorAll('[data-mobile-accordion-toggle]').forEach((toggle) => {
-      setCategoryState(toggle, false);
+      setPanelState(toggle, false);
     });
+  };
+
+  const closeFooterAccordions = () => {
+    footerToggles.forEach((toggle) => setFooterState(toggle, false));
   };
 
   categoryToggles.forEach((toggle) => {
     const panelId = toggle.getAttribute('aria-controls');
     const panel = panelId ? document.getElementById(panelId) : null;
     if (!panel) return;
-    setCategoryState(toggle, false);
+    setPanelState(toggle, false);
     toggle.addEventListener('click', () => {
-      setCategoryState(toggle, toggle.getAttribute('aria-expanded') !== 'true');
+      setPanelState(toggle, toggle.getAttribute('aria-expanded') !== 'true');
     });
   });
+
+  footerToggles.forEach((toggle) => {
+    const panelId = toggle.getAttribute('aria-controls');
+    const panel = panelId ? document.getElementById(panelId) : null;
+    if (!panel) return;
+    toggle.addEventListener('click', () => {
+      setFooterState(toggle, toggle.getAttribute('aria-expanded') !== 'true');
+    });
+  });
+
+  syncFooterAccordions();
+  window.addEventListener('resize', syncFooterAccordions, { passive: true });
 
   menus.forEach((menu) => {
     menu.addEventListener('toggle', () => {
@@ -47,6 +74,7 @@
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       menus.forEach((menu) => menu.removeAttribute('open'));
+      closeFooterAccordions();
     }
   });
 
