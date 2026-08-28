@@ -18,7 +18,7 @@
     .aca-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
     .aca-field { display: grid; gap: .4rem; }
     .aca-field-full { grid-column: 1 / -1; }
-    .aca-field label { font-weight: 650; color: #e2e8f0; }
+    .aca-field label, .aca-field-label { font-weight: 650; color: #e2e8f0; }
     .aca-field small { color: #94a3b8; line-height: 1.4; }
     .aca-field input, .aca-field select { width: 100%; box-sizing: border-box; min-height: 2.75rem; border-radius: 9px; border: 1px solid #475569; background: #0f172a; color: #f8fafc; padding: .6rem .7rem; }
     .aca-checks { display: grid; gap: .65rem; margin: .35rem 0 1rem; }
@@ -40,6 +40,13 @@
     .aca-source-list { padding-left: 1.1rem; }
     .aca-source-list a { color: #67e8f9; }
     .aca-muted { color: #94a3b8; font-size: .9rem; }
+    .aca-lookup-copy { margin: 0; line-height: 1.55; }
+    .aca-lookup-status { margin: 0; padding: .7rem .8rem; border: 1px solid rgba(103,232,249,.18); border-radius: 10px; color: #cffafe; background: rgba(8,47,73,.32); line-height: 1.5; }
+    .aca-advanced { border: 1px solid rgba(148,163,184,.18); border-radius: 10px; padding: .65rem .75rem; background: rgba(15,23,42,.5); }
+    .aca-advanced summary { cursor: pointer; color: #bae6fd; font-weight: 650; }
+    .aca-advanced[open] { display: grid; gap: .5rem; }
+    .aca-advanced small { color: #94a3b8; line-height: 1.4; }
+    .aca-button[disabled] { opacity: .65; cursor: wait; }
     @media (max-width: 760px) { .aca-grid, .aca-form-grid { grid-template-columns: 1fr; } .aca-field-full { grid-column: auto; } .aca-result-grid { grid-template-columns: 1fr; } .aca-page { padding-inline: .8rem; } }
   </style>
 
@@ -58,14 +65,15 @@
       <p class="aca-muted">This version uses the 2026 IRS applicable-percentage rules and the applicable FPL vintage for 2026 coverage. Enter the benchmark premium shown by your Marketplace or leave it blank for an income-only screening result.</p>
       <form id="aca-checker-form" novalidate>
         <div class="aca-form-grid">
-          <div class="aca-field"><label for="aca-state">State or District of Columbia</label><select id="aca-state" name="state"><option value="US">Select a state</option><option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>DC</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option></select><small>Used to label federal or state Marketplace routing; this page does not query plan prices automatically.</small></div>
-          <div class="aca-field"><label for="aca-zip">ZIP code <span class="aca-muted">(optional)</span></label><input id="aca-zip" inputmode="numeric" maxlength="5" autocomplete="postal-code"><small>ZIP/county affects the real benchmark plan. Use the official Marketplace preview to obtain the premium.</small></div>
+          <div class="aca-field"><label for="aca-state">State or District of Columbia</label><select id="aca-state" name="state"><option value="US">Select a state</option><option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>DC</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option></select><small>Used to route the request to the federal-platform lookup when official CMS data is available; state-based Marketplace scenarios use the clearly labeled fallback.</small></div>
+          <div class="aca-field"><label for="aca-zip">ZIP code <span class="aca-muted">(required for automatic lookup)</span></label><input id="aca-zip" inputmode="numeric" maxlength="5" autocomplete="postal-code"><small>ZIP/county determines the official CMS lookup area. If automatic lookup is unavailable, use the advanced manual benchmark option.</small></div>
           <div class="aca-field"><label for="aca-household">Marketplace household size</label><input id="aca-household" type="number" min="1" max="14" step="1" value="1" required><small>Use the tax/Marketplace household size, not only the number of adults applying.</small></div>
-          <div class="aca-field"><label for="aca-adult-age">Primary applicant age</label><input id="aca-adult-age" type="number" min="18" max="64" step="1" value="30" required><small>Age is collected for scenario context; no plan-rating lookup is performed in this static build.</small></div>
+          <div class="aca-field"><label for="aca-adult-age">Primary applicant age</label><input id="aca-adult-age" type="number" min="18" max="64" step="1" value="30" required><small>Age is used for the official Marketplace household lookup when automatic data is available.</small></div>
           <div class="aca-field"><label for="aca-children">Children seeking coverage</label><input id="aca-children" type="number" min="0" max="13" step="1" value="0" required><small>Use the Marketplace coverage family, which can differ from tax-family details.</small></div>
+          <div class="aca-field"><label for="aca-other-ages">Other covered-person ages</label><input id="aca-other-ages" inputmode="numeric" placeholder="e.g. 12, 8"><small>Enter one age for each covered person besides the primary applicant, separated by commas. Required for automatic lookup when household size is greater than one.</small></div>
           <div class="aca-field"><label for="aca-income">Current annual household MAGI</label><input id="aca-income" type="number" min="0" step="100" placeholder="58000" required><small>Expected household MAGI for the coverage year; this is not necessarily salary or take-home pay.</small></div>
           <div class="aca-field"><label for="aca-scenario">Comparison annual MAGI</label><input id="aca-scenario" type="number" min="0" step="100" placeholder="65000" required><small>Use a higher or lower income to compare the planning impact.</small></div>
-          <div class="aca-field"><label for="aca-premium">Monthly benchmark/SLCSP premium <span class="aca-muted">(optional)</span></label><input id="aca-premium" type="number" min="0" step="0.01" placeholder="Enter official Marketplace benchmark premium"><small>Do not guess. Copy the applicable benchmark premium from the official Marketplace plan preview if available.</small></div>
+          <div class="aca-field aca-auto-lookup-field"><span class="aca-field-label">Automatic benchmark lookup</span><p class="aca-muted aca-lookup-copy">Enter a 5-digit ZIP, then the tool will try the official CMS Marketplace lookup first. No premium is guessed.</p><p id="aca-lookup-status" class="aca-lookup-status" role="status" aria-live="polite">Automatic lookup will run when you submit the scenario.</p><details class="aca-advanced"><summary>Advanced: enter a Marketplace benchmark manually</summary><label for="aca-premium">Monthly benchmark/SLCSP premium</label><input id="aca-premium" type="number" min="0" step="0.01" placeholder="Official Marketplace benchmark premium"><small>Use this only when the official Marketplace preview provides a benchmark premium and automatic lookup is unavailable.</small></details></div>
           <div class="aca-field"><label for="aca-filing">Federal filing status</label><select id="aca-filing"><option value="joint">Married filing jointly / not married</option><option value="separate">Married filing separately</option></select><small>Married filing separately can affect eligibility; this tool flags it rather than deciding an exception.</small></div>
         </div>
         <div class="aca-checks" aria-label="Eligibility screening flags">
@@ -85,6 +93,9 @@
           <div class="aca-metric"><span>Current estimated monthly PTC</span><strong id="aca-current-ptc">Not available</strong></div>
           <div class="aca-metric"><span>Scenario estimated monthly PTC</span><strong id="aca-scenario-ptc">Not available</strong></div>
           <div class="aca-metric"><span>Estimated annual PTC difference</span><strong id="aca-annual-difference">Not available</strong></div>
+          <div class="aca-metric"><span>Current net benchmark premium</span><strong id="aca-current-net">Not available</strong></div>
+          <div class="aca-metric"><span>Scenario net benchmark premium</span><strong id="aca-scenario-net">Not available</strong></div>
+          <div class="aca-metric"><span>Benchmark data source</span><strong id="aca-benchmark-source">Not available</strong></div>
           <div class="aca-metric"><span>400% FPL threshold</span><strong id="aca-threshold">—</strong></div>
         </div>
         <p class="aca-status" id="aca-status"></p>
@@ -104,58 +115,87 @@
 
   <div class="aca-content">
     <section><h2>What is the ACA subsidy cliff?</h2><p>For 2026 coverage, the premium tax credit uses a sliding contribution schedule tied to household income as a percentage of the applicable federal poverty line. A household above the applicable 400% boundary may lose eligibility under the standard rule, but the amount of any change depends on the benchmark Silver premium, household details, filing status, and other eligibility conditions. That is why this tool shows a planning comparison instead of promising a final subsidy.</p></section>
-    <section><h2>How this 2026 estimate works</h2><p>The tool compares the entered MAGI values with the applicable FPL for household size, applies the 2026 IRS applicable-percentage table, and—only when you provide a benchmark/SLCSP premium—calculates a benchmark-based estimate. The conceptual estimate is the lesser of the enrollment premium and the benchmark premium minus the household contribution, bounded at zero. Actual Marketplace and tax calculations include additional rules and monthly reconciliation.</p></section>
+    <section><h2>How this 2026 estimate works</h2><p>The tool compares the entered MAGI values with the applicable FPL for household size, applies the 2026 IRS applicable-percentage table, and first attempts an official CMS Marketplace benchmark lookup from ZIP, state, household size, ages, and MAGI. If the lookup is unavailable, the advanced manual benchmark option remains available. The conceptual estimate is the lesser of the enrollment premium and the benchmark premium minus the household contribution, bounded at zero. Actual Marketplace and tax calculations include additional rules and monthly reconciliation.</p></section>
     <section><h2>Why location and household details matter</h2><p>The applicable benchmark plan varies by rating area and coverage family. ZIP code, county, ages, tobacco rating, plan availability, and Marketplace type can affect the actual premium. The federal Marketplace and state-based Marketplaces also publish and manage data differently. ToolVerse therefore labels this page as a planning estimate and sends users to the official Marketplace for final verification.</p></section>
     <section><h2>Employer coverage and other eligibility guardrails</h2><p>Affordable employer-sponsored minimum-value coverage, Medicaid/CHIP, Medicare, TRICARE, dependent status, lawful-presence rules, and filing status can change or eliminate eligibility. If any screening flag is selected, the result explains that the income-only comparison may not apply. Married filing separately has limited exceptions that this calculator does not adjudicate.</p></section>
     <section><h2>2026 repayment and income-change warning</h2><p>The IRS states that for tax years after 2025, there is no repayment cap on excess advance Premium Tax Credit: if advance payments exceed the allowable credit, the total difference may be reconciled on the tax return. Update the Marketplace when income or household circumstances change and keep records for Form 8962. This is educational information, not tax advice.</p></section>
-    <section><h2>Methodology and limitations</h2><p><strong>Rules year:</strong> 2026. <strong>FPL vintage:</strong> the applicable vintage for 2026 Marketplace coverage, resolved from IRS timing guidance rather than automatically using the 2026 HHS table. <strong>Premium data:</strong> no premium is fabricated; exact-looking premium outputs require an official benchmark/SLCSP amount entered by the user. This static page does not call the CMS Marketplace API, does not expose credentials, and does not determine official eligibility.</p></section>
+    <section><h2>Methodology and limitations</h2><p><strong>Rules year:</strong> 2026. <strong>FPL vintage:</strong> the applicable vintage for 2026 Marketplace coverage, resolved from IRS timing guidance rather than automatically using the 2026 HHS table. <strong>Premium data:</strong> the page first requests a benchmark from the protected ToolVerse CMS proxy for supported federal-platform scenarios. If the proxy is unavailable or the state is state-based, no premium is fabricated; the advanced manual option requires an official Marketplace value. The page does not expose credentials or determine official eligibility.</p></section>
     <section><h2>Questions people ask</h2><details><summary>Does this tell me whether I qualify?</summary><p class="faq-answer">No. It provides an estimate based on the information entered. The Marketplace determines eligibility and final prices after considering the full application and available plans.</p></details><details><summary>Why do I need a benchmark premium?</summary><p class="faq-answer">The Premium Tax Credit depends on the applicable benchmark Silver plan for the relevant location and coverage family. A national average cannot safely substitute for that plan-specific value.</p></details><details><summary>What if my employer offers health coverage?</summary><p class="faq-answer">Employer coverage can affect Premium Tax Credit eligibility when it is affordable and provides minimum value. This tool flags the possibility but does not make the official employer-coverage determination.</p></details><details><summary>What happens if my income changes?</summary><p class="faq-answer">The advance credit estimate and final credit can differ when projected income or household circumstances change. Report changes to the Marketplace as soon as possible and reconcile the credit as required.</p></details></section>
-    <section class="source-card"><h2>Sources and data notes</h2><ul class="aca-source-list"><li><a href="https://www.irs.gov/irb/2025-32_IRB" target="_blank" rel="noopener noreferrer">IRS Revenue Procedure 2025-25</a> — 2026 applicable-percentage table and required-contribution percentage.</li><li><a href="https://www.irs.gov/instructions/i8962" target="_blank" rel="noopener noreferrer">IRS Form 8962 instructions</a> — PTC, household income, coverage family, enrollment premium, applicable SLCSP, and reconciliation concepts.</li><li><a href="https://www.irs.gov/affordable-care-act/individuals-and-families/questions-and-answers-on-the-premium-tax-credit" target="_blank" rel="noopener noreferrer">IRS Premium Tax Credit Q&amp;A</a> — eligibility, employer coverage, income changes, and repayment guidance.</li><li><a href="https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines/poverty-guidelines-api" target="_blank" rel="noopener noreferrer">HHS ASPE Poverty Guidelines API</a> — official FPL tables and vintage references.</li><li><a href="https://www.cms.gov/marketplace/in-person-assisters/training-webinars/training/marketplaces-map" target="_blank" rel="noopener noreferrer">CMS Marketplace types for Plan Year 2026</a> — federal, SBE-FP, and state-based Marketplace structure.</li></ul><p class="aca-muted">Sources are referenced for methodology only. ToolVerse is independent and does not imply endorsement, partnership, or affiliation.</p></section>
+    <section class="source-card"><h2>Sources and data notes</h2><ul class="aca-source-list"><li><a href="https://www.irs.gov/irb/2025-32_IRB" target="_blank" rel="noopener noreferrer">IRS Revenue Procedure 2025-25</a> — 2026 applicable-percentage table and required-contribution percentage.</li><li><a href="https://www.irs.gov/instructions/i8962" target="_blank" rel="noopener noreferrer">IRS Form 8962 instructions</a> — PTC, household income, coverage family, enrollment premium, applicable SLCSP, and reconciliation concepts.</li><li><a href="https://www.irs.gov/affordable-care-act/individuals-and-families/questions-and-answers-on-the-premium-tax-credit" target="_blank" rel="noopener noreferrer">IRS Premium Tax Credit Q&amp;A</a> — eligibility, employer coverage, income changes, and repayment guidance.</li><li><a href="https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines/poverty-guidelines-api" target="_blank" rel="noopener noreferrer">HHS ASPE Poverty Guidelines API</a> — official FPL tables and vintage references.</li><li><a href="https://www.cms.gov/marketplace/in-person-assisters/training-webinars/training/marketplaces-map" target="_blank" rel="noopener noreferrer">CMS Marketplace types for Plan Year 2026</a> — federal, SBE-FP, and state-based Marketplace structure.</li><li><a href="https://developer.cms.gov/marketplace-api/" target="_blank" rel="noopener noreferrer">CMS Marketplace API documentation</a> — official API capabilities, plan search, eligibility estimates, and API-key requirements.</li></ul><p class="aca-muted">Sources are referenced for methodology only. ToolVerse is independent and does not imply endorsement, partnership, or affiliation.</p></section>
   </div>
 
   <script>
   (() => {
     const form = document.getElementById('aca-checker-form');
     const result = document.getElementById('aca-result');
+    const lookupStatus = document.getElementById('aca-lookup-status');
     const fplVintage = { US: [15650, 5500], AK: [19550, 6860], HI: [18000, 6300] };
     const contributionBands = [[0, 1.33, 0.021, 0.021], [1.33, 1.50, 0.021, 0.0419], [1.50, 2.00, 0.0419, 0.0660], [2.00, 2.50, 0.0660, 0.0844], [2.50, 3.00, 0.0844, 0.0996], [3.00, 4.00, 0.0996, 0.0996]];
+    const lookupEndpoint = 'https://toolverse-usa.vercel.app/api/aca-lookup';
     const money = (n) => Number.isFinite(n) ? new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0}).format(n) : 'Not available';
     const pct = (n) => Number.isFinite(n) ? `${(n * 100).toFixed(1)}%` : '—';
     const getFpl = (state, size) => { const base = fplVintage[state] || fplVintage.US; return base[0] + Math.max(0, size - 1) * base[1]; };
     const getContribution = (ratio) => { const r = Math.max(0, Math.min(4, ratio)); for (const [low, high, start, end] of contributionBands) { if (r <= high) { const share = high === low ? 0 : (r - low) / (high - low); return start + (end - start) * share; } } return 0.0996; };
     const calc = (income, premium, fpl, ratio) => { const contribution = income * getContribution(ratio) / 12; return Number.isFinite(premium) ? Math.max(0, Math.min(premium, premium - contribution)) : NaN; };
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
+    const readInputs = () => {
       const state = document.getElementById('aca-state').value;
       const size = Number(document.getElementById('aca-household').value);
       const age = Number(document.getElementById('aca-adult-age').value);
       const children = Number(document.getElementById('aca-children').value);
+      const otherAgesRaw = document.getElementById('aca-other-ages').value.trim();
+      const otherAges = otherAgesRaw ? otherAgesRaw.split(',').map((value) => Number(value.trim())) : [];
       const income = Number(document.getElementById('aca-income').value);
       const scenario = Number(document.getElementById('aca-scenario').value);
+      const zip = document.getElementById('aca-zip').value.replace(/\D/g, '').slice(0,5);
       const premiumRaw = document.getElementById('aca-premium').value.trim();
       const premium = premiumRaw === '' ? NaN : Number(premiumRaw);
       const fpl = getFpl(state, size);
-      if (!Number.isFinite(fpl) || !Number.isFinite(income) || !Number.isFinite(scenario) || income < 0 || scenario < 0 || size < 1 || size > 14 || age < 18 || age > 64 || children < 0 || (premiumRaw !== '' && (!Number.isFinite(premium) || premium < 0))) { alert('Please enter valid household, age, income, and premium values.'); return; }
-      const currentRatio = income / fpl; const scenarioRatio = scenario / fpl; const threshold = fpl * 4;
+      return {state, size, age, children, otherAges, ages:[age, ...otherAges], income, scenario, zip, premiumRaw, premium, fpl};
+    };
+    const valid = (v) => Number.isFinite(v.fpl) && Number.isFinite(v.income) && Number.isFinite(v.scenario) && v.income >= 0 && v.scenario >= 0 && Number.isInteger(v.size) && v.size >= 1 && v.size <= 14 && Number.isInteger(v.age) && v.age >= 18 && v.age <= 64 && Number.isInteger(v.children) && v.children >= 0 && v.children <= 13 && v.otherAges.length === v.size - 1 && v.otherAges.every((value) => Number.isInteger(value) && value >= 0 && value <= 120) && (v.premiumRaw === '' || (Number.isFinite(v.premium) && v.premium >= 0));
+    const setLookupStatus = (text, warning = false) => { lookupStatus.textContent = text; lookupStatus.className = `aca-lookup-status${warning ? ' aca-warning' : ''}`; };
+    const lookup = async (v) => {
+      if (!/^\d{5}$/.test(v.zip) || v.state === 'US') return {premium: v.premium, source: Number.isFinite(v.premium) ? 'Manual Marketplace benchmark' : 'Income-only screening', message: Number.isFinite(v.premium) ? 'Using the benchmark premium entered in the advanced option.' : 'Add a 5-digit ZIP and state for automatic CMS lookup, or enter a benchmark manually.'};
+      const ages = v.ages;
+      setLookupStatus('Checking the official CMS Marketplace data source…');
+      try {
+        const response = await fetch(lookupEndpoint, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({state:v.state, zip:v.zip, householdSize:v.size, ages, income:v.income, year:2026})});
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !Number.isFinite(Number(data.benchmarkPremium))) throw new Error(data.message || 'Automatic lookup unavailable.');
+        document.getElementById('aca-premium').value = Number(data.benchmarkPremium).toFixed(2);
+        return {premium:Number(data.benchmarkPremium), source:data.source || 'CMS Marketplace lookup', message:`Automatic benchmark found for ${data.state || v.state}; county/rating area ${data.countyFips || 'resolved by CMS'}, data year ${data.dataYear || 2026}.`};
+      } catch (error) {
+        return {premium: v.premium, source: Number.isFinite(v.premium) ? 'Manual Marketplace benchmark' : 'Income-only screening', message: 'Automatic lookup could not be reached. Use the advanced manual benchmark option or verify plans on HealthCare.gov.'};
+      }
+    };
+    const render = (v, premium, source, lookupMessage) => {
+      const currentRatio = v.income / v.fpl; const scenarioRatio = v.scenario / v.fpl; const threshold = v.fpl * 4;
       const currentContribution = getContribution(currentRatio); const scenarioContribution = getContribution(scenarioRatio);
-      const currentPtc = calc(income, premium, fpl, currentRatio); const scenarioPtc = calc(scenario, premium, fpl, scenarioRatio);
+      const currentPtc = calc(v.income, premium, v.fpl, currentRatio); const scenarioPtc = calc(v.scenario, premium, v.fpl, scenarioRatio);
       const exclusion = document.getElementById('aca-employer').checked || document.getElementById('aca-government').checked || document.getElementById('aca-dependent').checked || document.getElementById('aca-filing').value === 'separate';
-      document.getElementById('aca-current-fpl').textContent = pct(currentRatio);
-      document.getElementById('aca-scenario-fpl').textContent = pct(scenarioRatio);
-      document.getElementById('aca-current-contribution').textContent = pct(currentContribution);
-      document.getElementById('aca-scenario-contribution').textContent = pct(scenarioContribution);
-      document.getElementById('aca-current-ptc').textContent = money(currentPtc);
-      document.getElementById('aca-scenario-ptc').textContent = money(scenarioPtc);
+      document.getElementById('aca-current-fpl').textContent = pct(currentRatio); document.getElementById('aca-scenario-fpl').textContent = pct(scenarioRatio);
+      document.getElementById('aca-current-contribution').textContent = pct(currentContribution); document.getElementById('aca-scenario-contribution').textContent = pct(scenarioContribution);
+      document.getElementById('aca-current-ptc').textContent = money(currentPtc); document.getElementById('aca-scenario-ptc').textContent = money(scenarioPtc);
       document.getElementById('aca-annual-difference').textContent = Number.isFinite(currentPtc) && Number.isFinite(scenarioPtc) ? money((scenarioPtc - currentPtc) * 12) : 'Add an official benchmark premium';
+      document.getElementById('aca-current-net').textContent = Number.isFinite(currentPtc) ? money(Math.max(0, premium-currentPtc)) : 'Not available';
+      document.getElementById('aca-scenario-net').textContent = Number.isFinite(scenarioPtc) ? money(Math.max(0, premium-scenarioPtc)) : 'Not available';
+      document.getElementById('aca-benchmark-source').textContent = source;
       document.getElementById('aca-threshold').textContent = money(threshold);
       const status = document.getElementById('aca-status');
+      const thresholdText = v.scenario > threshold && v.income <= threshold ? 'The comparison crosses above the applicable 400% FPL reference boundary.' : v.scenario <= threshold && v.income > threshold ? 'The comparison moves to or below the applicable 400% FPL reference boundary.' : 'The two incomes remain on the same side of the applicable 400% FPL reference boundary.';
       status.className = `aca-status${exclusion || !Number.isFinite(premium) ? ' aca-warning' : ''}`;
-      const thresholdText = scenario > threshold && income <= threshold ? 'The comparison crosses above the applicable 400% FPL reference boundary.' : scenario <= threshold && income > threshold ? 'The comparison moves to or below the applicable 400% FPL reference boundary.' : 'The two incomes remain on the same side of the applicable 400% FPL reference boundary.';
-      status.textContent = `${thresholdText} ${!Number.isFinite(premium) ? 'No benchmark premium was entered, so subsidy dollars are intentionally not estimated.' : 'The premium comparison is benchmark-based and still subject to Marketplace eligibility rules.'} ${exclusion ? 'One or more eligibility flags require official Marketplace review.' : ''}`;
-      result.hidden = false;
-      result.scrollIntoView({behavior:'smooth', block:'nearest'});
+      status.textContent = `${thresholdText} ${!Number.isFinite(premium) ? 'No benchmark premium was available, so subsidy dollars are intentionally not estimated.' : 'The premium comparison is benchmark-based and still subject to Marketplace eligibility rules.'} ${exclusion ? 'One or more eligibility flags require official Marketplace review.' : ''} ${lookupMessage || ''}`;
+      result.hidden = false; result.scrollIntoView({behavior:'smooth', block:'nearest'});
+    };
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const v = readInputs();
+      if (!valid(v)) { alert('Please enter one age for every covered person, plus valid income, ZIP, and premium values.'); return; }
+      const submit = form.querySelector('button[type="submit"]'); submit.disabled = true; submit.setAttribute('aria-busy','true');
+      const found = await lookup(v); render(v, found.premium, found.source, found.message); setLookupStatus(found.message, found.source === 'Income-only screening');
+      submit.disabled = false; submit.removeAttribute('aria-busy');
     });
-    form.addEventListener('reset', () => { result.hidden = true; setTimeout(() => form.querySelector('input')?.focus(), 0); });
+    form.addEventListener('reset', () => { result.hidden = true; setLookupStatus('Automatic lookup will run when you submit the scenario.'); setTimeout(() => form.querySelector('input')?.focus(), 0); });
   })();
   </script>
 </main></div><footer class="tv-footer">
