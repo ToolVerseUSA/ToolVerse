@@ -19,7 +19,9 @@ const STATIC_ASSETS = [
   `${APP_ROOT}homebuying-tools.js`,
   `${APP_ROOT}renter-tools.js`,
   `${APP_ROOT}guides.css`,
-  `${APP_ROOT}guides.js`
+  `${APP_ROOT}guides.js`,
+  `${APP_ROOT}insurance.css`,
+  `${APP_ROOT}insurance.js`
 ];
 const STATIC_PATHS = new Set(STATIC_ASSETS.map((asset) => new URL(asset, self.location.origin).pathname));
 
