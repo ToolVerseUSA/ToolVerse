@@ -84,3 +84,90 @@
     }
   });
 })();
+
+(() => {
+  const basePath = '/ToolVerse/';
+  const swPath = `${basePath}sw.js`;
+  const isStandalone = () => window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const dismissedKey = 'tv-pwa-install-dismissed';
+  let deferredPrompt = null;
+  let promptCard = null;
+
+  const addStyles = () => {
+    if (document.getElementById('tv-pwa-install-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'tv-pwa-install-styles';
+    style.textContent = `
+      .tv-pwa-install-card{position:fixed;z-index:1000;right:1rem;bottom:1rem;width:min(22rem,calc(100vw - 2rem));padding:1rem;border:1px solid rgba(103,232,249,.24);border-radius:1rem;background:rgba(8,18,35,.96);box-shadow:0 18px 50px rgba(0,0,0,.35);color:#e2e8f0;font:500 .875rem/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+      .tv-pwa-install-card strong{display:block;margin-bottom:.25rem;color:#fff;font-size:.95rem}
+      .tv-pwa-install-card p{margin:0 2rem .75rem 0;color:#a8b6cc}
+      .tv-pwa-install-actions{display:flex;align-items:center;gap:.6rem}
+      .tv-pwa-install-action{border:0;border-radius:.65rem;padding:.55rem .8rem;background:linear-gradient(135deg,#67e8f9,#a78bfa);color:#07111f;font-weight:800;cursor:pointer}
+      .tv-pwa-install-dismiss{border:0;padding:.45rem;background:transparent;color:#94a3b8;cursor:pointer}
+      .tv-pwa-install-close{position:absolute;top:.55rem;right:.65rem;border:0;background:transparent;color:#94a3b8;font-size:1.2rem;line-height:1;cursor:pointer}
+      @media (max-width:640px){.tv-pwa-install-card{right:.75rem;bottom:.75rem;width:calc(100vw - 1.5rem)}}
+    `;
+    document.head.appendChild(style);
+  };
+
+  const removeCard = () => {
+    if (promptCard) promptCard.remove();
+    promptCard = null;
+  };
+
+  const rememberDismissal = () => {
+    try { localStorage.setItem(dismissedKey, String(Date.now())); } catch (_) { /* optional preference only */ }
+  };
+
+  const wasDismissedRecently = () => {
+    try {
+      const value = Number(localStorage.getItem(dismissedKey));
+      return Number.isFinite(value) && Date.now() - value < 1000 * 60 * 60 * 24 * 30;
+    } catch (_) { return false; }
+  };
+
+  const showCard = ({ ios = false } = {}) => {
+    if (promptCard || isStandalone() || wasDismissedRecently()) return;
+    addStyles();
+    promptCard = document.createElement('aside');
+    promptCard.className = 'tv-pwa-install-card';
+    promptCard.setAttribute('aria-label', 'Install ToolVerse');
+    promptCard.innerHTML = ios
+      ? '<button class="tv-pwa-install-close" type="button" aria-label="Dismiss install instructions">×</button><strong>Install ToolVerse</strong><p>Open ToolVerse faster from your home screen. In Safari, tap Share → Add to Home Screen. If available, choose Open as Web App.</p><div class="tv-pwa-install-actions"><button class="tv-pwa-install-dismiss" type="button">Not now</button></div>'
+      : '<button class="tv-pwa-install-close" type="button" aria-label="Dismiss install prompt">×</button><strong>Install ToolVerse</strong><p>Open ToolVerse faster from your home screen.</p><div class="tv-pwa-install-actions"><button class="tv-pwa-install-action" type="button">Install</button><button class="tv-pwa-install-dismiss" type="button">Not now</button></div>';
+    document.body.appendChild(promptCard);
+    promptCard.querySelector('.tv-pwa-install-close').addEventListener('click', () => { rememberDismissal(); removeCard(); });
+    promptCard.querySelector('.tv-pwa-install-dismiss').addEventListener('click', () => { rememberDismissal(); removeCard(); });
+    if (!ios) {
+      promptCard.querySelector('.tv-pwa-install-action').addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        const prompt = deferredPrompt;
+        deferredPrompt = null;
+        removeCard();
+        try { await prompt.prompt(); } catch (_) { /* browser controls prompt errors */ }
+      });
+    }
+  };
+
+  const registerServiceWorker = () => {
+    if (!('serviceWorker' in navigator) || !window.isSecureContext) return;
+    navigator.serviceWorker.register(swPath, { scope: basePath }).catch(() => {});
+  };
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
+    showCard();
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    removeCard();
+  });
+
+  window.addEventListener('load', () => {
+    registerServiceWorker();
+    if (isIOS && !isStandalone()) showCard({ ios: true });
+  }, { once: true });
+})();
