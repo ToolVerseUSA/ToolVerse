@@ -1,4 +1,31 @@
 (() => {
+  const enhanceFinancialCenterFooters = () => {
+    document.querySelectorAll('.tv-footer-grid').forEach((grid, index) => {
+      const column = Array.from(grid.querySelectorAll('.tv-footer-column')).find((candidate) => {
+        const heading = candidate.querySelector('.tv-footer-heading');
+        return candidate.dataset.fintechFooter === 'true' || heading?.textContent.trim() === 'Financial Centers';
+      });
+      if (!column || column.dataset.fintechFooterEnhanced === 'true') return;
+      const links = Array.from(column.querySelectorAll(':scope > a'));
+      if (!links.length) return;
+      const panelId = `tv-footer-financial-centers-${index}`;
+      column.classList.add('tv-footer-accordion');
+      column.dataset.fintechFooterEnhanced = 'true';
+      column.innerHTML = `<button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="${panelId}"><span>Financial Centers</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg></button><p class="tv-footer-heading" role="heading" aria-level="2">Financial Centers</p><div class="tv-footer-accordion-panel" id="${panelId}" data-footer-accordion-panel hidden>${links.map((link) => link.outerHTML).join('')}</div>`;
+    });
+  };
+  const enhanceFinancialCenterMobile = () => {
+    document.querySelectorAll('[data-mobile-accordion-group="tools"]').forEach((group) => {
+      if (group.querySelector('[data-fintech-mobile-category]')) return;
+      const section = document.createElement('section');
+      section.className = 'tv-mobile-category';
+      section.dataset.fintechMobileCategory = 'true';
+      section.innerHTML = '<button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-financial-centers-panel"><span>Financial Centers</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-financial-centers-panel" data-mobile-accordion-panel hidden><a href="debt-consolidation-vs-settlement-calculator.html">Debt Consolidation vs. Settlement</a><a href="auto-loan-refinance-negative-equity-calculator.html">Auto Refinance &amp; Negative Equity</a><a href="tax-withholding-refund-gap-calculator.html">Tax Withholding &amp; Refund Gap</a><a href="aca-net-premium-total-cost-calculator.html">ACA Net Premium &amp; Total Cost</a><a href="credit-utilization-interest-simulator.html">Credit Utilization &amp; Interest</a><a href="mortgage-refinance-break-even-calculator.html">Mortgage Refinance Break-Even</a><a href="emergency-fund-income-shock-calculator.html">Emergency Fund &amp; Income Shock</a></div>';
+      group.appendChild(section);
+    });
+  };
+  enhanceFinancialCenterFooters();
+  enhanceFinancialCenterMobile();
   const menus = Array.from(document.querySelectorAll('[data-tv-menu]'));
   const categoryToggles = Array.from(document.querySelectorAll('[data-mobile-accordion-toggle]'));
   const footerToggles = Array.from(document.querySelectorAll('[data-footer-accordion-toggle]'));
@@ -20,6 +47,17 @@
 
   const setFooterState = (toggle, expanded) => {
     setPanelState(toggle, expanded);
+  };
+
+  const bindFooterToggle = (toggle) => {
+    if (toggle.dataset.tvBound === 'true') return;
+    const panelId = toggle.getAttribute('aria-controls');
+    const panel = panelId ? document.getElementById(panelId) : null;
+    if (!panel) return;
+    toggle.dataset.tvBound = 'true';
+    toggle.addEventListener('click', () => {
+      setFooterState(toggle, toggle.getAttribute('aria-expanded') !== 'true');
+    });
   };
 
   const syncFooterAccordions = () => {
@@ -49,17 +87,18 @@
     });
   });
 
-  footerToggles.forEach((toggle) => {
-    const panelId = toggle.getAttribute('aria-controls');
-    const panel = panelId ? document.getElementById(panelId) : null;
-    if (!panel) return;
-    toggle.addEventListener('click', () => {
-      setFooterState(toggle, toggle.getAttribute('aria-expanded') !== 'true');
-    });
-  });
+  footerToggles.forEach(bindFooterToggle);
 
   syncFooterAccordions();
   window.addEventListener('resize', syncFooterAccordions, { passive: true });
+  window.tvEnhanceFinancialCenterFooters = () => {
+    enhanceFinancialCenterFooters();
+    document.querySelectorAll('[data-footer-accordion-toggle]').forEach((toggle) => {
+      bindFooterToggle(toggle);
+      const mobile = window.matchMedia ? window.matchMedia('(max-width: 980px)').matches : window.innerWidth <= 980;
+      setFooterState(toggle, mobile ? toggle.getAttribute('aria-expanded') === 'true' : true);
+    });
+  };
 
   menus.forEach((menu) => {
     menu.addEventListener('toggle', () => {
@@ -218,6 +257,7 @@ const runFintechFooterInjection = () => {
     nav.innerHTML = '<p class="tv-footer-heading" role="heading" aria-level="2">Financial Centers</p>' + centers.map(([href,label]) => `<a href="${href}">${label}</a>`).join('');
     grid.appendChild(nav);
   });
+  window.tvEnhanceFinancialCenterFooters?.();
 };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', runFintechFooterInjection, { once: true });
 else runFintechFooterInjection();

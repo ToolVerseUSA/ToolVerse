@@ -29,3 +29,10 @@
 @media(prefers-reduced-motion:reduce){.tv-source-ticker-run{animation:none}.tv-source-ticker-track[aria-hidden="true"]{display:none}}
 
 .tv-menu-section-label{display:block;padding:.55rem 1rem .25rem;color:#67e8f9;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}.tv-menu-panel>[data-fintech-center]{border-top:1px solid rgba(148,163,184,.15);margin-top:.35rem;padding-top:.25rem}
+
+/* Financial Centers polish: reuse the native footer/mobile patterns with a quiet category accent. */
+.tv-footer-accordion[data-fintech-footer-enhanced="true"] .tv-footer-accordion-panel a{min-width:0}
+.tv-mobile-category[data-fintech-mobile-category="true"]{border-color:rgba(103,232,249,.24);background:linear-gradient(145deg,rgba(16,36,58,.62),rgba(16,36,58,.42))}
+.tv-mobile-category[data-fintech-mobile-category="true"] .tv-mobile-category-toggle{color:#e8fbff}
+@media(min-width:981px){.tv-global-inner{gap:22px}.tv-desktop-nav{min-width:0;flex:none}.tv-menu>summary{white-space:nowrap}}
+@media(max-width:980px){.tv-footer-accordion[data-fintech-footer-enhanced="true"] .tv-footer-accordion-panel{padding-bottom:16px}}

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'toolverse-static-v1';
+const CACHE_NAME = 'toolverse-static-v2';
 const APP_ROOT = '/ToolVerse/';
 const OFFLINE_URL = `${APP_ROOT}offline.html`;
 const STATIC_ASSETS = [
@@ -21,7 +21,24 @@ const STATIC_ASSETS = [
   `${APP_ROOT}guides.css`,
   `${APP_ROOT}guides.js`,
   `${APP_ROOT}insurance.css`,
-  `${APP_ROOT}insurance.js`
+  `${APP_ROOT}insurance.js`,
+  `${APP_ROOT}fintech-tools.css`,
+  `${APP_ROOT}fintech-tools.js`,
+  `${APP_ROOT}debt-consolidation-vs-settlement-calculator.html`,
+  `${APP_ROOT}auto-loan-refinance-negative-equity-calculator.html`,
+  `${APP_ROOT}tax-withholding-refund-gap-calculator.html`,
+  `${APP_ROOT}aca-net-premium-total-cost-calculator.html`,
+  `${APP_ROOT}credit-utilization-interest-simulator.html`,
+  `${APP_ROOT}mortgage-refinance-break-even-calculator.html`,
+  `${APP_ROOT}emergency-fund-income-shock-calculator.html`,
+  `${APP_ROOT}debt-consolidation-vs-settlement-explained.html`,
+  `${APP_ROOT}auto-refinance-negative-equity-explained.html`,
+  `${APP_ROOT}tax-withholding-refund-gap-explained.html`,
+  `${APP_ROOT}aca-net-premium-total-cost-explained.html`,
+  `${APP_ROOT}credit-utilization-explained.html`,
+  `${APP_ROOT}mortgage-refinance-break-even-explained.html`,
+  `${APP_ROOT}emergency-fund-income-shock-explained.html`,
+  `${APP_ROOT}affiliate-disclosure.html`
 ];
 const STATIC_PATHS = new Set(STATIC_ASSETS.map((asset) => new URL(asset, self.location.origin).pathname));
 
@@ -29,6 +46,7 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => cache.addAll(STATIC_ASSETS))
+      .then(() => self.skipWaiting())
   );
 });
 
@@ -38,7 +56,7 @@ self.addEventListener('activate', (event) => {
       keys
         .filter((key) => key.startsWith('toolverse-static-') && key !== CACHE_NAME)
         .map((key) => caches.delete(key))
-    ))
+    )).then(() => self.clientsClaim())
   );
 });
 
