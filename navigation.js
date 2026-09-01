@@ -172,7 +172,7 @@
   }, { once: true });
 })();
 /* ToolVerse fintech centers: additive discovery links for the existing Tools menu. */
-(() => {
+const runFintechCenterInjection = () => {
   const centers = [
     ['debt-consolidation-vs-settlement-calculator.html','Debt Center'],
     ['auto-loan-refinance-negative-equity-calculator.html','Auto Finance Center'],
@@ -195,9 +195,11 @@
       : '<strong class="tv-menu-section-label">Financial Centers</strong>' + centers.map(([href,label]) => `<a href="${href}">${label}</a>`).join('');
     panel.appendChild(wrap);
   });
-})();
+};
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', runFintechCenterInjection, { once: true });
+else runFintechCenterInjection();
 /* ToolVerse fintech footer discovery: additive links for existing page shells. */
-(() => {
+const runFintechFooterInjection = () => {
   const centers = [
     ['debt-consolidation-vs-settlement-calculator.html','Debt Center'],
     ['auto-loan-refinance-negative-equity-calculator.html','Auto Finance Center'],
@@ -216,4 +218,6 @@
     nav.innerHTML = '<p class="tv-footer-heading" role="heading" aria-level="2">Financial Centers</p>' + centers.map(([href,label]) => `<a href="${href}">${label}</a>`).join('');
     grid.appendChild(nav);
   });
-})();
+};
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', runFintechFooterInjection, { once: true });
+else runFintechFooterInjection();
