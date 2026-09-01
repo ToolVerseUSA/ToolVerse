@@ -27,3 +27,5 @@
 @media(min-width:760px){.tv-source-ticker-shell{grid-template-columns:minmax(250px,.72fr) minmax(0,1.28fr);align-items:center;gap:28px;padding:24px 26px}.tv-source-ticker-heading h2{font-size:22px}.tv-source-ticker-viewport{padding:17px 0}.tv-source-ticker-track li{min-width:175px;padding:14px 16px;font-size:12px}.tv-source-mark{min-width:39px;height:29px}}
 @media(max-width:759px){.tv-source-ticker-track li{min-width:156px}.tv-source-ticker-track li:last-child{min-width:180px}}
 @media(prefers-reduced-motion:reduce){.tv-source-ticker-run{animation:none}.tv-source-ticker-track[aria-hidden="true"]{display:none}}
+
+.tv-menu-section-label{display:block;padding:.55rem 1rem .25rem;color:#67e8f9;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}.tv-menu-panel>[data-fintech-center]{border-top:1px solid rgba(148,163,184,.15);margin-top:.35rem;padding-top:.25rem}

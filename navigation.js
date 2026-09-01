@@ -171,3 +171,49 @@
     if (isIOS && !isStandalone()) showCard({ ios: true });
   }, { once: true });
 })();
+/* ToolVerse fintech centers: additive discovery links for the existing Tools menu. */
+(() => {
+  const centers = [
+    ['debt-consolidation-vs-settlement-calculator.html','Debt Center'],
+    ['auto-loan-refinance-negative-equity-calculator.html','Auto Finance Center'],
+    ['tax-withholding-refund-gap-calculator.html','Tax Center'],
+    ['aca-net-premium-total-cost-calculator.html','Health Coverage Center'],
+    ['credit-utilization-interest-simulator.html','Credit Center'],
+    ['mortgage-refinance-break-even-calculator.html','Homeowner Center'],
+    ['emergency-fund-income-shock-calculator.html','Emergency Fund']
+  ];
+  document.querySelectorAll('[data-tv-menu]').forEach(menu => {
+    const summary = menu.querySelector('summary');
+    const panel = menu.querySelector('.tv-menu-panel, .tv-mega');
+    if (!summary || !panel || summary.textContent.trim() !== 'Tools' || panel.querySelector('[data-fintech-center]')) return;
+    const mega = panel.classList.contains('tv-mega');
+    const wrap = document.createElement(mega ? 'section' : 'div');
+    wrap.dataset.fintechCenter = 'true';
+    if (mega) wrap.className = 'tv-mega-group';
+    wrap.innerHTML = mega
+      ? '<span class="tv-mega-title">Financial Centers</span>' + centers.map(([href,label]) => `<a class="tv-mega-link" href="${href}">${label}<span>Compare the key trade-offs privately in your browser.</span></a>`).join('')
+      : '<strong class="tv-menu-section-label">Financial Centers</strong>' + centers.map(([href,label]) => `<a href="${href}">${label}</a>`).join('');
+    panel.appendChild(wrap);
+  });
+})();
+/* ToolVerse fintech footer discovery: additive links for existing page shells. */
+(() => {
+  const centers = [
+    ['debt-consolidation-vs-settlement-calculator.html','Debt Center'],
+    ['auto-loan-refinance-negative-equity-calculator.html','Auto Finance Center'],
+    ['tax-withholding-refund-gap-calculator.html','Tax Center'],
+    ['aca-net-premium-total-cost-calculator.html','Health Coverage Center'],
+    ['credit-utilization-interest-simulator.html','Credit Center'],
+    ['mortgage-refinance-break-even-calculator.html','Homeowner Center'],
+    ['emergency-fund-income-shock-calculator.html','Emergency Fund']
+  ];
+  document.querySelectorAll('.tv-footer-grid').forEach(grid => {
+    if (grid.querySelector('[data-fintech-footer], a[href="debt-consolidation-vs-settlement-calculator.html"]')) return;
+    const nav = document.createElement('nav');
+    nav.className = 'tv-footer-column';
+    nav.dataset.fintechFooter = 'true';
+    nav.setAttribute('aria-label', 'Financial centers');
+    nav.innerHTML = '<p class="tv-footer-heading" role="heading" aria-level="2">Financial Centers</p>' + centers.map(([href,label]) => `<a href="${href}">${label}</a>`).join('');
+    grid.appendChild(nav);
+  });
+})();
