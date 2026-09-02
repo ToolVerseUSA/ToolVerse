@@ -41,11 +41,75 @@
   window.addEventListener('resize', () => { if (innerWidth > 1080 && trigger?.getAttribute('aria-expanded') === 'true') setMenu(false); }, {passive:true});
   header.querySelectorAll('.tv-menu').forEach(menu => menu.addEventListener('toggle', () => { if (menu.open) header.querySelectorAll('.tv-menu[open]').forEach(other => { if(other!==menu) other.open=false; }); }));
 
-  document.querySelectorAll('[data-financial-shell-footer] .tv-footer-accordion-toggle').forEach(button => {
-    const section=document.getElementById(button.getAttribute('aria-controls'));
-    if(!section) return;
-    const sync=()=>{ const mobile=matchMedia('(max-width:700px)').matches; if(!mobile){section.hidden=false;button.setAttribute('aria-expanded','true');} else if(button.dataset.mobileReady!=='1'){section.hidden=true;button.setAttribute('aria-expanded','false');button.dataset.mobileReady='1';}};
-    button.addEventListener('click',()=>{if(!matchMedia('(max-width:700px)').matches)return;const open=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(open));section.hidden=!open;});
-    sync(); addEventListener('resize',sync,{passive:true});
-  });
+  const footer = document.querySelector('[data-financial-shell-footer]');
+  if (footer) {
+    const groups = [
+      ['Financial Tools', [
+        ['Housing & Rent', 'index.html#calculator'],
+        ['Home Buying', 'home-affordability-calculator.html'],
+        ['Debt & Credit', 'debt-consolidation-vs-settlement-calculator.html'],
+        ['Auto & Insurance', 'car-insurance-cost-estimator.html'],
+        ['Salary & Taxes', 'tax-withholding-refund-gap-calculator.html'],
+        ['Health Coverage', 'aca-net-premium-total-cost-calculator.html'],
+        ['Emergency Planning', 'emergency-fund-income-shock-calculator.html']
+      ]],
+      ['Resources', [
+        ['Guides', 'salary-rent-affordability-guide.html'],
+        ['Financial Centers', 'debt-consolidation-vs-settlement-calculator.html'],
+        ['All financial tools', 'all-categories.html'],
+        ['Sitemap', 'sitemap.html']
+      ]],
+      ['Company', [
+        ['About ToolVerse', 'about.html'],
+        ['Contact', 'contact.html']
+      ]],
+      ['Legal & Trust', [
+        ['Privacy', 'privacy.html'],
+        ['Terms', 'terms.html'],
+        ['Disclaimer', 'disclaimer.html'],
+        ['Affiliate disclosure', 'affiliate-disclosure.html']
+      ]]
+    ];
+    const columns = groups.map(([label, links], index) => `
+      <nav class="tv-footer-column" aria-label="${label}">
+        <button class="tv-footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="tv-footer-${index}"><span>${label}</span><span aria-hidden="true">⌄</span></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">${label}</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-${index}">${links.map(([text, href]) => `<a href="${href}">${text}</a>`).join('')}</div>
+      </nav>`).join('');
+    footer.innerHTML = `<div class="tv-footer-inner">
+      <section class="tv-footer-cta"><div><p class="tv-footer-cta-eyebrow">Plan with more clarity</p><h2>Make your next money decision with more clarity.</h2><p>Private, browser-based tools for everyday U.S. financial decisions.</p></div><a class="tv-footer-cta-link" href="index.html#calculator">Start Free Calculator <span aria-hidden="true">→</span></a></section>
+      <div class="tv-footer-grid"><section class="tv-footer-brand"><a class="tv-brand" href="index.html" aria-label="ToolVerse home"><span class="tv-brand-mark" aria-hidden="true">TV</span><span>Tool<b>Verse</b></span></a><p>Clear, independent planning tools for understanding everyday financial trade-offs before you act.</p><p class="tv-footer-trust">Free · No account · Runs in your browser</p></section>${columns}</div>
+      <div class="tv-footer-bottom"><span>© 2026 ToolVerse</span><span>Educational estimates only — not financial, tax, legal, or insurance advice.</span></div>
+    </div>`;
+
+    const accordions = [...footer.querySelectorAll('.tv-footer-accordion-toggle')];
+    const syncFooter = () => accordions.forEach(button => {
+      const section = document.getElementById(button.getAttribute('aria-controls'));
+      if (!section) return;
+      const mobile = matchMedia('(max-width:700px)').matches;
+      if (!mobile) { section.hidden = false; button.setAttribute('aria-expanded', 'true'); }
+      else if (button.dataset.mobileReady !== '1') { section.hidden = true; button.setAttribute('aria-expanded', 'false'); button.dataset.mobileReady = '1'; }
+    });
+    accordions.forEach(button => button.addEventListener('click', () => {
+      if (!matchMedia('(max-width:700px)').matches) return;
+      const section = document.getElementById(button.getAttribute('aria-controls'));
+      const open = button.getAttribute('aria-expanded') !== 'true';
+      button.setAttribute('aria-expanded', String(open));
+      section.hidden = !open;
+    }));
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape' || !matchMedia('(max-width:700px)').matches) return;
+      const open = accordions.find(button => button.getAttribute('aria-expanded') === 'true');
+      if (!open) return;
+      event.preventDefault();
+      accordions.forEach(button => {
+        const section = document.getElementById(button.getAttribute('aria-controls'));
+        button.setAttribute('aria-expanded', 'false');
+        if (section) section.hidden = true;
+      });
+      open.focus();
+    });
+    syncFooter();
+    addEventListener('resize', syncFooter, {passive:true});
+  }
 })();
