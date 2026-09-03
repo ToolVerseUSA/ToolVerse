@@ -32,10 +32,10 @@
       describedBy.add(error.id);
       form.setAttribute('aria-describedby', [...describedBy].join(' '));
     }
-    form.querySelectorAll('[aria-live="polite"]').forEach(status => {
-      if (!status.hasAttribute('role')) status.setAttribute('role', 'status');
-      status.setAttribute('aria-atomic', 'true');
-    });
+  });
+  document.querySelectorAll('[aria-live="polite"]').forEach(status => {
+    if (!status.hasAttribute('role')) status.setAttribute('role', 'status');
+    status.setAttribute('aria-atomic', 'true');
   });
 
   const trigger = header.querySelector('.tv-mobile-trigger');
