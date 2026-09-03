@@ -1,4 +1,4 @@
-const CACHE_NAME = 'toolverse-static-v2';
+const CACHE_NAME = 'toolverse-static-v3';
 const APP_ROOT = '/ToolVerse/';
 const OFFLINE_URL = `${APP_ROOT}offline.html`;
 const STATIC_ASSETS = [
@@ -14,6 +14,11 @@ const STATIC_ASSETS = [
   `${APP_ROOT}style.css`,
   `${APP_ROOT}navigation.css`,
   `${APP_ROOT}navigation.js`,
+  `${APP_ROOT}premium-fintech-pilot.css`,
+  `${APP_ROOT}financial-shell.css`,
+  `${APP_ROOT}financial-shell.js`,
+  `${APP_ROOT}calculator-ux.css`,
+  `${APP_ROOT}financial-centers.css`,
   `${APP_ROOT}toolverse-calculations.js`,
   `${APP_ROOT}decision-tools.js`,
   `${APP_ROOT}homebuying-tools.js`,

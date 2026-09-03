@@ -1,0 +1,227 @@
+/* ToolVerse Phase 5 — Financial Centers
+   Shared center discovery and presentation only. Calculator behavior remains owned by existing scripts. */
+
+body.tv-financial-center {
+  background: #f7f8fa;
+  color: #172033;
+}
+
+body.tv-financial-center .tv-fintech-main {
+  max-width: 1240px;
+  padding-top: clamp(2rem, 4vw, 3.5rem);
+}
+
+body.tv-financial-center .tv-fintech-hero {
+  max-width: 860px;
+  margin-bottom: 1.5rem;
+}
+
+body.tv-financial-center .tv-fintech-kicker {
+  border: 1px solid #f0b4ae;
+  background: #fff5f4;
+  color: #a5221d;
+}
+
+body.tv-financial-center .tv-fintech-hero h1 {
+  color: #101828;
+  font-size: clamp(2.35rem, 5vw, 4.6rem);
+  line-height: 1.02;
+  letter-spacing: -.045em;
+}
+
+body.tv-financial-center .tv-fintech-hero p {
+  max-width: 780px;
+  color: #475467;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+}
+
+.tv-center-switcher {
+  margin: 0 0 1.5rem;
+  padding: 1.1rem;
+  border: 1px solid #dfe4ea;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, .05);
+}
+
+.tv-center-switcher-intro {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: .9rem;
+}
+
+.tv-center-switcher-eyebrow {
+  color: #b42318;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.tv-center-switcher-intro strong {
+  color: #344054;
+  font-size: .88rem;
+}
+
+.tv-center-switcher-links {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: .55rem;
+}
+
+.tv-center-switcher-links a {
+  min-width: 0;
+  min-height: 66px;
+  padding: .72rem;
+  border: 1px solid #e4e7ec;
+  border-radius: 11px;
+  background: #fff;
+  color: #344054;
+  text-decoration: none;
+  transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
+}
+
+.tv-center-switcher-links a span,
+.tv-center-switcher-links a small {
+  display: block;
+}
+
+.tv-center-switcher-links a span {
+  font-size: .8rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.tv-center-switcher-links a small {
+  margin-top: .3rem;
+  color: #667085;
+  font-size: .68rem;
+  line-height: 1.35;
+}
+
+.tv-center-switcher-links a:hover {
+  border-color: #b8c0cc;
+  background: #f9fafb;
+}
+
+.tv-center-switcher-links a[aria-current="page"] {
+  border-color: #d92d20;
+  background: #fff5f4;
+  color: #912018;
+  box-shadow: inset 0 0 0 1px rgba(217, 45, 32, .12);
+}
+
+.tv-center-switcher-links a[aria-current="page"] small {
+  color: #a5221d;
+}
+
+.tv-center-switcher-links a:focus-visible {
+  outline: 3px solid rgba(217, 45, 32, .22);
+  outline-offset: 2px;
+}
+
+body.tv-financial-center .tv-fintech-layout {
+  grid-template-columns: minmax(0, 1.35fr) minmax(290px, .65fr);
+  gap: 1.25rem;
+}
+
+body.tv-financial-center :is(.tv-fintech-card, .tv-fintech-aside, .tv-fintech-guide-section) {
+  border-color: #dfe4ea;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, .05);
+}
+
+body.tv-financial-center .tv-fintech-card {
+  padding: clamp(1.2rem, 2.5vw, 2rem);
+}
+
+body.tv-financial-center .tv-fintech-aside {
+  top: 88px;
+}
+
+body.tv-financial-center .tv-fintech-aside h2 {
+  margin-top: .9rem;
+  color: #101828;
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+body.tv-financial-center .tv-fintech-pill {
+  background: #fff5f4;
+  color: #a5221d;
+}
+
+body.tv-financial-center .tv-fintech-list-links {
+  gap: .65rem;
+  margin-top: 1rem;
+}
+
+body.tv-financial-center .tv-fintech-list-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: .72rem .8rem;
+  border: 1px solid #e4e7ec;
+  border-radius: 10px;
+  background: #fff;
+  color: #344054;
+  font-size: .84rem;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+body.tv-financial-center .tv-fintech-list-links a::after {
+  content: "→";
+  flex: 0 0 auto;
+  margin-left: .6rem;
+  color: #d92d20;
+}
+
+body.tv-financial-center .tv-fintech-list-links a:hover {
+  border-color: #b8c0cc;
+  background: #f9fafb;
+  color: #912018;
+}
+
+body.tv-financial-center .tv-fintech-list-links a:focus-visible {
+  outline: 3px solid rgba(217, 45, 32, .22);
+  outline-offset: 2px;
+}
+
+body.tv-financial-center .tv-fintech-disclosure {
+  border-left-color: #d92d20;
+  background: #fff8f7;
+  color: #475467;
+}
+
+body.tv-financial-center .tv-fintech-guide-section details {
+  border-color: #e4e7ec;
+  background: #fff;
+}
+
+@media (max-width: 1080px) {
+  .tv-center-switcher-links { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 820px) {
+  body.tv-financial-center .tv-fintech-layout { grid-template-columns: 1fr; }
+  body.tv-financial-center .tv-fintech-aside { position: static; }
+  .tv-center-switcher-intro { display: grid; gap: .3rem; }
+  .tv-center-switcher-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 480px) {
+  body.tv-financial-center .tv-fintech-main { padding-left: 14px; padding-right: 14px; }
+  body.tv-financial-center .tv-fintech-hero h1 { font-size: 2.15rem; }
+  .tv-center-switcher { padding: .85rem; border-radius: 14px; }
+  .tv-center-switcher-links { grid-template-columns: 1fr; }
+  .tv-center-switcher-links a { min-height: 54px; }
+  body.tv-financial-center .tv-fintech-list-links a { min-height: 48px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv-center-switcher-links a { transition: none; }
+}
