@@ -669,3 +669,44 @@ body {
     color: #f8fafc;
     margin-bottom: 15px;
 }
+
+/* Financial-site legal/support theme contrast repair. Scoped to the requested pages. */
+body:is(:has(.legal-wrapper),:has(.contact-wrapper),:has(.status-wrapper)) :is(a,button,input,select,textarea,summary):focus-visible {
+    outline: 3px solid #38bdf8 !important;
+    outline-offset: 3px !important;
+}
+@media (prefers-color-scheme: light) {
+    body:is(:has(.legal-wrapper),:has(.contact-wrapper),:has(.status-wrapper)) {
+        background: #f8fafc !important;
+        color: #172033 !important;
+    }
+    body:has(.legal-wrapper) .legal-wrapper,
+    body:has(.contact-wrapper) :is(.contact-info-card,.contact-form-card),
+    body:has(.status-wrapper) :is(.status-header-card,.status-list-card) {
+        background: #fff !important;
+        border-color: #dfe4eb !important;
+        box-shadow: 0 10px 30px rgba(15,23,42,.08) !important;
+    }
+    body:has(.legal-wrapper) .legal-header { border-color: #dfe4eb !important; }
+    body:has(.legal-wrapper) .legal-content :is(h2,strong),
+    body:has(.contact-wrapper) :is(.info-text h4,.form-group label),
+    body:has(.status-wrapper) :is(.status-name,.uptime-title) { color: #172033 !important; }
+    body:has(.legal-wrapper) .legal-content :is(p,ul),
+    body:has(.contact-wrapper) :is(.contact-info-card p,.info-text p),
+    body:has(.status-wrapper) :is(.status-header-card p,.status-desc,.uptime-legend) { color: #526078 !important; }
+    body:has(.contact-wrapper) .contact-input {
+        background: #fff !important;
+        border-color: #cbd5e1 !important;
+        color: #172033 !important;
+    }
+}
+body:has(.status-wrapper) .status-desc { color: #94a3b8 !important; }
+body:has(.contact-wrapper) .contact-wrapper,
+body:has(.status-wrapper) .status-wrapper { max-width: 100%; }
+body:has(.contact-wrapper) .contact-input { min-width: 0; }
+@media (max-width: 768px) {
+    body:is(:has(.contact-wrapper),:has(.status-wrapper)) .footer-container {
+        grid-template-columns: minmax(0,1fr) !important;
+    }
+    body:is(:has(.contact-wrapper),:has(.status-wrapper)) .footer-col { min-width: 0; }
+}
