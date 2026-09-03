@@ -36,3 +36,27 @@
 .tv-mobile-category[data-fintech-mobile-category="true"] .tv-mobile-category-toggle{color:#e8fbff}
 @media(min-width:981px){.tv-global-inner{gap:22px}.tv-desktop-nav{min-width:0;flex:none}.tv-menu>summary{white-space:nowrap}}
 @media(max-width:980px){.tv-footer-accordion[data-fintech-footer-enhanced="true"] .tv-footer-accordion-panel{padding-bottom:16px}}
+
+/* Current ToolVerse light/red shared shell. */
+.tv-global-header { background: rgba(255,255,255,.98); border-bottom-color: #e4e8ef; }
+.tv-brand { color: #172033!important; }
+.tv-brand-mark { background: #c52a1d; color: #fff; box-shadow: 0 6px 18px rgba(197,42,29,.18); }
+.tv-brand b { color: #c52a1d; }
+.tv-desktop-nav>a,.tv-desktop-nav>details>summary { color: #3d4759; }
+.tv-desktop-nav>a:hover,.tv-desktop-nav>a:focus-visible,.tv-desktop-nav>details>summary:hover,.tv-desktop-nav>details>summary:focus-visible { color: #9f2017; }
+.tv-header-cta { background: #c52a1d; color: #fff!important; box-shadow: 0 10px 20px rgba(197,42,29,.16); }
+.tv-footer { background: #fff; border-top-color: #e4e8ef; color: #526078; }
+.tv-footer-cta { border-color: #e4e8ef; background: #f6f8fb; }
+.tv-footer-cta-eyebrow { color: #c52a1d; }
+.tv-footer-cta h2 { color: #172033; }
+.tv-footer-cta p:not(.tv-footer-cta-eyebrow),.tv-footer-brand p { color: #526078; }
+.tv-footer-heading,.tv-footer-accordion-toggle { color: #172033; }
+.tv-footer-column a { color: #475569!important; }
+.tv-footer-column a:hover,.tv-footer-column a:focus-visible { color: #9f2017!important; }
+.tv-footer-bottom { color: #526078; border-top-color: #e4e8ef; }
+.tv-global-header a:focus-visible,.tv-global-header summary:focus-visible,.tv-footer a:focus-visible { outline-color: #c52a1d; }
+.tv-footer-cta-link { background: #c52a1d; color: #fff!important; box-shadow: 0 10px 20px rgba(197,42,29,.16); }
+@media(max-width:980px){.tv-footer-accordion{border-top-color:#e4e8ef}.tv-footer-accordion-toggle:hover{color:#9f2017}.tv-footer-chevron{color:#c52a1d}}
+.tv-global-header .tv-brand { color: #172033!important; }
+.tv-global-header .tv-menu { margin: 0; padding: 0; border: 0; background: transparent; }
+.tv-global-header .tv-menu > summary { background: transparent; }
