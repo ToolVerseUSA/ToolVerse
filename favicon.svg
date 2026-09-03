@@ -1,15 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
-  <title id="title">ToolVerse</title>
-  <desc id="desc">Cyan and violet ToolVerse TV mark</desc>
-  <defs>
-    <linearGradient id="brand" x1="8" y1="4" x2="58" y2="60" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#67e8f9"/>
-      <stop offset="0.52" stop-color="#22d3ee"/>
-      <stop offset="1" stop-color="#a78bfa"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="16" fill="#07111f"/>
-  <rect x="3" y="3" width="58" height="58" rx="14" fill="url(#brand)"/>
-  <path d="M12 16h40v9H38v24h-12V25H12z" fill="#07111f"/>
-  <path d="M43 25h9v24h-9z" fill="#07111f"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="ToolVerse TV icon">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#51d6eb"/><stop offset="0.55" stop-color="#7fb4f1"/><stop offset="1" stop-color="#a187f1"/></linearGradient></defs>
+<rect width="512" height="512" fill="#07111f"/>
+<rect x="24" y="24" width="464" height="464" rx="108" fill="url(#g)"/>
+<path fill="#07111f" d="M97 166h147v31h-53v129h-41V197H97zm151 0h42l41 119 42-119h42l-59 160h-50z"/>
 </svg>
