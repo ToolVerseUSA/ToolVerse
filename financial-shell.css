@@ -1,6 +1,8 @@
 /* Phase 2 financial shell. Scoped to migrated pages; calculation surfaces remain owned by their existing styles. */
 body.tv-financial-shell{--tvs-red:#c52a1d;--tvs-red-dark:#9f2017;--tvs-ink:#172033;--tvs-muted:#5c6679;--tvs-line:#e4e8ef;--tvs-soft:#f6f8fb;--tvs-white:#fff;--tvs-focus:#2563eb;color:var(--tvs-ink);background-color:#f8fafc}
 body.tv-financial-shell.tv-nav-open{overflow:hidden}
+body.tv-financial-shell .tv-skip-link{position:fixed;z-index:10000;top:10px;left:10px;transform:translateY(-160%);padding:10px 14px;border:2px solid var(--tvs-focus);border-radius:8px;background:#fff;color:#172033;font:750 14px/1.2 Inter,ui-sans-serif,system-ui;text-decoration:none;box-shadow:0 8px 24px rgba(15,23,42,.18)}
+body.tv-financial-shell .tv-skip-link:focus{transform:translateY(0)}
 body.tv-financial-shell .tv-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 body.tv-financial-shell .tv-global-header{position:relative;z-index:100;border-bottom:1px solid var(--tvs-line);background:rgba(255,255,255,.98);color:var(--tvs-ink);box-shadow:0 1px 3px rgba(15,23,42,.04)}
 body.tv-financial-shell .tv-global-inner{width:min(1180px,calc(100% - 40px));min-height:72px;margin:auto;display:flex;align-items:center;gap:24px}

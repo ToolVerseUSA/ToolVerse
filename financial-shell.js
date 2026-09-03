@@ -1,6 +1,43 @@
 (() => {
   const header = document.querySelector('[data-financial-shell-header]');
   if (!header) return;
+  const main = document.querySelector('main');
+  if (main) {
+    if (!main.id) main.id = 'main-content';
+    const skip = document.createElement('a');
+    skip.className = 'tv-skip-link';
+    skip.href = `#${main.id}`;
+    skip.textContent = 'Skip to main content';
+    document.body.prepend(skip);
+    skip.addEventListener('click', () => {
+      main.setAttribute('tabindex', '-1');
+      requestAnimationFrame(() => main.focus({ preventScroll: true }));
+    });
+  }
+
+  const currentPath = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || /^(?:https?:|mailto:|tel:)/.test(href)) return;
+    if (href.split('#')[0].split('?')[0] === currentPath) link.setAttribute('aria-current', 'page');
+  });
+
+  document.querySelectorAll('form').forEach((form, formIndex) => {
+    const error = form.querySelector('.form-error,.tv-fintech-error,[role="alert"]');
+    if (error) {
+      if (!error.id) error.id = `form-error-${formIndex + 1}`;
+      error.setAttribute('role', 'alert');
+      error.setAttribute('aria-live', 'assertive');
+      const describedBy = new Set((form.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean));
+      describedBy.add(error.id);
+      form.setAttribute('aria-describedby', [...describedBy].join(' '));
+    }
+    form.querySelectorAll('[aria-live="polite"]').forEach(status => {
+      if (!status.hasAttribute('role')) status.setAttribute('role', 'status');
+      status.setAttribute('aria-atomic', 'true');
+    });
+  });
+
   const trigger = header.querySelector('.tv-mobile-trigger');
   const panel = document.getElementById(trigger?.getAttribute('aria-controls') || '');
   let returnFocus = null;
