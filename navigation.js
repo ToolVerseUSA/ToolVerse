@@ -190,12 +190,6 @@
   };
 
   const registerServiceWorker = () => {
-    if (!document.querySelector('link[rel="manifest"]')) {
-      const manifest = document.createElement('link');
-      manifest.rel = 'manifest';
-      manifest.href = `${basePath}site.webmanifest`;
-      document.head.appendChild(manifest);
-    }
     if (!('serviceWorker' in navigator) || !window.isSecureContext) return;
     navigator.serviceWorker.register(swPath, { scope: basePath }).catch(() => {});
   };
