@@ -261,3 +261,19 @@ const runFintechFooterInjection = () => {
 };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', runFintechFooterInjection, { once: true });
 else runFintechFooterInjection();
+
+/* Optional one-shot Apify connectivity test; runs only when explicitly requested with ?apify-test=1. */
+(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('apify-test') !== '1') return;
+  try {
+    if (sessionStorage.getItem('tv-apify-test-ran') === '1') return;
+    sessionStorage.setItem('tv-apify-test-ran', '1');
+  } catch (_) { /* continue without the optional guard */ }
+  const path = '/api/fetch-apify-data';
+  const endpoint = window.location.hostname.endsWith('github.io') ? `https://toolverse-usa.vercel.app${path}` : path;
+  fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}', credentials: 'omit' })
+    .then((response) => response.json().then((body) => ({ ok: response.ok, body })))
+    .then(({ ok, body }) => console.info('[ToolVerse] Apify connectivity test', { ok, ...body }))
+    .catch(() => console.info('[ToolVerse] Apify connectivity test', { ok: false, code: 'request_failed' }));
+})();
