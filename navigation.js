@@ -277,3 +277,43 @@ else runFintechFooterInjection();
     .then(({ ok, body }) => console.info('[ToolVerse] Apify connectivity test', { ok, ...body }))
     .catch(() => console.info('[ToolVerse] Apify connectivity test', { ok: false, code: 'request_failed' }));
 })();
+
+/* ToolVerse home-buying expansion: expose the three new calculators through the existing shell. */
+(() => {
+  const links = [
+    ['home-buying-cash-to-close-calculator.html', 'Cash to Close'],
+    ['debt-to-income-monthly-payment-capacity-calculator.html', 'Debt-to-Income & Payment Capacity'],
+    ['paycheck-withholding-take-home-checkup.html', 'Paycheck Withholding Checkup']
+  ];
+  const addDesktopLinks = () => {
+    document.querySelectorAll('.tv-mega-group').forEach(group => {
+      const title = group.querySelector('.tv-mega-title');
+      if (!title || title.textContent.trim() !== 'Home Buying') return;
+      links.forEach(([href, label]) => {
+        if (group.querySelector(`a[href="${href}"]`)) return;
+        const a = document.createElement('a');
+        a.className = 'tv-mega-link';
+        a.href = href;
+        a.innerHTML = `${label}<span>Plan this part of a U.S. money decision.</span>`;
+        group.appendChild(a);
+      });
+    });
+  };
+  const addMobileLinks = () => {
+    document.querySelectorAll('.tv-mobile-category').forEach(category => {
+      const toggle = category.querySelector('.tv-mobile-category-toggle');
+      const panel = category.querySelector('.tv-mobile-category-panel');
+      if (!toggle || !panel || toggle.textContent.trim() !== 'Home Buying') return;
+      links.forEach(([href, label]) => {
+        if (panel.querySelector(`a[href="${href}"]`)) return;
+        const a = document.createElement('a');
+        a.href = href;
+        a.textContent = label;
+        panel.appendChild(a);
+      });
+    });
+  };
+  const run = () => { addDesktopLinks(); addMobileLinks(); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run, { once: true });
+  else run();
+})();
