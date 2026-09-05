@@ -1,4 +1,4 @@
-const CACHE_NAME = 'toolverse-static-v2';
+const CACHE_NAME = 'toolverse-static-v3';
 const APP_ROOT = '/ToolVerse/';
 const OFFLINE_URL = `${APP_ROOT}offline.html`;
 const STATIC_ASSETS = [
