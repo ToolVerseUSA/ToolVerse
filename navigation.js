@@ -316,4 +316,6 @@ else runFintechFooterInjection();
   const run = () => { addDesktopLinks(); addMobileLinks(); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run, { once: true });
   else run();
+  window.addEventListener('load', run, { once: true });
+  window.setTimeout(run, 0);
 })();
