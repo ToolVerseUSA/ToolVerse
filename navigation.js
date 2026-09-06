@@ -363,4 +363,27 @@ else runRentingMovingInjection();
   else run();
   window.addEventListener('load', run, { once: true });
   window.setTimeout(run, 0);
+  const insuranceServicesMarkup = `<section class="tv-mega-group" data-tv-insurance-services><span class="tv-mega-title">Insurance & Home Services</span><a class="tv-mega-link" href="car-insurance-cost-estimator.html">Car Insurance Planning<span>Estimate a broad range; compare real rates separately.</span></a><a class="tv-mega-link" href="renters-insurance-coverage-calculator.html">Renters Insurance Coverage<span>Organize belongings, liability, and deductible questions.</span></a><a class="tv-mega-link" href="home-insurance-estimate-calculator.html">Home Insurance Estimate<span>Build a broad homeowners planning range.</span></a><a class="tv-mega-link" href="electricity-cost-calculator.html">Electricity Cost<span>Estimate kWh and monthly electricity cost.</span></a><a class="tv-mega-link" href="internet-plan-cost-comparison-guide.html">Internet Plan Guide<span>Compare speed, fees, caps, and contract terms.</span></a></section>`;
+  const injectInsuranceServices = () => {
+    document.querySelectorAll('.tv-desktop-nav [data-tv-menu="tools"] .tv-mega-grid').forEach((grid) => {
+      if (!grid.querySelector('[data-tv-insurance-services]')) {
+        const category = grid.querySelector('.tv-mega-group:last-of-type');
+        if (category) category.insertAdjacentHTML('afterend', insuranceServicesMarkup);
+        else grid.insertAdjacentHTML('beforeend', insuranceServicesMarkup);
+      }
+    });
+    const group = document.querySelector('.tv-mobile-panel .tv-mobile-section .tv-mobile-categories');
+    if (group) {
+      if (!group.querySelector('[data-tv-insurance-services]')) {
+        group.insertAdjacentHTML('beforeend', `<section class="tv-mobile-category" data-tv-insurance-services><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-insurance-services-panel"><span>Insurance & Home Services</span><span aria-hidden="true">›</span></button><div class="tv-mobile-category-panel" id="tv-mobile-insurance-services-panel" data-mobile-accordion-panel hidden><a href="car-insurance-cost-estimator.html">Car Insurance Planning</a><a href="renters-insurance-coverage-calculator.html">Renters Insurance Coverage</a><a href="home-insurance-estimate-calculator.html">Home Insurance Estimate</a><a href="electricity-cost-calculator.html">Electricity Cost</a><a href="internet-plan-cost-comparison-guide.html">Internet Plan Guide</a></div></section>`);
+      }
+    }
+    document.querySelectorAll('.tv-footer-grid').forEach((grid) => {
+      if (!grid.querySelector('[data-tv-insurance-footer]')) {
+        grid.insertAdjacentHTML('beforeend', `<section class="tv-footer-column" data-tv-insurance-footer><h3>Insurance & home services</h3><a href="car-insurance-cost-estimator.html">Car Insurance Planning</a><a href="renters-insurance-coverage-calculator.html">Renters Insurance Coverage</a><a href="home-insurance-estimate-calculator.html">Home Insurance Estimate</a><a href="electricity-cost-calculator.html">Electricity Cost</a><a href="internet-plan-cost-comparison-guide.html">Internet Plan Guide</a></section>`);
+      }
+    });
+  };
+  injectInsuranceServices();
+
 })();
