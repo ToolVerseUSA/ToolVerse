@@ -261,6 +261,51 @@ const runFintechFooterInjection = () => {
 };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', runFintechFooterInjection, { once: true });
 else runFintechFooterInjection();
+/* ToolVerse renting and moving discovery: additive links for the new financial-planning foundation. */
+const runRentingMovingInjection = () => {
+  const tools = [
+    ['rent-affordability-calculator.html','Rent Affordability'],
+    ['move-in-cost-calculator.html','Move-In Costs'],
+    ['security-deposit-calculator.html','Security Deposit'],
+    ['monthly-housing-budget-calculator.html','Monthly Housing Budget'],
+    ['renting-and-moving-guide.html','Renting & Moving Guide']
+  ];
+  document.querySelectorAll('[data-tv-menu]').forEach(menu => {
+    const summary = menu.querySelector('summary');
+    const panel = menu.querySelector('.tv-menu-panel, .tv-mega');
+    if (!summary || !panel || summary.textContent.trim() !== 'Tools' || panel.querySelector('[data-renting-moving]')) return;
+    const mega = panel.classList.contains('tv-mega');
+    const wrap = document.createElement(mega ? 'section' : 'div');
+    wrap.dataset.rentingMoving = 'true';
+    if (mega) wrap.className = 'tv-mega-group';
+    wrap.innerHTML = mega
+      ? '<span class="tv-mega-title">Renting &amp; Moving</span>' + tools.map(([href,label]) => `<a class="tv-mega-link" href="${href}">${label}<span>Plan the next housing decision privately in your browser.</span></a>`).join('')
+      : '<strong class="tv-menu-section-label">Renting &amp; Moving</strong>' + tools.map(([href,label]) => `<a href="${href}">${label}</a>`).join('');
+    panel.appendChild(wrap);
+  });
+  document.querySelectorAll('[data-mobile-accordion-group="tools"]').forEach(group => {
+    if (group.querySelector('[data-renting-moving-mobile]')) return;
+    const section = document.createElement('section');
+    section.className = 'tv-mobile-category';
+    section.dataset.rentingMovingMobile = 'true';
+    section.innerHTML = '<button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-renting-moving-panel"><span>Renting &amp; Moving</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-renting-moving-panel" data-mobile-accordion-panel hidden>' + tools.map(([href,label]) => `<a href="${href}">${label}</a>`).join('') + '</div>';
+    group.appendChild(section);
+    const toggle=section.querySelector('[data-mobile-accordion-toggle]');
+    const panel=section.querySelector('[data-mobile-accordion-panel]');
+    toggle?.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')!=='true';toggle.setAttribute('aria-expanded',String(open));panel.hidden=!open;});
+  });
+  document.querySelectorAll('.tv-footer-grid').forEach(grid => {
+    if (grid.querySelector('[data-renting-moving-footer]')) return;
+    const nav = document.createElement('nav');
+    nav.className = 'tv-footer-column';
+    nav.dataset.rentingMovingFooter = 'true';
+    nav.setAttribute('aria-label', 'Renting and moving');
+    nav.innerHTML = '<p class="tv-footer-heading" role="heading" aria-level="2">Renting &amp; Moving</p>' + tools.map(([href,label]) => `<a href="${href}">${label}</a>`).join('');
+    grid.appendChild(nav);
+  });
+};
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', runRentingMovingInjection, { once: true });
+else runRentingMovingInjection();
 
 /* Optional one-shot Apify connectivity test; runs only when explicitly requested with ?apify-test=1. */
 (() => {
