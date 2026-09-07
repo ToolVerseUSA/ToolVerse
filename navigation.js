@@ -77,15 +77,22 @@
     footerToggles.forEach((toggle) => setFooterState(toggle, false));
   };
 
-  categoryToggles.forEach((toggle) => {
+  const bindMobileToggle = (toggle) => {
+    if (toggle.dataset.tvBound === 'true') return;
     const panelId = toggle.getAttribute('aria-controls');
     const panel = panelId ? document.getElementById(panelId) : null;
     if (!panel) return;
+    toggle.dataset.tvBound = 'true';
     setPanelState(toggle, false);
     toggle.addEventListener('click', () => {
       setPanelState(toggle, toggle.getAttribute('aria-expanded') !== 'true');
     });
-  });
+  };
+
+  categoryToggles.forEach(bindMobileToggle);
+  window.tvEnhanceMobileAccordions = () => {
+    document.querySelectorAll('[data-mobile-accordion-toggle]').forEach(bindMobileToggle);
+  };
 
   footerToggles.forEach(bindFooterToggle);
 
@@ -290,19 +297,19 @@ const runRentingMovingInjection = () => {
     section.dataset.rentingMovingMobile = 'true';
     section.innerHTML = '<button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-renting-moving-panel"><span>Renting &amp; Moving</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-renting-moving-panel" data-mobile-accordion-panel hidden>' + tools.map(([href,label]) => `<a href="${href}">${label}</a>`).join('') + '</div>';
     group.appendChild(section);
-    const toggle=section.querySelector('[data-mobile-accordion-toggle]');
-    const panel=section.querySelector('[data-mobile-accordion-panel]');
-    toggle?.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')!=='true';toggle.setAttribute('aria-expanded',String(open));panel.hidden=!open;});
   });
   document.querySelectorAll('.tv-footer-grid').forEach(grid => {
     if (grid.querySelector('[data-renting-moving-footer]')) return;
     const nav = document.createElement('nav');
-    nav.className = 'tv-footer-column';
+    nav.className = 'tv-footer-column tv-footer-accordion';
     nav.dataset.rentingMovingFooter = 'true';
     nav.setAttribute('aria-label', 'Renting and moving');
-    nav.innerHTML = '<p class="tv-footer-heading" role="heading" aria-level="2">Renting &amp; Moving</p>' + tools.map(([href,label]) => `<a href="${href}">${label}</a>`).join('');
+    const panelId = 'tv-footer-renting-moving-panel';
+    nav.innerHTML = `<button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="${panelId}"><span>Renting &amp; Moving</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg></button><p class="tv-footer-heading" role="heading" aria-level="2">Renting &amp; Moving</p><div class="tv-footer-accordion-panel" id="${panelId}" data-footer-accordion-panel hidden>${tools.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}</div>`;
     grid.appendChild(nav);
   });
+  window.tvEnhanceMobileAccordions?.();
+  window.tvEnhanceFinancialCenterFooters?.();
 };
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', runRentingMovingInjection, { once: true });
 else runRentingMovingInjection();
@@ -375,15 +382,18 @@ else runRentingMovingInjection();
     const group = document.querySelector('.tv-mobile-panel .tv-mobile-section .tv-mobile-categories');
     if (group) {
       if (!group.querySelector('[data-tv-insurance-services]')) {
-        group.insertAdjacentHTML('beforeend', `<section class="tv-mobile-category" data-tv-insurance-services><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-insurance-services-panel"><span>Insurance & Home Services</span><span aria-hidden="true">›</span></button><div class="tv-mobile-category-panel" id="tv-mobile-insurance-services-panel" data-mobile-accordion-panel hidden><a href="car-insurance-cost-estimator.html">Car Insurance Planning</a><a href="renters-insurance-coverage-calculator.html">Renters Insurance Coverage</a><a href="home-insurance-estimate-calculator.html">Home Insurance Estimate</a><a href="electricity-cost-calculator.html">Electricity Cost</a><a href="internet-plan-cost-comparison-guide.html">Internet Plan Guide</a></div></section>`);
+        group.insertAdjacentHTML('beforeend', `<section class="tv-mobile-category" data-tv-insurance-services><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-insurance-services-panel"><span>Insurance &amp; Home Services</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-insurance-services-panel" data-mobile-accordion-panel hidden><a href="car-insurance-cost-estimator.html">Car Insurance Planning</a><a href="renters-insurance-coverage-calculator.html">Renters Insurance Coverage</a><a href="home-insurance-estimate-calculator.html">Home Insurance Estimate</a><a href="electricity-cost-calculator.html">Electricity Cost</a><a href="internet-plan-cost-comparison-guide.html">Internet Plan Guide</a></div></section>`);
       }
     }
     document.querySelectorAll('.tv-footer-grid').forEach((grid) => {
       if (!grid.querySelector('[data-tv-insurance-footer]')) {
-        grid.insertAdjacentHTML('beforeend', `<section class="tv-footer-column" data-tv-insurance-footer><h3>Insurance & home services</h3><a href="car-insurance-cost-estimator.html">Car Insurance Planning</a><a href="renters-insurance-coverage-calculator.html">Renters Insurance Coverage</a><a href="home-insurance-estimate-calculator.html">Home Insurance Estimate</a><a href="electricity-cost-calculator.html">Electricity Cost</a><a href="internet-plan-cost-comparison-guide.html">Internet Plan Guide</a></section>`);
+        const panelId = 'tv-footer-insurance-services-panel';
+        grid.insertAdjacentHTML('beforeend', `<nav class="tv-footer-column tv-footer-accordion" data-tv-insurance-footer aria-label="Insurance and home services"><button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="${panelId}"><span>Insurance &amp; Home Services</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg></button><p class="tv-footer-heading" role="heading" aria-level="2">Insurance &amp; Home Services</p><div class="tv-footer-accordion-panel" id="${panelId}" data-footer-accordion-panel hidden><a href="car-insurance-cost-estimator.html">Car Insurance Planning</a><a href="renters-insurance-coverage-calculator.html">Renters Insurance Coverage</a><a href="home-insurance-estimate-calculator.html">Home Insurance Estimate</a><a href="electricity-cost-calculator.html">Electricity Cost</a><a href="internet-plan-cost-comparison-guide.html">Internet Plan Guide</a></div></nav>`);
       }
     });
   };
   injectInsuranceServices();
+  window.tvEnhanceMobileAccordions?.();
+  window.tvEnhanceFinancialCenterFooters?.();
 
 })();
