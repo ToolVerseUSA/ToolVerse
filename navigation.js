@@ -273,6 +273,7 @@ const runRentingMovingInjection = () => {
   const tools = [
     ['rent-affordability-calculator.html','Rent Affordability'],
     ['move-in-cost-calculator.html','Move-In Costs'],
+    ['furnished-room-move-in-cost-calculator.html','Furnished Room Move-In Cost'],
     ['security-deposit-calculator.html','Security Deposit'],
     ['monthly-housing-budget-calculator.html','Monthly Housing Budget'],
     ['renting-and-moving-guide.html','Renting & Moving Guide']
