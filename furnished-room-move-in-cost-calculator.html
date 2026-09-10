@@ -69,7 +69,7 @@
               <label>Current available cash <span class="muted">(optional)</span><input id="cash" name="cash" data-label="Current available cash" type="number" min="0" step="0.01" placeholder="Leave blank if unknown" inputmode="decimal"></label>
             </div>
           </fieldset>
-          <button class="button" id="calculate" type="button">Compare move-in costs →</button>
+          <button class="button" id="calculate" type="submit">Compare move-in costs →</button>
           <div id="result" class="tool-result result" aria-live="polite" hidden></div>
         </form>
       </section>
@@ -177,7 +177,7 @@
     const verdict=hasCash?(aptReserve&&roomReserve?'Both scenarios preserve your requested reserve.':!aptReserve&&!roomReserve?'Neither scenario preserves your requested reserve.':aptReserve?'The apartment scenario preserves your requested reserve.':'The furnished-room scenario preserves your requested reserve.'):(upDiff>25?'The furnished-room scenario requires less upfront cash.':upDiff<-25?'The apartment scenario requires less upfront cash.':'The upfront cash requirements are similar.');
     document.getElementById('result').hidden=false; document.getElementById('result').innerHTML='<h3>Comparison summary</h3><p class="result-verdict">'+verdict+'</p><div class="result-table"><div><span>Apartment upfront cash</span><strong>'+money(aptUp)+'</strong></div><div><span>Furnished-room upfront cash</span><strong>'+money(roomUp)+'</strong></div><div><span>Apartment initial-period cost</span><strong>'+money(aptInitial)+'</strong></div><div><span>Furnished-room initial-period cost</span><strong>'+money(roomInitial)+'</strong></div><div><span>Upfront difference</span><strong>'+money(Math.abs(upDiff))+' '+(upDiff>=0?'more for apartment':'more for furnished room')+'</strong></div><div><span>Initial-period difference</span><strong>'+money(Math.abs(initialDiff))+' '+(initialDiff>=0?'more for apartment':'more for furnished room')+'</strong></div>'+(hasCash?'<div><span>Apartment cash remaining</span><strong>'+money(aptRemain)+(aptReserve?' · reserve preserved':' · below reserve')+'</strong></div><div><span>Furnished-room cash remaining</span><strong>'+money(roomRemain)+(roomReserve?' · reserve preserved':' · below reserve')+'</strong></div>':'')+'</div><p class="muted">This comparison uses only the amounts entered. Confirm written provider terms, recurring costs, deposits, utilities, and move-out conditions before acting.</p>';
   };
-  document.getElementById('calculate').addEventListener('click',calculate); ids.forEach(id=>document.getElementById(id).addEventListener('input',()=>{if(!document.getElementById('result').hidden)calculate();})); calculate();
+  document.querySelector('form').addEventListener('submit',event=>{event.preventDefault();calculate();}); ids.forEach(id=>document.getElementById(id).addEventListener('input',()=>{if(!document.getElementById('result').hidden)calculate();})); calculate();
 })();
 </script>
 </div></body></html>
