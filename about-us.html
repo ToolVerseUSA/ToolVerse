@@ -321,7 +321,7 @@
                 <h3>Stay Updated</h3>
                 <p style="margin-top: 0; margin-bottom: 15px; color: #cbd5e1; font-size: 0.95rem;">Subscribe to get updates about new tools and features.</p>
                 <form class="newsletter-form" id="newsletterForm">
-                    <input type="email" id="newsletterEmail" class="newsletter-input" placeholder="Enter your email" required>
+                    <input type="email" id="newsletterEmail" class="newsletter-input" placeholder="Enter your email" aria-label="Newsletter email address" required>
                     <button type="submit" id="newsletterBtn" class="newsletter-btn">Subscribe</button>
                 </form>
                 <div id="newsletterMsg" style="font-size: 13px; margin-top: 8px; min-height: 18px; font-weight: 500;"></div>
@@ -401,8 +401,8 @@
             <h2 class="auth-title">ToolVerse</h2>
             <p class="auth-subtitle">Access your professional toolkit</p>
             
-            <input type="email" id="authEmail" class="auth-input" placeholder="Email Address" required>
-            <input type="password" id="authPassword" class="auth-input" placeholder="Password" required>
+            <input type="email" id="authEmail" class="auth-input" placeholder="Email Address" aria-label="Account email address" required>
+            <input type="password" id="authPassword" class="auth-input" placeholder="Password" aria-label="Account password" required>
 
             <button id="emailLoginBtn" class="auth-submit-btn">Continue with Email</button>
             <div class="auth-divider">──────── OR ────────</div>
@@ -422,12 +422,12 @@
             <p class="auth-subtitle">Enter the 6-digit verification code sent to your registered email/phone.</p>
             
             <div class="otp-inputs">
-                <input type="text" maxlength="1" class="otp-box" id="otp1" autofocus>
-                <input type="text" maxlength="1" class="otp-box" id="otp2">
-                <input type="text" maxlength="1" class="otp-box" id="otp3">
-                <input type="text" maxlength="1" class="otp-box" id="otp4">
-                <input type="text" maxlength="1" class="otp-box" id="otp5">
-                <input type="text" maxlength="1" class="otp-box" id="otp6">
+                <input type="text" maxlength="1" class="otp-box" id="otp1" aria-label="Verification code digit 1" autofocus>
+                <input type="text" maxlength="1" class="otp-box" id="otp2" aria-label="Verification code digit 2">
+                <input type="text" maxlength="1" class="otp-box" id="otp3" aria-label="Verification code digit 3">
+                <input type="text" maxlength="1" class="otp-box" id="otp4" aria-label="Verification code digit 4">
+                <input type="text" maxlength="1" class="otp-box" id="otp5" aria-label="Verification code digit 5">
+                <input type="text" maxlength="1" class="otp-box" id="otp6" aria-label="Verification code digit 6">
             </div>
 
             <div style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">
@@ -451,28 +451,28 @@
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 5px;">
-                <input type="text" id="profFirstName" class="auth-input" style="margin: 0;" placeholder="First Name">
-                <input type="text" id="profLastName" class="auth-input" style="margin: 0;" placeholder="Last Name">
+                <input type="text" id="profFirstName" class="auth-input" style="margin: 0;" placeholder="First Name" aria-label="First name">
+                <input type="text" id="profLastName" class="auth-input" style="margin: 0;" placeholder="Last Name" aria-label="Last name">
             </div>
             
             <div style="display: flex; gap: 8px; margin-top: 5px; margin-bottom: 5px;">
-                <select id="profPhoneCode" class="auth-input" style="width: 38%; margin: 0;">
+                <select id="profPhoneCode" class="auth-input" style="width: 38%; margin: 0;" aria-label="Phone country code">
                     <option value="" disabled selected>🏳️ Code</option>
                 </select>
-                <input type="tel" id="profPhone" class="auth-input" style="width: 62%; margin: 0;" placeholder="Phone Number">
+                <input type="tel" id="profPhone" class="auth-input" style="width: 62%; margin: 0;" placeholder="Phone Number" aria-label="Phone number">
             </div>
             
             <div style="position: relative;">
-                <input type="text" id="profAddress" class="auth-input" style="margin-top: 5px; margin-bottom: 10px;" placeholder="Start typing your street address..." autocomplete="off">
+                <input type="text" id="profAddress" class="auth-input" style="margin-top: 5px; margin-bottom: 10px;" placeholder="Start typing your street address..." aria-label="Street address" autocomplete="off">
                 <ul id="addressSuggestions" class="suggestions-box"></ul>
             </div>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px;">
-                <select id="profCountry" class="auth-input" style="margin: 0;">
+                <select id="profCountry" class="auth-input" style="margin: 0;" aria-label="Country">
                     <option value="" disabled selected>🏳️ Select Country</option>
                 </select>
-                <input type="text" id="profState" class="auth-input" style="margin: 0;" placeholder="State/Prov">
-                <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Zip Code">
+                <input type="text" id="profState" class="auth-input" style="margin: 0;" placeholder="State/Prov" aria-label="State or province">
+                <input type="text" id="profZip" class="auth-input" style="margin: 0;" placeholder="Zip Code" aria-label="ZIP code">
             </div>
 
             <div style="background: rgba(77, 166, 255, 0.05); border: 1px solid rgba(77, 166, 255, 0.2); padding: 15px; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
