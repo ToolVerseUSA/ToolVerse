@@ -1,296 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToolVerse | Official Whitepaper V1.0</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha384-t1nt8BQoYMLFN5p42tRAtuAAFQaCQODekUVeKKZrEnEyp4H2R0RHFz0KWpmj7i8g" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg-dark: #0b0f19;
-            --bg-card: rgba(15, 23, 42, 0.6);
-            --border-card: rgba(255, 255, 255, 0.08);
-            --accent-gold: #fbbf24;
-            --accent-blue: #38bdf8;
-            --accent-purple: #a855f7;
-            --accent-green: #4ade80;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; }
-        html { scroll-behavior: smooth; }
-        body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; line-height: 1.7; overflow-x: hidden; }
-
-        /* VVIP Ambient Glow */
-        .ambient-glow { position: fixed; top: -10%; left: 50%; transform: translateX(-50%); width: 80vw; height: 60vw; background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.15) 0%, rgba(56, 189, 248, 0.08) 40%, transparent 70%); filter: blur(80px); z-index: -1; pointer-events: none; }
-
-        /* Header Navigation */
-        .wp-header { position: sticky; top: 0; z-index: 1000; background: rgba(11, 15, 25, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-card); padding: 16px 24px; }
-        .header-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .logo-area { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
-        .logo-icon { font-size: 1.8rem; filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5)); }
-        .logo-text { font-size: 1.4rem; font-weight: 900; background: linear-gradient(135deg, #ffffff 0%, var(--accent-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .header-actions { display: flex; align-items: center; gap: 12px; }
-        .btn-action { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-card); color: var(--text-main); padding: 8px 20px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; cursor: pointer; }
-        .btn-action:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--accent-blue); transform: translateY(-2px); }
-
-        /* Hero Banner */
-        .hero-banner { padding: 80px 20px 50px; text-align: center; max-width: 900px; margin: 0 auto; }
-        .version-badge { display: inline-block; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); color: var(--accent-blue); padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .hero-title { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 20px; background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-subtitle { font-size: 1.15rem; color: var(--text-muted); max-width: 750px; margin: 0 auto 30px; line-height: 1.6; }
-
-        /* Layout Container */
-        .wp-container { max-width: 1200px; margin: 0 auto; padding: 0 20px 80px; display: grid; grid-template-columns: 280px 1fr; gap: 50px; }
-
-        /* Sidebar TOC */
-        .wp-sidebar { position: sticky; top: 100px; height: fit-content; background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 20px; padding: 25px 20px; backdrop-filter: blur(12px); display: flex; flex-direction: column; gap: 8px; }
-        .sidebar-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-blue); font-weight: 800; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--border-card); }
-        .sidebar-link { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; padding: 10px 12px; border-radius: 8px; transition: 0.3s; display: flex; align-items: center; gap: 12px; font-weight: 500; }
-        .sidebar-link span.num { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent-purple); font-weight: 800; background: rgba(168, 85, 247, 0.1); padding: 2px 6px; border-radius: 4px;}
-        .sidebar-link:hover { color: #fff; background: rgba(56, 189, 248, 0.1); padding-left: 18px; }
-
-        /* Main Content */
-        .wp-content { display: flex; flex-direction: column; gap: 60px; }
-        .wp-section { position: relative; }
-        .section-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid var(--border-card); padding-bottom: 15px; }
-        .sec-num { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 800; color: var(--accent-gold); }
-        .sec-title { font-size: 2rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
-        .wp-text { color: #cbd5e1; font-size: 1.05rem; margin-bottom: 20px; }
-
-        /* Trust/Merger Highlight Box (VVIP) */
-        .merger-box { background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%); border: 2px solid rgba(251, 191, 36, 0.5); border-radius: 20px; padding: 35px; margin: 30px 0; position: relative; overflow: hidden; box-shadow: 0 15px 40px rgba(251, 191, 36, 0.15); }
-        .merger-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #fbbf24, #f59e0b); }
-        .merger-title { font-size: 1.5rem; font-weight: 900; color: var(--accent-gold); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .merger-title i { font-size: 1.8rem; }
-        .merger-text { color: #f8fafc; font-size: 1.1rem; line-height: 1.8; font-weight: 500; margin: 0; }
-        
-        /* Progress Bar for Merger */
-        .progress-container { margin-top: 25px; background: rgba(0,0,0,0.4); border-radius: 30px; padding: 5px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
-        .progress-bar { height: 20px; background: linear-gradient(90deg, #f59e0b, #fbbf24); border-radius: 20px; width: 15%; /* Dummy initial width */ position: relative; box-shadow: 0 0 15px rgba(251, 191, 36, 0.6); }
-        .progress-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); }
-        .progress-labels span:last-child { color: var(--accent-gold); font-size: 1rem; }
-
-        /* Reverse Halving Table */
-        .acceleration-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 30px 0; background: var(--bg-card); border-radius: 16px; overflow: hidden; border: 1px solid var(--border-card); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .acceleration-table th { background: rgba(56, 189, 248, 0.1); color: var(--accent-blue); padding: 18px; font-weight: 800; text-align: left; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(56, 189, 248, 0.2); }
-        .acceleration-table td { padding: 18px; color: #cbd5e1; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 1.05rem; font-weight: 500; }
-        .acceleration-table tr:last-child td { border-bottom: none; }
-        .acceleration-table tr.highlight td { background: rgba(74, 222, 128, 0.1); color: #fff; font-weight: 700; border-top: 1px solid var(--accent-green); border-bottom: 1px solid var(--accent-green); }
-        .speed-up { color: var(--accent-green); font-weight: 800; display: flex; align-items: center; gap: 8px; }
-
-        /* Feature Grid */
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 25px; }
-        .feature-card { background: rgba(15, 23, 42, 0.4); border: 1px solid var(--border-card); border-radius: 20px; padding: 25px; transition: 0.3s ease; }
-        .feature-card:hover { border-color: var(--accent-purple); background: rgba(15, 23, 42, 0.8); transform: translateY(-5px); box-shadow: 0 10px 25px rgba(168, 85, 247, 0.15); }
-        .feature-icon { font-size: 2.2rem; margin-bottom: 15px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .feature-title { font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: 10px; }
-
-        /* Callout Box */
-        .callout-box { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); padding: 20px 25px; border-radius: 16px; display: flex; gap: 15px; margin: 25px 0; }
-        .callout-box i { font-size: 1.5rem; color: var(--accent-blue); margin-top: 2px; }
-
-        @media (max-width: 900px) { .wp-container { grid-template-columns: 1fr; } .wp-sidebar { display: none; } .hero-title { font-size: 2.5rem; } }
-    </style>
-</head>
-<body>
-
-    <div class="ambient-glow"></div>
-
-    <header class="wp-header">
-        <div class="header-container">
-            <a href="index.html" class="logo-area">
-                <span class="logo-icon">🚀</span>
-                <span class="logo-text">ToolVerse</span>
-            </a>
-            <div class="header-actions">
-                <a href="index.html" class="btn-action"><i class="fa-solid fa-arrow-left"></i> Back to Tools</a>
-            </div>
-        </div>
-    </header>
-
-    <section class="hero-banner">
-        <div class="version-badge">V1.0 — Whitepaper</div>
-        <h1 class="hero-title">The First AI-Powered Ecosystem & Web-Mining Protocol</h1>
-        <p class="hero-subtitle">ToolVerse merges premium AI utilities with seamless browser-based cryptocurrency mining. Explore our reverse-halving tokenomics, strategic corporate backing, and our accelerated path to a 200,000 user Mainnet launch.</p>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ToolVerse Methodology | ToolVerse</title><meta name="description" content="ToolVerse Methodology for ToolVerse USA financial planning tools."><meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:title" content="ToolVerse Methodology | ToolVerse"><meta property="og:description" content="Learn how ToolVerse helps people think through US affordability, rent, debt, taxes, and take-home pay."><meta property="og:url" content="https://toolverseusa.github.io/ToolVerse/whitepaper.html"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="ToolVerse Methodology | ToolVerse"><meta name="twitter:description" content="A privacy-first US money decision engine."><link rel="canonical" href="https://toolverseusa.github.io/ToolVerse/whitepaper.html"><style>:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#07111f;color:#dbeafe;font:16px/1.7 Inter,system-ui,sans-serif}.wrap{width:min(920px,calc(100% - 32px));margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding:24px 0;border-bottom:1px solid #1e3350}.brand{color:#fff;text-decoration:none;font-weight:800;font-size:20px}.brand b{color:#67e8f9}.nav{display:flex;gap:16px;flex-wrap:wrap}.nav a,.back,footer a{color:#a5f3fc;text-decoration:none}.nav a:hover,.back:hover,footer a:hover{text-decoration:underline}.card{margin:42px 0 64px;padding:32px;border:1px solid #263e5e;border-radius:24px;background:linear-gradient(135deg,#14273fdd,#0b1829c2)}h1{font-size:clamp(32px,6vw,54px);line-height:1.05;margin:10px 0 16px;color:#fff}h2{margin-top:32px;color:#fff;font-size:23px}p,li{color:#b6c5d9}.notice{padding:14px 16px;border-left:3px solid #67e8f9;background:#0e2638;color:#cceff7;border-radius:8px}footer{border-top:1px solid #1e3350;padding:22px 0 30px;font-size:13px;color:#71839d}footer a{margin-right:16px}a:focus-visible{outline:3px solid #67e8f9;outline-offset:3px}</style>  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+<!-- Google tag (gtag.js), loaded when the page becomes idle -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  function loadGoogleTag() {
+    var tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=G-6VX2WPNECZ';
+    tag.fetchPriority = 'low';
+    document.head.appendChild(tag);
+    gtag('js', new Date());
+    gtag('config', 'G-6VX2WPNECZ');
+  }
+  window.addEventListener('load', function () {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(loadGoogleTag);
+    } else {
+      window.setTimeout(loadGoogleTag, 0);
+    }
+  }, { once: true });
+</script>
+<link rel="stylesheet" href="navigation.css"><script defer src="navigation.js"></script></head><body><div class="wrap"><header class="tv-global-header"><div class="tv-global-inner"><a class="tv-brand" href="index.html" aria-label="ToolVerse home"><span class="tv-brand-mark" aria-hidden="true">TV</span><span>Tool<b>Verse</b></span></a><nav class="tv-desktop-nav" aria-label="Primary navigation"><details class="tv-menu" data-tv-menu="tools"><summary>Tools</summary><div class="tv-mega"><div class="tv-mega-grid"><section class="tv-mega-group"><span class="tv-mega-title">Rent & Housing</span><a class="tv-mega-link" href="index.html#calculator">Affordability Calculator<span>Start with income, rent, debt, and expenses.</span></a><a class="tv-mega-link" href="true-cost-of-renting-calculator.html">True Cost of Renting<span>Add bills, fees, commute, and move-in costs.</span></a><a class="tv-mega-link" href="first-apartment-budget-calculator.html">First Apartment Budget<span>Separate move-in cash from monthly affordability.</span></a><a class="tv-mega-link" href="30-percent-rent-rule.html">30% Rent Rule<span>Use a gross-income reference carefully.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Home Buying</span><a class="tv-mega-link" href="mortgage-payment-calculator.html">Mortgage Payment<span>Estimate principal, interest, taxes, insurance, and reserves.</span></a><a class="tv-mega-link" href="home-affordability-calculator.html">Home Affordability<span>Plan a home budget after taxes and entered costs.</span></a><a class="tv-mega-link" href="down-payment-calculator.html">Down Payment Plan<span>Set a cash target and savings timeline.</span></a><a class="tv-mega-link" href="closing-costs-calculator.html">Closing Costs<span>Organize cash-to-close fee categories.</span></a><a class="tv-mega-link" href="rent-vs-buy-calculator.html">Rent vs Buy<span>Compare entered cash-flow assumptions.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Salary & Take-Home Pay</span><a class="tv-mega-link" href="salary-needed-for-rent-calculator.html">Salary Needed for Rent<span>Work backward from a rent target.</span></a><a class="tv-mega-link" href="salary-after-rent-calculator.html">Salary After Rent<span>Estimate the cash left after entered costs.</span></a><a class="tv-mega-link" href="take-home-pay-vs-rent.html">Take-Home Pay vs Rent<span>Read rent pressure alongside remaining cash.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Job & Career Decisions</span><a class="tv-mega-link" href="job-offer-take-home-rent-comparison.html">Compare Job Offers<span>Compare two full monthly scenarios.</span></a><a class="tv-mega-link" href="relocation-break-even-calculator.html">Relocation Break-Even<span>Test a higher salary against move costs.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Moving & Relocation</span><a class="tv-mega-link" href="relocation-break-even-calculator.html">Relocation Break-Even<span>Estimate a planning break-even timeline.</span></a><a class="tv-mega-link" href="cost-of-living-by-state.html">Cost of Living Context<span>Connect location context to your own budget.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Budgeting & Personal Finance</span><a class="tv-mega-link" href="roommate-rent-split-calculator.html">Roommate Rent Split<span>Compare transparent ways to divide shared costs.</span></a><a class="tv-mega-link" href="index.html#calculator">Financial Score<span>See housing, debt, cash-flow, and savings pressure.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Cost of Living</span><a class="tv-mega-link" href="cost-of-living-by-state.html">Cost of Living by State<span>Use state context with a personal scenario.</span></a><a class="tv-mega-link" href="illinois-cost-of-living.html">Illinois Cost of Living<span>Run an Illinois affordability scenario.</span></a><a class="tv-mega-link" href="texas-cost-of-living.html">Texas Cost of Living<span>Run a Texas affordability scenario.</span></a></section></div><aside class="tv-feature"><div><p class="tv-feature-eyebrow">Featured decision</p><p class="tv-feature-title">Plan your first apartment</p><p>Separate move-in cash from recurring monthly costs before you apply.</p></div><a href="first-apartment-budget-calculator.html">Explore this decision</a></aside></div></details><details class="tv-menu" data-tv-menu="guides"><summary>Guides</summary><div class="tv-mega"><div class="tv-mega-grid"><section class="tv-mega-group"><span class="tv-mega-title">Renting Guides</span><a class="tv-mega-link" href="salary-rent-affordability-guide.html">Rent by Salary<span>Use one strong salary-based rent guide.</span></a><a class="tv-mega-link" href="what-does-rent-really-cost.html">What Rent Really Costs<span>Separate advertised rent from all-in housing costs.</span></a><a class="tv-mega-link" href="first-apartment-budget-costs-checklist.html">First Apartment Checklist<span>Plan move-in cash and monthly expenses.</span></a><a class="tv-mega-link" href="30-percent-rent-rule.html">30% Rent Rule<span>Understand the limit of one percentage.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Salary Guides</span><a class="tv-mega-link" href="salary-needed-for-rent-explained.html">Salary Needed for Rent<span>Separate gross pay, take-home pay, and budget.</span></a><a class="tv-mega-link" href="salary-after-rent-calculator.html">Salary After Rent<span>Interpret a cash surplus or shortfall.</span></a><a class="tv-mega-link" href="take-home-pay-vs-rent.html">Take-Home Pay vs Rent<span>Read a ratio together with dollars left.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Career Guides</span><a class="tv-mega-link" href="how-to-compare-job-offers-after-taxes-rent.html">Compare Job Offers<span>Compare the full monthly picture.</span></a><a class="tv-mega-link" href="is-a-higher-salary-worth-moving-for.html">Is a Higher Salary Worth Moving For?<span>Use a break-even view for a potential move.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Financial Planning</span><a class="tv-mega-link" href="how-should-roommates-split-rent-and-utilities.html">How Roommates Split Costs<span>Choose a transparent shared-cost method.</span></a><a class="tv-mega-link" href="cost-of-living-by-state.html">Cost of Living Context<span>Understand what state context can and cannot show.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Home Buying Guides</span><a class="tv-mega-link" href="how-mortgage-payments-work.html">Mortgage Payment Guide<span>See what belongs in an all-in monthly estimate.</span></a><a class="tv-mega-link" href="how-much-house-can-i-afford.html">Home Affordability Guide<span>Build a cash-flow limit before shopping.</span></a><a class="tv-mega-link" href="down-payment-planning-guide.html">Down Payment Guide<span>Plan a full cash target before buying.</span></a><a class="tv-mega-link" href="closing-costs-explained.html">Closing Costs Guide<span>Separate cash to close from the home price.</span></a><a class="tv-mega-link" href="rent-vs-buy-decision-guide.html">Rent vs Buy Guide<span>Compare time horizon, costs, and flexibility.</span></a></section></div><aside class="tv-feature"><div><p class="tv-feature-eyebrow">Start with the question</p><p class="tv-feature-title">What does rent really cost?</p><p>Use advertised rent, bills, fees, and move-in cash to compare apartments clearly.</p></div><a href="what-does-rent-really-cost.html">Explore this decision</a></aside></div></details><details class="tv-menu" data-tv-menu><summary>Resources</summary><div class="tv-mega"><div class="tv-mega-grid"><section class="tv-mega-group"><span class="tv-mega-title">Learn ToolVerse</span><a class="tv-mega-link" href="index.html#how-it-works">How ToolVerse Works<span>Understand the core affordability workflow.</span></a><a class="tv-mega-link" href="index.html#methodology">Methodology & Sources<span>Review planning assumptions and public references.</span></a><a class="tv-mega-link" href="index.html#faq">Frequently Asked Questions<span>Find practical answers before you calculate.</span></a><a class="tv-mega-link" href="about.html">About ToolVerse<span>Learn the product focus and planning limits.</span></a><a class="tv-mega-link" href="contact.html">Contact<span>Send corrections, accessibility concerns, or feedback.</span></a></section></div><aside class="tv-feature"><div><p class="tv-feature-eyebrow">Privacy-first planning</p><p class="tv-feature-title">No account required</p><p>ToolVerse calculators run in your browser and use planning estimates.</p></div><a href="privacy.html">Explore this decision</a></aside></div></details></nav><a class="tv-header-cta" href="index.html#calculator">Start Free Calculator</a><details class="tv-mobile-nav" data-tv-menu><summary><span class="tv-sr-only">Open navigation</span><span aria-hidden="true">Menu</span></summary><div class="tv-mobile-panel"><a class="tv-mobile-cta" href="index.html#calculator">Start Free Calculator</a><details class="tv-mobile-section"><summary>Tools</summary><div class="tv-mobile-categories" data-mobile-accordion-group="tools"><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-rent-housing-panel"><span>Rent & Housing</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-rent-housing-panel" data-mobile-accordion-panel hidden><a href="index.html#calculator">Affordability Calculator</a><a href="true-cost-of-renting-calculator.html">True Cost of Renting</a><a href="first-apartment-budget-calculator.html">First Apartment Budget</a><a href="30-percent-rent-rule.html">30% Rent Rule</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-home-buying-panel"><span>Home Buying</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-home-buying-panel" data-mobile-accordion-panel hidden><a href="mortgage-payment-calculator.html">Mortgage Payment</a><a href="home-affordability-calculator.html">Home Affordability</a><a href="down-payment-calculator.html">Down Payment Plan</a><a href="closing-costs-calculator.html">Closing Costs</a><a href="rent-vs-buy-calculator.html">Rent vs Buy</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-salary-take-home-panel"><span>Salary & Take-Home Pay</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-salary-take-home-panel" data-mobile-accordion-panel hidden><a href="salary-needed-for-rent-calculator.html">Salary Needed for Rent</a><a href="salary-after-rent-calculator.html">Salary After Rent</a><a href="take-home-pay-vs-rent.html">Take-Home Pay vs Rent</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-job-career-panel"><span>Job & Career Decisions</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-job-career-panel" data-mobile-accordion-panel hidden><a href="job-offer-take-home-rent-comparison.html">Compare Job Offers</a><a href="relocation-break-even-calculator.html">Relocation Break-Even</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-moving-relocation-panel"><span>Moving & Relocation</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-moving-relocation-panel" data-mobile-accordion-panel hidden><a href="relocation-break-even-calculator.html">Relocation Break-Even</a><a href="cost-of-living-by-state.html">Cost of Living Context</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-budget-personal-finance-panel"><span>Budgeting & Personal Finance</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-budget-personal-finance-panel" data-mobile-accordion-panel hidden><a href="roommate-rent-split-calculator.html">Roommate Rent Split</a><a href="index.html#calculator">Financial Score</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-cost-living-panel"><span>Cost of Living</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-cost-living-panel" data-mobile-accordion-panel hidden><a href="cost-of-living-by-state.html">Cost of Living by State</a><a href="illinois-cost-of-living.html">Illinois Cost of Living</a><a href="texas-cost-of-living.html">Texas Cost of Living</a></div></section></div></details><details class="tv-mobile-section"><summary>Guides</summary><div class="tv-mobile-categories" data-mobile-accordion-group="guides"><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-renting-guides-panel"><span>Renting Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-renting-guides-panel" data-mobile-accordion-panel hidden><a href="salary-rent-affordability-guide.html">Rent by Salary</a><a href="what-does-rent-really-cost.html">What Rent Really Costs</a><a href="first-apartment-budget-costs-checklist.html">First Apartment Checklist</a><a href="30-percent-rent-rule.html">30% Rent Rule</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-salary-guides-panel"><span>Salary Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-salary-guides-panel" data-mobile-accordion-panel hidden><a href="salary-needed-for-rent-explained.html">Salary Needed for Rent</a><a href="salary-after-rent-calculator.html">Salary After Rent</a><a href="take-home-pay-vs-rent.html">Take-Home Pay vs Rent</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-career-guides-panel"><span>Career Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-career-guides-panel" data-mobile-accordion-panel hidden><a href="how-to-compare-job-offers-after-taxes-rent.html">Compare Job Offers</a><a href="is-a-higher-salary-worth-moving-for.html">Is a Higher Salary Worth Moving For?</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-financial-planning-panel"><span>Financial Planning</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-financial-planning-panel" data-mobile-accordion-panel hidden><a href="how-should-roommates-split-rent-and-utilities.html">How Roommates Split Costs</a><a href="cost-of-living-by-state.html">Cost of Living Context</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-home-buying-guides-panel"><span>Home Buying Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-home-buying-guides-panel" data-mobile-accordion-panel hidden><a href="how-mortgage-payments-work.html">Mortgage Payment Guide</a><a href="how-much-house-can-i-afford.html">Home Affordability Guide</a><a href="down-payment-planning-guide.html">Down Payment Guide</a><a href="closing-costs-explained.html">Closing Costs Guide</a><a href="rent-vs-buy-decision-guide.html">Rent vs Buy Guide</a></div></section></div></details><details class="tv-mobile-section"><summary>Resources</summary><div class="tv-mobile-direct"><a href="index.html#how-it-works">How ToolVerse Works</a><a href="index.html#methodology">Methodology &amp; Sources</a><a href="index.html#faq">Frequently Asked Questions</a><a href="about.html">About ToolVerse</a><a href="contact.html">Contact</a></div></details></div></details></div></header><main class="card"><a class="back" href="index.html">← Back to the affordability calculator</a><h1>ToolVerse Methodology</h1><section><h2>How ToolVerse works</h2><p>ToolVerse provides transparent educational planning estimates for U.S. household decisions. Each calculator documents its assumptions, limitations, and sources.</p><h2>Verify before acting</h2><p>Important financial, tax, housing, insurance, credit, and debt decisions should be verified with current official information and an appropriately qualified professional.</p><p><a class="back" href="index.html#methodology">Review methodology and sources →</a></p></section></main><footer class="tv-footer">
+  <div class="tv-footer-inner">
+    <section class="tv-footer-cta" aria-labelledby="tv-footer-cta-title">
+      <div>
+        <p class="tv-footer-cta-eyebrow">Plan with more clarity</p>
+        <h2 id="tv-footer-cta-title">Make your next money decision with more clarity.</h2>
+        <p>Free planning tools for rent, salary, home buying, moving, and everyday U.S. financial decisions.</p>
+      </div>
+      <a class="tv-footer-cta-link" href="index.html#calculator">Start Free Calculator <span aria-hidden="true">→</span></a>
     </section>
-
-    <div class="wp-container">
-        <!-- Sidebar Navigation -->
-        <nav class="wp-sidebar">
-            <div class="sidebar-title">Whitepaper Index</div>
-            <a href="#abstract" class="sidebar-link"><span class="num">01</span> Abstract</a>
-            <a href="#problem-solution" class="sidebar-link"><span class="num">02</span> Problem & Solution</a>
-            <a href="#acceleration-protocol" class="sidebar-link"><span class="num">03</span> Acceleration Protocol</a>
-            <a href="#strategic-merger" class="sidebar-link"><span class="num">04</span> Strategic Merger</a>
-            <a href="#security" class="sidebar-link"><span class="num">05</span> Security & Integrity</a>
-            <a href="#roadmap" class="sidebar-link"><span class="num">06</span> TGE Roadmap</a>
-        </nav>
-
-        <main class="wp-content">
-            
-            <!-- 01 Abstract -->
-            <section id="abstract" class="wp-section">
-                <div class="section-header">
-                    <span class="sec-num">01</span>
-                    <h2 class="sec-title">Abstract</h2>
-                </div>
-                <p class="wp-text">ToolVerse is revolutionizing digital productivity and wealth creation by combining an extensive suite of AI and PDF tools with an integrated web-mining protocol. Unlike traditional systems that demand expensive hardware or app installations, ToolVerse allows users to generate <strong>$TOOL</strong> tokens passively directly within their browser while utilizing enterprise-grade AI applications completely free of charge.</p>
-                <p class="wp-text">Our ecosystem is designed for rapid mass adoption. By eliminating financial and technical barriers, we are building the fastest-growing decentralized network, backed by institutional mining partners ready to inject massive liquidity upon our Mainnet execution.</p>
-            </section>
-
-            <!-- 02 Problem & Solution -->
-            <section id="problem-solution" class="wp-section">
-                <div class="section-header">
-                    <span class="sec-num">02</span>
-                    <h2 class="sec-title">Problem & Our Solution</h2>
-                </div>
-                
-                <div class="features-grid" style="grid-template-columns: 1fr 1fr;">
-                    <div class="feature-card" style="background: rgba(239, 68, 68, 0.05); border-color: rgba(239, 68, 68, 0.2);">
-                        <div class="feature-title" style="color: #fca5a5;">The Traditional Barrier</div>
-                        <p class="wp-text" style="font-size: 0.95rem; margin: 0;">Accessing premium AI models requires expensive monthly subscriptions. Simultaneously, mining cryptocurrency demands heavy capital for GPUs/ASICs, high electricity costs, and complex technical knowledge. This locks the average internet user out of both the AI revolution and the digital wealth economy.</p>
-                    </div>
-                    <div class="feature-card" style="background: rgba(74, 222, 128, 0.05); border-color: rgba(74, 222, 128, 0.2);">
-                        <div class="feature-title" style="color: #86efac;">The ToolVerse Solution</div>
-                        <p class="wp-text" style="font-size: 0.95rem; margin: 0;">We flipped the model. ToolVerse provides 17+ AI Agents and 31 PDF tools completely free. As users interact with the platform, our lightweight Cloud-Sync Web Protocol mines $TOOL tokens in the background with zero hardware strain. You work, you earn, you grow with the network.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 03 Acceleration Protocol (The Reverse Halving) -->
-            <section id="acceleration-protocol" class="wp-section">
-                <div class="section-header">
-                    <span class="sec-num">03</span>
-                    <h2 class="sec-title">The Acceleration Protocol</h2>
-                </div>
-                <p class="wp-text">Traditional crypto mining networks use a "Halving" model—as the network grows, mining rewards decrease, punishing new adopters. ToolVerse rejects this outdated model. We have engineered the <strong>Hyper-Scaling Yield Protocol (Reverse Halving)</strong>.</p>
-                <p class="wp-text">To incentivize rapid network growth and hit our institutional target of 200,000 active users in record time, <strong>our mining rate increases as the user base grows.</strong> The larger our community gets, the faster everyone earns. We go to the moon together.</p>
-
-                <table class="acceleration-table">
-                    <thead>
-                        <tr>
-                            <th>Network Size (Users)</th>
-                            <th>Global Base Rate</th>
-                            <th>Network Phase</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0 - 50,000</td>
-                            <td>0.003 $TOOL / 5s</td>
-                            <td>Foundation</td>
-                        </tr>
-                        <tr>
-                            <td>50,000 - 100,000</td>
-                            <td>0.005 $TOOL / 5s <i class="fa-solid fa-arrow-trend-up" style="color: var(--accent-green); margin-left: 5px;"></i></td>
-                            <td>Expansion</td>
-                        </tr>
-                        <tr>
-                            <td>100,000 - 150,000</td>
-                            <td>0.007 $TOOL / 5s <i class="fa-solid fa-arrow-trend-up" style="color: var(--accent-green); margin-left: 5px;"></i></td>
-                            <td>Hyper-Growth</td>
-                        </tr>
-                        <tr class="highlight">
-                            <td>150,000 - 200,000</td>
-                            <td class="speed-up">0.010 $TOOL / 5s <i class="fa-solid fa-rocket"></i> Max Speed</td>
-                            <td>Final Sprint to TGE</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="callout-box">
-                    <i class="fa-solid fa-bolt"></i>
-                    <div>
-                        <strong>The 3X Turbo Boost:</strong> Active users are rewarded exponentially. By actively using any ToolVerse AI or PDF tool, your current Base Rate is instantly multiplied by 3X (e.g., 0.003 becomes 0.009). True utility drives true value.
-                    </div>
-                </div>
-            </section>
-
-            <!-- 04 Strategic Merger (VVIP Institutional Backing) -->
-            <section id="strategic-merger" class="wp-section">
-                <div class="section-header">
-                    <span class="sec-num">04</span>
-                    <h2 class="sec-title">Strategic Merger & 200K Target</h2>
-                </div>
-                <p class="wp-text">ToolVerse is not an isolated experiment; it is built for an immediate and explosive market entry. We are currently in advanced, finalized discussions with a <strong>Multi-Billion Dollar Cryptocurrency & Mining Conglomerate</strong>.</p>
-
-                <div class="merger-box">
-                    <div class="merger-title"><i class="fa-solid fa-handshake-angle"></i> Institutional Acquisition at 200K Users</div>
-                    <p class="merger-text">The condition for this historic merger is simple: <strong>200,000 Active Users</strong>. Once ToolVerse hits this precise milestone, the merger will execute automatically. This institutional backing guarantees immediate multi-million dollar liquidity for the $TOOL token, instant Tier-1 Centralized Exchange (CEX) listings, and full mainnet deployment. At 200,000 users, mining stops, and trading begins.</p>
-                    
-                    <div class="progress-container">
-                        <div class="progress-bar"></div>
-                        <div class="progress-labels">
-                            <span>Current Phase: Gathering Users</span>
-                            <span>Target: 200,000 Users</span>
-                        </div>
-                    </div>
-                </div>
-                <p class="wp-text" style="text-align: center; font-weight: 700; color: var(--accent-blue);">The faster you invite, the faster we reach 200K. The faster we reach 200K, the faster you cash out.</p>
-            </section>
-
-            <!-- 05 Security -->
-            <section id="security" class="wp-section">
-                <div class="section-header">
-                    <span class="sec-num">05</span>
-                    <h2 class="sec-title">Security & Integrity</h2>
-                </div>
-                <p class="wp-text">To secure institutional capital, our network must be 100% free of bots and fraudulent mining. ToolVerse utilizes enterprise-grade security protocols:</p>
-
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <i class="fa-solid fa-shield-halved feature-icon"></i>
-                        <div class="feature-title">Firebase Gatekeeper</div>
-                        <p class="wp-text" style="font-size: 0.9rem; margin: 0;">Google Firebase validates all sessions in real-time. Unauthenticated or manipulated API calls are instantly rejected and IP addresses banned.</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fa-solid fa-user-check feature-icon"></i>
-                        <div class="feature-title">One-Person-One-Account</div>
-                        <p class="wp-text" style="font-size: 0.9rem; margin: 0;">Strict enforcement through device fingerprinting, mandatory 2FA, and pre-TGE KYC ensures only legitimate humans hold $TOOL.</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fa-solid fa-code-branch feature-icon"></i>
-                        <div class="feature-title">Anti-Script Shield</div>
-                        <p class="wp-text" style="font-size: 0.9rem; margin: 0;">Developer tools and automated headless browsers are blocked. Our cloud-sync detects unnatural timing and nullifies fake mining cycles.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 06 Roadmap -->
-            <section id="roadmap" class="wp-section">
-                <div class="section-header">
-                    <span class="sec-num">06</span>
-                    <h2 class="sec-title">The Road to TGE (Token Generation)</h2>
-                </div>
-                
-                <div style="border-left: 2px solid var(--border-card); padding-left: 30px; margin-top: 30px; display: flex; flex-direction: column; gap: 40px;">
-                    <div style="position: relative;">
-                        <div style="position: absolute; left: -42px; top: 0; width: 22px; height: 22px; background: var(--accent-green); border-radius: 50%; border: 4px solid var(--bg-dark);"></div>
-                        <h3 style="color: #fff; font-size: 1.2rem; margin-bottom: 5px;">Phase 1: Foundation (Current)</h3>
-                        <p class="wp-text" style="margin: 0; font-size: 0.95rem;">Launch of 48+ AI/PDF Tools. Beta web-mining activated. Base rate established. Initial community growth begins.</p>
-                    </div>
-
-                    <div style="position: relative;">
-                        <div style="position: absolute; left: -42px; top: 0; width: 22px; height: 22px; background: var(--accent-blue); border-radius: 50%; border: 4px solid var(--bg-dark); box-shadow: 0 0 10px var(--accent-blue);"></div>
-                        <h3 style="color: #fff; font-size: 1.2rem; margin-bottom: 5px;">Phase 2: The Acceleration</h3>
-                        <p class="wp-text" style="margin: 0; font-size: 0.95rem;">Network effects trigger the reverse halving protocol. Mining speeds increase massively as we pass 50K and 100K users. VVIP features unlocked.</p>
-                    </div>
-
-                    <div style="position: relative;">
-                        <div style="position: absolute; left: -42px; top: 0; width: 22px; height: 22px; background: var(--accent-gold); border-radius: 50%; border: 4px solid var(--bg-dark); box-shadow: 0 0 15px var(--accent-gold);"></div>
-                        <h3 style="color: var(--accent-gold); font-size: 1.2rem; margin-bottom: 5px; font-weight: 800;">Phase 3: 200K Users (TGE & Merger)</h3>
-                        <p class="wp-text" style="margin: 0; font-size: 0.95rem; color: #fff;">The finish line. Web mining halts forever. Strategic corporate merger executes. TGE (Token Generation Event) occurs on BNB/Polygon. Withdrawals and Tier-1 Exchange trading begin simultaneously.</p>
-                    </div>
-                </div>
-            </section>
-
-        </main>
+    <div class="tv-footer-grid">
+      <section class="tv-footer-brand" aria-labelledby="tv-footer-brand-title">
+        <a class="tv-brand" id="tv-footer-brand-title" href="index.html" aria-label="ToolVerse home"><span class="tv-brand-mark" aria-hidden="true">TV</span><span>Tool<b>Verse</b></span></a>
+        <p>Private tools for clearer U.S. money decisions. Plan a scenario, understand the trade-offs, and verify important details before acting.</p>
+        <p class="tv-footer-trust">Free · No account · Runs in your browser</p>
+      </section>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Popular tools">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-popular-tools"><span>Popular Tools</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Popular Tools</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-popular-tools" data-footer-accordion-panel hidden>
+          <a href="index.html#calculator">Affordability Calculator</a>
+          <a href="true-cost-of-renting-calculator.html">True Cost of Renting</a>
+          <a href="salary-needed-for-rent-calculator.html">Salary Needed for Rent</a>
+          <a href="mortgage-payment-calculator.html">Mortgage Payment</a>
+          <a href="home-affordability-calculator.html">Home Affordability</a>
+          <a href="rent-vs-buy-calculator.html">Rent vs Buy</a>
+        </div>
+      </nav>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Decision categories">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-decision-categories"><span>Decision Categories</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Decision Categories</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-decision-categories" data-footer-accordion-panel hidden>
+          <a href="30-percent-rent-rule.html">Rent &amp; Housing</a>
+          <a href="home-affordability-calculator.html">Home Buying</a>
+          <a href="salary-needed-for-rent-calculator.html">Salary &amp; Take-Home Pay</a>
+          <a href="job-offer-take-home-rent-comparison.html">Job &amp; Career</a>
+          <a href="relocation-break-even-calculator.html">Moving &amp; Relocation</a>
+          <a href="roommate-rent-split-calculator.html">Budgeting &amp; Personal Finance</a>
+          <a href="cost-of-living-by-state.html">Cost of Living</a>
+        </div>
+      </nav>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Guides and learning">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-guides-learning"><span>Guides &amp; Learning</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Guides &amp; Learning</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-guides-learning" data-footer-accordion-panel hidden>
+          <a href="what-does-rent-really-cost.html">Renting Guides</a>
+          <a href="how-mortgage-payments-work.html">Home Buying Guides</a>
+          <a href="salary-needed-for-rent-explained.html">Salary Guides</a>
+          <a href="how-to-compare-job-offers-after-taxes-rent.html">Career Guides</a>
+          <a href="how-should-roommates-split-rent-and-utilities.html">Shared Living Guides</a>
+          <a href="index.html#how-it-works">How ToolVerse Works</a>
+        </div>
+      </nav>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Company and trust">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-company-trust"><span>Company &amp; Trust</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Company &amp; Trust</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-company-trust" data-footer-accordion-panel hidden>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="disclaimer.html">Disclaimer</a>
+        </div>
+      </nav>
     </div>
-
-</body>
-</html>
+    <div class="tv-footer-bottom">
+      <p>© <span class="tv-year"></span> ToolVerse. Estimates are educational planning information, not financial, tax, legal, lending, or affordability guarantees.</p>
+      <p>Free · No account · Runs in your browser</p>
+    </div>
+  </div>
+</footer></div></body></html>

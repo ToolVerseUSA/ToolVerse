@@ -139,6 +139,7 @@
   const dismissedKey = 'tv-pwa-install-dismissed';
   let deferredPrompt = null;
   let promptCard = null;
+  let usefulResultSeen = false;
 
   const addStyles = () => {
     if (document.getElementById('tv-pwa-install-styles')) return;
@@ -174,7 +175,7 @@
   };
 
   const showCard = ({ ios = false } = {}) => {
-    if (promptCard || isStandalone() || wasDismissedRecently()) return;
+    if (!usefulResultSeen || promptCard || isStandalone() || wasDismissedRecently()) return;
     addStyles();
     promptCard = document.createElement('aside');
     promptCard.className = 'tv-pwa-install-card';
@@ -204,8 +205,13 @@
   window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();
     deferredPrompt = event;
-    showCard();
+    if (usefulResultSeen) showCard();
   });
+
+  window.addEventListener('toolverse:useful-result', () => {
+    usefulResultSeen = true;
+    showCard({ ios: isIOS });
+  }, { once: true });
 
   window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
@@ -214,7 +220,7 @@
 
   window.addEventListener('load', () => {
     registerServiceWorker();
-    if (isIOS && !isStandalone()) showCard({ ios: true });
+    // Installation is offered only after a useful calculator result.
   }, { once: true });
 })();
 /* ToolVerse fintech centers: additive discovery links for the existing Tools menu. */
