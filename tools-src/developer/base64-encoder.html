@@ -1,0 +1,21 @@
+<p class="disclaimer"><strong>100% private.</strong> Encoding runs locally with built-in browser APIs — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Developer / Code</p>
+<h2>Encode or decode Base64</h2>
+<p class="section-intro">Convert text to Base64 or decode Base64 back to text. Full Unicode support included.</p>
+<div class="form-section">
+<label for="b64-input">Input</label>
+<textarea id="b64-input" rows="6" placeholder="Type text to encode, or Base64 to decode&hellip;" aria-label="Base64 input" style="width:100%;font-family:ui-monospace,monospace"></textarea>
+<div class="tool-actions">
+<button class="button primary" type="button" id="b64-encode">Encode →</button>
+<button class="button" type="button" id="b64-decode">← Decode</button>
+<button class="button" type="button" id="b64-clear">Clear</button>
+</div>
+<p class="form-error" id="b64-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" aria-live="polite">
+<h2>Output</h2>
+<pre id="b64-output" style="white-space:pre-wrap;word-break:break-word;min-height:60px" aria-label="Base64 output"></pre>
+<div class="tool-actions"><button class="button" type="button" id="b64-copy">Copy output</button></div>
+</div>
+</section>

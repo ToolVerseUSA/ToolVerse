@@ -1,0 +1,27 @@
+<p class="disclaimer"><strong>100% private.</strong> This preview renders locally from your input — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">SEO</p>
+<h2>Preview a search result</h2>
+<p class="section-intro">Type a title, URL and meta description to see an approximate Google-style preview with length checks.</p>
+<div class="form-section">
+<div class="tool-grid">
+<label>Page title <span class="optional">(<span id="sp-title-count">0</span>/60)</span><input id="sp-title" type="text" maxlength="120" placeholder="Your page title" aria-label="Page title"></label>
+<label>Page URL<input id="sp-url" type="text" placeholder="https://example.com/page" aria-label="Page URL"></label>
+</div>
+<label for="sp-desc" style="margin-top:12px;display:block">Meta description <span class="optional">(<span id="sp-desc-count">0</span>/160)</span></label>
+<textarea id="sp-desc" rows="3" maxlength="320" placeholder="Your meta description&hellip;" aria-label="Meta description" style="width:100%"></textarea>
+<p class="form-error" id="sp-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" aria-live="polite">
+<h2>Search preview</h2>
+<div class="result-grid-card" style="margin-top:12px">
+<div style="font-size:14px;color:#b8c9df" id="sp-prev-url">example.com</div>
+<div style="font-size:20px;color:#8ab4f8;margin:4px 0" id="sp-prev-title">Your page title</div>
+<div style="font-size:14px;color:#b8c9df" id="sp-prev-desc">Your meta description will appear here.</div>
+</div>
+<div class="result-summary" style="margin-top:14px">
+<span id="sp-check-title">Title: —</span>
+<span id="sp-check-desc">Description: —</span>
+</div>
+</div>
+</section>

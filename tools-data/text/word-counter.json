@@ -1,0 +1,54 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Working with structured text? Try the JSON formatter next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "All counting happens locally in your browser. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Your text never leaves this page",
+  "category": "text",
+  "categoryLabel": "Text & Writing",
+  "contentRef": "tools-src/text/word-counter.html",
+  "faq": [
+    {
+      "a": "No. The word counter runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.",
+      "q": "Is my text sent to a server?"
+    },
+    {
+      "a": "Words are sequences of characters separated by whitespace. Hyphenated compounds count as one word, matching the convention used by most word processors.",
+      "q": "How are words counted?"
+    },
+    {
+      "a": "Reading time assumes an average adult reading speed of 200 words per minute and is rounded up to the nearest minute.",
+      "q": "How is reading time estimated?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Count words, characters, sentences and reading time \u2014 instantly and privately in your browser.",
+  "heroTitle": "Word Counter",
+  "id": "word-counter",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "word counter",
+    "character counter",
+    "word count tool",
+    "count words online",
+    "reading time calculator",
+    "sentence counter"
+  ],
+  "logicRef": "tools-src/text/word-counter.js",
+  "metaDescription": "Free online word counter. Count words, characters, sentences and reading time instantly in your browser \u2014 text never leaves your device.",
+  "relatedTools": [
+    "json-formatter"
+  ],
+  "slug": "word-counter",
+  "title": "Word Counter \u2014 Count Words, Characters & Reading Time | ToolVerse",
+  "version": "1.0.0"
+}

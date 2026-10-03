@@ -1,0 +1,31 @@
+<p class="disclaimer"><strong>100% private.</strong> Your text is counted entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Text &amp; Writing</p>
+<h2>Count words as you type</h2>
+<p class="section-intro">Paste or type text below to see live word, character, sentence and paragraph counts.</p>
+<div class="form-section">
+<label for="wc-input">Your text</label>
+<textarea id="wc-input" rows="8" placeholder="Type or paste your text here&hellip;" aria-label="Text to analyze" style="width:100%;min-height:160px"></textarea>
+<div class="tool-actions">
+<button class="button" type="button" id="wc-clear">Clear</button>
+<button class="button primary" type="button" id="wc-copy">Copy results</button>
+</div>
+<p class="form-error" id="wc-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="wc-result" aria-live="polite">
+<h2>Live counts</h2>
+<p class="result-lede">Start typing to see your counts update instantly.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Words &amp; characters</h3><dl>
+<div><dt>Words</dt><dd id="wc-words">0</dd></div>
+<div><dt>Characters</dt><dd id="wc-chars">0</dd></div>
+<div><dt>Characters (no spaces)</dt><dd id="wc-chars-nospace">0</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Structure &amp; reading</h3><dl>
+<div><dt>Sentences</dt><dd id="wc-sentences">0</dd></div>
+<div><dt>Paragraphs</dt><dd id="wc-paragraphs">0</dd></div>
+<div><dt>Reading time</dt><dd id="wc-reading">&lt; 1 min</dd></div>
+</dl></div>
+</div>
+</div>
+</section>

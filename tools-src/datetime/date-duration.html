@@ -1,0 +1,32 @@
+<p class="disclaimer"><strong>100% private.</strong> All date math runs in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Date / Time</p>
+<h2>Duration between two dates</h2>
+<p class="section-intro">Pick a start and end date to see the exact calendar duration and totals.</p>
+<form id="dd-form" novalidate>
+<fieldset class="form-section"><legend>Dates</legend>
+<div class="tool-grid">
+<label>Start date<input id="dd-start" type="date" aria-label="Start date"></label>
+<label>End date<input id="dd-end" type="date" aria-label="End date"></label>
+</div>
+</fieldset>
+<p class="form-error" id="dd-error" hidden aria-live="polite"></p>
+<div class="tool-actions"><button class="button primary" type="submit">Calculate</button></div>
+</form>
+<div class="tool-result" id="dd-result" aria-live="polite" tabindex="-1" hidden>
+<h2>Duration</h2>
+<p class="result-lede" id="dd-lede"></p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Calendar breakdown</h3><dl>
+<div><dt>Years</dt><dd id="dd-years">—</dd></div>
+<div><dt>Months</dt><dd id="dd-months">—</dd></div>
+<div><dt>Days</dt><dd id="dd-days">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Totals</h3><dl>
+<div><dt>Total days</dt><dd id="dd-total-days">—</dd></div>
+<div><dt>Total weeks</dt><dd id="dd-weeks">—</dd></div>
+<div><dt>Total hours</dt><dd id="dd-hours">—</dd></div>
+</dl></div>
+</div>
+</div>
+</section>

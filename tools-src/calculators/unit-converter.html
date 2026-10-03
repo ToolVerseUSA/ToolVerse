@@ -1,0 +1,37 @@
+<p class="disclaimer"><strong>100% private.</strong> Every conversion runs in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Calculators</p>
+<h2>Convert units instantly</h2>
+<p class="section-intro">Pick a category, enter an amount, and convert between metric and imperial units.</p>
+<form id="uc-form" novalidate>
+<fieldset class="form-section"><legend>Conversion</legend>
+<div class="tool-grid">
+<label>Category
+<select id="uc-category" aria-label="Unit category">
+<option value="length">Length</option>
+<option value="weight">Weight</option>
+<option value="temperature">Temperature</option>
+</select></label>
+<label>Amount
+<input id="uc-amount" name="amount" type="number" inputmode="decimal" step="any" value="1" aria-label="Amount to convert"></label>
+<label>From
+<select id="uc-from" aria-label="Convert from unit"></select></label>
+<label>To
+<select id="uc-to" aria-label="Convert to unit"></select></label>
+</div>
+</fieldset>
+<p class="form-error" id="uc-error" hidden aria-live="polite"></p>
+<div class="tool-actions"><button class="button primary" type="submit">Convert</button></div>
+</form>
+<div class="tool-result" id="uc-result" aria-live="polite" tabindex="-1" hidden>
+<h2>Result</h2>
+<p class="result-lede" id="uc-lede"></p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Converted value</h3><dl>
+<div><dt>Input</dt><dd id="uc-input-echo">—</dd></div>
+<div><dt>Result</dt><dd id="uc-output">—</dd></div>
+<div><dt>Formula</dt><dd id="uc-formula">—</dd></div>
+</dl></div>
+</div>
+</div>
+</section>
