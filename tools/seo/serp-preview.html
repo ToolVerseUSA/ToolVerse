@@ -10,7 +10,7 @@
 <meta property="og:url" content="https://toolverseusa.github.io/ToolVerse/tools/seo/serp-preview.html">
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="SERP Preview Tool — Google Search Result Preview | ToolVerse"><meta name="twitter:description" content="Free SERP preview tool. See how your title and meta description could appear in Google results, with length checks — all in your browser.">
   <link rel="canonical" href="https://toolverseusa.github.io/ToolVerse/tools/seo/serp-preview.html"><title>SERP Preview Tool — Google Search Result Preview | ToolVerse</title>
-  <link rel="icon" href="/ToolVerse/favicon.svg" type="image/svg+xml"><link rel="icon" href="/ToolVerse/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="192x192" href="/ToolVerse/favicon-192.png"><link rel="apple-touch-icon" sizes="180x180" href="/ToolVerse/apple-touch-icon.png"><link rel="manifest" href="/ToolVerse/site.webmanifest"><link rel="stylesheet" href="/ToolVerse/guides.css">
+  <link rel="icon" href="/ToolVerse/favicon.svg" type="image/svg+xml"><link rel="icon" href="/ToolVerse/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="192x192" href="/ToolVerse/favicon-192.png"><link rel="apple-touch-icon" sizes="180x180" href="/ToolVerse/apple-touch-icon.png"><link rel="manifest" href="/ToolVerse/site.webmanifest"><link rel="stylesheet" href="/ToolVerse/guides.css"><link rel="stylesheet" href="/ToolVerse/tools/assets/tools-fields.css">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -128,11 +128,11 @@
 <p class="section-intro">Type a title, URL and meta description to see an approximate Google-style preview with length checks.</p>
 <div class="form-section">
 <div class="tool-grid">
-<label>Page title <span class="optional">(<span id="sp-title-count">0</span>/60)</span><input id="sp-title" type="text" maxlength="120" placeholder="Your page title" aria-label="Page title"></label>
-<label>Page URL<input id="sp-url" type="text" placeholder="https://example.com/page" aria-label="Page URL"></label>
+<label>Page title <span class="optional">(<span id="sp-title-count">0</span>/60)</span><input class="tv-field" id="sp-title" type="text" maxlength="120" placeholder="Your page title" aria-label="Page title"></label>
+<label>Page URL<input class="tv-field" id="sp-url" type="text" placeholder="https://example.com/page" aria-label="Page URL"></label>
 </div>
 <label for="sp-desc" style="margin-top:12px;display:block">Meta description <span class="optional">(<span id="sp-desc-count">0</span>/160)</span></label>
-<textarea id="sp-desc" rows="3" maxlength="320" placeholder="Your meta description&hellip;" aria-label="Meta description" style="width:100%"></textarea>
+<textarea class="tv-field" id="sp-desc" rows="3" maxlength="320" placeholder="Your meta description&hellip;" aria-label="Meta description" style="width:100%"></textarea>
 <p class="form-error" id="sp-error" hidden aria-live="polite"></p>
 </div>
 <div class="tool-result" aria-live="polite">
