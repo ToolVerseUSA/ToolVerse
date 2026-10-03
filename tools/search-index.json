@@ -1,0 +1,162 @@
+[
+  {
+    "id": "unit-converter",
+    "slug": "unit-converter",
+    "title": "Unit Converter — Length, Weight & Temperature",
+    "description": "Free unit converter. Convert length, weight and temperature between metric and imperial units instantly in your browser — no data leaves your device.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "unit converter",
+      "length converter",
+      "weight converter",
+      "temperature converter",
+      "metric to imperial",
+      "km to miles",
+      "celsius to fahrenheit"
+    ],
+    "url": "/ToolVerse/tools/calculators/unit-converter.html"
+  },
+  {
+    "id": "csv-to-json",
+    "slug": "csv-to-json",
+    "title": "CSV to JSON Converter — Convert CSV Online",
+    "description": "Free CSV to JSON converter. Turn CSV data into JSON instantly in your browser — your data never leaves your device.",
+    "category": "data",
+    "categoryLabel": "JSON / CSV / Data",
+    "keywords": [
+      "csv to json",
+      "convert csv to json",
+      "csv converter",
+      "csv parser online"
+    ],
+    "url": "/ToolVerse/tools/data/csv-to-json.html"
+  },
+  {
+    "id": "date-duration",
+    "slug": "date-duration",
+    "title": "Date Duration Calculator — Days Between Dates",
+    "description": "Free date duration calculator. Find years, months, days and total days between two dates — calculated locally in your browser.",
+    "category": "datetime",
+    "categoryLabel": "Date / Time",
+    "keywords": [
+      "date duration calculator",
+      "days between dates",
+      "date difference calculator",
+      "how many days between dates"
+    ],
+    "url": "/ToolVerse/tools/datetime/date-duration.html"
+  },
+  {
+    "id": "base64-encoder",
+    "slug": "base64-encoder",
+    "title": "Base64 Encoder & Decoder — Encode Online",
+    "description": "Free Base64 encoder and decoder. Convert text to Base64 and back instantly in your browser, with full Unicode support.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "base64 encoder",
+      "base64 decoder",
+      "encode base64 online",
+      "decode base64"
+    ],
+    "url": "/ToolVerse/tools/developer/base64-encoder.html"
+  },
+  {
+    "id": "json-formatter",
+    "slug": "json-formatter",
+    "title": "JSON Formatter & Validator — Pretty-Print JSON Online",
+    "description": "Free JSON formatter and validator. Pretty-print, minify and validate JSON instantly in your browser — your data never leaves your device.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "json formatter",
+      "json validator",
+      "json pretty print",
+      "json minify",
+      "format json online",
+      "validate json"
+    ],
+    "url": "/ToolVerse/tools/developer/json-formatter.html"
+  },
+  {
+    "id": "image-compressor",
+    "slug": "image-compressor",
+    "title": "Image Compressor — Reduce Image File Size Online",
+    "description": "Free image compressor. Reduce JPEG and PNG file size in your browser by resizing and adjusting quality. Your images never leave your device.",
+    "category": "image",
+    "categoryLabel": "Image",
+    "keywords": [
+      "image compressor",
+      "compress image online",
+      "reduce image size",
+      "jpeg optimizer",
+      "image resizer",
+      "compress png"
+    ],
+    "url": "/ToolVerse/tools/image/image-compressor.html"
+  },
+  {
+    "id": "password-generator",
+    "slug": "password-generator",
+    "title": "Password Generator — Strong Random Passwords",
+    "description": "Free password generator. Create strong random passwords with your browser's secure generator — nothing is sent or stored.",
+    "category": "privacy",
+    "categoryLabel": "Privacy / Security",
+    "keywords": [
+      "password generator",
+      "strong password generator",
+      "random password",
+      "secure password generator"
+    ],
+    "url": "/ToolVerse/tools/privacy/password-generator.html"
+  },
+  {
+    "id": "serp-preview",
+    "slug": "serp-preview",
+    "title": "SERP Preview Tool — Google Search Result Preview",
+    "description": "Free SERP preview tool. See how your title and meta description could appear in Google results, with length checks — all in your browser.",
+    "category": "seo",
+    "categoryLabel": "SEO",
+    "keywords": [
+      "serp preview",
+      "google preview tool",
+      "meta title checker",
+      "search result preview",
+      "seo title checker"
+    ],
+    "url": "/ToolVerse/tools/seo/serp-preview.html"
+  },
+  {
+    "id": "case-converter",
+    "slug": "case-converter",
+    "title": "Case Converter — Change Text Case Online",
+    "description": "Free case converter. Change text to UPPERCASE, lowercase, Title Case and more instantly in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "case converter",
+      "uppercase converter",
+      "title case converter",
+      "change text case online"
+    ],
+    "url": "/ToolVerse/tools/text/case-converter.html"
+  },
+  {
+    "id": "word-counter",
+    "slug": "word-counter",
+    "title": "Word Counter — Count Words, Characters & Reading Time",
+    "description": "Free online word counter. Count words, characters, sentences and reading time instantly in your browser — text never leaves your device.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "word counter",
+      "character counter",
+      "word count tool",
+      "count words online",
+      "reading time calculator",
+      "sentence counter"
+    ],
+    "url": "/ToolVerse/tools/text/word-counter.html"
+  }
+]
