@@ -10,7 +10,7 @@
 <meta property="og:url" content="https://toolverseusa.github.io/ToolVerse/tools/image/image-compressor.html">
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Image Compressor — Reduce Image File Size Online | ToolVerse"><meta name="twitter:description" content="Free image compressor. Reduce JPEG and PNG file size in your browser by resizing and adjusting quality. Your images never leave your device.">
   <link rel="canonical" href="https://toolverseusa.github.io/ToolVerse/tools/image/image-compressor.html"><title>Image Compressor — Reduce Image File Size Online | ToolVerse</title>
-  <link rel="icon" href="/ToolVerse/favicon.svg" type="image/svg+xml"><link rel="icon" href="/ToolVerse/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="192x192" href="/ToolVerse/favicon-192.png"><link rel="apple-touch-icon" sizes="180x180" href="/ToolVerse/apple-touch-icon.png"><link rel="manifest" href="/ToolVerse/site.webmanifest"><link rel="stylesheet" href="/ToolVerse/guides.css">
+  <link rel="icon" href="/ToolVerse/favicon.svg" type="image/svg+xml"><link rel="icon" href="/ToolVerse/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="192x192" href="/ToolVerse/favicon-192.png"><link rel="apple-touch-icon" sizes="180x180" href="/ToolVerse/apple-touch-icon.png"><link rel="manifest" href="/ToolVerse/site.webmanifest"><link rel="stylesheet" href="/ToolVerse/guides.css"><link rel="stylesheet" href="/ToolVerse/tools/assets/tools-fields.css">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -131,7 +131,7 @@
 <input id="ic-file" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Image file" style="width:100%;min-width:0">
 <div class="tool-grid" style="margin-top:14px">
 <label>Quality: <span id="ic-quality-label">80</span><input id="ic-quality" type="range" min="10" max="100" value="80" aria-label="JPEG quality"></label>
-<label>Max width (px, 0 = keep original)<input id="ic-maxwidth" type="number" min="0" step="50" value="1600" aria-label="Max width in pixels"></label>
+<label>Max width (px, 0 = keep original)<input class="tv-field" id="ic-maxwidth" type="number" min="0" step="50" value="1600" aria-label="Max width in pixels"></label>
 </div>
 <div class="tool-actions"><button class="button primary" type="button" id="ic-compress">Compress</button></div>
 <p class="form-error" id="ic-error" hidden aria-live="polite"></p>
