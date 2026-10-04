@@ -1,15 +1,21 @@
 #!/usr/bin/env node
 /**
- * Phase 1 — ToolVerse browser-tools static generator (zero-framework).
+ * ToolVerse browser-tools static generator (zero-framework).
+ * Phases 1–2: tool pages, hub, search index, tools sitemap.
+ * Phase 3: category landing pages + the marked "Free Online Tools"
+ * section on the homepage.
  *
  * Reads tool definitions from tools-data (nested by category), validates them, and
  * generates static HTML pages under tools/<category>/<slug>.html plus:
+ *   - tools/<category>/index.html (category landing page per used category)
  *   - tools/index.html        (hub: categories + search entry)
  *   - tools/search-index.json (client-side search data)
  *   - tools/sitemap-tools.xml (standalone sitemap for the new tools)
+ *   - index.html              (ONLY the section between the TV-TOOLS-SECTION
+ *                              markers is regenerated; nothing else is touched)
  *
- * SAFETY: this script only writes inside tools/, templates/, scripts/ and
- * tools-data/ conceptually — it never touches existing site files.
+ * SAFETY: apart from that one marked homepage section, this script only
+ * writes inside tools/ — it never touches other existing site files.
  * Run: node scripts/build-tools.mjs   (from the repo root)
  */
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
@@ -158,6 +164,200 @@ function relatedSectionHtml(def, registry) {
   return `<section><h2>Related tools</h2><ul class="link-list">\n${items}\n</ul></section>`;
 }
 
+// ------------------------------------------------------- category pages
+// SEO copy for category landing pages. Tool lists themselves always come
+// from the tool definitions — this map only holds per-category wording.
+// A category without an entry still gets a page (generic copy + warning).
+const CATEGORY_META = {
+  text: {
+    title: 'Free Text & Writing Tools Online | ToolVerse',
+    description: 'Free text and writing tools that run in your browser: count words and characters, change text case, and more — no uploads, no sign-up.',
+    intro: 'Count, convert and clean up text instantly. Everything runs locally in your browser, so your writing never leaves your device.'
+  },
+  developer: {
+    title: 'Free Developer Tools Online | ToolVerse',
+    description: 'Free developer tools that run in your browser: format and validate JSON, encode and decode Base64, and more — your code never leaves your device.',
+    intro: 'Small, fast utilities for everyday coding tasks. Paste, convert and validate locally — nothing is sent to a server.'
+  },
+  calculators: {
+    title: 'Free Online Calculators & Converters | ToolVerse',
+    description: 'Free online calculators and converters that run in your browser: convert units instantly with no downloads, uploads, or sign-up.',
+    intro: 'Quick conversions and calculations with instant results, calculated locally in your browser.'
+  },
+  image: {
+    title: 'Free Image Tools Online | ToolVerse',
+    description: 'Free image tools that run in your browser: compress and resize images to reduce file size — your images never leave your device.',
+    intro: 'Shrink image file sizes for the web, email and uploads — processed entirely on your device, never uploaded.'
+  },
+  seo: {
+    title: 'Free SEO Tools Online | ToolVerse',
+    description: 'Free SEO tools that run in your browser: preview how your pages appear in Google search results and check title and description lengths.',
+    intro: 'See your pages the way searchers do, and fix titles and descriptions before you publish.'
+  },
+  data: {
+    title: 'Free Data Tools Online | ToolVerse',
+    description: 'Free data tools that run in your browser: convert CSV to JSON and work with structured data — your files never leave your device.',
+    intro: 'Convert and reshape structured data in seconds, entirely in your browser.'
+  },
+  privacy: {
+    title: 'Free Privacy & Security Tools Online | ToolVerse',
+    description: 'Free privacy and security tools that run in your browser: generate strong random passwords locally — nothing is sent or stored.',
+    intro: 'Security tools that work locally by design. Generated values are created on your device and never transmitted or logged.'
+  },
+  datetime: {
+    title: 'Free Date & Time Tools Online | ToolVerse',
+    description: 'Free date and time tools that run in your browser: calculate the duration and number of days between two dates instantly, with no sign-up.',
+    intro: 'Work out durations, deadlines and days between dates instantly, calculated locally in your browser.'
+  }
+};
+
+function categoryMeta(slug, label) {
+  if (CATEGORY_META[slug]) return CATEGORY_META[slug];
+  warn(`category "${slug}" has no CATEGORY_META entry — using generic copy`);
+  return {
+    title: `Free ${label} Tools Online | ToolVerse`,
+    description: `Free ${label} tools that run 100% in your browser — no uploads, no accounts, no sign-up.`,
+    intro: `Every ${label} tool below runs entirely in your browser. Nothing is uploaded, stored, or sent anywhere.`
+  };
+}
+
+function jsonLdCategory(slug, label, meta, tools) {
+  const url = `${SITE_URL}/tools/${slug}/`;
+  const graph = [
+    {
+      '@type': 'WebPage',
+      name: meta.title,
+      url,
+      description: meta.description,
+      isPartOf: { '@type': 'WebSite', name: 'ToolVerse', url: SITE_URL + '/' }
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL + '/' },
+        { '@type': 'ListItem', position: 2, name: 'Tools', item: SITE_URL + '/tools/' },
+        { '@type': 'ListItem', position: 3, name: label, item: url }
+      ]
+    },
+    {
+      '@type': 'ItemList',
+      name: `${label} tools`,
+      itemListElement: tools.map((t, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: t.title.replace(/\s*\|\s*ToolVerse\s*$/, ''),
+        url: `${SITE_URL}/tools/${t.category}/${t.slug}.html`
+      }))
+    }
+  ];
+  return `<script type="application/ld+json">\n${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)}\n</script>`;
+}
+
+function renderCategoryPage(slug, cat, allCats, template) {
+  const label = cat.label;
+  const meta = categoryMeta(slug, label);
+  const url = `${SITE_URL}/tools/${slug}/`;
+
+  const cards = cat.tools
+    .map((t) => {
+      const short = t.title.replace(/\s*\|\s*ToolVerse\s*$/, '');
+      const toolUrl = `/ToolVerse/tools/${t.category}/${t.slug}.html`;
+      return `<div class="result-grid-card"><h3><a href="${toolUrl}">${escHtml(short)}</a></h3><p>${escHtml(t.metaDescription)}</p><p><a href="${toolUrl}">Use Tool &rarr;</a></p></div>`;
+    })
+    .join('\n');
+
+  const otherCats = [...allCats.entries()]
+    .filter(([s]) => s !== slug)
+    .map(([s, c]) => `<li><a href="/ToolVerse/tools/${escAttr(s)}/">${escHtml(c.label)} tools</a></li>`)
+    .join('\n');
+
+  const content = `
+<p class="disclaimer"><strong>100% private.</strong> Every ${escHtml(label)} tool below runs entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">${escHtml(label)}</p>
+<h2>${escHtml(label)} tools</h2>
+<p class="section-intro">${escHtml(meta.intro)}</p>
+<div class="result-grid">
+${cards}
+</div>
+</section>
+<section><h2>More tool categories</h2><ul class="link-list">
+<li><a href="/ToolVerse/tools/">All browser tools</a></li>
+${otherCats}
+</ul></section>`;
+
+  const catDef = { id: `__cat_${slug}`, title: meta.title, metaDescription: meta.description, categoryLabel: label, category: slug };
+  const replacements = {
+    '{{PAGE_TITLE}}': `<title>${escHtml(meta.title)}</title>`,
+    '{{META_DESCRIPTION}}': `<meta name="description" content="${escAttr(meta.description)}">`,
+    '{{TWITTER_TITLE}}': `<meta name="twitter:title" content="${escAttr(meta.title)}">`,
+    '{{TWITTER_DESCRIPTION}}': `<meta name="twitter:description" content="${escAttr(meta.description)}">`,
+    '{{CANONICAL_LINK}}': `<link rel="canonical" href="${url}">`,
+    '{{OG_TAGS}}': ogTagsFor(catDef, url),
+    '{{JSON_LD}}': jsonLdCategory(slug, label, meta, cat.tools),
+    '{{HERO_BADGE}}': 'Free browser tools',
+    '{{HERO_H1}}': `${escHtml(label)} Tools`,
+    '{{HERO_SUB}}': escHtml(meta.intro),
+    '{{TOOL_CONTENT}}': content,
+    '{{ASIDE_BADGE}}': 'Private by design',
+    '{{ASIDE_TITLE}}': 'Your data stays on your device',
+    '{{ASIDE_TEXT}}': 'ToolVerse browser tools run 100% locally in your browser. Nothing you enter is uploaded, stored, or tracked.',
+    '{{ASIDE_LINK_URL}}': '/ToolVerse/tools/',
+    '{{ASIDE_LINK_TEXT}}': 'Browse all tools',
+    '{{ASIDE_NEXT_TITLE}}': 'Your next step',
+    '{{ASIDE_NEXT_TEXT}}': 'Pick a tool above, or explore the full tools hub to search every category.',
+    '{{PAGE_SCRIPTS}}': `<script defer src="/ToolVerse/tools/assets/tools-analytics.js"></script>`,
+    '{{TOOL_SCRIPT}}': ''
+  };
+  let out = template;
+  // breadcrumb for a category page ends at the category itself
+  out = out.replace(
+    /<nav class="tool-breadcrumb"[\s\S]*?<\/nav>/,
+    `<nav class="tool-breadcrumb" aria-label="Breadcrumb">\n<a href="/ToolVerse/">Home</a> &rsaquo; <a href="/ToolVerse/tools/">Tools</a> &rsaquo; <span aria-current="page">${escHtml(label)}</span>\n</nav>`
+  );
+  for (const [token, value] of Object.entries(replacements)) {
+    out = out.split(token).join(value);
+  }
+  const leftover = out.match(/\{\{[A-Z_]+\}\}/);
+  if (leftover) fail(`category ${slug}: unreplaced token ${leftover[0]}`);
+  return out;
+}
+
+// ------------------------------------------------------- homepage section
+// The homepage (index.html) is a protected production file. The generator
+// owns ONLY the block between the TV-TOOLS-SECTION markers; on first run
+// the block is inserted immediately before the decision-paths section.
+const HOME_ANCHOR = '<section id="decision-paths"';
+
+function renderHomepageSection(defs) {
+  const cards = defs
+    .map((t) => {
+      const short = t.title.replace(/\s*\|\s*ToolVerse\s*$/, '');
+      return `<a class="focus-ring rounded-2xl border border-white/10 bg-slate-950/25 p-5 transition hover:border-violet-300/40 hover:bg-violet-300/[.06]" href="/ToolVerse/tools/${t.category}/${t.slug}.html"><span class="text-[11px] font-semibold uppercase tracking-[.16em] text-cyan-200">${escHtml(t.categoryLabel)}</span><span class="mt-2 block text-base font-bold text-white">${escHtml(short)}</span><span class="mt-2 block text-sm leading-6 text-slate-400">${escHtml(t.heroSubtitle)}</span><span class="mt-3 block text-sm font-semibold text-cyan-200">Use Tool <span aria-hidden="true">&rarr;</span></span></a>`;
+    })
+    .join('');
+  return `<section id="free-online-tools" class="mx-auto mt-6 max-w-6xl rounded-3xl border border-white/10 bg-white/[.025] p-6 sm:p-8" aria-labelledby="free-online-tools-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-violet-300">Browser tools</p><h2 id="free-online-tools-title" class="mt-3 text-2xl font-bold text-white">Free Online Tools</h2><p class="mt-2 max-w-3xl text-sm leading-6 text-slate-400">Fast, private browser-based tools for text, developer, data, image, SEO, calculations and more. No sign-up required.</p><div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">${cards}</div><p class="mt-6 text-sm"><a class="font-semibold text-cyan-200 underline" href="/ToolVerse/tools/">Browse all browser tools <span aria-hidden="true">&rarr;</span></a></p></section>`;
+}
+
+function updateHomepageSection(defs, written) {
+  const path = join(ROOT, 'index.html');
+  let html = readFileSync(path, 'utf8');
+  const block =
+    `<!-- TV-TOOLS-SECTION:START — generated by scripts/build-tools.mjs from tools-data/; do not hand-edit -->\n` +
+    `      ${renderHomepageSection(defs)}\n` +
+    `      <!-- TV-TOOLS-SECTION:END -->`;
+  if (html.includes('TV-TOOLS-SECTION:START')) {
+    html = html.replace(/<!-- TV-TOOLS-SECTION:START[\s\S]*?<!-- TV-TOOLS-SECTION:END -->/, () => block);
+  } else if (html.includes(HOME_ANCHOR)) {
+    html = html.replace(HOME_ANCHOR, () => `${block}\n      ${HOME_ANCHOR}`);
+  } else {
+    fail('index.html: TV-TOOLS-SECTION markers and decision-paths anchor both missing — homepage section NOT inserted');
+    return;
+  }
+  writeFileSync(path, html);
+  written.push('index.html (Free Online Tools section)');
+}
+
 function renderToolPage(def, template, registry) {
   const url = `${SITE_URL}/tools/${def.category}/${def.slug}.html`;
   const content = readFileSync(join(ROOT, def.contentRef), 'utf8');
@@ -206,7 +406,7 @@ function renderToolPage(def, template, registry) {
 
 // ---------------------------------------------------------------------- main
 function main() {
-  console.log('ToolVerse Phase 1 build — reading definitions…');
+  console.log('ToolVerse tools build — reading definitions…');
   const template = readFileSync(join(ROOT, 'templates', 'tool-shell.html'), 'utf8');
   const files = collectJson(join(ROOT, 'tools-data')).sort();
   if (files.length === 0) fail('no tool definitions found in tools-data/');
@@ -255,6 +455,20 @@ function main() {
     written.push(`tools/${d.category}/${d.slug}.html`);
   }
 
+  // category landing pages (one per category actually used by a tool)
+  const byCat = new Map();
+  for (const d of defs) {
+    if (!byCat.has(d.category)) byCat.set(d.category, { label: d.categoryLabel, tools: [] });
+    byCat.get(d.category).tools.push(d);
+  }
+  for (const [slug, cat] of byCat) {
+    const html = renderCategoryPage(slug, cat, byCat, template);
+    const dir = join(ROOT, 'tools', slug);
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, 'index.html'), html);
+    written.push(`tools/${slug}/index.html`);
+  }
+
   // hub page
   const hubHtml = renderHub(defs, template);
   mkdirSync(join(ROOT, 'tools'), { recursive: true });
@@ -278,6 +492,7 @@ function main() {
   // standalone sitemap for the new tools (existing sitemap.xml untouched)
   const urls = [
     `${SITE_URL}/tools/`,
+    ...[...byCat.keys()].map((slug) => `${SITE_URL}/tools/${slug}/`),
     ...defs.map((d) => `${SITE_URL}/tools/${d.category}/${d.slug}.html`)
   ];
   const sitemap =
@@ -286,6 +501,14 @@ function main() {
     `\n</urlset>\n`;
   writeFileSync(join(ROOT, 'tools', 'sitemap-tools.xml'), sitemap);
   written.push('tools/sitemap-tools.xml');
+
+  // homepage: refresh ONLY the marked Free Online Tools section
+  updateHomepageSection(defs, written);
+
+  if (failures > 0) {
+    console.error(`\nBUILD FAILED with ${failures} error(s).`);
+    process.exit(1);
+  }
 
   console.log(`\nBUILD OK — ${defs.length} tool(s), ${written.length} file(s) written:`);
   for (const w of written) console.log('  + ' + w);

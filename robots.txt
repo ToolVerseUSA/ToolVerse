@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 Sitemap: https://toolverseusa.github.io/ToolVerse/sitemap.xml
+Sitemap: https://toolverseusa.github.io/ToolVerse/tools/sitemap-tools.xml
