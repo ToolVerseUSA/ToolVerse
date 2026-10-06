@@ -149,12 +149,20 @@
 </div>
 </section>
 
+<section><h2>When NOT to use SERP Preview Tool</h2><ul>
+<li>The preview is an approximation — Google rewrites titles and descriptions and truncates differently on each device.</li>
+<li>It doesn't measure rankings, competitors, or click-through rates; use Search Console data for that.</li>
+</ul></section>
 <section class="faq-section"><h2>Questions people ask</h2>
 <details><summary>How long should my title and description be?</summary><p>Google typically shows around 50-60 characters of the title and about 150-160 of the description, but it varies by device and pixel width. This tool flags when you go over common limits.</p></details>
 <details><summary>Is my content sent anywhere?</summary><p>No. Everything renders locally in your browser from the text you type. Nothing is uploaded.</p></details>
 <details><summary>How accurate is the preview?</summary><p>It is an approximation using common character limits. Google may rewrite titles and descriptions, so treat this as a planning preview, not a guarantee.</p></details>
 </section>
 
+<section class="tv-share"><h2>Share this tool</h2><p>Found it useful? Share it with someone who needs it — the tool is free and runs entirely in the browser.</p><p><button type="button" class="tv-share-btn" data-share-tool>Share / copy link</button> <span class="tv-share-note" data-share-note aria-live="polite"></span></p></section>
+<script>
+(function(){var b=document.querySelector('[data-share-tool]');if(!b)return;var n=document.querySelector('[data-share-note]');b.addEventListener('click',function(){var url=window.location.href;function done(msg){if(n)n.textContent=msg;}if(navigator.share){navigator.share({title:document.title,url:url}).then(function(){done('Thanks for sharing.');}).catch(function(){});}else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){done('Link copied to clipboard.');}).catch(function(){done('Copy this page URL from the address bar to share.');});}else{done('Copy this page URL from the address bar to share.');}});})();
+</script>
 </main>
 <aside class="side-card"><span class="badge">Private by design</span><h2>Previewed locally</h2><p>The preview renders locally from your input. Nothing is sent or stored anywhere.</p><a class="button" href="/ToolVerse/tools/">Browse all tools</a><section class="next-decision"><p class="next-decision-title">Your next step</p><p class="next-decision-copy">Publishing content? Check its length with the word counter.</p></section></aside>
 </div>
