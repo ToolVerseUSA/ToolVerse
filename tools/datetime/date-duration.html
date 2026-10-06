@@ -154,14 +154,22 @@
 </div>
 </section>
 
+<section><h2>When NOT to use Date Duration Calculator</h2><ul>
+<li>It counts calendar days, not business days — weekends and public holidays are included.</li>
+<li>Legal or contractual deadlines can follow court rules and time-zone conventions; verify those with the relevant authority.</li>
+</ul></section>
 <section class="faq-section"><h2>Questions people ask</h2>
 <details><summary>How are years and months calculated?</summary><p>Years and months use calendar math (same day-of-month), so results follow the real calendar including leap years. Total days is exact.</p></details>
 <details><summary>Does daylight saving time affect results?</summary><p>Yes — dates are handled in your local timezone at midnight, so daylight-saving transitions do not skew day counts.</p></details>
 <details><summary>Are my dates sent anywhere?</summary><p>No. All calculations run locally in your browser. Nothing is sent or stored.</p></details>
 </section>
-<section><h2>Related tools</h2><ul class="link-list">
-<li><a href="https://toolverseusa.github.io/ToolVerse/tools/calculators/unit-converter.html">Unit Converter — Length, Weight &amp; Temperature</a></li>
-</ul></section>
+<section><h2>Related tools</h2><div class="tv-card-grid">
+<a class="tv-tool-card" href="/ToolVerse/tools/calculators/unit-converter.html"><span class="tv-tool-card-main"><span class="tv-tool-card-name">Unit Converter — Length, Weight &amp; Temperature</span><span class="tv-tool-card-cat">Calculators</span></span><span class="tv-badge tv-badge-popular">Popular</span></a>
+</div></section>
+<section class="tv-share"><h2>Share this tool</h2><p>Found it useful? Share it with someone who needs it — the tool is free and runs entirely in the browser.</p><p><button type="button" class="tv-share-btn" data-share-tool>Share / copy link</button> <span class="tv-share-note" data-share-note aria-live="polite"></span></p></section>
+<script>
+(function(){var b=document.querySelector('[data-share-tool]');if(!b)return;var n=document.querySelector('[data-share-note]');b.addEventListener('click',function(){var url=window.location.href;function done(msg){if(n)n.textContent=msg;}if(navigator.share){navigator.share({title:document.title,url:url}).then(function(){done('Thanks for sharing.');}).catch(function(){});}else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){done('Link copied to clipboard.');}).catch(function(){done('Copy this page URL from the address bar to share.');});}else{done('Copy this page URL from the address bar to share.');}});})();
+</script>
 </main>
 <aside class="side-card"><span class="badge">Private by design</span><h2>Calculated locally</h2><p>All date math runs locally in your browser. Nothing is uploaded or stored.</p><a class="button" href="/ToolVerse/tools/">Browse all tools</a><section class="next-decision"><p class="next-decision-title">Your next step</p><p class="next-decision-copy">Converting measurements instead? Try the unit converter.</p></section></aside>
 </div>
