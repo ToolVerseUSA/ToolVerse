@@ -50,5 +50,9 @@
   ],
   "slug": "word-counter",
   "title": "Word Counter \u2014 Count Words, Characters & Reading Time | ToolVerse",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Don't rely on it where an exact official count matters \u2014 hyphenated words, numbers and footnote text are counted differently by some style guides and word processors.",
+    "If a document must keep its formatting (tables, footnotes, tracked changes), count it in the original editor instead."
+  ]
 }

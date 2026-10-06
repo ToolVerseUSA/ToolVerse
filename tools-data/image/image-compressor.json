@@ -1,1 +1,68 @@
-{"asideBadge":"Private by design","asideLinkText":"Browse all tools","asideLinkUrl":"/ToolVerse/tools/","asideNextText":"Need your image as text data? Try the Base64 encoder.","asideNextTitle":"Your next step","asideText":"Resizing and compression happen locally with the canvas API. Your images are never uploaded.","asideTitle":"Your images never leave this page","category":"image","categoryLabel":"Image","contentRef":"tools-src/image/image-compressor.html","faq":[{"a":"Lower quality means a smaller file but more visible artifacts. Quality 80 is a good balance for photos; use higher values when detail matters.","q":"What quality setting should I use?"},{"a":"The tool outputs JPEG (or PNG if the original has transparency and you keep PNG). JPEG is much smaller for photos.","q":"What format does the compressed image use?"},{"a":"No. The file is read and processed entirely in your browser. Nothing is uploaded or stored.","q":"Are my images uploaded anywhere?"}],"heroBadge":"Free browser tool","heroSubtitle":"Shrink JPEG and PNG file sizes by resizing and adjusting quality — right in your browser.","heroTitle":"Image Compressor","id":"image-compressor","inputs":[{"label":"Image file","name":"file","required":true,"type":"file"},{"label":"Quality (1-100)","name":"quality","required":false,"type":"range"},{"label":"Max width (px)","name":"maxWidth","required":false,"type":"number"}],"keywords":["image compressor","compress image online","reduce image size","jpeg optimizer","image resizer","compress png"],"logicRef":"tools-src/image/image-compressor.js","metaDescription":"Free image compressor. Reduce JPEG and PNG file size in your browser by resizing and adjusting quality. Your images never leave your device.","relatedTools":[],"slug":"image-compressor","title":"Image Compressor — Reduce Image File Size Online | ToolVerse","version":"1.0.0"}
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need your image as text data? Try the Base64 encoder.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Resizing and compression happen locally with the canvas API. Your images are never uploaded.",
+  "asideTitle": "Your images never leave this page",
+  "category": "image",
+  "categoryLabel": "Image",
+  "contentRef": "tools-src/image/image-compressor.html",
+  "faq": [
+    {
+      "a": "Lower quality means a smaller file but more visible artifacts. Quality 80 is a good balance for photos; use higher values when detail matters.",
+      "q": "What quality setting should I use?"
+    },
+    {
+      "a": "The tool outputs JPEG (or PNG if the original has transparency and you keep PNG). JPEG is much smaller for photos.",
+      "q": "What format does the compressed image use?"
+    },
+    {
+      "a": "No. The file is read and processed entirely in your browser. Nothing is uploaded or stored.",
+      "q": "Are my images uploaded anywhere?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Shrink JPEG and PNG file sizes by resizing and adjusting quality \u2014 right in your browser.",
+  "heroTitle": "Image Compressor",
+  "id": "image-compressor",
+  "inputs": [
+    {
+      "label": "Image file",
+      "name": "file",
+      "required": true,
+      "type": "file"
+    },
+    {
+      "label": "Quality (1-100)",
+      "name": "quality",
+      "required": false,
+      "type": "range"
+    },
+    {
+      "label": "Max width (px)",
+      "name": "maxWidth",
+      "required": false,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "image compressor",
+    "compress image online",
+    "reduce image size",
+    "jpeg optimizer",
+    "image resizer",
+    "compress png"
+  ],
+  "logicRef": "tools-src/image/image-compressor.js",
+  "metaDescription": "Free image compressor. Reduce JPEG and PNG file size in your browser by resizing and adjusting quality. Your images never leave your device.",
+  "relatedTools": [],
+  "slug": "image-compressor",
+  "title": "Image Compressor \u2014 Reduce Image File Size Online | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Keep an uncompressed backup of originals you may need for print \u2014 compression discards detail permanently.",
+    "Not suitable where every pixel matters, such as medical, legal, or evidence images."
+  ]
+}

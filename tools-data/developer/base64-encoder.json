@@ -1,1 +1,56 @@
-{"asideBadge":"Private by design","asideLinkText":"Browse all tools","asideLinkUrl":"/ToolVerse/tools/","asideNextText":"Working with JSON data? Try the JSON formatter.","asideNextTitle":"Your next step","asideText":"Encoding runs locally with built-in browser APIs. Nothing is uploaded or stored.","asideTitle":"Encoded locally","category":"developer","categoryLabel":"Developer / Code","contentRef":"tools-src/developer/base64-encoder.html","faq":[{"a":"Base64 turns binary or text data into plain ASCII text so it can travel safely in JSON, URLs, or emails. It is encoding, not encryption — anyone can decode it.","q":"What is Base64 used for?"},{"a":"Yes — the tool uses UTF-8 aware encoding, so emoji and non-Latin scripts round-trip correctly.","q":"Does it handle Unicode and emoji?"},{"a":"No. Everything runs locally in your browser. Nothing is uploaded or stored.","q":"Is my data sent anywhere?"}],"heroBadge":"Free browser tool","heroSubtitle":"Encode text to Base64 or decode Base64 back to text — with full Unicode support.","heroTitle":"Base64 Encoder / Decoder","id":"base64-encoder","inputs":[{"label":"Input text","name":"input","required":false,"type":"textarea"}],"keywords":["base64 encoder","base64 decoder","encode base64 online","decode base64"],"logicRef":"tools-src/developer/base64-encoder.js","metaDescription":"Free Base64 encoder and decoder. Convert text to Base64 and back instantly in your browser, with full Unicode support.","relatedTools":["json-formatter"],"slug":"base64-encoder","title":"Base64 Encoder & Decoder — Encode Online | ToolVerse","version":"1.0.0"}
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Working with JSON data? Try the JSON formatter.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Encoding runs locally with built-in browser APIs. Nothing is uploaded or stored.",
+  "asideTitle": "Encoded locally",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/base64-encoder.html",
+  "faq": [
+    {
+      "a": "Base64 turns binary or text data into plain ASCII text so it can travel safely in JSON, URLs, or emails. It is encoding, not encryption \u2014 anyone can decode it.",
+      "q": "What is Base64 used for?"
+    },
+    {
+      "a": "Yes \u2014 the tool uses UTF-8 aware encoding, so emoji and non-Latin scripts round-trip correctly.",
+      "q": "Does it handle Unicode and emoji?"
+    },
+    {
+      "a": "No. Everything runs locally in your browser. Nothing is uploaded or stored.",
+      "q": "Is my data sent anywhere?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Encode text to Base64 or decode Base64 back to text \u2014 with full Unicode support.",
+  "heroTitle": "Base64 Encoder / Decoder",
+  "id": "base64-encoder",
+  "inputs": [
+    {
+      "label": "Input text",
+      "name": "input",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "base64 encoder",
+    "base64 decoder",
+    "encode base64 online",
+    "decode base64"
+  ],
+  "logicRef": "tools-src/developer/base64-encoder.js",
+  "metaDescription": "Free Base64 encoder and decoder. Convert text to Base64 and back instantly in your browser, with full Unicode support.",
+  "relatedTools": [
+    "json-formatter"
+  ],
+  "slug": "base64-encoder",
+  "title": "Base64 Encoder & Decoder \u2014 Encode Online | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Base64 is encoding, not encryption \u2014 never use it to hide passwords or secrets; anyone can decode it.",
+    "Very large files can exhaust browser memory; use a desktop tool for multi-megabyte payloads."
+  ]
+}

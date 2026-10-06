@@ -111,3 +111,283 @@ input.tools-search-field:focus {
     font-size: 16px; /* prevent iOS auto-zoom on focus */
   }
 }
+
+/* ------------------------------------------------------------------ *
+ * Phase 4 — card system, category grid, hub sections (ToolVerse theme).
+ * All classes are tv-* scoped and only used on generator-built tools
+ * pages. .tv-field and the hub search pill above are untouched.
+ * ------------------------------------------------------------------ */
+
+/* Compact tool card: whole card is the link. Name + category, optional
+ * one-line description, optional badge. */
+.tv-card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 14px 0 6px;
+}
+
+@media (min-width: 720px) {
+  .tv-card-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.tv-tool-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 12px 16px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 14px;
+  background: rgba(15, 23, 42, 0.55);
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tv-tool-card:hover,
+.tv-tool-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(103, 232, 249, 0.65);
+  box-shadow: 0 8px 22px rgba(2, 8, 23, 0.45);
+  outline: none;
+}
+
+.tv-tool-card-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tv-tool-card-name {
+  color: #f1f5f9;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tv-tool-card:hover .tv-tool-card-name { color: #a5f3fc; }
+
+.tv-tool-card-cat {
+  color: #8ea1bb;
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+.tv-tool-card-desc {
+  color: #a9bcd4;
+  font-size: 13px;
+  line-height: 1.45;
+  margin-top: 3px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tv-badge {
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid;
+  padding: 3px 9px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tv-badge-popular {
+  background: rgba(120, 53, 15, 0.45);
+  color: #fbbf24;
+  border-color: rgba(251, 191, 36, 0.4);
+}
+
+/* Category grid + cards */
+.tv-cat-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 14px 0 6px;
+}
+
+@media (min-width: 720px) {
+  .tv-cat-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.tv-cat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.55);
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+a.tv-cat-card:hover,
+a.tv-cat-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(167, 139, 250, 0.6);
+  box-shadow: 0 8px 22px rgba(2, 8, 23, 0.45);
+  outline: none;
+}
+
+.tv-cat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.tv-cat-icon svg { width: 24px; height: 24px; }
+
+.tv-cat-icon--pdf { background: linear-gradient(135deg, #7c3aed, #db2777); }
+.tv-cat-icon--image { background: linear-gradient(135deg, #8b5cf6, #f97316); }
+.tv-cat-icon--text { background: linear-gradient(135deg, #2563eb, #06b6d4); }
+.tv-cat-icon--file-converters { background: linear-gradient(135deg, #9333ea, #6366f1); }
+.tv-cat-icon--developer { background: linear-gradient(135deg, #4f46e5, #0ea5e9); }
+.tv-cat-icon--seo { background: linear-gradient(135deg, #0284c7, #14b8a6); }
+.tv-cat-icon--social-media { background: linear-gradient(135deg, #7c3aed, #ec4899); }
+.tv-cat-icon--generators { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+.tv-cat-icon--ai { background: linear-gradient(135deg, #2563eb, #06b6d4); }
+.tv-cat-icon--video-audio { background: linear-gradient(135deg, #7c3aed, #f43f5e); }
+.tv-cat-icon--color-design { background: linear-gradient(135deg, #0d9488, #22c55e); }
+.tv-cat-icon--privacy { background: linear-gradient(135deg, #6d28d9, #475569); }
+.tv-cat-icon--data { background: linear-gradient(135deg, #0369a1, #7c3aed); }
+.tv-cat-icon--datetime { background: linear-gradient(135deg, #0891b2, #2563eb); }
+.tv-cat-icon--calculators { background: linear-gradient(135deg, #059669, #0ea5e9); }
+
+.tv-cat-card-name {
+  color: #f1f5f9;
+  font-weight: 700;
+  font-size: 16.5px;
+  line-height: 1.3;
+}
+
+.tv-cat-card-blurb {
+  color: #a9bcd4;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.tv-cat-card-count {
+  color: #a5b4fc;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+.tv-cat-card--soon { border-style: dashed; }
+
+.tv-soon-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.tv-soon-chip {
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: #a9bcd4;
+}
+
+/* Why tiles */
+.tv-why-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 14px 0 6px;
+}
+
+@media (min-width: 720px) {
+  .tv-why-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.tv-why-tile {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.55);
+  padding: 16px 18px;
+}
+
+.tv-why-tile h3 { margin: 0 0 6px; color: #f1f5f9; font-size: 15.5px; }
+.tv-why-tile p { margin: 0; color: #a9bcd4; font-size: 13.5px; line-height: 1.55; }
+
+/* Financial Tools zone on the hub — visually separate (emerald accent),
+ * never blended into the browser-tools grids. */
+.tv-fin-panel {
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(6, 40, 30, 0.5), rgba(15, 23, 42, 0.55));
+  padding: 20px;
+  margin: 22px 0 6px;
+}
+
+.tv-fin-panel .section-label { color: #6ee7b7; }
+
+/* Share block on tool pages */
+.tv-share-btn {
+  appearance: none;
+  border: 1px solid rgba(103, 232, 249, 0.5);
+  background: rgba(8, 47, 73, 0.5);
+  color: #a5f3fc;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.tv-share-btn:hover { border-color: rgba(103, 232, 249, 0.9); }
+
+.tv-share-note { color: #8ea1bb; font-size: 13px; }
+
+/* Search results dropdown (hub) */
+.tools-search-wrap { position: relative; }
+
+.tv-search-results {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 40;
+}
+
+.tv-search-results:empty { display: none; }
+
+.tv-search-panel {
+  border: 1px solid rgba(103, 232, 249, 0.35);
+  border-radius: 16px;
+  background: #0b1526;
+  box-shadow: 0 18px 40px rgba(2, 8, 23, 0.6);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.tv-search-panel .tv-tool-card { background: rgba(15, 23, 42, 0.85); }
+
+.tv-search-note {
+  color: #a9bcd4;
+  font-size: 13.5px;
+  padding: 10px 12px;
+  margin: 0;
+}
+
+.tv-count-note { color: #8ea1bb; font-weight: 400; font-size: 0.85em; }

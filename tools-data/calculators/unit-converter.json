@@ -1,1 +1,77 @@
-{"asideBadge":"Private by design","asideLinkText":"Browse all tools","asideLinkUrl":"/ToolVerse/tools/","asideNextText":"Counting words instead? Try the word counter.","asideNextTitle":"Your next step","asideText":"Every conversion runs in your browser. No input is uploaded, stored or tracked.","asideTitle":"Calculated locally","category":"calculators","categoryLabel":"Calculators","contentRef":"tools-src/calculators/unit-converter.html","faq":[{"a":"Length (millimeters to miles), weight (grams to pounds) and temperature (Celsius, Fahrenheit, Kelvin). More categories can be added over time.","q":"Which conversions are supported?"},{"a":"Conversions use exact internationally defined factors (e.g. 1 inch = 2.54 cm) and temperature formulas. Results are planning-grade, not for legal metrology.","q":"How accurate are the conversions?"},{"a":"No. All conversion math runs locally in your browser. Nothing is uploaded or stored.","q":"Is my input sent anywhere?"}],"heroBadge":"Free browser tool","heroSubtitle":"Convert length, weight and temperature between metric and imperial units — instantly.","heroTitle":"Unit Converter","id":"unit-converter","inputs":[{"label":"Amount","name":"amount","required":true,"type":"number"},{"label":"Category","name":"category","required":true,"type":"select"},{"label":"From unit","name":"from","required":true,"type":"select"},{"label":"To unit","name":"to","required":true,"type":"select"}],"keywords":["unit converter","length converter","weight converter","temperature converter","metric to imperial","km to miles","celsius to fahrenheit"],"logicRef":"tools-src/calculators/unit-converter.js","metaDescription":"Free unit converter. Convert length, weight and temperature between metric and imperial units instantly in your browser — no data leaves your device.","relatedTools":["word-counter"],"slug":"unit-converter","title":"Unit Converter — Length, Weight & Temperature | ToolVerse","version":"1.0.0"}
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Counting words instead? Try the word counter.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Every conversion runs in your browser. No input is uploaded, stored or tracked.",
+  "asideTitle": "Calculated locally",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/unit-converter.html",
+  "faq": [
+    {
+      "a": "Length (millimeters to miles), weight (grams to pounds) and temperature (Celsius, Fahrenheit, Kelvin). More categories can be added over time.",
+      "q": "Which conversions are supported?"
+    },
+    {
+      "a": "Conversions use exact internationally defined factors (e.g. 1 inch = 2.54 cm) and temperature formulas. Results are planning-grade, not for legal metrology.",
+      "q": "How accurate are the conversions?"
+    },
+    {
+      "a": "No. All conversion math runs locally in your browser. Nothing is uploaded or stored.",
+      "q": "Is my input sent anywhere?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Convert length, weight and temperature between metric and imperial units \u2014 instantly.",
+  "heroTitle": "Unit Converter",
+  "id": "unit-converter",
+  "inputs": [
+    {
+      "label": "Amount",
+      "name": "amount",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Category",
+      "name": "category",
+      "required": true,
+      "type": "select"
+    },
+    {
+      "label": "From unit",
+      "name": "from",
+      "required": true,
+      "type": "select"
+    },
+    {
+      "label": "To unit",
+      "name": "to",
+      "required": true,
+      "type": "select"
+    }
+  ],
+  "keywords": [
+    "unit converter",
+    "length converter",
+    "weight converter",
+    "temperature converter",
+    "metric to imperial",
+    "km to miles",
+    "celsius to fahrenheit"
+  ],
+  "logicRef": "tools-src/calculators/unit-converter.js",
+  "metaDescription": "Free unit converter. Convert length, weight and temperature between metric and imperial units instantly in your browser \u2014 no data leaves your device.",
+  "relatedTools": [
+    "word-counter"
+  ],
+  "slug": "unit-converter",
+  "title": "Unit Converter \u2014 Length, Weight & Temperature | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Results are rounded planning conversions \u2014 don't use them for precision engineering, dosing, or legal metrology.",
+    "For critical measurements (construction tolerances, lab work), verify with a certified instrument."
+  ]
+}

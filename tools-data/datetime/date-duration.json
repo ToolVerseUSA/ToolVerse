@@ -1,1 +1,62 @@
-{"asideBadge":"Private by design","asideLinkText":"Browse all tools","asideLinkUrl":"/ToolVerse/tools/","asideNextText":"Converting measurements instead? Try the unit converter.","asideNextTitle":"Your next step","asideText":"All date math runs locally in your browser. Nothing is uploaded or stored.","asideTitle":"Calculated locally","category":"datetime","categoryLabel":"Date / Time","contentRef":"tools-src/datetime/date-duration.html","faq":[{"a":"Years and months use calendar math (same day-of-month), so results follow the real calendar including leap years. Total days is exact.","q":"How are years and months calculated?"},{"a":"Yes — dates are handled in your local timezone at midnight, so daylight-saving transitions do not skew day counts.","q":"Does daylight saving time affect results?"},{"a":"No. All calculations run locally in your browser. Nothing is sent or stored.","q":"Are my dates sent anywhere?"}],"heroBadge":"Free browser tool","heroSubtitle":"Find the exact duration between two dates — years, months, days and totals.","heroTitle":"Date Duration Calculator","id":"date-duration","inputs":[{"label":"Start date","name":"start","required":true,"type":"date"},{"label":"End date","name":"end","required":true,"type":"date"}],"keywords":["date duration calculator","days between dates","date difference calculator","how many days between dates"],"logicRef":"tools-src/datetime/date-duration.js","metaDescription":"Free date duration calculator. Find years, months, days and total days between two dates — calculated locally in your browser.","relatedTools":["unit-converter"],"slug":"date-duration","title":"Date Duration Calculator — Days Between Dates | ToolVerse","version":"1.0.0"}
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Converting measurements instead? Try the unit converter.",
+  "asideNextTitle": "Your next step",
+  "asideText": "All date math runs locally in your browser. Nothing is uploaded or stored.",
+  "asideTitle": "Calculated locally",
+  "category": "datetime",
+  "categoryLabel": "Date / Time",
+  "contentRef": "tools-src/datetime/date-duration.html",
+  "faq": [
+    {
+      "a": "Years and months use calendar math (same day-of-month), so results follow the real calendar including leap years. Total days is exact.",
+      "q": "How are years and months calculated?"
+    },
+    {
+      "a": "Yes \u2014 dates are handled in your local timezone at midnight, so daylight-saving transitions do not skew day counts.",
+      "q": "Does daylight saving time affect results?"
+    },
+    {
+      "a": "No. All calculations run locally in your browser. Nothing is sent or stored.",
+      "q": "Are my dates sent anywhere?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Find the exact duration between two dates \u2014 years, months, days and totals.",
+  "heroTitle": "Date Duration Calculator",
+  "id": "date-duration",
+  "inputs": [
+    {
+      "label": "Start date",
+      "name": "start",
+      "required": true,
+      "type": "date"
+    },
+    {
+      "label": "End date",
+      "name": "end",
+      "required": true,
+      "type": "date"
+    }
+  ],
+  "keywords": [
+    "date duration calculator",
+    "days between dates",
+    "date difference calculator",
+    "how many days between dates"
+  ],
+  "logicRef": "tools-src/datetime/date-duration.js",
+  "metaDescription": "Free date duration calculator. Find years, months, days and total days between two dates \u2014 calculated locally in your browser.",
+  "relatedTools": [
+    "unit-converter"
+  ],
+  "slug": "date-duration",
+  "title": "Date Duration Calculator \u2014 Days Between Dates | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It counts calendar days, not business days \u2014 weekends and public holidays are included.",
+    "Legal or contractual deadlines can follow court rules and time-zone conventions; verify those with the relevant authority."
+  ]
+}

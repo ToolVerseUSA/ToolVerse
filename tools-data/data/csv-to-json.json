@@ -1,1 +1,68 @@
-{"asideBadge":"Private by design","asideLinkText":"Browse all tools","asideLinkUrl":"/ToolVerse/tools/","asideNextText":"Need to validate the result? Use the JSON formatter.","asideNextTitle":"Your next step","asideText":"Parsing happens locally in your browser. Your data is never uploaded or stored.","asideTitle":"Your data never leaves this page","category":"data","categoryLabel":"JSON / CSV / Data","contentRef":"tools-src/data/csv-to-json.html","faq":[{"a":"Yes — values wrapped in double quotes may contain the delimiter, and doubled quotes (\"\") become a single quote character, per common CSV conventions.","q":"Does it handle quoted values with commas?"},{"a":"The first row becomes the property names of each JSON object. Every other row becomes one object in the output array.","q":"How is the header row used?"},{"a":"No. Everything is parsed locally in your browser. Nothing is uploaded or stored.","q":"Is my data sent anywhere?"}],"heroBadge":"Free browser tool","heroSubtitle":"Convert CSV data to JSON instantly — headers become keys, rows become objects.","heroTitle":"CSV to JSON Converter","id":"csv-to-json","inputs":[{"label":"CSV input","name":"csv","required":false,"type":"textarea"},{"label":"Delimiter","name":"delimiter","required":false,"type":"select"},{"label":"First row is header","name":"header","required":false,"type":"checkbox"}],"keywords":["csv to json","convert csv to json","csv converter","csv parser online"],"logicRef":"tools-src/data/csv-to-json.js","metaDescription":"Free CSV to JSON converter. Turn CSV data into JSON instantly in your browser — your data never leaves your device.","relatedTools":["json-formatter"],"slug":"csv-to-json","title":"CSV to JSON Converter — Convert CSV Online | ToolVerse","version":"1.0.0"}
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need to validate the result? Use the JSON formatter.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Parsing happens locally in your browser. Your data is never uploaded or stored.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "data",
+  "categoryLabel": "JSON / CSV / Data",
+  "contentRef": "tools-src/data/csv-to-json.html",
+  "faq": [
+    {
+      "a": "Yes \u2014 values wrapped in double quotes may contain the delimiter, and doubled quotes (\"\") become a single quote character, per common CSV conventions.",
+      "q": "Does it handle quoted values with commas?"
+    },
+    {
+      "a": "The first row becomes the property names of each JSON object. Every other row becomes one object in the output array.",
+      "q": "How is the header row used?"
+    },
+    {
+      "a": "No. Everything is parsed locally in your browser. Nothing is uploaded or stored.",
+      "q": "Is my data sent anywhere?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Convert CSV data to JSON instantly \u2014 headers become keys, rows become objects.",
+  "heroTitle": "CSV to JSON Converter",
+  "id": "csv-to-json",
+  "inputs": [
+    {
+      "label": "CSV input",
+      "name": "csv",
+      "required": false,
+      "type": "textarea"
+    },
+    {
+      "label": "Delimiter",
+      "name": "delimiter",
+      "required": false,
+      "type": "select"
+    },
+    {
+      "label": "First row is header",
+      "name": "header",
+      "required": false,
+      "type": "checkbox"
+    }
+  ],
+  "keywords": [
+    "csv to json",
+    "convert csv to json",
+    "csv converter",
+    "csv parser online"
+  ],
+  "logicRef": "tools-src/data/csv-to-json.js",
+  "metaDescription": "Free CSV to JSON converter. Turn CSV data into JSON instantly in your browser \u2014 your data never leaves your device.",
+  "relatedTools": [
+    "json-formatter"
+  ],
+  "slug": "csv-to-json",
+  "title": "CSV to JSON Converter \u2014 Convert CSV Online | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Very large CSV files (tens of MB and up) may strain browser memory \u2014 split them or use a desktop tool.",
+    "It can't infer your data types or repair messy CSVs \u2014 irregular rows and mixed delimiters need cleaning first."
+  ]
+}
