@@ -154,14 +154,23 @@
 </div>
 </section>
 
+<section><h2>When NOT to use JSON Formatter &amp; Validator</h2><ul>
+<li>It checks JSON syntax only — it does not validate against a JSON Schema or an API contract.</li>
+<li>Avoid pasting JSON that contains live API keys or secrets into any tool out of habit — this one runs locally, but the habit protects you everywhere.</li>
+</ul></section>
 <section class="faq-section"><h2>Questions people ask</h2>
 <details><summary>Is my JSON data sent to a server?</summary><p>No. Parsing and formatting happen entirely in your browser with the built-in JSON parser. Your data never leaves your device.</p></details>
 <details><summary>What does the validator check?</summary><p>It checks strict JSON syntax — quoted keys, no trailing commas, no comments — and reports the exact position of the first error it finds.</p></details>
 <details><summary>What is the difference between Format and Minify?</summary><p>Format pretty-prints JSON with 2-space indentation for readability. Minify removes all unnecessary whitespace for the smallest possible size.</p></details>
 </section>
-<section><h2>Related tools</h2><ul class="link-list">
-<li><a href="https://toolverseusa.github.io/ToolVerse/tools/text/word-counter.html">Word Counter — Count Words, Characters &amp; Reading Time</a></li>
-</ul></section>
+<section><h2>Related tools</h2><div class="tv-card-grid">
+<a class="tv-tool-card" href="/ToolVerse/tools/text/word-counter.html"><span class="tv-tool-card-main"><span class="tv-tool-card-name">Word Counter — Count Words, Characters &amp; Reading Time</span><span class="tv-tool-card-cat">Text &amp; Writing</span></span><span class="tv-badge tv-badge-popular">Popular</span></a>
+<a class="tv-tool-card" href="/ToolVerse/tools/developer/base64-encoder.html"><span class="tv-tool-card-main"><span class="tv-tool-card-name">Base64 Encoder &amp; Decoder — Encode Online</span><span class="tv-tool-card-cat">Developer / Code</span></span></a>
+</div></section>
+<section class="tv-share"><h2>Share this tool</h2><p>Found it useful? Share it with someone who needs it — the tool is free and runs entirely in the browser.</p><p><button type="button" class="tv-share-btn" data-share-tool>Share / copy link</button> <span class="tv-share-note" data-share-note aria-live="polite"></span></p></section>
+<script>
+(function(){var b=document.querySelector('[data-share-tool]');if(!b)return;var n=document.querySelector('[data-share-note]');b.addEventListener('click',function(){var url=window.location.href;function done(msg){if(n)n.textContent=msg;}if(navigator.share){navigator.share({title:document.title,url:url}).then(function(){done('Thanks for sharing.');}).catch(function(){});}else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){done('Link copied to clipboard.');}).catch(function(){done('Copy this page URL from the address bar to share.');});}else{done('Copy this page URL from the address bar to share.');}});})();
+</script>
 </main>
 <aside class="side-card"><span class="badge">Private by design</span><h2>Your data never leaves this page</h2><p>Parsing happens locally with your browser's JSON engine. Nothing is uploaded or stored.</p><a class="button" href="/ToolVerse/tools/">Browse all tools</a><section class="next-decision"><p class="next-decision-title">Your next step</p><p class="next-decision-copy">Need plain-text stats instead? Try the word counter.</p></section></aside>
 </div>
