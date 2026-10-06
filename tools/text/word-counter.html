@@ -153,14 +153,23 @@
 </div>
 </section>
 
+<section><h2>When NOT to use Word Counter</h2><ul>
+<li>Don't rely on it where an exact official count matters — hyphenated words, numbers and footnote text are counted differently by some style guides and word processors.</li>
+<li>If a document must keep its formatting (tables, footnotes, tracked changes), count it in the original editor instead.</li>
+</ul></section>
 <section class="faq-section"><h2>Questions people ask</h2>
 <details><summary>Is my text sent to a server?</summary><p>No. The word counter runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.</p></details>
 <details><summary>How are words counted?</summary><p>Words are sequences of characters separated by whitespace. Hyphenated compounds count as one word, matching the convention used by most word processors.</p></details>
 <details><summary>How is reading time estimated?</summary><p>Reading time assumes an average adult reading speed of 200 words per minute and is rounded up to the nearest minute.</p></details>
 </section>
-<section><h2>Related tools</h2><ul class="link-list">
-<li><a href="https://toolverseusa.github.io/ToolVerse/tools/developer/json-formatter.html">JSON Formatter &amp; Validator — Pretty-Print JSON Online</a></li>
-</ul></section>
+<section><h2>Related tools</h2><div class="tv-card-grid">
+<a class="tv-tool-card" href="/ToolVerse/tools/developer/json-formatter.html"><span class="tv-tool-card-main"><span class="tv-tool-card-name">JSON Formatter &amp; Validator — Pretty-Print JSON Online</span><span class="tv-tool-card-cat">Developer / Code</span></span><span class="tv-badge tv-badge-popular">Popular</span></a>
+<a class="tv-tool-card" href="/ToolVerse/tools/text/case-converter.html"><span class="tv-tool-card-main"><span class="tv-tool-card-name">Case Converter — Change Text Case Online</span><span class="tv-tool-card-cat">Text &amp; Writing</span></span></a>
+</div></section>
+<section class="tv-share"><h2>Share this tool</h2><p>Found it useful? Share it with someone who needs it — the tool is free and runs entirely in the browser.</p><p><button type="button" class="tv-share-btn" data-share-tool>Share / copy link</button> <span class="tv-share-note" data-share-note aria-live="polite"></span></p></section>
+<script>
+(function(){var b=document.querySelector('[data-share-tool]');if(!b)return;var n=document.querySelector('[data-share-note]');b.addEventListener('click',function(){var url=window.location.href;function done(msg){if(n)n.textContent=msg;}if(navigator.share){navigator.share({title:document.title,url:url}).then(function(){done('Thanks for sharing.');}).catch(function(){});}else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){done('Link copied to clipboard.');}).catch(function(){done('Copy this page URL from the address bar to share.');});}else{done('Copy this page URL from the address bar to share.');}});})();
+</script>
 </main>
 <aside class="side-card"><span class="badge">Private by design</span><h2>Your text never leaves this page</h2><p>All counting happens locally in your browser. Nothing is uploaded, stored, or tracked.</p><a class="button" href="/ToolVerse/tools/">Browse all tools</a><section class="next-decision"><p class="next-decision-title">Your next step</p><p class="next-decision-copy">Working with structured text? Try the JSON formatter next.</p></section></aside>
 </div>
