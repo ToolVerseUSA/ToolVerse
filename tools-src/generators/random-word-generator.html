@@ -1,0 +1,23 @@
+<p class="disclaimer"><strong>100% private.</strong> Words come from a curated list built into this page — no API, no fetching, works offline. Nothing leaves your browser.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Generators</p>
+<h2>Generate random words</h2>
+<p class="section-intro">For writing prompts, brainstorming, party games, and beating a blank page.</p>
+<div class="form-section">
+<label for="rw-count">How many words (1–50)</label>
+<input class="tv-field" id="rw-count" type="number" min="1" max="50" value="5" aria-label="Number of words">
+<label for="rw-min">Minimum length (letters)</label>
+<input class="tv-field" id="rw-min" type="number" min="0" max="20" value="0" aria-label="Minimum word length">
+<label for="rw-max">Maximum length (letters, 0 = no limit)</label>
+<input class="tv-field" id="rw-max" type="number" min="0" max="20" value="0" aria-label="Maximum word length">
+<div class="tool-actions">
+<button class="button" type="button" id="rw-copy">Copy words</button>
+<button class="button primary" type="button" id="rw-gen">Generate words</button>
+</div>
+<p class="form-error" id="rw-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rw-result" aria-live="polite">
+<h2>Your words</h2>
+<textarea class="tv-field" id="rw-output" rows="5" readonly aria-label="Generated words" style="width:100%;min-height:110px"></textarea>
+</div>
+</section>

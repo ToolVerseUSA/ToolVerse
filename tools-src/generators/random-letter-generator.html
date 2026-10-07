@@ -1,0 +1,26 @@
+<p class="disclaimer"><strong>100% private &amp; fair.</strong> Letters are drawn with your browser's cryptographic RNG over the alphabet you choose — no Math.random(), no bias.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Generators</p>
+<h2>Generate random letters</h2>
+<p class="section-intro">For classroom games, draws, and alphabet practice.</p>
+<div class="form-section">
+<label for="rl-mode">Case</label>
+<select class="tv-field" id="rl-mode" aria-label="Letter case">
+<option value="upper">UPPERCASE</option>
+<option value="lower">lowercase</option>
+<option value="mixed">Mixed case</option>
+</select>
+<label for="rl-count">How many letters (1–100)</label>
+<input class="tv-field" id="rl-count" type="number" min="1" max="100" value="5" aria-label="Number of letters">
+<label><input type="checkbox" id="rl-nolook"> Exclude look-alikes (O, I, l — easily confused letters)</label>
+<div class="tool-actions">
+<button class="button" type="button" id="rl-copy">Copy letters</button>
+<button class="button primary" type="button" id="rl-gen">Generate letters</button>
+</div>
+<p class="form-error" id="rl-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rl-result" aria-live="polite">
+<h2>Your letters</h2>
+<textarea class="tv-field" id="rl-output" rows="4" readonly aria-label="Generated letters" style="width:100%;min-height:90px"></textarea>
+</div>
+</section>
