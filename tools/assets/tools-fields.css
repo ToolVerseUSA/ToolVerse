@@ -391,3 +391,30 @@ a.tv-cat-card:focus-visible {
 }
 
 .tv-count-note { color: #8ea1bb; font-weight: 400; font-size: 0.85em; }
+
+/* Mobile hardening (Phase 4 follow-up): grid tracks may not size below
+ * their content's min-content in some engines, which can push the tools
+ * column wider than a small viewport. Force shrinkable tracks and cards
+ * on tools pages only (this stylesheet loads nowhere else). */
+@media (max-width: 800px) {
+  .tv-card-grid,
+  .tv-cat-grid,
+  .tv-why-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tv-tool-card,
+  .tv-cat-card,
+  .tv-why-tile,
+  .tv-fin-panel,
+  .tv-search-panel {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .tv-cat-card-blurb,
+  .tv-tool-card-desc,
+  .tv-why-tile p {
+    overflow-wrap: break-word;
+  }
+}
