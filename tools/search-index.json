@@ -128,6 +128,22 @@
     "url": "/ToolVerse/tools/seo/serp-preview.html"
   },
   {
+    "id": "add-line-numbers",
+    "slug": "add-line-numbers",
+    "title": "Add Line Numbers to Text — Free Online Tool",
+    "description": "Add sequential line numbers to any text or list, with your choice of starting number and separator. Free line numbering tool, runs in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "add line numbers",
+      "number lines online",
+      "line numbering tool",
+      "number a list",
+      "numbered lines generator"
+    ],
+    "url": "/ToolVerse/tools/text/add-line-numbers.html"
+  },
+  {
     "id": "case-converter",
     "slug": "case-converter",
     "title": "Case Converter — Change Text Case Online",
@@ -141,6 +157,166 @@
       "change text case online"
     ],
     "url": "/ToolVerse/tools/text/case-converter.html"
+  },
+  {
+    "id": "find-and-replace",
+    "slug": "find-and-replace",
+    "title": "Find and Replace Text — Free Online Tool",
+    "description": "Find and replace words or phrases across a whole text instantly, with case-sensitive and whole-word options. Free — runs privately in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "find and replace online",
+      "replace text",
+      "bulk replace words",
+      "search and replace tool",
+      "replace all occurrences"
+    ],
+    "url": "/ToolVerse/tools/text/find-and-replace.html"
+  },
+  {
+    "id": "lorem-ipsum-generator",
+    "slug": "lorem-ipsum-generator",
+    "title": "Lorem Ipsum Generator — Free Placeholder Text Tool",
+    "description": "Generate lorem ipsum placeholder text instantly: choose paragraphs, sentences or words. Free dummy text generator — no sign-up, runs in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "lorem ipsum generator",
+      "placeholder text",
+      "dummy text generator",
+      "lorem ipsum paragraphs",
+      "filler text"
+    ],
+    "url": "/ToolVerse/tools/text/lorem-ipsum-generator.html"
+  },
+  {
+    "id": "remove-duplicate-lines",
+    "slug": "remove-duplicate-lines",
+    "title": "Remove Duplicate Lines — Free Online Tool",
+    "description": "Remove duplicate lines from any text instantly. Paste a list, drop repeated lines, keep the original order — free, private, runs in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "remove duplicate lines",
+      "deduplicate list",
+      "remove duplicates from text",
+      "unique lines only",
+      "delete repeated lines"
+    ],
+    "url": "/ToolVerse/tools/text/remove-duplicate-lines.html"
+  },
+  {
+    "id": "remove-extra-spaces",
+    "slug": "remove-extra-spaces",
+    "title": "Remove Extra Spaces from Text — Free Online Tool",
+    "description": "Clean up messy text: collapse double spaces, trim every line and drop blank lines. Free extra-space remover — private, runs in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "remove extra spaces",
+      "remove double spaces",
+      "trim spaces online",
+      "space remover",
+      "clean up text spacing"
+    ],
+    "url": "/ToolVerse/tools/text/remove-extra-spaces.html"
+  },
+  {
+    "id": "remove-html-tags",
+    "slug": "remove-html-tags",
+    "title": "Strip HTML Tags — Free Online Tool",
+    "description": "Strip HTML tags from any snippet and get clean plain text. Keeps paragraph breaks and decodes entities — free HTML stripper, runs in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "strip html tags",
+      "remove html tags",
+      "html to plain text",
+      "html stripper online",
+      "extract text from html"
+    ],
+    "url": "/ToolVerse/tools/text/remove-html-tags.html"
+  },
+  {
+    "id": "remove-line-breaks",
+    "slug": "remove-line-breaks",
+    "title": "Remove Line Breaks from Text — Free Online Tool",
+    "description": "Remove line breaks from text copied out of PDFs and emails. Join lines with spaces or keep paragraph breaks — free, private, runs in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "remove line breaks",
+      "remove newline from text",
+      "join lines into paragraph",
+      "pdf text cleanup",
+      "line break remover"
+    ],
+    "url": "/ToolVerse/tools/text/remove-line-breaks.html"
+  },
+  {
+    "id": "reverse-text",
+    "slug": "reverse-text",
+    "title": "Reverse Text Generator — Free Online Tool",
+    "description": "Reverse text instantly: flip characters, word order, or line order. Free online reverse text generator — private, runs entirely in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "reverse text",
+      "backwards text generator",
+      "reverse words",
+      "reverse lines",
+      "flip text online"
+    ],
+    "url": "/ToolVerse/tools/text/reverse-text.html"
+  },
+  {
+    "id": "slug-generator",
+    "slug": "slug-generator",
+    "title": "URL Slug Generator — Free Online Tool",
+    "description": "Turn any title into a clean, SEO-friendly URL slug instantly. Lowercase, hyphens, no special characters — free slug maker that runs in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "slug generator",
+      "url slug maker",
+      "permalink generator",
+      "seo friendly url",
+      "title to slug"
+    ],
+    "url": "/ToolVerse/tools/text/slug-generator.html"
+  },
+  {
+    "id": "sort-lines",
+    "slug": "sort-lines",
+    "title": "Sort Lines Alphabetically — Free Online Tool",
+    "description": "Sort lines of text alphabetically (A–Z or Z–A) instantly. Free online line sorter for lists, names and data — private, runs in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "sort lines alphabetically",
+      "alphabetize list",
+      "sort text lines",
+      "line sorter online",
+      "order list a to z"
+    ],
+    "url": "/ToolVerse/tools/text/sort-lines.html"
+  },
+  {
+    "id": "text-diff-checker",
+    "slug": "text-diff-checker",
+    "title": "Text Diff Checker — Compare Two Texts Online",
+    "description": "Compare two texts line by line and see exactly what was added, removed or left unchanged. Free online diff checker — private, runs in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "diff checker",
+      "compare two texts",
+      "text comparison tool",
+      "find differences between texts",
+      "online diff tool"
+    ],
+    "url": "/ToolVerse/tools/text/text-diff-checker.html"
   },
   {
     "id": "word-counter",
@@ -158,5 +334,21 @@
       "sentence counter"
     ],
     "url": "/ToolVerse/tools/text/word-counter.html"
+  },
+  {
+    "id": "word-frequency-counter",
+    "slug": "word-frequency-counter",
+    "title": "Word Frequency Counter — Free Online Tool",
+    "description": "Count how often each word appears in your text. See the most repeated words in a ranked table — free word frequency counter, runs in your browser.",
+    "category": "text",
+    "categoryLabel": "Text & Writing",
+    "keywords": [
+      "word frequency counter",
+      "count word occurrences",
+      "most repeated words",
+      "word usage analyzer",
+      "text frequency"
+    ],
+    "url": "/ToolVerse/tools/text/word-frequency-counter.html"
   }
 ]
