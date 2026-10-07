@@ -63,6 +63,54 @@
     "url": "/ToolVerse/tools/developer/base64-encoder.html"
   },
   {
+    "id": "css-minifier",
+    "slug": "css-minifier",
+    "title": "CSS Minifier & Beautifier — Free Online Tool",
+    "description": "Minify CSS to shrink file size, or beautify minified CSS back into readable form. Free online CSS tools — private, runs entirely in your browser.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "css minifier",
+      "minify css online",
+      "css beautifier",
+      "compress css",
+      "format css online"
+    ],
+    "url": "/ToolVerse/tools/developer/css-minifier.html"
+  },
+  {
+    "id": "hash-generator",
+    "slug": "hash-generator",
+    "title": "SHA Hash Generator — Free Online Tool",
+    "description": "Generate SHA-1, SHA-256, SHA-384 and SHA-512 hashes of any text instantly, using your browser's crypto engine. Private — nothing leaves your device.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "hash generator",
+      "sha256 generator",
+      "sha512 hash online",
+      "sha1 generator",
+      "text to hash"
+    ],
+    "url": "/ToolVerse/tools/developer/hash-generator.html"
+  },
+  {
+    "id": "html-encoder-decoder",
+    "slug": "html-encoder-decoder",
+    "title": "HTML Encoder & Decoder — Free Online Tool",
+    "description": "Escape special characters into HTML entities — or decode entities back to text. Free online HTML encoder/decoder, private, runs in your browser.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "html encoder",
+      "html decoder",
+      "escape html online",
+      "html entities converter",
+      "unescape html"
+    ],
+    "url": "/ToolVerse/tools/developer/html-encoder-decoder.html"
+  },
+  {
     "id": "json-formatter",
     "slug": "json-formatter",
     "title": "JSON Formatter & Validator — Pretty-Print JSON Online",
@@ -78,6 +126,150 @@
       "validate json"
     ],
     "url": "/ToolVerse/tools/developer/json-formatter.html"
+  },
+  {
+    "id": "json-to-csv",
+    "slug": "json-to-csv",
+    "title": "JSON to CSV Converter — Free Online Tool",
+    "description": "Convert a JSON array into CSV instantly. Handles nested objects and mixed keys with proper quoting — free JSON to CSV converter, runs in your browser.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "json to csv",
+      "convert json to csv online",
+      "json array to csv",
+      "download csv from json",
+      "json to spreadsheet"
+    ],
+    "url": "/ToolVerse/tools/developer/json-to-csv.html"
+  },
+  {
+    "id": "jwt-decoder",
+    "slug": "jwt-decoder",
+    "title": "JWT Decoder — Decode JSON Web Tokens Online",
+    "description": "Decode a JWT's header and payload instantly and check its expiry. Decoding happens 100% in your browser — tokens are never sent anywhere.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "jwt decoder",
+      "decode jwt online",
+      "json web token decoder",
+      "jwt parser",
+      "jwt expiry checker"
+    ],
+    "url": "/ToolVerse/tools/developer/jwt-decoder.html"
+  },
+  {
+    "id": "number-base-converter",
+    "slug": "number-base-converter",
+    "title": "Number Base Converter — Binary, Octal, Decimal, Hex",
+    "description": "Convert numbers between binary, octal, decimal and hexadecimal instantly, with big-number support. Free base converter, runs in your browser.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "base converter",
+      "binary to decimal",
+      "hex to decimal",
+      "decimal to binary",
+      "number base converter"
+    ],
+    "url": "/ToolVerse/tools/developer/number-base-converter.html"
+  },
+  {
+    "id": "regex-tester",
+    "slug": "regex-tester",
+    "title": "Regex Tester — Free Online Regular Expression Tool",
+    "description": "Test regular expressions live: see every match, its position and capture groups as you type. Free online regex tester, runs privately in your browser.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "regex tester",
+      "regular expression tester",
+      "regex online",
+      "test regex",
+      "regex matcher"
+    ],
+    "url": "/ToolVerse/tools/developer/regex-tester.html"
+  },
+  {
+    "id": "sql-formatter",
+    "slug": "sql-formatter",
+    "title": "SQL Formatter — Free Online Tool",
+    "description": "Format SQL queries instantly: uppercase keywords, clause-per-line layout and clean indentation. Free online SQL beautifier, runs in your browser.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "sql formatter",
+      "sql beautifier",
+      "format sql online",
+      "pretty print sql",
+      "sql query formatter"
+    ],
+    "url": "/ToolVerse/tools/developer/sql-formatter.html"
+  },
+  {
+    "id": "timestamp-converter",
+    "slug": "timestamp-converter",
+    "title": "Unix Timestamp Converter — Epoch Time Tool",
+    "description": "Convert Unix timestamps to human dates and back — seconds or milliseconds, UTC and your local time. Free epoch converter, runs in your browser.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "timestamp converter",
+      "unix timestamp",
+      "epoch converter",
+      "unix time to date",
+      "date to timestamp"
+    ],
+    "url": "/ToolVerse/tools/developer/timestamp-converter.html"
+  },
+  {
+    "id": "url-encoder-decoder",
+    "slug": "url-encoder-decoder",
+    "title": "URL Encoder & Decoder — Free Online Tool",
+    "description": "Encode or decode URLs and query strings instantly. Component and full-URL modes, with clear error messages — free, private, runs in your browser.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "url encoder",
+      "url decoder",
+      "percent encoding",
+      "encodeURIComponent online",
+      "decode url online"
+    ],
+    "url": "/ToolVerse/tools/developer/url-encoder-decoder.html"
+  },
+  {
+    "id": "uuid-generator",
+    "slug": "uuid-generator",
+    "title": "UUID Generator — Free Online Bulk UUID Tool",
+    "description": "Generate random UUIDs (v4) instantly — one or in bulk up to 50, with uppercase and hyphen options. Free UUID generator, runs privately in your browser.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "uuid generator",
+      "guid generator",
+      "uuid v4",
+      "bulk uuid generator",
+      "random uuid online"
+    ],
+    "url": "/ToolVerse/tools/developer/uuid-generator.html"
+  },
+  {
+    "id": "xml-formatter",
+    "slug": "xml-formatter",
+    "title": "XML Formatter & Validator — Free Online Tool",
+    "description": "Pretty-print and validate XML instantly with clear error reporting. Free online XML formatter — private, runs entirely in your browser.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "xml formatter",
+      "xml validator",
+      "pretty print xml",
+      "format xml online",
+      "xml beautifier"
+    ],
+    "url": "/ToolVerse/tools/developer/xml-formatter.html"
   },
   {
     "id": "image-compressor",
