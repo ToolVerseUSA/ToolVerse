@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Just need the list in a random order instead? The List Randomizer shuffles without grouping.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything is generated locally in your browser with cryptographic randomness. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Generated on your device only",
+  "category": "generators",
+  "categoryLabel": "Generators",
+  "contentRef": "tools-src/generators/team-generator.html",
+  "faq": [
+    {
+      "a": "It uses your browser's cryptographic random generator (crypto.getRandomValues) with rejection sampling and unbiased shuffling \u2014 the same quality of randomness used by security software, not the predictable Math.random().",
+      "q": "How random is it, really?"
+    },
+    {
+      "a": "Entries are shuffled cryptographically, then dealt round-robin across the teams \u2014 so team sizes differ by at most one member, every time.",
+      "q": "How are the teams balanced?"
+    },
+    {
+      "a": "Team count is best when you know the format (4 teams). Team size is best for a target group size (about 5 per team) \u2014 the tool works out how many teams that makes.",
+      "q": "Should I pick team count or team size?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Paste the roster, choose your split, and get fair random teams in one click.",
+  "heroTitle": "Team Generator",
+  "id": "team-generator",
+  "inputs": [
+    {
+      "label": "Options",
+      "name": "options",
+      "required": false,
+      "type": "text"
+    }
+  ],
+  "keywords": [
+    "team generator",
+    "random team generator",
+    "make random teams",
+    "split list into groups",
+    "random group generator"
+  ],
+  "logicRef": "tools-src/generators/team-generator.js",
+  "metaDescription": "Split any list of names into random, balanced teams. Choose the number of teams or the team size \u2014 sizes never differ by more than one. Free, private.",
+  "relatedTools": [],
+  "slug": "team-generator",
+  "title": "Random Team Generator \u2014 Split a List into Teams | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Random teams ignore skill, friendships, and conflicts \u2014 for competitive leagues, seed or draft first and use this only to break the remaining ties.",
+    "It can't balance by attributes (age, level) because it deliberately treats every entry equally."
+  ]
+}

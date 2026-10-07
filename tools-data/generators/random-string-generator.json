@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need structured IDs instead? The UUID Generator in Developer Tools makes standard v4 UUIDs.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything is generated locally in your browser with cryptographic randomness. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Generated on your device only",
+  "category": "generators",
+  "categoryLabel": "Generators",
+  "contentRef": "tools-src/generators/random-string-generator.html",
+  "faq": [
+    {
+      "a": "It uses your browser's cryptographic random generator (crypto.getRandomValues) with rejection sampling and unbiased shuffling \u2014 the same quality of randomness used by security software, not the predictable Math.random().",
+      "q": "How random is it, really?"
+    },
+    {
+      "a": "The Password Generator (in Security & Privacy) is built for human-chosen account passwords, with strength guidance. This generator is for machine-facing strings \u2014 test fixtures, sample IDs, placeholder tokens \u2014 where you control length and charset precisely.",
+      "q": "How is this different from the Password Generator?"
+    },
+    {
+      "a": "Lowercase, uppercase, digits, and symbols are separate toggles \u2014 at least one set must be on. Ambiguous characters can be excluded for human-readable test data.",
+      "q": "Which characters can I include?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Developer-grade random strings for QA and test data \u2014 pick the length and charset, get a batch.",
+  "heroTitle": "Random String Generator",
+  "id": "random-string-generator",
+  "inputs": [
+    {
+      "label": "Options",
+      "name": "options",
+      "required": false,
+      "type": "text"
+    }
+  ],
+  "keywords": [
+    "random string generator",
+    "random text generator",
+    "generate random string",
+    "test data generator",
+    "random alphanumeric string"
+  ],
+  "logicRef": "tools-src/generators/random-string-generator.js",
+  "metaDescription": "Generate random strings for test data, temporary IDs and tokens \u2014 configurable length and character sets, batch output, cryptographically secure. Free.",
+  "relatedTools": [],
+  "slug": "random-string-generator",
+  "title": "Random String Generator \u2014 Test Data & IDs | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Strings shown on a web page are not a key-management system \u2014 production secrets and API keys should be generated and stored by your secrets manager, never copied from a browser tab.",
+    "It generates character strings only; formatted patterns (like XXX-000) need a quick manual pass or your test framework's faker library."
+  ]
+}

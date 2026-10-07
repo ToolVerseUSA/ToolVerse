@@ -1,0 +1,46 @@
+<p class="disclaimer"><strong>100% private — generated on your device.</strong> A small open-source QR library (qrcode-generator by Kazuhiko Arase, MIT License) is bundled into this page; your link, text, or Wi-Fi password is never sent anywhere. <strong>Careful:</strong> anyone who scans the code can read its contents.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Generators</p>
+<h2>Create a QR code</h2>
+<p class="section-intro">For a link or text, or a Wi-Fi code your guests can scan to join. Download the PNG and print or share it.</p>
+<div class="form-section">
+<label for="qr-mode">QR code type</label>
+<select class="tv-field" id="qr-mode" aria-label="QR code type">
+<option value="text">Link or text</option>
+<option value="wifi">Wi-Fi network</option>
+</select>
+<div id="qr-text-fields">
+<label for="qr-text">Link or text</label>
+<input class="tv-field" id="qr-text" type="text" placeholder="https://example.com or any text" aria-label="Link or text for the QR code">
+</div>
+<div id="qr-wifi-fields">
+<label for="qr-ssid">Network name (SSID)</label>
+<input class="tv-field" id="qr-ssid" type="text" placeholder="MyHomeWiFi" aria-label="Wi-Fi network name">
+<label for="qr-pass">Password</label>
+<input class="tv-field" id="qr-pass" type="text" placeholder="Wi-Fi password" aria-label="Wi-Fi password">
+<label for="qr-sec">Security</label>
+<select class="tv-field" id="qr-sec" aria-label="Wi-Fi security type">
+<option value="WPA">WPA/WPA2/WPA3</option>
+<option value="WEP">WEP</option>
+<option value="nopass">No password (open)</option>
+</select>
+<label><input type="checkbox" id="qr-hidden"> Hidden network</label>
+</div>
+<label for="qr-size">Image size</label>
+<select class="tv-field" id="qr-size" aria-label="QR image size">
+<option value="256">256 × 256</option>
+<option value="512" selected>512 × 512</option>
+<option value="1024">1024 × 1024 (print)</option>
+</select>
+<div class="tool-actions">
+<button class="button" type="button" id="qr-download">Download PNG</button>
+<button class="button primary" type="button" id="qr-gen">Generate QR code</button>
+</div>
+<p class="form-error" id="qr-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="qr-result" aria-live="polite">
+<h2>Your QR code</h2>
+<p class="result-lede" id="qr-status">Fill in the details and press Generate. Always test-scan before printing.</p>
+<div id="qr-canvas" style="background:#fff;padding:16px;border-radius:12px;display:inline-block"></div>
+</div>
+</section>

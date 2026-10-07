@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need more than two options? The Random Picker chooses fairly from any list you give it.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything is generated locally in your browser with cryptographic randomness. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Generated on your device only",
+  "category": "generators",
+  "categoryLabel": "Generators",
+  "contentRef": "tools-src/generators/coin-flipper.html",
+  "faq": [
+    {
+      "a": "It uses your browser's cryptographic random generator (crypto.getRandomValues) with rejection sampling and unbiased shuffling \u2014 the same quality of randomness used by security software, not the predictable Math.random().",
+      "q": "How random is it, really?"
+    },
+    {
+      "a": "The current run of identical results (for example 'Heads \u00d74 in a row') and the longest streak of the session so far.",
+      "q": "What do the streaks show?"
+    },
+    {
+      "a": "Choose best of 3, 5, or 7 and the flipper tracks the score until one side clinches the series.",
+      "q": "How does best-of mode work?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "A fair coin, flipped in your browser \u2014 with tallies and streaks if you're settling best-of series.",
+  "heroTitle": "Coin Flipper",
+  "id": "coin-flipper",
+  "inputs": [
+    {
+      "label": "Options",
+      "name": "options",
+      "required": false,
+      "type": "text"
+    }
+  ],
+  "keywords": [
+    "flip a coin",
+    "coin flipper",
+    "heads or tails",
+    "online coin toss",
+    "virtual coin flip"
+  ],
+  "logicRef": "tools-src/generators/coin-flipper.js",
+  "metaDescription": "Flip a virtual coin online \u2014 heads or tails with a running tally, streaks and best-of modes. Cryptographically random, free, no sign-up.",
+  "relatedTools": [],
+  "slug": "coin-flipper",
+  "title": "Coin Flipper \u2014 Flip a Coin Online | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "A coin flip is a tie-breaker, not a decision method \u2014 anything with real consequences deserves more thought than 50/50.",
+    "Official coin tosses (sports, ceremonies) follow their own rules; this is an everyday virtual equivalent."
+  ]
+}

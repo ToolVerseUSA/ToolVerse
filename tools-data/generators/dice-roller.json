@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Settling something simpler? Flip a Coin gives you a clean heads-or-tails decision.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything is generated locally in your browser with cryptographic randomness. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Generated on your device only",
+  "category": "generators",
+  "categoryLabel": "Generators",
+  "contentRef": "tools-src/generators/dice-roller.html",
+  "faq": [
+    {
+      "a": "It uses your browser's cryptographic random generator (crypto.getRandomValues) with rejection sampling and unbiased shuffling \u2014 the same quality of randomness used by security software, not the predictable Math.random().",
+      "q": "How random is it, really?"
+    },
+    {
+      "a": "All the standard polyhedral dice: d4, d6, d8, d10, d12, d20, and d100 (percentile). Roll 1 to 10 at a time.",
+      "q": "Which dice are supported?"
+    },
+    {
+      "a": "Yes \u2014 every roll is added to the history list with its dice and total, newest first, until you clear it.",
+      "q": "Can I see my previous rolls?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Fair virtual dice for games and classrooms \u2014 pick your die, roll up to ten at once, keep the history.",
+  "heroTitle": "Dice Roller",
+  "id": "dice-roller",
+  "inputs": [
+    {
+      "label": "Options",
+      "name": "options",
+      "required": false,
+      "type": "text"
+    }
+  ],
+  "keywords": [
+    "dice roller",
+    "roll a die",
+    "d20 roller",
+    "virtual dice",
+    "roll dice online"
+  ],
+  "logicRef": "tools-src/generators/dice-roller.js",
+  "metaDescription": "Roll up to 10 virtual dice online \u2014 d4, d6, d8, d10, d12, d20 or d100 \u2014 with individual results, totals and roll history. Free, fair, cryptographically random.",
+  "relatedTools": [],
+  "slug": "dice-roller",
+  "title": "Dice Roller \u2014 Roll Virtual Dice Online | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Virtual dice can't replace physical dice where a game or exam requires them \u2014 and a screen roll is easy to re-roll, so agree the rules with your group first.",
+    "It rolls standard dice only; exploding dice, advantage/disadvantage and other house rules need to be worked out from the individual results."
+  ]
+}

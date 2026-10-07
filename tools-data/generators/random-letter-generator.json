@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need full words instead? The Random Word Generator draws from a curated English list.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything is generated locally in your browser with cryptographic randomness. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Generated on your device only",
+  "category": "generators",
+  "categoryLabel": "Generators",
+  "contentRef": "tools-src/generators/random-letter-generator.html",
+  "faq": [
+    {
+      "a": "It uses your browser's cryptographic random generator (crypto.getRandomValues) with rejection sampling and unbiased shuffling \u2014 the same quality of randomness used by security software, not the predictable Math.random().",
+      "q": "How random is it, really?"
+    },
+    {
+      "a": "It removes easily confused letters from the pool \u2014 O, I, and l \u2014 so generated letters are unambiguous when read aloud or handwritten. (Digits aren't generated here at all.)",
+      "q": "What does 'exclude look-alikes' do?"
+    },
+    {
+      "a": "Yes \u2014 choose any quantity from 1 to 100 letters per batch.",
+      "q": "Can it generate more than one letter at a time?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Letters for games, classrooms, and draws \u2014 clean, fair, and instant.",
+  "heroTitle": "Random Letter Generator",
+  "id": "random-letter-generator",
+  "inputs": [
+    {
+      "label": "Options",
+      "name": "options",
+      "required": false,
+      "type": "text"
+    }
+  ],
+  "keywords": [
+    "random letter generator",
+    "random alphabet letter",
+    "letter generator online",
+    "random letter picker",
+    "alphabet generator"
+  ],
+  "logicRef": "tools-src/generators/random-letter-generator.js",
+  "metaDescription": "Generate random letters instantly \u2014 uppercase, lowercase or mixed, with optional look-alike exclusion. Cryptographically random, free, runs in your browser.",
+  "relatedTools": [],
+  "slug": "random-letter-generator",
+  "title": "Random Letter Generator \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It generates letters only \u2014 for letters+digits strings (test IDs, codes), use the Random String Generator instead.",
+    "A random letter is not a fair substitute for a full draw process in regulated settings."
+  ]
+}

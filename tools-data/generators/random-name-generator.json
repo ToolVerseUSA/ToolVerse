@@ -1,0 +1,51 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need test strings instead of names? The Random String Generator makes IDs and tokens.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything is generated locally in your browser with cryptographic randomness. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Generated on your device only",
+  "category": "generators",
+  "categoryLabel": "Generators",
+  "contentRef": "tools-src/generators/random-name-generator.html",
+  "faq": [
+    {
+      "a": "The Random Picker picks from a list YOU paste. This generator invents new names from built-in first- and last-name lists \u2014 no input list needed.",
+      "q": "How is this different from the Random Picker?"
+    },
+    {
+      "a": "They are random combinations of common names. Any match with a real person is coincidence \u2014 the names are for fiction, testing, and placeholders, and carry no real person's data.",
+      "q": "Are these real people?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Full names for characters, mock users, and test data \u2014 generated from curated US name lists.",
+  "heroTitle": "Random Name Generator",
+  "id": "random-name-generator",
+  "inputs": [
+    {
+      "label": "Options",
+      "name": "options",
+      "required": false,
+      "type": "text"
+    }
+  ],
+  "keywords": [
+    "random name generator",
+    "fake name generator",
+    "character name generator",
+    "random full name",
+    "name generator online"
+  ],
+  "logicRef": "tools-src/generators/random-name-generator.js",
+  "metaDescription": "Generate random full names (first + last) from common US name lists \u2014 for story characters, test data and placeholders. Batch generation, free and private.",
+  "relatedTools": [],
+  "slug": "random-name-generator",
+  "title": "Random Name Generator \u2014 Fake Names for Stories & Testing | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Never use generated names to impersonate anyone, create fake accounts, or misrepresent identity \u2014 they're for fiction and clearly-test data only.",
+    "The lists reflect common US names; they won't represent every culture or naming convention."
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need names for characters instead of accounts? The Random Name Generator creates full person names.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything is generated locally in your browser with cryptographic randomness. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Generated on your device only",
+  "category": "generators",
+  "categoryLabel": "Generators",
+  "contentRef": "tools-src/generators/username-generator.html",
+  "faq": [
+    {
+      "a": "We can't know \u2014 availability depends on each platform's registered names, which no outside tool can check. Treat these as ideas and check availability where you sign up.",
+      "q": "Are these usernames available on my platform?"
+    },
+    {
+      "a": "Professional uses clean word pairs (name-like, no leetspeak). Gamer adds edgier words and optional digits. Funny uses playful, absurd combinations. All are adjective + noun patterns with optional numbers.",
+      "q": "What do the styles change?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Stuck on a username? Generate a batch of ideas in your style and pick the one that feels like you.",
+  "heroTitle": "Username Generator",
+  "id": "username-generator",
+  "inputs": [
+    {
+      "label": "Options",
+      "name": "options",
+      "required": false,
+      "type": "text"
+    }
+  ],
+  "keywords": [
+    "username generator",
+    "username ideas",
+    "gamer name generator",
+    "cool usernames",
+    "random username"
+  ],
+  "logicRef": "tools-src/generators/username-generator.js",
+  "metaDescription": "Generate username ideas instantly \u2014 gamer, professional and funny styles, with optional numbers. Fresh batch every click. No availability claims, just ideas.",
+  "relatedTools": [],
+  "slug": "username-generator",
+  "title": "Username Generator \u2014 Free Name Ideas Online | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Generated names can coincidentally match existing brands or users \u2014 check trademark and platform rules before building an identity on one.",
+    "It can't judge taste or cultural fit for your audience; generate a few batches and shortlist with a human eye."
+  ]
+}

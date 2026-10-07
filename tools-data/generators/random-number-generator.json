@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need numbers for a lottery ticket instead? The Lottery Number Generator has the official Powerball and Mega Millions formats built in.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything is generated locally in your browser with cryptographic randomness. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Generated on your device only",
+  "category": "generators",
+  "categoryLabel": "Generators",
+  "contentRef": "tools-src/generators/random-number-generator.html",
+  "faq": [
+    {
+      "a": "It uses your browser's cryptographic random generator (crypto.getRandomValues) with rejection sampling and unbiased shuffling \u2014 the same quality of randomness used by security software, not the predictable Math.random().",
+      "q": "How random is it, really?"
+    },
+    {
+      "a": "Yes \u2014 set decimal places above zero and each number is generated at that precision inside your range.",
+      "q": "Can it generate decimal numbers?"
+    },
+    {
+      "a": "With unique on, no value repeats within a batch (as long as the range has enough possible values \u2014 the tool tells you if you ask for more than exist).",
+      "q": "What does 'unique' mean?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Truly random numbers from your browser's cryptographic RNG \u2014 no patterns, no predictability.",
+  "heroTitle": "Random Number Generator",
+  "id": "random-number-generator",
+  "inputs": [
+    {
+      "label": "Options",
+      "name": "options",
+      "required": false,
+      "type": "text"
+    }
+  ],
+  "keywords": [
+    "random number generator",
+    "random number picker",
+    "generate random numbers",
+    "secure random number",
+    "number generator online"
+  ],
+  "logicRef": "tools-src/generators/random-number-generator.js",
+  "metaDescription": "Generate random numbers in any range with a cryptographically secure generator. Set min, max, quantity, decimals and uniqueness \u2014 free, no sign-up.",
+  "relatedTools": [],
+  "slug": "random-number-generator",
+  "title": "Random Number Generator \u2014 Free & Secure Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Random is not the same as suitable \u2014 lottery draws, audits, and legal selections have official processes; use this for everyday decisions, games, and testing.",
+    "For cryptographic keys or tokens, use a dedicated key generator in your password manager or OS, not a web page."
+  ]
+}

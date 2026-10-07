@@ -1,0 +1,32 @@
+<p class="disclaimer"><strong>100% private &amp; cryptographically secure.</strong> Numbers come from your browser's crypto RNG (crypto.getRandomValues) with rejection sampling — no modulo bias, no patterns. Nothing leaves your device.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Generators</p>
+<h2>Generate random numbers</h2>
+<p class="section-intro">Set your range and how many numbers you need. Unique mode guarantees no repeats inside a batch.</p>
+<div class="form-section">
+<label for="rn-min">Minimum</label>
+<input class="tv-field" id="rn-min" type="number" value="1" aria-label="Minimum value">
+<label for="rn-max">Maximum</label>
+<input class="tv-field" id="rn-max" type="number" value="100" aria-label="Maximum value">
+<label for="rn-qty">Quantity (1–100)</label>
+<input class="tv-field" id="rn-qty" type="number" min="1" max="100" value="5" aria-label="How many numbers">
+<label for="rn-dec">Decimal places</label>
+<select class="tv-field" id="rn-dec" aria-label="Decimal places">
+<option value="0">0 — whole numbers</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+</select>
+<label><input type="checkbox" id="rn-unique"> Unique values (no repeats)</label>
+<div class="tool-actions">
+<button class="button" type="button" id="rn-copy">Copy results</button>
+<button class="button primary" type="button" id="rn-gen">Generate</button>
+</div>
+<p class="form-error" id="rn-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rn-result" aria-live="polite">
+<h2>Your numbers</h2>
+<textarea class="tv-field" id="rn-output" rows="5" readonly aria-label="Generated random numbers" style="width:100%;min-height:110px"></textarea>
+</div>
+</section>

@@ -1,0 +1,39 @@
+<p class="disclaimer"><strong>100% private &amp; fair.</strong> Every flip uses your browser's cryptographic RNG — nothing is uploaded or stored.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Generators</p>
+<h2>Flip a coin</h2>
+<p class="section-intro">Heads or tails, settled fairly. Best-of mode keeps score until one side clinches the series.</p>
+<div class="form-section">
+<label for="cf-mode">Mode</label>
+<select class="tv-field" id="cf-mode" aria-label="Flip mode">
+<option value="single">Single flips</option>
+<option value="3">Best of 3</option>
+<option value="5">Best of 5</option>
+<option value="7">Best of 7</option>
+</select>
+<div class="tool-actions">
+<button class="button" type="button" id="cf-reset">Reset</button>
+<button class="button primary" type="button" id="cf-flip">Flip coin</button>
+</div>
+<p class="form-error" id="cf-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="cf-result" aria-live="polite">
+<h2>Result</h2>
+<div class="coin-wrap">
+<div class="coin" id="cf-coin" aria-live="polite">?</div>
+<p class="result-lede" id="cf-status">Press Flip coin to begin.</p>
+</div>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Tally</h3><dl>
+<div><dt>Heads</dt><dd id="cf-heads">0</dd></div>
+<div><dt>Tails</dt><dd id="cf-tails">0</dd></div>
+<div><dt>Total flips</dt><dd id="cf-total">0</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Streaks</h3><dl>
+<div><dt>Current streak</dt><dd id="cf-streak">—</dd></div>
+<div><dt>Longest streak</dt><dd id="cf-best">—</dd></div>
+<div><dt>Series</dt><dd id="cf-series">—</dd></div>
+</dl></div>
+</div>
+</div>
+</section>

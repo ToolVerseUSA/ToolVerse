@@ -1,0 +1,24 @@
+<p class="disclaimer"><strong>100% private &amp; fair.</strong> Entries never leave your browser, and the draw uses a cryptographic Fisher&ndash;Yates shuffle — every entry has an exactly equal chance.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Generators</p>
+<h2>Pick a random winner</h2>
+<p class="section-intro">One entry per line. Blank lines are ignored; a name pasted twice counts as two entries.</p>
+<div class="form-section">
+<label for="rp-input">Entries</label>
+<textarea class="tv-field" id="rp-input" rows="8" placeholder="One entry per line&hellip;" aria-label="Entries to pick from" style="width:100%;min-height:150px"></textarea>
+<label for="rp-count">How many to pick (winners)</label>
+<input class="tv-field" id="rp-count" type="number" min="1" value="1" aria-label="Number of winners to pick">
+<label><input type="checkbox" id="rp-remove"> Remove after pick (sequential draws never repeat)</label>
+<div class="tool-actions">
+<button class="button" type="button" id="rp-clear">Clear</button>
+<button class="button" type="button" id="rp-copy">Copy winners</button>
+<button class="button primary" type="button" id="rp-pick">Pick</button>
+</div>
+<p class="form-error" id="rp-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rp-result" aria-live="polite">
+<h2>Winners</h2>
+<p class="result-lede" id="rp-stats">Add entries and press Pick.</p>
+<div id="rp-output"></div>
+</div>
+</section>

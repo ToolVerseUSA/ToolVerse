@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Want usernames built from words like these? The Username Generator combines them into account-ready ideas.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything is generated locally in your browser with cryptographic randomness. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Generated on your device only",
+  "category": "generators",
+  "categoryLabel": "Generators",
+  "contentRef": "tools-src/generators/random-word-generator.html",
+  "faq": [
+    {
+      "a": "It uses your browser's cryptographic random generator (crypto.getRandomValues) with rejection sampling and unbiased shuffling \u2014 the same quality of randomness used by security software, not the predictable Math.random().",
+      "q": "How random is it, really?"
+    },
+    {
+      "a": "A curated built-in list of common English words stored in the tool itself \u2014 no external API, nothing fetched, works offline.",
+      "q": "Where do the words come from?"
+    },
+    {
+      "a": "Yes \u2014 set a minimum and/or maximum letter count and only matching words are generated.",
+      "q": "Can I filter by length?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Fresh words on demand: prompts, games, brainstorming, and ideas when your brain stalls.",
+  "heroTitle": "Random Word Generator",
+  "id": "random-word-generator",
+  "inputs": [
+    {
+      "label": "Options",
+      "name": "options",
+      "required": false,
+      "type": "text"
+    }
+  ],
+  "keywords": [
+    "random word generator",
+    "random english words",
+    "word generator online",
+    "random words for games",
+    "writing prompt words"
+  ],
+  "logicRef": "tools-src/generators/random-word-generator.js",
+  "metaDescription": "Generate random English words from a curated word list \u2014 for writing prompts, brainstorming, games and passphrase ideas. Optional length filter, batches.",
+  "relatedTools": [],
+  "slug": "random-word-generator",
+  "title": "Random Word Generator \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Common words only \u2014 it won't produce rare, technical, or proper nouns, and it can't check that a word fits your sentence's grammar.",
+    "A handful of random words is inspiration for a passphrase, not a passphrase itself \u2014 use the Password Generator for anything security-related."
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Shortening the link first? The Slug Generator in Text & Writing cleans up long URLs.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything is generated locally in your browser with cryptographic randomness. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Generated on your device only",
+  "category": "generators",
+  "categoryLabel": "Generators",
+  "contentRef": "tools-src/generators/qr-code-generator.html",
+  "faq": [
+    {
+      "a": "Yes. A small open-source QR library (qrcode-generator by Kazuhiko Arase, MIT-licensed) is bundled into this page and runs entirely in your browser \u2014 your link, text, or Wi-Fi password never leaves your device.",
+      "q": "Is the QR code really generated locally?"
+    },
+    {
+      "a": "It produces standard QR codes (error-correction level M) that any phone camera or scanner app can read. Test yours with your own phone before printing \u2014 dark code on a light background, printed at a reasonable size.",
+      "q": "Will the code scan everywhere?"
+    },
+    {
+      "a": "No. It encodes your content directly (not a redirect through our site), so it works forever \u2014 but it also can't be edited later. If the destination URL changes, print a new code.",
+      "q": "Does the QR code expire?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Make a QR code for a URL, text, or your Wi-Fi network \u2014 and download the PNG, free and watermark-free.",
+  "heroTitle": "QR Code Generator",
+  "id": "qr-code-generator",
+  "inputs": [
+    {
+      "label": "Content",
+      "name": "content",
+      "required": true,
+      "type": "text"
+    }
+  ],
+  "keywords": [
+    "qr code generator",
+    "create qr code",
+    "wifi qr code",
+    "qr code maker",
+    "free qr code generator"
+  ],
+  "logicRef": "tools-src/generators/qr-code-generator.js",
+  "metaDescription": "Create QR codes for links, text or Wi-Fi in your browser and download them as PNG. No sign-up, no watermark, nothing uploaded \u2014 generation is 100% local.",
+  "relatedTools": [],
+  "slug": "qr-code-generator",
+  "title": "QR Code Generator \u2014 Free, Private, No Watermark | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Never encode passwords or secrets in a QR code except Wi-Fi sharing \u2014 anyone who can see the code can read its contents with any scanner.",
+    "Very long text makes a dense code that small prints can't reproduce reliably; shorten URLs first, and always test-scan a proof print."
+  ]
+}

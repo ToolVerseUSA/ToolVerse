@@ -1,0 +1,33 @@
+<p class="disclaimer"><strong>Honest quick picks only.</strong> These numbers are generated randomly — exactly like a lottery terminal's Quick Pick. No generator can predict a draw or improve your odds; every combination is equally likely (the Powerball jackpot odds are 1 in 292,201,338). Always buy tickets and check results through official lottery channels.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Generators</p>
+<h2>Generate lottery numbers</h2>
+<p class="section-intro">Presets use the current official formats: Powerball 5/69 + Powerball 1/26; Mega Millions 5/70 + Mega Ball 1/24 (rules since April 2025).</p>
+<div class="form-section">
+<label for="ln-game">Game</label>
+<select class="tv-field" id="ln-game" aria-label="Lottery game">
+<option value="powerball">Powerball — 5 from 1–69 + Powerball 1–26</option>
+<option value="mega">Mega Millions — 5 from 1–70 + Mega Ball 1–24</option>
+<option value="custom">Custom game</option>
+</select>
+<div id="ln-custom">
+<label for="ln-pool">Main numbers: pick count</label>
+<input class="tv-field" id="ln-picks" type="number" min="1" max="10" value="5" aria-label="How many main numbers">
+<label for="ln-pool">Main numbers: highest number</label>
+<input class="tv-field" id="ln-pool" type="number" min="5" max="99" value="49" aria-label="Main number pool size">
+<label for="ln-bonus-pool">Bonus ball: highest number (0 = no bonus ball)</label>
+<input class="tv-field" id="ln-bonus-pool" type="number" min="0" max="99" value="0" aria-label="Bonus ball pool size">
+</div>
+<label for="ln-lines">Lines to generate (1–10)</label>
+<input class="tv-field" id="ln-lines" type="number" min="1" max="10" value="3" aria-label="Number of lines">
+<div class="tool-actions">
+<button class="button" type="button" id="ln-copy">Copy lines</button>
+<button class="button primary" type="button" id="ln-gen">Generate numbers</button>
+</div>
+<p class="form-error" id="ln-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="ln-result" aria-live="polite">
+<h2>Your quick picks</h2>
+<div id="ln-output"><p class="result-lede">Press Generate numbers for your lines.</p></div>
+</div>
+</section>

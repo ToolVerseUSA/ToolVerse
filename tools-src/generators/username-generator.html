@@ -1,0 +1,30 @@
+<p class="disclaimer"><strong>Ideas only.</strong> Usernames are generated locally from built-in word lists. We can't check whether a name is available or trademarked on any platform — always check where you sign up.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Generators</p>
+<h2>Generate username ideas</h2>
+<p class="section-intro">Pick a style and get a fresh batch of 20 ideas per click. Mix, match, and make one your own.</p>
+<div class="form-section">
+<label for="un-style">Style</label>
+<select class="tv-field" id="un-style" aria-label="Username style">
+<option value="professional">Professional — clean word pairs</option>
+<option value="gamer">Gamer — bold words, more numbers</option>
+<option value="funny">Funny — playful and absurd</option>
+</select>
+<label><input type="checkbox" id="un-numbers" checked> Add numbers sometimes</label>
+<label for="un-sep">Separator</label>
+<select class="tv-field" id="un-sep" aria-label="Separator between words">
+<option value="">None (CamelCase or joined)</option>
+<option value="_">Underscore _</option>
+<option value=".">Dot .</option>
+</select>
+<div class="tool-actions">
+<button class="button" type="button" id="un-copy">Copy all</button>
+<button class="button primary" type="button" id="un-gen">Generate 20 ideas</button>
+</div>
+<p class="form-error" id="un-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="un-result" aria-live="polite">
+<h2>Ideas</h2>
+<textarea class="tv-field" id="un-output" rows="10" readonly aria-label="Generated username ideas" style="width:100%;min-height:200px"></textarea>
+</div>
+</section>

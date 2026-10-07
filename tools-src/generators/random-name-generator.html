@@ -1,0 +1,25 @@
+<p class="disclaimer"><strong>Fictional names.</strong> Names are random combinations from common US name lists, generated locally. Any resemblance to a real person is coincidence — use them for fiction and test data, never impersonation.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Generators</p>
+<h2>Generate full names</h2>
+<p class="section-intro">For story characters, mock users, and test data. (Different from the Random Picker — that one picks from a list <em>you</em> paste; this invents new names.)</p>
+<div class="form-section">
+<label for="rna-set">Name set</label>
+<select class="tv-field" id="rna-set" aria-label="Name set">
+<option value="all">All names</option>
+<option value="female">Typically female names</option>
+<option value="male">Typically male names</option>
+</select>
+<label for="rna-count">How many (1–50)</label>
+<input class="tv-field" id="rna-count" type="number" min="1" max="50" value="10" aria-label="Number of names">
+<div class="tool-actions">
+<button class="button" type="button" id="rna-copy">Copy all</button>
+<button class="button primary" type="button" id="rna-gen">Generate names</button>
+</div>
+<p class="form-error" id="rna-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rna-result" aria-live="polite">
+<h2>Names</h2>
+<textarea class="tv-field" id="rna-output" rows="10" readonly aria-label="Generated names" style="width:100%;min-height:200px"></textarea>
+</div>
+</section>

@@ -1,0 +1,27 @@
+<p class="disclaimer"><strong>For test data — not for real secrets.</strong> Strings are generated locally with cryptographic randomness, but production keys and passwords belong in a secrets manager or the Password Generator (Security &amp; Privacy), not a browser tab.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Generators</p>
+<h2>Generate random strings</h2>
+<p class="section-intro">For QA fixtures, sample IDs, and placeholder tokens — you control the length and character sets exactly.</p>
+<div class="form-section">
+<label for="rs-length">Length (1–128)</label>
+<input class="tv-field" id="rs-length" type="number" min="1" max="128" value="16" aria-label="String length">
+<label for="rs-count">How many strings (1–50)</label>
+<input class="tv-field" id="rs-count" type="number" min="1" max="50" value="5" aria-label="Number of strings">
+<label>Character sets</label>
+<label><input type="checkbox" id="rs-lower" checked> Lowercase (a–z)</label>
+<label><input type="checkbox" id="rs-upper" checked> Uppercase (A–Z)</label>
+<label><input type="checkbox" id="rs-digits" checked> Digits (0–9)</label>
+<label><input type="checkbox" id="rs-symbols"> Symbols (!@#$%^&amp;* etc.)</label>
+<label><input type="checkbox" id="rs-noambig"> Exclude ambiguous (0 O 1 l I |)</label>
+<div class="tool-actions">
+<button class="button" type="button" id="rs-copy">Copy all</button>
+<button class="button primary" type="button" id="rs-gen">Generate strings</button>
+</div>
+<p class="form-error" id="rs-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rs-result" aria-live="polite">
+<h2>Your strings</h2>
+<textarea class="tv-field" id="rs-output" rows="7" readonly aria-label="Generated random strings" style="width:100%;min-height:140px"></textarea>
+</div>
+</section>

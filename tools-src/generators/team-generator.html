@@ -1,0 +1,28 @@
+<p class="disclaimer"><strong>100% private &amp; fair.</strong> Your roster never leaves your browser. Teams are dealt round-robin from a cryptographic shuffle, so sizes differ by at most one.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Generators</p>
+<h2>Make random teams</h2>
+<p class="section-intro">One name per line. Choose how to split — a fixed number of teams, or a target team size.</p>
+<div class="form-section">
+<label for="tg-input">Roster</label>
+<textarea class="tv-field" id="tg-input" rows="8" placeholder="One name per line&hellip;" aria-label="Names to split into teams" style="width:100%;min-height:150px"></textarea>
+<label for="tg-mode">Split by</label>
+<select class="tv-field" id="tg-mode" aria-label="Split mode">
+<option value="teams">Number of teams</option>
+<option value="size">Team size</option>
+</select>
+<label for="tg-value">Teams / size</label>
+<input class="tv-field" id="tg-value" type="number" min="1" value="2" aria-label="Number of teams or team size">
+<div class="tool-actions">
+<button class="button" type="button" id="tg-clear">Clear</button>
+<button class="button" type="button" id="tg-copy">Copy teams</button>
+<button class="button primary" type="button" id="tg-gen">Make teams</button>
+</div>
+<p class="form-error" id="tg-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="tg-result" aria-live="polite">
+<h2>Teams</h2>
+<p class="result-lede" id="tg-stats">Add a roster and press Make teams.</p>
+<div id="tg-output"></div>
+</div>
+</section>

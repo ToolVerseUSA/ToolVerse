@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Playing a private raffle instead? The Random Picker draws winners from your own entry list.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything is generated locally in your browser with cryptographic randomness. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Generated on your device only",
+  "category": "generators",
+  "categoryLabel": "Generators",
+  "contentRef": "tools-src/generators/lottery-number-generator.html",
+  "faq": [
+    {
+      "a": "No \u2014 and beware any tool that claims otherwise. Every combination has exactly the same odds (the Powerball jackpot is 1 in 292,201,338). These are random quick picks, generated the same way a lottery terminal generates them.",
+      "q": "Are these numbers more likely to win?"
+    },
+    {
+      "a": "Powerball: 5 numbers from 1\u201369 plus a Powerball from 1\u201326. Mega Millions (current rules since April 2025): 5 numbers from 1\u201370 plus a Mega Ball from 1\u201324. A custom mode covers any other game.",
+      "q": "Which formats are built in?"
+    },
+    {
+      "a": "No. It only generates numbers. Buy tickets from an official retailer and check results on your state lottery's official site.",
+      "q": "Does the tool sell tickets or check results?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Quick-pick lines in the exact current formats of the big US games \u2014 generated randomly, with no claims attached.",
+  "heroTitle": "Lottery Number Generator",
+  "id": "lottery-number-generator",
+  "inputs": [
+    {
+      "label": "Options",
+      "name": "options",
+      "required": false,
+      "type": "text"
+    }
+  ],
+  "keywords": [
+    "lottery number generator",
+    "powerball number generator",
+    "mega millions number generator",
+    "quick pick generator",
+    "random lottery numbers"
+  ],
+  "logicRef": "tools-src/generators/lottery-number-generator.js",
+  "metaDescription": "Generate random quick-pick lottery numbers for Powerball (5/69 + 1/26) and Mega Millions (5/70 + 1/24), or any custom game. Purely random \u2014 never a prediction.",
+  "relatedTools": [],
+  "slug": "lottery-number-generator",
+  "title": "Lottery Number Generator \u2014 Powerball & Mega Millions | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "This generator cannot improve your odds, find 'hot' numbers, or predict draws \u2014 any service claiming that is misleading you.",
+    "It doesn't sell tickets or verify winning numbers; always confirm results and rules with the official lottery."
+  ]
+}
