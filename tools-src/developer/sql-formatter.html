@@ -1,0 +1,20 @@
+<p class="disclaimer"><strong>100% private.</strong> Your SQL is formatted entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Developer / Code</p>
+<h2>Format SQL</h2>
+<p class="section-intro">Paste a query and get it back with uppercase keywords, one clause per line, and indented joins and conditions. String literals and quoted names are preserved exactly.</p>
+<div class="form-section">
+<label for="sf-input">Your SQL</label>
+<textarea class="tv-field" id="sf-input" rows="8" placeholder="select id, name from users where age &gt; 21 order by name" aria-label="SQL to format" style="width:100%;min-height:160px"></textarea>
+<div class="tool-actions">
+<button class="button" type="button" id="sf-clear">Clear</button>
+<button class="button" type="button" id="sf-copy">Copy result</button>
+<button class="button primary" type="button" id="sf-run">Format SQL</button>
+</div>
+<p class="form-error" id="sf-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="sf-result" aria-live="polite">
+<h2>Formatted SQL</h2>
+<textarea class="tv-field" id="sf-output" rows="10" readonly aria-label="Formatted SQL" style="width:100%;min-height:180px"></textarea>
+</div>
+</section>

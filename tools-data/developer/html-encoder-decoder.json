@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need the tags gone entirely instead? Remove HTML Tags in Text & Writing strips markup to plain text.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your input is never uploaded, stored, or tracked.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/html-encoder-decoder.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Nothing you paste is uploaded, stored, or sent anywhere.",
+      "q": "Is my input sent to a server?"
+    },
+    {
+      "a": "The five characters that are unsafe in HTML content and attributes: & < > \" and '. They become &amp; &lt; &gt; &quot; and &#39;.",
+      "q": "Which characters get encoded?"
+    },
+    {
+      "a": "Whenever you display user-provided or untrusted text inside a web page \u2014 encoding stops the browser from interpreting it as markup, which prevents broken layouts and XSS.",
+      "q": "When should I encode text as HTML entities?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Convert <, >, &, quotes and more into safe HTML entities \u2014 and decode entities back to plain characters.",
+  "heroTitle": "HTML Encoder & Decoder",
+  "id": "html-encoder-decoder",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "html encoder",
+    "html decoder",
+    "escape html online",
+    "html entities converter",
+    "unescape html"
+  ],
+  "logicRef": "tools-src/developer/html-encoder-decoder.js",
+  "metaDescription": "Escape special characters into HTML entities \u2014 or decode entities back to text. Free online HTML encoder/decoder, private, runs in your browser.",
+  "relatedTools": [],
+  "slug": "html-encoder-decoder",
+  "title": "HTML Encoder & Decoder \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Encoding is for displaying text safely \u2014 it is not a substitute for proper output escaping in your application code, and it must never be applied twice (double-encoded text shows the entity literally).",
+    "It only handles the core entities; it does not convert accented or symbol characters to named entities like &eacute;."
+  ]
+}

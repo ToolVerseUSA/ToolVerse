@@ -1,0 +1,61 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Planning around dates instead? The Date Duration Calculator measures the gap between two dates.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your input is never uploaded, stored, or tracked.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/timestamp-converter.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Nothing you paste is uploaded, stored, or sent anywhere.",
+      "q": "Is my input sent to a server?"
+    },
+    {
+      "a": "By length: values with 12 or more digits are treated as milliseconds, shorter ones as seconds \u2014 and the detected unit is always shown so you can sanity-check it.",
+      "q": "How does it know if my timestamp is seconds or milliseconds?"
+    },
+    {
+      "a": "Both. Results show your browser's local time and UTC side by side, so you never have to guess which one a log used.",
+      "q": "Which time zone is used?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Turn epoch seconds or milliseconds into readable dates \u2014 and any date back into a timestamp.",
+  "heroTitle": "Timestamp Converter",
+  "id": "timestamp-converter",
+  "inputs": [
+    {
+      "label": "Timestamp",
+      "name": "timestamp",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "label": "Date and time",
+      "name": "date",
+      "required": false,
+      "type": "datetime"
+    }
+  ],
+  "keywords": [
+    "timestamp converter",
+    "unix timestamp",
+    "epoch converter",
+    "unix time to date",
+    "date to timestamp"
+  ],
+  "logicRef": "tools-src/developer/timestamp-converter.js",
+  "metaDescription": "Convert Unix timestamps to human dates and back \u2014 seconds or milliseconds, UTC and your local time. Free epoch converter, runs in your browser.",
+  "relatedTools": [],
+  "slug": "timestamp-converter",
+  "title": "Unix Timestamp Converter \u2014 Epoch Time Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Timestamps carry no time zone of their own \u2014 a value that looks wrong by a few hours is usually a zone mix-up in the system that produced it, not a conversion error.",
+    "Dates far outside the range your browser can represent (before 271,822 BC or after 275,760 AD) can't be converted."
+  ]
+}

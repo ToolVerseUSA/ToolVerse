@@ -1,0 +1,26 @@
+<p class="disclaimer"><strong>100% private.</strong> Your CSS is processed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Developer / Code</p>
+<h2>Minify or beautify CSS</h2>
+<p class="section-intro">Minify removes comments and whitespace for production. Beautify expands minified CSS into indented, readable rules.</p>
+<div class="form-section">
+<label for="cm-input">Your CSS</label>
+<textarea class="tv-field" id="cm-input" rows="8" placeholder=".card { color: #333; margin: 0 auto; }" aria-label="CSS to minify or beautify" style="width:100%;min-height:160px"></textarea>
+<label for="cm-mode">Mode</label>
+<select class="tv-field" id="cm-mode" aria-label="Minify or beautify">
+<option value="minify">Minify (shrink for production)</option>
+<option value="beautify">Beautify (expand for reading)</option>
+</select>
+<div class="tool-actions">
+<button class="button" type="button" id="cm-clear">Clear</button>
+<button class="button" type="button" id="cm-copy">Copy result</button>
+<button class="button primary" type="button" id="cm-run">Process CSS</button>
+</div>
+<p class="form-error" id="cm-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="cm-result" aria-live="polite">
+<h2>Result</h2>
+<p class="result-lede" id="cm-stats">Your processed CSS will appear here.</p>
+<textarea class="tv-field" id="cm-output" rows="10" readonly aria-label="Processed CSS" style="width:100%;min-height:180px"></textarea>
+</div>
+</section>

@@ -1,0 +1,20 @@
+<p class="disclaimer"><strong>100% private.</strong> Hashes are computed locally by your browser's Web Crypto engine — your text never leaves this device.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Developer / Code</p>
+<h2>Hash any text</h2>
+<p class="section-intro">Type or paste text and all four SHA digests update live. SHA-1 is included for legacy checksums only — it is no longer collision-safe.</p>
+<div class="form-section">
+<label for="hg-input">Your text</label>
+<textarea class="tv-field" id="hg-input" rows="5" placeholder="Type or paste text to hash&hellip;" aria-label="Text to hash" style="width:100%;min-height:110px"></textarea>
+<p class="form-error" id="hg-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="hg-result" aria-live="polite">
+<h2>Digests (hex)</h2>
+<div class="result-grid">
+<div class="result-grid-card"><h3>SHA-1 · legacy</h3><p id="hg-sha1" style="word-break:break-all;margin:0">—</p></div>
+<div class="result-grid-card"><h3>SHA-256</h3><p id="hg-sha256" style="word-break:break-all;margin:0">—</p></div>
+<div class="result-grid-card"><h3>SHA-384</h3><p id="hg-sha384" style="word-break:break-all;margin:0">—</p></div>
+<div class="result-grid-card"><h3>SHA-512</h3><p id="hg-sha512" style="word-break:break-all;margin:0">—</p></div>
+</div>
+</div>
+</section>

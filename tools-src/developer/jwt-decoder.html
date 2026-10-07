@@ -1,0 +1,23 @@
+<p class="disclaimer"><strong>100% private.</strong> Decoding happens entirely in your browser — your token is never sent anywhere. <strong>Decoding is not verification:</strong> always verify signatures server-side.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Developer / Code</p>
+<h2>Decode a JSON Web Token</h2>
+<p class="section-intro">Paste a JWT (three base64url segments separated by dots) to read its header and payload claims.</p>
+<div class="form-section">
+<label for="jw-input">JWT</label>
+<textarea class="tv-field" id="jw-input" rows="5" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.&hellip;" aria-label="JSON Web Token to decode" style="width:100%;min-height:110px"></textarea>
+<div class="tool-actions">
+<button class="button" type="button" id="jw-clear">Clear</button>
+<button class="button primary" type="button" id="jw-run">Decode token</button>
+</div>
+<p class="form-error" id="jw-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="jw-result" aria-live="polite">
+<h2>Decoded token</h2>
+<p class="result-lede" id="jw-status">Paste a token and press Decode.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Header</h3><pre id="jw-header" style="white-space:pre-wrap;word-break:break-word;margin:0"></pre></div>
+<div class="result-grid-card"><h3>Payload</h3><pre id="jw-payload" style="white-space:pre-wrap;word-break:break-word;margin:0"></pre></div>
+</div>
+</div>
+</section>

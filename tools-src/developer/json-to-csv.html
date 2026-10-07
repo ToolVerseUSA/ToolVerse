@@ -1,0 +1,22 @@
+<p class="disclaimer"><strong>100% private.</strong> Your JSON is converted entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Developer / Code</p>
+<h2>Convert JSON to CSV</h2>
+<p class="section-intro">Paste a JSON array of objects. Columns are the union of all keys; nested values are kept as compact JSON inside the cell.</p>
+<div class="form-section">
+<label for="jc-input">JSON input</label>
+<textarea class="tv-field" id="jc-input" rows="8" placeholder='[{"name":"Ada","age":36},{"name":"Alan","age":41}]' aria-label="JSON to convert to CSV" style="width:100%;min-height:160px"></textarea>
+<div class="tool-actions">
+<button class="button" type="button" id="jc-clear">Clear</button>
+<button class="button" type="button" id="jc-copy">Copy CSV</button>
+<button class="button" type="button" id="jc-download">Download .csv</button>
+<button class="button primary" type="button" id="jc-run">Convert</button>
+</div>
+<p class="form-error" id="jc-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="jc-result" aria-live="polite">
+<h2>CSV output</h2>
+<p class="result-lede" id="jc-stats">Your CSV will appear here.</p>
+<textarea class="tv-field" id="jc-output" rows="8" readonly aria-label="Converted CSV" style="width:100%;min-height:160px"></textarea>
+</div>
+</section>

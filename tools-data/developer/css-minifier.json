@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Pair it with the homepage performance work: formatted SQL and minified CSS keep a site tidy end to end.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your input is never uploaded, stored, or tracked.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/css-minifier.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Nothing you paste is uploaded, stored, or sent anywhere.",
+      "q": "Is my input sent to a server?"
+    },
+    {
+      "a": "Typically 10\u201330%, from removing comments, excess whitespace, and redundant separators. The tool shows the before/after sizes and the exact percentage saved.",
+      "q": "How much smaller will my CSS get?"
+    },
+    {
+      "a": "The minifier only removes comments and whitespace that CSS doesn't need, and never renames classes or merges rules. Still, test critical pages \u2014 and keep the original for editing.",
+      "q": "Is the minified output safe to ship?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Shrink your CSS for production \u2014 or expand a minified stylesheet back into something you can read.",
+  "heroTitle": "CSS Minifier & Beautifier",
+  "id": "css-minifier",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "css minifier",
+    "minify css online",
+    "css beautifier",
+    "compress css",
+    "format css online"
+  ],
+  "logicRef": "tools-src/developer/css-minifier.js",
+  "metaDescription": "Minify CSS to shrink file size, or beautify minified CSS back into readable form. Free online CSS tools \u2014 private, runs entirely in your browser.",
+  "relatedTools": [],
+  "slug": "css-minifier",
+  "title": "CSS Minifier & Beautifier \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Minified CSS is painful to debug \u2014 always keep the beautified source as your working copy and minify only at release time.",
+    "It does not do advanced optimizations (merging duplicate rules, removing unused selectors, autoprefixing) \u2014 those need a build tool like PostCSS or Lightning CSS."
+  ]
+}

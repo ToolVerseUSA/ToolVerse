@@ -1,0 +1,61 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Building strings for URLs instead? The URL Encoder handles percent-encoding without regex.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your input is never uploaded, stored, or tracked.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/regex-tester.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Nothing you paste is uploaded, stored, or sent anywhere.",
+      "q": "Is my input sent to a server?"
+    },
+    {
+      "a": "JavaScript regular expressions \u2014 the same syntax used in browsers and Node.js. Most patterns transfer to other languages, but lookbehind, named groups, and flag support differ by flavor.",
+      "q": "Which regex flavor is this?"
+    },
+    {
+      "a": "Every match is listed in order with its index in the text and any capture groups it contains. Matching is always global here so you can see all results at once.",
+      "q": "How are matches listed?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Write a pattern, paste test text, and see all matches and capture groups highlighted instantly.",
+  "heroTitle": "Regex Tester",
+  "id": "regex-tester",
+  "inputs": [
+    {
+      "label": "Regular expression",
+      "name": "pattern",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "label": "Test text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "regex tester",
+    "regular expression tester",
+    "regex online",
+    "test regex",
+    "regex matcher"
+  ],
+  "logicRef": "tools-src/developer/regex-tester.js",
+  "metaDescription": "Test regular expressions live: see every match, its position and capture groups as you type. Free online regex tester, runs privately in your browser.",
+  "relatedTools": [],
+  "slug": "regex-tester",
+  "title": "Regex Tester \u2014 Free Online Regular Expression Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "A pattern that works here may still behave differently in Python, Java, or PCRE \u2014 check flavor-specific features (like \\K or possessive quantifiers) before porting.",
+    "Catastrophic patterns (nested quantifiers on long input) can hang any regex engine \u2014 if the page stalls, shorten the test text and simplify the pattern."
+  ]
+}

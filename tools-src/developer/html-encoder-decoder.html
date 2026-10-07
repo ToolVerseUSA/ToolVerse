@@ -1,0 +1,24 @@
+<p class="disclaimer"><strong>100% private.</strong> Your text is processed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Developer / Code</p>
+<h2>Encode or decode HTML entities</h2>
+<p class="section-intro">Encoding turns the five unsafe characters (&amp; &lt; &gt; &quot; &#39;) into entities so text displays safely in a page. Decoding reverses it.</p>
+<div class="form-section">
+<label for="he-input">Your text</label>
+<textarea class="tv-field" id="he-input" rows="6" placeholder="Paste text or HTML entities here&hellip;" aria-label="Text to encode or decode" style="width:100%;min-height:130px"></textarea>
+<label for="he-mode">Mode</label>
+<select class="tv-field" id="he-mode" aria-label="Encode or decode mode">
+<option value="encode">Encode (&rarr; HTML entities)</option>
+<option value="decode">Decode (entities &rarr; text)</option>
+</select>
+<div class="tool-actions">
+<button class="button" type="button" id="he-clear">Clear</button>
+<button class="button" type="button" id="he-copy">Copy result</button>
+</div>
+<p class="form-error" id="he-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="he-result" aria-live="polite">
+<h2>Result</h2>
+<textarea class="tv-field" id="he-output" rows="6" readonly aria-label="Encoded or decoded HTML" style="width:100%;min-height:130px"></textarea>
+</div>
+</section>

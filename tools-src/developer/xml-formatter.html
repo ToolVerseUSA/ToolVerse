@@ -1,0 +1,26 @@
+<p class="disclaimer"><strong>100% private.</strong> Your XML is processed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Developer / Code</p>
+<h2>Format and validate XML</h2>
+<p class="section-intro">Paste XML below. If it is well-formed you will get it back neatly indented; if not, the exact parser error is shown.</p>
+<div class="form-section">
+<label for="xf-input">Your XML</label>
+<textarea class="tv-field" id="xf-input" rows="8" placeholder="&lt;root&gt;&lt;item id=&quot;1&quot;&gt;Hello&lt;/item&gt;&lt;/root&gt;" aria-label="XML to format" style="width:100%;min-height:160px"></textarea>
+<label for="xf-indent">Indent</label>
+<select class="tv-field" id="xf-indent" aria-label="Indent style">
+<option value="2">2 spaces</option>
+<option value="4">4 spaces</option>
+<option value="tab">Tab</option>
+</select>
+<div class="tool-actions">
+<button class="button" type="button" id="xf-clear">Clear</button>
+<button class="button" type="button" id="xf-copy">Copy result</button>
+<button class="button primary" type="button" id="xf-run">Format XML</button>
+</div>
+<p class="form-error" id="xf-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="xf-result" aria-live="polite">
+<h2>Formatted XML</h2>
+<textarea class="tv-field" id="xf-output" rows="10" readonly aria-label="Formatted XML" style="width:100%;min-height:180px"></textarea>
+</div>
+</section>

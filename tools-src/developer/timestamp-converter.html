@@ -1,0 +1,33 @@
+<p class="disclaimer"><strong>100% private.</strong> Conversions happen entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Developer / Code</p>
+<h2>Convert timestamps</h2>
+<p class="section-intro">The current time updates every second. Paste any timestamp to convert it, or pick a date to get its timestamp.</p>
+<div class="form-section">
+<p class="result-lede" id="ts-now" aria-live="off">Current timestamp: —</p>
+<label for="ts-input">Unix timestamp (seconds or milliseconds)</label>
+<input class="tv-field" id="ts-input" type="text" inputmode="numeric" placeholder="e.g. 1759900800" aria-label="Unix timestamp">
+<div class="tool-actions">
+<button class="button" type="button" id="ts-clear">Clear</button>
+</div>
+<p class="form-error" id="ts-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="ts-result" aria-live="polite">
+<h2>Converted date</h2>
+<div class="result-grid">
+<div class="result-grid-card"><h3>That moment</h3><dl>
+<div><dt>Detected unit</dt><dd id="ts-unit">—</dd></div>
+<div><dt>Local time</dt><dd id="ts-local">—</dd></div>
+<div><dt>UTC time</dt><dd id="ts-utc">—</dd></div>
+<div><dt>Relative</dt><dd id="ts-rel">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Date &rarr; timestamp</h3>
+<label for="ts-date">Pick a date and time</label>
+<input class="tv-field" id="ts-date" type="datetime-local" aria-label="Date and time to convert to a timestamp">
+<dl>
+<div><dt>Seconds</dt><dd id="ts-sec">—</dd></div>
+<div><dt>Milliseconds</dt><dd id="ts-ms">—</dd></div>
+</dl></div>
+</div>
+</div>
+</section>

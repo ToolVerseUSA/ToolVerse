@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Cleaning up data rather than queries? JSON to CSV and CSV to JSON handle the data side.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your input is never uploaded, stored, or tracked.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/sql-formatter.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Nothing you paste is uploaded, stored, or sent anywhere.",
+      "q": "Is my input sent to a server?"
+    },
+    {
+      "a": "The formatter works on standard SQL structure (SELECT, INSERT, UPDATE, DELETE, joins, subqueries) and is dialect-neutral \u2014 it formats layout and keyword case without parsing vendor-specific syntax.",
+      "q": "Which SQL dialects are supported?"
+    },
+    {
+      "a": "No. It only adjusts whitespace, line breaks, and keyword capitalization. String literals, quoted identifiers, and comments are preserved exactly.",
+      "q": "Does it change my query's meaning?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Turn a cramped one-line query into a readable, consistently formatted statement.",
+  "heroTitle": "SQL Formatter",
+  "id": "sql-formatter",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "sql formatter",
+    "sql beautifier",
+    "format sql online",
+    "pretty print sql",
+    "sql query formatter"
+  ],
+  "logicRef": "tools-src/developer/sql-formatter.js",
+  "metaDescription": "Format SQL queries instantly: uppercase keywords, clause-per-line layout and clean indentation. Free online SQL beautifier, runs in your browser.",
+  "relatedTools": [],
+  "slug": "sql-formatter",
+  "title": "SQL Formatter \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It is a layout formatter, not a parser \u2014 exotic vendor syntax or malformed SQL may come out imperfectly aligned, so eyeball critical queries before running them.",
+    "It cannot optimize or lint your SQL; for execution plans and index advice you need your database's own tooling."
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Working with encoded data? The Base64 Encoder & Decoder handles the other common encoding.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your input is never uploaded, stored, or tracked.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/url-encoder-decoder.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Nothing you paste is uploaded, stored, or sent anywhere.",
+      "q": "Is my input sent to a server?"
+    },
+    {
+      "a": "Component mode encodes everything that has a special meaning in a URL (spaces, &, =, ?, /), which is right for a single value inside a query string. Full-URL mode keeps the URL structure (://, /, ?, &) intact and only encodes the unsafe characters.",
+      "q": "What is the difference between component and full-URL mode?"
+    },
+    {
+      "a": "Decoding fails when the text contains an incomplete percent sequence (like %2 or %zz). The tool shows the browser's own error so you can find the broken spot.",
+      "q": "Why did decoding fail?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Make text safe for URLs \u2014 or turn percent-encoded text back into readable form \u2014 in one click.",
+  "heroTitle": "URL Encoder & Decoder",
+  "id": "url-encoder-decoder",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "url encoder",
+    "url decoder",
+    "percent encoding",
+    "encodeURIComponent online",
+    "decode url online"
+  ],
+  "logicRef": "tools-src/developer/url-encoder-decoder.js",
+  "metaDescription": "Encode or decode URLs and query strings instantly. Component and full-URL modes, with clear error messages \u2014 free, private, runs in your browser.",
+  "relatedTools": [],
+  "slug": "url-encoder-decoder",
+  "title": "URL Encoder & Decoder \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Encoding is not encryption \u2014 anyone can decode a percent-encoded value, so never rely on it to hide secrets or personal data.",
+    "Double-encoding (encoding already-encoded text) produces %2520-style output that most servers will not decode twice \u2014 encode exactly once, at the boundary."
+  ]
+}

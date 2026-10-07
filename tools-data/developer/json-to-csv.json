@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Going the other way? CSV to JSON Converter in the Data category turns spreadsheets back into JSON.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your input is never uploaded, stored, or tracked.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/json-to-csv.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Nothing you paste is uploaded, stored, or sent anywhere.",
+      "q": "Is my input sent to a server?"
+    },
+    {
+      "a": "An array of objects works best \u2014 each object becomes a row and the union of all keys becomes the columns. A single object is treated as a one-row table, and missing keys become empty cells.",
+      "q": "What JSON shape does it accept?"
+    },
+    {
+      "a": "They are written into the cell as compact JSON text, so no data is lost. Cells containing commas, quotes, or line breaks are automatically quoted per the CSV standard.",
+      "q": "How are nested objects and arrays handled?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Turn a JSON array of objects into a clean CSV file you can open in Excel or Google Sheets.",
+  "heroTitle": "JSON to CSV Converter",
+  "id": "json-to-csv",
+  "inputs": [
+    {
+      "label": "JSON input",
+      "name": "json",
+      "required": true,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "json to csv",
+    "convert json to csv online",
+    "json array to csv",
+    "download csv from json",
+    "json to spreadsheet"
+  ],
+  "logicRef": "tools-src/developer/json-to-csv.js",
+  "metaDescription": "Convert a JSON array into CSV instantly. Handles nested objects and mixed keys with proper quoting \u2014 free JSON to CSV converter, runs in your browser.",
+  "relatedTools": [],
+  "slug": "json-to-csv",
+  "title": "JSON to CSV Converter \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Deeply nested or irregular JSON (arrays of arrays, mixed primitives and objects) will produce a flattened approximation \u2014 reshape the data first if you need a precise table.",
+    "It converts in the browser, so extremely large JSON files (tens of MB) may be slow or hit memory limits \u2014 use a command-line tool like jq for those."
+  ]
+}

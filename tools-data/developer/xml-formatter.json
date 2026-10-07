@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Working with JSON instead? The JSON Formatter handles pretty-printing and validation for JSON.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your input is never uploaded, stored, or tracked.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/xml-formatter.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Nothing you paste is uploaded, stored, or sent anywhere.",
+      "q": "Is my input sent to a server?"
+    },
+    {
+      "a": "Yes. The XML is parsed with the browser's strict XML parser; if the document is malformed, the tool shows the parser's error instead of output, so a successful format means the XML is well-formed.",
+      "q": "Does it validate as well as format?"
+    },
+    {
+      "a": "Yes \u2014 2 spaces, 4 spaces, or a tab. Attributes stay on the same line as their element, matching common XML style.",
+      "q": "Can I choose the indent size?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Paste messy XML and get it validated and neatly indented \u2014 or see exactly why it fails to parse.",
+  "heroTitle": "XML Formatter",
+  "id": "xml-formatter",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "xml formatter",
+    "xml validator",
+    "pretty print xml",
+    "format xml online",
+    "xml beautifier"
+  ],
+  "logicRef": "tools-src/developer/xml-formatter.js",
+  "metaDescription": "Pretty-print and validate XML instantly with clear error reporting. Free online XML formatter \u2014 private, runs entirely in your browser.",
+  "relatedTools": [],
+  "slug": "xml-formatter",
+  "title": "XML Formatter & Validator \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Well-formed is not the same as valid \u2014 this checks XML syntax, not conformance to a specific XSD/DTD schema.",
+    "Comments and processing instructions are preserved as-is in place, but the formatter will not reformat the inside of CDATA sections or preformatted content."
+  ]
+}

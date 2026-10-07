@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need a strong password instead of an ID? The Password Generator in Security & Privacy creates those.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your input is never uploaded, stored, or tracked.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/uuid-generator.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Nothing you paste is uploaded, stored, or sent anywhere.",
+      "q": "Is my input sent to a server?"
+    },
+    {
+      "a": "Yes \u2014 version 4 UUIDs generated with your browser's cryptographic random source (crypto.getRandomValues), the same mechanism used by professional tools.",
+      "q": "Are these real UUIDs?"
+    },
+    {
+      "a": "In practice, no. A v4 UUID has 122 random bits; you would need to generate billions before a collision becomes remotely plausible.",
+      "q": "Can two generated UUIDs ever collide?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Create cryptographically random version-4 UUIDs, one at a time or in bulk, ready to copy.",
+  "heroTitle": "UUID Generator",
+  "id": "uuid-generator",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "uuid generator",
+    "guid generator",
+    "uuid v4",
+    "bulk uuid generator",
+    "random uuid online"
+  ],
+  "logicRef": "tools-src/developer/uuid-generator.js",
+  "metaDescription": "Generate random UUIDs (v4) instantly \u2014 one or in bulk up to 50, with uppercase and hyphen options. Free UUID generator, runs privately in your browser.",
+  "relatedTools": [],
+  "slug": "uuid-generator",
+  "title": "UUID Generator \u2014 Free Online Bulk UUID Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "UUIDs are identifiers, not secrets \u2014 don't use them as passwords, tokens, or anything an attacker must not guess in security-critical flows without rate limiting.",
+    "If your database or spec needs a different UUID version (time-ordered v7, namespace-based v3/v5), this generator only produces random v4 values."
+  ]
+}

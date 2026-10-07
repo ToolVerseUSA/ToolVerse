@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need to inspect encoded data in other formats? Base64 and URL decoders sit in this same category.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your input is never uploaded, stored, or tracked.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/jwt-decoder.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Nothing you paste is uploaded, stored, or sent anywhere.",
+      "q": "Is my input sent to a server?"
+    },
+    {
+      "a": "Yes \u2014 decoding happens entirely in your browser with JavaScript; the token never leaves your device. As a general rule, still avoid pasting production tokens into any tool you don't control.",
+      "q": "Is it safe to paste a token here?"
+    },
+    {
+      "a": "No. This tool decodes the header and payload only. A decoded token proves nothing about authenticity \u2014 always verify signatures server-side with the issuer's keys.",
+      "q": "Does it verify the signature?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Paste a JSON Web Token to read its header and claims \u2014 and see at a glance whether it has expired.",
+  "heroTitle": "JWT Decoder",
+  "id": "jwt-decoder",
+  "inputs": [
+    {
+      "label": "JWT",
+      "name": "token",
+      "required": true,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "jwt decoder",
+    "decode jwt online",
+    "json web token decoder",
+    "jwt parser",
+    "jwt expiry checker"
+  ],
+  "logicRef": "tools-src/developer/jwt-decoder.js",
+  "metaDescription": "Decode a JWT's header and payload instantly and check its expiry. Decoding happens 100% in your browser \u2014 tokens are never sent anywhere.",
+  "relatedTools": [],
+  "slug": "jwt-decoder",
+  "title": "JWT Decoder \u2014 Decode JSON Web Tokens Online | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Never trust a token just because it decodes \u2014 decoding is not verification, and an attacker can craft any payload they like.",
+    "Encrypted tokens (JWE, five segments) cannot be decoded without the key \u2014 this tool handles signed JWTs (three segments) only."
+  ]
+}

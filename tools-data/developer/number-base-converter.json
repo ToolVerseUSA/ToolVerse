@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Converting text encodings rather than numbers? Base64 and URL Encoder are in this same category.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your input is never uploaded, stored, or tracked.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/number-base-converter.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Nothing you paste is uploaded, stored, or sent anywhere.",
+      "q": "Is my input sent to a server?"
+    },
+    {
+      "a": "It uses arbitrary-precision integers (BigInt), so values far beyond 64-bit \u2014 hundreds of digits \u2014 convert exactly, with no floating-point rounding.",
+      "q": "How large a number can it convert?"
+    },
+    {
+      "a": "Each field validates against its base: a '2' in the binary field or a 'G' in hex shows an inline error and the other fields keep their last valid values.",
+      "q": "What if I type an invalid digit?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Type a number in any base and see it in binary, octal, decimal, and hex at the same time.",
+  "heroTitle": "Number Base Converter",
+  "id": "number-base-converter",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "base converter",
+    "binary to decimal",
+    "hex to decimal",
+    "decimal to binary",
+    "number base converter"
+  ],
+  "logicRef": "tools-src/developer/number-base-converter.js",
+  "metaDescription": "Convert numbers between binary, octal, decimal and hexadecimal instantly, with big-number support. Free base converter, runs in your browser.",
+  "relatedTools": [],
+  "slug": "number-base-converter",
+  "title": "Number Base Converter \u2014 Binary, Octal, Decimal, Hex | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It converts integers only \u2014 fractions and floating-point values need a different tool, and two's-complement/signed representations are not applied.",
+    "Hexadecimal output uses uppercase A\u2013F without a 0x prefix; add prefixes yourself if your target format needs them."
+  ]
+}

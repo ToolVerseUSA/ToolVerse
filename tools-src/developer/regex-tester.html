@@ -1,0 +1,23 @@
+<p class="disclaimer"><strong>100% private.</strong> Your pattern and test text run entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Developer / Code</p>
+<h2>Test a regular expression</h2>
+<p class="section-intro">JavaScript regex flavor. Matches are always listed globally, with each match's position and capture groups.</p>
+<div class="form-section">
+<label for="rx-pattern">Pattern (without slashes)</label>
+<input class="tv-field" id="rx-pattern" type="text" placeholder="\b\w+@\w+\.\w+\b" aria-label="Regular expression pattern">
+<label>Flags</label>
+<label><input type="checkbox" id="rx-i"> i — case-insensitive</label>
+<label><input type="checkbox" id="rx-m"> m — multiline (^ and $ match line starts)</label>
+<label><input type="checkbox" id="rx-s"> s — dotAll (. matches newlines)</label>
+<label><input type="checkbox" id="rx-u"> u — Unicode</label>
+<label for="rx-text">Test text</label>
+<textarea class="tv-field" id="rx-text" rows="7" placeholder="Paste the text to test against&hellip;" aria-label="Test text" style="width:100%;min-height:140px"></textarea>
+<p class="form-error" id="rx-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rx-result" aria-live="polite">
+<h2>Matches</h2>
+<p class="result-lede" id="rx-stats">Enter a pattern and test text to see matches.</p>
+<div id="rx-list"></div>
+</div>
+</section>

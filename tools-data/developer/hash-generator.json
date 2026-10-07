@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need the human-friendly opposite? The Password Generator creates secrets worth hashing.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your input is never uploaded, stored, or tracked.",
+  "asideTitle": "Your data never leaves this page",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/hash-generator.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Nothing you paste is uploaded, stored, or sent anywhere.",
+      "q": "Is my input sent to a server?"
+    },
+    {
+      "a": "SHA-1, SHA-256, SHA-384, and SHA-512 \u2014 all computed with the browser's built-in Web Crypto API, the same implementations used by production software.",
+      "q": "Which algorithms are available?"
+    },
+    {
+      "a": "No. Hashing is one-way: you cannot recover the text from the digest. It is used for integrity checks and fingerprinting, not for keeping data secret.",
+      "q": "Is a hash the same as encryption?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Hash any text with the SHA family and copy the hex digest \u2014 computed locally by the Web Crypto API.",
+  "heroTitle": "Hash Generator",
+  "id": "hash-generator",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "hash generator",
+    "sha256 generator",
+    "sha512 hash online",
+    "sha1 generator",
+    "text to hash"
+  ],
+  "logicRef": "tools-src/developer/hash-generator.js",
+  "metaDescription": "Generate SHA-1, SHA-256, SHA-384 and SHA-512 hashes of any text instantly, using your browser's crypto engine. Private \u2014 nothing leaves your device.",
+  "relatedTools": [],
+  "slug": "hash-generator",
+  "title": "SHA Hash Generator \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "SHA-1 is collision-broken \u2014 it is included for legacy checksums only; use SHA-256 or stronger for anything security-related.",
+    "Never hash passwords with fast general-purpose hashes like SHA-256 for storage \u2014 password storage needs a slow KDF such as bcrypt, scrypt, or Argon2."
+  ]
+}
