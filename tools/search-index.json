@@ -272,6 +272,214 @@
     "url": "/ToolVerse/tools/developer/xml-formatter.html"
   },
   {
+    "id": "coin-flipper",
+    "slug": "coin-flipper",
+    "title": "Coin Flipper — Flip a Coin Online",
+    "description": "Flip a virtual coin online — heads or tails with a running tally, streaks and best-of modes. Cryptographically random, free, no sign-up.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "flip a coin",
+      "coin flipper",
+      "heads or tails",
+      "online coin toss",
+      "virtual coin flip"
+    ],
+    "url": "/ToolVerse/tools/generators/coin-flipper.html"
+  },
+  {
+    "id": "dice-roller",
+    "slug": "dice-roller",
+    "title": "Dice Roller — Roll Virtual Dice Online",
+    "description": "Roll up to 10 virtual dice online — d4, d6, d8, d10, d12, d20 or d100 — with individual results, totals and roll history. Free, fair, cryptographically random.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "dice roller",
+      "roll a die",
+      "d20 roller",
+      "virtual dice",
+      "roll dice online"
+    ],
+    "url": "/ToolVerse/tools/generators/dice-roller.html"
+  },
+  {
+    "id": "list-randomizer",
+    "slug": "list-randomizer",
+    "title": "List Randomizer — Shuffle a List Online",
+    "description": "Shuffle any list into a random order instantly — speaking orders, playlists, question banks. Cryptographically fair Fisher–Yates shuffle, runs in your browser.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "list randomizer",
+      "shuffle list",
+      "randomize list",
+      "list shuffler online",
+      "random order generator"
+    ],
+    "url": "/ToolVerse/tools/generators/list-randomizer.html"
+  },
+  {
+    "id": "lottery-number-generator",
+    "slug": "lottery-number-generator",
+    "title": "Lottery Number Generator — Powerball & Mega Millions",
+    "description": "Generate random quick-pick lottery numbers for Powerball (5/69 + 1/26) and Mega Millions (5/70 + 1/24), or any custom game. Purely random — never a prediction.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "lottery number generator",
+      "powerball number generator",
+      "mega millions number generator",
+      "quick pick generator",
+      "random lottery numbers"
+    ],
+    "url": "/ToolVerse/tools/generators/lottery-number-generator.html"
+  },
+  {
+    "id": "qr-code-generator",
+    "slug": "qr-code-generator",
+    "title": "QR Code Generator — Free, Private, No Watermark",
+    "description": "Create QR codes for links, text or Wi-Fi in your browser and download them as PNG. No sign-up, no watermark, nothing uploaded — generation is 100% local.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "qr code generator",
+      "create qr code",
+      "wifi qr code",
+      "qr code maker",
+      "free qr code generator"
+    ],
+    "url": "/ToolVerse/tools/generators/qr-code-generator.html"
+  },
+  {
+    "id": "random-letter-generator",
+    "slug": "random-letter-generator",
+    "title": "Random Letter Generator — Free Online Tool",
+    "description": "Generate random letters instantly — uppercase, lowercase or mixed, with optional look-alike exclusion. Cryptographically random, free, runs in your browser.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "random letter generator",
+      "random alphabet letter",
+      "letter generator online",
+      "random letter picker",
+      "alphabet generator"
+    ],
+    "url": "/ToolVerse/tools/generators/random-letter-generator.html"
+  },
+  {
+    "id": "random-name-generator",
+    "slug": "random-name-generator",
+    "title": "Random Name Generator — Fake Names for Stories & Testing",
+    "description": "Generate random full names (first + last) from common US name lists — for story characters, test data and placeholders. Batch generation, free and private.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "random name generator",
+      "fake name generator",
+      "character name generator",
+      "random full name",
+      "name generator online"
+    ],
+    "url": "/ToolVerse/tools/generators/random-name-generator.html"
+  },
+  {
+    "id": "random-number-generator",
+    "slug": "random-number-generator",
+    "title": "Random Number Generator — Free & Secure Online Tool",
+    "description": "Generate random numbers in any range with a cryptographically secure generator. Set min, max, quantity, decimals and uniqueness — free, no sign-up.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "random number generator",
+      "random number picker",
+      "generate random numbers",
+      "secure random number",
+      "number generator online"
+    ],
+    "url": "/ToolVerse/tools/generators/random-number-generator.html"
+  },
+  {
+    "id": "random-picker",
+    "slug": "random-picker",
+    "title": "Random Picker — Pick a Winner from a List",
+    "description": "Pick a random winner or selection from any list — names, entries, options. Fair cryptographic draw, optional remove-after-pick for sequential draws. Free.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "random picker",
+      "random name picker",
+      "pick a winner",
+      "random selector",
+      "giveaway picker"
+    ],
+    "url": "/ToolVerse/tools/generators/random-picker.html"
+  },
+  {
+    "id": "random-string-generator",
+    "slug": "random-string-generator",
+    "title": "Random String Generator — Test Data & IDs",
+    "description": "Generate random strings for test data, temporary IDs and tokens — configurable length and character sets, batch output, cryptographically secure. Free.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "random string generator",
+      "random text generator",
+      "generate random string",
+      "test data generator",
+      "random alphanumeric string"
+    ],
+    "url": "/ToolVerse/tools/generators/random-string-generator.html"
+  },
+  {
+    "id": "random-word-generator",
+    "slug": "random-word-generator",
+    "title": "Random Word Generator — Free Online Tool",
+    "description": "Generate random English words from a curated word list — for writing prompts, brainstorming, games and passphrase ideas. Optional length filter, batches.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "random word generator",
+      "random english words",
+      "word generator online",
+      "random words for games",
+      "writing prompt words"
+    ],
+    "url": "/ToolVerse/tools/generators/random-word-generator.html"
+  },
+  {
+    "id": "team-generator",
+    "slug": "team-generator",
+    "title": "Random Team Generator — Split a List into Teams",
+    "description": "Split any list of names into random, balanced teams. Choose the number of teams or the team size — sizes never differ by more than one. Free, private.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "team generator",
+      "random team generator",
+      "make random teams",
+      "split list into groups",
+      "random group generator"
+    ],
+    "url": "/ToolVerse/tools/generators/team-generator.html"
+  },
+  {
+    "id": "username-generator",
+    "slug": "username-generator",
+    "title": "Username Generator — Free Name Ideas Online",
+    "description": "Generate username ideas instantly — gamer, professional and funny styles, with optional numbers. Fresh batch every click. No availability claims, just ideas.",
+    "category": "generators",
+    "categoryLabel": "Generators",
+    "keywords": [
+      "username generator",
+      "username ideas",
+      "gamer name generator",
+      "cool usernames",
+      "random username"
+    ],
+    "url": "/ToolVerse/tools/generators/username-generator.html"
+  },
+  {
     "id": "image-compressor",
     "slug": "image-compressor",
     "title": "Image Compressor — Reduce Image File Size Online",
