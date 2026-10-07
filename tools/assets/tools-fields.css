@@ -133,11 +133,11 @@ input.tools-search-field:focus {
 
 .tv-tool-card {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
   min-height: 56px;
-  padding: 12px 16px;
+  padding: 14px 16px;
   border: 1px solid rgba(148, 163, 184, 0.22);
   border-radius: 14px;
   background: rgba(15, 23, 42, 0.55);
@@ -150,8 +150,39 @@ input.tools-search-field:focus {
   transform: translateY(-2px);
   border-color: rgba(103, 232, 249, 0.65);
   box-shadow: 0 8px 22px rgba(2, 8, 23, 0.45);
-  outline: none;
 }
+
+.tv-tool-card:focus-visible {
+  outline: 2px solid #67e8f9;
+  outline-offset: 2px;
+}
+
+/* Tool icon tile (UX refinement): consistent 44px container, cyan tint. */
+.tv-tool-card-icon {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(103, 232, 249, 0.18);
+  color: #67e8f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tv-tool-card-icon svg { width: 22px; height: 22px; }
+
+.tv-tool-card-cta {
+  display: block;
+  margin-top: 7px;
+  color: #67e8f9;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.tv-tool-card .tv-badge { align-self: flex-start; }
 
 .tv-tool-card-main {
   display: flex;
@@ -164,9 +195,6 @@ input.tools-search-field:focus {
   font-weight: 600;
   font-size: 15px;
   line-height: 1.35;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .tv-tool-card:hover .tv-tool-card-name { color: #a5f3fc; }
@@ -498,3 +526,51 @@ a.tv-cat-card:focus-visible {
 .coin.flip { animation: tv-coinflip 0.6s ease; }
 
 @keyframes tv-coinflip { from { transform: rotateY(0); } to { transform: rotateY(720deg); } }
+
+/* UX refinement — All Tools A–Z: category filter chips + live count. */
+.tv-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 4px;
+}
+
+.tv-chip {
+  appearance: none;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.55);
+  color: #cbd5e1;
+  border-radius: 999px;
+  padding: 8px 14px;
+  min-height: 40px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.tv-chip:hover { border-color: rgba(103, 232, 249, 0.6); color: #f1f5f9; }
+
+.tv-chip[aria-pressed="true"] {
+  background: rgba(34, 211, 238, 0.16);
+  border-color: rgba(103, 232, 249, 0.8);
+  color: #a5f3fc;
+}
+
+.tv-chip:focus-visible {
+  outline: 2px solid #67e8f9;
+  outline-offset: 2px;
+}
+
+.tv-filter-count { color: #8ea1bb; font-size: 13.5px; margin: 10px 0 0; }
+
+.tv-filter-none { color: #fbbf24; font-size: 14.5px; margin: 10px 0 0; }
+
+/* UX refinement — denser, calmer cards on small screens. */
+@media (max-width: 640px) {
+  .tv-tool-card { padding: 12px 14px; gap: 10px; }
+  .tv-tool-card-icon { width: 40px; height: 40px; border-radius: 10px; }
+  .tv-tool-card-icon svg { width: 20px; height: 20px; }
+  .tv-tool-card-name { font-size: 14.5px; }
+  .tv-chip { padding: 8px 12px; font-size: 13px; }
+}
