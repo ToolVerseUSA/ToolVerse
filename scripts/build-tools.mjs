@@ -240,7 +240,7 @@ const POPULAR_IDS = ['word-counter', 'json-formatter', 'image-compressor', 'pass
 // Homepage featured grid = POPULAR_IDS + NEWEST_IDS (12 cards max, approved
 // 2026-10-07 so index.html stays comfortably below the push size limit no
 // matter how many tools exist). Update NEWEST_IDS with each Phase B batch.
-const NEWEST_IDS = ['jwt-decoder', 'uuid-generator', 'regex-tester', 'json-to-csv', 'timestamp-converter', 'hash-generator'];
+const NEWEST_IDS = ['qr-code-generator', 'random-number-generator', 'lottery-number-generator', 'random-picker', 'username-generator', 'dice-roller'];
 
 // Compact tool card (Phase 4 card system — ToolVerse theme). Whole card is
 // the link: name + category label, optional one-line description variant,
@@ -302,6 +302,11 @@ const CATEGORY_META = {
     title: 'Free Date & Time Tools Online | ToolVerse',
     description: 'Free date and time tools that run in your browser: calculate the duration and number of days between two dates instantly, with no sign-up.',
     intro: 'Work out durations, deadlines and days between dates instantly, calculated locally in your browser.'
+  },
+  generators: {
+    title: 'Free Random Generators Online | ToolVerse',
+    description: 'Free generators that run in your browser with cryptographic randomness: random numbers, dice, coin flips, lottery quick picks, names, usernames, QR codes and more — nothing is uploaded or stored.',
+    intro: 'Every generator below uses your browser\u2019s cryptographic RNG for fair, unbiased results — generated locally on your device, never sent anywhere.'
   }
 };
 
