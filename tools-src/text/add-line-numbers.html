@@ -1,0 +1,29 @@
+<p class="disclaimer"><strong>100% private.</strong> Your text is processed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Text &amp; Writing</p>
+<h2>Add line numbers</h2>
+<p class="section-intro">Paste a list or document and every line gets a sequential number. Blank lines are numbered too, so positions always match the original.</p>
+<div class="form-section">
+<label for="aln-input">Your text</label>
+<textarea class="tv-field" id="aln-input" rows="8" placeholder="Paste the text to number here&hellip;" aria-label="Text to add line numbers to" style="width:100%;min-height:160px"></textarea>
+<label for="aln-start">Start numbering at</label>
+<input class="tv-field" id="aln-start" type="number" value="1" step="1" aria-label="Starting number">
+<label for="aln-sep">Separator after the number</label>
+<select class="tv-field" id="aln-sep" aria-label="Separator">
+<option value=". ">. (dot + space)</option>
+<option value=") ">) (bracket + space)</option>
+<option value=": ">: (colon + space)</option>
+<option value=" | ">| (pipe)</option>
+</select>
+<label><input type="checkbox" id="aln-pad"> Align numbers (pad with leading spaces)</label>
+<div class="tool-actions">
+<button class="button" type="button" id="aln-clear">Clear</button>
+<button class="button" type="button" id="aln-copy">Copy result</button>
+</div>
+<p class="form-error" id="aln-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="aln-result" aria-live="polite">
+<h2>Numbered text</h2>
+<textarea class="tv-field" id="aln-output" rows="8" readonly aria-label="Text with line numbers" style="width:100%;min-height:160px"></textarea>
+</div>
+</section>

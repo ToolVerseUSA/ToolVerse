@@ -1,0 +1,27 @@
+<p class="disclaimer"><strong>100% private.</strong> Your text is processed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Text &amp; Writing</p>
+<h2>Sort lines alphabetically</h2>
+<p class="section-intro">Paste a list below and sort its lines A&ndash;Z or Z&ndash;A. Numbered lines are ordered naturally (line 2 before line 10).</p>
+<div class="form-section">
+<label for="sl-input">Your text</label>
+<textarea class="tv-field" id="sl-input" rows="8" placeholder="Paste the lines to sort here&hellip;" aria-label="Lines to sort" style="width:100%;min-height:160px"></textarea>
+<label for="sl-order">Order</label>
+<select class="tv-field" id="sl-order" aria-label="Sort order">
+<option value="asc">A &rarr; Z (ascending)</option>
+<option value="desc">Z &rarr; A (descending)</option>
+</select>
+<label><input type="checkbox" id="sl-blank"> Remove blank lines</label>
+<label><input type="checkbox" id="sl-cs"> Case-sensitive sort (capitals first)</label>
+<div class="tool-actions">
+<button class="button" type="button" id="sl-clear">Clear</button>
+<button class="button" type="button" id="sl-copy">Copy result</button>
+</div>
+<p class="form-error" id="sl-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="sl-result" aria-live="polite">
+<h2>Sorted lines</h2>
+<p class="result-lede" id="sl-stats">Your sorted text will appear here.</p>
+<textarea class="tv-field" id="sl-output" rows="8" readonly aria-label="Sorted lines" style="width:100%;min-height:160px"></textarea>
+</div>
+</section>

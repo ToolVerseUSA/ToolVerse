@@ -1,0 +1,26 @@
+<p class="disclaimer"><strong>100% private.</strong> Placeholder text is generated entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Text &amp; Writing</p>
+<h2>Generate lorem ipsum</h2>
+<p class="section-intro">Classic placeholder text for layouts and mock-ups. Choose how much you need, generate, and copy.</p>
+<div class="form-section">
+<label for="li-count">Amount</label>
+<input class="tv-field" id="li-count" type="number" min="1" max="100" value="3" aria-label="Amount to generate">
+<label for="li-unit">Unit</label>
+<select class="tv-field" id="li-unit" aria-label="Unit">
+<option value="paragraphs">Paragraphs</option>
+<option value="sentences">Sentences</option>
+<option value="words">Words</option>
+</select>
+<label><input type="checkbox" id="li-start" checked> Start with &ldquo;Lorem ipsum dolor sit amet&hellip;&rdquo;</label>
+<div class="tool-actions">
+<button class="button" type="button" id="li-copy">Copy text</button>
+<button class="button primary" type="button" id="li-gen">Generate</button>
+</div>
+<p class="form-error" id="li-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="li-result" aria-live="polite">
+<h2>Your placeholder text</h2>
+<textarea class="tv-field" id="li-output" rows="10" readonly aria-label="Generated lorem ipsum" style="width:100%;min-height:180px"></textarea>
+</div>
+</section>

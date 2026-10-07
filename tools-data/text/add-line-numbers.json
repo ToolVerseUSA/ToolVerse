@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Numbering a cleaned list? Sort Lines or Remove Duplicate Lines first for a tidy result.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your text is never uploaded, stored, or tracked.",
+  "asideTitle": "Your text never leaves this page",
+  "category": "text",
+  "categoryLabel": "Text & Writing",
+  "contentRef": "tools-src/text/add-line-numbers.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.",
+      "q": "Is my text sent to a server?"
+    },
+    {
+      "a": "Yes \u2014 set any starting number (including 0) and the lines count up from there.",
+      "q": "Can I start from a number other than 1?"
+    },
+    {
+      "a": "Blank lines are numbered too, so the numbering always matches the line positions of your original text.",
+      "q": "Does it number blank lines?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Number every line of a list or document \u2014 choose where numbering starts and how each number is separated.",
+  "heroTitle": "Add Line Numbers",
+  "id": "add-line-numbers",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "add line numbers",
+    "number lines online",
+    "line numbering tool",
+    "number a list",
+    "numbered lines generator"
+  ],
+  "logicRef": "tools-src/text/add-line-numbers.js",
+  "metaDescription": "Add sequential line numbers to any text or list, with your choice of starting number and separator. Free line numbering tool, runs in your browser.",
+  "relatedTools": [],
+  "slug": "add-line-numbers",
+  "title": "Add Line Numbers to Text \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Numbering is baked into the text once you copy it \u2014 if you plan to keep editing the list, number it last, or the numbers will fall out of sync.",
+    "It numbers lines only; it can't add legal-style line numbering to a formatted document (Word or PDF) \u2014 do that in the document editor."
+  ]
+}

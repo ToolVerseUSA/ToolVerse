@@ -1,0 +1,26 @@
+<p class="disclaimer"><strong>100% private.</strong> Your text is processed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Text &amp; Writing</p>
+<h2>Remove line breaks</h2>
+<p class="section-intro">Text copied from a PDF or email often breaks every line. Paste it below and join the wrapped lines back into clean paragraphs.</p>
+<div class="form-section">
+<label for="rlb-input">Your text</label>
+<textarea class="tv-field" id="rlb-input" rows="8" placeholder="Paste the text with unwanted line breaks here&hellip;" aria-label="Text with line breaks" style="width:100%;min-height:160px"></textarea>
+<label for="rlb-mode">How to treat line breaks</label>
+<select class="tv-field" id="rlb-mode" aria-label="Line break handling">
+<option value="paragraphs">Join wrapped lines, keep paragraph breaks</option>
+<option value="space">Replace every break with a space</option>
+<option value="remove">Remove breaks completely (no space)</option>
+</select>
+<div class="tool-actions">
+<button class="button" type="button" id="rlb-clear">Clear</button>
+<button class="button" type="button" id="rlb-copy">Copy result</button>
+</div>
+<p class="form-error" id="rlb-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rlb-result" aria-live="polite">
+<h2>Cleaned text</h2>
+<p class="result-lede" id="rlb-stats">Your text without line breaks will appear here.</p>
+<textarea class="tv-field" id="rlb-output" rows="8" readonly aria-label="Text without line breaks" style="width:100%;min-height:160px"></textarea>
+</div>
+</section>

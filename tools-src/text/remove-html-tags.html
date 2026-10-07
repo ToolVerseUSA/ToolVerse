@@ -1,0 +1,22 @@
+<p class="disclaimer"><strong>100% private.</strong> Your HTML is processed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Text &amp; Writing</p>
+<h2>Strip HTML tags</h2>
+<p class="section-intro">Paste any HTML snippet and get the clean plain text back — handy for pulling copy out of web pages, emails and templates.</p>
+<div class="form-section">
+<label for="rht-input">Your HTML</label>
+<textarea class="tv-field" id="rht-input" rows="8" placeholder="Paste HTML here, e.g. &lt;p&gt;Hello &lt;strong&gt;world&lt;/strong&gt;&lt;/p&gt;" aria-label="HTML to strip tags from" style="width:100%;min-height:160px"></textarea>
+<label><input type="checkbox" id="rht-breaks" checked> Keep paragraph and line breaks</label>
+<label><input type="checkbox" id="rht-entities" checked> Decode HTML entities (&amp;amp; &rarr; &amp;, &amp;lt; &rarr; &lt;)</label>
+<div class="tool-actions">
+<button class="button" type="button" id="rht-clear">Clear</button>
+<button class="button" type="button" id="rht-copy">Copy result</button>
+</div>
+<p class="form-error" id="rht-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rht-result" aria-live="polite">
+<h2>Plain text</h2>
+<p class="result-lede" id="rht-stats">Your extracted text will appear here.</p>
+<textarea class="tv-field" id="rht-output" rows="8" readonly aria-label="Extracted plain text" style="width:100%;min-height:160px"></textarea>
+</div>
+</section>

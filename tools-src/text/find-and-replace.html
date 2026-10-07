@@ -1,0 +1,27 @@
+<p class="disclaimer"><strong>100% private.</strong> Your text is processed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Text &amp; Writing</p>
+<h2>Find and replace</h2>
+<p class="section-intro">The match count updates as you type, so you know exactly what will change before you replace.</p>
+<div class="form-section">
+<label for="fr-find">Find</label>
+<input class="tv-field" id="fr-find" type="text" placeholder="Text to find" aria-label="Text to find">
+<label for="fr-replace">Replace with</label>
+<input class="tv-field" id="fr-replace" type="text" placeholder="Replacement text (leave empty to delete)" aria-label="Replacement text">
+<label><input type="checkbox" id="fr-cs"> Match case</label>
+<label><input type="checkbox" id="fr-word"> Whole words only</label>
+<label for="fr-text">Your text</label>
+<textarea class="tv-field" id="fr-text" rows="8" placeholder="Paste your text here&hellip;" aria-label="Text to search and replace in" style="width:100%;min-height:160px"></textarea>
+<p class="result-lede" id="fr-count" aria-live="polite">0 matches</p>
+<div class="tool-actions">
+<button class="button" type="button" id="fr-clear">Clear</button>
+<button class="button" type="button" id="fr-copy">Copy result</button>
+<button class="button primary" type="button" id="fr-run">Replace all</button>
+</div>
+<p class="form-error" id="fr-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="fr-result" aria-live="polite">
+<h2>Result</h2>
+<textarea class="tv-field" id="fr-output" rows="8" readonly aria-label="Text after replacement" style="width:100%;min-height:160px"></textarea>
+</div>
+</section>

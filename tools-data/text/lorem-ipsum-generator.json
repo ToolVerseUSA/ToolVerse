@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Replacing placeholder with real copy? Draft it, then check it with the Word Counter.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your text is never uploaded, stored, or tracked.",
+  "asideTitle": "Your text never leaves this page",
+  "category": "text",
+  "categoryLabel": "Text & Writing",
+  "contentRef": "tools-src/text/lorem-ipsum-generator.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.",
+      "q": "Is my text sent to a server?"
+    },
+    {
+      "a": "It is the classic scrambled pseudo-Latin used since the 1500s, generated from a standard lorem ipsum word bank \u2014 it is meant to look like text without meaning anything.",
+      "q": "Is the generated text real Latin?"
+    },
+    {
+      "a": "Up to 50 paragraphs, 100 sentences, or 500 words per click \u2014 press Generate again for a fresh variation.",
+      "q": "How much can I generate at once?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Generate classic placeholder text for designs and layouts \u2014 pick paragraphs, sentences, or words and copy in one click.",
+  "heroTitle": "Lorem Ipsum Generator",
+  "id": "lorem-ipsum-generator",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "lorem ipsum generator",
+    "placeholder text",
+    "dummy text generator",
+    "lorem ipsum paragraphs",
+    "filler text"
+  ],
+  "logicRef": "tools-src/text/lorem-ipsum-generator.js",
+  "metaDescription": "Generate lorem ipsum placeholder text instantly: choose paragraphs, sentences or words. Free dummy text generator \u2014 no sign-up, runs in your browser.",
+  "relatedTools": [],
+  "slug": "lorem-ipsum-generator",
+  "title": "Lorem Ipsum Generator \u2014 Free Placeholder Text Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Never ship lorem ipsum to production \u2014 placeholder text that reaches a live page looks unfinished and harms credibility.",
+    "It has no real sentence structure, so it can't stand in for copy when testing readability or translation lengths."
+  ]
+}

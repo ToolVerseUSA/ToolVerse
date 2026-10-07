@@ -1,0 +1,23 @@
+<p class="disclaimer"><strong>100% private.</strong> Your text is processed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Text &amp; Writing</p>
+<h2>Remove extra spaces</h2>
+<p class="section-intro">Paste messy text and tidy it in one pass. Your words and line breaks are never changed.</p>
+<div class="form-section">
+<label for="res-input">Your text</label>
+<textarea class="tv-field" id="res-input" rows="8" placeholder="Paste text with  messy    spacing here&hellip;" aria-label="Text with extra spaces" style="width:100%;min-height:160px"></textarea>
+<label><input type="checkbox" id="res-collapse" checked> Collapse runs of spaces and tabs into one space</label>
+<label><input type="checkbox" id="res-trim" checked> Trim the start and end of each line</label>
+<label><input type="checkbox" id="res-blank"> Remove blank lines</label>
+<div class="tool-actions">
+<button class="button" type="button" id="res-clear">Clear</button>
+<button class="button" type="button" id="res-copy">Copy result</button>
+</div>
+<p class="form-error" id="res-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="res-result" aria-live="polite">
+<h2>Cleaned text</h2>
+<p class="result-lede" id="res-stats">Your cleaned text will appear here.</p>
+<textarea class="tv-field" id="res-output" rows="8" readonly aria-label="Text with extra spaces removed" style="width:100%;min-height:160px"></textarea>
+</div>
+</section>

@@ -1,0 +1,25 @@
+<p class="disclaimer"><strong>100% private.</strong> Your text is processed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Text &amp; Writing</p>
+<h2>Reverse text</h2>
+<p class="section-intro">Choose a mode and watch the result update live: reverse every character, the order of the words, or the order of the lines.</p>
+<div class="form-section">
+<label for="rt-input">Your text</label>
+<textarea class="tv-field" id="rt-input" rows="8" placeholder="Type or paste your text here&hellip;" aria-label="Text to reverse" style="width:100%;min-height:160px"></textarea>
+<label for="rt-mode">Reverse mode</label>
+<select class="tv-field" id="rt-mode" aria-label="Reverse mode">
+<option value="chars">Characters (whole text backwards)</option>
+<option value="words">Word order (each word stays intact)</option>
+<option value="lines">Line order (last line becomes first)</option>
+</select>
+<div class="tool-actions">
+<button class="button" type="button" id="rt-clear">Clear</button>
+<button class="button" type="button" id="rt-copy">Copy result</button>
+</div>
+<p class="form-error" id="rt-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rt-result" aria-live="polite">
+<h2>Reversed text</h2>
+<textarea class="tv-field" id="rt-output" rows="8" readonly aria-label="Reversed text" style="width:100%;min-height:160px"></textarea>
+</div>
+</section>

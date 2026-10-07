@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Writing the page itself? Check its length with the Word Counter as you draft.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your text is never uploaded, stored, or tracked.",
+  "asideTitle": "Your text never leaves this page",
+  "category": "text",
+  "categoryLabel": "Text & Writing",
+  "contentRef": "tools-src/text/slug-generator.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.",
+      "q": "Is my text sent to a server?"
+    },
+    {
+      "a": "Accented letters are converted to their plain form (\u00e9 becomes e), and every run of non-alphanumeric characters becomes a single hyphen (or underscore, if you choose it).",
+      "q": "What does it do to accents and symbols?"
+    },
+    {
+      "a": "Usually shorter is better. Remove filler words like 'the' and 'and' afterwards if the slug feels long \u2014 the tool keeps your wording intact so you can trim manually.",
+      "q": "Should a slug contain every word of the title?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Convert headlines and titles into clean URL slugs \u2014 lowercase, hyphenated, and free of special characters.",
+  "heroTitle": "Slug Generator",
+  "id": "slug-generator",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "slug generator",
+    "url slug maker",
+    "permalink generator",
+    "seo friendly url",
+    "title to slug"
+  ],
+  "logicRef": "tools-src/text/slug-generator.js",
+  "metaDescription": "Turn any title into a clean, SEO-friendly URL slug instantly. Lowercase, hyphens, no special characters \u2014 free slug maker that runs in your browser.",
+  "relatedTools": [],
+  "slug": "slug-generator",
+  "title": "URL Slug Generator \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Changing a slug on a page that is already live and indexed will break its URL \u2014 set up a redirect first, or don't change it at all.",
+    "It can't judge keyword value: a slug should match the search intent of the page, not just mirror the headline."
+  ]
+}

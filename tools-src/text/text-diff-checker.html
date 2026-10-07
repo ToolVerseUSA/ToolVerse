@@ -1,0 +1,22 @@
+<p class="disclaimer"><strong>100% private.</strong> Both texts are compared entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Text &amp; Writing</p>
+<h2>Compare two texts</h2>
+<p class="section-intro">Paste the original and the modified version. Lines are compared one by one: <strong>green</strong> lines were added, <strong>red</strong> lines were removed.</p>
+<div class="form-section">
+<label for="td-a">Original text</label>
+<textarea class="tv-field" id="td-a" rows="8" placeholder="Paste the original version here&hellip;" aria-label="Original text" style="width:100%;min-height:150px"></textarea>
+<label for="td-b">Modified text</label>
+<textarea class="tv-field" id="td-b" rows="8" placeholder="Paste the modified version here&hellip;" aria-label="Modified text" style="width:100%;min-height:150px"></textarea>
+<div class="tool-actions">
+<button class="button" type="button" id="td-clear">Clear both</button>
+<button class="button primary" type="button" id="td-run">Compare texts</button>
+</div>
+<p class="form-error" id="td-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="td-result-wrap" aria-live="polite">
+<h2>Differences</h2>
+<p class="result-lede" id="td-stats">Add both texts and press Compare.</p>
+<div id="td-result"></div>
+</div>
+</section>

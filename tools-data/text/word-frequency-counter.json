@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Spotted an overused word? Use Find and Replace to swap some instances for a synonym.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your text is never uploaded, stored, or tracked.",
+  "asideTitle": "Your text never leaves this page",
+  "category": "text",
+  "categoryLabel": "Text & Writing",
+  "contentRef": "tools-src/text/word-frequency-counter.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.",
+      "q": "Is my text sent to a server?"
+    },
+    {
+      "a": "Text is split on non-letter/number characters, so 'well-known' counts as two words and punctuation is ignored. Matching is case-insensitive unless you switch it on.",
+      "q": "How are words counted?"
+    },
+    {
+      "a": "The 100 most frequent words. The header above the table always shows the total number of unique words found.",
+      "q": "How many words does the table show?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Find your most repeated words at a glance \u2014 paste any text and get a ranked frequency table instantly.",
+  "heroTitle": "Word Frequency Counter",
+  "id": "word-frequency-counter",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "word frequency counter",
+    "count word occurrences",
+    "most repeated words",
+    "word usage analyzer",
+    "text frequency"
+  ],
+  "logicRef": "tools-src/text/word-frequency-counter.js",
+  "metaDescription": "Count how often each word appears in your text. See the most repeated words in a ranked table \u2014 free word frequency counter, runs in your browser.",
+  "relatedTools": [],
+  "slug": "word-frequency-counter",
+  "title": "Word Frequency Counter \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Frequency is not importance \u2014 common words (the, and, of) naturally dominate; judge overuse by the meaningful words further down the table.",
+    "It treats different forms (run, runs, running) as different words; it does not do stemming or lemmatisation."
+  ]
+}

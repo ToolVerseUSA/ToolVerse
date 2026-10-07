@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need the cleaned list in order? Try the Sort Lines tool next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your text is never uploaded, stored, or tracked.",
+  "asideTitle": "Your text never leaves this page",
+  "category": "text",
+  "categoryLabel": "Text & Writing",
+  "contentRef": "tools-src/text/remove-duplicate-lines.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.",
+      "q": "Is my text sent to a server?"
+    },
+    {
+      "a": "Yes. The first occurrence of each line is kept in its original position; later repeats are removed.",
+      "q": "Does it keep the order of my list?"
+    },
+    {
+      "a": "By default, lines must match exactly. Turn on case-insensitive matching to treat lines that differ only in letter case as duplicates.",
+      "q": "What counts as a duplicate?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Paste a list or any text and remove repeated lines instantly \u2014 keeping the first copy of each line, in order.",
+  "heroTitle": "Remove Duplicate Lines",
+  "id": "remove-duplicate-lines",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "remove duplicate lines",
+    "deduplicate list",
+    "remove duplicates from text",
+    "unique lines only",
+    "delete repeated lines"
+  ],
+  "logicRef": "tools-src/text/remove-duplicate-lines.js",
+  "metaDescription": "Remove duplicate lines from any text instantly. Paste a list, drop repeated lines, keep the original order \u2014 free, private, runs in your browser.",
+  "relatedTools": [],
+  "slug": "remove-duplicate-lines",
+  "title": "Remove Duplicate Lines \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It compares whole lines only \u2014 it cannot find near-duplicates that differ by a typo, extra space, or punctuation.",
+    "For code or data where leading spaces are meaningful (indentation, CSV), check the result before replacing the original."
+  ]
+}

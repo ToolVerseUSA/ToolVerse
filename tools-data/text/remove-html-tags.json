@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Extracted text usually needs a tidy-up \u2014 Remove Extra Spaces is the natural follow-up.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your text is never uploaded, stored, or tracked.",
+  "asideTitle": "Your text never leaves this page",
+  "category": "text",
+  "categoryLabel": "Text & Writing",
+  "contentRef": "tools-src/text/remove-html-tags.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.",
+      "q": "Is my text sent to a server?"
+    },
+    {
+      "a": "With the default option, closing paragraph/heading tags and <br> become line breaks, so the text keeps its structure instead of collapsing into one block.",
+      "q": "What happens to paragraphs and line breaks?"
+    },
+    {
+      "a": "Yes, with 'Decode HTML entities' on, entities such as &amp;, &lt; and &nbsp; are converted back to the characters they represent.",
+      "q": "Are HTML entities like &amp; converted?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Paste HTML and get the plain text back \u2014 tags removed, paragraph breaks kept, entities decoded.",
+  "heroTitle": "Remove HTML Tags",
+  "id": "remove-html-tags",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "strip html tags",
+    "remove html tags",
+    "html to plain text",
+    "html stripper online",
+    "extract text from html"
+  ],
+  "logicRef": "tools-src/text/remove-html-tags.js",
+  "metaDescription": "Strip HTML tags from any snippet and get clean plain text. Keeps paragraph breaks and decodes entities \u2014 free HTML stripper, runs in your browser.",
+  "relatedTools": [],
+  "slug": "remove-html-tags",
+  "title": "Strip HTML Tags \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It extracts text only \u2014 it cannot preserve tables, links, or formatting; use a full HTML-to-Markdown converter if you need structure.",
+    "Text inside <script> and <style> blocks is removed along with the tags' styling code, but malformed or partial HTML snippets may leave stray fragments \u2014 check the output."
+  ]
+}

@@ -1,0 +1,22 @@
+<p class="disclaimer"><strong>100% private.</strong> Your text is processed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Text &amp; Writing</p>
+<h2>Remove duplicate lines</h2>
+<p class="section-intro">Paste a list or any text below. Repeated lines are removed, keeping the first copy of each line in its original position.</p>
+<div class="form-section">
+<label for="rd-input">Your text</label>
+<textarea class="tv-field" id="rd-input" rows="8" placeholder="Paste your list or text here&hellip;" aria-label="Text with possible duplicate lines" style="width:100%;min-height:160px"></textarea>
+<label><input type="checkbox" id="rd-ci"> Case-insensitive matching (treat &ldquo;Apple&rdquo; and &ldquo;apple&rdquo; as the same line)</label>
+<div class="tool-actions">
+<button class="button" type="button" id="rd-clear">Clear</button>
+<button class="button" type="button" id="rd-copy">Copy result</button>
+<button class="button primary" type="button" id="rd-run">Remove duplicates</button>
+</div>
+<p class="form-error" id="rd-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rd-result" aria-live="polite">
+<h2>Unique lines</h2>
+<p class="result-lede" id="rd-stats">Your cleaned text will appear here.</p>
+<textarea class="tv-field" id="rd-output" rows="8" readonly aria-label="Text with duplicate lines removed" style="width:100%;min-height:160px"></textarea>
+</div>
+</section>

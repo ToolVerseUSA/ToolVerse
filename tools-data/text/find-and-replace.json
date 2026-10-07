@@ -1,0 +1,67 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Replaced a term everywhere? A quick pass with Remove Extra Spaces tidies any double spaces left behind.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your text is never uploaded, stored, or tracked.",
+  "asideTitle": "Your text never leaves this page",
+  "category": "text",
+  "categoryLabel": "Text & Writing",
+  "contentRef": "tools-src/text/find-and-replace.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.",
+      "q": "Is my text sent to a server?"
+    },
+    {
+      "a": "No \u2014 the search text is treated literally, so characters like . * and ? match themselves. That makes it safe for everyday text editing.",
+      "q": "Does it support regular expressions?"
+    },
+    {
+      "a": "Yes. Leave the replacement empty to delete every occurrence of the search text.",
+      "q": "Can I replace with nothing?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Swap a word or phrase everywhere it appears \u2014 with a live match count before you commit.",
+  "heroTitle": "Find and Replace",
+  "id": "find-and-replace",
+  "inputs": [
+    {
+      "label": "Find",
+      "name": "find",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "label": "Replace with",
+      "name": "replace",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "find and replace online",
+    "replace text",
+    "bulk replace words",
+    "search and replace tool",
+    "replace all occurrences"
+  ],
+  "logicRef": "tools-src/text/find-and-replace.js",
+  "metaDescription": "Find and replace words or phrases across a whole text instantly, with case-sensitive and whole-word options. Free \u2014 runs privately in your browser.",
+  "relatedTools": [],
+  "slug": "find-and-replace",
+  "title": "Find and Replace Text \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Whole-word mode uses word boundaries, so it won't catch plurals or words attached to punctuation the way you might expect \u2014 check the match count first.",
+    "There is no undo history beyond your browser's own \u2014 keep a copy of the original text before a large replacement."
+  ]
+}

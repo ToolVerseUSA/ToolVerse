@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Text copied from a PDF usually needs Remove Line Breaks first, then this tool.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your text is never uploaded, stored, or tracked.",
+  "asideTitle": "Your text never leaves this page",
+  "category": "text",
+  "categoryLabel": "Text & Writing",
+  "contentRef": "tools-src/text/remove-extra-spaces.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.",
+      "q": "Is my text sent to a server?"
+    },
+    {
+      "a": "With the default options it replaces every run of spaces or tabs with a single space and trims the start and end of each line. Your words and line breaks are never changed.",
+      "q": "What exactly does it change?"
+    },
+    {
+      "a": "No. Line breaks are preserved (unless you also drop blank lines). To join lines into paragraphs, use Remove Line Breaks instead.",
+      "q": "Will it join my lines together?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Tidy messy text in one pass \u2014 collapse repeated spaces, trim line edges, and optionally drop blank lines.",
+  "heroTitle": "Remove Extra Spaces",
+  "id": "remove-extra-spaces",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "remove extra spaces",
+    "remove double spaces",
+    "trim spaces online",
+    "space remover",
+    "clean up text spacing"
+  ],
+  "logicRef": "tools-src/text/remove-extra-spaces.js",
+  "metaDescription": "Clean up messy text: collapse double spaces, trim every line and drop blank lines. Free extra-space remover \u2014 private, runs in your browser.",
+  "relatedTools": [],
+  "slug": "remove-extra-spaces",
+  "title": "Remove Extra Spaces from Text \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It can't fix spacing inside code or tables where columns are aligned with spaces \u2014 collapsing those spaces destroys the alignment.",
+    "It standardises spacing only; it won't correct punctuation spacing conventions that differ by style guide (such as French double-space after periods, which is outdated anyway)."
+  ]
+}

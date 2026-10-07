@@ -1,0 +1,61 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Found the differences? Word Frequency Counter shows how the vocabulary changed between versions.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your text is never uploaded, stored, or tracked.",
+  "asideTitle": "Your text never leaves this page",
+  "category": "text",
+  "categoryLabel": "Text & Writing",
+  "contentRef": "tools-src/text/text-diff-checker.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.",
+      "q": "Is my text sent to a server?"
+    },
+    {
+      "a": "It compares whole lines using a longest-common-subsequence match: lines only in the first text are marked removed, lines only in the second are marked added, and matching lines are unchanged.",
+      "q": "How does the comparison work?"
+    },
+    {
+      "a": "Line diffs match content, not position \u2014 a paragraph that moved appears as removed from its old place and added in its new one.",
+      "q": "Why is a moved paragraph shown as a removal and an addition?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Paste two versions of a text and see every added and removed line highlighted, side by side with a summary.",
+  "heroTitle": "Text Diff Checker",
+  "id": "text-diff-checker",
+  "inputs": [
+    {
+      "label": "Original text",
+      "name": "original",
+      "required": false,
+      "type": "textarea"
+    },
+    {
+      "label": "Modified text",
+      "name": "modified",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "diff checker",
+    "compare two texts",
+    "text comparison tool",
+    "find differences between texts",
+    "online diff tool"
+  ],
+  "logicRef": "tools-src/text/text-diff-checker.js",
+  "metaDescription": "Compare two texts line by line and see exactly what was added, removed or left unchanged. Free online diff checker \u2014 private, runs in your browser.",
+  "relatedTools": [],
+  "slug": "text-diff-checker",
+  "title": "Text Diff Checker \u2014 Compare Two Texts Online | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It compares lines, not words \u2014 a one-word change marks the whole line as removed and re-added, so it can't highlight the exact word that changed.",
+    "Very large documents (thousands of lines on both sides) are refused with a message, because an exact line diff grows quickly in the browser \u2014 split the document and compare it in parts."
+  ]
+}

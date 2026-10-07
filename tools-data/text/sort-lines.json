@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Sorting a list with repeats? Remove Duplicate Lines first for a clean unique list.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your text is never uploaded, stored, or tracked.",
+  "asideTitle": "Your text never leaves this page",
+  "category": "text",
+  "categoryLabel": "Text & Writing",
+  "contentRef": "tools-src/text/sort-lines.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.",
+      "q": "Is my text sent to a server?"
+    },
+    {
+      "a": "Lines are sorted alphabetically using your browser's locale-aware comparison, so numbers inside lines are ordered naturally (line 2 before line 10).",
+      "q": "How are lines compared?"
+    },
+    {
+      "a": "Yes \u2014 tick 'Remove blank lines' and empty lines are dropped from the sorted output.",
+      "q": "Can it remove blank lines while sorting?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Sort any list or block of text line by line \u2014 A to Z or Z to A \u2014 instantly in your browser.",
+  "heroTitle": "Sort Lines",
+  "id": "sort-lines",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "sort lines alphabetically",
+    "alphabetize list",
+    "sort text lines",
+    "line sorter online",
+    "order list a to z"
+  ],
+  "logicRef": "tools-src/text/sort-lines.js",
+  "metaDescription": "Sort lines of text alphabetically (A\u2013Z or Z\u2013A) instantly. Free online line sorter for lists, names and data \u2014 private, runs in your browser.",
+  "relatedTools": [],
+  "slug": "sort-lines",
+  "title": "Sort Lines Alphabetically \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It sorts whole lines alphabetically \u2014 it cannot sort by a column, key, or a value inside each line.",
+    "Natural ordering helps with numbered lines, but version strings and mixed data may still need a spreadsheet."
+  ]
+}

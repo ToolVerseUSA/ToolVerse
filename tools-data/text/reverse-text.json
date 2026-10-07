@@ -1,0 +1,55 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Reversing words by mistake? The Case Converter can fix the casing of the result.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Everything runs locally in your browser. Your text is never uploaded, stored, or tracked.",
+  "asideTitle": "Your text never leaves this page",
+  "category": "text",
+  "categoryLabel": "Text & Writing",
+  "contentRef": "tools-src/text/reverse-text.html",
+  "faq": [
+    {
+      "a": "No. This tool runs entirely in your browser using JavaScript. Your text is never uploaded, stored, or sent anywhere.",
+      "q": "Is my text sent to a server?"
+    },
+    {
+      "a": "Character mode reverses every character (abc becomes cba). Word mode keeps each word intact but reverses their order. Line mode reverses the order of the lines.",
+      "q": "What is the difference between the modes?"
+    },
+    {
+      "a": "Yes \u2014 characters are reversed by Unicode code point, so accented letters and most emojis stay intact instead of breaking into pieces.",
+      "q": "Does it work with emojis and accents?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Flip text three ways \u2014 reverse the characters, the word order, or the line order \u2014 with a live preview.",
+  "heroTitle": "Reverse Text",
+  "id": "reverse-text",
+  "inputs": [
+    {
+      "label": "Your text",
+      "name": "text",
+      "required": false,
+      "type": "textarea"
+    }
+  ],
+  "keywords": [
+    "reverse text",
+    "backwards text generator",
+    "reverse words",
+    "reverse lines",
+    "flip text online"
+  ],
+  "logicRef": "tools-src/text/reverse-text.js",
+  "metaDescription": "Reverse text instantly: flip characters, word order, or line order. Free online reverse text generator \u2014 private, runs entirely in your browser.",
+  "relatedTools": [],
+  "slug": "reverse-text",
+  "title": "Reverse Text Generator \u2014 Free Online Tool | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Reversed text is a novelty/format effect \u2014 screen readers and search engines will read it literally, so don't use it for content that must be accessible.",
+    "Character reversal will break right-to-left scripts and complex emoji sequences (such as flags and family emojis)."
+  ]
+}

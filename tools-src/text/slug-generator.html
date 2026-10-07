@@ -1,0 +1,25 @@
+<p class="disclaimer"><strong>100% private.</strong> Your text is processed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Text &amp; Writing</p>
+<h2>Make a URL slug</h2>
+<p class="section-intro">Type a title or headline and get a clean URL slug instantly — lowercase, with accents removed and words joined by your separator.</p>
+<div class="form-section">
+<label for="sg-input">Title or headline</label>
+<input class="tv-field" id="sg-input" type="text" placeholder="e.g. 10 Tips for Better Sleep (2026 Guide)" aria-label="Title to convert to a slug">
+<label for="sg-sep">Separator</label>
+<select class="tv-field" id="sg-sep" aria-label="Slug separator">
+<option value="-">Hyphen ( - ) — recommended for SEO</option>
+<option value="_">Underscore ( _ )</option>
+</select>
+<div class="tool-actions">
+<button class="button" type="button" id="sg-clear">Clear</button>
+<button class="button" type="button" id="sg-copy">Copy slug</button>
+</div>
+<p class="form-error" id="sg-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="sg-result" aria-live="polite">
+<h2>Your slug</h2>
+<input class="tv-field" id="sg-output" type="text" readonly aria-label="Generated URL slug" placeholder="your-slug-appears-here">
+<p class="result-lede" id="sg-count">0 characters</p>
+</div>
+</section>
