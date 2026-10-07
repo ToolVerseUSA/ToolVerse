@@ -229,11 +229,104 @@ const ICON_PATHS = {
   shield: '<path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>',
   data: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
   clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-  calc: '<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 11h.01"/><path d="M12 11h.01"/><path d="M16 11h.01"/><path d="M8 15h.01"/><path d="M12 15h.01"/><path d="M16 15h.01"/>'
+  calc: '<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 11h.01"/><path d="M12 11h.01"/><path d="M16 11h.01"/><path d="M8 15h.01"/><path d="M12 15h.01"/><path d="M16 15h.01"/>',
+  hash: '<path d="M4 9h16"/><path d="M4 15h16"/><path d="M10 3L8 21"/><path d="M16 3l-2 18"/>',
+  tally: '<path d="M5 4v16"/><path d="M10 4v16"/><path d="M15 4v16"/><path d="M4 16L19 6"/>',
+  'copy-check': '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/><path d="M12.5 15.5l2 2 3.5-3.5"/>',
+  'sort-lines': '<path d="M4 6h10"/><path d="M4 12h8"/><path d="M4 18h6"/><path d="M17 5v14"/><path d="M14 16l3 3 3-3"/>',
+  swap: '<path d="M8 3L4 7l4 4"/><path d="M4 7h16"/><path d="M16 21l4-4-4-4"/><path d="M20 17H4"/>',
+  'align-left': '<path d="M17 6H3"/><path d="M21 12H3"/><path d="M17 18H3"/>',
+  wrap: '<path d="M3 5h14a4 4 0 0 1 0 8H7"/><path d="M10 9l-4 4 4 4"/><path d="M3 20h18"/>',
+  'chart-bars': '<path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/>',
+  repeat: '<path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
+  squeeze: '<path d="M11 17l-5-5 5-5"/><path d="M18 17l-5-5 5-5"/>',
+  'list-ordered': '<path d="M10 6h11"/><path d="M10 12h11"/><path d="M10 18h11"/><path d="M4 6h1v4"/><path d="M4 10h2"/><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/>',
+  'code-off': '<path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/><path d="M3 3l18 18"/>',
+  columns: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/>',
+  braces: '<path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5a2 2 0 0 1 2-2 2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/>',
+  'file-code': '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M10.5 13L9 15l1.5 2"/><path d="M13.5 13L15 15l-1.5 2"/>',
+  percent: '<path d="M19 5L5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>',
+  tag: '<path d="M12.6 2.6l8.8 8.8a2 2 0 0 1 0 2.8l-7.2 7.2a2 2 0 0 1-2.8 0L2.6 12.6A2 2 0 0 1 2 11.2V4a2 2 0 0 1 2-2h7.2a2 2 0 0 1 1.4.6z"/><path d="M7.5 7.5h.01"/>',
+  'id-card': '<rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8.5" cy="11" r="2"/><path d="M5.5 16.5c.6-1.3 1.7-2 3-2s2.4.7 3 2"/><path d="M14.5 9.5H18"/><path d="M14.5 13H18"/>',
+  table: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/>',
+  minimize: '<path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/>',
+  regex: '<path d="M17 3v8"/><path d="M13.8 5l6.4 4"/><path d="M20.2 5l-6.4 4"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M17.5 17.5h.01"/>',
+  lock: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><path d="M12 15.5h.01"/>',
+  key: '<circle cx="8" cy="15.5" r="4.5"/><path d="M11.2 12.3L20 3.5"/><path d="M15.5 8l3 3"/>',
+  shuffle: '<path d="M16 3h5v5"/><path d="M4 20L21 3"/><path d="M21 16v5h-5"/><path d="M15 15l6 6"/><path d="M4 4l5 5"/>',
+  dices: '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 8h.01"/><path d="M16 8h.01"/><path d="M12 12h.01"/><path d="M8 16h.01"/><path d="M16 16h.01"/>',
+  coin: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/>',
+  ticket: '<path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2.5 2.5 0 0 0 0 5v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2.5 2.5 0 0 0 0-5z"/><path d="M13 5v2"/><path d="M13 11v2"/><path d="M13 17v2"/>',
+  target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12h.01"/>',
+  users: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  'sort-alt': '<path d="M21 16l-4 4-4-4"/><path d="M17 20V4"/><path d="M3 8l4-4 4 4"/><path d="M7 4v16"/>',
+  'at-sign': '<circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/>',
+  user: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  book: '<path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/>',
+  'letter-a': '<path d="M4 20L12 4l8 16"/><path d="M6.5 15h11"/>',
+  terminal: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 9l4 3-4 3"/><path d="M12 17h6"/>',
+  qr: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3z"/><path d="M21 14v.01"/><path d="M18 18h3v3h-3z"/><path d="M14 21v.01"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+  spreadsheet: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h8"/><path d="M12 13v4"/>',
+  calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>',
+  ruler: '<path d="M21.3 8.7l-6-6a1 1 0 0 0-1.4 0L2.7 13.9a1 1 0 0 0 0 1.4l6 6a1 1 0 0 0 1.4 0L21.3 10a1 1 0 0 0 0-1.3z"/><path d="M7.5 10.5l2 2"/><path d="M10.5 7.5l2 2"/><path d="M13.5 4.5l2 2"/>'
 };
-function iconSvg(name) {
-  return `<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON_PATHS[name] || ICON_PATHS.file}</svg>`;
+function iconSvg(name, attrs = '') {
+  return `<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"${attrs ? ' ' + attrs : ''}>${ICON_PATHS[name] || ICON_PATHS.file}</svg>`;
 }
+
+// Per-tool icon assignment (UX refinement): every browser tool gets a
+// semantically meaningful icon in the shared stroke style above. The defs
+// stay the source of truth for tool metadata; this map is presentation only.
+const TOOL_ICONS = {
+  'word-counter': 'tally',
+  'case-converter': 'text',
+  'remove-duplicate-lines': 'copy-check',
+  'sort-lines': 'sort-lines',
+  'reverse-text': 'swap',
+  'lorem-ipsum-generator': 'align-left',
+  'slug-generator': 'link',
+  'remove-line-breaks': 'wrap',
+  'word-frequency-counter': 'chart-bars',
+  'find-and-replace': 'repeat',
+  'remove-extra-spaces': 'squeeze',
+  'add-line-numbers': 'list-ordered',
+  'remove-html-tags': 'code-off',
+  'text-diff-checker': 'columns',
+  'json-formatter': 'braces',
+  'base64-encoder': 'file-code',
+  'url-encoder-decoder': 'percent',
+  'html-encoder-decoder': 'tag',
+  'uuid-generator': 'id-card',
+  'json-to-csv': 'table',
+  'xml-formatter': 'code',
+  'sql-formatter': 'data',
+  'css-minifier': 'minimize',
+  'regex-tester': 'regex',
+  'jwt-decoder': 'lock',
+  'timestamp-converter': 'clock',
+  'hash-generator': 'hash',
+  'number-base-converter': 'calc',
+  'random-number-generator': 'shuffle',
+  'dice-roller': 'dices',
+  'coin-flipper': 'coin',
+  'lottery-number-generator': 'ticket',
+  'random-picker': 'target',
+  'team-generator': 'users',
+  'list-randomizer': 'sort-alt',
+  'username-generator': 'at-sign',
+  'random-name-generator': 'user',
+  'random-word-generator': 'book',
+  'random-letter-generator': 'letter-a',
+  'random-string-generator': 'terminal',
+  'qr-code-generator': 'qr',
+  'unit-converter': 'ruler',
+  'image-compressor': 'image',
+  'serp-preview': 'search',
+  'csv-to-json': 'spreadsheet',
+  'password-generator': 'key',
+  'date-duration': 'calendar'
+};
 
 // Curated "most popular" tools (hub row + card badge). Order = display order.
 const POPULAR_IDS = ['word-counter', 'json-formatter', 'image-compressor', 'password-generator', 'unit-converter', 'serp-preview'];
@@ -246,11 +339,14 @@ const NEWEST_IDS = ['qr-code-generator', 'random-number-generator', 'lottery-num
 // the link: name + category label, optional one-line description variant,
 // optional Popular badge.
 function toolCard(t, opts = {}) {
-  const short = t.title.replace(/\s*\|\s*ToolVerse\s*$/, '');
+  // Card display name: the def's short hero title (e.g. "Word Counter"),
+  // not the long SEO <title> — presentation only; page titles/H1s unchanged.
+  const short = t.heroTitle || t.title.replace(/\s*\|\s*ToolVerse\s*$/, '');
   const url = `/ToolVerse/tools/${t.category}/${t.slug}.html`;
   const badge = POPULAR_IDS.includes(t.id) ? '<span class="tv-badge tv-badge-popular">Popular</span>' : '';
-  const desc = opts.desc ? `<span class="tv-tool-card-desc">${escHtml(t.metaDescription)}</span>` : '';
-  return `<a class="tv-tool-card" href="${url}"><span class="tv-tool-card-main"><span class="tv-tool-card-name">${escHtml(short)}</span><span class="tv-tool-card-cat">${escHtml(t.categoryLabel)}</span>${desc}</span>${badge}</a>`;
+  const desc = opts.desc ? `<span class="tv-tool-card-desc">${escHtml(t.heroSubtitle || t.metaDescription)}</span>` : '';
+  const searchText = escAttr((short + ' ' + t.title + ' ' + t.categoryLabel + ' ' + (t.keywords || []).join(' ')).toLowerCase());
+  return `<a class="tv-tool-card" href="${url}" data-category="${escAttr(t.category)}" data-search="${searchText}"><span class="tv-tool-card-icon">${iconSvg(TOOL_ICONS[t.id] || 'file')}</span><span class="tv-tool-card-main"><span class="tv-tool-card-name">${escHtml(short)}</span><span class="tv-tool-card-cat">${escHtml(t.categoryLabel)}</span>${desc}<span class="tv-tool-card-cta">Open Tool <span aria-hidden="true">&rarr;</span></span></span>${badge}</a>`;
 }
 
 // Category grid card: gradient icon tile + name + blurb + live count.
@@ -438,8 +534,8 @@ function renderHomepageSection(defs) {
     if (byId.has(id) && !featuredIds.includes(id)) featuredIds.push(id);
   }
   const homeCard = (t) => {
-    const short = t.title.replace(/\s*\|\s*ToolVerse\s*$/, '');
-    return `<a class="focus-ring rounded-2xl border border-white/10 bg-slate-950/25 p-5 transition hover:border-violet-300/40 hover:bg-violet-300/[.06]" href="/ToolVerse/tools/${t.category}/${t.slug}.html"><span class="text-[11px] font-semibold uppercase tracking-[.16em] text-cyan-200">${escHtml(t.categoryLabel)}</span><span class="mt-2 block text-base font-bold text-white">${escHtml(short)}</span><span class="mt-2 block text-sm leading-6 text-slate-400">${escHtml(t.heroSubtitle)}</span><span class="mt-3 block text-sm font-semibold text-cyan-200">Use Tool <span aria-hidden="true">&rarr;</span></span></a>`;
+    const short = t.heroTitle || t.title.replace(/\s*\|\s*ToolVerse\s*$/, '');
+    return `<a class="focus-ring rounded-2xl border border-white/10 bg-slate-950/25 p-5 transition hover:border-violet-300/40 hover:bg-violet-300/[.06]" href="/ToolVerse/tools/${t.category}/${t.slug}.html"><span class="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-300/10 text-cyan-200">${iconSvg(TOOL_ICONS[t.id] || 'file', 'width="24" height="24"')}</span><span class="text-[11px] font-semibold uppercase tracking-[.16em] text-cyan-200">${escHtml(t.categoryLabel)}</span><span class="mt-2 block text-base font-bold text-white">${escHtml(short)}</span><span class="mt-2 block text-sm leading-6 text-slate-400">${escHtml(t.heroSubtitle)}</span><span class="mt-3 block text-sm font-semibold text-cyan-200">Use Tool <span aria-hidden="true">&rarr;</span></span></a>`;
   };
   const cards = featuredIds.map((id) => homeCard(byId.get(id))).join('');
   const viewAllCard = `<a class="focus-ring mt-4 block rounded-2xl border border-dashed border-cyan-300/40 bg-cyan-300/[.04] p-5 text-center transition hover:border-cyan-300/70 hover:bg-cyan-300/[.08]" href="/ToolVerse/tools/all/"><span class="text-base font-bold text-white">View All ${defs.length} Tools <span aria-hidden="true">&rarr;</span></span><span class="mt-1 block text-sm text-slate-400">Every browser tool, A&ndash;Z &mdash; plus the full hub with live search.</span></a>`;
@@ -684,9 +780,14 @@ function renderAllToolsPage(defs, template) {
     .map((c) => {
       const tools = byCat.get(c.slug);
       const cards = tools.map((t) => toolCard(t, { desc: true })).join('\n');
-      return `<section id="all-${escAttr(c.slug)}"><h2>${escHtml(c.label)} <span class="tv-count-note">(${tools.length})</span></h2><div class="tv-card-grid">\n${cards}\n</div><p><a href="/ToolVerse/tools/${escAttr(c.slug)}/">Open the ${escHtml(c.label)} category page &rarr;</a></p></section>`;
+      return `<section id="all-${escAttr(c.slug)}" data-az-section data-category="${escAttr(c.slug)}"><h2>${escHtml(c.label)} <span class="tv-count-note">(${tools.length})</span></h2><div class="tv-card-grid">\n${cards}\n</div><p><a href="/ToolVerse/tools/${escAttr(c.slug)}/">Open the ${escHtml(c.label)} category page &rarr;</a></p></section>`;
     })
     .join('\n');
+
+  const chips = CATEGORY_DISPLAY
+    .filter((c) => byCat.has(c.slug))
+    .map((c) => `<button type="button" class="tv-chip" data-filter="${escAttr(c.slug)}" aria-pressed="false">${escHtml(c.label)}</button>`)
+    .join('');
 
   const content = `
 <p class="disclaimer"><strong>100% private.</strong> Every tool below runs entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
@@ -694,8 +795,59 @@ function renderAllToolsPage(defs, template) {
 <p class="section-label">ToolVerse Tools</p>
 <h2>All tools, grouped by category</h2>
 <p class="section-intro">${defs.length} free browser tools across ${byCat.size} categories. Looking for the money calculators? Those live in the separate <a href="/ToolVerse/all-categories.html">Financial Tools</a> section.</p>
+<div class="form-section">
+<label for="all-search-input">Search tools</label>
+<div class="tools-search-wrap"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.8-3.8"></path></svg><input class="tools-search-field" id="all-search-input" type="search" placeholder="Try &quot;qr&quot;, &quot;duplicate&quot; or &quot;case&quot;&hellip;" aria-label="Search all tools" autocomplete="off"></div>
+</div>
+<div class="tv-filter-bar" role="group" aria-label="Filter tools by category">
+<button type="button" class="tv-chip" data-filter="all" aria-pressed="true">All</button>
+${chips}
+</div>
+<p class="tv-filter-count" id="all-filter-count" aria-live="polite">Showing ${defs.length} of ${defs.length} tools</p>
+<p class="tv-filter-none" id="all-filter-none" hidden>No tools match that search. Try a different keyword, or pick another category.</p>
 </section>
-${groups}`;
+${groups}
+<script>
+(function () {
+  var input = document.getElementById('all-search-input');
+  if (!input) return;
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.tv-chip[data-filter]'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.tv-tool-card[data-search]'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('[data-az-section]'));
+  var count = document.getElementById('all-filter-count');
+  var none = document.getElementById('all-filter-none');
+  var activeCat = 'all';
+  function apply() {
+    var q = input.value.trim().toLowerCase();
+    var shown = 0;
+    cards.forEach(function (c) {
+      var ok = (activeCat === 'all' || c.getAttribute('data-category') === activeCat) &&
+        (!q || c.getAttribute('data-search').indexOf(q) !== -1);
+      c.style.display = ok ? '' : 'none';
+      if (ok) shown++;
+    });
+    sections.forEach(function (s) {
+      var vis = 0;
+      Array.prototype.forEach.call(s.querySelectorAll('.tv-tool-card'), function (c) {
+        if (c.style.display !== 'none') vis++;
+      });
+      s.style.display = vis ? '' : 'none';
+      var note = s.querySelector('.tv-count-note');
+      if (note) note.textContent = '(' + vis + ')';
+    });
+    count.textContent = 'Showing ' + shown + ' of ' + cards.length + ' tools';
+    none.hidden = shown !== 0;
+  }
+  input.addEventListener('input', apply);
+  chips.forEach(function (ch) {
+    ch.addEventListener('click', function () {
+      activeCat = ch.getAttribute('data-filter');
+      chips.forEach(function (x) { x.setAttribute('aria-pressed', x === ch ? 'true' : 'false'); });
+      apply();
+    });
+  });
+})();
+</script>`;
 
   const url = `${SITE_URL}/tools/all/`;
   const title = 'All Browser Tools A–Z | ToolVerse';
