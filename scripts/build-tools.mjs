@@ -237,6 +237,10 @@ function iconSvg(name) {
 
 // Curated "most popular" tools (hub row + card badge). Order = display order.
 const POPULAR_IDS = ['word-counter', 'json-formatter', 'image-compressor', 'password-generator', 'unit-converter', 'serp-preview'];
+// Homepage featured grid = POPULAR_IDS + NEWEST_IDS (12 cards max, approved
+// 2026-10-07 so index.html stays comfortably below the push size limit no
+// matter how many tools exist). Update NEWEST_IDS with each Phase B batch.
+const NEWEST_IDS = ['jwt-decoder', 'uuid-generator', 'regex-tester', 'json-to-csv', 'timestamp-converter', 'hash-generator'];
 
 // Compact tool card (Phase 4 card system — ToolVerse theme). Whole card is
 // the link: name + category label, optional one-line description variant,
@@ -423,13 +427,18 @@ function renderHomepageSection(defs) {
     .filter((c) => counts.has(c.slug))
     .map((c) => `<a class="focus-ring rounded-full border border-white/10 bg-slate-950/25 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-cyan-300/50 hover:text-white" href="/ToolVerse/tools/${c.slug}/">${escHtml(c.label)} <span class="text-cyan-200">&middot; ${counts.get(c.slug)}</span></a>`)
     .join('');
-  const cards = defs
-    .map((t) => {
-      const short = t.title.replace(/\s*\|\s*ToolVerse\s*$/, '');
-      return `<a class="focus-ring rounded-2xl border border-white/10 bg-slate-950/25 p-5 transition hover:border-violet-300/40 hover:bg-violet-300/[.06]" href="/ToolVerse/tools/${t.category}/${t.slug}.html"><span class="text-[11px] font-semibold uppercase tracking-[.16em] text-cyan-200">${escHtml(t.categoryLabel)}</span><span class="mt-2 block text-base font-bold text-white">${escHtml(short)}</span><span class="mt-2 block text-sm leading-6 text-slate-400">${escHtml(t.heroSubtitle)}</span><span class="mt-3 block text-sm font-semibold text-cyan-200">Use Tool <span aria-hidden="true">&rarr;</span></span></a>`;
-    })
-    .join('');
-  const toolsSection = `<section id="free-online-tools" class="mx-auto mt-6 max-w-6xl rounded-3xl border border-white/10 bg-white/[.025] p-6 sm:p-8" aria-labelledby="free-online-tools-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-violet-300">Browser tools</p><h2 id="free-online-tools-title" class="mt-3 text-2xl font-bold text-white">Free Online Tools</h2><p class="mt-2 max-w-3xl text-sm leading-6 text-slate-400">Fast, private browser-based tools for text, developer, data, image, SEO, calculations and more. No sign-up required.</p><div class="mt-5 flex flex-wrap gap-2">${catChips}</div><div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">${cards}</div><p class="mt-6 text-sm"><a class="font-semibold text-cyan-200 underline" href="/ToolVerse/tools/">Browse all browser tools <span aria-hidden="true">&rarr;</span></a> <span class="text-slate-500">&middot;</span> <a class="font-semibold text-cyan-200 underline" href="/ToolVerse/tools/all/">All tools A&ndash;Z <span aria-hidden="true">&rarr;</span></a></p></section>`;
+  const byId = new Map(defs.map((t) => [t.id, t]));
+  const featuredIds = [];
+  for (const id of [...POPULAR_IDS, ...NEWEST_IDS]) {
+    if (byId.has(id) && !featuredIds.includes(id)) featuredIds.push(id);
+  }
+  const homeCard = (t) => {
+    const short = t.title.replace(/\s*\|\s*ToolVerse\s*$/, '');
+    return `<a class="focus-ring rounded-2xl border border-white/10 bg-slate-950/25 p-5 transition hover:border-violet-300/40 hover:bg-violet-300/[.06]" href="/ToolVerse/tools/${t.category}/${t.slug}.html"><span class="text-[11px] font-semibold uppercase tracking-[.16em] text-cyan-200">${escHtml(t.categoryLabel)}</span><span class="mt-2 block text-base font-bold text-white">${escHtml(short)}</span><span class="mt-2 block text-sm leading-6 text-slate-400">${escHtml(t.heroSubtitle)}</span><span class="mt-3 block text-sm font-semibold text-cyan-200">Use Tool <span aria-hidden="true">&rarr;</span></span></a>`;
+  };
+  const cards = featuredIds.map((id) => homeCard(byId.get(id))).join('');
+  const viewAllCard = `<a class="focus-ring mt-4 block rounded-2xl border border-dashed border-cyan-300/40 bg-cyan-300/[.04] p-5 text-center transition hover:border-cyan-300/70 hover:bg-cyan-300/[.08]" href="/ToolVerse/tools/all/"><span class="text-base font-bold text-white">View All ${defs.length} Tools <span aria-hidden="true">&rarr;</span></span><span class="mt-1 block text-sm text-slate-400">Every browser tool, A&ndash;Z &mdash; plus the full hub with live search.</span></a>`;
+  const toolsSection = `<section id="free-online-tools" class="mx-auto mt-6 max-w-6xl rounded-3xl border border-white/10 bg-white/[.025] p-6 sm:p-8" aria-labelledby="free-online-tools-title"><p class="text-xs font-semibold uppercase tracking-[.18em] text-violet-300">Browser tools</p><h2 id="free-online-tools-title" class="mt-3 text-2xl font-bold text-white">Free Online Tools</h2><p class="mt-2 max-w-3xl text-sm leading-6 text-slate-400">Fast, private browser-based tools for text, developer, data, image, SEO, calculations and more. No sign-up required.</p><div class="mt-5 flex flex-wrap gap-2">${catChips}</div><div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">${cards}</div>${viewAllCard}<p class="mt-6 text-sm"><a class="font-semibold text-cyan-200 underline" href="/ToolVerse/tools/">Browse all browser tools <span aria-hidden="true">&rarr;</span></a> <span class="text-slate-500">&middot;</span> <a class="font-semibold text-cyan-200 underline" href="/ToolVerse/tools/all/">All tools A&ndash;Z <span aria-hidden="true">&rarr;</span></a></p></section>`;
   // Financial Tools is a SEPARATE section of ToolVerse USA — it is rendered
   // as its own panel inside the generated block and never merged with the
   // browser-tools grid above.
