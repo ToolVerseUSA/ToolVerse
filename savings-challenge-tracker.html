@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Track a 100-envelope or 52-week savings challenge in your browser. Mark deposits, watch progress, and see your projected finish date — free, no sign-up.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#07111f">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ToolVerse">
+  <meta property="og:title" content="Savings Challenge Tracker: 100-Envelope & 52-Week | ToolVerse">
+  <meta property="og:description" content="An interactive tracker for the 100-envelope ($5,050) and 52-week ($1,378) savings challenges, with progress and finish-date projection saved in your browser.">
+  <meta property="og:url" content="https://toolverseusa.github.io/ToolVerse/savings-challenge-tracker.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Savings Challenge Tracker | ToolVerse">
+  <meta name="twitter:description" content="An interactive tracker for the 100-envelope ($5,050) and 52-week ($1,378) savings challenges, with progress and finish-date projection saved in your browser.">
+  <link rel="canonical" href="https://toolverseusa.github.io/ToolVerse/savings-challenge-tracker.html">
+  <title>Savings Challenge Tracker: 100-Envelope & 52-Week | ToolVerse</title>
+  <link rel="stylesheet" href="guides.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[{"@type":"WebPage","name":"Savings Challenge Tracker: 100-Envelope & 52-Week","url":"https://toolverseusa.github.io/ToolVerse/savings-challenge-tracker.html","description":"Interactive savings challenge tracker for the 100-envelope and 52-week challenges with per-cell deposits, progress totals, and localStorage persistence."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ToolVerse","item":"https://toolverseusa.github.io/ToolVerse/"},{"@type":"ListItem","position":2,"name":"Savings Challenge Tracker","item":"https://toolverseusa.github.io/ToolVerse/savings-challenge-tracker.html"}]},{"@type":"WebApplication","name":"ToolVerse Savings Challenge Tracker","url":"https://toolverseusa.github.io/ToolVerse/savings-challenge-tracker.html","applicationCategory":"FinanceApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does the 100-envelope challenge total $5,050?","acceptedAnswer":{"@type":"Answer","text":"The envelopes are numbered 1 through 100 and you deposit the number shown. Adding every number from 1 to 100 gives 100 × 101 ÷ 2 = $5,050, so completing every envelope always totals the same amount, whatever order you draw them in."}},{"@type":"Question","name":"What if I miss a week or draw a big envelope early?","acceptedAnswer":{"@type":"Answer","text":"Nothing breaks. Both challenges are self-paced — mark cells whenever you deposit, in any order. The tracker totals whatever you have actually marked and projects a finish date from your real pace."}},{"@type":"Question","name":"Can I do the 52-week challenge biweekly instead?","acceptedAnswer":{"@type":"Answer","text":"Yes. Deposit two weeks at a time on payday — for example weeks 1 and 2 together ($3) — and mark both cells. The yearly total stays $1,378; only the rhythm changes."}},{"@type":"Question","name":"Where should I keep the challenge money?","acceptedAnswer":{"@type":"Answer","text":"A separate savings account keeps marked cells honest and the money out of everyday spending. This tracker never connects to any account — it only records what you tap."}}]}]}
+  </script>
+<!-- Google tag (gtag.js), loaded when the page becomes idle -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  function loadGoogleTag() {
+    var tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=G-6VX2WPNECZ';
+    tag.fetchPriority = 'low';
+    document.head.appendChild(tag);
+    gtag('js', new Date());
+    gtag('config', 'G-6VX2WPNECZ');
+  }
+  window.addEventListener('load', function () {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(loadGoogleTag);
+    } else {
+      window.setTimeout(loadGoogleTag, 0);
+    }
+  }, { once: true });
+</script>
+<link rel="stylesheet" href="navigation.css"><script defer src="navigation.js"></script>
+<style>
+.tv-bar-track{background:rgba(255,255,255,.12);border-radius:999px;height:16px;overflow:hidden;margin:6px 0 14px}
+.tv-bar-fill{height:100%;background:linear-gradient(90deg,#67e8f9,#a78bfa);border-radius:999px;transition:width .3s}
+.tv-bar-fill.green{background:linear-gradient(90deg,#34d399,#67e8f9)}
+.tv-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:12px 0}
+.tv-stat{border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 14px;background:rgba(255,255,255,.04)}
+.tv-stat b{display:block;font-size:1.35rem;line-height:1.2}
+.tv-stat span{font-size:.85rem;opacity:.85}
+.dyn-row{border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px;margin:0 0 12px}
+.dyn-row .tool-grid{margin:0}
+.row-remove{margin-top:4px}
+.challenge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(62px,1fr));gap:8px;margin:14px 0}
+.challenge-cell{font:inherit;font-weight:700;min-height:52px;border-radius:10px;border:1px solid rgba(103,232,249,.35);background:rgba(255,255,255,.04);color:inherit;cursor:pointer;padding:6px 2px}
+.challenge-cell small{display:block;font-weight:500;font-size:.72rem;opacity:.8}
+.challenge-cell[aria-pressed="true"]{background:linear-gradient(135deg,#67e8f9,#a78bfa);color:#07111f;border-color:transparent}
+.slider-row{display:grid;grid-template-columns:110px 1fr 64px;gap:10px;align-items:center;margin:10px 0}
+.slider-row output{font-weight:800;text-align:right}
+input[type="range"]{width:100%;accent-color:#67e8f9}
+.winner-box{border:1px solid rgba(134,239,172,.4);border-radius:12px;padding:12px 14px;margin:12px 0;background:rgba(22,101,52,.15)}
+.warn-box{border:1px solid rgba(252,211,77,.45);border-radius:12px;padding:12px 14px;margin:12px 0;background:rgba(120,84,5,.18)}
+.result table.compare{width:100%}
+</style></head>
+<body>
+  <div class="wrap">
+    <header class="tv-global-header"><div class="tv-global-inner"><a class="tv-brand" href="index.html" aria-label="ToolVerse home"><span class="tv-brand-mark" aria-hidden="true">TV</span><span>Tool<b>Verse</b></span></a><nav class="tv-desktop-nav" aria-label="Primary navigation"><details class="tv-menu" data-tv-menu="tools"><summary>Tools</summary><div class="tv-mega"><div class="tv-mega-grid"><section class="tv-mega-group"><span class="tv-mega-title">Medical Billing &amp; Coding</span><a class="tv-mega-link" href="medical-billing-salary-calculator.html">Medical Billing Salary<span>Convert a billing salary scenario into useful pay equivalents.</span></a><a class="tv-mega-link" href="medical-coder-salary-calculator.html">Medical Coder Salary<span>Explore a coder salary scenario without promising a market rate.</span></a><a class="tv-mega-link" href="medical-billing-vs-medical-coding.html">Billing vs Coding<span>Compare duties, workflow, skills, and career considerations.</span></a><a class="tv-mega-link" href="medical-billing-services.html">Billing Services for Practices<span>Questions to ask before reviewing an outsourced billing vendor.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Rent & Housing</span><a class="tv-mega-link" href="index.html#calculator">Affordability Calculator<span>Start with income, rent, debt, and expenses.</span></a><a class="tv-mega-link" href="true-cost-of-renting-calculator.html">True Cost of Renting<span>Add bills, fees, commute, and move-in costs.</span></a><a class="tv-mega-link" href="first-apartment-budget-calculator.html">First Apartment Budget<span>Separate move-in cash from monthly affordability.</span></a><a class="tv-mega-link" href="30-percent-rent-rule.html">30% Rent Rule<span>Use a gross-income reference carefully.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Home Buying</span><a class="tv-mega-link" href="mortgage-payment-calculator.html">Mortgage Payment<span>Estimate principal, interest, taxes, insurance, and reserves.</span></a><a class="tv-mega-link" href="home-affordability-calculator.html">Home Affordability<span>Plan a home budget after taxes and entered costs.</span></a><a class="tv-mega-link" href="down-payment-calculator.html">Down Payment Plan<span>Set a cash target and savings timeline.</span></a><a class="tv-mega-link" href="closing-costs-calculator.html">Closing Costs<span>Organize cash-to-close fee categories.</span></a><a class="tv-mega-link" href="rent-vs-buy-calculator.html">Rent vs Buy<span>Compare entered cash-flow assumptions.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Salary & Take-Home Pay</span><a class="tv-mega-link" href="salary-needed-for-rent-calculator.html">Salary Needed for Rent<span>Work backward from a rent target.</span></a><a class="tv-mega-link" href="salary-after-rent-calculator.html">Salary After Rent<span>Estimate the cash left after entered costs.</span></a><a class="tv-mega-link" href="take-home-pay-vs-rent.html">Take-Home Pay vs Rent<span>Read rent pressure alongside remaining cash.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Job & Career Decisions</span><a class="tv-mega-link" href="job-offer-take-home-rent-comparison.html">Compare Job Offers<span>Compare two full monthly scenarios.</span></a><a class="tv-mega-link" href="relocation-break-even-calculator.html">Relocation Break-Even<span>Test a higher salary against move costs.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Moving & Relocation</span><a class="tv-mega-link" href="relocation-break-even-calculator.html">Relocation Break-Even<span>Estimate a planning break-even timeline.</span></a><a class="tv-mega-link" href="cost-of-living-by-state.html">Cost of Living Context<span>Connect location context to your own budget.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Budgeting & Personal Finance</span><a class="tv-mega-link" href="roommate-rent-split-calculator.html">Roommate Rent Split<span>Compare transparent ways to divide shared costs.</span></a><a class="tv-mega-link" href="index.html#calculator">Financial Score<span>See housing, debt, cash-flow, and savings pressure.</span></a><a class="tv-mega-link" href="car-insurance-cost-estimator.html">Car Insurance Cost Estimator<span>Estimate a planning range; compare real rates separately.</span></a><a class="tv-mega-link" href="debt-payoff-calculator.html">Debt Payoff Calculator<span>Compare snowball vs avalanche payoff plans side by side.</span></a><a class="tv-mega-link" href="savings-challenge-tracker.html">Savings Challenge Tracker<span>Track a 100-envelope or 52-week savings challenge.</span></a><a class="tv-mega-link" href="subscription-audit-calculator.html">Subscription Audit<span>Find recurring charges that quietly drain your budget.</span></a><a class="tv-mega-link" href="fifty-thirty-twenty-budget-calculator.html">50/30/20 Budget Calculator<span>Split take-home pay into needs, wants, and savings.</span></a><a class="tv-mega-link" href="emergency-fund-calculator.html">Emergency Fund Calculator<span>Find your real emergency fund target and timeline.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Cost of Living</span><a class="tv-mega-link" href="cost-of-living-by-state.html">Cost of Living by State<span>Use state context with a personal scenario.</span></a><a class="tv-mega-link" href="illinois-cost-of-living.html">Illinois Cost of Living<span>Run an Illinois affordability scenario.</span></a><a class="tv-mega-link" href="texas-cost-of-living.html">Texas Cost of Living<span>Run a Texas affordability scenario.</span></a></section></div><aside class="tv-feature"><div><p class="tv-feature-eyebrow">Featured decision</p><p class="tv-feature-title">Plan your first apartment</p><p>Separate move-in cash from recurring monthly costs before you apply.</p></div><a href="first-apartment-budget-calculator.html">Explore this decision</a></aside></div></details><details class="tv-menu" data-tv-menu="guides"><summary>Guides</summary><div class="tv-mega"><div class="tv-mega-grid"><section class="tv-mega-group"><span class="tv-mega-title">Renting Guides</span><a class="tv-mega-link" href="salary-rent-affordability-guide.html">Rent by Salary<span>Use one strong salary-based rent guide.</span></a><a class="tv-mega-link" href="what-does-rent-really-cost.html">What Rent Really Costs<span>Separate advertised rent from all-in housing costs.</span></a><a class="tv-mega-link" href="first-apartment-budget-costs-checklist.html">First Apartment Checklist<span>Plan move-in cash and monthly expenses.</span></a><a class="tv-mega-link" href="30-percent-rent-rule.html">30% Rent Rule<span>Understand the limit of one percentage.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Salary Guides</span><a class="tv-mega-link" href="salary-needed-for-rent-explained.html">Salary Needed for Rent<span>Separate gross pay, take-home pay, and budget.</span></a><a class="tv-mega-link" href="salary-after-rent-calculator.html">Salary After Rent<span>Interpret a cash surplus or shortfall.</span></a><a class="tv-mega-link" href="take-home-pay-vs-rent.html">Take-Home Pay vs Rent<span>Read a ratio together with dollars left.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Career Guides</span><a class="tv-mega-link" href="how-to-compare-job-offers-after-taxes-rent.html">Compare Job Offers<span>Compare the full monthly picture.</span></a><a class="tv-mega-link" href="is-a-higher-salary-worth-moving-for.html">Is a Higher Salary Worth Moving For?<span>Use a break-even view for a potential move.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Financial Planning</span><a class="tv-mega-link" href="how-should-roommates-split-rent-and-utilities.html">How Roommates Split Costs<span>Choose a transparent shared-cost method.</span></a><a class="tv-mega-link" href="cost-of-living-by-state.html">Cost of Living Context<span>Understand what state context can and cannot show.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Home Buying Guides</span><a class="tv-mega-link" href="how-mortgage-payments-work.html">Mortgage Payment Guide<span>See what belongs in an all-in monthly estimate.</span></a><a class="tv-mega-link" href="how-much-house-can-i-afford.html">Home Affordability Guide<span>Build a cash-flow limit before shopping.</span></a><a class="tv-mega-link" href="down-payment-planning-guide.html">Down Payment Guide<span>Plan a full cash target before buying.</span></a><a class="tv-mega-link" href="closing-costs-explained.html">Closing Costs Guide<span>Separate cash to close from the home price.</span></a><a class="tv-mega-link" href="rent-vs-buy-decision-guide.html">Rent vs Buy Guide<span>Compare time horizon, costs, and flexibility.</span></a></section></div><aside class="tv-feature"><div><p class="tv-feature-eyebrow">Start with the question</p><p class="tv-feature-title">What does rent really cost?</p><p>Use advertised rent, bills, fees, and move-in cash to compare apartments clearly.</p></div><a href="what-does-rent-really-cost.html">Explore this decision</a></aside></div></details><details class="tv-menu" data-tv-menu><summary>Resources</summary><div class="tv-mega"><div class="tv-mega-grid"><section class="tv-mega-group"><span class="tv-mega-title">Learn ToolVerse</span><a class="tv-mega-link" href="index.html#how-it-works">How ToolVerse Works<span>Understand the core affordability workflow.</span></a><a class="tv-mega-link" href="index.html#methodology">Methodology & Sources<span>Review planning assumptions and public references.</span></a><a class="tv-mega-link" href="index.html#faq">Frequently Asked Questions<span>Find practical answers before you calculate.</span></a><a class="tv-mega-link" href="about.html">About ToolVerse<span>Learn the product focus and planning limits.</span></a><a class="tv-mega-link" href="contact.html">Contact<span>Send corrections, accessibility concerns, or feedback.</span></a></section></div><aside class="tv-feature"><div><p class="tv-feature-eyebrow">Privacy-first planning</p><p class="tv-feature-title">No account required</p><p>ToolVerse calculators run in your browser and use planning estimates.</p></div><a href="privacy.html">Explore this decision</a></aside></div></details></nav><a class="tv-header-cta" href="index.html#calculator">Start Free Calculator</a><details class="tv-mobile-nav" data-tv-menu><summary><span class="tv-sr-only">Open navigation</span><span aria-hidden="true">Menu</span></summary><div class="tv-mobile-panel"><a class="tv-mobile-cta" href="index.html#calculator">Start Free Calculator</a><details class="tv-mobile-section"><summary>Tools</summary><div class="tv-mobile-categories" data-mobile-accordion-group="tools"><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-medical-billing-coding-panel"><span>Medical Billing &amp; Coding</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-medical-billing-coding-panel" data-mobile-accordion-panel hidden><a href="medical-billing-salary-calculator.html">Medical Billing Salary</a><a href="medical-coder-salary-calculator.html">Medical Coder Salary</a><a href="medical-billing-vs-medical-coding.html">Billing vs Coding</a><a href="how-to-become-a-medical-coder.html">Become a Medical Coder</a><a href="how-to-become-a-medical-biller.html">Become a Medical Biller</a><a href="medical-billing-services.html">Billing Services for Practices</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-rent-housing-panel"><span>Rent & Housing</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-rent-housing-panel" data-mobile-accordion-panel hidden><a href="index.html#calculator">Affordability Calculator</a><a href="car-insurance-cost-estimator.html">Car Insurance Cost Estimator</a><a href="true-cost-of-renting-calculator.html">True Cost of Renting</a><a href="first-apartment-budget-calculator.html">First Apartment Budget</a><a href="30-percent-rent-rule.html">30% Rent Rule</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-home-buying-panel"><span>Home Buying</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-home-buying-panel" data-mobile-accordion-panel hidden><a href="mortgage-payment-calculator.html">Mortgage Payment</a><a href="home-affordability-calculator.html">Home Affordability</a><a href="down-payment-calculator.html">Down Payment Plan</a><a href="closing-costs-calculator.html">Closing Costs</a><a href="rent-vs-buy-calculator.html">Rent vs Buy</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-salary-take-home-panel"><span>Salary & Take-Home Pay</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-salary-take-home-panel" data-mobile-accordion-panel hidden><a href="salary-needed-for-rent-calculator.html">Salary Needed for Rent</a><a href="salary-after-rent-calculator.html">Salary After Rent</a><a href="take-home-pay-vs-rent.html">Take-Home Pay vs Rent</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-job-career-panel"><span>Job & Career Decisions</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-job-career-panel" data-mobile-accordion-panel hidden><a href="job-offer-take-home-rent-comparison.html">Compare Job Offers</a><a href="relocation-break-even-calculator.html">Relocation Break-Even</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-moving-relocation-panel"><span>Moving & Relocation</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-moving-relocation-panel" data-mobile-accordion-panel hidden><a href="relocation-break-even-calculator.html">Relocation Break-Even</a><a href="cost-of-living-by-state.html">Cost of Living Context</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-budget-personal-finance-panel"><span>Budgeting & Personal Finance</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-budget-personal-finance-panel" data-mobile-accordion-panel hidden><a href="roommate-rent-split-calculator.html">Roommate Rent Split</a><a href="index.html#calculator">Financial Score</a><a href="car-insurance-cost-estimator.html">Car Insurance Cost Estimator</a><a href="debt-payoff-calculator.html">Debt Payoff Calculator</a><a href="savings-challenge-tracker.html">Savings Challenge Tracker</a><a href="subscription-audit-calculator.html">Subscription Audit</a><a href="fifty-thirty-twenty-budget-calculator.html">50/30/20 Budget Calculator</a><a href="emergency-fund-calculator.html">Emergency Fund Calculator</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-cost-living-panel"><span>Cost of Living</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-cost-living-panel" data-mobile-accordion-panel hidden><a href="cost-of-living-by-state.html">Cost of Living by State</a><a href="illinois-cost-of-living.html">Illinois Cost of Living</a><a href="texas-cost-of-living.html">Texas Cost of Living</a></div></section></div></details><details class="tv-mobile-section"><summary>Guides</summary><div class="tv-mobile-categories" data-mobile-accordion-group="guides"><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-renting-guides-panel"><span>Renting Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-renting-guides-panel" data-mobile-accordion-panel hidden><a href="salary-rent-affordability-guide.html">Rent by Salary</a><a href="what-does-rent-really-cost.html">What Rent Really Costs</a><a href="first-apartment-budget-costs-checklist.html">First Apartment Checklist</a><a href="30-percent-rent-rule.html">30% Rent Rule</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-salary-guides-panel"><span>Salary Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-salary-guides-panel" data-mobile-accordion-panel hidden><a href="salary-needed-for-rent-explained.html">Salary Needed for Rent</a><a href="salary-after-rent-calculator.html">Salary After Rent</a><a href="take-home-pay-vs-rent.html">Take-Home Pay vs Rent</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-career-guides-panel"><span>Career Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-career-guides-panel" data-mobile-accordion-panel hidden><a href="how-to-compare-job-offers-after-taxes-rent.html">Compare Job Offers</a><a href="is-a-higher-salary-worth-moving-for.html">Is a Higher Salary Worth Moving For?</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-financial-planning-panel"><span>Financial Planning</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-financial-planning-panel" data-mobile-accordion-panel hidden><a href="how-should-roommates-split-rent-and-utilities.html">How Roommates Split Costs</a><a href="cost-of-living-by-state.html">Cost of Living Context</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-home-buying-guides-panel"><span>Home Buying Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-home-buying-guides-panel" data-mobile-accordion-panel hidden><a href="how-mortgage-payments-work.html">Mortgage Payment Guide</a><a href="how-much-house-can-i-afford.html">Home Affordability Guide</a><a href="down-payment-planning-guide.html">Down Payment Guide</a><a href="closing-costs-explained.html">Closing Costs Guide</a><a href="rent-vs-buy-decision-guide.html">Rent vs Buy Guide</a></div></section></div></details><details class="tv-mobile-section"><summary>Resources</summary><div class="tv-mobile-direct"><a href="index.html#how-it-works">How ToolVerse Works</a><a href="index.html#methodology">Methodology &amp; Sources</a><a href="index.html#faq">Frequently Asked Questions</a><a href="about.html">About ToolVerse</a><a href="contact.html">Contact</a></div></details></div></details></div></header>
+    <section class="hero"><div class="breadcrumbs"><a href="index.html">ToolVerse</a><span>›</span>Savings Challenge Tracker</div><div class="eyebrow">Savings habit tool</div><h1>Savings Challenge Tracker: 100-Envelope & 52-Week</h1><p class="lede">Pick a challenge and tap each envelope or week as you deposit it. Your totals, progress bar, and projected finish date update as you go — and your progress is saved in this browser.</p></section>
+    <div class="grid"><main class="main-card prose"><div class="disclaimer"><strong>Planning information only.</strong> Totals and projections are planning estimates based on the deposits you mark — not financial advice, tax advice, or a guarantee that a challenge pace will fit your budget. Only deposit money you can afford to set aside.</div>
+
+      <section class="tool-card" aria-labelledby="sav-tool-title"><h2 id="sav-tool-title">Track your challenge</h2><p class="stateless">Pick a challenge, set your start date, then tap each envelope or week as you deposit it. Progress saves automatically in this browser.</p><form id="sav-form" novalidate><div class="tool-grid"><label for="sav-type">Challenge<select id="sav-type"><option value="env">100-Envelope Challenge (save $5,050)</option><option value="w52">52-Week Challenge — classic (save $1,378)</option><option value="w52r">52-Week Challenge — reversed (save $1,378)</option></select></label><label for="sav-start">Start date<input id="sav-start" type="date"></label></div><div class="tool-actions"><button class="button secondary" type="button" id="sav-reset">Reset this challenge</button></div></form><div id="sav-grid" class="challenge-grid" aria-label="Challenge tracker grid"></div><div class="result" id="sav-stats" hidden aria-live="polite"></div></section>
+
+
+      <h2>How the challenges work</h2><p>In the <strong>100-envelope challenge</strong>, you label 100 envelopes 1 to 100, draw one at a time, and deposit the amount on it. Because 1 + 2 + … + 100 = 5,050, finishing every envelope saves exactly $5,050. In the <strong>52-week challenge</strong>, you deposit $1 in week 1, $2 in week 2, and so on up to $52 — a total of $1,378. The reversed version starts at $52 and steps down, which suits people whose income is stronger at the start of the year.</p>
+      <h3>Make it fit real life</h3><ul><li>Go out of order freely — tap any cell when you have that amount spare.</li><li>Smaller pace still counts: half amounts finish at half the total, which beats quitting.</li><li>Keep the money in a separate savings account so a marked cell really means saved.</li></ul>
+      <table class="compare"><thead><tr><th>Challenge</th><th>Total saved</th><th>Hardest single deposit</th><th>Typical pace</th></tr></thead><tbody><tr><td>100-Envelope</td><td>$5,050</td><td>$100</td><td>About 3–4 months at one envelope a day</td></tr><tr><td>52-Week classic</td><td>$1,378</td><td>$52 (final week)</td><td>One deposit a week for a year</td></tr><tr><td>52-Week reversed</td><td>$1,378</td><td>$52 (first week)</td><td>One deposit a week, getting easier</td></tr></tbody></table>
+
+      <h2>Frequently asked questions</h2><details><summary>How does the 100-envelope challenge total $5,050?</summary><div class="faq-answer">The envelopes are numbered 1 through 100 and you deposit the number shown. Adding every number from 1 to 100 gives 100 × 101 ÷ 2 = $5,050, so completing every envelope always totals the same amount, whatever order you draw them in.</div></details><details><summary>What if I miss a week or draw a big envelope early?</summary><div class="faq-answer">Nothing breaks. Both challenges are self-paced — mark cells whenever you deposit, in any order. The tracker totals whatever you have actually marked and projects a finish date from your real pace.</div></details><details><summary>Can I do the 52-week challenge biweekly instead?</summary><div class="faq-answer">Yes. Deposit two weeks at a time on payday — for example weeks 1 and 2 together ($3) — and mark both cells. The yearly total stays $1,378; only the rhythm changes.</div></details><details><summary>Where should I keep the challenge money?</summary><div class="faq-answer">A separate savings account keeps marked cells honest and the money out of everyday spending. This tracker never connects to any account — it only records what you tap.</div></details>
+      <section class="source-card"><h2>Sources and methodology</h2><ul class="source-list"><li><a href="https://www.fdic.gov/resources/consumers/money-smart/index.html" rel="noopener noreferrer">FDIC — Money Smart financial education</a><small>General guidance on saving habits and money management; accessed October 2026.</small></li><li><a href="https://www.consumerfinance.gov/ask-cfpb/" rel="noopener noreferrer">CFPB — Ask CFPB</a><small>Consumer answers on savings accounts and everyday money questions; accessed October 2026.</small></li><li><a href="disclaimer.html">ToolVerse Disclaimer</a><small>Explains the limits of ToolVerse planning estimates.</small></li></ul></section>
+</main><aside class="side-card"><span class="badge">Use your own inputs</span><h2>Turn a challenge into a safety net</h2><p>A finished challenge is a strong start on an emergency fund. Check what your full target should be, then keep the habit running.</p><a class="button" href="emergency-fund-calculator.html">Find your emergency fund target</a><section class="next-decision" aria-label="Your next step"><p class="next-decision-title">Your next step</p><p class="next-decision-copy">Size your real emergency fund, then split the rest of your paycheck with a simple budget rule.</p><ul class="link-list"><li><a href="emergency-fund-calculator.html">Emergency Fund Calculator</a></li><li><a href="fifty-thirty-twenty-budget-calculator.html">50/30/20 Budget Calculator</a></li><li><a href="debt-payoff-calculator.html">Debt Payoff Calculator</a></li><li><a href="down-payment-calculator.html">Down Payment Plan</a></li></ul></section></aside></div>
+    <footer class="tv-footer">
+  <div class="tv-footer-inner">
+    <section class="tv-footer-cta" aria-labelledby="tv-footer-cta-title">
+      <div>
+        <p class="tv-footer-cta-eyebrow">Plan with more clarity</p>
+        <h2 id="tv-footer-cta-title">Make your next money decision with more clarity.</h2>
+        <p>Free planning tools for rent, salary, home buying, moving, and everyday U.S. financial decisions.</p>
+      </div>
+      <a class="tv-footer-cta-link" href="index.html#calculator">Start Free Calculator <span aria-hidden="true">→</span></a>
+    </section>
+    <div class="tv-footer-grid">
+      <section class="tv-footer-brand" aria-labelledby="tv-footer-brand-title">
+        <a class="tv-brand" id="tv-footer-brand-title" href="index.html" aria-label="ToolVerse home"><span class="tv-brand-mark" aria-hidden="true">TV</span><span>Tool<b>Verse</b></span></a>
+        <p>Private tools for clearer U.S. money decisions. Plan a scenario, understand the trade-offs, and verify important details before acting.</p>
+        <p class="tv-footer-trust">Free · No account · Runs in your browser</p>
+      </section>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Popular tools">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-popular-tools"><span>Popular Tools</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Popular Tools</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-popular-tools" data-footer-accordion-panel hidden>
+          <a href="index.html#calculator">Affordability Calculator</a>
+          <a href="true-cost-of-renting-calculator.html">True Cost of Renting</a>
+          <a href="salary-needed-for-rent-calculator.html">Salary Needed for Rent</a>
+          <a href="mortgage-payment-calculator.html">Mortgage Payment</a>
+          <a href="home-affordability-calculator.html">Home Affordability</a>
+          <a href="rent-vs-buy-calculator.html">Rent vs Buy</a>
+        </div>
+      </nav>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Decision categories">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-decision-categories"><span>Decision Categories</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Decision Categories</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-decision-categories" data-footer-accordion-panel hidden>
+          <a href="30-percent-rent-rule.html">Rent &amp; Housing</a>
+          <a href="home-affordability-calculator.html">Home Buying</a>
+          <a href="salary-needed-for-rent-calculator.html">Salary &amp; Take-Home Pay</a>
+          <a href="job-offer-take-home-rent-comparison.html">Job &amp; Career</a>
+          <a href="relocation-break-even-calculator.html">Moving &amp; Relocation</a>
+          <a href="roommate-rent-split-calculator.html">Budgeting &amp; Personal Finance</a>
+          <a href="cost-of-living-by-state.html">Cost of Living</a>
+        </div>
+      </nav>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Guides and learning">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-guides-learning"><span>Guides &amp; Learning</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Guides &amp; Learning</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-guides-learning" data-footer-accordion-panel hidden>
+          <a href="what-does-rent-really-cost.html">Renting Guides</a>
+          <a href="how-mortgage-payments-work.html">Home Buying Guides</a>
+          <a href="salary-needed-for-rent-explained.html">Salary Guides</a>
+          <a href="how-to-compare-job-offers-after-taxes-rent.html">Career Guides</a>
+          <a href="how-should-roommates-split-rent-and-utilities.html">Shared Living Guides</a>
+          <a href="index.html#how-it-works">How ToolVerse Works</a>
+        </div>
+      </nav>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Company and trust">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-company-trust"><span>Company &amp; Trust</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Company &amp; Trust</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-company-trust" data-footer-accordion-panel hidden>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="disclaimer.html">Disclaimer</a>
+        </div>
+      </nav>
+    </div>
+    <div class="tv-footer-bottom">
+      <p>© <span class="tv-year"></span> ToolVerse. Estimates are educational planning information, not financial, tax, legal, lending, or affordability guarantees.</p>
+      <p>Free · No account · Runs in your browser</p>
+    </div>
+  </div>
+</footer>
+  </div><script src="guides.js" defer></script>
+<script>
+
+(function () {
+  var CH = {
+    env:  { label: '100-Envelope Challenge', total: 5050, count: 100, amount: function (i) { return i + 1; }, cell: function (i) { return (i + 1) + '<small>$' + (i + 1) + '</small>'; }, key: 'tv-challenge-env' },
+    w52:  { label: '52-Week Challenge (classic)', total: 1378, count: 52, amount: function (i) { return i + 1; }, cell: function (i) { return 'Wk ' + (i + 1) + '<small>$' + (i + 1) + '</small>'; }, key: 'tv-challenge-w52' },
+    w52r: { label: '52-Week Challenge (reversed)', total: 1378, count: 52, amount: function (i) { return 52 - i; }, cell: function (i) { return 'Wk ' + (i + 1) + '<small>$' + (52 - i) + '</small>'; }, key: 'tv-challenge-w52r' }
+  };
+  var sel = document.getElementById('sav-type');
+  var startEl = document.getElementById('sav-start');
+  var grid = document.getElementById('sav-grid');
+  var stats = document.getElementById('sav-stats');
+  function money(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+  function load(type) {
+    try { var raw = localStorage.getItem(CH[type].key); if (raw) return JSON.parse(raw); } catch (e) {}
+    return { start: '', marked: [] };
+  }
+  function save(type, st) { try { localStorage.setItem(CH[type].key, JSON.stringify(st)); } catch (e) {} }
+  function render() {
+    var type = sel.value, ch = CH[type], st = load(type);
+    startEl.value = st.start || '';
+    grid.innerHTML = '';
+    var marked = {};
+    st.marked.forEach(function (i) { marked[i] = true; });
+    for (var i = 0; i < ch.count; i++) {
+      (function (i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'challenge-cell';
+        b.innerHTML = ch.cell(i);
+        b.setAttribute('aria-pressed', marked[i] ? 'true' : 'false');
+        b.setAttribute('aria-label', ch.label + ' item ' + (i + 1) + ', ' + money(ch.amount(i)) + (marked[i] ? ', saved' : ', not saved yet'));
+        b.addEventListener('click', function () {
+          var cur = load(type);
+          var idx = cur.marked.indexOf(i);
+          if (idx >= 0) cur.marked.splice(idx, 1); else cur.marked.push(i);
+          save(type, cur);
+          render();
+        });
+        grid.appendChild(b);
+      })(i);
+    }
+    var saved = st.marked.reduce(function (s, i) { return s + ch.amount(i); }, 0);
+    var remaining = ch.total - saved;
+    var pct = Math.round(saved / ch.total * 1000) / 10;
+    var proj = 'Set a start date and mark your first deposit to see a projection.';
+    if (saved >= ch.total) {
+      proj = 'Challenge complete — every cell is marked. Nicely done.';
+    } else if (st.start && saved > 0) {
+      var start = new Date(st.start + 'T00:00:00');
+      var days = Math.max(1, Math.floor((Date.now() - start.getTime()) / 86400000));
+      var pace = saved / days;
+      if (pace > 0) {
+        var finish = new Date(Date.now() + (remaining / pace) * 86400000);
+        proj = 'At your current pace (about ' + money(pace) + ' per day), you would finish around ' +
+          finish.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) + '.';
+      }
+    }
+    stats.hidden = false;
+    stats.innerHTML =
+      '<div class="tv-stat-grid">' +
+      '<div class="tv-stat"><b>' + money(saved) + '</b><span>saved so far</span></div>' +
+      '<div class="tv-stat"><b>' + money(remaining) + '</b><span>remaining of ' + money(ch.total) + '</span></div>' +
+      '<div class="tv-stat"><b>' + pct + '%</b><span>complete (' + st.marked.length + ' of ' + ch.count + ')</span></div></div>' +
+      '<div class="tv-bar-track"><div class="tv-bar-fill green" style="width:' + pct + '%"></div></div>' +
+      '<p>' + proj + '</p>' +
+      '<p>Your progress is stored only in this browser (localStorage) — clearing browser data resets it.</p>';
+  }
+  sel.addEventListener('change', render);
+  startEl.addEventListener('change', function () {
+    var st = load(sel.value); st.start = startEl.value; save(sel.value, st); render();
+  });
+  document.getElementById('sav-reset').addEventListener('click', function () {
+    if (window.confirm('Reset this challenge? All marked cells for ' + CH[sel.value].label + ' will be cleared.')) {
+      try { localStorage.removeItem(CH[sel.value].key); } catch (e) {}
+      render();
+    }
+  });
+  render();
+})();
+
+</script>
+</body></html>
