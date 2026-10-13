@@ -1,7 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
   <title id="title">ToolVerse</title>
-  <desc id="desc">White TV mark on a red rounded-square background</desc>
-  <rect width="64" height="64" rx="16" fill="#dc2626"/>
-  <path d="M12 16h40v9H38v24H26V25H12z" fill="#ffffff"/>
-  <path d="M43 25h9v24h-9z" fill="#ffffff"/>
+  <desc id="desc">Black TV mark on a blue-to-purple gradient rounded-square background</desc>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#73d8f6"/>
+      <stop offset="0.5" stop-color="#86b9fa"/>
+      <stop offset="1" stop-color="#9f9bfa"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="11" fill="url(#g)"/>
+  <path d="M9.3 19.1h21.1v5.6h-7.8v17.2h-5.6V24.7H9.3z" fill="#0b0b10"/>
+  <path d="M30.7 19.1h6.1l5.85 15.5 5.85-15.5h6.1L45.3 41.9h-5.3z" fill="#0b0b10"/>
 </svg>
