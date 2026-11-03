@@ -1,0 +1,68 @@
+<p class="disclaimer"><strong>100% private.</strong> Your receipt is generated entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<style>
+.rr-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rr-form-grid .full{grid-column:1/-1}
+.rr-form-grid label{display:block;font-weight:600;margin-bottom:4px}
+.rr-receipt{background:#fff;color:#111;border:1px solid #cbd5e1;border-radius:10px;padding:24px;max-width:560px;margin:8px auto 0;position:relative;font-size:15px;line-height:1.5}
+.rr-receipt h3{margin:0 0 2px;font-size:22px;letter-spacing:.12em;text-transform:uppercase;color:#0f172a}
+.rr-receipt .rr-sub{color:#475569;margin:0 0 16px;font-size:13px}
+.rr-receipt dl{margin:0}
+.rr-receipt dl div{display:flex;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px solid #e2e8f0}
+.rr-receipt dt{color:#475569}
+.rr-receipt dd{margin:0;font-weight:600;text-align:right}
+.rr-amount{font-size:26px;font-weight:800;color:#0f172a}
+.rr-paid{position:absolute;top:18px;right:20px;border:3px solid #15803d;color:#15803d;font-weight:800;font-size:18px;letter-spacing:.2em;padding:4px 12px;border-radius:6px;transform:rotate(6deg);opacity:.9}
+.rr-sig{margin-top:28px;display:flex;justify-content:space-between;gap:24px}
+.rr-sig div{flex:1}
+.rr-sig .line{border-top:1px solid #334155;margin-top:32px;padding-top:4px;font-size:12px;color:#475569}
+@media (max-width:560px){.rr-form-grid{grid-template-columns:1fr}.rr-paid{font-size:14px;top:14px;right:14px}}
+@media print{
+  body *{visibility:hidden !important}
+  #rr-receipt,#rr-receipt *{visibility:visible !important}
+  #rr-receipt{position:absolute !important;top:0;left:0;width:100%;max-width:none;margin:0;border:1px solid #94a3b8;box-shadow:none}
+}
+</style>
+<section class="tool-card calculator-card">
+<p class="section-label">Business &amp; Documents</p>
+<h2>Fill in the payment details</h2>
+<p class="section-intro">The receipt preview updates as you type. Print it, or choose “Save as PDF” in the print dialog.</p>
+<div class="form-section">
+<div class="rr-form-grid">
+<div><label for="rr-landlord">Landlord name</label><input class="tv-field" id="rr-landlord" type="text" placeholder="e.g. Jane Smith" autocomplete="off"></div>
+<div><label for="rr-tenant">Tenant name</label><input class="tv-field" id="rr-tenant" type="text" placeholder="e.g. Alex Johnson" autocomplete="off"></div>
+<div class="full"><label for="rr-address">Property address</label><input class="tv-field" id="rr-address" type="text" placeholder="e.g. 123 Main St, Apt 4B, Austin, TX 78701" autocomplete="off"></div>
+<div><label for="rr-amount">Rent amount ($)</label><input class="tv-field" id="rr-amount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="1500.00"></div>
+<div><label for="rr-method">Payment method</label><select class="tv-field" id="rr-method"><option value="Cash">Cash</option><option value="Check">Check</option><option value="Bank transfer">Bank transfer</option><option value="Money order">Money order</option></select></div>
+<div><label for="rr-month">Payment period — month</label><select class="tv-field" id="rr-month"><option value="January">January</option><option value="February">February</option><option value="March">March</option><option value="April">April</option><option value="May">May</option><option value="June">June</option><option value="July">July</option><option value="August">August</option><option value="September">September</option><option value="October">October</option><option value="November" selected>November</option><option value="December">December</option></select></div>
+<div><label for="rr-year">Payment period — year</label><select class="tv-field" id="rr-year"><option>2025</option><option selected>2026</option><option>2027</option><option>2028</option><option>2029</option><option>2030</option></select></div>
+<div><label for="rr-date">Payment date</label><input class="tv-field" id="rr-date" type="date" value="2026-11-03"></div>
+<div><label for="rr-number">Receipt number</label><input class="tv-field" id="rr-number" type="text" autocomplete="off"></div>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="button" id="rr-print">Print / Download as PDF</button>
+<button class="button" type="button" id="rr-clear">Clear</button>
+</div>
+<p class="form-error" id="rr-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rr-result" aria-live="polite">
+<h2>Receipt preview</h2>
+<p class="result-lede">This is exactly what prints — only the receipt, nothing else.</p>
+<div class="rr-receipt" id="rr-receipt">
+<span class="rr-paid" aria-label="Paid">PAID</span>
+<h3>Rent Receipt</h3>
+<p class="rr-sub">Receipt <span id="rr-p-no">—</span> &nbsp;·&nbsp; <span id="rr-p-date">—</span></p>
+<dl>
+<div><dt>Received from (tenant)</dt><dd id="rr-p-tenant">—</dd></div>
+<div><dt>Received by (landlord)</dt><dd id="rr-p-landlord">—</dd></div>
+<div><dt>Property</dt><dd id="rr-p-address">—</dd></div>
+<div><dt>Payment period</dt><dd id="rr-p-period">—</dd></div>
+<div><dt>Payment method</dt><dd id="rr-p-method">—</dd></div>
+<div><dt>Amount received</dt><dd class="rr-amount" id="rr-p-amount">$0.00</dd></div>
+</dl>
+<div class="rr-sig">
+<div><div class="line">Landlord signature</div></div>
+<div><div class="line">Date</div></div>
+</div>
+</div>
+</div>
+</section>

@@ -210,7 +210,8 @@ const CATEGORY_DISPLAY = [
   { slug: 'privacy', label: 'Security & Privacy Tools', blurb: 'Password generators and privacy-first utilities that never transmit or store your data.', icon: 'shield' },
   { slug: 'data', label: 'Data Tools', blurb: 'Convert CSV to JSON and reshape structured data in seconds.', icon: 'data' },
   { slug: 'datetime', label: 'Date & Time Tools', blurb: 'Durations, deadlines and days between dates, calculated instantly.', icon: 'clock' },
-  { slug: 'calculators', label: 'Converters & Calculators', blurb: 'Quick unit conversions and calculations with instant local results.', icon: 'calc' }
+  { slug: 'calculators', label: 'Converters & Calculators', blurb: 'Quick unit conversions and calculations with instant local results.', icon: 'calc' },
+  { slug: 'business', label: 'Business & Documents', blurb: 'Free resume, invoice, logo, contract and business tools — everything runs in your browser.', icon: 'briefcase' }
 ];
 const DISPLAY_BY_SLUG = Object.fromEntries(CATEGORY_DISPLAY.map((c) => [c.slug, c]));
 
@@ -269,7 +270,8 @@ const ICON_PATHS = {
   search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
   spreadsheet: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h8"/><path d="M12 13v4"/>',
   calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>',
-  ruler: '<path d="M21.3 8.7l-6-6a1 1 0 0 0-1.4 0L2.7 13.9a1 1 0 0 0 0 1.4l6 6a1 1 0 0 0 1.4 0L21.3 10a1 1 0 0 0 0-1.3z"/><path d="M7.5 10.5l2 2"/><path d="M10.5 7.5l2 2"/><path d="M13.5 4.5l2 2"/>'
+  ruler: '<path d="M21.3 8.7l-6-6a1 1 0 0 0-1.4 0L2.7 13.9a1 1 0 0 0 0 1.4l6 6a1 1 0 0 0 1.4 0L21.3 10a1 1 0 0 0 0-1.3z"/><path d="M7.5 10.5l2 2"/><path d="M10.5 7.5l2 2"/><path d="M13.5 4.5l2 2"/>',
+  briefcase: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>'
 };
 function iconSvg(name, attrs = '') {
   return `<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"${attrs ? ' ' + attrs : ''}>${ICON_PATHS[name] || ICON_PATHS.file}</svg>`;
@@ -325,7 +327,18 @@ const TOOL_ICONS = {
   'serp-preview': 'search',
   'csv-to-json': 'spreadsheet',
   'password-generator': 'key',
-  'date-duration': 'calendar'
+  'date-duration': 'calendar',
+  'resume-builder': 'file',
+  'invoice-generator': 'table',
+  'logo-maker': 'palette',
+  'contract-templates': 'book',
+  'rent-receipt-generator': 'ticket',
+  'business-card-maker': 'id-card',
+  'budget-planner': 'chart-bars',
+  'currency-converter': 'repeat',
+  'time-zone-converter': 'clock',
+  'world-clock': 'clock',
+  'embed-calculator': 'code'
 };
 
 // Curated "most popular" tools (hub row + card badge). Order = display order.
@@ -333,7 +346,7 @@ const POPULAR_IDS = ['word-counter', 'json-formatter', 'image-compressor', 'pass
 // Homepage featured grid = POPULAR_IDS + NEWEST_IDS (12 cards max, approved
 // 2026-10-07 so index.html stays comfortably below the push size limit no
 // matter how many tools exist). Update NEWEST_IDS with each Phase B batch.
-const NEWEST_IDS = ['qr-code-generator', 'random-number-generator', 'lottery-number-generator', 'random-picker', 'username-generator', 'dice-roller'];
+const NEWEST_IDS = ['resume-builder', 'invoice-generator', 'logo-maker', 'contract-templates', 'rent-receipt-generator', 'business-card-maker'];
 
 // Compact tool card (Phase 4 card system — ToolVerse theme). Whole card is
 // the link: name + category label, optional one-line description variant,
@@ -403,6 +416,11 @@ const CATEGORY_META = {
     title: 'Free Random Generators Online | ToolVerse',
     description: 'Free generators that run in your browser with cryptographic randomness: random numbers, dice, coin flips, lottery quick picks, names, usernames, QR codes and more — nothing is uploaded or stored.',
     intro: 'Every generator below uses your browser\u2019s cryptographic RNG for fair, unbiased results — generated locally on your device, never sent anywhere.'
+  },
+  business: {
+    title: 'Free Business & Document Tools Online | ToolVerse',
+    description: 'Free business tools that run in your browser: build a resume, create an invoice, design a logo, generate contracts, rent receipts and business cards — no uploads, no sign-up.',
+    intro: 'Professional documents in minutes, free. Everything runs locally in your browser — your business details never leave your device.'
   }
 };
 

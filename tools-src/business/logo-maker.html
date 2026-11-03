@@ -1,0 +1,61 @@
+<p class="disclaimer"><strong>100% private.</strong> Your logo is drawn entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<style>
+.lg-preview{border:1px solid #cbd5e1;border-radius:8px;padding:24px;background:#f8fafc;display:flex;justify-content:center}
+.lg-preview svg{max-width:100%;height:auto}
+.lg-choices{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 12px}
+.lg-choices label{border:1px solid #cbd5e1;border-radius:8px;padding:8px 12px;cursor:pointer;font-size:14px}
+.lg-choices label:has(input:checked){border-color:#0e7490;background:#ecfeff;font-weight:700}
+.lg-swatch{display:inline-block;width:18px;height:18px;border-radius:50%;vertical-align:-4px;margin-right:6px;border:1px solid rgba(0,0,0,.2)}
+</style>
+<section class="tool-card calculator-card">
+<p class="section-label">Business &amp; Documents</p>
+<h2>Design your logo</h2>
+<p class="section-intro">Enter your business name, pick a layout, colours and icon — the preview updates live.</p>
+<div class="form-section">
+<div><label for="lg-name">Business name</label><input class="tv-field" id="lg-name" type="text" placeholder="Acme Studio" style="width:100%"></div>
+<div><label for="lg-tagline">Tagline (optional)</label><input class="tv-field" id="lg-tagline" type="text" placeholder="Design that works" style="width:100%"></div>
+<fieldset style="border:1px solid #cbd5e1;border-radius:8px;padding:12px;margin-top:12px">
+<legend>Layout style</legend>
+<div class="lg-choices">
+<label><input type="radio" name="lg-layout" value="stacked" checked> Stacked</label>
+<label><input type="radio" name="lg-layout" value="horizontal"> Horizontal</label>
+<label><input type="radio" name="lg-layout" value="badge"> Badge</label>
+</div>
+</fieldset>
+<fieldset style="border:1px solid #cbd5e1;border-radius:8px;padding:12px;margin-top:12px">
+<legend>Colour palette</legend>
+<div class="lg-choices" id="lg-palettes">
+<label><input type="radio" name="lg-palette" value="0" checked> <span class="lg-swatch" style="background:#1e3a5f"></span>Navy</label>
+<label><input type="radio" name="lg-palette" value="1"> <span class="lg-swatch" style="background:#14532d"></span>Forest</label>
+<label><input type="radio" name="lg-palette" value="2"> <span class="lg-swatch" style="background:#111827"></span>Charcoal</label>
+<label><input type="radio" name="lg-palette" value="3"> <span class="lg-swatch" style="background:#7f1d1d"></span>Crimson</label>
+<label><input type="radio" name="lg-palette" value="4"> <span class="lg-swatch" style="background:#0f766e"></span>Teal</label>
+<label><input type="radio" name="lg-palette" value="5"> <span class="lg-swatch" style="background:#581c87"></span>Plum</label>
+</div>
+</fieldset>
+<fieldset style="border:1px solid #cbd5e1;border-radius:8px;padding:12px;margin-top:12px">
+<legend>Icon</legend>
+<div class="lg-choices" id="lg-icons">
+<label><input type="radio" name="lg-icon" value="star" checked> Star</label>
+<label><input type="radio" name="lg-icon" value="bolt"> Bolt</label>
+<label><input type="radio" name="lg-icon" value="leaf"> Leaf</label>
+<label><input type="radio" name="lg-icon" value="shield"> Shield</label>
+<label><input type="radio" name="lg-icon" value="circle"> Circle</label>
+<label><input type="radio" name="lg-icon" value="hexagon"> Hexagon</label>
+<label><input type="radio" name="lg-icon" value="home"> Home</label>
+<label><input type="radio" name="lg-icon" value="briefcase"> Briefcase</label>
+</div>
+</fieldset>
+<div class="tool-actions">
+<button class="button" type="button" id="lg-clear">Clear</button>
+<button class="button" type="button" id="lg-download-svg">Download SVG</button>
+<button class="button primary" type="button" id="lg-download-png">Download PNG</button>
+</div>
+<p class="form-error" id="lg-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="lg-result" aria-live="polite">
+<h2>Live logo preview</h2>
+<p class="result-lede">Your logo updates as you change the options. Download it as a PNG (1200 × 800) or as a scalable SVG.</p>
+<div class="lg-preview" id="lg-preview"></div>
+</div>
+</section>

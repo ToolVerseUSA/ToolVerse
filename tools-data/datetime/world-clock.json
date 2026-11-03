@@ -1,0 +1,59 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Converting a specific meeting time? Try the time zone converter next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Every clock runs locally in your browser using built-in time-zone data. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Calculated locally",
+  "category": "datetime",
+  "categoryLabel": "Date / Time",
+  "contentRef": "tools-src/datetime/world-clock.html",
+  "faq": [
+    {
+      "a": "Yes — every clock ticks once per second and uses your browser's built-in time-zone database, so daylight saving time is applied automatically for each city.",
+      "q": "Do the clocks update live and handle daylight saving?"
+    },
+    {
+      "a": "New York, Los Angeles, Toronto, London, Paris, Berlin, Dubai, Karachi, Mumbai, Singapore, Tokyo and Sydney — plus your own local time at the top.",
+      "q": "Which cities are shown?"
+    },
+    {
+      "a": "No. All clocks run locally in your browser. Nothing is uploaded or stored.",
+      "q": "Is anything sent to a server?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Live ticking clocks for 12 major world cities, with local date and UTC offset — plus your own local time.",
+  "heroTitle": "World Clock",
+  "id": "world-clock",
+  "inputs": [
+    {
+      "label": "Cities shown",
+      "name": "cities",
+      "required": false,
+      "type": "text"
+    }
+  ],
+  "keywords": [
+    "world clock",
+    "live world time",
+    "current time in New York",
+    "time in London now",
+    "world time zones",
+    "what time is it in Tokyo"
+  ],
+  "logicRef": "tools-src/datetime/world-clock.js",
+  "metaDescription": "Free live world clock. See the current time, date and UTC offset in 12 major cities — New York, London, Dubai, Karachi, Tokyo and more.",
+  "relatedTools": [
+    "time-zone-converter",
+    "date-duration"
+  ],
+  "slug": "world-clock",
+  "title": "World Clock — Live Time in Major Cities | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Times come from your device clock — if your device clock is wrong, every city clock will be off by the same amount.",
+    "Don't rely on it for legal or aviation deadlines without confirming against an authoritative time source."
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "See the current time everywhere at once with the world clock.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Every conversion runs locally in your browser using built-in time-zone data. Nothing is uploaded, stored, or tracked.",
+  "asideTitle": "Calculated locally",
+  "category": "datetime",
+  "categoryLabel": "Date / Time",
+  "contentRef": "tools-src/datetime/time-zone-converter.html",
+  "faq": [
+    {
+      "a": "Yes. The conversion uses your browser's built-in IANA time-zone database, so daylight saving time is applied automatically for the date you enter — for example, New York is UTC-5 in January and UTC-4 in July.",
+      "q": "Does it handle daylight saving time?"
+    },
+    {
+      "a": "28 major zones: US zones (New York, Chicago, Denver, Los Angeles), Toronto, Vancouver, Mexico City, São Paulo, London, Paris, Berlin, Madrid, Moscow, Cairo, Lagos, Dubai, Karachi, Kolkata, Dhaka, Bangkok, Singapore, Shanghai, Hong Kong, Tokyo, Seoul, Sydney, Melbourne and Auckland — plus UTC.",
+      "q": "Which time zones are supported?"
+    },
+    {
+      "a": "No. All conversion math runs locally in your browser. Nothing is uploaded or stored.",
+      "q": "Is my input sent anywhere?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Convert any date and time between 28 major world time zones — with daylight saving handled automatically.",
+  "heroTitle": "Time Zone Converter",
+  "id": "time-zone-converter",
+  "inputs": [
+    {
+      "label": "Date",
+      "name": "date",
+      "required": true,
+      "type": "date"
+    },
+    {
+      "label": "Time",
+      "name": "time",
+      "required": true,
+      "type": "time"
+    },
+    {
+      "label": "From time zone",
+      "name": "from",
+      "required": true,
+      "type": "select"
+    },
+    {
+      "label": "To time zone",
+      "name": "to",
+      "required": true,
+      "type": "select"
+    }
+  ],
+  "keywords": [
+    "time zone converter",
+    "convert time zones",
+    "UTC to EST converter",
+    "world time converter",
+    "time difference calculator",
+    "PST to PKT converter"
+  ],
+  "logicRef": "tools-src/datetime/time-zone-converter.js",
+  "metaDescription": "Free time zone converter. Convert any date and time between 28 major world time zones instantly in your browser — no sign-up, no data leaves your device.",
+  "relatedTools": [
+    "world-clock",
+    "date-duration"
+  ],
+  "slug": "time-zone-converter",
+  "title": "Time Zone Converter — Convert Time Zones | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "During the hour clocks jump forward or fall back, a local time can be skipped or occur twice — the result is the browser's best interpretation, so double-check critical meeting times.",
+    "Don't use it for legal or aviation deadlines without confirming against an authoritative source for that zone."
+  ]
+}

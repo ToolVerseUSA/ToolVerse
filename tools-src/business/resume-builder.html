@@ -1,0 +1,89 @@
+<p class="disclaimer"><strong>100% private.</strong> Your resume is built entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<style>
+.rb-preview{border:1px solid #cbd5e1;border-radius:8px;padding:24px;background:#fff;color:#111827;max-width:640px}
+.rb-preview.tpl-modern{border-left:6px solid #0e7490}
+.rb-preview.tpl-modern .rb-pv-name{color:#0e7490}
+.rb-preview .rb-pv-name{font-size:26px;font-weight:800;line-height:1.2;margin:0}
+.rb-preview .rb-pv-title{font-size:15px;color:#475569;margin:4px 0 0}
+.rb-preview .rb-pv-contact{font-size:13px;color:#475569;margin:8px 0 0}
+.rb-preview .rb-pv-sec{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid #cbd5e1;padding-bottom:4px;margin:18px 0 8px}
+.rb-preview .rb-pv-job{margin:0 0 10px}
+.rb-preview .rb-pv-job b{font-size:14px}
+.rb-preview .rb-pv-dates{font-size:12px;color:#64748b}
+.rb-preview ul{margin:4px 0 0;padding-left:18px;font-size:14px}
+.rb-preview p{font-size:14px;line-height:1.5;margin:0}
+.rb-field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:600px){.rb-field-row{grid-template-columns:1fr}}
+@media print{
+  body *{visibility:hidden !important}
+  #rb-preview,#rb-preview *{visibility:visible !important}
+  #rb-preview{position:absolute;left:0;top:0;width:100%;max-width:none;border:none}
+}
+</style>
+<section class="tool-card calculator-card">
+<p class="section-label">Business &amp; Documents</p>
+<h2>Build your resume</h2>
+<p class="section-intro">Fill in your details below — the preview updates live as you type. Switch templates any time.</p>
+<div class="form-section">
+<div class="rb-field-row">
+<div><label for="rb-name">Full name</label><input class="tv-field" id="rb-name" type="text" placeholder="Jane Smith" autocomplete="name" style="width:100%"></div>
+<div><label for="rb-title">Professional title</label><input class="tv-field" id="rb-title" type="text" placeholder="Marketing Manager" style="width:100%"></div>
+</div>
+<div class="rb-field-row">
+<div><label for="rb-email">Email</label><input class="tv-field" id="rb-email" type="email" placeholder="jane@example.com" autocomplete="email" style="width:100%"></div>
+<div><label for="rb-phone">Phone</label><input class="tv-field" id="rb-phone" type="tel" placeholder="(555) 123-4567" autocomplete="tel" style="width:100%"></div>
+</div>
+<div><label for="rb-city">City</label><input class="tv-field" id="rb-city" type="text" placeholder="Austin, TX" style="width:100%"></div>
+<div><label for="rb-summary">Professional summary</label><textarea class="tv-field" id="rb-summary" rows="3" placeholder="A short paragraph about your experience and strengths&hellip;" style="width:100%"></textarea></div>
+<h3>Work experience</h3>
+<div id="rb-exp-1">
+<div class="rb-field-row">
+<div><label for="rb-exp1-title">Job title 1</label><input class="tv-field" id="rb-exp1-title" type="text" placeholder="Marketing Manager" style="width:100%"></div>
+<div><label for="rb-exp1-company">Company 1</label><input class="tv-field" id="rb-exp1-company" type="text" placeholder="Acme Corp" style="width:100%"></div>
+</div>
+<div><label for="rb-exp1-dates">Dates 1</label><input class="tv-field" id="rb-exp1-dates" type="text" placeholder="Jan 2022 – Present" style="width:100%"></div>
+<div><label for="rb-exp1-b1">Achievement / duty 1</label><input class="tv-field" id="rb-exp1-b1" type="text" placeholder="Grew email list by 40% in one year" style="width:100%"></div>
+<div><label for="rb-exp1-b2">Achievement / duty 2</label><input class="tv-field" id="rb-exp1-b2" type="text" placeholder="Led a team of 3 marketers" style="width:100%"></div>
+</div>
+<div id="rb-exp-2">
+<div class="rb-field-row">
+<div><label for="rb-exp2-title">Job title 2</label><input class="tv-field" id="rb-exp2-title" type="text" placeholder="Marketing Associate" style="width:100%"></div>
+<div><label for="rb-exp2-company">Company 2</label><input class="tv-field" id="rb-exp2-company" type="text" placeholder="Bright Media" style="width:100%"></div>
+</div>
+<div><label for="rb-exp2-dates">Dates 2</label><input class="tv-field" id="rb-exp2-dates" type="text" placeholder="Jun 2019 – Dec 2021" style="width:100%"></div>
+<div><label for="rb-exp2-b1">Achievement / duty 1</label><input class="tv-field" id="rb-exp2-b1" type="text" placeholder="Ran weekly social campaigns" style="width:100%"></div>
+<div><label for="rb-exp2-b2">Achievement / duty 2</label><input class="tv-field" id="rb-exp2-b2" type="text" placeholder="Wrote 20+ blog posts" style="width:100%"></div>
+</div>
+<div id="rb-exp-3">
+<div class="rb-field-row">
+<div><label for="rb-exp3-title">Job title 3</label><input class="tv-field" id="rb-exp3-title" type="text" placeholder="Intern" style="width:100%"></div>
+<div><label for="rb-exp3-company">Company 3</label><input class="tv-field" id="rb-exp3-company" type="text" placeholder="City News" style="width:100%"></div>
+</div>
+<div><label for="rb-exp3-dates">Dates 3</label><input class="tv-field" id="rb-exp3-dates" type="text" placeholder="Jan 2019 – May 2019" style="width:100%"></div>
+<div><label for="rb-exp3-b1">Achievement / duty 1</label><input class="tv-field" id="rb-exp3-b1" type="text" placeholder="Assisted the editorial team" style="width:100%"></div>
+<div><label for="rb-exp3-b2">Achievement / duty 2</label><input class="tv-field" id="rb-exp3-b2" type="text" placeholder="Fact-checked articles" style="width:100%"></div>
+</div>
+<h3>Education &amp; skills</h3>
+<div class="rb-field-row">
+<div><label for="rb-degree">Degree</label><input class="tv-field" id="rb-degree" type="text" placeholder="B.A. in Marketing" style="width:100%"></div>
+<div><label for="rb-school">School</label><input class="tv-field" id="rb-school" type="text" placeholder="State University" style="width:100%"></div>
+</div>
+<div><label for="rb-year">Graduation year</label><input class="tv-field" id="rb-year" type="text" placeholder="2019" style="width:100%"></div>
+<div><label for="rb-skills">Skills (comma-separated)</label><input class="tv-field" id="rb-skills" type="text" placeholder="SEO, Email marketing, Google Analytics" style="width:100%"></div>
+<fieldset style="border:1px solid #cbd5e1;border-radius:8px;padding:12px;margin-top:12px">
+<legend>Template</legend>
+<label style="display:inline-block;margin-right:16px"><input type="radio" name="rb-template" id="rb-tpl-classic" value="classic" checked> Classic</label>
+<label style="display:inline-block"><input type="radio" name="rb-template" id="rb-tpl-modern" value="modern"> Modern</label>
+</fieldset>
+<div class="tool-actions">
+<button class="button" type="button" id="rb-clear">Clear</button>
+<button class="button primary" type="button" id="rb-print">Download / Print as PDF</button>
+</div>
+<p class="form-error" id="rb-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="rb-result" aria-live="polite">
+<h2>Live resume preview</h2>
+<p class="result-lede">Your resume updates as you type. Use the print button and choose “Save as PDF” to download it.</p>
+<div class="rb-preview tpl-classic" id="rb-preview"></div>
+</div>
+</section>

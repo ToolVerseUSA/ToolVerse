@@ -1,0 +1,77 @@
+<p class="disclaimer"><strong>100% private.</strong> Your card is designed entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<style>
+.bc-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bc-form-grid .full{grid-column:1/-1}
+.bc-form-grid label{display:block;font-weight:600;margin-bottom:4px}
+.bc-swatches{display:flex;flex-wrap:wrap;gap:10px}
+.bc-swatch{width:40px;height:40px;border-radius:50%;border:3px solid transparent;cursor:pointer;padding:0}
+.bc-swatch[aria-pressed="true"]{border-color:#fff;outline:2px solid #67e8f9}
+.bc-layout{display:flex;gap:16px;flex-wrap:wrap}
+.bc-layout label{display:inline-flex;align-items:center;gap:6px;font-weight:400}
+.bc-card{aspect-ratio:7/4;max-width:440px;width:100%;border-radius:10px;padding:22px 24px;margin:10px auto;box-sizing:border-box;box-shadow:0 4px 18px rgba(0,0,0,.35);overflow:hidden;background:#fff;color:#111}
+.bc-card-front{display:flex;flex-direction:column;justify-content:center}
+.bc-card-front.centered{text-align:center;align-items:center}
+.bc-card-front .bc-name{font-size:26px;font-weight:800;line-height:1.15;margin:0}
+.bc-card-front .bc-title{font-size:14px;color:#475569;margin:4px 0 0}
+.bc-card-front .bc-company{font-size:15px;font-weight:700;margin:10px 0 0}
+.bc-card-front .bc-contact{font-size:13px;color:#334155;margin:10px 0 0;line-height:1.7}
+.bc-accent{height:5px;border-radius:3px;margin-bottom:14px;width:100%}
+.bc-card-back{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff}
+.bc-mono{width:64px;height:64px;border-radius:50%;border:2px solid rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;margin-bottom:12px}
+.bc-card-back .bc-tag{font-size:15px;font-style:italic;margin:0}
+.bc-card-back .bc-web{font-size:13px;margin:8px 0 0;opacity:.9}
+.bc-preview-label{font-weight:700;margin:18px 0 0;text-align:center}
+@media (max-width:560px){.bc-form-grid{grid-template-columns:1fr}.bc-card-front .bc-name{font-size:22px}}
+</style>
+<section class="tool-card calculator-card">
+<p class="section-label">Business &amp; Documents</p>
+<h2>Design your card</h2>
+<p class="section-intro">Fill in your details and watch the front and back update live. Downloads are standard 3.5&Prime; &times; 2&Prime; PNGs (1050 &times; 600 px).</p>
+<div class="form-section">
+<div class="bc-form-grid">
+<div><label for="bc-name">Full name</label><input class="tv-field" id="bc-name" type="text" placeholder="e.g. Alex Johnson" autocomplete="off"></div>
+<div><label for="bc-title">Job title</label><input class="tv-field" id="bc-title" type="text" placeholder="e.g. Real Estate Agent" autocomplete="off"></div>
+<div><label for="bc-company">Business / company</label><input class="tv-field" id="bc-company" type="text" placeholder="e.g. Johnson Realty" autocomplete="off"></div>
+<div><label for="bc-phone">Phone</label><input class="tv-field" id="bc-phone" type="tel" placeholder="e.g. (512) 555-0142" autocomplete="off"></div>
+<div><label for="bc-email">Email</label><input class="tv-field" id="bc-email" type="email" placeholder="e.g. alex@johnsonrealty.com" autocomplete="off"></div>
+<div><label for="bc-website">Website</label><input class="tv-field" id="bc-website" type="text" placeholder="e.g. johnsonrealty.com" autocomplete="off"></div>
+<div class="full"><label for="bc-tagline">Tagline (back of card)</label><input class="tv-field" id="bc-tagline" type="text" placeholder="e.g. Helping you find home." autocomplete="off"></div>
+<div class="full"><span id="bc-color-label" style="display:block;font-weight:600;margin-bottom:4px">Accent color</span><div class="bc-swatches" role="group" aria-labelledby="bc-color-label">
+<button type="button" class="bc-swatch" data-color="#1e3a5f" style="background:#1e3a5f" aria-label="Navy" aria-pressed="true"></button>
+<button type="button" class="bc-swatch" data-color="#0f766e" style="background:#0f766e" aria-label="Teal" aria-pressed="false"></button>
+<button type="button" class="bc-swatch" data-color="#7f1d1d" style="background:#7f1d1d" aria-label="Burgundy" aria-pressed="false"></button>
+<button type="button" class="bc-swatch" data-color="#1f2937" style="background:#1f2937" aria-label="Charcoal" aria-pressed="false"></button>
+<button type="button" class="bc-swatch" data-color="#14532d" style="background:#14532d" aria-label="Forest green" aria-pressed="false"></button>
+<button type="button" class="bc-swatch" data-color="#581c87" style="background:#581c87" aria-label="Plum" aria-pressed="false"></button>
+</div></div>
+<div class="full"><span style="display:block;font-weight:600;margin-bottom:4px">Layout</span><div class="bc-layout">
+<label><input type="radio" name="bc-layout" value="centered" checked> Centered</label>
+<label><input type="radio" name="bc-layout" value="left"> Left-aligned</label>
+</div></div>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="button" id="bc-download-front">Download Front PNG</button>
+<button class="button primary" type="button" id="bc-download-back">Download Back PNG</button>
+<button class="button" type="button" id="bc-clear">Clear</button>
+</div>
+<p class="form-error" id="bc-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="bc-result" aria-live="polite">
+<h2>Live preview</h2>
+<p class="result-lede">Front and back at the real 3.5 &times; 2 card ratio.</p>
+<p class="bc-preview-label">Front</p>
+<div class="bc-card bc-card-front centered" id="bc-front">
+<div class="bc-accent" id="bc-front-accent" style="background:#1e3a5f"></div>
+<p class="bc-name" id="bc-p-name">Your Name</p>
+<p class="bc-title" id="bc-p-title">Your Job Title</p>
+<p class="bc-company" id="bc-p-company">Your Company</p>
+<p class="bc-contact" id="bc-p-contact">phone &middot; email &middot; website</p>
+</div>
+<p class="bc-preview-label">Back</p>
+<div class="bc-card bc-card-back" id="bc-back" style="background:#1e3a5f">
+<div class="bc-mono" id="bc-p-mono">YN</div>
+<p class="bc-tag" id="bc-p-tag">Your tagline goes here.</p>
+<p class="bc-web" id="bc-p-web">yourwebsite.com</p>
+</div>
+</div>
+</section>

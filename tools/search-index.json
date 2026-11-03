@@ -1,5 +1,141 @@
 [
   {
+    "id": "budget-planner",
+    "slug": "budget-planner",
+    "title": "Budget Planner — Free Monthly Budget & 50/30/20 Plan",
+    "description": "Free monthly budget planner. Enter your take-home pay and expenses to see totals, money left, and a 50/30/20 breakdown — in your browser, no sign-up.",
+    "category": "business",
+    "categoryLabel": "Business & Documents",
+    "keywords": [
+      "budget planner",
+      "monthly budget planner",
+      "50 30 20 budget",
+      "free budget calculator",
+      "personal budget planner",
+      "monthly budget template"
+    ],
+    "url": "/ToolVerse/tools/business/budget-planner.html"
+  },
+  {
+    "id": "business-card-maker",
+    "slug": "business-card-maker",
+    "title": "Business Card Maker — Free Printable Business Cards",
+    "description": "Free business card maker. Design a professional business card in your browser — live front and back preview, print-ready PNG downloads, no sign-up.",
+    "category": "business",
+    "categoryLabel": "Business & Documents",
+    "keywords": [
+      "business card maker",
+      "free business card",
+      "business card generator",
+      "make business card online",
+      "printable business card",
+      "business card template"
+    ],
+    "url": "/ToolVerse/tools/business/business-card-maker.html"
+  },
+  {
+    "id": "contract-templates",
+    "slug": "contract-templates",
+    "title": "Contract Templates — Free Freelance, NDA & Service",
+    "description": "Free contract templates: freelance service agreement, NDA and service agreement drafts in plain English. Fill in the blanks — runs in your browser.",
+    "category": "business",
+    "categoryLabel": "Business & Documents",
+    "keywords": [
+      "contract templates",
+      "free contract template",
+      "freelance contract template",
+      "nda template",
+      "service agreement template",
+      "contract maker online"
+    ],
+    "url": "/ToolVerse/tools/business/contract-templates.html"
+  },
+  {
+    "id": "invoice-generator",
+    "slug": "invoice-generator",
+    "title": "Invoice Generator — Create a Free Invoice Online",
+    "description": "Free invoice generator: create a professional invoice online with line items, tax and totals. Runs entirely in your browser — no sign-up, no uploads.",
+    "category": "business",
+    "categoryLabel": "Business & Documents",
+    "keywords": [
+      "invoice generator",
+      "free invoice generator",
+      "create invoice online",
+      "invoice maker",
+      "online invoice template",
+      "freelance invoice"
+    ],
+    "url": "/ToolVerse/tools/business/invoice-generator.html"
+  },
+  {
+    "id": "logo-maker",
+    "slug": "logo-maker",
+    "title": "Logo Maker — Design a Free Business Logo Online",
+    "description": "Free logo maker: design a simple business logo online with layouts, colour palettes and icons. Download PNG or SVG — runs entirely in your browser.",
+    "category": "business",
+    "categoryLabel": "Business & Documents",
+    "keywords": [
+      "logo maker",
+      "free logo maker",
+      "create logo online",
+      "business logo maker",
+      "simple logo generator",
+      "logo design online"
+    ],
+    "url": "/ToolVerse/tools/business/logo-maker.html"
+  },
+  {
+    "id": "rent-receipt-generator",
+    "slug": "rent-receipt-generator",
+    "title": "Rent Receipt Generator — Free Printable Rent Receipt",
+    "description": "Free rent receipt generator. Create a professional rent receipt with a PAID mark and signature line, then print it or save it as a PDF — in your browser.",
+    "category": "business",
+    "categoryLabel": "Business & Documents",
+    "keywords": [
+      "rent receipt generator",
+      "rent receipt template",
+      "free rent receipt",
+      "printable rent receipt",
+      "landlord receipt maker",
+      "rent payment receipt"
+    ],
+    "url": "/ToolVerse/tools/business/rent-receipt-generator.html"
+  },
+  {
+    "id": "resume-builder",
+    "slug": "resume-builder",
+    "title": "Resume Builder — Create a Free Resume Online",
+    "description": "Free resume builder: create a professional resume online with Classic or Modern templates. Runs entirely in your browser — no sign-up, no uploads.",
+    "category": "business",
+    "categoryLabel": "Business & Documents",
+    "keywords": [
+      "resume builder",
+      "free resume builder",
+      "create resume online",
+      "resume maker",
+      "professional resume template",
+      "cv builder"
+    ],
+    "url": "/ToolVerse/tools/business/resume-builder.html"
+  },
+  {
+    "id": "currency-converter",
+    "slug": "currency-converter",
+    "title": "Currency Converter — Live Exchange Rates",
+    "description": "Free currency converter with live exchange rates for 24 major currencies, including USD, EUR, GBP, PKR and AED. Convert instantly in your browser.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "currency converter",
+      "exchange rate converter",
+      "USD to EUR converter",
+      "convert money online",
+      "live exchange rates",
+      "PKR to USD converter"
+    ],
+    "url": "/ToolVerse/tools/calculators/currency-converter.html"
+  },
+  {
     "id": "unit-converter",
     "slug": "unit-converter",
     "title": "Unit Converter — Length, Weight & Temperature",
@@ -48,6 +184,40 @@
     "url": "/ToolVerse/tools/datetime/date-duration.html"
   },
   {
+    "id": "time-zone-converter",
+    "slug": "time-zone-converter",
+    "title": "Time Zone Converter — Convert Time Zones",
+    "description": "Free time zone converter. Convert any date and time between 28 major world time zones instantly in your browser — no sign-up, no data leaves your device.",
+    "category": "datetime",
+    "categoryLabel": "Date / Time",
+    "keywords": [
+      "time zone converter",
+      "convert time zones",
+      "UTC to EST converter",
+      "world time converter",
+      "time difference calculator",
+      "PST to PKT converter"
+    ],
+    "url": "/ToolVerse/tools/datetime/time-zone-converter.html"
+  },
+  {
+    "id": "world-clock",
+    "slug": "world-clock",
+    "title": "World Clock — Live Time in Major Cities",
+    "description": "Free live world clock. See the current time, date and UTC offset in 12 major cities — New York, London, Dubai, Karachi, Tokyo and more.",
+    "category": "datetime",
+    "categoryLabel": "Date / Time",
+    "keywords": [
+      "world clock",
+      "live world time",
+      "current time in New York",
+      "time in London now",
+      "world time zones",
+      "what time is it in Tokyo"
+    ],
+    "url": "/ToolVerse/tools/datetime/world-clock.html"
+  },
+  {
     "id": "base64-encoder",
     "slug": "base64-encoder",
     "title": "Base64 Encoder & Decoder — Encode Online",
@@ -77,6 +247,23 @@
       "format css online"
     ],
     "url": "/ToolVerse/tools/developer/css-minifier.html"
+  },
+  {
+    "id": "embed-calculator",
+    "slug": "embed-calculator",
+    "title": "Embed Calculator — Free Embed Code Generator",
+    "description": "Free embed code generator. Pick any ToolVerse calculator or tool and copy a ready iframe snippet to add it to your website in seconds.",
+    "category": "developer",
+    "categoryLabel": "Developer / Code",
+    "keywords": [
+      "embed calculator",
+      "website embed code",
+      "iframe embed generator",
+      "add calculator to website",
+      "ToolVerse embed",
+      "free calculator widget"
+    ],
+    "url": "/ToolVerse/tools/developer/embed-calculator.html"
   },
   {
     "id": "hash-generator",

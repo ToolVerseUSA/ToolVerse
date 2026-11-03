@@ -1,0 +1,71 @@
+{
+  "asideBadge": "Live rates, private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Converting times too? Try the time zone converter next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Amounts are converted in your browser. Only the exchange-rate lookup contacts the public Frankfurter rates API — your amounts are never uploaded or stored.",
+  "asideTitle": "Your amounts stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/currency-converter.html",
+  "faq": [
+    {
+      "a": "Live rates come from the Frankfurter API (European Central Bank reference rates), fetched fresh each time you change a currency. If the rate service cannot be reached, the tool falls back to last-known rates recorded 2026-11-03 and clearly labels them as possibly outdated.",
+      "q": "Where do the exchange rates come from?"
+    },
+    {
+      "a": "Yes — USD, EUR, GBP, JPY, INR, PKR, CAD, AUD, CHF, CNY, AED, SAR, HKD, SGD, NZD, SEK, NOK, DKK, MXN, BRL, ZAR, KRW, TRY and THB. Rates for PKR, AED and SAR are not published by the Frankfurter source, so those use last-known rates recorded 2026-11-03 and are always labelled as approximate.",
+      "q": "Which currencies are supported?"
+    },
+    {
+      "a": "No. The conversion math runs entirely in your browser. Only the rate lookup contacts the public rates API, and it sends no personal data — just the currency codes.",
+      "q": "Is my amount sent to a server?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Convert between 24 major world currencies with live exchange rates — free, instantly, in your browser.",
+  "heroTitle": "Currency Converter",
+  "id": "currency-converter",
+  "inputs": [
+    {
+      "label": "Amount",
+      "name": "amount",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "From currency",
+      "name": "from",
+      "required": true,
+      "type": "select"
+    },
+    {
+      "label": "To currency",
+      "name": "to",
+      "required": true,
+      "type": "select"
+    }
+  ],
+  "keywords": [
+    "currency converter",
+    "exchange rate converter",
+    "USD to EUR converter",
+    "convert money online",
+    "live exchange rates",
+    "PKR to USD converter"
+  ],
+  "logicRef": "tools-src/calculators/currency-converter.js",
+  "metaDescription": "Free currency converter with live exchange rates for 24 major currencies, including USD, EUR, GBP, PKR and AED. Convert instantly in your browser.",
+  "relatedTools": [
+    "unit-converter",
+    "time-zone-converter"
+  ],
+  "slug": "currency-converter",
+  "title": "Currency Converter — Live Exchange Rates | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Rates are reference rates for planning — banks and money-transfer services add their own spread and fees, so the amount you actually receive will differ.",
+    "Never treat a fallback (possibly outdated) rate as a live quote for a real payment or trade — check a live source first when the warning is shown."
+  ]
+}

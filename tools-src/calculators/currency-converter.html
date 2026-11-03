@@ -1,0 +1,41 @@
+<p class="disclaimer"><strong>100% private.</strong> Amounts are converted entirely in your browser — only the exchange-rate lookup contacts the public Frankfurter rates API. No account, no sign-up.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>Convert currencies instantly</h2>
+<p class="section-intro">Enter an amount, pick two currencies, and see the converted value using the latest available exchange rate.</p>
+<form id="cc-form" novalidate>
+<fieldset class="form-section"><legend>Conversion</legend>
+<div class="tool-grid">
+<label>Amount
+<input class="tv-field" id="cc-amount" name="amount" type="number" inputmode="decimal" step="any" min="0" value="100" aria-label="Amount to convert"></label>
+<label>From
+<select class="tv-field" id="cc-from" aria-label="Convert from currency"></select></label>
+<label>To
+<select class="tv-field" id="cc-to" aria-label="Convert to currency"></select></label>
+</div>
+<div class="tool-actions">
+<button class="button" type="button" id="cc-swap">Swap currencies</button>
+<button class="button primary" type="submit">Convert</button>
+</div>
+<p class="form-error" id="cc-error" hidden aria-live="polite"></p>
+<p class="form-error" id="cc-outdated" hidden aria-live="polite"><strong>Rates may be outdated — check a live source before acting.</strong> Showing last-known rates recorded 2026-11-03.</p>
+</fieldset>
+</form>
+<div class="tool-result" id="cc-result" aria-live="polite">
+<h2>Result</h2>
+<p class="result-lede" id="cc-lede">Enter an amount to convert.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Converted value</h3><dl>
+<div><dt>Input</dt><dd id="cc-input-echo">—</dd></div>
+<div><dt>Result</dt><dd id="cc-output">—</dd></div>
+<div><dt>Rate used</dt><dd id="cc-rate">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Rate details</h3><dl>
+<div><dt>Inverse rate</dt><dd id="cc-inverse">—</dd></div>
+<div><dt>Rate date</dt><dd id="cc-rate-date">—</dd></div>
+<div><dt>Fetched</dt><dd id="cc-fetched">—</dd></div>
+</dl></div>
+</div>
+<p class="result-lede" id="cc-status">Loading live rates&hellip;</p>
+</div>
+</section>

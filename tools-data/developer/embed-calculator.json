@@ -1,0 +1,71 @@
+{
+  "asideBadge": "Private by design",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Need a converter on your site? Start with the currency converter.",
+  "asideNextTitle": "Your next step",
+  "asideText": "The embed code is generated entirely in your browser. The tool list is loaded from ToolVerse's own public search index — nothing is uploaded or stored.",
+  "asideTitle": "Generated locally",
+  "category": "developer",
+  "categoryLabel": "Developer / Code",
+  "contentRef": "tools-src/developer/embed-calculator.html",
+  "faq": [
+    {
+      "a": "Pick any ToolVerse calculator or tool from the dropdown, choose a width and height, and copy the ready iframe snippet. Paste it into your page's HTML where you want the tool to appear.",
+      "q": "How do I embed a ToolVerse tool on my website?"
+    },
+    {
+      "a": "Yes. The dropdown is built at runtime from ToolVerse's public tools search index, so it always lists every published tool — including tools added after this page was built.",
+      "q": "Does the list include every ToolVerse tool?"
+    },
+    {
+      "a": "The embedded tool runs on ToolVerse's site inside the iframe, so it always shows the latest version. No code is installed on your site and nothing about your visitors is sent to ToolVerse beyond the normal page load.",
+      "q": "Does the embedded tool stay up to date?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Pick any ToolVerse calculator or tool and copy a ready iframe embed snippet for your own website — free, no sign-up.",
+  "heroTitle": "Embed Calculator",
+  "id": "embed-calculator",
+  "inputs": [
+    {
+      "label": "Tool to embed",
+      "name": "tool",
+      "required": true,
+      "type": "select"
+    },
+    {
+      "label": "Width",
+      "name": "width",
+      "required": true,
+      "type": "select"
+    },
+    {
+      "label": "Height",
+      "name": "height",
+      "required": true,
+      "type": "select"
+    }
+  ],
+  "keywords": [
+    "embed calculator",
+    "website embed code",
+    "iframe embed generator",
+    "add calculator to website",
+    "ToolVerse embed",
+    "free calculator widget"
+  ],
+  "logicRef": "tools-src/developer/embed-calculator.js",
+  "metaDescription": "Free embed code generator. Pick any ToolVerse calculator or tool and copy a ready iframe snippet to add it to your website in seconds.",
+  "relatedTools": [
+    "unit-converter",
+    "currency-converter"
+  ],
+  "slug": "embed-calculator",
+  "title": "Embed Calculator — Free Embed Code Generator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Some sites and platforms (for example, strict Content Security Policies or builders that strip iframes) block embedded frames — test the embed on your live page before relying on it.",
+    "An iframe needs an internet connection to load the tool; it will not work offline or if ToolVerse is unreachable."
+  ]
+}

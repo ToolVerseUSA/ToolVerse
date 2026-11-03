@@ -1,0 +1,41 @@
+<p class="disclaimer"><strong>100% private.</strong> Your date and time are converted entirely in your browser using built-in time-zone data — nothing is uploaded, stored, or sent anywhere.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Date &amp; Time</p>
+<h2>Convert between time zones</h2>
+<p class="section-intro">Enter a date and time in one time zone and see what time it is in another — daylight saving is handled automatically.</p>
+<form id="tz-form" novalidate>
+<fieldset class="form-section"><legend>Conversion</legend>
+<div class="tool-grid">
+<label>Date
+<input class="tv-field" id="tz-date" name="date" type="date" value="2026-01-15" aria-label="Date to convert"></label>
+<label>Time
+<input class="tv-field" id="tz-time" name="time" type="time" value="12:00" aria-label="Time to convert"></label>
+<label>From time zone
+<select class="tv-field" id="tz-from" aria-label="Convert from time zone"></select></label>
+<label>To time zone
+<select class="tv-field" id="tz-to" aria-label="Convert to time zone"></select></label>
+</div>
+<div class="tool-actions">
+<button class="button" type="button" id="tz-swap">Swap zones</button>
+<button class="button primary" type="submit">Convert</button>
+</div>
+<p class="form-error" id="tz-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="tz-result" aria-live="polite">
+<h2>Result</h2>
+<p class="result-lede" id="tz-lede">Pick a date, time and two zones to convert.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Converted time</h3><dl>
+<div><dt>Input</dt><dd id="tz-input-echo">—</dd></div>
+<div><dt>Result</dt><dd id="tz-output">—</dd></div>
+<div><dt>Time difference</dt><dd id="tz-diff">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Same instant</h3><dl>
+<div><dt>In UTC</dt><dd id="tz-utc">—</dd></div>
+<div><dt>From zone offset</dt><dd id="tz-from-offset">—</dd></div>
+<div><dt>To zone offset</dt><dd id="tz-to-offset">—</dd></div>
+</dl></div>
+</div>
+</div>
+</section>

@@ -1,0 +1,65 @@
+<p class="disclaimer"><strong>100% private.</strong> Your budget is calculated entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<style>
+.bp-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.bp-form-grid .full{grid-column:1/-1}
+.bp-form-grid label{display:block;font-weight:600;margin-bottom:4px}
+.bp-bar-row{margin:14px 0}
+.bp-bar-row .bp-bar-head{display:flex;justify-content:space-between;gap:12px;font-weight:600}
+.bp-bar{height:14px;border-radius:7px;background:rgba(148,163,184,.25);overflow:hidden;margin-top:6px}
+.bp-bar > span{display:block;height:100%;border-radius:7px}
+.bp-bar-needs{background:#38bdf8}
+.bp-bar-wants{background:#a78bfa}
+.bp-bar-savings{background:#34d399}
+.bp-note{font-size:13px;color:#94a3b8;margin-top:12px}
+@media (max-width:560px){.bp-form-grid{grid-template-columns:1fr}}
+@media print{
+  body *{visibility:hidden !important}
+  #bp-plan,#bp-plan *{visibility:visible !important}
+  #bp-plan{position:absolute !important;top:0;left:0;width:100%}
+  #bp-plan .result-grid-card{border:1px solid #94a3b8}
+}
+</style>
+<section class="tool-card calculator-card">
+<p class="section-label">Business &amp; Documents</p>
+<h2>Your monthly money</h2>
+<p class="section-intro">Enter your take-home pay and monthly expenses. Totals, money left and the 50/30/20 breakdown update as you type.</p>
+<div class="form-section">
+<div class="bp-form-grid">
+<div><label for="bp-pay">Monthly take-home pay ($)</label><input class="tv-field" id="bp-pay" type="number" min="0" step="0.01" inputmode="decimal" placeholder="4000.00"></div>
+<div><label for="bp-housing">Housing — rent / mortgage ($)</label><input class="tv-field" id="bp-housing" type="number" min="0" step="0.01" inputmode="decimal" placeholder="1500.00"></div>
+<div><label for="bp-utilities">Utilities ($)</label><input class="tv-field" id="bp-utilities" type="number" min="0" step="0.01" inputmode="decimal" placeholder="200.00"></div>
+<div><label for="bp-food">Food &amp; groceries ($)</label><input class="tv-field" id="bp-food" type="number" min="0" step="0.01" inputmode="decimal" placeholder="500.00"></div>
+<div><label for="bp-transport">Transport ($)</label><input class="tv-field" id="bp-transport" type="number" min="0" step="0.01" inputmode="decimal" placeholder="300.00"></div>
+<div><label for="bp-debt">Debt payments ($)</label><input class="tv-field" id="bp-debt" type="number" min="0" step="0.01" inputmode="decimal" placeholder="250.00"></div>
+<div><label for="bp-entertainment">Entertainment &amp; fun ($)</label><input class="tv-field" id="bp-entertainment" type="number" min="0" step="0.01" inputmode="decimal" placeholder="200.00"></div>
+<div><label for="bp-other">Other expenses ($)</label><input class="tv-field" id="bp-other" type="number" min="0" step="0.01" inputmode="decimal" placeholder="150.00"></div>
+<div><label for="bp-goal">Savings goal amount ($) — optional</label><input class="tv-field" id="bp-goal" type="number" min="0" step="0.01" inputmode="decimal" placeholder="5000.00"></div>
+<div><label for="bp-goal-date">Savings target date — optional</label><input class="tv-field" id="bp-goal-date" type="date"></div>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="button" id="bp-print">Print Planner</button>
+<button class="button" type="button" id="bp-clear">Clear</button>
+</div>
+<p class="form-error" id="bp-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="bp-plan" aria-live="polite">
+<h2>Your plan</h2>
+<p class="result-lede">Enter your pay above to see your budget breakdown.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Totals</h3><dl>
+<div><dt>Total expenses</dt><dd id="bp-total">$0.00</dd></div>
+<div><dt>Money left</dt><dd id="bp-left">$0.00</dd></div>
+<div><dt>Money left (%)</dt><dd id="bp-left-pct">0%</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Savings goal</h3><dl>
+<div><dt>Goal</dt><dd id="bp-goal-out">—</dd></div>
+<div><dt>Monthly saving needed</dt><dd id="bp-goal-monthly">—</dd></div>
+</dl><p class="bp-note" id="bp-goal-note">Add a goal amount and target date to see your monthly saving target.</p></div>
+</div>
+<h3 style="margin-top:20px">50/30/20 breakdown</h3>
+<div class="bp-bar-row"><div class="bp-bar-head"><span>Needs — <span id="bp-needs">$0.00</span> (<span id="bp-needs-pct">0%</span>)</span><span>Target 50%</span></div><div class="bp-bar"><span class="bp-bar-needs" id="bp-bar-needs" style="width:0%"></span></div></div>
+<div class="bp-bar-row"><div class="bp-bar-head"><span>Wants — <span id="bp-wants">$0.00</span> (<span id="bp-wants-pct">0%</span>)</span><span>Target 30%</span></div><div class="bp-bar"><span class="bp-bar-wants" id="bp-bar-wants" style="width:0%"></span></div></div>
+<div class="bp-bar-row"><div class="bp-bar-head"><span>Savings — <span id="bp-savings">$0.00</span> (<span id="bp-savings-pct">0%</span>)</span><span>Target 20%</span></div><div class="bp-bar"><span class="bp-bar-savings" id="bp-bar-savings" style="width:0%"></span></div></div>
+<p class="bp-note">The 50/30/20 split is a planning guideline, not financial advice. Needs are housing, utilities, food, transport and debt payments; wants are entertainment and other spending; savings is whatever is left after expenses. In high-rent areas needs alone can pass 50% — use the gap to adjust, not to judge.</p>
+</div>
+</section>

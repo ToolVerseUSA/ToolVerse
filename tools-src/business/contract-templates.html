@@ -1,0 +1,52 @@
+<p class="disclaimer"><strong>100% private.</strong> Your contract is drafted entirely in your browser — nothing is uploaded, stored, or sent anywhere.</p>
+<style>
+.ct-preview{border:1px solid #cbd5e1;border-radius:8px;padding:24px;background:#fff;color:#111827;max-width:640px;font-size:14px;line-height:1.6}
+.ct-preview h3{font-size:20px;margin:0 0 4px}
+.ct-preview h4{font-size:14px;margin:18px 0 4px}
+.ct-preview p{margin:0 0 8px}
+.ct-note{border:1px solid #f59e0b;background:#fffbeb;border-radius:8px;padding:10px 12px;font-size:13px;margin:0 0 16px}
+@media print{
+  body *{visibility:hidden !important}
+  #ct-preview,#ct-preview *{visibility:visible !important}
+  #ct-preview{position:absolute;left:0;top:0;width:100%;max-width:none;border:none}
+}
+</style>
+<section class="tool-card calculator-card">
+<p class="section-label">Business &amp; Documents</p>
+<h2>Fill in your contract</h2>
+<p class="section-intro">Pick a template, fill in the blanks, and the formatted contract updates live below.</p>
+<div class="form-section">
+<div><label for="ct-template">Template</label><select class="tv-field" id="ct-template" style="width:100%">
+<option value="freelance">Freelance Service Agreement</option>
+<option value="nda">Non-Disclosure Agreement (NDA)</option>
+<option value="service">Service Agreement</option>
+</select></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div><label for="ct-party-a">Party A (you / your business)</label><input class="tv-field" id="ct-party-a" type="text" placeholder="Jane Smith" style="width:100%"></div>
+<div><label for="ct-party-b">Party B (client / other party)</label><input class="tv-field" id="ct-party-b" type="text" placeholder="Acme Corp" style="width:100%"></div>
+</div>
+<div><label for="ct-scope">Scope / services description</label><textarea class="tv-field" id="ct-scope" rows="3" placeholder="Describe the work or services covered&hellip;" style="width:100%"></textarea></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div><label for="ct-amount">Payment amount</label><input class="tv-field" id="ct-amount" type="text" placeholder="$2,500" style="width:100%"></div>
+<div><label for="ct-terms">Payment terms</label><input class="tv-field" id="ct-terms" type="text" placeholder="50% upfront, 50% on delivery" style="width:100%"></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div><label for="ct-start">Start date</label><input class="tv-field" id="ct-start" type="date" style="width:100%"></div>
+<div><label for="ct-end">End date / duration</label><input class="tv-field" id="ct-end" type="text" placeholder="Dec 31, 2026" style="width:100%"></div>
+</div>
+<div><label for="ct-state">Governing state</label><select class="tv-field" id="ct-state" style="width:100%">
+<option value="">Select a state</option>
+<option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option><option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option><option>District of Columbia</option><option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+</select></div>
+<div class="tool-actions">
+<button class="button" type="button" id="ct-clear">Clear</button>
+<button class="button primary" type="button" id="ct-print">Print / Download as PDF</button>
+</div>
+<p class="form-error" id="ct-error" hidden aria-live="polite"></p>
+</div>
+<div class="tool-result" id="ct-result" aria-live="polite">
+<h2>Contract preview</h2>
+<p class="result-lede">Your contract updates as you type. Use the print button and choose “Save as PDF” to download it.</p>
+<div class="ct-preview" id="ct-preview"></div>
+</div>
+</section>
