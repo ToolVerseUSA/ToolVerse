@@ -119,6 +119,23 @@
     "url": "/ToolVerse/tools/business/resume-builder.html"
   },
   {
+    "id": "bnpl-payment-tracker",
+    "slug": "bnpl-payment-tracker",
+    "title": "BNPL Payment Tracker — Klarna, Affirm, Afterpay",
+    "description": "Free BNPL payment tracker. Add your Klarna, Affirm, Afterpay and Zip loans, see what you owe, and get one calendar of every upcoming payment.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "bnpl payment tracker",
+      "klarna payment tracker",
+      "affirm payment schedule",
+      "buy now pay later calculator",
+      "how many bnpl payments do i have",
+      "bnpl debt tracker"
+    ],
+    "url": "/ToolVerse/tools/calculators/bnpl-payment-tracker.html"
+  },
+  {
     "id": "currency-converter",
     "slug": "currency-converter",
     "title": "Currency Converter — Live Exchange Rates",
