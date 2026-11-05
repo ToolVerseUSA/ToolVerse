@@ -26,7 +26,7 @@
   function render() {
     var name = val('rb-name') || 'Your Name';
     var title = val('rb-title');
-    var contact = [val('rb-email'), val('rb-phone'), val('rb-city')].filter(Boolean).join('  ·  ');
+    var contact = [val('rb-email'), val('rb-phone'), val('rb-city'), val('rb-linkedin')].filter(Boolean).join('  ·  ');
     var summary = val('rb-summary');
     var degree = val('rb-degree');
     var school = val('rb-school');
@@ -37,7 +37,7 @@
     if (contact) html += '<p class="rb-pv-contact">' + esc(contact) + '</p>';
     if (summary) html += '<p class="rb-pv-sec">Summary</p><p>' + esc(summary) + '</p>';
     var jobs = '';
-    for (var i = 1; i <= 3; i++) {
+    for (var i = 1; i <= 5; i++) {
       var jt = val('rb-exp' + i + '-title');
       var co = val('rb-exp' + i + '-company');
       var dt = val('rb-exp' + i + '-dates');
@@ -62,9 +62,9 @@
     if (val('rb-name') || title || summary) trackUse();
   }
 
-  var ids = ['rb-name', 'rb-title', 'rb-email', 'rb-phone', 'rb-city', 'rb-summary',
+  var ids = ['rb-name', 'rb-title', 'rb-email', 'rb-phone', 'rb-city', 'rb-linkedin', 'rb-summary',
     'rb-degree', 'rb-school', 'rb-year', 'rb-skills'];
-  for (var i = 1; i <= 3; i++) {
+  for (var i = 1; i <= 5; i++) {
     ['title', 'company', 'dates', 'b1', 'b2'].forEach(function (f) { ids.push('rb-exp' + i + '-' + f); });
   }
   ids.forEach(function (id) {

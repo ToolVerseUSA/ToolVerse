@@ -80,6 +80,7 @@
       '<div><span>Tax (' + taxPct + '%)</span><span>' + money(tax) + '</span></div>' +
       '<div class="inv-total"><span>TOTAL</span><span id="inv-total-value">' + money(total) + '</span></div></div>';
     if (val('inv-notes')) html += '<p class="inv-notes">' + esc(val('inv-notes')) + '</p>';
+    if (val('inv-pay')) html += '<p class="inv-notes"><b>Payment instructions</b><br>' + esc(val('inv-pay')) + '</p>';
     preview.innerHTML = html;
     if (val('inv-seller-name') || val('inv-buyer-name') || subtotal > 0) trackUse();
   }
@@ -87,7 +88,7 @@
   addRow('Website design', 1, 500);
   addRow('', '', '');
   ['inv-seller-name', 'inv-seller-addr', 'inv-buyer-name', 'inv-buyer-addr',
-   'inv-number', 'inv-date', 'inv-due', 'inv-tax', 'inv-notes'].forEach(function (id) {
+   'inv-number', 'inv-date', 'inv-due', 'inv-tax', 'inv-notes', 'inv-pay'].forEach(function (id) {
     var el = document.getElementById(id);
     if (el) el.addEventListener('input', render);
   });
@@ -100,7 +101,7 @@
     itemsEl.innerHTML = '';
     addRow('', '', '');
     ['inv-seller-name', 'inv-seller-addr', 'inv-buyer-name', 'inv-buyer-addr',
-     'inv-number', 'inv-date', 'inv-due', 'inv-tax', 'inv-notes'].forEach(function (id) {
+     'inv-number', 'inv-date', 'inv-due', 'inv-tax', 'inv-notes', 'inv-pay'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.value = id === 'inv-number' ? 'INV-001' : id === 'inv-tax' ? '0' : '';
     });
