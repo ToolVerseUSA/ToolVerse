@@ -170,6 +170,7 @@
 </div>
 <div style="max-width:200px"><label for="inv-tax">Tax %</label><input class="tv-field" id="inv-tax" type="number" min="0" max="100" step="0.1" value="0" style="width:100%"></div>
 <div><label for="inv-notes">Notes</label><textarea class="tv-field" id="inv-notes" rows="2" placeholder="Thank you for your business. Payment due within 14 days." style="width:100%"></textarea></div>
+<div><label for="inv-pay">Payment instructions</label><textarea class="tv-field" id="inv-pay" rows="2" placeholder="Make checks payable to Jane Smith Design. Bank transfer details on request." style="width:100%"></textarea></div>
 <div class="tool-actions">
 <button class="button" type="button" id="inv-clear">Clear</button>
 <button class="button primary" type="button" id="inv-print">Download / Print as PDF</button>
@@ -279,7 +280,7 @@
 </div>
 <script defer src="/ToolVerse/tools/assets/tools-analytics.js"></script>
 <script>
-/* invoice-generator v1.0.0 — generated, do not hand-edit */
+/* invoice-generator v1.1.0 — generated, do not hand-edit */
 /* Invoice Generator — browser-local invoice math. No data leaves the page. */
 (function () {
   'use strict';
@@ -362,6 +363,7 @@
       '<div><span>Tax (' + taxPct + '%)</span><span>' + money(tax) + '</span></div>' +
       '<div class="inv-total"><span>TOTAL</span><span id="inv-total-value">' + money(total) + '</span></div></div>';
     if (val('inv-notes')) html += '<p class="inv-notes">' + esc(val('inv-notes')) + '</p>';
+    if (val('inv-pay')) html += '<p class="inv-notes"><b>Payment instructions</b><br>' + esc(val('inv-pay')) + '</p>';
     preview.innerHTML = html;
     if (val('inv-seller-name') || val('inv-buyer-name') || subtotal > 0) trackUse();
   }
@@ -369,7 +371,7 @@
   addRow('Website design', 1, 500);
   addRow('', '', '');
   ['inv-seller-name', 'inv-seller-addr', 'inv-buyer-name', 'inv-buyer-addr',
-   'inv-number', 'inv-date', 'inv-due', 'inv-tax', 'inv-notes'].forEach(function (id) {
+   'inv-number', 'inv-date', 'inv-due', 'inv-tax', 'inv-notes', 'inv-pay'].forEach(function (id) {
     var el = document.getElementById(id);
     if (el) el.addEventListener('input', render);
   });
@@ -382,7 +384,7 @@
     itemsEl.innerHTML = '';
     addRow('', '', '');
     ['inv-seller-name', 'inv-seller-addr', 'inv-buyer-name', 'inv-buyer-addr',
-     'inv-number', 'inv-date', 'inv-due', 'inv-tax', 'inv-notes'].forEach(function (id) {
+     'inv-number', 'inv-date', 'inv-due', 'inv-tax', 'inv-notes', 'inv-pay'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.value = id === 'inv-number' ? 'INV-001' : id === 'inv-tax' ? '0' : '';
     });
