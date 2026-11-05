@@ -75,9 +75,9 @@ export default async function handler(req, res) {
   const householdSize = Number(body.householdSize);
   const ages = Array.isArray(body.ages) ? body.ages.map(Number).filter(Number.isFinite) : [];
   const income = Number(body.income);
-  const year = Number(body.year || 2026);
-  if (!/^[A-Z]{2}$/.test(state) || !/^\d{5}$/.test(zip) || !Number.isInteger(householdSize) || householdSize < 1 || householdSize > 14 || !ages.length || ages.length > 14 || ages.some((age) => age < 0 || age > 120) || !Number.isFinite(income) || income < 0 || year !== 2026) {
-    return json(res, 400, { code: 'invalid_input', message: 'Enter a valid 5-digit ZIP code, coverage household ages, household size, nonnegative MAGI, and 2026 coverage year.' });
+  const year = Number(body.year || 2027);
+  if (!/^[A-Z]{2}$/.test(state) || !/^\d{5}$/.test(zip) || !Number.isInteger(householdSize) || householdSize < 1 || householdSize > 14 || !ages.length || ages.length > 14 || ages.some((age) => age < 0 || age > 120) || !Number.isFinite(income) || income < 0 || year !== 2027) {
+    return json(res, 400, { code: 'invalid_input', message: 'Enter a valid 5-digit ZIP code, coverage household ages, household size, nonnegative MAGI, and 2027 coverage year.' });
   }
   if (ages.length !== householdSize) return json(res, 400, { code: 'age_count_mismatch', message: 'Provide one age for each person in the Marketplace coverage household.' });
   if (!FEDERAL_PLATFORM_STATES.has(state)) return json(res, 422, { code: 'state_data_unavailable', message: 'Automatic CMS lookup is currently available only for federal-platform states. Use the official state Marketplace or the advanced manual benchmark option.', marketplaceType: 'SBM' });
