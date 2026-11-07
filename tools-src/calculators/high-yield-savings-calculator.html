@@ -1,0 +1,42 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser — nothing is uploaded. This tool does not fetch or show any bank's rate: you enter the APY yourself, and rates change over time. Estimate only — not financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>How much will your savings grow?</h2>
+<p class="section-intro">Enter your starting deposit, what you plan to add each month, and the annual percentage yield (APY). The calculator compounds interest monthly and shows your balance year by year.</p>
+<form id="high-yield-savings-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your savings plan</legend>
+<div class="tool-grid">
+<label>Initial deposit ($)
+<input class="tv-field" id="high-yield-savings-calculator-deposit" name="deposit" type="number" inputmode="decimal" step="any" min="0" value="5000" aria-label="Initial deposit in dollars"></label>
+<label>Monthly contribution ($)
+<input class="tv-field" id="high-yield-savings-calculator-monthly" name="monthly" type="number" inputmode="decimal" step="any" min="0" value="200" aria-label="Monthly contribution in dollars"></label>
+<label>Annual percentage yield (APY %)
+<input class="tv-field" id="high-yield-savings-calculator-apy" name="apy" type="number" inputmode="decimal" step="0.01" min="0" max="25" value="4" aria-label="Annual percentage yield in percent"></label>
+<label>Years to save
+<input class="tv-field" id="high-yield-savings-calculator-years" name="years" type="number" inputmode="numeric" step="1" min="1" max="50" value="5" aria-label="Years to save"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="high-yield-savings-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="high-yield-savings-calculator-result" aria-live="polite">
+<h2>Your projected savings</h2>
+<p class="result-lede" id="high-yield-savings-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Totals</h3><dl>
+<div><dt>Final balance</dt><dd id="high-yield-savings-calculator-final">—</dd></div>
+<div><dt>Total contributed</dt><dd id="high-yield-savings-calculator-contributed">—</dd></div>
+<div><dt>Total interest earned</dt><dd id="high-yield-savings-calculator-interest">—</dd></div>
+<div><dt>APY used</dt><dd id="high-yield-savings-calculator-apy-used">—</dd></div>
+</dl></div>
+</div>
+<h3>Year-by-year growth</h3>
+<table>
+<thead><tr><th>Year</th><th>Deposits that year</th><th>Interest that year</th><th>End balance</th></tr></thead>
+<tbody id="high-yield-savings-calculator-table"><tr><td colspan="4">No projection yet.</td></tr></tbody>
+</table>
+<p><strong>About the APY:</strong> the APY is entered by you — this tool does not fetch, show, or recommend any bank's rate, and no bank is named or rated here. Real APYs change, so this projection assumes the APY you entered stays the same for the whole period. Interest earned may be taxable; check the current rules before relying on the numbers.</p>
+</div>
+</section>

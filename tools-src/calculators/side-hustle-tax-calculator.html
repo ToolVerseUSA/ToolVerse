@@ -1,0 +1,54 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser — nothing is uploaded. Estimate only — not tax advice. Confirm with a tax professional or the IRS.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>What will you owe on your side-hustle income?</h2>
+<p class="section-intro">Self-employment tax is 15.3% — 12.4% Social Security plus 2.9% Medicare — applied to 92.35% of your net self-employment earnings. Enter your gross income and business expenses to estimate it, see the deductible half, and split it into quarterly payments.</p>
+<form id="side-hustle-tax-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your side-hustle income</legend>
+<div class="tool-grid">
+<label>Side-hustle gross income ($)
+<input class="tv-field" id="side-hustle-tax-calculator-gross" name="gross" type="number" inputmode="decimal" step="any" min="0" value="30000" aria-label="Side-hustle gross income in dollars"></label>
+<label>Business expenses ($)
+<input class="tv-field" id="side-hustle-tax-calculator-expenses" name="expenses" type="number" inputmode="decimal" step="any" min="0" value="5000" aria-label="Business expenses in dollars"></label>
+<label>Tax year
+<select class="tv-field" id="side-hustle-tax-calculator-year" name="year" aria-label="Tax year">
+<option value="2026" selected>2026</option>
+<option value="2025">2025</option>
+</select></label>
+<label>Filing status
+<select class="tv-field" id="side-hustle-tax-calculator-filing-status" name="filingStatus" aria-label="Filing status">
+<option value="single" selected>Single</option>
+<option value="mfj">Married filing jointly</option>
+</select></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="side-hustle-tax-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="side-hustle-tax-calculator-result" aria-live="polite">
+<h2>Your estimated self-employment tax</h2>
+<p class="result-lede" id="side-hustle-tax-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Your earnings</h3><dl>
+<div><dt>Net profit (gross minus expenses)</dt><dd id="side-hustle-tax-calculator-net">—</dd></div>
+<div><dt>SE taxable base (92.35% of net)</dt><dd id="side-hustle-tax-calculator-base">—</dd></div>
+<div><dt>Social Security wage base (<span id="side-hustle-tax-calculator-year-label">2026</span>)</dt><dd id="side-hustle-tax-calculator-wage-base">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Self-employment tax</h3><dl>
+<div><dt>Social Security portion (12.4%)</dt><dd id="side-hustle-tax-calculator-ss">—</dd></div>
+<div><dt>Medicare portion (2.9%)</dt><dd id="side-hustle-tax-calculator-medicare">—</dd></div>
+<div><dt>Total self-employment tax (15.3%)</dt><dd id="side-hustle-tax-calculator-total">—</dd></div>
+<div><dt>Deductible half (from income tax)</dt><dd id="side-hustle-tax-calculator-half">—</dd></div>
+<div><dt>Effective SE tax rate on net profit</dt><dd id="side-hustle-tax-calculator-rate">—</dd></div>
+<div><dt>Estimated quarterly payment (total / 4)</dt><dd id="side-hustle-tax-calculator-quarterly">—</dd></div>
+</dl></div>
+</div>
+<p class="result-lede" id="side-hustle-tax-calculator-additional" hidden><strong>Heads up:</strong> your income is above the additional Medicare tax threshold, so an extra 0.9% Medicare tax may apply on the amount over the threshold. This estimate does not include it — see IRS Form 8959 or ask a tax professional.</p>
+<h3>Federal income tax is separate</h3>
+<p>Self-employment tax is only one part of what you may owe. Federal income tax is separate, and it depends on your total income from all sources and your filing status. It is not included in the estimate above.</p>
+<p>For tax year 2026, the standard deduction is $16,100 for single filers and $32,200 for married couples filing jointly, and the federal marginal rates are 10%, 12%, 22%, 24%, 32%, 35%, and 37%. The 37% rate starts above $640,600 of taxable income for single filers and above $768,700 for married couples filing jointly. Source: IRS Revenue Procedure 2025-32, announced in IR-2025-103. Figures for 2025 differ — check the IRS for that year.</p>
+<p><strong>Estimate only — not tax advice. Confirm with a tax professional or the IRS.</strong></p>
+</div>
+</section>

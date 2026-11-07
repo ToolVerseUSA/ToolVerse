@@ -1,0 +1,79 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers never leave your browser — nothing is uploaded or saved. Estimate only — not an official SSA statement. Get your official statement at <a href="https://www.ssa.gov/">ssa.gov</a>. Not financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>What will your Social Security benefit be?</h2>
+<p class="section-intro">Enter your monthly benefit at full retirement age (your PIA), or your current benefit and the age it applies to. The tool applies the standard SSA rules: claiming early reduces the benefit, and waiting past full retirement age adds delayed retirement credits of 8% per year up to age 70. The 2027 COLA is 3.6%, announced by the SSA on October 14, 2026. The 2026 COLA was 2.8%.</p>
+<form id="social-security-benefit-estimator-form" novalidate>
+<fieldset class="form-section"><legend>Your benefit</legend>
+<div class="tool-grid">
+<label>What do you know?
+<select class="tv-field" id="ss-basis" aria-label="What benefit figure do you know">
+<option value="pia">My monthly benefit at full retirement age (PIA)</option>
+<option value="current">My current monthly benefit and my age now</option>
+</select></label>
+<label>Monthly benefit at full retirement age (PIA) ($)
+<input class="tv-field" id="ss-pia" name="pia" type="number" inputmode="decimal" step="any" min="0" value="2000" aria-label="Monthly benefit at full retirement age in dollars"></label>
+<div id="ss-current-fields" hidden>
+<label>Current monthly benefit ($)
+<input class="tv-field" id="ss-current" name="currentBenefit" type="number" inputmode="decimal" step="any" min="0" aria-label="Current monthly benefit in dollars"></label>
+<label>Age the current benefit applies to
+<input class="tv-field" id="ss-current-age" name="currentAge" type="number" inputmode="numeric" step="1" min="62" max="70" value="65" aria-label="Age the current benefit applies to"></label>
+</div>
+<label>Full retirement age
+<select class="tv-field" id="ss-fra" aria-label="Full retirement age">
+<option value="792">66</option>
+<option value="794">66 and 2 months</option>
+<option value="796">66 and 4 months</option>
+<option value="798">66 and 6 months</option>
+<option value="800">66 and 8 months</option>
+<option value="802">66 and 10 months</option>
+<option value="804" selected>67 (born 1960 or later)</option>
+</select></label>
+<label>COLA assumption — 2027 COLA announced by SSA (%)
+<input class="tv-field" id="ss-cola" name="cola" type="number" inputmode="decimal" step="0.1" min="0" max="10" value="3.6" aria-label="Cost of living adjustment assumption in percent"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="social-security-benefit-estimator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="social-security-benefit-estimator-result" aria-live="polite">
+<h2>Your estimated benefits</h2>
+<p class="result-lede" id="ss-lede">Enter your benefit above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Monthly benefit</h3><dl>
+<div><dt>At age 62</dt><dd id="ss-62-monthly">—</dd></div>
+<div><dt>At age 67</dt><dd id="ss-67-monthly">—</dd></div>
+<div><dt>At age 70</dt><dd id="ss-70-monthly">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Annual benefit</h3><dl>
+<div><dt>At age 62</dt><dd id="ss-62-annual">—</dd></div>
+<div><dt>At age 67</dt><dd id="ss-67-annual">—</dd></div>
+<div><dt>At age 70</dt><dd id="ss-70-annual">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>2027 COLA increase</h3><dl>
+<div><dt>Increase on your full retirement benefit</dt><dd id="ss-cola-increase">—</dd></div>
+<div><dt>Full retirement benefit after COLA</dt><dd id="ss-cola-after">—</dd></div>
+<div><dt>Average retired worker increase</dt><dd>About $75 per month</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Your full retirement benefit (PIA)</h3><dl>
+<div><dt>Monthly PIA used</dt><dd id="ss-pia-used">—</dd></div>
+<div><dt>Full retirement age</dt><dd id="ss-fra-used">—</dd></div>
+<div><dt>2027 Social Security taxable maximum</dt><dd>$192,300</dd></div>
+</dl></div>
+</div>
+<h3>Break-even: total received by claiming age</h3>
+<p class="result-lede">Totals assume benefits start at the claiming age and continue to the age shown, at today&rsquo;s benefit levels, before future cost-of-living adjustments and before taxes.</p>
+<table>
+<thead><tr><th>Claim at</th><th>Total by age 80</th><th>Total by age 85</th></tr></thead>
+<tbody>
+<tr><td>62</td><td id="ss-62-by80">—</td><td id="ss-62-by85">—</td></tr>
+<tr><td>67</td><td id="ss-67-by80">—</td><td id="ss-67-by85">—</td></tr>
+<tr><td>70</td><td id="ss-70-by80">—</td><td id="ss-70-by85">—</td></tr>
+</tbody>
+</table>
+<p class="result-lede" id="ss-breakeven-note"></p>
+<p class="result-lede"><strong>Estimate only — not an official SSA statement.</strong> Your official benefit depends on your full earnings record. Get your official statement at <a href="https://www.ssa.gov/">ssa.gov</a>.</p>
+</div>
+</section>

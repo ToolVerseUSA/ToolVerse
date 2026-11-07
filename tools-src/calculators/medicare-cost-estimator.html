@@ -1,0 +1,73 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers never leave your browser — nothing is uploaded or saved. Estimate only — premiums change every year. Check the official figures at <a href="https://www.medicare.gov/">medicare.gov</a>. Not financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>What will Medicare cost you each month?</h2>
+<p class="section-intro">Medicare Part B costs $202.90 per month in 2026, confirmed by CMS on November 14, 2025, with a $283 annual deductible. Higher incomes pay an IRMAA surcharge on top of Part B, based on your modified adjusted gross income (MAGI) from two years earlier. The 2027 Part B premium is not announced yet — the 2026 Trustees Report projects $209.50, shown here as a projection only.</p>
+<form id="medicare-cost-estimator-form" novalidate>
+<fieldset class="form-section"><legend>Your Medicare picture</legend>
+<div class="tool-grid">
+<label>Filing status
+<select class="tv-field" id="mc-status" aria-label="Filing status">
+<option value="individual">Individual</option>
+<option value="joint">Married filing jointly</option>
+</select></label>
+<label>Modified adjusted gross income — MAGI ($)
+<input class="tv-field" id="mc-magi" name="magi" type="number" inputmode="decimal" step="any" min="0" value="80000" aria-label="Modified adjusted gross income in dollars"></label>
+<label>Part A work quarters
+<select class="tv-field" id="mc-quarters" aria-label="Part A work quarters">
+<option value="40plus">40 or more quarters — $0 per month</option>
+<option value="30to39">30 to 39 quarters — $311 per month (2026)</option>
+<option value="under30">Fewer than 30 quarters — $565 per month (2026)</option>
+</select></label>
+<label>Part D plan monthly premium ($)
+<input class="tv-field" id="mc-partd" name="partD" type="number" inputmode="decimal" step="any" min="0" value="45" aria-label="Part D plan monthly premium in dollars"></label>
+<label>Medigap / supplement monthly premium ($)
+<input class="tv-field" id="mc-medigap" name="medigap" type="number" inputmode="decimal" step="any" min="0" value="0" aria-label="Medigap or supplement monthly premium in dollars"></label>
+<label>Part B year
+<select class="tv-field" id="mc-year" aria-label="Part B year">
+<option value="2026" selected>2026 — $202.90 confirmed by CMS</option>
+<option value="2027">2027 — $209.50 projected (not confirmed)</option>
+</select></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="medicare-cost-estimator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="medicare-cost-estimator-result" aria-live="polite">
+<h2>Your estimated Medicare cost</h2>
+<p class="result-lede" id="mc-lede">Enter your details above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Monthly breakdown</h3><dl>
+<div><dt>Part A premium</dt><dd id="mc-parta">—</dd></div>
+<div><dt>Part B standard premium</dt><dd id="mc-partb-base">—</dd></div>
+<div><dt>Part B IRMAA surcharge</dt><dd id="mc-irmaa">—</dd></div>
+<div><dt>Part B total</dt><dd id="mc-partb-total">—</dd></div>
+<div><dt>Part D plan premium</dt><dd id="mc-partd-out">—</dd></div>
+<div><dt>Medigap / supplement</dt><dd id="mc-medigap-out">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Your totals</h3><dl>
+<div><dt>Total per month</dt><dd id="mc-total-monthly">—</dd></div>
+<div><dt>Total per year</dt><dd id="mc-total-annual">—</dd></div>
+<div><dt>Part B annual deductible</dt><dd id="mc-deductible">—</dd></div>
+<div><dt>IRMAA tier</dt><dd id="mc-tier">—</dd></div>
+</dl></div>
+</div>
+<h3>2026 Part B IRMAA tiers (CMS, based on 2024 MAGI)</h3>
+<table>
+<thead><tr><th>Individual MAGI</th><th>Joint MAGI</th><th>IRMAA per month</th><th>Total Part B per month</th></tr></thead>
+<tbody>
+<tr><td>$109,000 or less</td><td>$218,000 or less</td><td>$0.00</td><td>$202.90</td></tr>
+<tr><td>$109,001 – $137,000</td><td>$218,001 – $274,000</td><td>$81.20</td><td>$284.10</td></tr>
+<tr><td>$137,001 – $171,000</td><td>$274,001 – $342,000</td><td>$202.90</td><td>$405.80</td></tr>
+<tr><td>$171,001 – $205,000</td><td>$342,001 – $410,000</td><td>$324.60</td><td>$527.50</td></tr>
+<tr><td>$205,001 – $499,999</td><td>$410,001 – $749,999</td><td>$446.30</td><td>$649.20</td></tr>
+<tr><td>$500,000 or more</td><td>$750,000 or more</td><td>$487.00</td><td>$689.90</td></tr>
+</tbody>
+</table>
+<p class="result-lede" id="mc-year-note"></p>
+<p class="result-lede"><strong>Note:</strong> IRMAA can also add to your Part D prescription drug premium — this tool does not add a Part D surcharge. Check your Part D IRMAA at <a href="https://www.medicare.gov/">medicare.gov</a>.</p>
+<p class="result-lede"><strong>Estimate only — premiums change every year.</strong> Check the official figures at <a href="https://www.medicare.gov/">medicare.gov</a>.</p>
+</div>
+</section>

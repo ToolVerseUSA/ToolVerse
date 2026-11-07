@@ -1,0 +1,71 @@
+<p class="disclaimer"><strong>100% private.</strong> Everything you enter runs in your browser — nothing is uploaded. Estimate only — confirm your balance and rate with your loan servicer. Not financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>When will your student loan be paid off?</h2>
+<p class="section-intro">Enter your balance, interest rate and monthly payment to see your payoff date and total interest — plus how much an extra monthly payment can save you.</p>
+<form id="slp-form" novalidate>
+<fieldset class="form-section"><legend>Your loan</legend>
+<div class="tool-grid">
+<label>Loan balance ($)
+<input class="tv-field" id="slp-balance" name="balance" type="number" inputmode="decimal" step="any" min="0" value="30000" aria-label="Loan balance in dollars"></label>
+<label>Annual interest rate (APR %)
+<input class="tv-field" id="slp-apr" name="apr" type="number" inputmode="decimal" step="any" min="0" max="100" value="6" aria-label="Annual interest rate in percent"></label>
+<label>Monthly payment ($)
+<input class="tv-field" id="slp-payment" name="payment" type="number" inputmode="decimal" step="any" min="0" value="350" aria-label="Monthly payment in dollars"></label>
+<label>Extra monthly payment ($) — optional
+<input class="tv-field" id="slp-extra" name="extra" type="number" inputmode="decimal" step="any" min="0" value="0" aria-label="Extra monthly payment in dollars"></label>
+</div>
+</fieldset>
+<fieldset class="form-section"><legend>Two loans? Compare avalanche vs snowball — optional</legend>
+<div class="tool-grid">
+<label>Second loan balance ($)
+<input class="tv-field" id="slp-balance2" name="balance2" type="number" inputmode="decimal" step="any" min="0" aria-label="Second loan balance in dollars"></label>
+<label>Second loan APR (%)
+<input class="tv-field" id="slp-apr2" name="apr2" type="number" inputmode="decimal" step="any" min="0" max="100" aria-label="Second loan annual interest rate in percent"></label>
+<label>Total monthly payment for both loans ($)
+<input class="tv-field" id="slp-total-payment" name="totalPayment" type="number" inputmode="decimal" step="any" min="0" aria-label="Total monthly payment for both loans in dollars"></label>
+</div>
+<p class="section-intro">Avalanche attacks the highest-rate loan first. Snowball attacks the smallest balance first. This comparison assumes each loan's monthly interest is covered first and the rest of your payment attacks one loan at a time.</p>
+</fieldset>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="slp-error" hidden aria-live="polite"></p>
+</form>
+<div class="tool-result" id="slp-result" aria-live="polite">
+<p class="result-lede" id="slp-lede">Enter your loan details above to see your payoff plan.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Standard payment</h3><dl>
+<div><dt>Months to payoff</dt><dd id="slp-months">—</dd></div>
+<div><dt>Payoff date</dt><dd id="slp-date">—</dd></div>
+<div><dt>Total interest paid</dt><dd id="slp-interest">—</dd></div>
+<div><dt>Total paid</dt><dd id="slp-total">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>With extra payment</h3><dl>
+<div><dt>Months to payoff</dt><dd id="slp-extra-months">—</dd></div>
+<div><dt>Payoff date</dt><dd id="slp-extra-date">—</dd></div>
+<div><dt>Total interest paid</dt><dd id="slp-extra-interest">—</dd></div>
+<div><dt>Months saved</dt><dd id="slp-months-saved">—</dd></div>
+<div><dt>Interest saved</dt><dd id="slp-interest-saved">—</dd></div>
+</dl></div>
+</div>
+<div id="slp-compare" hidden>
+<h3>Avalanche vs snowball</h3>
+<p class="result-lede" id="slp-compare-lede">—</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Avalanche — highest rate first</h3><dl>
+<div><dt>Attack first</dt><dd id="slp-av-first">—</dd></div>
+<div><dt>Months to pay off both</dt><dd id="slp-av-months">—</dd></div>
+<div><dt>Total interest paid</dt><dd id="slp-av-interest">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Snowball — smallest balance first</h3><dl>
+<div><dt>Attack first</dt><dd id="slp-sn-first">—</dd></div>
+<div><dt>Months to pay off both</dt><dd id="slp-sn-months">—</dd></div>
+<div><dt>Total interest paid</dt><dd id="slp-sn-interest">—</dd></div>
+</dl></div>
+</div>
+<p class="result-lede" id="slp-compare-verdict">—</p>
+</div>
+<p class="section-intro">Estimate only — confirm your balance and rate with your loan servicer. This tool assumes a fixed rate and the same payment every month.</p>
+</div>
+</section>

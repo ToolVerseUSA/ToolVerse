@@ -1,0 +1,79 @@
+<p class="disclaimer"><strong>100% private.</strong> Your answers run in your browser — nothing is uploaded. <strong>Estimate only — this is not your real credit score.</strong> This tool has no connection to Equifax, Experian or TransUnion. Check your real score free at AnnualCreditReport.com.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>Estimate your credit score range</h2>
+<p class="section-intro">Answer five simple questions. The tool uses an educational model that approximates FICO weights — payment history 35%, amounts owed 30%, length of history 15%, new credit 10%, credit mix 10% — and shows an estimated range, never a single exact score.</p>
+<form id="cse-form" novalidate>
+<fieldset class="form-section"><legend>Your credit picture</legend>
+<div class="tool-grid">
+<label>On-time payment history
+<select class="tv-field" id="cse-payment" name="paymentHistory" aria-label="On-time payment history">
+<option value="1">100% on time — never missed a payment</option>
+<option value="0.85">98-99% on time</option>
+<option value="0.65">95-97% on time</option>
+<option value="0.4">Under 95% on time</option>
+<option value="0.15">Missed payments recently</option>
+</select></label>
+<label>Credit utilization — how much of your credit limits you use
+<select class="tv-field" id="cse-utilization" name="utilization" aria-label="Credit utilization">
+<option value="1">Under 10%</option>
+<option value="0.8">10-29%</option>
+<option value="0.55">30-49%</option>
+<option value="0.3">50-74%</option>
+<option value="0.1">75% or more</option>
+</select></label>
+<label>Age of your oldest account
+<select class="tv-field" id="cse-oldest" name="oldestAccount" aria-label="Age of oldest account">
+<option value="1">10+ years</option>
+<option value="0.75">5-9 years</option>
+<option value="0.5">2-4 years</option>
+<option value="0.25">Under 2 years</option>
+</select></label>
+<label>Hard inquiries in the last 2 years
+<select class="tv-field" id="cse-inquiries" name="inquiries" aria-label="Recent hard inquiries">
+<option value="1">0</option>
+<option value="0.8">1-2</option>
+<option value="0.5">3-5</option>
+<option value="0.2">6 or more</option>
+</select></label>
+<label>Credit mix — types of accounts you have
+<select class="tv-field" id="cse-mix" name="creditMix" aria-label="Credit mix">
+<option value="1">Several types (cards, loan, mortgage, etc.)</option>
+<option value="0.65">2 types</option>
+<option value="0.3">1 type only</option>
+</select></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Estimate my range</button>
+</div>
+<p class="form-error" id="cse-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="cse-result" aria-live="polite">
+<p class="result-lede" id="cse-lede">Answer the five questions above to see your estimated range.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Your estimated range</h3><dl>
+<div><dt>Estimated score range</dt><dd id="cse-range">—</dd></div>
+<div><dt>Category</dt><dd id="cse-label">—</dd></div>
+<div><dt>Strongest factor</dt><dd id="cse-strongest">—</dd></div>
+<div><dt>Weakest factor</dt><dd id="cse-weakest">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>How the factors scored</h3><dl>
+<div><dt>Payment history (35%)</dt><dd id="cse-f-payment">—</dd></div>
+<div><dt>Amounts owed / utilization (30%)</dt><dd id="cse-f-utilization">—</dd></div>
+<div><dt>Length of history (15%)</dt><dd id="cse-f-oldest">—</dd></div>
+<div><dt>New credit (10%)</dt><dd id="cse-f-inquiries">—</dd></div>
+<div><dt>Credit mix (10%)</dt><dd id="cse-f-mix">—</dd></div>
+</dl></div>
+</div>
+<h3>How to improve each factor</h3>
+<ul id="cse-tips">
+<li><strong>Payment history:</strong> Pay every bill on time — set up autopay for at least the minimum payment.</li>
+<li><strong>Utilization:</strong> Pay card balances down below 30% of your limits, and under 10% if you can.</li>
+<li><strong>Length of history:</strong> Keep your oldest card open, even if you rarely use it — closing it shortens your history.</li>
+<li><strong>New credit:</strong> Apply for new credit only when you need it — each hard inquiry can lower your score for a while.</li>
+<li><strong>Credit mix:</strong> Do not open accounts just for variety — a mix helps a little, but on-time payments and low balances matter far more.</li>
+</ul>
+<p class="section-intro"><strong>Estimate only — this is not your real credit score. Check your real score free at AnnualCreditReport.com.</strong> This tool has no connection to Equifax, Experian or TransUnion, and a real score depends on your full credit file.</p>
+</div>
+</section>

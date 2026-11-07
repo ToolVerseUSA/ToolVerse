@@ -1,0 +1,79 @@
+<p class="disclaimer"><strong>100% private.</strong> Everything you enter runs in your browser — nothing is uploaded. Estimates only, not financial or tax advice. 2026 limits are confirmed by the IRS (Notice 2025-67); 2027 limits are projections, pending IRS confirmation.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>Your 401(k) contribution, match, and growth</h2>
+<p class="section-intro">Enter your salary and contribution, and see how much you put in each year, what your employer adds, whether you are under the IRS limit, and what your balance could grow to by retirement.</p>
+<form id="401k-contribution-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your 401(k)</legend>
+<div class="tool-grid">
+<label>Limit year
+<select class="tv-field" id="k401-year" name="year" aria-label="IRS limit year">
+<option value="2026" selected>2026 — confirmed by IRS (Notice 2025-67)</option>
+<option value="2027">2027 — projected, pending IRS confirmation</option>
+</select></label>
+<label>Your age
+<input class="tv-field" id="k401-age" name="age" type="number" inputmode="numeric" step="1" min="18" max="100" value="35" aria-label="Your age"></label>
+<label>Annual salary ($)
+<input class="tv-field" id="k401-salary" name="salary" type="number" inputmode="decimal" step="any" min="0" value="80000" aria-label="Annual salary in dollars"></label>
+<label>Contribution type
+<select class="tv-field" id="k401-contribution-mode" name="contributionMode" aria-label="Contribution type">
+<option value="percent" selected>Percent of salary</option>
+<option value="paycheck">Dollars per paycheck</option>
+</select></label>
+<label>Contribution
+<input class="tv-field" id="k401-contribution" name="contribution" type="number" inputmode="decimal" step="any" min="0" value="10" aria-label="Contribution percent of salary or dollars per paycheck"></label>
+<label>Paychecks per year (only for dollars per paycheck)
+<select class="tv-field" id="k401-paychecks" name="paychecks" aria-label="Paychecks per year">
+<option value="26" selected>26 — every 2 weeks</option>
+<option value="24">24 — twice a month</option>
+<option value="12">12 — monthly</option>
+<option value="52">52 — weekly</option>
+</select></label>
+<label>Employer match (%)
+<input class="tv-field" id="k401-match-percent" name="matchPercent" type="number" inputmode="decimal" step="any" min="0" max="100" value="50" aria-label="Employer match percent"></label>
+<label>Match applies to first (%) of your salary
+<input class="tv-field" id="k401-match-cap" name="matchCap" type="number" inputmode="decimal" step="any" min="0" max="100" value="6" aria-label="Match applies to first percent of salary"></label>
+<label>Current 401(k) balance ($)
+<input class="tv-field" id="k401-balance" name="balance" type="number" inputmode="decimal" step="any" min="0" value="20000" aria-label="Current 401(k) balance in dollars"></label>
+<label>Years until retirement
+<input class="tv-field" id="k401-years" name="years" type="number" inputmode="numeric" step="1" min="1" max="50" value="30" aria-label="Years until retirement"></label>
+<label>Expected annual return (%)
+<input class="tv-field" id="k401-return" name="returnRate" type="number" inputmode="decimal" step="any" min="0" max="20" value="7" aria-label="Expected annual return percent"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="401k-contribution-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="401k-contribution-calculator-result" aria-live="polite">
+<h2>Your 401(k) picture</h2>
+<p class="result-lede" id="k401-lede">Enter your details above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Your contribution</h3><dl>
+<div><dt>Your yearly contribution</dt><dd id="k401-your-yearly">—</dd></div>
+<div><dt>IRS limit for <span id="k401-limit-year">2026</span></dt><dd id="k401-limit">—</dd></div>
+<div><dt>Headroom left under the limit</dt><dd id="k401-headroom">—</dd></div>
+<div><dt>Catch-up included</dt><dd id="k401-catchup">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Employer match</h3><dl>
+<div><dt>Employer match per year</dt><dd id="k401-match-yearly">—</dd></div>
+<div><dt>Total going in per year</dt><dd id="k401-total-yearly">—</dd></div>
+<div><dt>Total going in per month</dt><dd id="k401-total-monthly">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>At retirement</h3><dl>
+<div><dt>Projected balance</dt><dd id="k401-projected">—</dd></div>
+<div><dt>Total you contributed</dt><dd id="k401-you-total">—</dd></div>
+<div><dt>Total employer match</dt><dd id="k401-employer-total">—</dd></div>
+<div><dt>Investment growth</dt><dd id="k401-growth">—</dd></div>
+</dl></div>
+</div>
+<p class="result-lede" id="k401-note" hidden></p>
+<h3>Year by year</h3>
+<table>
+<thead><tr><th>Year</th><th>Balance at year end</th><th>Contributed that year</th><th>Growth that year</th></tr></thead>
+<tbody id="k401-table-body"><tr><td colspan="4">No calculation yet.</td></tr></tbody>
+</table>
+<p class="result-lede">Limits used: 2026 confirmed by the IRS in Notice 2025-67 — $24,500 standard, $8,000 catch-up at age 50+, $11,250 super catch-up at ages 60–63. 2027 figures ($25,500 / $8,500 / $11,750) are projections only — the IRS notice is expected in November 2026 and has not been published yet. The projection assumes a steady annual return with monthly compounding and does not include taxes, fees, or market ups and downs.</p>
+</div>
+</section>

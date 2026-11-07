@@ -1,0 +1,50 @@
+<p class="disclaimer"><strong>100% private.</strong> Everything you enter runs in your browser — nothing is uploaded. All results are estimates, not financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>How much do you need to retire?</h2>
+<p class="section-intro">This calculator uses the 25x rule: your nest egg should be about 25 times what you plan to spend each year in retirement. That comes from the 4% rule — withdrawing 4% of your savings in the first year of retirement has historically lasted about 30 years. Enter your numbers to see your target, your projected balance, and the monthly saving needed to close any gap.</p>
+<form id="retirement-savings-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your retirement plan</legend>
+<div class="tool-grid">
+<label>Current age
+<input class="tv-field" id="ret-current-age" name="currentAge" type="number" inputmode="numeric" step="1" min="18" max="100" value="35" aria-label="Current age"></label>
+<label>Retirement age
+<input class="tv-field" id="ret-retirement-age" name="retirementAge" type="number" inputmode="numeric" step="1" min="19" max="100" value="67" aria-label="Retirement age"></label>
+<label>Current savings ($)
+<input class="tv-field" id="ret-savings" name="savings" type="number" inputmode="decimal" step="any" min="0" value="50000" aria-label="Current savings in dollars"></label>
+<label>Monthly contribution ($)
+<input class="tv-field" id="ret-monthly" name="monthlyContribution" type="number" inputmode="decimal" step="any" min="0" value="500" aria-label="Monthly contribution in dollars"></label>
+<label>Expected annual return (%)
+<input class="tv-field" id="ret-return" name="returnRate" type="number" inputmode="decimal" step="any" min="0" max="20" value="7" aria-label="Expected annual return percent"></label>
+<label>Desired annual spending in retirement ($)
+<input class="tv-field" id="ret-spending" name="annualSpending" type="number" inputmode="decimal" step="any" min="0" value="50000" aria-label="Desired annual spending in retirement in dollars"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="retirement-savings-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="retirement-savings-calculator-result" aria-live="polite">
+<h2>Your retirement picture</h2>
+<p class="result-lede" id="ret-lede">Enter your details above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Your target (25x rule)</h3><dl>
+<div><dt>Annual spending you want</dt><dd id="ret-spending-out">—</dd></div>
+<div><dt>Nest-egg target (25 x spending)</dt><dd id="ret-target">—</dd></div>
+<div><dt>Years until retirement</dt><dd id="ret-years">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Your projection</h3><dl>
+<div><dt>Projected balance at retirement</dt><dd id="ret-projected">—</dd></div>
+<div><dt>Total you will contribute</dt><dd id="ret-contributed">—</dd></div>
+<div><dt>Investment growth</dt><dd id="ret-growth">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Gap or surplus</h3><dl>
+<div><dt>Gap or surplus vs. target</dt><dd id="ret-gap">—</dd></div>
+<div><dt>Monthly saving needed to hit target</dt><dd id="ret-needed">—</dd></div>
+<div><dt>Your current monthly saving</dt><dd id="ret-current-monthly">—</dd></div>
+</dl></div>
+</div>
+<p class="result-lede">Estimates only. This assumes a steady annual return with monthly compounding and does not adjust for inflation, taxes, fees, or market ups and downs. Social Security and pensions are not included — they are extra income on top of the target shown here. The 25x rule is a rule of thumb based on the 4% withdrawal rule, not a guarantee.</p>
+</div>
+</section>
