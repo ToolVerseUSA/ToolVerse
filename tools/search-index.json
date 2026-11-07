@@ -119,6 +119,24 @@
     "url": "/ToolVerse/tools/business/resume-builder.html"
   },
   {
+    "id": "401k-contribution-calculator",
+    "slug": "401k-contribution-calculator",
+    "title": "401(k) Contribution Calculator",
+    "description": "Free 401(k) contribution calculator. Check your 2026 IRS limit, employer match, and projected balance at retirement — all in your browser.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "401k contribution calculator",
+      "401k calculator 2026",
+      "401k limit 2026",
+      "how much should i contribute to my 401k",
+      "401k employer match calculator",
+      "401k growth calculator",
+      "401k catch up contribution 2026"
+    ],
+    "url": "/ToolVerse/tools/calculators/401k-contribution-calculator.html"
+  },
+  {
     "id": "bnpl-payment-tracker",
     "slug": "bnpl-payment-tracker",
     "title": "BNPL Payment Tracker — Klarna, Affirm, Afterpay",
@@ -136,6 +154,23 @@
     "url": "/ToolVerse/tools/calculators/bnpl-payment-tracker.html"
   },
   {
+    "id": "credit-score-estimator",
+    "slug": "credit-score-estimator",
+    "title": "Credit Score Estimator (Educational Range)",
+    "description": "Free educational credit score estimator. Answer five questions to get an estimated range and tips — not your real score. Check AnnualCreditReport.com.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "credit score estimator",
+      "estimate my credit score",
+      "what is my credit score range",
+      "credit score calculator",
+      "how is credit score calculated",
+      "free credit score estimate"
+    ],
+    "url": "/ToolVerse/tools/calculators/credit-score-estimator.html"
+  },
+  {
     "id": "currency-converter",
     "slug": "currency-converter",
     "title": "Currency Converter — Live Exchange Rates",
@@ -151,6 +186,109 @@
       "PKR to USD converter"
     ],
     "url": "/ToolVerse/tools/calculators/currency-converter.html"
+  },
+  {
+    "id": "high-yield-savings-calculator",
+    "slug": "high-yield-savings-calculator",
+    "title": "High-Yield Savings Calculator",
+    "description": "Free high-yield savings calculator. Enter your deposit, monthly contribution and APY to see your balance grow year by year with monthly compounding.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "high yield savings calculator",
+      "hysa calculator",
+      "savings interest calculator",
+      "compound interest calculator savings",
+      "how much interest will i earn on savings",
+      "apy calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/high-yield-savings-calculator.html"
+  },
+  {
+    "id": "medicare-cost-estimator",
+    "slug": "medicare-cost-estimator",
+    "title": "Medicare Cost Estimator",
+    "description": "Free Medicare cost estimator. Add up Part A, Part B with IRMAA, Part D and Medigap premiums for 2026 or 2027 and see your monthly and yearly total.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "medicare cost estimator",
+      "medicare part b premium 2026",
+      "medicare irmaa calculator",
+      "how much does medicare cost per month",
+      "medicare part a premium",
+      "medicare monthly cost calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/medicare-cost-estimator.html"
+  },
+  {
+    "id": "retirement-savings-calculator",
+    "slug": "retirement-savings-calculator",
+    "title": "Retirement Savings Calculator",
+    "description": "Free retirement savings calculator. Find your nest-egg target with the 25x rule, see your projected balance, and the monthly saving needed to get there.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "retirement savings calculator",
+      "how much do i need to retire",
+      "retirement nest egg calculator",
+      "25x rule retirement",
+      "how much should i save for retirement",
+      "retirement planning calculator",
+      "how much money do i need to retire"
+    ],
+    "url": "/ToolVerse/tools/calculators/retirement-savings-calculator.html"
+  },
+  {
+    "id": "side-hustle-tax-calculator",
+    "slug": "side-hustle-tax-calculator",
+    "title": "Side Hustle Tax Calculator",
+    "description": "Free side hustle tax calculator. Estimate self-employment tax (15.3%) on your net profit, see the deductible half, and split it into quarterly payments.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "side hustle tax calculator",
+      "self employment tax calculator",
+      "freelance tax calculator",
+      "1099 tax calculator",
+      "how much tax on side hustle income",
+      "schedule se calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/side-hustle-tax-calculator.html"
+  },
+  {
+    "id": "social-security-benefit-estimator",
+    "slug": "social-security-benefit-estimator",
+    "title": "Social Security Benefit Estimator",
+    "description": "Free Social Security benefit estimator. Compare monthly benefits at ages 62, 67 and 70, see the 2027 COLA increase and break-even totals.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "social security benefit estimator",
+      "how much social security will i get at 62",
+      "social security at 70 vs 67",
+      "social security cola 2027",
+      "social security break even age",
+      "claim social security early or wait"
+    ],
+    "url": "/ToolVerse/tools/calculators/social-security-benefit-estimator.html"
+  },
+  {
+    "id": "student-loan-payoff-calculator",
+    "slug": "student-loan-payoff-calculator",
+    "title": "Student Loan Payoff Calculator",
+    "description": "Free student loan payoff calculator. See your payoff date, total interest, extra-payment savings, and avalanche vs snowball for two loans.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "student loan payoff calculator",
+      "how long to pay off student loans",
+      "student loan interest calculator",
+      "student loan payoff date",
+      "avalanche vs snowball student loans",
+      "extra payment student loan calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/student-loan-payoff-calculator.html"
   },
   {
     "id": "unit-converter",
