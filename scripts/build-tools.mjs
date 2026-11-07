@@ -107,9 +107,9 @@ function jsonLdFor(def, url, includeApp = true) {
       isPartOf: { '@type': 'WebSite', name: 'ToolVerse', url: SITE_URL + '/' }
     },
     ...(includeApp ? [{
-      '@type': 'SoftwareApplication',
+      '@type': 'WebApplication',
       name: def.title.replace(/\s*\|\s*ToolVerse\s*$/, ''),
-      applicationCategory: 'UtilitiesApplication',
+      applicationCategory: def.category === 'calculators' ? 'FinanceApplication' : 'UtilitiesApplication',
       operatingSystem: 'Any (web browser)',
       url,
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }
@@ -336,6 +336,7 @@ const TOOL_ICONS = {
   'business-card-maker': 'id-card',
   'budget-planner': 'chart-bars',
   'currency-converter': 'repeat',
+  'bnpl-payment-tracker': 'calendar',
   'time-zone-converter': 'clock',
   'world-clock': 'clock',
   'embed-calculator': 'code'
@@ -346,7 +347,7 @@ const POPULAR_IDS = ['word-counter', 'json-formatter', 'image-compressor', 'pass
 // Homepage featured grid = POPULAR_IDS + NEWEST_IDS (12 cards max, approved
 // 2026-10-07 so index.html stays comfortably below the push size limit no
 // matter how many tools exist). Update NEWEST_IDS with each Phase B batch.
-const NEWEST_IDS = ['resume-builder', 'invoice-generator', 'logo-maker', 'contract-templates', 'rent-receipt-generator', 'business-card-maker'];
+const NEWEST_IDS = ['bnpl-payment-tracker', 'resume-builder', 'invoice-generator', 'logo-maker', 'contract-templates', 'rent-receipt-generator'];
 
 // Compact tool card (Phase 4 card system — ToolVerse theme). Whole card is
 // the link: name + category label, optional one-line description variant,
