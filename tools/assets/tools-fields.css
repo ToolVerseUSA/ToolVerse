@@ -292,6 +292,7 @@ a.tv-cat-card:focus-visible {
 .tv-cat-icon--data { background: linear-gradient(135deg, #0369a1, #7c3aed); }
 .tv-cat-icon--datetime { background: linear-gradient(135deg, #0891b2, #2563eb); }
 .tv-cat-icon--calculators { background: linear-gradient(135deg, #059669, #0ea5e9); }
+.tv-cat-icon--business { background: linear-gradient(135deg, #7c3aed, #2563eb); }
 
 .tv-cat-card-name {
   color: #f1f5f9;
