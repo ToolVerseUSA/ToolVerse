@@ -38,7 +38,7 @@
   document.getElementById('state-guide-form')?.addEventListener('submit', (event) => {
     event.preventDefault();
     const state = document.getElementById('guide-state')?.value || '';
-    const destinations = {IL: 'illinois-cost-of-living.html', TX: 'texas-cost-of-living.html'};
+    const destinations = {CA: 'california-cost-of-living.html', IL: 'illinois-cost-of-living.html', NY: 'new-york-cost-of-living.html', TX: 'texas-cost-of-living.html'};
     if (destinations[state]) window.location.href = destinations[state];
     else window.location.href = 'index.html';
   });
