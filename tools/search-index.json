@@ -369,6 +369,22 @@
     "url": "/ToolVerse/tools/calculators/retirement-savings-calculator.html"
   },
   {
+    "id": "salary-to-hourly-calculator",
+    "slug": "salary-to-hourly-calculator",
+    "title": "Salary to Hourly Calculator",
+    "description": "Free salary to hourly calculator. Convert an annual salary to an hourly rate, or an hourly rate to an annual salary, with weekly and monthly pay.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "salary to hourly calculator",
+      "hourly to salary calculator",
+      "convert salary to hourly rate",
+      "annual salary to hourly pay",
+      "salary to hourly converter"
+    ],
+    "url": "/ToolVerse/tools/calculators/salary-to-hourly-calculator.html"
+  },
+  {
     "id": "side-hustle-tax-calculator",
     "slug": "side-hustle-tax-calculator",
     "title": "Side Hustle Tax Calculator",
