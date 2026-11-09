@@ -1,0 +1,33 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. The recovery return is an assumption you enter, not a forecast. Estimate only, not investment advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>How much gain does it take to recover a loss?</h2>
+<p class="section-intro">Enter your portfolio loss as a percent. The calculator shows the bigger gain needed to get back to where you started, with a $10,000 example and a recovery time at the return you enter.</p>
+<form id="drawdown-recovery-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Portfolio loss (%)
+<input class="tv-field" id="drawdown-recovery-calculator-loss" name="loss" type="number" inputmode="decimal" step="any" min="0.1" max="99.9" step="0.1" value="20" aria-label="Portfolio loss in percent"></label>
+<label>Annual return for recovery (%) (optional)
+<input class="tv-field" id="drawdown-recovery-calculator-return" name="return" type="number" inputmode="decimal" step="any" min="0" max="50" step="0.1" value="7" aria-label="Annual return for recovery in percent, optional"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="drawdown-recovery-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="drawdown-recovery-calculator-result" aria-live="polite">
+<h2>What it takes to recover</h2>
+<p class="result-lede" id="drawdown-recovery-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Recovery math</h3><dl>
+<div><dt>Gain needed to recover</dt><dd id="drawdown-recovery-calculator-gain">-</dd></div>
+<div><dt>Value after the loss (on $10,000)</dt><dd id="drawdown-recovery-calculator-after">-</dd></div>
+<div><dt>Dollars needed to recover</dt><dd id="drawdown-recovery-calculator-dollars">-</dd></div>
+<div><dt>Years to recover at your return</dt><dd id="drawdown-recovery-calculator-years">-</dd></div>
+</dl></div>
+</div>
+<p><strong>About the math:</strong> the gain needed equals the loss divided by (1 minus the loss). A 20% loss needs a 25% gain, and a 50% loss needs a 100% gain. Years to recover use the compound growth formula at the steady return you enter.</p>
+</div>
+</section>

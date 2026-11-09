@@ -1,0 +1,71 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "See how that income fits your monthly budget with the budget planner next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/income-percentile-calculator.html",
+  "faq": [
+    {
+      "a": "The U.S. Census Bureau, Current Population Survey, 2025 Annual Social and Economic Supplement (CPS ASEC), Table PINC-11, income year 2024. The table covers people age 15 and over, all races, males and females combined, 278,302,000 people in 44 income bands. The published table is at census.gov, and the verified table is saved with this tool.",
+      "q": "Where does this income data come from?"
+    },
+    {
+      "a": "No. Census publishes grouped bands, not a percentile for every dollar amount. This tool finds your band and estimates your position by interpolating evenly inside that band, so treat the number as an approximation, not an exact rank.",
+      "q": "Is this my exact percentile?"
+    },
+    {
+      "a": "No. This is individual money income before tax, for one person. Household income combines everyone under one roof and is usually higher. The optional household size field is only a note, it does not change the comparison.",
+      "q": "Is this household income?"
+    },
+    {
+      "a": "The median falls in the $37,500 to $39,999 band. About half of US people age 15 and over earn less than that band and about half earn more, including people with no income.",
+      "q": "What is the median individual income?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Compare your annual individual income with the real US Census distribution and see roughly what share of Americans earn less.",
+  "heroTitle": "US Income Percentile Calculator",
+  "id": "income-percentile-calculator",
+  "inputs": [
+    {
+      "label": "Annual individual income ($)",
+      "name": "income",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Household size (optional)",
+      "name": "household",
+      "required": false,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "income percentile calculator",
+    "us income percentile",
+    "what percentile is my income",
+    "census income distribution",
+    "compare my income",
+    "median income usa"
+  ],
+  "logicRef": "tools-src/calculators/income-percentile-calculator.js",
+  "metaDescription": "Free US income percentile calculator. Compare your annual individual income with real Census CPS ASEC PINC-11 data for 2024.",
+  "relatedTools": [
+    "budget-planner",
+    "retirement-savings-calculator",
+    "side-hustle-tax-calculator"
+  ],
+  "slug": "income-percentile-calculator",
+  "title": "US Income Percentile Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "This tool compares individual income only. It does not measure household income, wealth, cost of living, or what an income feels like in your city.",
+    "The result is a band-based estimate from grouped Census data, not an exact percentile, and survey estimates carry sampling error.",
+    "It uses 2024 income data. Incomes and prices change over time, so newer years will differ."
+  ]
+}

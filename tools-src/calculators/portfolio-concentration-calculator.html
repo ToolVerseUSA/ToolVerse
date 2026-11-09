@@ -1,0 +1,65 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Concentration measure only. Estimate only, not investment advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>How concentrated is your portfolio?</h2>
+<p class="section-intro">Enter up to 6 holdings with a name and a dollar value. The calculator shows each holding's weight, the HHI concentration score, and what happens if the largest holding falls.</p>
+<form id="portfolio-concentration-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Holding 1 name
+<input class="tv-field" id="portfolio-concentration-calculator-name1" name="name1" type="text" value="Apple" aria-label="Holding 1 name"></label>
+<label>Holding 1 value ($)
+<input class="tv-field" id="portfolio-concentration-calculator-value1" name="value1" type="number" inputmode="decimal" step="any" min="0" value="50000" aria-label="Holding 1 value in dollars"></label>
+<label>Holding 2 name
+<input class="tv-field" id="portfolio-concentration-calculator-name2" name="name2" type="text" value="Microsoft" aria-label="Holding 2 name"></label>
+<label>Holding 2 value ($)
+<input class="tv-field" id="portfolio-concentration-calculator-value2" name="value2" type="number" inputmode="decimal" step="any" min="0" value="30000" aria-label="Holding 2 value in dollars"></label>
+<label>Holding 3 name
+<input class="tv-field" id="portfolio-concentration-calculator-name3" name="name3" type="text" value="Bond fund" aria-label="Holding 3 name"></label>
+<label>Holding 3 value ($)
+<input class="tv-field" id="portfolio-concentration-calculator-value3" name="value3" type="number" inputmode="decimal" step="any" min="0" value="20000" aria-label="Holding 3 value in dollars"></label>
+<label>Holding 4 name
+<input class="tv-field" id="portfolio-concentration-calculator-name4" name="name4" type="text" value="" aria-label="Holding 4 name"></label>
+<label>Holding 4 value ($)
+<input class="tv-field" id="portfolio-concentration-calculator-value4" name="value4" type="number" inputmode="decimal" step="any" min="0" value="" aria-label="Holding 4 value in dollars"></label>
+<label>Holding 5 name
+<input class="tv-field" id="portfolio-concentration-calculator-name5" name="name5" type="text" value="" aria-label="Holding 5 name"></label>
+<label>Holding 5 value ($)
+<input class="tv-field" id="portfolio-concentration-calculator-value5" name="value5" type="number" inputmode="decimal" step="any" min="0" value="" aria-label="Holding 5 value in dollars"></label>
+<label>Holding 6 name
+<input class="tv-field" id="portfolio-concentration-calculator-name6" name="name6" type="text" value="" aria-label="Holding 6 name"></label>
+<label>Holding 6 value ($)
+<input class="tv-field" id="portfolio-concentration-calculator-value6" name="value6" type="number" inputmode="decimal" step="any" min="0" value="" aria-label="Holding 6 value in dollars"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="portfolio-concentration-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="portfolio-concentration-calculator-result" aria-live="polite">
+<h2>Your portfolio concentration</h2>
+<p class="result-lede" id="portfolio-concentration-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Concentration</h3><dl>
+<div><dt>Portfolio total</dt><dd id="portfolio-concentration-calculator-total">-</dd></div>
+<div><dt>Largest holding</dt><dd id="portfolio-concentration-calculator-largest">-</dd></div>
+<div><dt>Largest holding share</dt><dd id="portfolio-concentration-calculator-largestshare">-</dd></div>
+<div><dt>HHI concentration score</dt><dd id="portfolio-concentration-calculator-hhi">-</dd></div>
+<div><dt>Reading</dt><dd id="portfolio-concentration-calculator-reading">-</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>If the largest holding falls</h3><dl>
+<div><dt>Portfolio fall if it drops 20%</dt><dd id="portfolio-concentration-calculator-fall20">-</dd></div>
+<div><dt>Dollars lost at 20%</dt><dd id="portfolio-concentration-calculator-dollars20">-</dd></div>
+<div><dt>Portfolio fall if it drops 50%</dt><dd id="portfolio-concentration-calculator-fall50">-</dd></div>
+<div><dt>Dollars lost at 50%</dt><dd id="portfolio-concentration-calculator-dollars50">-</dd></div>
+</dl></div>
+</div>
+<h3>Holdings by weight</h3>
+<table>
+<thead><tr><th>Holding</th><th>Value</th><th>Weight</th></tr></thead>
+<tbody id="portfolio-concentration-calculator-table"><tr><td colspan="3">No calculation yet.</td></tr></tbody>
+</table>
+<p><strong>About the math:</strong> each weight is the holding value divided by the portfolio total. The HHI score is the sum of the squared weights in percent, so a 50% holding contributes 2,500. Under 1,500 reads as diversified, 1,500 to 2,500 as moderate, and over 2,500 as concentrated.</p>
+</div>
+</section>

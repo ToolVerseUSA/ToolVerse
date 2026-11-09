@@ -1,0 +1,47 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Every result is an estimate based on the assumptions you enter, not a promise of savings.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>Is the AI workflow worth it?</h2>
+<p class="section-intro">Enter the hours the workflow saves, what an hour is worth, and the costs: software, setup time, and human review time. The calculator shows the estimated yearly value, net value, payback, and ROI.</p>
+<form id="ai-workflow-roi-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Hours saved per week
+<input class="tv-field" id="ai-workflow-roi-calculator-hours" name="hours" type="number" inputmode="decimal" step="any" min="0" max="80" step="0.5" value="10" aria-label="Hours saved per week"></label>
+<label>Value of an hour ($)
+<input class="tv-field" id="ai-workflow-roi-calculator-value" name="value" type="number" inputmode="decimal" step="any" min="0" value="50" aria-label="Value of an hour in dollars"></label>
+<label>Weeks per year
+<input class="tv-field" id="ai-workflow-roi-calculator-weeks" name="weeks" type="number" inputmode="decimal" step="any" min="1" max="52" step="1" value="50" aria-label="Weeks per year"></label>
+<label>Software cost per month ($)
+<input class="tv-field" id="ai-workflow-roi-calculator-software" name="software" type="number" inputmode="decimal" step="any" min="0" value="100" aria-label="Software cost per month in dollars"></label>
+<label>One-time setup hours
+<input class="tv-field" id="ai-workflow-roi-calculator-setup" name="setup" type="number" inputmode="decimal" step="any" min="0" value="20" aria-label="One-time setup hours"></label>
+<label>Human review hours per week
+<input class="tv-field" id="ai-workflow-roi-calculator-review" name="review" type="number" inputmode="decimal" step="any" min="0" max="80" step="0.5" value="2" aria-label="Human review hours per week"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="ai-workflow-roi-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="ai-workflow-roi-calculator-result" aria-live="polite">
+<h2>Your AI workflow ROI (estimate)</h2>
+<p class="result-lede" id="ai-workflow-roi-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Yearly value (estimate)</h3><dl>
+<div><dt>Gross yearly value of time saved</dt><dd id="ai-workflow-roi-calculator-gross">-</dd></div>
+<div><dt>Yearly software cost</dt><dd id="ai-workflow-roi-calculator-software-year">-</dd></div>
+<div><dt>One-time setup cost</dt><dd id="ai-workflow-roi-calculator-setupcost">-</dd></div>
+<div><dt>Yearly review time cost</dt><dd id="ai-workflow-roi-calculator-reviewcost">-</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Net result (estimate)</h3><dl>
+<div><dt>Total yearly costs</dt><dd id="ai-workflow-roi-calculator-costs">-</dd></div>
+<div><dt>Net yearly value</dt><dd id="ai-workflow-roi-calculator-net">-</dd></div>
+<div><dt>Payback period</dt><dd id="ai-workflow-roi-calculator-payback">-</dd></div>
+<div><dt>Simple ROI</dt><dd id="ai-workflow-roi-calculator-roi">-</dd></div>
+</dl></div>
+</div>
+<p><strong>About the math:</strong> gross yearly value equals hours saved per week times the hourly value times weeks per year. Yearly costs are software times 12, plus setup hours valued at the hourly rate, plus review hours per week times the hourly rate times weeks per year. Simple ROI equals net yearly value divided by total yearly costs. All results are estimates based on your assumptions.</p>
+</div>
+</section>

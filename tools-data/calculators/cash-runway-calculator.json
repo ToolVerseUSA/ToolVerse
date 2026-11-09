@@ -1,0 +1,82 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "If the runway is short, check a business loan payment or tighten the budget next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/cash-runway-calculator.html",
+  "faq": [
+    {
+      "a": "The number of months your cash lasts before it falls to the reserve you want to keep, if costs and revenue stay the same. Cash on hand minus the reserve, divided by the monthly net burn (costs minus revenue), gives the months of runway.",
+      "q": "What is cash runway?"
+    },
+    {
+      "a": "Then your net burn is zero or negative, and the runway is indefinite at current rates. This tool says so plainly instead of showing a made-up number of months.",
+      "q": "What if my revenue covers my costs?"
+    },
+    {
+      "a": "The cash you want to keep untouched, for example one month of payroll or an emergency cushion. The runway ends when cash reaches that level, not when it reaches zero.",
+      "q": "What is the reserve for?"
+    },
+    {
+      "a": "No, it is a steady-rate estimate. Real costs and revenue change every month, so re-run it whenever either moves.",
+      "q": "Is this a forecast?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "How long will your cash last? Enter cash on hand, monthly costs, and revenue to see your runway in months and the date it ends.",
+  "heroTitle": "Cash Runway Calculator",
+  "id": "cash-runway-calculator",
+  "inputs": [
+    {
+      "label": "Cash on hand ($)",
+      "name": "cash",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Monthly burn, costs ($)",
+      "name": "burn",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Monthly revenue ($) (optional)",
+      "name": "revenue",
+      "required": false,
+      "type": "number"
+    },
+    {
+      "label": "Minimum reserve to keep ($) (optional)",
+      "name": "reserve",
+      "required": false,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "cash runway calculator",
+    "business cash runway",
+    "how long will my cash last",
+    "startup runway calculator",
+    "monthly burn calculator"
+  ],
+  "logicRef": "tools-src/calculators/cash-runway-calculator.js",
+  "metaDescription": "Free cash runway calculator. See how many months your cash lasts at your current burn, and the date you hit your reserve.",
+  "relatedTools": [
+    "budget-planner",
+    "side-hustle-tax-calculator",
+    "business-loan-payment-calculator"
+  ],
+  "slug": "cash-runway-calculator",
+  "title": "Cash Runway Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "This tool assumes the same monthly costs and revenue every month. Real businesses are lumpy, so the date is an estimate.",
+    "It does not include taxes, loan payments, or one-off costs unless you include them in the monthly burn.",
+    "It is a planning estimate, not a cash flow forecast or financial advice."
+  ]
+}

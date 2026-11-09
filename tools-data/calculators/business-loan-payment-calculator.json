@@ -1,0 +1,82 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Check how the payment fits your monthly budget with the budget planner next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/business-loan-payment-calculator.html",
+  "faq": [
+    {
+      "a": "With the standard fixed-rate amortization formula: monthly payment equals principal times the monthly rate times (1 plus monthly rate) to the power of the number of payments, divided by ((1 plus monthly rate) to the power of the number of payments minus 1). The rate is the annual rate divided by 12.",
+      "q": "How is the monthly payment calculated?"
+    },
+    {
+      "a": "Every extra dollar goes straight to principal, so the balance falls faster, less interest builds up, and the loan ends sooner. This tool shows the payoff time and total interest with and without the extra payment.",
+      "q": "How does an extra monthly payment help?"
+    },
+    {
+      "a": "No. This is a principal and interest estimate only. Origination fees, closing costs, taxes, and variable rates are not included, so check the lender's terms before relying on the numbers.",
+      "q": "Does this include fees or taxes?"
+    },
+    {
+      "a": "No. This tool does not offer loans, check credit, or connect to any lender. It only does the math on the numbers you enter.",
+      "q": "Is this a loan offer?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Work out the monthly payment, total interest, and payoff time for a business loan, with or without an extra monthly payment.",
+  "heroTitle": "Business Loan Payment Calculator",
+  "id": "business-loan-payment-calculator",
+  "inputs": [
+    {
+      "label": "Loan amount ($)",
+      "name": "amount",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Annual interest rate (%)",
+      "name": "rate",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Term (years)",
+      "name": "years",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Extra monthly payment ($) (optional)",
+      "name": "extra",
+      "required": false,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "business loan payment calculator",
+    "business loan calculator",
+    "small business loan payment",
+    "loan amortization calculator",
+    "extra payment loan calculator"
+  ],
+  "logicRef": "tools-src/calculators/business-loan-payment-calculator.js",
+  "metaDescription": "Free business loan payment calculator. Monthly payment, total interest, payoff time with extra payments, and a first and last year summary.",
+  "relatedTools": [
+    "budget-planner",
+    "retirement-savings-calculator",
+    "side-hustle-tax-calculator"
+  ],
+  "slug": "business-loan-payment-calculator",
+  "title": "Business Loan Payment Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "This tool assumes a fixed interest rate for the whole term. Variable-rate loans will differ.",
+    "It covers principal and interest only, not fees, taxes, insurance, or lender charges.",
+    "The result is an estimate for planning, not a loan offer or a promise of approval."
+  ]
+}

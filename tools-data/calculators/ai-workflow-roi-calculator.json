@@ -1,0 +1,94 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Check whether the cash to fund the tool is there with the cash runway calculator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/ai-workflow-roi-calculator.html",
+  "faq": [
+    {
+      "a": "Hours saved per week times the value of an hour times weeks per year. With 10 hours saved a week at $50 an hour for 50 weeks, that is $25,000 of time value a year. It is an estimate based on the value you assign to an hour.",
+      "q": "How is the gross yearly value worked out?"
+    },
+    {
+      "a": "Three things: software cost per month times 12, one-time setup hours valued at the same hourly rate, and human review hours per week times the hourly rate times weeks per year. Review time is a real cost, because someone still has to check the work.",
+      "q": "What counts as a cost here?"
+    },
+    {
+      "a": "The one-time setup cost divided by the net value gained each week (gross weekly value minus weekly software and review costs). It answers how many weeks until the setup effort has paid for itself, at the rates you entered.",
+      "q": "What is the payback period?"
+    },
+    {
+      "a": "No. Every result is an estimate based on the assumptions you enter. Real time saved is hard to measure, and the value of an hour is your own judgement, so treat the ROI as a planning estimate, not a promise.",
+      "q": "Are these results guaranteed?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Is an AI workflow worth it? Compare the yearly value of time saved with software, setup, and review costs, all as estimates.",
+  "heroTitle": "AI Workflow ROI Calculator",
+  "id": "ai-workflow-roi-calculator",
+  "inputs": [
+    {
+      "label": "Hours saved per week",
+      "name": "hours",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Value of an hour ($)",
+      "name": "value",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Weeks per year",
+      "name": "weeks",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Software cost per month ($)",
+      "name": "software",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "One-time setup hours",
+      "name": "setup",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Human review hours per week",
+      "name": "review",
+      "required": true,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "ai workflow roi calculator",
+    "cost of automation calculator",
+    "ai automation roi calculator",
+    "ai time savings calculator",
+    "automation roi calculator"
+  ],
+  "logicRef": "tools-src/calculators/ai-workflow-roi-calculator.js",
+  "metaDescription": "Free AI workflow ROI calculator. Compare the yearly value of hours saved with software, setup, and review costs, all as estimates.",
+  "relatedTools": [
+    "cash-runway-calculator",
+    "business-loan-payment-calculator",
+    "freelance-hourly-rate-calculator"
+  ],
+  "slug": "ai-workflow-roi-calculator",
+  "title": "AI Workflow ROI Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Every result is an estimate based on the assumptions you enter, including the value of an hour and the hours saved.",
+    "Time saved is hard to measure in practice, and quality, errors, and rework are not counted here.",
+    "The result is a planning estimate, not a promise of savings or a buying recommendation."
+  ]
+}

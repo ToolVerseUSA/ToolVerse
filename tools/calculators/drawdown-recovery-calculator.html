@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free drawdown recovery calculator. See the gain needed to recover a portfolio loss, and how long it takes at a steady return."><meta name="robots" content="index,follow,max-image-preview:large"><meta name="theme-color" content="#07111f"><meta name="author" content="ToolVerse">
+  <meta property="og:site_name" content="ToolVerse">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Drawdown Recovery Calculator | ToolVerse">
+<meta property="og:description" content="Free drawdown recovery calculator. See the gain needed to recover a portfolio loss, and how long it takes at a steady return.">
+<meta property="og:url" content="https://toolverseusa.github.io/ToolVerse/tools/calculators/drawdown-recovery-calculator.html">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="Drawdown Recovery Calculator | ToolVerse"><meta name="twitter:description" content="Free drawdown recovery calculator. See the gain needed to recover a portfolio loss, and how long it takes at a steady return.">
+  <link rel="canonical" href="https://toolverseusa.github.io/ToolVerse/tools/calculators/drawdown-recovery-calculator.html"><title>Drawdown Recovery Calculator | ToolVerse</title>
+  <link rel="icon" href="/ToolVerse/favicon.svg" type="image/svg+xml"><link rel="icon" href="/ToolVerse/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="192x192" href="/ToolVerse/favicon-192.png"><link rel="apple-touch-icon" sizes="180x180" href="/ToolVerse/apple-touch-icon.png"><link rel="manifest" href="/ToolVerse/site.webmanifest"><link rel="stylesheet" href="/ToolVerse/guides.css"><link rel="stylesheet" href="/ToolVerse/tools/assets/tools-fields.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "name": "Drawdown Recovery Calculator | ToolVerse",
+      "url": "https://toolverseusa.github.io/ToolVerse/tools/calculators/drawdown-recovery-calculator.html",
+      "description": "Free drawdown recovery calculator. See the gain needed to recover a portfolio loss, and how long it takes at a steady return.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "ToolVerse",
+        "url": "https://toolverseusa.github.io/ToolVerse/"
+      }
+    },
+    {
+      "@type": "WebApplication",
+      "name": "Drawdown Recovery Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any (web browser)",
+      "url": "https://toolverseusa.github.io/ToolVerse/tools/calculators/drawdown-recovery-calculator.html",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://toolverseusa.github.io/ToolVerse/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://toolverseusa.github.io/ToolVerse/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Calculators",
+          "item": "https://toolverseusa.github.io/ToolVerse/tools/calculators/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Drawdown Recovery Calculator",
+          "item": "https://toolverseusa.github.io/ToolVerse/tools/calculators/drawdown-recovery-calculator.html"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does a 20% loss need a 25% gain to recover?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because the gain applies to a smaller balance. A $10,000 portfolio that falls 20% is worth $8,000. It needs $2,000 to get back to $10,000, and $2,000 is 25% of $8,000. The formula is loss divided by (1 minus loss)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long will recovery take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on the return you assume. At a steady 7% a year, a 25% gain takes about 3.3 years. Enter any return to see the estimate, but real returns vary every year, so the time is an illustration, not a promise."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this include new contributions?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. This is the gain needed on the remaining balance alone. Adding new money would shorten the recovery, but this tool shows the pure math of the loss."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the recovery return a forecast?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It is a steady rate you enter for illustration. Investment returns are never steady, and past returns do not guarantee future results."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+  <!-- Google tag (gtag.js), loaded when the page becomes idle. No calculator values are sent. -->
+  <script>
+    window.dataLayer = window.dataLayer || []; function gtag(){ dataLayer.push(arguments); }
+    function loadGoogleTag(){var tag=document.createElement('script');tag.async=true;tag.src='https://www.googletagmanager.com/gtag/js?id=G-6VX2WPNECZ';tag.fetchPriority='low';document.head.appendChild(tag);gtag('js',new Date());gtag('config','G-6VX2WPNECZ');}
+    window.addEventListener('load',function(){if('requestIdleCallback' in window)window.requestIdleCallback(loadGoogleTag);else window.setTimeout(loadGoogleTag,0);},{once:true});
+  </script>
+  <link rel="stylesheet" href="/ToolVerse/navigation.css"><script defer src="/ToolVerse/navigation.js"></script>
+<style>
+.tool-breadcrumb{font-size:.85rem;margin:0 0 1rem;color:#94a3b8}
+.tool-breadcrumb a{color:#67e8f9;text-decoration:none}
+.tool-breadcrumb a:hover{text-decoration:underline}
+.tool-breadcrumb span[aria-current]{color:#dbeafe}
+</style>
+</head>
+<body><div class="wrap">
+<header class="tv-global-header"><div class="tv-global-inner"><a class="tv-brand" href="/ToolVerse/index.html" aria-label="ToolVerse home"><span class="tv-brand-mark" aria-hidden="true">TV</span><span>Tool<b>Verse</b></span></a><nav class="tv-desktop-nav" aria-label="Primary navigation"><details class="tv-menu" data-tv-menu="tools"><summary>Tools</summary><div class="tv-mega"><div class="tv-mega-grid"><section class="tv-mega-group"><span class="tv-mega-title">Medical Billing &amp; Coding</span><a class="tv-mega-link" href="/ToolVerse/medical-billing-salary-calculator.html">Medical Billing Salary<span>Convert a billing salary scenario into useful pay equivalents.</span></a><a class="tv-mega-link" href="/ToolVerse/medical-coder-salary-calculator.html">Medical Coder Salary<span>Explore a coder salary scenario without promising a market rate.</span></a><a class="tv-mega-link" href="/ToolVerse/medical-billing-vs-medical-coding.html">Billing vs Coding<span>Compare duties, workflow, skills, and career considerations.</span></a><a class="tv-mega-link" href="/ToolVerse/medical-billing-services.html">Billing Services for Practices<span>Questions to ask before reviewing an outsourced billing vendor.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Rent & Housing</span><a class="tv-mega-link" href="/ToolVerse/index.html#calculator">Affordability Calculator<span>Start with income, rent, debt, and expenses.</span></a><a class="tv-mega-link" href="/ToolVerse/true-cost-of-renting-calculator.html">True Cost of Renting<span>Add bills, fees, commute, and move-in costs.</span></a><a class="tv-mega-link" href="/ToolVerse/first-apartment-budget-calculator.html">First Apartment Budget<span>Separate move-in cash from monthly affordability.</span></a><a class="tv-mega-link" href="/ToolVerse/30-percent-rent-rule.html">30% Rent Rule<span>Use a gross-income reference carefully.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Home Buying</span><a class="tv-mega-link" href="/ToolVerse/mortgage-payment-calculator.html">Mortgage Payment<span>Estimate principal, interest, taxes, insurance, and reserves.</span></a><a class="tv-mega-link" href="/ToolVerse/home-affordability-calculator.html">Home Affordability<span>Plan a home budget after taxes and entered costs.</span></a><a class="tv-mega-link" href="/ToolVerse/down-payment-calculator.html">Down Payment Plan<span>Set a cash target and savings timeline.</span></a><a class="tv-mega-link" href="/ToolVerse/closing-costs-calculator.html">Closing Costs<span>Organize cash-to-close fee categories.</span></a><a class="tv-mega-link" href="/ToolVerse/rent-vs-buy-calculator.html">Rent vs Buy<span>Compare entered cash-flow assumptions.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Salary & Take-Home Pay</span><a class="tv-mega-link" href="/ToolVerse/salary-needed-for-rent-calculator.html">Salary Needed for Rent<span>Work backward from a rent target.</span></a><a class="tv-mega-link" href="/ToolVerse/salary-after-rent-calculator.html">Salary After Rent<span>Estimate the cash left after entered costs.</span></a><a class="tv-mega-link" href="/ToolVerse/take-home-pay-vs-rent.html">Take-Home Pay vs Rent<span>Read rent pressure alongside remaining cash.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Job & Career Decisions</span><a class="tv-mega-link" href="/ToolVerse/job-offer-take-home-rent-comparison.html">Compare Job Offers<span>Compare two full monthly scenarios.</span></a><a class="tv-mega-link" href="/ToolVerse/relocation-break-even-calculator.html">Relocation Break-Even<span>Test a higher salary against move costs.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Moving & Relocation</span><a class="tv-mega-link" href="/ToolVerse/relocation-break-even-calculator.html">Relocation Break-Even<span>Estimate a planning break-even timeline.</span></a><a class="tv-mega-link" href="/ToolVerse/cost-of-living-by-state.html">Cost of Living Context<span>Connect location context to your own budget.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Budgeting & Personal Finance</span><a class="tv-mega-link" href="/ToolVerse/roommate-rent-split-calculator.html">Roommate Rent Split<span>Compare transparent ways to divide shared costs.</span></a><a class="tv-mega-link" href="/ToolVerse/index.html#calculator">Financial Score<span>See housing, debt, cash-flow, and savings pressure.</span></a><a class="tv-mega-link" href="/ToolVerse/car-insurance-cost-estimator.html">Car Insurance Cost Estimator<span>Estimate a planning range; compare real rates separately.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Cost of Living</span><a class="tv-mega-link" href="/ToolVerse/cost-of-living-by-state.html">Cost of Living by State<span>Use state context with a personal scenario.</span></a><a class="tv-mega-link" href="/ToolVerse/illinois-cost-of-living.html">Illinois Cost of Living<span>Run an Illinois affordability scenario.</span></a><a class="tv-mega-link" href="/ToolVerse/texas-cost-of-living.html">Texas Cost of Living<span>Run a Texas affordability scenario.</span></a></section></div><aside class="tv-feature"><div><p class="tv-feature-eyebrow">Featured decision</p><p class="tv-feature-title">Plan your first apartment</p><p>Separate move-in cash from recurring monthly costs before you apply.</p></div><a href="/ToolVerse/first-apartment-budget-calculator.html">Explore this decision</a></aside></div></details><details class="tv-menu" data-tv-menu="guides"><summary>Guides</summary><div class="tv-mega"><div class="tv-mega-grid"><section class="tv-mega-group"><span class="tv-mega-title">Renting Guides</span><a class="tv-mega-link" href="/ToolVerse/salary-rent-affordability-guide.html">Rent by Salary<span>Use one strong salary-based rent guide.</span></a><a class="tv-mega-link" href="/ToolVerse/what-does-rent-really-cost.html">What Rent Really Costs<span>Separate advertised rent from all-in housing costs.</span></a><a class="tv-mega-link" href="/ToolVerse/first-apartment-budget-costs-checklist.html">First Apartment Checklist<span>Plan move-in cash and monthly expenses.</span></a><a class="tv-mega-link" href="/ToolVerse/30-percent-rent-rule.html">30% Rent Rule<span>Understand the limit of one percentage.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Salary Guides</span><a class="tv-mega-link" href="/ToolVerse/salary-needed-for-rent-explained.html">Salary Needed for Rent<span>Separate gross pay, take-home pay, and budget.</span></a><a class="tv-mega-link" href="/ToolVerse/salary-after-rent-calculator.html">Salary After Rent<span>Interpret a cash surplus or shortfall.</span></a><a class="tv-mega-link" href="/ToolVerse/take-home-pay-vs-rent.html">Take-Home Pay vs Rent<span>Read a ratio together with dollars left.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Career Guides</span><a class="tv-mega-link" href="/ToolVerse/how-to-compare-job-offers-after-taxes-rent.html">Compare Job Offers<span>Compare the full monthly picture.</span></a><a class="tv-mega-link" href="/ToolVerse/is-a-higher-salary-worth-moving-for.html">Is a Higher Salary Worth Moving For?<span>Use a break-even view for a potential move.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Financial Planning</span><a class="tv-mega-link" href="/ToolVerse/how-should-roommates-split-rent-and-utilities.html">How Roommates Split Costs<span>Choose a transparent shared-cost method.</span></a><a class="tv-mega-link" href="/ToolVerse/cost-of-living-by-state.html">Cost of Living Context<span>Understand what state context can and cannot show.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Home Buying Guides</span><a class="tv-mega-link" href="/ToolVerse/how-mortgage-payments-work.html">Mortgage Payment Guide<span>See what belongs in an all-in monthly estimate.</span></a><a class="tv-mega-link" href="/ToolVerse/how-much-house-can-i-afford.html">Home Affordability Guide<span>Build a cash-flow limit before shopping.</span></a><a class="tv-mega-link" href="/ToolVerse/down-payment-planning-guide.html">Down Payment Guide<span>Plan a full cash target before buying.</span></a><a class="tv-mega-link" href="/ToolVerse/closing-costs-explained.html">Closing Costs Guide<span>Separate cash to close from the home price.</span></a><a class="tv-mega-link" href="/ToolVerse/rent-vs-buy-decision-guide.html">Rent vs Buy Guide<span>Compare time horizon, costs, and flexibility.</span></a></section></div><aside class="tv-feature"><div><p class="tv-feature-eyebrow">Start with the question</p><p class="tv-feature-title">What does rent really cost?</p><p>Use advertised rent, bills, fees, and move-in cash to compare apartments clearly.</p></div><a href="/ToolVerse/what-does-rent-really-cost.html">Explore this decision</a></aside></div></details><details class="tv-menu" data-tv-menu><summary>Resources</summary><div class="tv-mega"><div class="tv-mega-grid"><section class="tv-mega-group"><span class="tv-mega-title">Learn ToolVerse</span><a class="tv-mega-link" href="/ToolVerse/index.html#how-it-works">How ToolVerse Works<span>Understand the core affordability workflow.</span></a><a class="tv-mega-link" href="/ToolVerse/index.html#methodology">Methodology & Sources<span>Review planning assumptions and public references.</span></a><a class="tv-mega-link" href="/ToolVerse/index.html#faq">Frequently Asked Questions<span>Find practical answers before you calculate.</span></a><a class="tv-mega-link" href="/ToolVerse/about.html">About ToolVerse<span>Learn the product focus and planning limits.</span></a><a class="tv-mega-link" href="/ToolVerse/contact.html">Contact<span>Send corrections, accessibility concerns, or feedback.</span></a></section></div><aside class="tv-feature"><div><p class="tv-feature-eyebrow">Privacy-first planning</p><p class="tv-feature-title">No account required</p><p>ToolVerse calculators run in your browser and use planning estimates.</p></div><a href="/ToolVerse/privacy.html">Explore this decision</a></aside></div></details></nav><a class="tv-header-cta" href="/ToolVerse/index.html#calculator">Start Free Calculator</a><details class="tv-mobile-nav" data-tv-menu><summary><span class="tv-sr-only">Open navigation</span><span aria-hidden="true">Menu</span></summary><div class="tv-mobile-panel"><a class="tv-mobile-cta" href="/ToolVerse/index.html#calculator">Start Free Calculator</a><details class="tv-mobile-section"><summary>Tools</summary><div class="tv-mobile-categories" data-mobile-accordion-group="tools"><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-medical-billing-coding-panel"><span>Medical Billing &amp; Coding</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-medical-billing-coding-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/medical-billing-salary-calculator.html">Medical Billing Salary</a><a href="/ToolVerse/medical-coder-salary-calculator.html">Medical Coder Salary</a><a href="/ToolVerse/medical-billing-vs-medical-coding.html">Billing vs Coding</a><a href="/ToolVerse/how-to-become-a-medical-coder.html">Become a Medical Coder</a><a href="/ToolVerse/how-to-become-a-medical-biller.html">Become a Medical Biller</a><a href="/ToolVerse/medical-billing-services.html">Billing Services for Practices</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-rent-housing-panel"><span>Rent & Housing</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-rent-housing-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/index.html#calculator">Affordability Calculator</a><a href="/ToolVerse/car-insurance-cost-estimator.html">Car Insurance Cost Estimator</a><a href="/ToolVerse/true-cost-of-renting-calculator.html">True Cost of Renting</a><a href="/ToolVerse/first-apartment-budget-calculator.html">First Apartment Budget</a><a href="/ToolVerse/30-percent-rent-rule.html">30% Rent Rule</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-home-buying-panel"><span>Home Buying</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-home-buying-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/mortgage-payment-calculator.html">Mortgage Payment</a><a href="/ToolVerse/home-affordability-calculator.html">Home Affordability</a><a href="/ToolVerse/down-payment-calculator.html">Down Payment Plan</a><a href="/ToolVerse/closing-costs-calculator.html">Closing Costs</a><a href="/ToolVerse/rent-vs-buy-calculator.html">Rent vs Buy</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-salary-take-home-panel"><span>Salary & Take-Home Pay</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-salary-take-home-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/salary-needed-for-rent-calculator.html">Salary Needed for Rent</a><a href="/ToolVerse/salary-after-rent-calculator.html">Salary After Rent</a><a href="/ToolVerse/take-home-pay-vs-rent.html">Take-Home Pay vs Rent</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-job-career-panel"><span>Job & Career Decisions</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-job-career-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/job-offer-take-home-rent-comparison.html">Compare Job Offers</a><a href="/ToolVerse/relocation-break-even-calculator.html">Relocation Break-Even</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-moving-relocation-panel"><span>Moving & Relocation</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-moving-relocation-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/relocation-break-even-calculator.html">Relocation Break-Even</a><a href="/ToolVerse/cost-of-living-by-state.html">Cost of Living Context</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-budget-personal-finance-panel"><span>Budgeting & Personal Finance</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-budget-personal-finance-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/roommate-rent-split-calculator.html">Roommate Rent Split</a><a href="/ToolVerse/index.html#calculator">Financial Score</a><a href="/ToolVerse/car-insurance-cost-estimator.html">Car Insurance Cost Estimator</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-cost-living-panel"><span>Cost of Living</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-cost-living-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/cost-of-living-by-state.html">Cost of Living by State</a><a href="/ToolVerse/illinois-cost-of-living.html">Illinois Cost of Living</a><a href="/ToolVerse/texas-cost-of-living.html">Texas Cost of Living</a></div></section></div></details><details class="tv-mobile-section"><summary>Guides</summary><div class="tv-mobile-categories" data-mobile-accordion-group="guides"><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-renting-guides-panel"><span>Renting Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-renting-guides-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/salary-rent-affordability-guide.html">Rent by Salary</a><a href="/ToolVerse/what-does-rent-really-cost.html">What Rent Really Costs</a><a href="/ToolVerse/first-apartment-budget-costs-checklist.html">First Apartment Checklist</a><a href="/ToolVerse/30-percent-rent-rule.html">30% Rent Rule</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-salary-guides-panel"><span>Salary Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-salary-guides-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/salary-needed-for-rent-explained.html">Salary Needed for Rent</a><a href="/ToolVerse/salary-after-rent-calculator.html">Salary After Rent</a><a href="/ToolVerse/take-home-pay-vs-rent.html">Take-Home Pay vs Rent</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-career-guides-panel"><span>Career Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-career-guides-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/how-to-compare-job-offers-after-taxes-rent.html">Compare Job Offers</a><a href="/ToolVerse/is-a-higher-salary-worth-moving-for.html">Is a Higher Salary Worth Moving For?</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-financial-planning-panel"><span>Financial Planning</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-financial-planning-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/how-should-roommates-split-rent-and-utilities.html">How Roommates Split Costs</a><a href="/ToolVerse/cost-of-living-by-state.html">Cost of Living Context</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-home-buying-guides-panel"><span>Home Buying Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-home-buying-guides-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/how-mortgage-payments-work.html">Mortgage Payment Guide</a><a href="/ToolVerse/how-much-house-can-i-afford.html">Home Affordability Guide</a><a href="/ToolVerse/down-payment-planning-guide.html">Down Payment Guide</a><a href="/ToolVerse/closing-costs-explained.html">Closing Costs Guide</a><a href="/ToolVerse/rent-vs-buy-decision-guide.html">Rent vs Buy Guide</a></div></section></div></details><details class="tv-mobile-section"><summary>Resources</summary><div class="tv-mobile-direct"><a href="/ToolVerse/index.html#how-it-works">How ToolVerse Works</a><a href="/ToolVerse/index.html#methodology">Methodology &amp; Sources</a><a href="/ToolVerse/index.html#faq">Frequently Asked Questions</a><a href="/ToolVerse/about.html">About ToolVerse</a><a href="/ToolVerse/contact.html">Contact</a></div></details></div></details></div></header>
+<section class="hero"><span class="badge">Free browser tool</span><h1>Drawdown Recovery Calculator</h1><p>A loss needs a bigger gain to recover. Enter your portfolio loss to see the gain needed, the dollar example, and the recovery time.</p></section>
+<div class="grid">
+<main class="main-card prose">
+<nav class="tool-breadcrumb" aria-label="Breadcrumb">
+<a href="/ToolVerse/">Home</a> &rsaquo; <a href="/ToolVerse/tools/">Tools</a> &rsaquo; <a href="/ToolVerse/tools/calculators/">Calculators</a> &rsaquo; <span aria-current="page">Drawdown Recovery Calculator</span>
+</nav>
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. The recovery return is an assumption you enter, not a forecast. Estimate only, not investment advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>How much gain does it take to recover a loss?</h2>
+<p class="section-intro">Enter your portfolio loss as a percent. The calculator shows the bigger gain needed to get back to where you started, with a $10,000 example and a recovery time at the return you enter.</p>
+<form id="drawdown-recovery-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Portfolio loss (%)
+<input class="tv-field" id="drawdown-recovery-calculator-loss" name="loss" type="number" inputmode="decimal" step="any" min="0.1" max="99.9" step="0.1" value="20" aria-label="Portfolio loss in percent"></label>
+<label>Annual return for recovery (%) (optional)
+<input class="tv-field" id="drawdown-recovery-calculator-return" name="return" type="number" inputmode="decimal" step="any" min="0" max="50" step="0.1" value="7" aria-label="Annual return for recovery in percent, optional"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="drawdown-recovery-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="drawdown-recovery-calculator-result" aria-live="polite">
+<h2>What it takes to recover</h2>
+<p class="result-lede" id="drawdown-recovery-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Recovery math</h3><dl>
+<div><dt>Gain needed to recover</dt><dd id="drawdown-recovery-calculator-gain">-</dd></div>
+<div><dt>Value after the loss (on $10,000)</dt><dd id="drawdown-recovery-calculator-after">-</dd></div>
+<div><dt>Dollars needed to recover</dt><dd id="drawdown-recovery-calculator-dollars">-</dd></div>
+<div><dt>Years to recover at your return</dt><dd id="drawdown-recovery-calculator-years">-</dd></div>
+</dl></div>
+</div>
+<p><strong>About the math:</strong> the gain needed equals the loss divided by (1 minus the loss). A 20% loss needs a 25% gain, and a 50% loss needs a 100% gain. Years to recover use the compound growth formula at the steady return you enter.</p>
+</div>
+</section>
+
+<section><h2>When NOT to use Drawdown Recovery Calculator</h2><ul>
+<li>The recovery time assumes the same return every year. Real returns vary and can be negative.</li>
+<li>It shows the gain needed on the remaining balance alone, with no new contributions.</li>
+<li>The result is a math illustration, not investment advice or a forecast.</li>
+</ul></section>
+<section class="faq-section"><h2>Questions people ask</h2>
+<details><summary>Why does a 20% loss need a 25% gain to recover?</summary><p>Because the gain applies to a smaller balance. A $10,000 portfolio that falls 20% is worth $8,000. It needs $2,000 to get back to $10,000, and $2,000 is 25% of $8,000. The formula is loss divided by (1 minus loss).</p></details>
+<details><summary>How long will recovery take?</summary><p>It depends on the return you assume. At a steady 7% a year, a 25% gain takes about 3.3 years. Enter any return to see the estimate, but real returns vary every year, so the time is an illustration, not a promise.</p></details>
+<details><summary>Does this include new contributions?</summary><p>No. This is the gain needed on the remaining balance alone. Adding new money would shorten the recovery, but this tool shows the pure math of the loss.</p></details>
+<details><summary>Is the recovery return a forecast?</summary><p>No. It is a steady rate you enter for illustration. Investment returns are never steady, and past returns do not guarantee future results.</p></details>
+</section>
+<section><h2>Related tools</h2><div class="tv-card-grid">
+<a class="tv-tool-card" href="/ToolVerse/tools/calculators/retirement-savings-calculator.html" data-category="calculators" data-search="retirement savings calculator retirement savings calculator | toolverse calculators retirement savings calculator how much do i need to retire retirement nest egg calculator 25x rule retirement how much should i save for retirement retirement planning calculator how much money do i need to retire"><span class="tv-tool-card-icon"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span><span class="tv-tool-card-main"><span class="tv-tool-card-name">Retirement Savings Calculator</span><span class="tv-tool-card-cat">Calculators</span><span class="tv-tool-card-cta">Open Tool <span aria-hidden="true">&rarr;</span></span></span></a>
+<a class="tv-tool-card" href="/ToolVerse/tools/calculators/high-yield-savings-calculator.html" data-category="calculators" data-search="high-yield savings calculator high-yield savings calculator | toolverse calculators high yield savings calculator hysa calculator savings interest calculator compound interest calculator savings how much interest will i earn on savings apy calculator"><span class="tv-tool-card-icon"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span><span class="tv-tool-card-main"><span class="tv-tool-card-name">High-Yield Savings Calculator</span><span class="tv-tool-card-cat">Calculators</span><span class="tv-tool-card-cta">Open Tool <span aria-hidden="true">&rarr;</span></span></span></a>
+<a class="tv-tool-card" href="/ToolVerse/tools/calculators/compound-interest-calculator.html" data-category="calculators" data-search="compound interest calculator compound interest calculator | toolverse calculators compound interest calculator compound interest calculator monthly savings growth calculator investment growth calculator compound savings calculator"><span class="tv-tool-card-icon"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></span><span class="tv-tool-card-main"><span class="tv-tool-card-name">Compound Interest Calculator</span><span class="tv-tool-card-cat">Calculators</span><span class="tv-tool-card-cta">Open Tool <span aria-hidden="true">&rarr;</span></span></span></a>
+<a class="tv-tool-card" href="/ToolVerse/tools/calculators/401k-contribution-calculator.html" data-category="calculators" data-search="401(k) contribution calculator 401(k) contribution calculator | toolverse calculators 401k contribution calculator 401k calculator 2026 401k limit 2026 how much should i contribute to my 401k 401k employer match calculator 401k growth calculator 401k catch up contribution 2026"><span class="tv-tool-card-icon"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span><span class="tv-tool-card-main"><span class="tv-tool-card-name">401(k) Contribution Calculator</span><span class="tv-tool-card-cat">Calculators</span><span class="tv-tool-card-cta">Open Tool <span aria-hidden="true">&rarr;</span></span></span></a>
+</div></section>
+<section class="tv-share"><h2>Share this tool</h2><p>Found it useful? Share it with someone who needs it. The tool is free and runs entirely in the browser.</p><p><button type="button" class="tv-share-btn" data-share-tool>Share / copy link</button> <span class="tv-share-note" data-share-note aria-live="polite"></span></p></section>
+<script>
+(function(){var b=document.querySelector('[data-share-tool]');if(!b)return;var n=document.querySelector('[data-share-note]');b.addEventListener('click',function(){var url=window.location.href;function done(msg){if(n)n.textContent=msg;}if(navigator.share){navigator.share({title:document.title,url:url}).then(function(){done('Thanks for sharing.');}).catch(function(){});}else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){done('Link copied to clipboard.');}).catch(function(){done('Copy this page URL from the address bar to share.');});}else{done('Copy this page URL from the address bar to share.');}});})();
+</script>
+</main>
+<aside class="side-card"><span class="badge">No login, saved in your browser</span><h2>Your numbers stay private</h2><p>Your numbers stay in your browser, nothing is uploaded, and no account is connected.</p><a class="button" href="/ToolVerse/tools/">Browse all tools</a><section class="next-decision"><p class="next-decision-title">Your next step</p><p class="next-decision-copy">See how steady growth rebuilds a balance with the compound interest calculator next.</p></section></aside>
+</div>
+<footer class="tv-footer">
+  <div class="tv-footer-inner">
+    <section class="tv-footer-cta" aria-labelledby="tv-footer-cta-title">
+      <div>
+        <p class="tv-footer-cta-eyebrow">Plan with more clarity</p>
+        <h2 id="tv-footer-cta-title">Make your next money decision with more clarity.</h2>
+        <p>Free planning tools for rent, salary, home buying, moving, and everyday U.S. financial decisions.</p>
+      </div>
+      <a class="tv-footer-cta-link" href="/ToolVerse/index.html#calculator">Start Free Calculator <span aria-hidden="true">→</span></a>
+    </section>
+    <div class="tv-footer-grid">
+      <section class="tv-footer-brand" aria-labelledby="tv-footer-brand-title">
+        <a class="tv-brand" id="tv-footer-brand-title" href="/ToolVerse/index.html" aria-label="ToolVerse home"><span class="tv-brand-mark" aria-hidden="true">TV</span><span>Tool<b>Verse</b></span></a>
+        <p>Private tools for clearer U.S. money decisions. Plan a scenario, understand the trade-offs, and verify important details before acting.</p>
+        <p class="tv-footer-trust">Free · No account · Runs in your browser</p>
+      </section>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Popular tools">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-popular-tools"><span>Popular Tools</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Popular Tools</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-popular-tools" data-footer-accordion-panel hidden>
+          <a href="/ToolVerse/index.html#calculator">Affordability Calculator</a>
+          <a href="/ToolVerse/true-cost-of-renting-calculator.html">True Cost of Renting</a>
+          <a href="/ToolVerse/salary-needed-for-rent-calculator.html">Salary Needed for Rent</a>
+          <a href="/ToolVerse/mortgage-payment-calculator.html">Mortgage Payment</a>
+          <a href="/ToolVerse/home-affordability-calculator.html">Home Affordability</a>
+          <a href="/ToolVerse/rent-vs-buy-calculator.html">Rent vs Buy</a>
+        </div>
+      </nav>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Decision categories">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-decision-categories"><span>Decision Categories</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Decision Categories</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-decision-categories" data-footer-accordion-panel hidden>
+          <a href="/ToolVerse/30-percent-rent-rule.html">Rent &amp; Housing</a>
+          <a href="/ToolVerse/home-affordability-calculator.html">Home Buying</a>
+          <a href="/ToolVerse/salary-needed-for-rent-calculator.html">Salary &amp; Take-Home Pay</a>
+          <a href="/ToolVerse/job-offer-take-home-rent-comparison.html">Job &amp; Career</a>
+          <a href="/ToolVerse/relocation-break-even-calculator.html">Moving &amp; Relocation</a>
+          <a href="/ToolVerse/roommate-rent-split-calculator.html">Budgeting &amp; Personal Finance</a>
+          <a href="/ToolVerse/cost-of-living-by-state.html">Cost of Living</a>
+        </div>
+      </nav>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Guides and learning">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-guides-learning"><span>Guides &amp; Learning</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Guides &amp; Learning</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-guides-learning" data-footer-accordion-panel hidden>
+          <a href="/ToolVerse/what-does-rent-really-cost.html">Renting Guides</a>
+          <a href="/ToolVerse/how-mortgage-payments-work.html">Home Buying Guides</a>
+          <a href="/ToolVerse/salary-needed-for-rent-explained.html">Salary Guides</a>
+          <a href="/ToolVerse/how-to-compare-job-offers-after-taxes-rent.html">Career Guides</a>
+          <a href="/ToolVerse/how-should-roommates-split-rent-and-utilities.html">Shared Living Guides</a>
+          <a href="/ToolVerse/index.html#how-it-works">How ToolVerse Works</a>
+        </div>
+      </nav>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Company and trust">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-company-trust"><span>Company &amp; Trust</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Company &amp; Trust</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-company-trust" data-footer-accordion-panel hidden>
+          <a href="/ToolVerse/about.html">About</a>
+          <a href="/ToolVerse/contact.html">Contact</a>
+          <a href="/ToolVerse/privacy.html">Privacy</a>
+          <a href="/ToolVerse/terms.html">Terms</a>
+          <a href="/ToolVerse/disclaimer.html">Disclaimer</a>
+        </div>
+      </nav>
+    </div>
+    <div class="tv-footer-bottom">
+      <p>© <span class="tv-year"></span> ToolVerse. Estimates are educational planning information, not financial, tax, legal, lending, or affordability guarantees.</p>
+      <p>Free · No account · Runs in your browser</p>
+    </div>
+  </div>
+</footer>
+</div>
+<script defer src="/ToolVerse/tools/assets/tools-analytics.js"></script>
+<script>
+/* drawdown-recovery-calculator v1.0.0 — generated, do not hand-edit */
+/* Drawdown Recovery Calculator. Gain needed equals loss divided by (1 minus loss). */
+(function () {
+  'use strict';
+  var form = document.getElementById('drawdown-recovery-calculator-form');
+  if (!form) return; // not on this page, safe global include
+
+
+  var errorEl = document.getElementById('drawdown-recovery-calculator-error');
+  var ledeEl = document.getElementById('drawdown-recovery-calculator-lede');
+  var tracked = false;
+
+  function trackUse() {
+    if (!tracked && window.ToolVerseTools && typeof window.ToolVerseTools.track === 'function') {
+      tracked = true;
+      window.ToolVerseTools.track('drawdown-recovery-calculator', 'calculators', 'tool_use');
+    }
+  }
+
+  function showError(msg) {
+    if (!errorEl) return;
+    errorEl.textContent = msg;
+    errorEl.hidden = false;
+  }
+  function hideError() {
+    if (!errorEl) return;
+    errorEl.hidden = true;
+    errorEl.textContent = '';
+  }
+
+  function fmtMoney(value) {
+    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  }
+  function fmtNum(value) {
+    return value.toLocaleString('en-US');
+  }
+  function fmtPct(value) {
+    return value.toFixed(1) + '%';
+  }
+
+  var lossEl = document.getElementById('drawdown-recovery-calculator-loss');
+  var returnEl = document.getElementById('drawdown-recovery-calculator-return');
+  var gainEl = document.getElementById('drawdown-recovery-calculator-gain');
+  var afterEl = document.getElementById('drawdown-recovery-calculator-after');
+  var dollarsEl = document.getElementById('drawdown-recovery-calculator-dollars');
+  var yearsEl = document.getElementById('drawdown-recovery-calculator-years');
+
+  function calculate() {
+    hideError();
+    var loss = parseFloat(lossEl.value);
+    var ret = returnEl.value === '' ? 7 : parseFloat(returnEl.value);
+    if (isNaN(loss) || loss <= 0 || loss >= 100) {
+      showError('Enter a portfolio loss between 0% and 100% (not including 0 or 100).');
+      return;
+    }
+    if (isNaN(ret) || ret < 0 || ret > 50) {
+      showError('Enter a recovery return between 0% and 50%.');
+      return;
+    }
+    var lossFrac = loss / 100;
+    var gainFrac = lossFrac / (1 - lossFrac);
+    var gainPct = gainFrac * 100;
+    var after = 10000 * (1 - lossFrac);
+    var dollars = 10000 - after;
+    gainEl.textContent = fmtPct(gainPct);
+    afterEl.textContent = fmtMoney(after);
+    dollarsEl.textContent = fmtMoney(dollars);
+    if (ret === 0) {
+      yearsEl.textContent = 'No recovery at a 0% return';
+      ledeEl.textContent = 'A ' + fmtPct(loss) + ' loss needs a ' + fmtPct(gainPct) +
+        ' gain to recover. On $10,000 that means growing ' + fmtMoney(after) + ' back to $10,000.';
+    } else {
+      var years = Math.log(1 + gainFrac) / Math.log(1 + ret / 100);
+      yearsEl.textContent = years.toFixed(1) + ' years (at a steady ' + ret + '% a year)';
+      ledeEl.textContent = 'A ' + fmtPct(loss) + ' loss needs a ' + fmtPct(gainPct) +
+        ' gain to recover, about ' + years.toFixed(1) + ' years at a steady ' + ret + '% return a year.';
+    }
+    trackUse();
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    calculate();
+  });
+})();
+
+</script>
+</body>
+</html>

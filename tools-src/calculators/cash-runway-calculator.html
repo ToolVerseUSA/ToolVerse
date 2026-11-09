@@ -1,0 +1,42 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Steady-rate estimate only, not a forecast or financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>How long will your cash last?</h2>
+<p class="section-intro">Enter your cash on hand, monthly costs, and monthly revenue. The calculator shows how many months you have before cash reaches the reserve you want to keep.</p>
+<form id="cash-runway-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Cash on hand ($)
+<input class="tv-field" id="cash-runway-calculator-cash" name="cash" type="number" inputmode="decimal" step="any" min="0" value="60000" aria-label="Cash on hand in dollars"></label>
+<label>Monthly burn, costs ($)
+<input class="tv-field" id="cash-runway-calculator-burn" name="burn" type="number" inputmode="decimal" step="any" min="0" value="10000" aria-label="Monthly burn in dollars"></label>
+<label>Monthly revenue ($) (optional)
+<input class="tv-field" id="cash-runway-calculator-revenue" name="revenue" type="number" inputmode="decimal" step="any" min="0" value="4000" aria-label="Monthly revenue in dollars, optional"></label>
+<label>Minimum reserve to keep ($) (optional)
+<input class="tv-field" id="cash-runway-calculator-reserve" name="reserve" type="number" inputmode="decimal" step="any" min="0" value="10000" aria-label="Minimum reserve to keep in dollars, optional"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="cash-runway-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="cash-runway-calculator-result" aria-live="polite">
+<h2>Your cash runway</h2>
+<p class="result-lede" id="cash-runway-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Runway</h3><dl>
+<div><dt>Net monthly burn</dt><dd id="cash-runway-calculator-netburn">-</dd></div>
+<div><dt>Months of runway</dt><dd id="cash-runway-calculator-months">-</dd></div>
+<div><dt>Runway ends (reserve reached)</dt><dd id="cash-runway-calculator-enddate">-</dd></div>
+<div><dt>Cash left after 12 months</dt><dd id="cash-runway-calculator-after12">-</dd></div>
+</dl></div>
+</div>
+<h3>Month-by-month cash</h3>
+<table>
+<thead><tr><th>Month</th><th>Costs</th><th>Revenue</th><th>Cash at end of month</th></tr></thead>
+<tbody id="cash-runway-calculator-table"><tr><td colspan="4">No calculation yet.</td></tr></tbody>
+</table>
+<p><strong>About the math:</strong> net burn equals monthly costs minus monthly revenue. Runway equals cash on hand minus the reserve, divided by net burn. If revenue covers costs, the runway is indefinite at current rates.</p>
+</div>
+</section>

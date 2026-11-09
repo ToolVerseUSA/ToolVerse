@@ -321,6 +321,52 @@ const runRentingMovingInjection = () => {
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', runRentingMovingInjection, { once: true });
 else runRentingMovingInjection();
 
+/* ToolVerse ways to earn discovery: additive links for the new Earn section. */
+const runWaysToEarnInjection = () => {
+  const links = [
+    ['/ToolVerse/earn/', 'Ways to Earn'],
+    ['/ToolVerse/earn/guides/', 'Earning Guides'],
+    ['/ToolVerse/earn/ideas/', 'Business Ideas'],
+    ['/ToolVerse/earn/remote-jobs/', 'Remote Jobs'],
+    ['/ToolVerse/earn/methodology.html', 'Methodology and Sources']
+  ];
+  document.querySelectorAll('[data-tv-menu]').forEach(menu => {
+    const summary = menu.querySelector('summary');
+    const panel = menu.querySelector('.tv-menu-panel, .tv-mega');
+    if (!summary || !panel || summary.textContent.trim() !== 'Tools' || panel.querySelector('[data-ways-to-earn]')) return;
+    const mega = panel.classList.contains('tv-mega');
+    const wrap = document.createElement(mega ? 'section' : 'div');
+    wrap.dataset.waysToEarn = 'true';
+    if (mega) wrap.className = 'tv-mega-group';
+    wrap.innerHTML = mega
+      ? '<span class="tv-mega-title">Ways to Earn</span>' + links.map(([href,label]) => `<a class="tv-mega-link" href="${href}">${label}<span>Guides, ideas, remote jobs, and earning calculators.</span></a>`).join('')
+      : '<strong class="tv-menu-section-label">Ways to Earn</strong>' + links.map(([href,label]) => `<a href="${href}">${label}</a>`).join('');
+    panel.appendChild(wrap);
+  });
+  document.querySelectorAll('[data-mobile-accordion-group="tools"]').forEach(group => {
+    if (group.querySelector('[data-ways-to-earn-mobile]')) return;
+    const section = document.createElement('section');
+    section.className = 'tv-mobile-category';
+    section.dataset.waysToEarnMobile = 'true';
+    section.innerHTML = '<button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-ways-to-earn-panel"><span>Ways to Earn</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-ways-to-earn-panel" data-mobile-accordion-panel hidden>' + links.map(([href,label]) => `<a href="${href}">${label}</a>`).join('') + '</div>';
+    group.appendChild(section);
+  });
+  document.querySelectorAll('.tv-footer-grid').forEach(grid => {
+    if (grid.querySelector('[data-ways-to-earn-footer]')) return;
+    const nav = document.createElement('nav');
+    nav.className = 'tv-footer-column tv-footer-accordion';
+    nav.dataset.waysToEarnFooter = 'true';
+    nav.setAttribute('aria-label', 'Ways to earn');
+    const panelId = 'tv-footer-ways-to-earn-panel';
+    nav.innerHTML = `<button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="${panelId}"><span>Ways to Earn</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg></button><p class="tv-footer-heading" role="heading" aria-level="2">Ways to Earn</p><div class="tv-footer-accordion-panel" id="${panelId}" data-footer-accordion-panel hidden>${links.map(([href,label]) => `<a href="${href}">${label}</a>`).join('')}</div>`;
+    grid.appendChild(nav);
+  });
+  window.tvEnhanceMobileAccordions?.();
+  window.tvEnhanceFinancialCenterFooters?.();
+};
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', runWaysToEarnInjection, { once: true });
+else runWaysToEarnInjection();
+
 /* Optional one-shot Apify connectivity test; runs only when explicitly requested with ?apify-test=1. */
 (() => {
   const params = new URLSearchParams(window.location.search);

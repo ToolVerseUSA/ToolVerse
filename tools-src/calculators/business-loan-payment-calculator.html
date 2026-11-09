@@ -1,0 +1,48 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Principal and interest only, fixed rate assumed. Estimate only, not financial advice and not a loan offer.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>What will the business loan cost each month?</h2>
+<p class="section-intro">Enter the loan amount, annual interest rate, and term. Add an optional extra monthly payment to see how much sooner the loan ends and how much interest you save.</p>
+<form id="business-loan-payment-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Loan amount ($)
+<input class="tv-field" id="business-loan-payment-calculator-amount" name="amount" type="number" inputmode="decimal" step="any" min="0" value="100000" aria-label="Loan amount in dollars"></label>
+<label>Annual interest rate (%)
+<input class="tv-field" id="business-loan-payment-calculator-rate" name="rate" type="number" inputmode="decimal" step="any" min="0" max="50" step="0.01" value="8" aria-label="Annual interest rate in percent"></label>
+<label>Term (years)
+<input class="tv-field" id="business-loan-payment-calculator-years" name="years" type="number" inputmode="decimal" step="any" min="1" max="40" step="1" value="5" aria-label="Term in years"></label>
+<label>Extra monthly payment ($) (optional)
+<input class="tv-field" id="business-loan-payment-calculator-extra" name="extra" type="number" inputmode="decimal" step="any" min="0" value="200" aria-label="Extra monthly payment in dollars, optional"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="business-loan-payment-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="business-loan-payment-calculator-result" aria-live="polite">
+<h2>Your loan payment</h2>
+<p class="result-lede" id="business-loan-payment-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Monthly payment</h3><dl>
+<div><dt>Monthly payment</dt><dd id="business-loan-payment-calculator-payment">-</dd></div>
+<div><dt>With extra payment</dt><dd id="business-loan-payment-calculator-payment-extra">-</dd></div>
+<div><dt>Total interest</dt><dd id="business-loan-payment-calculator-interest">-</dd></div>
+<div><dt>Total cost</dt><dd id="business-loan-payment-calculator-total">-</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Payoff time</h3><dl>
+<div><dt>Payoff without extra payment</dt><dd id="business-loan-payment-calculator-months">-</dd></div>
+<div><dt>Payoff with extra payment</dt><dd id="business-loan-payment-calculator-months-extra">-</dd></div>
+<div><dt>Interest saved by extra payment</dt><dd id="business-loan-payment-calculator-saved">-</dd></div>
+<div><dt>Months saved</dt><dd id="business-loan-payment-calculator-months-saved">-</dd></div>
+</dl></div>
+</div>
+<h3>Amortization summary</h3>
+<table>
+<thead><tr><th>Period</th><th>Interest paid</th><th>Principal paid</th><th>Balance at end</th></tr></thead>
+<tbody id="business-loan-payment-calculator-table"><tr><td colspan="4">No calculation yet.</td></tr></tbody>
+</table>
+<p><strong>About the math:</strong> the standard fixed-rate amortization formula is used, with the annual rate divided by 12. Extra payments go straight to principal. Fees, taxes, and variable rates are not included.</p>
+</div>
+</section>

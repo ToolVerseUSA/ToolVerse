@@ -137,6 +137,22 @@
     "url": "/ToolVerse/tools/calculators/401k-contribution-calculator.html"
   },
   {
+    "id": "ai-workflow-roi-calculator",
+    "slug": "ai-workflow-roi-calculator",
+    "title": "AI Workflow ROI Calculator",
+    "description": "Free AI workflow ROI calculator. Compare the yearly value of hours saved with software, setup, and review costs, all as estimates.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "ai workflow roi calculator",
+      "cost of automation calculator",
+      "ai automation roi calculator",
+      "ai time savings calculator",
+      "automation roi calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/ai-workflow-roi-calculator.html"
+  },
+  {
     "id": "bnpl-payment-tracker",
     "slug": "bnpl-payment-tracker",
     "title": "BNPL Payment Tracker — Klarna, Affirm, Afterpay",
@@ -152,6 +168,54 @@
       "bnpl debt tracker"
     ],
     "url": "/ToolVerse/tools/calculators/bnpl-payment-tracker.html"
+  },
+  {
+    "id": "business-loan-payment-calculator",
+    "slug": "business-loan-payment-calculator",
+    "title": "Business Loan Payment Calculator",
+    "description": "Free business loan payment calculator. Monthly payment, total interest, payoff time with extra payments, and a first and last year summary.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "business loan payment calculator",
+      "business loan calculator",
+      "small business loan payment",
+      "loan amortization calculator",
+      "extra payment loan calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/business-loan-payment-calculator.html"
+  },
+  {
+    "id": "cash-runway-calculator",
+    "slug": "cash-runway-calculator",
+    "title": "Cash Runway Calculator",
+    "description": "Free cash runway calculator. See how many months your cash lasts at your current burn, and the date you hit your reserve.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "cash runway calculator",
+      "business cash runway",
+      "how long will my cash last",
+      "startup runway calculator",
+      "monthly burn calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/cash-runway-calculator.html"
+  },
+  {
+    "id": "compound-interest-calculator",
+    "slug": "compound-interest-calculator",
+    "title": "Compound Interest Calculator",
+    "description": "Free compound interest calculator. See your balance grow with monthly contributions and monthly compounding, year by year.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "compound interest calculator",
+      "compound interest calculator monthly",
+      "savings growth calculator",
+      "investment growth calculator",
+      "compound savings calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/compound-interest-calculator.html"
   },
   {
     "id": "credit-score-estimator",
@@ -188,6 +252,38 @@
     "url": "/ToolVerse/tools/calculators/currency-converter.html"
   },
   {
+    "id": "drawdown-recovery-calculator",
+    "slug": "drawdown-recovery-calculator",
+    "title": "Drawdown Recovery Calculator",
+    "description": "Free drawdown recovery calculator. See the gain needed to recover a portfolio loss, and how long it takes at a steady return.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "drawdown recovery calculator",
+      "how much gain to recover a loss",
+      "portfolio loss recovery calculator",
+      "investment recovery calculator",
+      "drawdown calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/drawdown-recovery-calculator.html"
+  },
+  {
+    "id": "freelance-hourly-rate-calculator",
+    "slug": "freelance-hourly-rate-calculator",
+    "title": "Freelance Hourly Rate Calculator",
+    "description": "Free freelance hourly rate calculator. Turn your target income, hours, expenses, and taxes into an hourly and day rate.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "freelance hourly rate calculator",
+      "freelance rate calculator",
+      "how much should i charge per hour",
+      "freelancer hourly rate",
+      "day rate calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/freelance-hourly-rate-calculator.html"
+  },
+  {
     "id": "high-yield-savings-calculator",
     "slug": "high-yield-savings-calculator",
     "title": "High-Yield Savings Calculator",
@@ -205,6 +301,23 @@
     "url": "/ToolVerse/tools/calculators/high-yield-savings-calculator.html"
   },
   {
+    "id": "income-percentile-calculator",
+    "slug": "income-percentile-calculator",
+    "title": "US Income Percentile Calculator",
+    "description": "Free US income percentile calculator. Compare your annual individual income with real Census CPS ASEC PINC-11 data for 2024.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "income percentile calculator",
+      "us income percentile",
+      "what percentile is my income",
+      "census income distribution",
+      "compare my income",
+      "median income usa"
+    ],
+    "url": "/ToolVerse/tools/calculators/income-percentile-calculator.html"
+  },
+  {
     "id": "medicare-cost-estimator",
     "slug": "medicare-cost-estimator",
     "title": "Medicare Cost Estimator",
@@ -220,6 +333,22 @@
       "medicare monthly cost calculator"
     ],
     "url": "/ToolVerse/tools/calculators/medicare-cost-estimator.html"
+  },
+  {
+    "id": "portfolio-concentration-calculator",
+    "slug": "portfolio-concentration-calculator",
+    "title": "Portfolio Concentration Calculator",
+    "description": "Free portfolio concentration calculator. Check each holding weight, your HHI concentration score, and the impact of a big fall.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "portfolio concentration calculator",
+      "portfolio diversification calculator",
+      "hhi calculator portfolio",
+      "holding weight calculator",
+      "portfolio risk calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/portfolio-concentration-calculator.html"
   },
   {
     "id": "retirement-savings-calculator",

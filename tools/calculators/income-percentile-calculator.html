@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free US income percentile calculator. Compare your annual individual income with real Census CPS ASEC PINC-11 data for 2024."><meta name="robots" content="index,follow,max-image-preview:large"><meta name="theme-color" content="#07111f"><meta name="author" content="ToolVerse">
+  <meta property="og:site_name" content="ToolVerse">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="US Income Percentile Calculator | ToolVerse">
+<meta property="og:description" content="Free US income percentile calculator. Compare your annual individual income with real Census CPS ASEC PINC-11 data for 2024.">
+<meta property="og:url" content="https://toolverseusa.github.io/ToolVerse/tools/calculators/income-percentile-calculator.html">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="US Income Percentile Calculator | ToolVerse"><meta name="twitter:description" content="Free US income percentile calculator. Compare your annual individual income with real Census CPS ASEC PINC-11 data for 2024.">
+  <link rel="canonical" href="https://toolverseusa.github.io/ToolVerse/tools/calculators/income-percentile-calculator.html"><title>US Income Percentile Calculator | ToolVerse</title>
+  <link rel="icon" href="/ToolVerse/favicon.svg" type="image/svg+xml"><link rel="icon" href="/ToolVerse/favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="192x192" href="/ToolVerse/favicon-192.png"><link rel="apple-touch-icon" sizes="180x180" href="/ToolVerse/apple-touch-icon.png"><link rel="manifest" href="/ToolVerse/site.webmanifest"><link rel="stylesheet" href="/ToolVerse/guides.css"><link rel="stylesheet" href="/ToolVerse/tools/assets/tools-fields.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "name": "US Income Percentile Calculator | ToolVerse",
+      "url": "https://toolverseusa.github.io/ToolVerse/tools/calculators/income-percentile-calculator.html",
+      "description": "Free US income percentile calculator. Compare your annual individual income with real Census CPS ASEC PINC-11 data for 2024.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "ToolVerse",
+        "url": "https://toolverseusa.github.io/ToolVerse/"
+      }
+    },
+    {
+      "@type": "WebApplication",
+      "name": "US Income Percentile Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any (web browser)",
+      "url": "https://toolverseusa.github.io/ToolVerse/tools/calculators/income-percentile-calculator.html",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://toolverseusa.github.io/ToolVerse/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tools",
+          "item": "https://toolverseusa.github.io/ToolVerse/tools/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Calculators",
+          "item": "https://toolverseusa.github.io/ToolVerse/tools/calculators/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "US Income Percentile Calculator",
+          "item": "https://toolverseusa.github.io/ToolVerse/tools/calculators/income-percentile-calculator.html"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Where does this income data come from?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The U.S. Census Bureau, Current Population Survey, 2025 Annual Social and Economic Supplement (CPS ASEC), Table PINC-11, income year 2024. The table covers people age 15 and over, all races, males and females combined, 278,302,000 people in 44 income bands. The published table is at census.gov, and the verified table is saved with this tool."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this my exact percentile?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Census publishes grouped bands, not a percentile for every dollar amount. This tool finds your band and estimates your position by interpolating evenly inside that band, so treat the number as an approximation, not an exact rank."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this household income?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. This is individual money income before tax, for one person. Household income combines everyone under one roof and is usually higher. The optional household size field is only a note, it does not change the comparison."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the median individual income?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The median falls in the $37,500 to $39,999 band. About half of US people age 15 and over earn less than that band and about half earn more, including people with no income."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+  <!-- Google tag (gtag.js), loaded when the page becomes idle. No calculator values are sent. -->
+  <script>
+    window.dataLayer = window.dataLayer || []; function gtag(){ dataLayer.push(arguments); }
+    function loadGoogleTag(){var tag=document.createElement('script');tag.async=true;tag.src='https://www.googletagmanager.com/gtag/js?id=G-6VX2WPNECZ';tag.fetchPriority='low';document.head.appendChild(tag);gtag('js',new Date());gtag('config','G-6VX2WPNECZ');}
+    window.addEventListener('load',function(){if('requestIdleCallback' in window)window.requestIdleCallback(loadGoogleTag);else window.setTimeout(loadGoogleTag,0);},{once:true});
+  </script>
+  <link rel="stylesheet" href="/ToolVerse/navigation.css"><script defer src="/ToolVerse/navigation.js"></script>
+<style>
+.tool-breadcrumb{font-size:.85rem;margin:0 0 1rem;color:#94a3b8}
+.tool-breadcrumb a{color:#67e8f9;text-decoration:none}
+.tool-breadcrumb a:hover{text-decoration:underline}
+.tool-breadcrumb span[aria-current]{color:#dbeafe}
+</style>
+</head>
+<body><div class="wrap">
+<header class="tv-global-header"><div class="tv-global-inner"><a class="tv-brand" href="/ToolVerse/index.html" aria-label="ToolVerse home"><span class="tv-brand-mark" aria-hidden="true">TV</span><span>Tool<b>Verse</b></span></a><nav class="tv-desktop-nav" aria-label="Primary navigation"><details class="tv-menu" data-tv-menu="tools"><summary>Tools</summary><div class="tv-mega"><div class="tv-mega-grid"><section class="tv-mega-group"><span class="tv-mega-title">Medical Billing &amp; Coding</span><a class="tv-mega-link" href="/ToolVerse/medical-billing-salary-calculator.html">Medical Billing Salary<span>Convert a billing salary scenario into useful pay equivalents.</span></a><a class="tv-mega-link" href="/ToolVerse/medical-coder-salary-calculator.html">Medical Coder Salary<span>Explore a coder salary scenario without promising a market rate.</span></a><a class="tv-mega-link" href="/ToolVerse/medical-billing-vs-medical-coding.html">Billing vs Coding<span>Compare duties, workflow, skills, and career considerations.</span></a><a class="tv-mega-link" href="/ToolVerse/medical-billing-services.html">Billing Services for Practices<span>Questions to ask before reviewing an outsourced billing vendor.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Rent & Housing</span><a class="tv-mega-link" href="/ToolVerse/index.html#calculator">Affordability Calculator<span>Start with income, rent, debt, and expenses.</span></a><a class="tv-mega-link" href="/ToolVerse/true-cost-of-renting-calculator.html">True Cost of Renting<span>Add bills, fees, commute, and move-in costs.</span></a><a class="tv-mega-link" href="/ToolVerse/first-apartment-budget-calculator.html">First Apartment Budget<span>Separate move-in cash from monthly affordability.</span></a><a class="tv-mega-link" href="/ToolVerse/30-percent-rent-rule.html">30% Rent Rule<span>Use a gross-income reference carefully.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Home Buying</span><a class="tv-mega-link" href="/ToolVerse/mortgage-payment-calculator.html">Mortgage Payment<span>Estimate principal, interest, taxes, insurance, and reserves.</span></a><a class="tv-mega-link" href="/ToolVerse/home-affordability-calculator.html">Home Affordability<span>Plan a home budget after taxes and entered costs.</span></a><a class="tv-mega-link" href="/ToolVerse/down-payment-calculator.html">Down Payment Plan<span>Set a cash target and savings timeline.</span></a><a class="tv-mega-link" href="/ToolVerse/closing-costs-calculator.html">Closing Costs<span>Organize cash-to-close fee categories.</span></a><a class="tv-mega-link" href="/ToolVerse/rent-vs-buy-calculator.html">Rent vs Buy<span>Compare entered cash-flow assumptions.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Salary & Take-Home Pay</span><a class="tv-mega-link" href="/ToolVerse/salary-needed-for-rent-calculator.html">Salary Needed for Rent<span>Work backward from a rent target.</span></a><a class="tv-mega-link" href="/ToolVerse/salary-after-rent-calculator.html">Salary After Rent<span>Estimate the cash left after entered costs.</span></a><a class="tv-mega-link" href="/ToolVerse/take-home-pay-vs-rent.html">Take-Home Pay vs Rent<span>Read rent pressure alongside remaining cash.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Job & Career Decisions</span><a class="tv-mega-link" href="/ToolVerse/job-offer-take-home-rent-comparison.html">Compare Job Offers<span>Compare two full monthly scenarios.</span></a><a class="tv-mega-link" href="/ToolVerse/relocation-break-even-calculator.html">Relocation Break-Even<span>Test a higher salary against move costs.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Moving & Relocation</span><a class="tv-mega-link" href="/ToolVerse/relocation-break-even-calculator.html">Relocation Break-Even<span>Estimate a planning break-even timeline.</span></a><a class="tv-mega-link" href="/ToolVerse/cost-of-living-by-state.html">Cost of Living Context<span>Connect location context to your own budget.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Budgeting & Personal Finance</span><a class="tv-mega-link" href="/ToolVerse/roommate-rent-split-calculator.html">Roommate Rent Split<span>Compare transparent ways to divide shared costs.</span></a><a class="tv-mega-link" href="/ToolVerse/index.html#calculator">Financial Score<span>See housing, debt, cash-flow, and savings pressure.</span></a><a class="tv-mega-link" href="/ToolVerse/car-insurance-cost-estimator.html">Car Insurance Cost Estimator<span>Estimate a planning range; compare real rates separately.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Cost of Living</span><a class="tv-mega-link" href="/ToolVerse/cost-of-living-by-state.html">Cost of Living by State<span>Use state context with a personal scenario.</span></a><a class="tv-mega-link" href="/ToolVerse/illinois-cost-of-living.html">Illinois Cost of Living<span>Run an Illinois affordability scenario.</span></a><a class="tv-mega-link" href="/ToolVerse/texas-cost-of-living.html">Texas Cost of Living<span>Run a Texas affordability scenario.</span></a></section></div><aside class="tv-feature"><div><p class="tv-feature-eyebrow">Featured decision</p><p class="tv-feature-title">Plan your first apartment</p><p>Separate move-in cash from recurring monthly costs before you apply.</p></div><a href="/ToolVerse/first-apartment-budget-calculator.html">Explore this decision</a></aside></div></details><details class="tv-menu" data-tv-menu="guides"><summary>Guides</summary><div class="tv-mega"><div class="tv-mega-grid"><section class="tv-mega-group"><span class="tv-mega-title">Renting Guides</span><a class="tv-mega-link" href="/ToolVerse/salary-rent-affordability-guide.html">Rent by Salary<span>Use one strong salary-based rent guide.</span></a><a class="tv-mega-link" href="/ToolVerse/what-does-rent-really-cost.html">What Rent Really Costs<span>Separate advertised rent from all-in housing costs.</span></a><a class="tv-mega-link" href="/ToolVerse/first-apartment-budget-costs-checklist.html">First Apartment Checklist<span>Plan move-in cash and monthly expenses.</span></a><a class="tv-mega-link" href="/ToolVerse/30-percent-rent-rule.html">30% Rent Rule<span>Understand the limit of one percentage.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Salary Guides</span><a class="tv-mega-link" href="/ToolVerse/salary-needed-for-rent-explained.html">Salary Needed for Rent<span>Separate gross pay, take-home pay, and budget.</span></a><a class="tv-mega-link" href="/ToolVerse/salary-after-rent-calculator.html">Salary After Rent<span>Interpret a cash surplus or shortfall.</span></a><a class="tv-mega-link" href="/ToolVerse/take-home-pay-vs-rent.html">Take-Home Pay vs Rent<span>Read a ratio together with dollars left.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Career Guides</span><a class="tv-mega-link" href="/ToolVerse/how-to-compare-job-offers-after-taxes-rent.html">Compare Job Offers<span>Compare the full monthly picture.</span></a><a class="tv-mega-link" href="/ToolVerse/is-a-higher-salary-worth-moving-for.html">Is a Higher Salary Worth Moving For?<span>Use a break-even view for a potential move.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Financial Planning</span><a class="tv-mega-link" href="/ToolVerse/how-should-roommates-split-rent-and-utilities.html">How Roommates Split Costs<span>Choose a transparent shared-cost method.</span></a><a class="tv-mega-link" href="/ToolVerse/cost-of-living-by-state.html">Cost of Living Context<span>Understand what state context can and cannot show.</span></a></section><section class="tv-mega-group"><span class="tv-mega-title">Home Buying Guides</span><a class="tv-mega-link" href="/ToolVerse/how-mortgage-payments-work.html">Mortgage Payment Guide<span>See what belongs in an all-in monthly estimate.</span></a><a class="tv-mega-link" href="/ToolVerse/how-much-house-can-i-afford.html">Home Affordability Guide<span>Build a cash-flow limit before shopping.</span></a><a class="tv-mega-link" href="/ToolVerse/down-payment-planning-guide.html">Down Payment Guide<span>Plan a full cash target before buying.</span></a><a class="tv-mega-link" href="/ToolVerse/closing-costs-explained.html">Closing Costs Guide<span>Separate cash to close from the home price.</span></a><a class="tv-mega-link" href="/ToolVerse/rent-vs-buy-decision-guide.html">Rent vs Buy Guide<span>Compare time horizon, costs, and flexibility.</span></a></section></div><aside class="tv-feature"><div><p class="tv-feature-eyebrow">Start with the question</p><p class="tv-feature-title">What does rent really cost?</p><p>Use advertised rent, bills, fees, and move-in cash to compare apartments clearly.</p></div><a href="/ToolVerse/what-does-rent-really-cost.html">Explore this decision</a></aside></div></details><details class="tv-menu" data-tv-menu><summary>Resources</summary><div class="tv-mega"><div class="tv-mega-grid"><section class="tv-mega-group"><span class="tv-mega-title">Learn ToolVerse</span><a class="tv-mega-link" href="/ToolVerse/index.html#how-it-works">How ToolVerse Works<span>Understand the core affordability workflow.</span></a><a class="tv-mega-link" href="/ToolVerse/index.html#methodology">Methodology & Sources<span>Review planning assumptions and public references.</span></a><a class="tv-mega-link" href="/ToolVerse/index.html#faq">Frequently Asked Questions<span>Find practical answers before you calculate.</span></a><a class="tv-mega-link" href="/ToolVerse/about.html">About ToolVerse<span>Learn the product focus and planning limits.</span></a><a class="tv-mega-link" href="/ToolVerse/contact.html">Contact<span>Send corrections, accessibility concerns, or feedback.</span></a></section></div><aside class="tv-feature"><div><p class="tv-feature-eyebrow">Privacy-first planning</p><p class="tv-feature-title">No account required</p><p>ToolVerse calculators run in your browser and use planning estimates.</p></div><a href="/ToolVerse/privacy.html">Explore this decision</a></aside></div></details></nav><a class="tv-header-cta" href="/ToolVerse/index.html#calculator">Start Free Calculator</a><details class="tv-mobile-nav" data-tv-menu><summary><span class="tv-sr-only">Open navigation</span><span aria-hidden="true">Menu</span></summary><div class="tv-mobile-panel"><a class="tv-mobile-cta" href="/ToolVerse/index.html#calculator">Start Free Calculator</a><details class="tv-mobile-section"><summary>Tools</summary><div class="tv-mobile-categories" data-mobile-accordion-group="tools"><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-medical-billing-coding-panel"><span>Medical Billing &amp; Coding</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-medical-billing-coding-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/medical-billing-salary-calculator.html">Medical Billing Salary</a><a href="/ToolVerse/medical-coder-salary-calculator.html">Medical Coder Salary</a><a href="/ToolVerse/medical-billing-vs-medical-coding.html">Billing vs Coding</a><a href="/ToolVerse/how-to-become-a-medical-coder.html">Become a Medical Coder</a><a href="/ToolVerse/how-to-become-a-medical-biller.html">Become a Medical Biller</a><a href="/ToolVerse/medical-billing-services.html">Billing Services for Practices</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-rent-housing-panel"><span>Rent & Housing</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-rent-housing-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/index.html#calculator">Affordability Calculator</a><a href="/ToolVerse/car-insurance-cost-estimator.html">Car Insurance Cost Estimator</a><a href="/ToolVerse/true-cost-of-renting-calculator.html">True Cost of Renting</a><a href="/ToolVerse/first-apartment-budget-calculator.html">First Apartment Budget</a><a href="/ToolVerse/30-percent-rent-rule.html">30% Rent Rule</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-home-buying-panel"><span>Home Buying</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-home-buying-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/mortgage-payment-calculator.html">Mortgage Payment</a><a href="/ToolVerse/home-affordability-calculator.html">Home Affordability</a><a href="/ToolVerse/down-payment-calculator.html">Down Payment Plan</a><a href="/ToolVerse/closing-costs-calculator.html">Closing Costs</a><a href="/ToolVerse/rent-vs-buy-calculator.html">Rent vs Buy</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-salary-take-home-panel"><span>Salary & Take-Home Pay</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-salary-take-home-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/salary-needed-for-rent-calculator.html">Salary Needed for Rent</a><a href="/ToolVerse/salary-after-rent-calculator.html">Salary After Rent</a><a href="/ToolVerse/take-home-pay-vs-rent.html">Take-Home Pay vs Rent</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-job-career-panel"><span>Job & Career Decisions</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-job-career-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/job-offer-take-home-rent-comparison.html">Compare Job Offers</a><a href="/ToolVerse/relocation-break-even-calculator.html">Relocation Break-Even</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-moving-relocation-panel"><span>Moving & Relocation</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-moving-relocation-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/relocation-break-even-calculator.html">Relocation Break-Even</a><a href="/ToolVerse/cost-of-living-by-state.html">Cost of Living Context</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-budget-personal-finance-panel"><span>Budgeting & Personal Finance</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-budget-personal-finance-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/roommate-rent-split-calculator.html">Roommate Rent Split</a><a href="/ToolVerse/index.html#calculator">Financial Score</a><a href="/ToolVerse/car-insurance-cost-estimator.html">Car Insurance Cost Estimator</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-tools-cost-living-panel"><span>Cost of Living</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-tools-cost-living-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/cost-of-living-by-state.html">Cost of Living by State</a><a href="/ToolVerse/illinois-cost-of-living.html">Illinois Cost of Living</a><a href="/ToolVerse/texas-cost-of-living.html">Texas Cost of Living</a></div></section></div></details><details class="tv-mobile-section"><summary>Guides</summary><div class="tv-mobile-categories" data-mobile-accordion-group="guides"><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-renting-guides-panel"><span>Renting Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-renting-guides-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/salary-rent-affordability-guide.html">Rent by Salary</a><a href="/ToolVerse/what-does-rent-really-cost.html">What Rent Really Costs</a><a href="/ToolVerse/first-apartment-budget-costs-checklist.html">First Apartment Checklist</a><a href="/ToolVerse/30-percent-rent-rule.html">30% Rent Rule</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-salary-guides-panel"><span>Salary Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-salary-guides-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/salary-needed-for-rent-explained.html">Salary Needed for Rent</a><a href="/ToolVerse/salary-after-rent-calculator.html">Salary After Rent</a><a href="/ToolVerse/take-home-pay-vs-rent.html">Take-Home Pay vs Rent</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-career-guides-panel"><span>Career Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-career-guides-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/how-to-compare-job-offers-after-taxes-rent.html">Compare Job Offers</a><a href="/ToolVerse/is-a-higher-salary-worth-moving-for.html">Is a Higher Salary Worth Moving For?</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-financial-planning-panel"><span>Financial Planning</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-financial-planning-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/how-should-roommates-split-rent-and-utilities.html">How Roommates Split Costs</a><a href="/ToolVerse/cost-of-living-by-state.html">Cost of Living Context</a></div></section><section class="tv-mobile-category" data-mobile-accordion><button class="tv-mobile-category-toggle" type="button" data-mobile-accordion-toggle aria-expanded="false" aria-controls="tv-mobile-guides-home-buying-guides-panel"><span>Home Buying Guides</span><svg class="tv-mobile-category-chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 6l6 4-6 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="tv-mobile-category-panel" id="tv-mobile-guides-home-buying-guides-panel" data-mobile-accordion-panel hidden><a href="/ToolVerse/how-mortgage-payments-work.html">Mortgage Payment Guide</a><a href="/ToolVerse/how-much-house-can-i-afford.html">Home Affordability Guide</a><a href="/ToolVerse/down-payment-planning-guide.html">Down Payment Guide</a><a href="/ToolVerse/closing-costs-explained.html">Closing Costs Guide</a><a href="/ToolVerse/rent-vs-buy-decision-guide.html">Rent vs Buy Guide</a></div></section></div></details><details class="tv-mobile-section"><summary>Resources</summary><div class="tv-mobile-direct"><a href="/ToolVerse/index.html#how-it-works">How ToolVerse Works</a><a href="/ToolVerse/index.html#methodology">Methodology &amp; Sources</a><a href="/ToolVerse/index.html#faq">Frequently Asked Questions</a><a href="/ToolVerse/about.html">About ToolVerse</a><a href="/ToolVerse/contact.html">Contact</a></div></details></div></details></div></header>
+<section class="hero"><span class="badge">Free browser tool</span><h1>US Income Percentile Calculator</h1><p>Compare your annual individual income with the real US Census distribution and see roughly what share of Americans earn less.</p></section>
+<div class="grid">
+<main class="main-card prose">
+<nav class="tool-breadcrumb" aria-label="Breadcrumb">
+<a href="/ToolVerse/">Home</a> &rsaquo; <a href="/ToolVerse/tools/">Tools</a> &rsaquo; <a href="/ToolVerse/tools/calculators/">Calculators</a> &rsaquo; <span aria-current="page">US Income Percentile Calculator</span>
+</nav>
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Data: U.S. Census Bureau, CPS ASEC, Table PINC-11, income year 2024. Estimate only, not financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>Where does your income sit in the US?</h2>
+<p class="section-intro">Enter your annual individual income before tax. The calculator places it in the real Census income distribution for 2024 and shows roughly what share of US people earn less.</p>
+<form id="income-percentile-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Annual individual income ($)
+<input class="tv-field" id="income-percentile-calculator-income" name="income" type="number" inputmode="decimal" step="any" min="0" value="60000" aria-label="Annual individual income in dollars"></label>
+<label>Household size (optional)
+<input class="tv-field" id="income-percentile-calculator-household" name="household" type="number" inputmode="decimal" step="any" min="1" max="20" step="1" value="" aria-label="Household size, optional"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="income-percentile-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="income-percentile-calculator-result" aria-live="polite">
+<h2>Where your income sits</h2>
+<p class="result-lede" id="income-percentile-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Your position</h3><dl>
+<div><dt>Your income band</dt><dd id="income-percentile-calculator-band">-</dd></div>
+<div><dt>People in your band</dt><dd id="income-percentile-calculator-bandpeople">-</dd></div>
+<div><dt>Share in your band</dt><dd id="income-percentile-calculator-bandshare">-</dd></div>
+<div><dt>Share earning less (estimate)</dt><dd id="income-percentile-calculator-less">-</dd></div>
+<div><dt>Median band for comparison</dt><dd id="income-percentile-calculator-median">-</dd></div>
+</dl></div>
+</div>
+<h3>How to read this</h3>
+<p id="income-percentile-calculator-context">The median individual income falls in the $37,500 to $39,999 band.</p>
+<p><strong>About the data:</strong> the 44 bands come from the U.S. Census Bureau, Current Population Survey, 2025 Annual Social and Economic Supplement (CPS ASEC), Table PINC-11, income year 2024, people age 15 and over, including people with no income. Counts are survey estimates, not exact counts. The result is an estimate based on grouped bands, not an exact percentile.</p>
+</div>
+</section>
+
+<section><h2>When NOT to use US Income Percentile Calculator</h2><ul>
+<li>This tool compares individual income only. It does not measure household income, wealth, cost of living, or what an income feels like in your city.</li>
+<li>The result is a band-based estimate from grouped Census data, not an exact percentile, and survey estimates carry sampling error.</li>
+<li>It uses 2024 income data. Incomes and prices change over time, so newer years will differ.</li>
+</ul></section>
+<section class="faq-section"><h2>Questions people ask</h2>
+<details><summary>Where does this income data come from?</summary><p>The U.S. Census Bureau, Current Population Survey, 2025 Annual Social and Economic Supplement (CPS ASEC), Table PINC-11, income year 2024. The table covers people age 15 and over, all races, males and females combined, 278,302,000 people in 44 income bands. The published table is at census.gov, and the verified table is saved with this tool.</p></details>
+<details><summary>Is this my exact percentile?</summary><p>No. Census publishes grouped bands, not a percentile for every dollar amount. This tool finds your band and estimates your position by interpolating evenly inside that band, so treat the number as an approximation, not an exact rank.</p></details>
+<details><summary>Is this household income?</summary><p>No. This is individual money income before tax, for one person. Household income combines everyone under one roof and is usually higher. The optional household size field is only a note, it does not change the comparison.</p></details>
+<details><summary>What is the median individual income?</summary><p>The median falls in the $37,500 to $39,999 band. About half of US people age 15 and over earn less than that band and about half earn more, including people with no income.</p></details>
+</section>
+<section><h2>Related tools</h2><div class="tv-card-grid">
+<a class="tv-tool-card" href="/ToolVerse/tools/business/budget-planner.html" data-category="business" data-search="budget planner budget planner — free monthly budget &amp; 50/30/20 plan | toolverse business &amp; documents budget planner monthly budget planner 50 30 20 budget free budget calculator personal budget planner monthly budget template"><span class="tv-tool-card-icon"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></span><span class="tv-tool-card-main"><span class="tv-tool-card-name">Budget Planner</span><span class="tv-tool-card-cat">Business &amp; Documents</span><span class="tv-tool-card-cta">Open Tool <span aria-hidden="true">&rarr;</span></span></span></a>
+<a class="tv-tool-card" href="/ToolVerse/tools/calculators/retirement-savings-calculator.html" data-category="calculators" data-search="retirement savings calculator retirement savings calculator | toolverse calculators retirement savings calculator how much do i need to retire retirement nest egg calculator 25x rule retirement how much should i save for retirement retirement planning calculator how much money do i need to retire"><span class="tv-tool-card-icon"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span><span class="tv-tool-card-main"><span class="tv-tool-card-name">Retirement Savings Calculator</span><span class="tv-tool-card-cat">Calculators</span><span class="tv-tool-card-cta">Open Tool <span aria-hidden="true">&rarr;</span></span></span></a>
+<a class="tv-tool-card" href="/ToolVerse/tools/calculators/side-hustle-tax-calculator.html" data-category="calculators" data-search="side hustle tax calculator side hustle tax calculator | toolverse calculators side hustle tax calculator self employment tax calculator freelance tax calculator 1099 tax calculator how much tax on side hustle income schedule se calculator"><span class="tv-tool-card-icon"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span><span class="tv-tool-card-main"><span class="tv-tool-card-name">Side Hustle Tax Calculator</span><span class="tv-tool-card-cat">Calculators</span><span class="tv-tool-card-cta">Open Tool <span aria-hidden="true">&rarr;</span></span></span></a>
+<a class="tv-tool-card" href="/ToolVerse/tools/calculators/401k-contribution-calculator.html" data-category="calculators" data-search="401(k) contribution calculator 401(k) contribution calculator | toolverse calculators 401k contribution calculator 401k calculator 2026 401k limit 2026 how much should i contribute to my 401k 401k employer match calculator 401k growth calculator 401k catch up contribution 2026"><span class="tv-tool-card-icon"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span><span class="tv-tool-card-main"><span class="tv-tool-card-name">401(k) Contribution Calculator</span><span class="tv-tool-card-cat">Calculators</span><span class="tv-tool-card-cta">Open Tool <span aria-hidden="true">&rarr;</span></span></span></a>
+</div></section>
+<section class="tv-share"><h2>Share this tool</h2><p>Found it useful? Share it with someone who needs it. The tool is free and runs entirely in the browser.</p><p><button type="button" class="tv-share-btn" data-share-tool>Share / copy link</button> <span class="tv-share-note" data-share-note aria-live="polite"></span></p></section>
+<script>
+(function(){var b=document.querySelector('[data-share-tool]');if(!b)return;var n=document.querySelector('[data-share-note]');b.addEventListener('click',function(){var url=window.location.href;function done(msg){if(n)n.textContent=msg;}if(navigator.share){navigator.share({title:document.title,url:url}).then(function(){done('Thanks for sharing.');}).catch(function(){});}else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){done('Link copied to clipboard.');}).catch(function(){done('Copy this page URL from the address bar to share.');});}else{done('Copy this page URL from the address bar to share.');}});})();
+</script>
+</main>
+<aside class="side-card"><span class="badge">No login, saved in your browser</span><h2>Your numbers stay private</h2><p>Your numbers stay in your browser, nothing is uploaded, and no account is connected.</p><a class="button" href="/ToolVerse/tools/">Browse all tools</a><section class="next-decision"><p class="next-decision-title">Your next step</p><p class="next-decision-copy">See how that income fits your monthly budget with the budget planner next.</p></section></aside>
+</div>
+<footer class="tv-footer">
+  <div class="tv-footer-inner">
+    <section class="tv-footer-cta" aria-labelledby="tv-footer-cta-title">
+      <div>
+        <p class="tv-footer-cta-eyebrow">Plan with more clarity</p>
+        <h2 id="tv-footer-cta-title">Make your next money decision with more clarity.</h2>
+        <p>Free planning tools for rent, salary, home buying, moving, and everyday U.S. financial decisions.</p>
+      </div>
+      <a class="tv-footer-cta-link" href="/ToolVerse/index.html#calculator">Start Free Calculator <span aria-hidden="true">→</span></a>
+    </section>
+    <div class="tv-footer-grid">
+      <section class="tv-footer-brand" aria-labelledby="tv-footer-brand-title">
+        <a class="tv-brand" id="tv-footer-brand-title" href="/ToolVerse/index.html" aria-label="ToolVerse home"><span class="tv-brand-mark" aria-hidden="true">TV</span><span>Tool<b>Verse</b></span></a>
+        <p>Private tools for clearer U.S. money decisions. Plan a scenario, understand the trade-offs, and verify important details before acting.</p>
+        <p class="tv-footer-trust">Free · No account · Runs in your browser</p>
+      </section>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Popular tools">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-popular-tools"><span>Popular Tools</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Popular Tools</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-popular-tools" data-footer-accordion-panel hidden>
+          <a href="/ToolVerse/index.html#calculator">Affordability Calculator</a>
+          <a href="/ToolVerse/true-cost-of-renting-calculator.html">True Cost of Renting</a>
+          <a href="/ToolVerse/salary-needed-for-rent-calculator.html">Salary Needed for Rent</a>
+          <a href="/ToolVerse/mortgage-payment-calculator.html">Mortgage Payment</a>
+          <a href="/ToolVerse/home-affordability-calculator.html">Home Affordability</a>
+          <a href="/ToolVerse/rent-vs-buy-calculator.html">Rent vs Buy</a>
+        </div>
+      </nav>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Decision categories">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-decision-categories"><span>Decision Categories</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Decision Categories</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-decision-categories" data-footer-accordion-panel hidden>
+          <a href="/ToolVerse/30-percent-rent-rule.html">Rent &amp; Housing</a>
+          <a href="/ToolVerse/home-affordability-calculator.html">Home Buying</a>
+          <a href="/ToolVerse/salary-needed-for-rent-calculator.html">Salary &amp; Take-Home Pay</a>
+          <a href="/ToolVerse/job-offer-take-home-rent-comparison.html">Job &amp; Career</a>
+          <a href="/ToolVerse/relocation-break-even-calculator.html">Moving &amp; Relocation</a>
+          <a href="/ToolVerse/roommate-rent-split-calculator.html">Budgeting &amp; Personal Finance</a>
+          <a href="/ToolVerse/cost-of-living-by-state.html">Cost of Living</a>
+        </div>
+      </nav>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Guides and learning">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-guides-learning"><span>Guides &amp; Learning</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Guides &amp; Learning</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-guides-learning" data-footer-accordion-panel hidden>
+          <a href="/ToolVerse/what-does-rent-really-cost.html">Renting Guides</a>
+          <a href="/ToolVerse/how-mortgage-payments-work.html">Home Buying Guides</a>
+          <a href="/ToolVerse/salary-needed-for-rent-explained.html">Salary Guides</a>
+          <a href="/ToolVerse/how-to-compare-job-offers-after-taxes-rent.html">Career Guides</a>
+          <a href="/ToolVerse/how-should-roommates-split-rent-and-utilities.html">Shared Living Guides</a>
+          <a href="/ToolVerse/index.html#how-it-works">How ToolVerse Works</a>
+        </div>
+      </nav>
+      <nav class="tv-footer-column tv-footer-accordion" aria-label="Company and trust">
+        <button type="button" class="tv-footer-accordion-toggle" data-footer-accordion-toggle aria-expanded="false" aria-controls="tv-footer-company-trust"><span>Company &amp; Trust</span><svg class="tv-footer-chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 7.5 5 5 5-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/></svg></button>
+        <p class="tv-footer-heading" role="heading" aria-level="2">Company &amp; Trust</p>
+        <div class="tv-footer-accordion-panel" id="tv-footer-company-trust" data-footer-accordion-panel hidden>
+          <a href="/ToolVerse/about.html">About</a>
+          <a href="/ToolVerse/contact.html">Contact</a>
+          <a href="/ToolVerse/privacy.html">Privacy</a>
+          <a href="/ToolVerse/terms.html">Terms</a>
+          <a href="/ToolVerse/disclaimer.html">Disclaimer</a>
+        </div>
+      </nav>
+    </div>
+    <div class="tv-footer-bottom">
+      <p>© <span class="tv-year"></span> ToolVerse. Estimates are educational planning information, not financial, tax, legal, lending, or affordability guarantees.</p>
+      <p>Free · No account · Runs in your browser</p>
+    </div>
+  </div>
+</footer>
+</div>
+<script defer src="/ToolVerse/tools/assets/tools-analytics.js"></script>
+<script>
+/* income-percentile-calculator v1.0.0 — generated, do not hand-edit */
+/* US Income Percentile Calculator. Data: U.S. Census Bureau, CPS ASEC, Table PINC-11, income year 2024 (survey 2025). Combined males plus females, all races, people 15 and over. See research/census-pinc11-2024.json for the verified table. */
+(function () {
+  'use strict';
+  var form = document.getElementById('income-percentile-calculator-form');
+  if (!form) return; // not on this page, safe global include
+
+  var bands = [
+    { label: "Under $2,500", people: 44290000 },
+    { label: "$2,500 to $4,999", people: 4856000 },
+    { label: "$5,000 to $7,499", people: 5023000 },
+    { label: "$7,500 to $9,999", people: 4389000 },
+    { label: "$10,000 to $12,499", people: 8339000 },
+    { label: "$12,500 to $14,999", people: 7110000 },
+    { label: "$15,000 to $17,499", people: 8138000 },
+    { label: "$17,500 to $19,999", people: 6033000 },
+    { label: "$20,000 to $22,499", people: 9050000 },
+    { label: "$22,500 to $24,999", people: 6050000 },
+    { label: "$25,000 to $27,499", people: 8299000 },
+    { label: "$27,500 to $29,999", people: 4940000 },
+    { label: "$30,000 to $32,499", people: 9665000 },
+    { label: "$32,500 to $34,999", people: 4349000 },
+    { label: "$35,000 to $37,499", people: 7893000 },
+    { label: "$37,500 to $39,999", people: 4508000 },
+    { label: "$40,000 to $42,499", people: 8249000 },
+    { label: "$42,500 to $44,999", people: 3518000 },
+    { label: "$45,000 to $47,499", people: 6385000 },
+    { label: "$47,500 to $49,999", people: 4018000 },
+    { label: "$50,000 to $52,499", people: 8610000 },
+    { label: "$52,500 to $54,999", people: 3353000 },
+    { label: "$55,000 to $57,499", people: 4918000 },
+    { label: "$57,500 to $59,999", people: 2580000 },
+    { label: "$60,000 to $62,499", people: 7485000 },
+    { label: "$62,500 to $64,999", people: 2451000 },
+    { label: "$65,000 to $67,499", people: 4072000 },
+    { label: "$67,500 to $69,999", people: 2256000 },
+    { label: "$70,000 to $72,499", people: 4894000 },
+    { label: "$72,500 to $74,999", people: 2217000 },
+    { label: "$75,000 to $77,499", people: 4358000 },
+    { label: "$77,500 to $79,999", people: 1893000 },
+    { label: "$80,000 to $82,499", people: 4172000 },
+    { label: "$82,500 to $84,999", people: 1807000 },
+    { label: "$85,000 to $87,499", people: 2681000 },
+    { label: "$87,500 to $89,999", people: 1415000 },
+    { label: "$90,000 to $92,499", people: 2907000 },
+    { label: "$92,500 to $94,999", people: 1336000 },
+    { label: "$95,000 to $97,499", people: 2092000 },
+    { label: "$97,500 to $99,999", people: 1283000 },
+    { label: "$100,000 to $149,999", people: 23909000 },
+    { label: "$150,000 to $199,999", people: 10713000 },
+    { label: "$200,000 to $249,999", people: 4777000 },
+    { label: "$250,000 and over", people: 7021000 }
+  ];
+  var totalPeople = 0;
+  for (var i = 0; i < bands.length; i++) { totalPeople += bands[i].people; }
+  var lowers = [0, 2500, 5000, 7500, 10000, 12500, 15000, 17500, 20000, 22500, 25000, 27500, 30000, 32500, 35000, 37500, 40000, 42500, 45000, 47500, 50000, 52500, 55000, 57500, 60000, 62500, 65000, 67500, 70000, 72500, 75000, 77500, 80000, 82500, 85000, 87500, 90000, 92500, 95000, 97500, 100000, 150000, 200000, 250000];
+  var uppers = [2500, 5000, 7500, 10000, 12500, 15000, 17500, 20000, 22500, 25000, 27500, 30000, 32500, 35000, 37500, 40000, 42500, 45000, 47500, 50000, 52500, 55000, 57500, 60000, 62500, 65000, 67500, 70000, 72500, 75000, 77500, 80000, 82500, 85000, 87500, 90000, 92500, 95000, 97500, 100000, 150000, 200000, 250000, null];
+
+
+  var errorEl = document.getElementById('income-percentile-calculator-error');
+  var ledeEl = document.getElementById('income-percentile-calculator-lede');
+  var tracked = false;
+
+  function trackUse() {
+    if (!tracked && window.ToolVerseTools && typeof window.ToolVerseTools.track === 'function') {
+      tracked = true;
+      window.ToolVerseTools.track('income-percentile-calculator', 'calculators', 'tool_use');
+    }
+  }
+
+  function showError(msg) {
+    if (!errorEl) return;
+    errorEl.textContent = msg;
+    errorEl.hidden = false;
+  }
+  function hideError() {
+    if (!errorEl) return;
+    errorEl.hidden = true;
+    errorEl.textContent = '';
+  }
+
+  function fmtMoney(value) {
+    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  }
+  function fmtNum(value) {
+    return value.toLocaleString('en-US');
+  }
+  function fmtPct(value) {
+    return value.toFixed(1) + '%';
+  }
+
+  var incomeEl = document.getElementById('income-percentile-calculator-income');
+  var householdEl = document.getElementById('income-percentile-calculator-household');
+  var bandEl = document.getElementById('income-percentile-calculator-band');
+  var bandPeopleEl = document.getElementById('income-percentile-calculator-bandpeople');
+  var bandShareEl = document.getElementById('income-percentile-calculator-bandshare');
+  var lessEl = document.getElementById('income-percentile-calculator-less');
+  var medianEl = document.getElementById('income-percentile-calculator-median');
+  var contextEl = document.getElementById('income-percentile-calculator-context');
+
+  function calculate() {
+    hideError();
+    var income = parseFloat(incomeEl.value);
+    var household = parseInt(householdEl.value, 10);
+    if (isNaN(income) || income < 0 || income > 100000000) {
+      showError('Enter a valid annual income (0 or more).');
+      return;
+    }
+    if (householdEl.value !== '' && (isNaN(household) || household < 1 || household > 20)) {
+      showError('Household size, if entered, must be a whole number between 1 and 20.');
+      return;
+    }
+    var idx = bands.length - 1;
+    for (var i = 0; i < bands.length; i++) {
+      if (uppers[i] !== null && income < uppers[i]) { idx = i; break; }
+    }
+    var below = 0;
+    for (var j = 0; j < idx; j++) { below += bands[j].people; }
+    var bandShare = bands[idx].people / totalPeople * 100;
+    var pctLess;
+    if (uppers[idx] === null) {
+      pctLess = below / totalPeople * 100;
+      lessEl.textContent = 'More than ' + pctLess.toFixed(1) + '% (top band, open ended)';
+    } else {
+      var frac = (income - lowers[idx]) / (uppers[idx] - lowers[idx]);
+      if (frac < 0) { frac = 0; }
+      if (frac > 1) { frac = 1; }
+      pctLess = (below + frac * bands[idx].people) / totalPeople * 100;
+      lessEl.textContent = 'About ' + pctLess.toFixed(1) + '% (estimate, interpolated inside the band)';
+    }
+    bandEl.textContent = bands[idx].label;
+    bandPeopleEl.textContent = fmtNum(bands[idx].people) + ' people';
+    bandShareEl.textContent = bandShare.toFixed(2) + '% of US people age 15 and over';
+    medianEl.textContent = '$37,500 to $39,999';
+    var note = 'This is individual income before tax, for one person, not household income. ';
+    if (!isNaN(household) && household > 1) {
+      note += 'You entered a household of ' + household + ' people, but the comparison still uses your individual income only. ';
+    }
+    note += 'The median individual income falls in the $37,500 to $39,999 band, so an income of ' +
+      fmtMoney(income) + ' sits ' + (pctLess >= 50 ? 'above' : 'below') + ' the middle of the distribution.';
+    contextEl.textContent = note;
+    ledeEl.textContent = 'An income of ' + fmtMoney(income) + ' falls in the ' + bands[idx].label +
+      ' band. About ' + pctLess.toFixed(1) + '% of US people age 15 and over earn less.';
+    trackUse();
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    calculate();
+  });
+})();
+
+</script>
+</body>
+</html>

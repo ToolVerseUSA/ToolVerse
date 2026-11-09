@@ -1,0 +1,82 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "See how the same growth fits a retirement plan with the retirement savings calculator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/compound-interest-calculator.html",
+  "faq": [
+    {
+      "a": "Interest is calculated monthly on the current balance, then added to it, so the next month earns interest on a slightly larger balance. Your monthly contribution is added each month. The rate you enter is assumed to stay the same for the whole period.",
+      "q": "How does compound interest work here?"
+    },
+    {
+      "a": "Total contributed is your starting amount plus every monthly contribution. Total interest is the final balance minus total contributed, so it is the growth earned on top of what you put in.",
+      "q": "What is the difference between total contributed and total interest?"
+    },
+    {
+      "a": "Only if the rate you enter stays the same for the whole period. Real savings and investment returns change, and investment returns can be negative, so treat this as a projection, not a promise.",
+      "q": "Will my money really grow by this much?"
+    },
+    {
+      "a": "No. Taxes on interest or investment gains and any account fees are not included, so the real after-tax result will differ.",
+      "q": "Does this include taxes or fees?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Watch your money grow with monthly compounding. Enter your starting amount, monthly contribution, rate, and years.",
+  "heroTitle": "Compound Interest Calculator",
+  "id": "compound-interest-calculator",
+  "inputs": [
+    {
+      "label": "Starting amount ($)",
+      "name": "starting",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Monthly contribution ($)",
+      "name": "monthly",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Annual interest rate (%)",
+      "name": "rate",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Years",
+      "name": "years",
+      "required": true,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "compound interest calculator",
+    "compound interest calculator monthly",
+    "savings growth calculator",
+    "investment growth calculator",
+    "compound savings calculator"
+  ],
+  "logicRef": "tools-src/calculators/compound-interest-calculator.js",
+  "metaDescription": "Free compound interest calculator. See your balance grow with monthly contributions and monthly compounding, year by year.",
+  "relatedTools": [
+    "high-yield-savings-calculator",
+    "retirement-savings-calculator",
+    "budget-planner"
+  ],
+  "slug": "compound-interest-calculator",
+  "title": "Compound Interest Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It assumes the same interest rate and the same monthly contribution for the whole period. Real returns change.",
+    "It does not account for taxes on interest or gains, or for fees.",
+    "The result is a projection, not a guarantee of future returns."
+  ]
+}

@@ -1,0 +1,42 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. The rate is entered by you and assumed constant. Estimate only, not financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>How much will compound interest grow your money?</h2>
+<p class="section-intro">Enter your starting amount, what you plan to add each month, and the annual interest rate. The calculator compounds monthly and shows your balance year by year.</p>
+<form id="compound-interest-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Starting amount ($)
+<input class="tv-field" id="compound-interest-calculator-starting" name="starting" type="number" inputmode="decimal" step="any" min="0" value="10000" aria-label="Starting amount in dollars"></label>
+<label>Monthly contribution ($)
+<input class="tv-field" id="compound-interest-calculator-monthly" name="monthly" type="number" inputmode="decimal" step="any" min="0" value="200" aria-label="Monthly contribution in dollars"></label>
+<label>Annual interest rate (%)
+<input class="tv-field" id="compound-interest-calculator-rate" name="rate" type="number" inputmode="decimal" step="any" min="0" max="25" step="0.01" value="6" aria-label="Annual interest rate in percent"></label>
+<label>Years
+<input class="tv-field" id="compound-interest-calculator-years" name="years" type="number" inputmode="decimal" step="any" min="1" max="50" step="1" value="10" aria-label="Years"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="compound-interest-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="compound-interest-calculator-result" aria-live="polite">
+<h2>Your projected growth</h2>
+<p class="result-lede" id="compound-interest-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Totals</h3><dl>
+<div><dt>Final balance</dt><dd id="compound-interest-calculator-final">-</dd></div>
+<div><dt>Total contributed</dt><dd id="compound-interest-calculator-contributed">-</dd></div>
+<div><dt>Total interest earned</dt><dd id="compound-interest-calculator-interest">-</dd></div>
+<div><dt>Rate used</dt><dd id="compound-interest-calculator-rate-used">-</dd></div>
+</dl></div>
+</div>
+<h3>Year-by-year growth</h3>
+<table>
+<thead><tr><th>Year</th><th>Contributions that year</th><th>Interest that year</th><th>End balance</th></tr></thead>
+<tbody id="compound-interest-calculator-table"><tr><td colspan="4">No projection yet.</td></tr></tbody>
+</table>
+<p><strong>About the math:</strong> interest compounds monthly at the annual rate divided by 12, with your contribution added each month. The same method is used in the high-yield savings calculator. Real rates change, and investment returns can fall as well as rise.</p>
+</div>
+</section>

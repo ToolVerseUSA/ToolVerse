@@ -1,0 +1,130 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "See what a loss like that takes to recover with the drawdown recovery calculator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/portfolio-concentration-calculator.html",
+  "faq": [
+    {
+      "a": "The Herfindahl-Hirschman Index for a portfolio: add up the square of each holding's weight in percent, so a holding at 50% contributes 2,500. The score runs from near 0 to 10,000. Under 1,500 reads as diversified, 1,500 to 2,500 as moderate, and over 2,500 as concentrated.",
+      "q": "What is the HHI concentration score?"
+    },
+    {
+      "a": "How much the whole portfolio would fall if only the largest holding dropped, by 20% and by 50%. It is the largest weight times the fall, so a 50% holding falling 50% cuts the portfolio by 25%.",
+      "q": "What does the largest holding fall show?"
+    },
+    {
+      "a": "Up to 6. Enter at least 2 holdings with values above zero. Leave the rest blank.",
+      "q": "How many holdings can I enter?"
+    },
+    {
+      "a": "Not always, but it is riskier. One holding can drive the whole result, good or bad. This tool only measures concentration, it does not tell you what to buy or sell.",
+      "q": "Is a concentrated portfolio bad?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "How concentrated is your portfolio? Enter up to 6 holdings to see each weight, your concentration score, and the impact of a fall.",
+  "heroTitle": "Portfolio Concentration Calculator",
+  "id": "portfolio-concentration-calculator",
+  "inputs": [
+    {
+      "label": "Holding 1 name",
+      "name": "name1",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "label": "Holding 1 value ($)",
+      "name": "value1",
+      "required": false,
+      "type": "number"
+    },
+    {
+      "label": "Holding 2 name",
+      "name": "name2",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "label": "Holding 2 value ($)",
+      "name": "value2",
+      "required": false,
+      "type": "number"
+    },
+    {
+      "label": "Holding 3 name",
+      "name": "name3",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "label": "Holding 3 value ($)",
+      "name": "value3",
+      "required": false,
+      "type": "number"
+    },
+    {
+      "label": "Holding 4 name",
+      "name": "name4",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "label": "Holding 4 value ($)",
+      "name": "value4",
+      "required": false,
+      "type": "number"
+    },
+    {
+      "label": "Holding 5 name",
+      "name": "name5",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "label": "Holding 5 value ($)",
+      "name": "value5",
+      "required": false,
+      "type": "number"
+    },
+    {
+      "label": "Holding 6 name",
+      "name": "name6",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "label": "Holding 6 value ($)",
+      "name": "value6",
+      "required": false,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "portfolio concentration calculator",
+    "portfolio diversification calculator",
+    "hhi calculator portfolio",
+    "holding weight calculator",
+    "portfolio risk calculator"
+  ],
+  "logicRef": "tools-src/calculators/portfolio-concentration-calculator.js",
+  "metaDescription": "Free portfolio concentration calculator. Check each holding weight, your HHI concentration score, and the impact of a big fall.",
+  "relatedTools": [
+    "retirement-savings-calculator",
+    "compound-interest-calculator",
+    "drawdown-recovery-calculator"
+  ],
+  "slug": "portfolio-concentration-calculator",
+  "title": "Portfolio Concentration Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "This tool measures concentration only. It does not judge quality, value, or future returns.",
+    "The fall scenarios move one holding only. Real markets move holdings together.",
+    "The result is a planning measure, not investment advice."
+  ]
+}

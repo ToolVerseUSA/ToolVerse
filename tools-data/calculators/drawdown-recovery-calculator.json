@@ -1,0 +1,70 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "See how steady growth rebuilds a balance with the compound interest calculator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/drawdown-recovery-calculator.html",
+  "faq": [
+    {
+      "a": "Because the gain applies to a smaller balance. A $10,000 portfolio that falls 20% is worth $8,000. It needs $2,000 to get back to $10,000, and $2,000 is 25% of $8,000. The formula is loss divided by (1 minus loss).",
+      "q": "Why does a 20% loss need a 25% gain to recover?"
+    },
+    {
+      "a": "It depends on the return you assume. At a steady 7% a year, a 25% gain takes about 3.3 years. Enter any return to see the estimate, but real returns vary every year, so the time is an illustration, not a promise.",
+      "q": "How long will recovery take?"
+    },
+    {
+      "a": "No. This is the gain needed on the remaining balance alone. Adding new money would shorten the recovery, but this tool shows the pure math of the loss.",
+      "q": "Does this include new contributions?"
+    },
+    {
+      "a": "No. It is a steady rate you enter for illustration. Investment returns are never steady, and past returns do not guarantee future results.",
+      "q": "Is the recovery return a forecast?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "A loss needs a bigger gain to recover. Enter your portfolio loss to see the gain needed, the dollar example, and the recovery time.",
+  "heroTitle": "Drawdown Recovery Calculator",
+  "id": "drawdown-recovery-calculator",
+  "inputs": [
+    {
+      "label": "Portfolio loss (%)",
+      "name": "loss",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Annual return for recovery (%) (optional)",
+      "name": "return",
+      "required": false,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "drawdown recovery calculator",
+    "how much gain to recover a loss",
+    "portfolio loss recovery calculator",
+    "investment recovery calculator",
+    "drawdown calculator"
+  ],
+  "logicRef": "tools-src/calculators/drawdown-recovery-calculator.js",
+  "metaDescription": "Free drawdown recovery calculator. See the gain needed to recover a portfolio loss, and how long it takes at a steady return.",
+  "relatedTools": [
+    "retirement-savings-calculator",
+    "high-yield-savings-calculator",
+    "compound-interest-calculator"
+  ],
+  "slug": "drawdown-recovery-calculator",
+  "title": "Drawdown Recovery Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "The recovery time assumes the same return every year. Real returns vary and can be negative.",
+    "It shows the gain needed on the remaining balance alone, with no new contributions.",
+    "The result is a math illustration, not investment advice or a forecast."
+  ]
+}

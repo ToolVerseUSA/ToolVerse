@@ -1,0 +1,45 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. The tax set-aside is a planning percentage you choose, not a calculated tax bill. Estimate only, not financial or tax advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>What should you charge per hour?</h2>
+<p class="section-intro">Enter the income you want to keep, how many hours you can bill, your business expenses, and the share you set aside for tax. The calculator shows the hourly rate that covers all of it.</p>
+<form id="freelance-hourly-rate-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Target annual income ($)
+<input class="tv-field" id="freelance-hourly-rate-calculator-income" name="income" type="number" inputmode="decimal" step="any" min="0" value="80000" aria-label="Target annual income in dollars"></label>
+<label>Billable hours per week
+<input class="tv-field" id="freelance-hourly-rate-calculator-hours" name="hours" type="number" inputmode="decimal" step="any" min="1" max="80" step="0.5" value="30" aria-label="Billable hours per week"></label>
+<label>Working weeks per year
+<input class="tv-field" id="freelance-hourly-rate-calculator-weeks" name="weeks" type="number" inputmode="decimal" step="any" min="1" max="52" step="1" value="40" aria-label="Working weeks per year"></label>
+<label>Annual business expenses ($)
+<input class="tv-field" id="freelance-hourly-rate-calculator-expenses" name="expenses" type="number" inputmode="decimal" step="any" min="0" value="5000" aria-label="Annual business expenses in dollars"></label>
+<label>Tax set-aside (%)
+<input class="tv-field" id="freelance-hourly-rate-calculator-tax" name="tax" type="number" inputmode="decimal" step="any" min="0" max="50" step="0.5" value="25" aria-label="Tax set-aside in percent"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="freelance-hourly-rate-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="freelance-hourly-rate-calculator-result" aria-live="polite">
+<h2>Your freelance rate</h2>
+<p class="result-lede" id="freelance-hourly-rate-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Your rates</h3><dl>
+<div><dt>Hourly rate</dt><dd id="freelance-hourly-rate-calculator-hourly">-</dd></div>
+<div><dt>Day rate (8 hours)</dt><dd id="freelance-hourly-rate-calculator-day">-</dd></div>
+<div><dt>Rate if only 80% of hours are billable</dt><dd id="freelance-hourly-rate-calculator-hourly80">-</dd></div>
+<div><dt>Day rate at 80% billable</dt><dd id="freelance-hourly-rate-calculator-day80">-</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>How the rate is built</h3><dl>
+<div><dt>Billable hours per year</dt><dd id="freelance-hourly-rate-calculator-billhours">-</dd></div>
+<div><dt>Gross revenue needed</dt><dd id="freelance-hourly-rate-calculator-gross">-</dd></div>
+<div><dt>Expenses covered</dt><dd id="freelance-hourly-rate-calculator-expenses-out">-</dd></div>
+<div><dt>Tax set-aside covered</dt><dd id="freelance-hourly-rate-calculator-taxamount">-</dd></div>
+</dl></div>
+</div>
+<p><strong>About the math:</strong> gross revenue needed equals (target income plus expenses) divided by (1 minus the tax set-aside rate). The hourly rate is that gross revenue divided by billable hours per year. The 80 percent rate uses 80 percent of those hours.</p>
+</div>
+</section>

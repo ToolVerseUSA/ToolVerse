@@ -1,0 +1,88 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Check the tax side of that income with the side hustle tax calculator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/freelance-hourly-rate-calculator.html",
+  "faq": [
+    {
+      "a": "Add your target income and your annual business expenses, then divide by the share left after your tax set-aside. That gives the gross revenue you need. Divide that by your billable hours for the year (hours per week times weeks per year) to get the hourly rate.",
+      "q": "How is the hourly rate worked out?"
+    },
+    {
+      "a": "Because expenses and taxes come out of what you bill. A freelancer who wants $80,000 in the bank still has to bill enough to cover software, equipment, and taxes on top of that $80,000.",
+      "q": "Why is the rate higher than my target income divided by my hours?"
+    },
+    {
+      "a": "Not every working hour is billable. Admin, pitching, and learning take time too. The 80 percent rate shows what to charge if only 80 percent of your hours are paid, so unpaid time does not eat your income.",
+      "q": "What is the 80 percent billable rate?"
+    },
+    {
+      "a": "No. It is a planning percentage you choose. Real US freelancer tax depends on your total income, deductions, state, and self-employment tax, so check the current rules or a tax professional before relying on it.",
+      "q": "Does the tax set-aside cover my real tax bill?"
+    }
+  ],
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "What should you charge per hour? Enter your target income, billable hours, expenses, and tax set-aside to find your rate.",
+  "heroTitle": "Freelance Hourly Rate Calculator",
+  "id": "freelance-hourly-rate-calculator",
+  "inputs": [
+    {
+      "label": "Target annual income ($)",
+      "name": "income",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Billable hours per week",
+      "name": "hours",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Working weeks per year",
+      "name": "weeks",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Annual business expenses ($)",
+      "name": "expenses",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Tax set-aside (%)",
+      "name": "tax",
+      "required": true,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "freelance hourly rate calculator",
+    "freelance rate calculator",
+    "how much should i charge per hour",
+    "freelancer hourly rate",
+    "day rate calculator"
+  ],
+  "logicRef": "tools-src/calculators/freelance-hourly-rate-calculator.js",
+  "metaDescription": "Free freelance hourly rate calculator. Turn your target income, hours, expenses, and taxes into an hourly and day rate.",
+  "relatedTools": [
+    "side-hustle-tax-calculator",
+    "budget-planner",
+    "retirement-savings-calculator"
+  ],
+  "slug": "freelance-hourly-rate-calculator",
+  "title": "Freelance Hourly Rate Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "The tax set-aside is a planning percentage you choose, not a calculated tax bill. Real tax depends on your full situation.",
+    "It assumes every billable hour is paid at the same rate, with no unpaid invoices or gaps between clients.",
+    "The result is a starting point for pricing, not a promise of income."
+  ]
+}

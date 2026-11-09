@@ -182,7 +182,7 @@ function whenNotToUseHtml(def) {
 }
 
 function shareSectionHtml() {
-  return `<section class="tv-share"><h2>Share this tool</h2><p>Found it useful? Share it with someone who needs it — the tool is free and runs entirely in the browser.</p><p><button type="button" class="tv-share-btn" data-share-tool>Share / copy link</button> <span class="tv-share-note" data-share-note aria-live="polite"></span></p></section>
+  return `<section class="tv-share"><h2>Share this tool</h2><p>Found it useful? Share it with someone who needs it. The tool is free and runs entirely in the browser.</p><p><button type="button" class="tv-share-btn" data-share-tool>Share / copy link</button> <span class="tv-share-note" data-share-note aria-live="polite"></span></p></section>
 <script>
 (function(){var b=document.querySelector('[data-share-tool]');if(!b)return;var n=document.querySelector('[data-share-note]');b.addEventListener('click',function(){var url=window.location.href;function done(msg){if(n)n.textContent=msg;}if(navigator.share){navigator.share({title:document.title,url:url}).then(function(){done('Thanks for sharing.');}).catch(function(){});}else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){done('Link copied to clipboard.');}).catch(function(){done('Copy this page URL from the address bar to share.');});}else{done('Copy this page URL from the address bar to share.');}});})();
 </script>`;
@@ -339,7 +339,15 @@ const TOOL_ICONS = {
   'bnpl-payment-tracker': 'calendar',
   'time-zone-converter': 'clock',
   'world-clock': 'clock',
-  'embed-calculator': 'code'
+  'embed-calculator': 'code',
+  'income-percentile-calculator': 'chart-bars',
+  'business-loan-payment-calculator': 'briefcase',
+  'cash-runway-calculator': 'clock',
+  'freelance-hourly-rate-calculator': 'user',
+  'compound-interest-calculator': 'chart',
+  'drawdown-recovery-calculator': 'target',
+  'portfolio-concentration-calculator': 'data',
+  'ai-workflow-roi-calculator': 'bot'
 };
 
 // Curated "most popular" tools (hub row + card badge). Order = display order.

@@ -1,0 +1,36 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Data: U.S. Census Bureau, CPS ASEC, Table PINC-11, income year 2024. Estimate only, not financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>Where does your income sit in the US?</h2>
+<p class="section-intro">Enter your annual individual income before tax. The calculator places it in the real Census income distribution for 2024 and shows roughly what share of US people earn less.</p>
+<form id="income-percentile-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Annual individual income ($)
+<input class="tv-field" id="income-percentile-calculator-income" name="income" type="number" inputmode="decimal" step="any" min="0" value="60000" aria-label="Annual individual income in dollars"></label>
+<label>Household size (optional)
+<input class="tv-field" id="income-percentile-calculator-household" name="household" type="number" inputmode="decimal" step="any" min="1" max="20" step="1" value="" aria-label="Household size, optional"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="income-percentile-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="income-percentile-calculator-result" aria-live="polite">
+<h2>Where your income sits</h2>
+<p class="result-lede" id="income-percentile-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Your position</h3><dl>
+<div><dt>Your income band</dt><dd id="income-percentile-calculator-band">-</dd></div>
+<div><dt>People in your band</dt><dd id="income-percentile-calculator-bandpeople">-</dd></div>
+<div><dt>Share in your band</dt><dd id="income-percentile-calculator-bandshare">-</dd></div>
+<div><dt>Share earning less (estimate)</dt><dd id="income-percentile-calculator-less">-</dd></div>
+<div><dt>Median band for comparison</dt><dd id="income-percentile-calculator-median">-</dd></div>
+</dl></div>
+</div>
+<h3>How to read this</h3>
+<p id="income-percentile-calculator-context">The median individual income falls in the $37,500 to $39,999 band.</p>
+<p><strong>About the data:</strong> the 44 bands come from the U.S. Census Bureau, Current Population Survey, 2025 Annual Social and Economic Supplement (CPS ASEC), Table PINC-11, income year 2024, people age 15 and over, including people with no income. Counts are survey estimates, not exact counts. The result is an estimate based on grouped bands, not an exact percentile.</p>
+</div>
+</section>
