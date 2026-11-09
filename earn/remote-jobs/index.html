@@ -159,6 +159,13 @@ table.data th{color:#fff}
   var industryEl = document.getElementById('job-industry-filter');
   var updatedEl = document.getElementById('last-updated');
   var allJobs = [];
+  var updatedPrefix = '';
+
+  function decodeEntities(value) {
+    var textarea = document.createElement('textarea');
+    textarea.innerHTML = value;
+    return textarea.value;
+  }
 
   function asList(value) {
     if (Array.isArray(value)) return value.filter(Boolean);
@@ -218,12 +225,12 @@ table.data th{color:#fff}
       titleLink.href = job.url;
       titleLink.target = '_blank';
       titleLink.rel = 'noopener';
-      titleLink.textContent = job.jobTitle || 'Untitled role';
+      titleLink.textContent = job.jobTitle ? decodeEntities(job.jobTitle) : 'Untitled role';
       heading.appendChild(titleLink);
       card.appendChild(heading);
 
       var company = document.createElement('p');
-      company.textContent = job.companyName || '';
+      company.textContent = job.companyName ? decodeEntities(job.companyName) : '';
       card.appendChild(company);
 
       var details = document.createElement('p');
@@ -243,7 +250,7 @@ table.data th{color:#fff}
 
       if (job.jobExcerpt) {
         var excerpt = document.createElement('p');
-        excerpt.textContent = job.jobExcerpt;
+        excerpt.textContent = decodeEntities(job.jobExcerpt);
         card.appendChild(excerpt);
       }
 
@@ -270,6 +277,8 @@ table.data th{color:#fff}
       empty.textContent = 'No jobs match your filters. Try a different search or filter.';
       listEl.appendChild(empty);
     }
+
+    updatedEl.textContent = updatedPrefix + 'Showing ' + shown + (shown === 1 ? ' recent role.' : ' recent roles.');
   }
 
   fetch('jobs.json')
@@ -281,9 +290,9 @@ table.data th{color:#fff}
       allJobs = Array.isArray(data.jobs) ? data.jobs : [];
       if (data.generatedAt) {
         var updated = new Date(data.generatedAt);
-        updatedEl.textContent = 'Last updated ' + (isNaN(updated) ? data.generatedAt : updated.toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })) + '. Showing ' + allJobs.length + ' recent roles.';
+        updatedPrefix = 'Last updated ' + (isNaN(updated) ? data.generatedAt : updated.toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })) + '. ';
       } else {
-        updatedEl.textContent = 'Showing ' + allJobs.length + ' recent roles.';
+        updatedPrefix = '';
       }
       fillSelect(typeEl, allJobs.map(function (job) { return job.jobType; }));
       fillSelect(industryEl, allJobs.map(function (job) { return job.jobIndustry; }));

@@ -36,11 +36,28 @@ const KEEP_FIELDS = [
   'url',
 ];
 
+function decodeEntities(value) {
+  // Jobicy excerpts arrive HTML-escaped (for example "&hellip;").
+  // Decode the common entities so the page never shows them literally.
+  // "&amp;" goes last so "&amp;hellip;" decodes in one pass too.
+  return value
+    .replace(/&hellip;/g, '...')
+    .replace(/&mdash;/g, ', ')
+    .replace(/&ndash;/g, '-')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#(\d+);/g, function (_, code) { return String.fromCharCode(Number(code)); })
+    .replace(/&amp;/g, '&');
+}
+
 function cleanText(value) {
   // The site never uses the em dash character, so replace any that arrive
   // in API data with a comma before storing.
   if (typeof value === 'string') {
-    return value.replace(/\s?\u2014\s?/g, ', ');
+    return decodeEntities(value).replace(/\s?\u2014\s?/g, ', ');
   }
   if (Array.isArray(value)) {
     return value.map((item) => cleanText(item));

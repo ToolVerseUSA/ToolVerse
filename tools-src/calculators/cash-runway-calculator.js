@@ -84,6 +84,7 @@
     var showMonths = 24;
     for (var m = 1; m <= showMonths; m++) {
       balance -= netBurn;
+      if (balance < reserve) { balance = reserve; }
       rows += '<tr><td>Month ' + m + '</td><td>' + fmtMoney(burn) + '</td><td>' +
         fmtMoney(revenue) + '</td><td>' + fmtMoney(balance) + '</td></tr>';
       if (balance <= reserve) { break; }
