@@ -1,0 +1,68 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Gross pay only, taxes and benefits are not included. Estimate only, not financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>What is your pay per hour?</h2>
+<p class="section-intro">Enter your annual salary and your usual hours. The calculator divides your salary by your total hours in a year and shows your hourly, weekly, and monthly pay.</p>
+<form id="salary-to-hourly-calculator-form-a" novalidate>
+<fieldset class="form-section"><legend>Annual salary to hourly rate</legend>
+<div class="tool-grid">
+<label>Annual salary ($)
+<input class="tv-field" id="salary-to-hourly-calculator-salary" name="salary" type="number" inputmode="decimal" step="any" min="0" value="52000" aria-label="Annual salary in dollars"></label>
+<label>Hours per week
+<input class="tv-field" id="salary-to-hourly-calculator-hours-a" name="hours" type="number" inputmode="decimal" step="any" min="1" max="168" step="1" value="40" aria-label="Hours worked per week"></label>
+<label>Weeks per year
+<input class="tv-field" id="salary-to-hourly-calculator-weeks-a" name="weeks" type="number" inputmode="decimal" step="any" min="1" max="52" step="1" value="52" aria-label="Weeks worked per year"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Convert to hourly</button>
+</div>
+<p class="form-error" id="salary-to-hourly-calculator-error-a" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="salary-to-hourly-calculator-result-a" aria-live="polite">
+<h2>Your hourly rate</h2>
+<p class="result-lede" id="salary-to-hourly-calculator-lede-a">Enter your salary above and press Convert to hourly.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Your pay</h3><dl>
+<div><dt>Hourly rate</dt><dd id="salary-to-hourly-calculator-hourly">-</dd></div>
+<div><dt>Weekly pay</dt><dd id="salary-to-hourly-calculator-weekly-a">-</dd></div>
+<div><dt>Monthly pay</dt><dd id="salary-to-hourly-calculator-monthly-a">-</dd></div>
+<div><dt>Total hours per year</dt><dd id="salary-to-hourly-calculator-hours-year-a">-</dd></div>
+</dl></div>
+</div>
+</div>
+</section>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>What is your hourly pay as a salary?</h2>
+<p class="section-intro">Enter your hourly rate and your usual hours. The calculator multiplies your rate by your total hours in a year and shows your annual, weekly, and monthly pay.</p>
+<form id="salary-to-hourly-calculator-form-b" novalidate>
+<fieldset class="form-section"><legend>Hourly rate to annual salary</legend>
+<div class="tool-grid">
+<label>Hourly rate ($)
+<input class="tv-field" id="salary-to-hourly-calculator-hourly-rate" name="hourly" type="number" inputmode="decimal" step="any" min="0" value="25" aria-label="Hourly rate in dollars"></label>
+<label>Hours per week
+<input class="tv-field" id="salary-to-hourly-calculator-hours-b" name="hours" type="number" inputmode="decimal" step="any" min="1" max="168" step="1" value="40" aria-label="Hours worked per week"></label>
+<label>Weeks per year
+<input class="tv-field" id="salary-to-hourly-calculator-weeks-b" name="weeks" type="number" inputmode="decimal" step="any" min="1" max="52" step="1" value="52" aria-label="Weeks worked per year"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Convert to salary</button>
+</div>
+<p class="form-error" id="salary-to-hourly-calculator-error-b" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="salary-to-hourly-calculator-result-b" aria-live="polite">
+<h2>Your annual salary</h2>
+<p class="result-lede" id="salary-to-hourly-calculator-lede-b">Enter your hourly rate above and press Convert to salary.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Your pay</h3><dl>
+<div><dt>Annual salary</dt><dd id="salary-to-hourly-calculator-annual">-</dd></div>
+<div><dt>Weekly pay</dt><dd id="salary-to-hourly-calculator-weekly-b">-</dd></div>
+<div><dt>Monthly pay</dt><dd id="salary-to-hourly-calculator-monthly-b">-</dd></div>
+<div><dt>Total hours per year</dt><dd id="salary-to-hourly-calculator-hours-year-b">-</dd></div>
+</dl></div>
+</div>
+<p><strong>About the math:</strong> annual salary divided by hours per week times weeks per year gives the hourly rate, and the same formula in reverse gives the salary. A standard full time year is 40 hours a week for 52 weeks, or 2,080 hours. Overtime, taxes, benefits, bonuses, and tips are not included.</p>
+</div>
+</section>
