@@ -1,0 +1,60 @@
+<p class="disclaimer"><strong>100% private.</strong> Your loans are saved only in this browser — nothing is uploaded. Planning tracker only — always confirm due dates and amounts in your provider's app. Not financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>All your BNPL payments in one calendar</h2>
+<p class="section-intro">Add each buy-now-pay-later loan — Klarna, Affirm, Afterpay, Zip or any other — and see everything you owe, what is due next, and when payments pile up in the same week.</p>
+<form id="bnpl-form" novalidate>
+<fieldset class="form-section"><legend>Add a loan</legend>
+<div class="tool-grid">
+<label>Provider
+<select class="tv-field" id="bnpl-provider" aria-label="BNPL provider">
+<option>Klarna</option>
+<option>Affirm</option>
+<option>Afterpay</option>
+<option>Zip</option>
+<option>Other</option>
+</select></label>
+<label>Amount left to pay ($)
+<input class="tv-field" id="bnpl-amount" name="amount" type="number" inputmode="decimal" step="any" min="0" aria-label="Amount left to pay in dollars"></label>
+<label>Payment per installment ($)
+<input class="tv-field" id="bnpl-installment" name="installment" type="number" inputmode="decimal" step="any" min="0" aria-label="Payment per installment in dollars"></label>
+<label>Installments left
+<input class="tv-field" id="bnpl-count" name="count" type="number" inputmode="numeric" step="1" min="1" value="4" aria-label="Installments left"></label>
+<label>How often?
+<select class="tv-field" id="bnpl-frequency" aria-label="Payment frequency">
+<option value="14">Every 2 weeks</option>
+<option value="30">Every month</option>
+</select></label>
+<label>Next due date
+<input class="tv-field" id="bnpl-due" name="due" type="date" aria-label="Next due date"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Add loan</button>
+<button class="button" type="button" id="bnpl-clear">Clear all my loans</button>
+</div>
+<p class="form-error" id="bnpl-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="bnpl-result" aria-live="polite">
+<h2>Your BNPL picture</h2>
+<p class="result-lede" id="bnpl-lede">No loans added yet. Add your first loan above.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Totals</h3><dl>
+<div><dt>Total BNPL owed</dt><dd id="bnpl-total">—</dd></div>
+<div><dt>Due in the next 7 days</dt><dd id="bnpl-week">—</dd></div>
+<div><dt>Due in the next 30 days</dt><dd id="bnpl-month">—</dd></div>
+<div><dt>Loans tracked</dt><dd id="bnpl-loans">—</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Next payment</h3><dl>
+<div><dt>Due</dt><dd id="bnpl-next-date">—</dd></div>
+<div><dt>Provider</dt><dd id="bnpl-next-provider">—</dd></div>
+<div><dt>Amount</dt><dd id="bnpl-next-amount">—</dd></div>
+</dl></div>
+</div>
+<p class="result-lede" id="bnpl-warning" hidden><strong>Heads up:</strong> two or more payments land within 3 days of each other. Plan for that week now.</p>
+<h3>Upcoming payments</h3>
+<ul id="bnpl-schedule"></ul>
+<h3>Your loans</h3>
+<ul id="bnpl-list"></ul>
+</div>
+</section>
