@@ -157,6 +157,11 @@ function faqSectionHtml(def) {
   return `<section class="faq-section"><h2>Questions people ask</h2>\n${items}\n</section>`;
 }
 
+function sourcesSectionHtml(def) {
+  if (!def.sources || !String(def.sources).trim()) return '';
+  return `<section class="sources-section"><h2>Sources</h2>\n<p>${escHtml(def.sources)}</p>\n</section>`;
+}
+
 function relatedSectionHtml(def, registry) {
   // Explicit relatedTools first, then same-category tools, capped at 4 —
   // rendered as compact cards (Phase 4 card system).
@@ -613,7 +618,7 @@ function renderToolPage(def, template, registry) {
   const pageScripts =
     `<script defer src="/ToolVerse/tools/assets/tools-analytics.js"></script>`;
   const toolScript = logic
-    ? `<script>\n/* ${def.id} v${def.version} — generated, do not hand-edit */\n${logic}\n</script>`
+    ? `<script>\n/* ${def.id} v${def.version} - generated, do not hand-edit */\n${logic}\n</script>`
     : '';
 
   const replacements = {
@@ -630,7 +635,7 @@ function renderToolPage(def, template, registry) {
     '{{CATEGORY_SLUG}}': escAttr(def.category),
     '{{CATEGORY_LABEL}}': escHtml(def.categoryLabel),
     '{{TOOL_SHORT_TITLE}}': escHtml(shortTitle),
-    '{{TOOL_CONTENT}}': content + '\n' + whenNotToUseHtml(def) + '\n' + faqSectionHtml(def) + '\n' + relatedSectionHtml(def, registry) + '\n' + shareSectionHtml(),
+    '{{TOOL_CONTENT}}': content + '\n' + whenNotToUseHtml(def) + '\n' + faqSectionHtml(def) + '\n' + sourcesSectionHtml(def) + '\n' + relatedSectionHtml(def, registry) + '\n' + shareSectionHtml(),
     '{{ASIDE_BADGE}}': escHtml(def.asideBadge),
     '{{ASIDE_TITLE}}': escHtml(def.asideTitle),
     '{{ASIDE_TEXT}}': escHtml(def.asideText),
