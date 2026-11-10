@@ -1,0 +1,39 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Estimate only, not a loan offer or financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>How much business loan can your income support?</h2>
+<p class="section-intro">Enter your annual net operating income (or EBITDA), the interest rate, the loan term, and your DSCR target. The calculator shows the largest annual and monthly payment your income supports, and the largest loan that payment can carry.</p>
+<form id="business-debt-capacity-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Annual net operating income ($) (or EBITDA)
+<input class="tv-field" id="business-debt-capacity-calculator-noi" name="noi" type="number" inputmode="decimal" step="any" min="0" value="120000" aria-label="Annual net operating income in dollars"></label>
+<label>Annual interest rate (%)
+<input class="tv-field" id="business-debt-capacity-calculator-rate" name="rate" type="number" inputmode="decimal" step="any" min="0" max="30" step="0.01" value="8" aria-label="Annual interest rate in percent"></label>
+<label>Loan term (years)
+<input class="tv-field" id="business-debt-capacity-calculator-term-years" name="termYears" type="number" inputmode="decimal" step="any" min="1" max="30" step="1" value="10" aria-label="Loan term in years"></label>
+<label>Target DSCR
+<input class="tv-field" id="business-debt-capacity-calculator-dscr" name="dscr" type="number" inputmode="decimal" step="any" min="0.1" step="0.01" value="1.25" aria-label="Target debt service coverage ratio"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="business-debt-capacity-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="business-debt-capacity-calculator-result" aria-live="polite">
+<h2>Your debt capacity</h2>
+<p class="result-lede" id="business-debt-capacity-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Maximum loan</h3><dl>
+<div><dt>Max annual debt service</dt><dd id="business-debt-capacity-calculator-annual-service">-</dd></div>
+<div><dt>Max monthly payment</dt><dd id="business-debt-capacity-calculator-monthly-payment">-</dd></div>
+<div><dt>Max loan amount</dt><dd id="business-debt-capacity-calculator-max-loan">-</dd></div>
+<div><dt>DSCR used</dt><dd id="business-debt-capacity-calculator-dscr-used">-</dd></div>
+</dl></div>
+</div>
+<p><strong>What is DSCR?</strong> DSCR is annual net operating income divided by annual debt payments, and lenders usually want at least 1.25, meaning income covers payments 1.25 times over.</p>
+<p><strong>About the math:</strong> max annual debt service is net operating income divided by DSCR. Max monthly payment is that divided by 12. Max loan amount is the present value of that monthly payment over the term at the monthly rate: PV equals PMT times (1 minus (1 plus i) to the power of minus n) divided by i, where i is the monthly rate and n is the number of months. If the rate is 0, the max loan is the monthly payment times the number of months.</p>
+<p><strong>Worked example:</strong> with $120,000 net operating income, a DSCR of 1.25, an 8 percent rate, and a 10 year term, max annual debt service is $96,000, max monthly payment is $8,000, and the max loan is about $659,372.</p>
+</div>
+</section>

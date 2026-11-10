@@ -1,0 +1,47 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Gross pay only, before taxes and deductions. Estimate only, not financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>What is your raise worth?</h2>
+<p class="section-intro">Enter your current pay and either a raise percent or your new pay amount. The calculator shows your new pay by the hour, week, month, and year, plus the raise amount and the percent change.</p>
+<form id="pay-raise-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Current pay type
+<select class="tv-field" id="pay-raise-calculator-pay-type" name="payType" aria-label="Current pay type">
+<option value="hourly" selected>Hourly</option>
+<option value="annual">Annual</option>
+</select></label>
+<label>Current pay ($)
+<input class="tv-field" id="pay-raise-calculator-current-pay" name="currentPay" type="number" inputmode="decimal" step="any" min="0" value="25" aria-label="Current pay in dollars"></label>
+<label>Raise (%)
+<input class="tv-field" id="pay-raise-calculator-raise-percent" name="raisePercent" type="number" inputmode="decimal" step="any" min="0" value="10" aria-label="Raise in percent"></label>
+<label>New pay ($) (optional, use instead of a percent)
+<input class="tv-field" id="pay-raise-calculator-new-pay" name="newPay" type="number" inputmode="decimal" step="any" min="0" aria-label="New pay in dollars"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="pay-raise-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="pay-raise-calculator-result" aria-live="polite">
+<h2>Your new pay</h2>
+<p class="result-lede" id="pay-raise-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>New pay</h3><dl>
+<div><dt>New hourly pay</dt><dd id="pay-raise-calculator-new-hourly">-</dd></div>
+<div><dt>New weekly pay</dt><dd id="pay-raise-calculator-new-weekly">-</dd></div>
+<div><dt>New monthly pay</dt><dd id="pay-raise-calculator-new-monthly">-</dd></div>
+<div><dt>New annual pay</dt><dd id="pay-raise-calculator-new-annual">-</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>The raise</h3><dl>
+<div><dt>Raise per hour</dt><dd id="pay-raise-calculator-raise-hourly">-</dd></div>
+<div><dt>Raise per year</dt><dd id="pay-raise-calculator-raise-annual">-</dd></div>
+<div><dt>Percent change</dt><dd id="pay-raise-calculator-percent-change">-</dd></div>
+<div><dt>Previous annual pay</dt><dd id="pay-raise-calculator-previous-annual">-</dd></div>
+</dl></div>
+</div>
+<p><strong>About the math:</strong> if you enter a raise percent, new pay is current pay times 1 plus the percent divided by 100. If you enter a new pay amount instead, the percent change is the new pay minus the current pay, divided by the current pay, times 100. Conversions assume a 40 hour week and 52 weeks a year: weekly pay is hourly pay times 40, annual pay is weekly pay times 52, and monthly pay is annual pay divided by 12.</p>
+<p><strong>Worked example:</strong> at $25 per hour with a 10 percent raise, the new rate is $27.50 per hour, $1,100 per week, and $57,200 per year, up from $52,000 per year, a raise of $5,200 per year. Going the other way, $25 to $27.50 is a 10 percent raise.</p>
+</div>
+</section>

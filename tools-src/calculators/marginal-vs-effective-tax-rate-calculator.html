@@ -1,0 +1,55 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Estimate only, not tax advice. Confirm with a tax professional or the IRS.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>What are your marginal and effective tax rates?</h2>
+<p class="section-intro">Your marginal rate is the rate on your last dollar of income. Your effective rate is the average rate you actually pay. Enter your income, filing status, and tax year to see both, plus a bracket-by-bracket breakdown.</p>
+<form id="marginal-vs-effective-tax-rate-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your income</legend>
+<div class="tool-grid">
+<label>Annual gross income ($)
+<input class="tv-field" id="marginal-vs-effective-tax-rate-calculator-income" name="income" type="number" inputmode="decimal" step="any" min="0" value="120000" aria-label="Annual gross income in dollars"></label>
+<label>Filing status
+<select class="tv-field" id="marginal-vs-effective-tax-rate-calculator-filing-status" name="filingStatus" aria-label="Filing status">
+<option value="single" selected>Single</option>
+<option value="mfj">Married filing jointly</option>
+<option value="hoh">Head of household</option>
+</select></label>
+<label>Tax year
+<select class="tv-field" id="marginal-vs-effective-tax-rate-calculator-year" name="year" aria-label="Tax year">
+<option value="2026" selected>2026</option>
+<option value="2027">2027</option>
+</select></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="marginal-vs-effective-tax-rate-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="marginal-vs-effective-tax-rate-calculator-result" aria-live="polite">
+<h2>Your marginal and effective rates</h2>
+<p class="result-lede" id="marginal-vs-effective-tax-rate-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Your tax</h3><dl>
+<div><dt>Gross income</dt><dd id="marginal-vs-effective-tax-rate-calculator-gross">-</dd></div>
+<div><dt>Standard deduction</dt><dd id="marginal-vs-effective-tax-rate-calculator-deduction">-</dd></div>
+<div><dt>Taxable income</dt><dd id="marginal-vs-effective-tax-rate-calculator-taxable">-</dd></div>
+<div><dt>Federal tax owed</dt><dd id="marginal-vs-effective-tax-rate-calculator-tax">-</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Your rates</h3><dl>
+<div><dt>Marginal tax rate</dt><dd id="marginal-vs-effective-tax-rate-calculator-marginal">-</dd></div>
+<div><dt>Effective tax rate</dt><dd id="marginal-vs-effective-tax-rate-calculator-effective">-</dd></div>
+<div><dt>After-tax income</dt><dd id="marginal-vs-effective-tax-rate-calculator-after-tax">-</dd></div>
+</dl></div>
+</div>
+<h3>How your income falls in each bracket</h3>
+<table>
+<thead><tr><th>Bracket</th><th>Income in bracket</th><th>Tax at that rate</th></tr></thead>
+<tbody id="marginal-vs-effective-tax-rate-calculator-table"><tr><td colspan="3">No breakdown yet.</td></tr></tbody>
+</table>
+<p><strong>Worked example:</strong> a single filer with $120,000 of gross income in 2026 has $103,900 of taxable income after the $16,100 standard deduction. The first $12,400 is taxed at 10% ($1,240), the next $38,000 at 12% ($4,560), and the remaining $53,500 at 22% ($11,770), for a total of $17,570. The marginal rate is 22% and the effective rate is 14.6%.</p>
+<p><strong>Why the two rates differ:</strong> only the income inside a bracket is taxed at that bracket's rate. Income in lower brackets keeps its lower rate, so your average rate is always lower than your top rate when your income spans more than one bracket. A raise that pushes you into a higher bracket only taxes the extra dollars at the higher rate.</p>
+<p><strong>What this does not include:</strong> state income tax, Social Security and Medicare payroll taxes, self-employment tax, and tax credits. It always uses the standard deduction, so if you itemize, your tax will differ.</p>
+<p><strong>Estimate only, not tax advice. Confirm with a tax professional or the IRS.</strong></p>
+</div>
+</section>

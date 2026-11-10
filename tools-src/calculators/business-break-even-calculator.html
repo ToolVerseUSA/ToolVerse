@@ -1,0 +1,44 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Planning estimate only, not financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>How many units must you sell to break even?</h2>
+<p class="section-intro">Enter your fixed costs per month, your price per unit, and your variable cost per unit. The calculator shows your contribution margin, your break-even point in units and revenue, and your profit at different sales levels. Add a profit target to see how many units you must sell to earn that profit.</p>
+<form id="business-break-even-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Fixed costs per month ($)
+<input class="tv-field" id="business-break-even-calculator-fixed-costs" name="fixedCosts" type="number" inputmode="decimal" step="any" min="0" value="10000" aria-label="Fixed costs per month in dollars"></label>
+<label>Price per unit ($)
+<input class="tv-field" id="business-break-even-calculator-price" name="price" type="number" inputmode="decimal" step="any" min="0" value="50" aria-label="Price per unit in dollars"></label>
+<label>Variable cost per unit ($)
+<input class="tv-field" id="business-break-even-calculator-variable-cost" name="variableCost" type="number" inputmode="decimal" step="any" min="0" value="30" aria-label="Variable cost per unit in dollars"></label>
+<label>Profit target per month ($) (optional)
+<input class="tv-field" id="business-break-even-calculator-profit-target" name="profitTarget" type="number" inputmode="decimal" step="any" min="0" value="0" aria-label="Profit target per month in dollars"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="business-break-even-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="business-break-even-calculator-result" aria-live="polite">
+<h2>Your break-even point</h2>
+<p class="result-lede" id="business-break-even-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Break-even</h3><dl>
+<div><dt>Contribution margin per unit</dt><dd id="business-break-even-calculator-margin">-</dd></div>
+<div><dt>Break-even units per month</dt><dd id="business-break-even-calculator-units">-</dd></div>
+<div><dt>Break-even revenue per month</dt><dd id="business-break-even-calculator-revenue">-</dd></div>
+<div><dt>Profit target</dt><dd id="business-break-even-calculator-target">-</dd></div>
+</dl></div>
+</div>
+<h3>Profit at different sales levels</h3>
+<table>
+<thead><tr><th>Sales level</th><th>Units per month</th><th>Revenue</th><th>Profit</th></tr></thead>
+<tbody id="business-break-even-calculator-table"><tr><td colspan="4">No calculation yet.</td></tr></tbody>
+</table>
+<p><strong>About the math:</strong> contribution margin is price minus variable cost per unit. Break-even units are fixed costs plus your profit target, divided by contribution margin. Break-even revenue is break-even units times price. Profit at any level is units times contribution margin, minus fixed costs.</p>
+<p><strong>Worked example:</strong> with $10,000 fixed costs per month, a $50 price, and a $30 variable cost, the margin is $20, break-even is 500 units, and break-even revenue is $25,000 per month. With a $2,000 profit target, break-even rises to 600 units and $30,000 revenue.</p>
+<p><strong>Note:</strong> this is the general business break-even. ToolVerse also has a mortgage refinance break-even calculator and a relocation break-even calculator for those specific uses.</p>
+</div>
+</section>

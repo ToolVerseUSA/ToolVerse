@@ -1,0 +1,55 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Estimate only, not financial advice. Confirm with a tax professional or the IRS.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>Should you choose Roth or traditional?</h2>
+<p class="section-intro">Traditional contributions go in pre-tax and are taxed when you withdraw them. Roth contributions go in after tax and come out tax-free. Enter your contribution, your tax rate now, your expected rate in retirement, your years to retirement, and your growth rate to see which leaves you with more after tax.</p>
+<form id="roth-vs-traditional-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your contribution and rates</legend>
+<div class="tool-grid">
+<label>Annual contribution ($)
+<input class="tv-field" id="roth-vs-traditional-calculator-contribution" name="contribution" type="number" inputmode="decimal" step="any" min="0" value="7500" aria-label="Annual contribution in dollars"></label>
+<label>Current marginal tax rate (%)
+<input class="tv-field" id="roth-vs-traditional-calculator-current-rate" name="currentRate" type="number" inputmode="decimal" step="any" min="0" max="50" step="0.1" value="22" aria-label="Current marginal tax rate in percent"></label>
+<label>Expected retirement marginal tax rate (%)
+<input class="tv-field" id="roth-vs-traditional-calculator-retirement-rate" name="retirementRate" type="number" inputmode="decimal" step="any" min="0" max="50" step="0.1" value="12" aria-label="Expected retirement marginal tax rate in percent"></label>
+<label>Years to retirement
+<input class="tv-field" id="roth-vs-traditional-calculator-years" name="years" type="number" inputmode="decimal" step="any" min="1" max="50" step="1" value="30" aria-label="Years to retirement"></label>
+<label>Annual growth rate (%)
+<input class="tv-field" id="roth-vs-traditional-calculator-growth-rate" name="growthRate" type="number" inputmode="decimal" step="any" min="0" max="20" step="0.1" value="7" aria-label="Annual growth rate in percent"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="roth-vs-traditional-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="roth-vs-traditional-calculator-result" aria-live="polite">
+<h2>Roth vs traditional: after-tax result</h2>
+<p class="result-lede" id="roth-vs-traditional-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Traditional</h3><dl>
+<div><dt>Invested each year (pre-tax)</dt><dd id="roth-vs-traditional-calculator-trad-contrib">-</dd></div>
+<div><dt>Future value before tax</dt><dd id="roth-vs-traditional-calculator-trad-pre">-</dd></div>
+<div><dt>Tax paid at withdrawal</dt><dd id="roth-vs-traditional-calculator-trad-tax">-</dd></div>
+<div><dt>After-tax future value</dt><dd id="roth-vs-traditional-calculator-trad-after">-</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Roth</h3><dl>
+<div><dt>Invested each year (after tax)</dt><dd id="roth-vs-traditional-calculator-roth-contrib">-</dd></div>
+<div><dt>Future value (tax-free)</dt><dd id="roth-vs-traditional-calculator-roth-after">-</dd></div>
+<div><dt>Tax paid up front each year</dt><dd id="roth-vs-traditional-calculator-roth-tax">-</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Comparison</h3><dl>
+<div><dt>Winner</dt><dd id="roth-vs-traditional-calculator-winner">-</dd></div>
+<div><dt>Difference</dt><dd id="roth-vs-traditional-calculator-difference">-</dd></div>
+<div><dt>Total contributed over the period</dt><dd id="roth-vs-traditional-calculator-total-contrib">-</dd></div>
+</dl></div>
+</div>
+<p><strong>Worked example:</strong> contributing $7,500 a year for 30 years at 7% growth, with a 22% rate now and a 12% rate in retirement. The annuity factor is about 94.46. The traditional account grows to about $708,456 before tax and about $623,441 after the 12% retirement tax. The Roth account invests $5,850 a year after the 22% tax and grows to about $552,596 tax-free. Traditional wins by about $70,846.</p>
+<p><strong>The rule of thumb:</strong> Roth usually wins when your retirement rate will be higher than your rate today, because you pay tax now at the lower rate. Traditional usually wins when your retirement rate will be lower, because you deduct at today's higher rate and pay later at the lower rate. If the rates are the same, the two come out equal before other rules are considered.</p>
+<p><strong>About the math:</strong> the future value of annual contributions is FV = C x (((1 + r)^n - 1) / r), with contributions at the end of each year. The traditional account invests the full contribution and is taxed at the retirement rate on withdrawal. The Roth account invests the contribution minus the current tax and is tax-free at withdrawal.</p>
+<p><strong>2026 contribution limits:</strong> 401(k) elective deferral $24,500, catch-up age 50 and over $8,000 (total $32,500), ages 60 to 63 catch-up $11,250 (total $35,750). IRA $7,500, catch-up age 50 and over $1,100 (total $8,600). Total annual additions $72,000. Source: IRS Notice 2025-67, announced November 13, 2025 with news release IR-2025-111.</p>
+<p><strong>2027 limits:</strong> the IRS had not announced the 2027 limits as of November 8, 2026. Milliman projected on October 15, 2026 that the 2027 401(k) deferral limit would be $25,500 with an $8,500 catch-up. That is a PROJECTED figure, not an official IRS figure. No 2027 IRA figure is given here because projectors disagree.</p>
+<p><strong>What this does not include:</strong> required minimum distributions, Roth income limits, employer matches, state taxes, and early withdrawal penalties.</p>
+<p><strong>Estimate only, not financial advice. Confirm with a tax professional or the IRS.</strong></p>
+</div>
+</section>

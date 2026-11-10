@@ -1,0 +1,56 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Estimate only, not tax advice. Confirm with a tax professional or the IRS.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>How much should you pay each quarter?</h2>
+<p class="section-intro">If you are self-employed, no employer withholds tax for you. Enter your expected net self-employment income and any other income to see your self-employment tax, your income tax, your total tax for the year, and your quarterly payment with the four IRS due dates for 2026.</p>
+<form id="estimated-quarterly-tax-planner-form" novalidate>
+<fieldset class="form-section"><legend>Your expected 2026 income</legend>
+<div class="tool-grid">
+<label>Expected annual net self-employment income ($)
+<input class="tv-field" id="estimated-quarterly-tax-planner-net-income" name="netIncome" type="number" inputmode="decimal" step="any" min="0" value="80000" aria-label="Expected annual net self-employment income in dollars"></label>
+<label>Filing status
+<select class="tv-field" id="estimated-quarterly-tax-planner-filing-status" name="filingStatus" aria-label="Filing status">
+<option value="single" selected>Single</option>
+<option value="mfj">Married filing jointly</option>
+<option value="hoh">Head of household</option>
+</select></label>
+<label>Other income ($) (optional)
+<input class="tv-field" id="estimated-quarterly-tax-planner-other-income" name="otherIncome" type="number" inputmode="decimal" step="any" min="0" value="0" aria-label="Other income in dollars"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="estimated-quarterly-tax-planner-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="estimated-quarterly-tax-planner-result" aria-live="polite">
+<h2>Your 2026 quarterly tax plan</h2>
+<p class="result-lede" id="estimated-quarterly-tax-planner-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Self-employment tax</h3><dl>
+<div><dt>SE taxable base (92.35% of net)</dt><dd id="estimated-quarterly-tax-planner-base">-</dd></div>
+<div><dt>Social Security portion (12.4%)</dt><dd id="estimated-quarterly-tax-planner-ss">-</dd></div>
+<div><dt>Medicare portion (2.9%)</dt><dd id="estimated-quarterly-tax-planner-medicare">-</dd></div>
+<div><dt>Total self-employment tax</dt><dd id="estimated-quarterly-tax-planner-se-tax">-</dd></div>
+<div><dt>Deductible half (from income tax)</dt><dd id="estimated-quarterly-tax-planner-half">-</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Income tax and total</h3><dl>
+<div><dt>Taxable income</dt><dd id="estimated-quarterly-tax-planner-taxable">-</dd></div>
+<div><dt>Federal income tax</dt><dd id="estimated-quarterly-tax-planner-income-tax">-</dd></div>
+<div><dt>Total annual tax</dt><dd id="estimated-quarterly-tax-planner-total">-</dd></div>
+<div><dt>Quarterly payment (total / 4)</dt><dd id="estimated-quarterly-tax-planner-quarterly">-</dd></div>
+</dl></div>
+</div>
+<p class="result-lede" id="estimated-quarterly-tax-planner-additional" hidden><strong>Heads up:</strong> your income is above the additional Medicare tax threshold, so an extra 0.9% Medicare tax may apply on the amount over the threshold. This estimate does not include it. See IRS Form 8959 or ask a tax professional.</p>
+<h3>Your 2026 payment schedule</h3>
+<table>
+<thead><tr><th>Payment</th><th>Due date</th><th>Amount</th></tr></thead>
+<tbody id="estimated-quarterly-tax-planner-table"><tr><td colspan="3">No schedule yet.</td></tr></tbody>
+</table>
+<p><strong>Worked example:</strong> a single filer with $80,000 of net self-employment income and no other income has a self-employment tax base of $73,880 (92.35% of $80,000). Social Security tax is $9,161 (12.4%) and Medicare tax is $2,143 (2.9%), for $11,304 of self-employment tax. Half of that, $5,652, is deductible. Taxable income is $80,000 minus $5,652 minus the $16,100 standard deduction, which is $58,248. Income tax on that is about $7,527, so total annual tax is about $18,830 and each quarterly payment is about $4,708.</p>
+<p><strong>Do you have to pay quarterly?</strong> You generally must pay estimated tax if you expect to owe $1,000 or more for the year. The safe harbor rule lets you avoid an underpayment penalty if you pay at least 90% of this year's tax, or 100% of last year's tax (110% if last year's adjusted gross income was over $150,000). Source: IRS Form 1040-ES.</p>
+<p><strong>About the math:</strong> self-employment tax is 15.3% in total, 12.4% Social Security on the first $184,500 plus 2.9% Medicare with no cap, applied to 92.35% of net self-employment earnings. It applies when net earnings reach $400. Taxable income is net self-employment income plus other income, minus half of the self-employment tax, minus the 2026 standard deduction for your filing status, then taxed with the 2026 federal brackets.</p>
+<p><strong>What this does not include:</strong> the extra 0.9% Medicare tax above $200,000 single or $250,000 married filing jointly, and state income tax.</p>
+<p><strong>Estimate only, not tax advice. Confirm with a tax professional or the IRS.</strong></p>
+</div>
+</section>

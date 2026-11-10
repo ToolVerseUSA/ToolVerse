@@ -1,0 +1,51 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. Estimate only, not tax advice. Confirm with a tax professional or the IRS.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>How much federal income tax will you owe?</h2>
+<p class="section-intro">Enter your gross income and filing status. The calculator subtracts the standard deduction for your status and year, then applies the federal tax brackets to get your tax owed, your marginal rate, your effective rate, and your after-tax income.</p>
+<form id="federal-income-tax-estimator-form" novalidate>
+<fieldset class="form-section"><legend>Your income</legend>
+<div class="tool-grid">
+<label>Tax year
+<select class="tv-field" id="federal-income-tax-estimator-year" name="year" aria-label="Tax year">
+<option value="2026" selected>2026</option>
+<option value="2027">2027</option>
+</select></label>
+<label>Filing status
+<select class="tv-field" id="federal-income-tax-estimator-filing-status" name="filingStatus" aria-label="Filing status">
+<option value="single" selected>Single</option>
+<option value="mfj">Married filing jointly</option>
+<option value="hoh">Head of household</option>
+</select></label>
+<label>Annual gross income ($)
+<input class="tv-field" id="federal-income-tax-estimator-gross" name="gross" type="number" inputmode="decimal" step="any" min="0" value="60000" aria-label="Annual gross income in dollars"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="federal-income-tax-estimator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="federal-income-tax-estimator-result" aria-live="polite">
+<h2>Your estimated federal income tax</h2>
+<p class="result-lede" id="federal-income-tax-estimator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Your tax</h3><dl>
+<div><dt>Gross income</dt><dd id="federal-income-tax-estimator-gross-out">-</dd></div>
+<div><dt>Standard deduction</dt><dd id="federal-income-tax-estimator-deduction">-</dd></div>
+<div><dt>Taxable income</dt><dd id="federal-income-tax-estimator-taxable">-</dd></div>
+<div><dt>Federal tax owed</dt><dd id="federal-income-tax-estimator-tax">-</dd></div>
+<div><dt>After-tax income</dt><dd id="federal-income-tax-estimator-after-tax">-</dd></div>
+</dl></div>
+<div class="result-grid-card"><h3>Your rates</h3><dl>
+<div><dt>Marginal tax rate</dt><dd id="federal-income-tax-estimator-marginal">-</dd></div>
+<div><dt>Effective tax rate</dt><dd id="federal-income-tax-estimator-effective">-</dd></div>
+<div><dt>Monthly after-tax income</dt><dd id="federal-income-tax-estimator-monthly">-</dd></div>
+</dl></div>
+</div>
+<p><strong>Worked example:</strong> a single filer with $60,000 of gross income in 2026 subtracts the $16,100 standard deduction to get $43,900 of taxable income. Tax is 10% on the first $12,400 ($1,240) plus 12% on the next $31,500 ($3,780), for a total of $5,020. That is an 8.4% effective rate and a 12% marginal rate, leaving $54,980 after tax.</p>
+<p><strong>About the math:</strong> taxable income is gross income minus the standard deduction for your filing status and year. Tax is figured bracket by bracket, so only the income inside each bracket is taxed at that bracket's rate. Your marginal rate is the rate on your last dollar of taxable income. Your effective rate is total tax divided by gross income.</p>
+<p><strong>What this does not include:</strong> state income tax, Social Security and Medicare payroll taxes, self-employment tax, and tax credits. It always uses the standard deduction, so if you itemize, your tax will differ.</p>
+<p><strong>Estimate only, not tax advice. Confirm with a tax professional or the IRS.</strong></p>
+</div>
+</section>

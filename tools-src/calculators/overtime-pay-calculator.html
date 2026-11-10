@@ -1,0 +1,41 @@
+<p class="disclaimer"><strong>100% private.</strong> Your numbers stay in your browser, nothing is uploaded. This tool uses the federal weekly overtime rule only. Estimate only, not legal or financial advice.</p>
+<section class="tool-card calculator-card">
+<p class="section-label">Converters &amp; Calculators</p>
+<h2>How much will you earn with overtime?</h2>
+<p class="section-intro">Enter your hourly rate, your regular hours, and your overtime hours. The calculator pays overtime at 1.5 times your hourly rate, which is the federal rule for covered, non-exempt employees.</p>
+<form id="overtime-pay-calculator-form" novalidate>
+<fieldset class="form-section"><legend>Your numbers</legend>
+<div class="tool-grid">
+<label>Hourly rate ($)
+<input class="tv-field" id="overtime-pay-calculator-rate" name="rate" type="number" inputmode="decimal" step="any" min="0" value="20" aria-label="Hourly rate in dollars"></label>
+<label>Regular hours per week
+<input class="tv-field" id="overtime-pay-calculator-regular-hours" name="regularHours" type="number" inputmode="decimal" step="any" min="0" max="40" value="40" aria-label="Regular hours per week"></label>
+<label>Overtime hours per week
+<input class="tv-field" id="overtime-pay-calculator-overtime-hours" name="overtimeHours" type="number" inputmode="decimal" step="any" min="0" value="10" aria-label="Overtime hours per week"></label>
+</div>
+<div class="tool-actions">
+<button class="button primary" type="submit">Calculate</button>
+</div>
+<p class="form-error" id="overtime-pay-calculator-error" hidden aria-live="polite"></p>
+</fieldset>
+</form>
+<div class="tool-result" id="overtime-pay-calculator-result" aria-live="polite">
+<h2>Your overtime pay</h2>
+<p class="result-lede" id="overtime-pay-calculator-lede">Enter your numbers above and press Calculate.</p>
+<div class="result-grid">
+<div class="result-grid-card"><h3>Pay breakdown</h3><dl>
+<div><dt>Overtime rate (1.5 times)</dt><dd id="overtime-pay-calculator-overtime-rate">-</dd></div>
+<div><dt>Regular pay</dt><dd id="overtime-pay-calculator-regular-pay">-</dd></div>
+<div><dt>Overtime pay</dt><dd id="overtime-pay-calculator-overtime-pay">-</dd></div>
+<div><dt>Total weekly pay</dt><dd id="overtime-pay-calculator-weekly">-</dd></div>
+<div><dt>Monthly pay</dt><dd id="overtime-pay-calculator-monthly">-</dd></div>
+<div><dt>Annual pay</dt><dd id="overtime-pay-calculator-annual">-</dd></div>
+</dl></div>
+</div>
+<p><strong>About the math:</strong> regular pay is your hourly rate times your regular hours. Overtime pay is 1.5 times your hourly rate times your overtime hours. Monthly pay is weekly pay times 52 divided by 12, and annual pay is weekly pay times 52.</p>
+<p><strong>The federal rule:</strong> under the Fair Labor Standards Act, covered, non-exempt employees must be paid at least 1.5 times their regular rate of pay for every hour over 40 in a workweek. A workweek is a fixed, recurring 168-hour period. Federal law does not require premium pay for weekend or holiday work by itself, only for hours over 40 in the week.</p>
+<p><strong>Exempt employees:</strong> salaried white-collar employees who are exempt from overtime are not covered by the 1.5 times rule. In 2026 the salary threshold for the white-collar exemption is $684 per week ($35,568 per year). A 2024 attempt to raise that threshold was vacated by a federal court in November 2024.</p>
+<p><strong>State rules:</strong> some states add daily overtime rules. California Labor Code section 510 requires overtime at 1.5 times after 8 hours in a day and double time after 12 hours in a day. Alaska and Nevada have daily rules too. This tool uses the federal weekly rule only.</p>
+<p><strong>Worked example:</strong> at $20 per hour with 40 regular hours and 10 overtime hours, the overtime rate is $30, regular pay is $800, overtime pay is $300, total pay is $1,100 per week, $4,766.67 per month, and $57,200 per year.</p>
+</div>
+</section>
