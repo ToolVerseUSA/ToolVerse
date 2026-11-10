@@ -84,7 +84,7 @@
     var salary = rent * 12 / 0.30;
     var hourly = salary / 2080;
     salaryEl.textContent = '$' + Math.round(salary).toLocaleString('en-US');
-    hourlyEl.textContent = '$' + hourly.toFixed(2);
+    hourlyEl.textContent = '$' + hourly.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
   }
   rentInput.addEventListener('input', update);
   update();
