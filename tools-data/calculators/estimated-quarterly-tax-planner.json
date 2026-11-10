@@ -1,0 +1,83 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "After you know your quarterly amounts, check how retirement contributions change the picture with the 401(k) contribution calculator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/estimated-quarterly-tax-planner.html",
+  "faq": [
+    {
+      "a": "If you expect to owe $1,000 or more in tax for the year, you generally must pay estimated tax in quarterly installments. The four due dates for tax year 2026 are April 15, 2026, June 15, 2026, September 15, 2026, and January 15, 2027. Source: IRS Form 1040-ES.",
+      "q": "Do I have to pay estimated tax quarterly?"
+    },
+    {
+      "a": "Self-employment tax is the Social Security and Medicare tax paid by people who work for themselves. For 2026 it is 15.3% in total, 12.4% Social Security on the first $184,500 plus 2.9% Medicare with no cap, applied to 92.35% of your net self-employment earnings. Half of the self-employment tax is deductible from your income tax. Source: IRS Schedule SE. The Social Security wage base of $184,500 for 2026 was set by the Social Security Administration.",
+      "q": "What is self-employment tax?"
+    },
+    {
+      "a": "The safe harbor rule lets you avoid an underpayment penalty if you pay at least 90% of this year's tax, or 100% of last year's tax. The 100% figure rises to 110% if last year's adjusted gross income was over $150,000. Source: IRS Form 1040-ES.",
+      "q": "What is the safe harbor rule?"
+    },
+    {
+      "a": "Yes. This planner adds your other income to your net self-employment income, subtracts half of your self-employment tax and the 2026 standard deduction, then taxes the result with the 2026 federal brackets from IRS Revenue Procedure 2025-32. It does not include state tax or the extra 0.9% Medicare tax, which can apply above $200,000 single or $250,000 married filing jointly.",
+      "q": "Does this planner include my other income?"
+    },
+    {
+      "a": "No. For 2026, the Social Security wage base is $184,500, so the 12.4% part stops there. The 2.9% Medicare part has no cap. The 2027 wage base is $192,300, according to the Social Security Administration, but this planner uses 2026 figures only.",
+      "q": "Is there a cap on self-employment tax?"
+    }
+  ],
+  "sources": "Self-employment tax rules and $400 threshold, IRS Schedule SE. Social Security wage base $184,500 for 2026, Social Security Administration. 2026 brackets and standard deduction, IRS Revenue Procedure 2025-32. Quarterly due dates and safe harbor rule, IRS Form 1040-ES. The 2027 wage base of $192,300 is from the Social Security Administration, but this planner uses 2026 figures only.",
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Plan your 2026 quarterly estimated tax payments. Enter your expected self-employment income to see your self-employment tax, income tax, total tax, and the four payment amounts and due dates.",
+  "heroTitle": "Estimated Quarterly Tax Planner",
+  "id": "estimated-quarterly-tax-planner",
+  "inputs": [
+    {
+      "label": "Expected annual net self-employment income ($)",
+      "name": "netIncome",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Filing status",
+      "name": "filingStatus",
+      "required": true,
+      "type": "select"
+    },
+    {
+      "label": "Other income ($) (optional)",
+      "name": "otherIncome",
+      "required": false,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "estimated quarterly tax planner",
+    "quarterly tax calculator self employed",
+    "estimated tax payments 2026",
+    "self employment quarterly tax calculator",
+    "1040-es calculator",
+    "quarterly tax due dates 2026"
+  ],
+  "logicRef": "tools-src/calculators/estimated-quarterly-tax-planner.js",
+  "metaDescription": "Free estimated quarterly tax planner for 2026. Figure your self-employment tax, income tax, total tax, and quarterly payments with the four IRS due dates.",
+  "relatedTools": [
+    "side-hustle-tax-calculator",
+    "federal-income-tax-estimator",
+    "401k-contribution-calculator"
+  ],
+  "slug": "estimated-quarterly-tax-planner",
+  "title": "Estimated Quarterly Tax Planner 2026 | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It uses 2026 figures only, including the 2026 standard deduction, brackets, and the $184,500 Social Security wage base.",
+    "It does not include the extra 0.9% Medicare tax. It only flags when your income may pass the $200,000 single or $250,000 joint threshold.",
+    "It does not include state income tax, and it assumes all of your business income is self-employment income.",
+    "It is an estimate, not tax advice. Confirm with a tax professional or the IRS."
+  ]
+}

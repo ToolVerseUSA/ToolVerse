@@ -1,0 +1,79 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "See the same tax broken down bracket by bracket with the federal income tax estimator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/marginal-vs-effective-tax-rate-calculator.html",
+  "faq": [
+    {
+      "a": "Your marginal rate is the rate on your last dollar of taxable income. It is the rate that applies to the next dollar you earn. Your effective rate is your total tax divided by your total gross income. It is the average rate you actually pay across all brackets.",
+      "q": "What is the difference between marginal and effective tax rates?"
+    },
+    {
+      "a": "No. Only the income that falls inside a bracket is taxed at that bracket's rate. Income in lower brackets keeps its lower rate. That is why your effective rate is always lower than your marginal rate when your income spans more than one bracket.",
+      "q": "Does my whole income get taxed at my marginal rate?"
+    },
+    {
+      "a": "A raise can push part of your income into a higher bracket, so the extra dollars are taxed at the higher rate. But only those extra dollars are taxed at the higher rate, and your take-home pay still goes up. The higher rate never applies to income you already earned in lower brackets.",
+      "q": "If a raise pushes me into a higher bracket, do I lose money?"
+    },
+    {
+      "a": "Yes. The 2026 figures come from IRS Revenue Procedure 2025-32, and the 2027 figures come from IRS Revenue Procedure 2026-35, published November 5, 2026 with news release IR-2026-133. The rates are the same in both years: 10%, 12%, 22%, 24%, 32%, 35%, and 37%.",
+      "q": "Where do the bracket figures come from?"
+    }
+  ],
+  "sources": "2026 brackets and standard deduction, IRS Revenue Procedure 2025-32. 2027 brackets and standard deduction, IRS Revenue Procedure 2026-35, published November 5, 2026 with news release IR-2026-133. Rates in both years are 10%, 12%, 22%, 24%, 32%, 35%, and 37%.",
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "See your marginal and effective tax rates side by side, with a bracket-by-bracket breakdown of how much income falls in each bracket.",
+  "heroTitle": "Marginal vs Effective Tax Rate Calculator",
+  "id": "marginal-vs-effective-tax-rate-calculator",
+  "inputs": [
+    {
+      "label": "Annual gross income ($)",
+      "name": "income",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Filing status",
+      "name": "filingStatus",
+      "required": true,
+      "type": "select"
+    },
+    {
+      "label": "Tax year",
+      "name": "year",
+      "required": true,
+      "type": "select"
+    }
+  ],
+  "keywords": [
+    "marginal vs effective tax rate calculator",
+    "marginal tax rate calculator",
+    "effective tax rate calculator",
+    "what is my marginal tax rate",
+    "tax bracket breakdown calculator",
+    "federal tax bracket calculator 2026"
+  ],
+  "logicRef": "tools-src/calculators/marginal-vs-effective-tax-rate-calculator.js",
+  "metaDescription": "Free marginal vs effective tax rate calculator for 2026 and 2027. See your tax owed, both rates, and how much income falls in each federal tax bracket.",
+  "relatedTools": [
+    "federal-income-tax-estimator",
+    "side-hustle-tax-calculator",
+    "salary-to-hourly-calculator"
+  ],
+  "slug": "marginal-vs-effective-tax-rate-calculator",
+  "title": "Marginal vs Effective Tax Rate Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It always uses the standard deduction. If you itemize deductions, your taxable income and tax will differ.",
+    "It includes no tax credits and no other adjustments to income.",
+    "It is federal tax only. State income tax and payroll taxes are not included.",
+    "It is an estimate, not tax advice. Confirm with a tax professional or the IRS."
+  ]
+}

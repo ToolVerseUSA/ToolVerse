@@ -1,0 +1,83 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Once you know how much you can borrow, work out the monthly payment with the business loan payment calculator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/business-debt-capacity-calculator.html",
+  "faq": [
+    {
+      "a": "DSCR is annual net operating income divided by annual debt payments. It shows how many times over your income covers your loan payments. Lenders usually want at least 1.25, meaning income covers payments 1.25 times over.",
+      "q": "What is DSCR?"
+    },
+    {
+      "a": "Max annual debt service is net operating income divided by DSCR. Max monthly payment is that divided by 12. Max loan amount is the present value of that monthly payment over the term at the monthly interest rate.",
+      "q": "How is the maximum loan worked out?"
+    },
+    {
+      "a": "Yes. Net operating income is often approximated with EBITDA for this kind of estimate, but lenders use their own definitions and may adjust income for owner pay, one-off items, and other factors, so their figure can differ from yours.",
+      "q": "Can I use EBITDA instead of net operating income?"
+    },
+    {
+      "a": "No. This is an estimate based on the DSCR rule alone. Lenders also check credit, collateral, cash flow history, and other factors, and the loan they offer can be lower than this maximum.",
+      "q": "Will a lender approve this exact amount?"
+    }
+  ],
+  "sources": "The DSCR definition and the 1.25 lender convention are the standard lending practice supplied with this build, checked November 2026. The loan math is the standard present value of an annuity formula, and all figures come from the numbers you enter.",
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Work out the largest business loan your income can support, using your DSCR target, interest rate, and loan term.",
+  "heroTitle": "Business Debt Capacity Calculator",
+  "id": "business-debt-capacity-calculator",
+  "inputs": [
+    {
+      "label": "Annual net operating income ($) (or EBITDA)",
+      "name": "noi",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Annual interest rate (%)",
+      "name": "rate",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Loan term (years)",
+      "name": "termYears",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Target DSCR",
+      "name": "dscr",
+      "required": true,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "business debt capacity calculator",
+    "DSCR calculator",
+    "maximum business loan calculator",
+    "debt service coverage ratio calculator",
+    "how much business loan can I afford"
+  ],
+  "logicRef": "tools-src/calculators/business-debt-capacity-calculator.js",
+  "metaDescription": "Free business debt capacity calculator. Work out the maximum loan your income can support from your net operating income, DSCR target, rate, and term.",
+  "relatedTools": [
+    "business-loan-payment-calculator",
+    "cash-runway-calculator",
+    "compound-interest-calculator"
+  ],
+  "slug": "business-debt-capacity-calculator",
+  "title": "Business Debt Capacity Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It uses the DSCR rule alone. Lenders also weigh credit, collateral, and cash flow history, so an approval can be lower.",
+    "It assumes a fixed interest rate and equal monthly payments for the whole term.",
+    "It does not include fees, taxes, or other debts the business already carries."
+  ]
+}

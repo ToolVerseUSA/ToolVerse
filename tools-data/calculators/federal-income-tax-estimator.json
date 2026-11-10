@@ -1,0 +1,79 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "If part of that income is from a side hustle, estimate the self-employment tax on it with the side hustle tax calculator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/federal-income-tax-estimator.html",
+  "faq": [
+    {
+      "a": "The standard deduction is a fixed amount the IRS lets you subtract from your income before tax is figured. For 2026 it is $16,100 for single filers, $32,200 for married couples filing jointly, and $24,150 for heads of household. For 2027 it is $16,600 single, $33,200 married filing jointly, and $24,925 head of household. This calculator always uses the standard deduction. If you itemize, your tax will differ.",
+      "q": "What is the standard deduction, and does this calculator use it?"
+    },
+    {
+      "a": "Your marginal rate is the rate on your last dollar of taxable income. Your effective rate is your total tax divided by your total gross income, and it is always lower than your marginal rate when income spans more than one bracket. A single filer with $120,000 of gross income in 2026 has a 22% marginal rate but a 14.6% effective rate.",
+      "q": "What is the difference between my marginal rate and my effective rate?"
+    },
+    {
+      "a": "No. This is a federal income tax estimate only. It does not include state income tax, Social Security or Medicare payroll taxes, self-employment tax, or any credits such as the child tax credit. It also assumes you take the standard deduction and have no other adjustments.",
+      "q": "Does this include state tax, payroll tax, or tax credits?"
+    },
+    {
+      "a": "Yes. The 2026 figures come from IRS Revenue Procedure 2025-32, and the 2027 figures come from IRS Revenue Procedure 2026-35, published November 5, 2026 with news release IR-2026-133. The tax rates are the same in both years: 10%, 12%, 22%, 24%, 32%, 35%, and 37%.",
+      "q": "Where do the bracket figures come from?"
+    }
+  ],
+  "sources": "2026 brackets and standard deduction, IRS Revenue Procedure 2025-32. 2027 brackets and standard deduction, IRS Revenue Procedure 2026-35, published November 5, 2026 with news release IR-2026-133. Rates in both years are 10%, 12%, 22%, 24%, 32%, 35%, and 37%.",
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Estimate your federal income tax for 2026 or 2027. Enter your gross income and filing status to see your tax, marginal rate, effective rate, and after-tax income.",
+  "heroTitle": "Federal Income Tax Estimator",
+  "id": "federal-income-tax-estimator",
+  "inputs": [
+    {
+      "label": "Tax year",
+      "name": "year",
+      "required": true,
+      "type": "select"
+    },
+    {
+      "label": "Filing status",
+      "name": "filingStatus",
+      "required": true,
+      "type": "select"
+    },
+    {
+      "label": "Annual gross income ($)",
+      "name": "gross",
+      "required": true,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "federal income tax estimator",
+    "federal tax calculator 2026",
+    "federal tax calculator 2027",
+    "how much federal tax will I pay",
+    "income tax estimator by filing status",
+    "marginal vs effective tax rate"
+  ],
+  "logicRef": "tools-src/calculators/federal-income-tax-estimator.js",
+  "metaDescription": "Free federal income tax estimator for 2026 and 2027. Enter income and filing status to see tax owed, marginal rate, effective rate, and after-tax income.",
+  "relatedTools": [
+    "marginal-vs-effective-tax-rate-calculator",
+    "side-hustle-tax-calculator",
+    "salary-to-hourly-calculator"
+  ],
+  "slug": "federal-income-tax-estimator",
+  "title": "Federal Income Tax Estimator 2026 and 2027 | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It always uses the standard deduction. If you itemize deductions, your taxable income and tax will differ.",
+    "It includes no tax credits, such as the child tax credit, and no other adjustments to income.",
+    "It is federal tax only. State income tax, Social Security and Medicare payroll taxes, and self-employment tax are not included.",
+    "It is an estimate, not tax advice. Confirm with a tax professional or the IRS."
+  ]
+}

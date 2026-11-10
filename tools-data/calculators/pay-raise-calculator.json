@@ -1,0 +1,87 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "See what your new pay means per hour with the salary to hourly calculator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/pay-raise-calculator.html",
+  "faq": [
+    {
+      "a": "Enter your current pay and a raise percent, and the calculator works out your new hourly, weekly, monthly, and annual pay. Or enter your new pay amount instead, and it works out the percent change for you.",
+      "q": "How do I use this calculator?"
+    },
+    {
+      "a": "Yes. Enter your current pay and your new pay amount, leave the raise percent blank, and the calculator shows the percent change between them.",
+      "q": "Can I work out the percent of a raise I already got?"
+    },
+    {
+      "a": "Conversions use a 40 hour week and 52 weeks a year. If you work a different schedule, your real weekly and annual pay will differ, so treat the converted figures as a standard full-time comparison.",
+      "q": "What work schedule do the conversions assume?"
+    },
+    {
+      "a": "No. The figures are gross pay before taxes and deductions. Your take-home pay after a raise will be lower, and a higher income can also move you into a higher tax bracket for the extra dollars.",
+      "q": "Is this my take-home pay after the raise?"
+    }
+  ],
+  "sources": "No external figure is used on this page. The 40 hour week and 52 week year are stated conversion assumptions, not sourced data.",
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "See what a raise is worth in hourly, weekly, monthly, and annual pay, or work out the percent of a raise you already got.",
+  "heroTitle": "Pay Raise Calculator",
+  "id": "pay-raise-calculator",
+  "inputs": [
+    {
+      "label": "Current pay type",
+      "name": "payType",
+      "options": [
+        "hourly",
+        "annual"
+      ],
+      "required": true,
+      "type": "select"
+    },
+    {
+      "label": "Current pay ($)",
+      "name": "currentPay",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Raise (%)",
+      "name": "raisePercent",
+      "required": false,
+      "type": "number"
+    },
+    {
+      "label": "New pay ($)",
+      "name": "newPay",
+      "required": false,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "pay raise calculator",
+    "raise calculator",
+    "salary increase calculator",
+    "percent raise calculator",
+    "new salary calculator"
+  ],
+  "logicRef": "tools-src/calculators/pay-raise-calculator.js",
+  "metaDescription": "Free pay raise calculator. Enter a raise percent or new pay amount to see your new hourly, weekly, monthly, and annual pay, plus the raise amount and percent.",
+  "relatedTools": [
+    "salary-to-hourly-calculator",
+    "freelance-hourly-rate-calculator",
+    "overtime-pay-calculator"
+  ],
+  "slug": "pay-raise-calculator",
+  "title": "Pay Raise Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "Conversions assume a 40 hour week and 52 weeks a year. They will not match a part-time or irregular schedule.",
+    "It shows gross pay only. Taxes, retirement contributions, and other deductions are not included.",
+    "It does not account for overtime, bonuses, or commissions."
+  ]
+}

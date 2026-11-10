@@ -1,0 +1,83 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Once you know your break-even point, check how long your cash lasts with the cash runway calculator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/business-break-even-calculator.html",
+  "faq": [
+    {
+      "a": "Contribution margin is price minus variable cost per unit. It is the amount each unit sold contributes toward covering fixed costs and then toward profit. In the worked example, a $50 price minus a $30 variable cost gives a $20 margin.",
+      "q": "What is contribution margin?"
+    },
+    {
+      "a": "Break-even units equal fixed costs plus your profit target, divided by contribution margin. With no profit target, it is fixed costs divided by contribution margin. Break-even revenue is break-even units times price.",
+      "q": "How is the break-even point worked out?"
+    },
+    {
+      "a": "Add a profit target to see how many units you must sell to earn that profit, not just to cover costs. With $10,000 fixed costs, a $50 price, and a $30 variable cost, a $2,000 profit target raises break-even from 500 units to 600 units.",
+      "q": "Why add a profit target?"
+    },
+    {
+      "a": "Yes, if variable cost per unit is equal to or higher than price, the margin is zero or negative and you lose money on every sale, so there is no break-even point. Raise the price or cut the variable cost first.",
+      "q": "What if my variable cost is higher than my price?"
+    }
+  ],
+  "sources": "No external figure is used on this page. The break-even formulas are standard business math, and all figures come from the numbers you enter.",
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Find how many units you must sell to cover your fixed costs, and how much profit you make at different sales levels.",
+  "heroTitle": "Business Break-Even Calculator",
+  "id": "business-break-even-calculator",
+  "inputs": [
+    {
+      "label": "Fixed costs per month ($)",
+      "name": "fixedCosts",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Price per unit ($)",
+      "name": "price",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Variable cost per unit ($)",
+      "name": "variableCost",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Profit target per month ($, optional)",
+      "name": "profitTarget",
+      "required": false,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "business break even calculator",
+    "break even point calculator",
+    "break even units calculator",
+    "break even revenue calculator",
+    "contribution margin calculator"
+  ],
+  "logicRef": "tools-src/calculators/business-break-even-calculator.js",
+  "metaDescription": "Free business break-even calculator. Find the units and revenue needed to cover fixed costs, with an optional profit target and a profit table.",
+  "relatedTools": [
+    "business-loan-payment-calculator",
+    "cash-runway-calculator",
+    "freelance-hourly-rate-calculator"
+  ],
+  "slug": "business-break-even-calculator",
+  "title": "Business Break-Even Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It assumes fixed costs, price, and variable cost per unit stay the same at every sales level. Real costs and prices often change with volume.",
+    "It does not include taxes, loan payments, or one-off costs, so it is a planning estimate, not a full profit forecast.",
+    "This is the general business break-even. ToolVerse also has a mortgage refinance break-even calculator and a relocation break-even calculator for those specific uses."
+  ]
+}

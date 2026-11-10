@@ -1,0 +1,77 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "See what your new hourly rate means as a yearly salary with the salary to hourly calculator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/overtime-pay-calculator.html",
+  "faq": [
+    {
+      "a": "Under the Fair Labor Standards Act, covered, non-exempt employees must be paid at least 1.5 times their regular rate of pay for every hour over 40 in a workweek. A workweek is a fixed, recurring 168-hour period. Source: Fair Labor Standards Act, 29 U.S.C. section 207, enforced by the U.S. Department of Labor Wage and Hour Division (DOL Fact Sheet 23).",
+      "q": "What is the federal overtime rule?"
+    },
+    {
+      "a": "No. Federal law requires premium pay only for hours over 40 in a workweek, not for weekend or holiday work by itself. Some states add daily overtime rules. This tool uses the federal weekly rule only.",
+      "q": "Do I get overtime for working weekends or holidays?"
+    },
+    {
+      "a": "Salaried white-collar employees who are exempt from overtime are not covered by the 1.5 times rule. In 2026 the salary threshold for the white-collar exemption is $684 per week ($35,568 per year). A 2024 attempt to raise that threshold was vacated by a federal court in November 2024.",
+      "q": "Does overtime apply to salaried employees?"
+    },
+    {
+      "a": "Yes. California Labor Code section 510 requires overtime at 1.5 times after 8 hours in a day and double time after 12 hours in a day. Alaska and Nevada have daily rules too. This tool uses the federal weekly rule only, so California workers should check the daily rule as well.",
+      "q": "Do any states have daily overtime rules?"
+    }
+  ],
+  "sources": "Fair Labor Standards Act, 29 U.S.C. section 207, enforced by the U.S. Department of Labor Wage and Hour Division (DOL Fact Sheet 23), checked November 2026. California Labor Code section 510, checked November 2026. Exempt salary threshold of $684 per week, U.S. Department of Labor, checked November 2026.",
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Work out your weekly, monthly, and annual pay with overtime at 1.5 times your hourly rate, under the federal rule.",
+  "heroTitle": "Overtime Pay Calculator",
+  "id": "overtime-pay-calculator",
+  "inputs": [
+    {
+      "label": "Hourly rate ($)",
+      "name": "rate",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Regular hours per week",
+      "name": "regularHours",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Overtime hours per week",
+      "name": "overtimeHours",
+      "required": true,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "overtime pay calculator",
+    "overtime calculator",
+    "time and a half calculator",
+    "FLSA overtime calculator",
+    "weekly pay calculator with overtime"
+  ],
+  "logicRef": "tools-src/calculators/overtime-pay-calculator.js",
+  "metaDescription": "Free overtime pay calculator. Work out regular pay, overtime pay at 1.5 times your rate, and weekly, monthly, and annual pay under the federal FLSA rule.",
+  "relatedTools": [
+    "salary-to-hourly-calculator",
+    "freelance-hourly-rate-calculator",
+    "side-hustle-tax-calculator"
+  ],
+  "slug": "overtime-pay-calculator",
+  "title": "Overtime Pay Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It uses the federal weekly rule only. It does not apply state daily overtime rules, such as California's rule after 8 hours in a day.",
+    "It does not decide whether you are exempt from overtime. Exempt status depends on your job duties and salary, not just your pay rate.",
+    "It does not include taxes, deductions, tips, or bonuses, so take-home pay will be lower."
+  ]
+}

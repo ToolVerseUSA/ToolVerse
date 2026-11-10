@@ -1,0 +1,94 @@
+{
+  "asideBadge": "No login, saved in your browser",
+  "asideLinkText": "Browse all tools",
+  "asideLinkUrl": "/ToolVerse/tools/",
+  "asideNextText": "Once you pick a side, see the full retirement picture with the retirement savings calculator next.",
+  "asideNextTitle": "Your next step",
+  "asideText": "Your numbers stay in your browser, nothing is uploaded, and no account is connected.",
+  "asideTitle": "Your numbers stay private",
+  "category": "calculators",
+  "categoryLabel": "Calculators",
+  "contentRef": "tools-src/calculators/roth-vs-traditional-calculator.html",
+  "faq": [
+    {
+      "a": "With a traditional account, you contribute pre-tax dollars, the money grows tax-deferred, and you pay tax when you withdraw it in retirement. With a Roth account, you contribute after-tax dollars, the money grows tax-free, and qualified withdrawals in retirement are tax-free.",
+      "q": "What is the difference between Roth and traditional accounts?"
+    },
+    {
+      "a": "Roth usually wins when your tax rate in retirement will be higher than your rate today, because you pay tax now at the lower rate. Traditional usually wins when your retirement rate will be lower, because you deduct at today's higher rate and pay later at the lower rate. If the rates are the same, the two come out equal before any other rules are considered.",
+      "q": "When does Roth win, and when does traditional win?"
+    },
+    {
+      "a": "For 2026, the 401(k) elective deferral limit is $24,500, with an $8,000 catch-up for age 50 and over (total $32,500) and an $11,250 catch-up for ages 60 to 63 (total $35,750). The IRA limit is $7,500, with a $1,100 catch-up for age 50 and over (total $8,600). Source: IRS Notice 2025-67, announced November 13, 2025 with news release IR-2025-111.",
+      "q": "What are the 2026 contribution limits?"
+    },
+    {
+      "a": "No. The IRS had not announced the 2027 limits as of November 8, 2026. Milliman projected on October 15, 2026 that the 2027 401(k) deferral limit would be $25,500 with an $8,500 catch-up. That is a projection, not an official figure. No 2027 IRA figure is given here because projectors disagree.",
+      "q": "What are the 2027 contribution limits?"
+    },
+    {
+      "a": "No. This calculator compares the tax treatment only. It does not include required minimum distributions, Roth income limits, employer matches, state taxes, or early withdrawal penalties.",
+      "q": "Does this include required minimum distributions or employer matches?"
+    }
+  ],
+  "sources": "2026 contribution limits, IRS Notice 2025-67, announced November 13, 2025 with news release IR-2025-111. 2027 limits not announced by the IRS as of November 8, 2026; Milliman projected on October 15, 2026 that the 2027 401(k) deferral limit would be $25,500 with an $8,500 catch-up (projected, not official). No 2027 IRA figure is given because projectors disagree.",
+  "heroBadge": "Free browser tool",
+  "heroSubtitle": "Compare Roth and traditional retirement contributions. Enter your contribution, tax rates, years to retirement, and growth rate to see which one leaves you with more after tax.",
+  "heroTitle": "Roth vs Traditional Calculator",
+  "id": "roth-vs-traditional-calculator",
+  "inputs": [
+    {
+      "label": "Annual contribution ($)",
+      "name": "contribution",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Current marginal tax rate (%)",
+      "name": "currentRate",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Expected retirement marginal tax rate (%)",
+      "name": "retirementRate",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Years to retirement",
+      "name": "years",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "label": "Annual growth rate (%)",
+      "name": "growthRate",
+      "required": true,
+      "type": "number"
+    }
+  ],
+  "keywords": [
+    "roth vs traditional calculator",
+    "roth vs traditional 401k calculator",
+    "roth vs traditional ira calculator",
+    "should I choose roth or traditional",
+    "roth vs pre-tax calculator"
+  ],
+  "logicRef": "tools-src/calculators/roth-vs-traditional-calculator.js",
+  "metaDescription": "Free Roth vs traditional calculator. Compare after-tax retirement values for Roth and traditional contributions using your tax rates, years, and growth rate.",
+  "relatedTools": [
+    "401k-contribution-calculator",
+    "retirement-savings-calculator",
+    "compound-interest-calculator"
+  ],
+  "slug": "roth-vs-traditional-calculator",
+  "title": "Roth vs Traditional Calculator | ToolVerse",
+  "version": "1.0.0",
+  "whenNotToUse": [
+    "It compares the tax treatment only. Required minimum distributions, Roth income limits, employer matches, state taxes, and early withdrawal penalties are not included.",
+    "It assumes the same contribution, the same growth rate, and the same tax rates for the whole period. Real rates and returns change.",
+    "It assumes annual contributions at the end of each year and the same growth every year.",
+    "It is an estimate, not tax advice. Confirm with a tax professional or the IRS."
+  ]
+}
