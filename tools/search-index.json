@@ -170,6 +170,38 @@
     "url": "/ToolVerse/tools/calculators/bnpl-payment-tracker.html"
   },
   {
+    "id": "business-break-even-calculator",
+    "slug": "business-break-even-calculator",
+    "title": "Business Break-Even Calculator",
+    "description": "Free business break-even calculator. Find the units and revenue needed to cover fixed costs, with an optional profit target and a profit table.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "business break even calculator",
+      "break even point calculator",
+      "break even units calculator",
+      "break even revenue calculator",
+      "contribution margin calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/business-break-even-calculator.html"
+  },
+  {
+    "id": "business-debt-capacity-calculator",
+    "slug": "business-debt-capacity-calculator",
+    "title": "Business Debt Capacity Calculator",
+    "description": "Free business debt capacity calculator. Work out the maximum loan your income can support from your net operating income, DSCR target, rate, and term.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "business debt capacity calculator",
+      "DSCR calculator",
+      "maximum business loan calculator",
+      "debt service coverage ratio calculator",
+      "how much business loan can I afford"
+    ],
+    "url": "/ToolVerse/tools/calculators/business-debt-capacity-calculator.html"
+  },
+  {
     "id": "business-loan-payment-calculator",
     "slug": "business-loan-payment-calculator",
     "title": "Business Loan Payment Calculator",
@@ -268,6 +300,40 @@
     "url": "/ToolVerse/tools/calculators/drawdown-recovery-calculator.html"
   },
   {
+    "id": "estimated-quarterly-tax-planner",
+    "slug": "estimated-quarterly-tax-planner",
+    "title": "Estimated Quarterly Tax Planner 2026",
+    "description": "Free estimated quarterly tax planner for 2026. Figure your self-employment tax, income tax, total tax, and quarterly payments with the four IRS due dates.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "estimated quarterly tax planner",
+      "quarterly tax calculator self employed",
+      "estimated tax payments 2026",
+      "self employment quarterly tax calculator",
+      "1040-es calculator",
+      "quarterly tax due dates 2026"
+    ],
+    "url": "/ToolVerse/tools/calculators/estimated-quarterly-tax-planner.html"
+  },
+  {
+    "id": "federal-income-tax-estimator",
+    "slug": "federal-income-tax-estimator",
+    "title": "Federal Income Tax Estimator 2026 and 2027",
+    "description": "Free federal income tax estimator for 2026 and 2027. Enter income and filing status to see tax owed, marginal rate, effective rate, and after-tax income.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "federal income tax estimator",
+      "federal tax calculator 2026",
+      "federal tax calculator 2027",
+      "how much federal tax will I pay",
+      "income tax estimator by filing status",
+      "marginal vs effective tax rate"
+    ],
+    "url": "/ToolVerse/tools/calculators/federal-income-tax-estimator.html"
+  },
+  {
     "id": "freelance-hourly-rate-calculator",
     "slug": "freelance-hourly-rate-calculator",
     "title": "Freelance Hourly Rate Calculator",
@@ -318,6 +384,23 @@
     "url": "/ToolVerse/tools/calculators/income-percentile-calculator.html"
   },
   {
+    "id": "marginal-vs-effective-tax-rate-calculator",
+    "slug": "marginal-vs-effective-tax-rate-calculator",
+    "title": "Marginal vs Effective Tax Rate Calculator",
+    "description": "Free marginal vs effective tax rate calculator for 2026 and 2027. See your tax owed, both rates, and how much income falls in each federal tax bracket.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "marginal vs effective tax rate calculator",
+      "marginal tax rate calculator",
+      "effective tax rate calculator",
+      "what is my marginal tax rate",
+      "tax bracket breakdown calculator",
+      "federal tax bracket calculator 2026"
+    ],
+    "url": "/ToolVerse/tools/calculators/marginal-vs-effective-tax-rate-calculator.html"
+  },
+  {
     "id": "medicare-cost-estimator",
     "slug": "medicare-cost-estimator",
     "title": "Medicare Cost Estimator",
@@ -333,6 +416,38 @@
       "medicare monthly cost calculator"
     ],
     "url": "/ToolVerse/tools/calculators/medicare-cost-estimator.html"
+  },
+  {
+    "id": "overtime-pay-calculator",
+    "slug": "overtime-pay-calculator",
+    "title": "Overtime Pay Calculator",
+    "description": "Free overtime pay calculator. Work out regular pay, overtime pay at 1.5 times your rate, and weekly, monthly, and annual pay under the federal FLSA rule.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "overtime pay calculator",
+      "overtime calculator",
+      "time and a half calculator",
+      "FLSA overtime calculator",
+      "weekly pay calculator with overtime"
+    ],
+    "url": "/ToolVerse/tools/calculators/overtime-pay-calculator.html"
+  },
+  {
+    "id": "pay-raise-calculator",
+    "slug": "pay-raise-calculator",
+    "title": "Pay Raise Calculator",
+    "description": "Free pay raise calculator. Enter a raise percent or new pay amount to see your new hourly, weekly, monthly, and annual pay, plus the raise amount and percent.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "pay raise calculator",
+      "raise calculator",
+      "salary increase calculator",
+      "percent raise calculator",
+      "new salary calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/pay-raise-calculator.html"
   },
   {
     "id": "portfolio-concentration-calculator",
@@ -367,6 +482,22 @@
       "how much money do i need to retire"
     ],
     "url": "/ToolVerse/tools/calculators/retirement-savings-calculator.html"
+  },
+  {
+    "id": "roth-vs-traditional-calculator",
+    "slug": "roth-vs-traditional-calculator",
+    "title": "Roth vs Traditional Calculator",
+    "description": "Free Roth vs traditional calculator. Compare after-tax retirement values for Roth and traditional contributions using your tax rates, years, and growth rate.",
+    "category": "calculators",
+    "categoryLabel": "Calculators",
+    "keywords": [
+      "roth vs traditional calculator",
+      "roth vs traditional 401k calculator",
+      "roth vs traditional ira calculator",
+      "should I choose roth or traditional",
+      "roth vs pre-tax calculator"
+    ],
+    "url": "/ToolVerse/tools/calculators/roth-vs-traditional-calculator.html"
   },
   {
     "id": "salary-to-hourly-calculator",
