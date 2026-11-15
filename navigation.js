@@ -423,6 +423,37 @@ else runWaysToEarnInjection();
   else run();
   window.addEventListener('load', run, { once: true });
   window.setTimeout(run, 0);
+  /* Homes for Sale listings page: expose it in the Home Buying menu group. */
+  const homesForSaleHref = '/ToolVerse/homes-for-sale/';
+  const addHomesForSaleDesktop = () => {
+    document.querySelectorAll('.tv-mega-group').forEach(group => {
+      const title = group.querySelector('.tv-mega-title');
+      if (!title || title.textContent.trim() !== 'Home Buying') return;
+      if (group.querySelector(`a[href="${homesForSaleHref}"]`)) return;
+      const a = document.createElement('a');
+      a.className = 'tv-mega-link';
+      a.href = homesForSaleHref;
+      a.innerHTML = `Homes for Sale<span>Browse Augusta area homes with a monthly payment estimate beside each one.</span>`;
+      group.appendChild(a);
+    });
+  };
+  const addHomesForSaleMobile = () => {
+    document.querySelectorAll('.tv-mobile-category').forEach(category => {
+      const toggle = category.querySelector('.tv-mobile-category-toggle');
+      const panel = category.querySelector('.tv-mobile-category-panel');
+      if (!toggle || !panel || toggle.textContent.trim() !== 'Home Buying') return;
+      if (panel.querySelector(`a[href="${homesForSaleHref}"]`)) return;
+      const a = document.createElement('a');
+      a.href = homesForSaleHref;
+      a.textContent = 'Homes for Sale';
+      panel.appendChild(a);
+    });
+  };
+  const runHomesForSale = () => { addHomesForSaleDesktop(); addHomesForSaleMobile(); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', runHomesForSale, { once: true });
+  else runHomesForSale();
+  window.addEventListener('load', runHomesForSale, { once: true });
+  window.setTimeout(runHomesForSale, 0);
   const insuranceServicesMarkup = `<section class="tv-mega-group" data-tv-insurance-services><span class="tv-mega-title">Insurance & Home Services</span><a class="tv-mega-link" href="car-insurance-cost-estimator.html">Car Insurance Planning<span>Estimate a broad range; compare real rates separately.</span></a><a class="tv-mega-link" href="renters-insurance-coverage-calculator.html">Renters Insurance Coverage<span>Organize belongings, liability, and deductible questions.</span></a><a class="tv-mega-link" href="home-insurance-estimate-calculator.html">Home Insurance Estimate<span>Build a broad homeowners planning range.</span></a><a class="tv-mega-link" href="electricity-cost-calculator.html">Electricity Cost<span>Estimate kWh and monthly electricity cost.</span></a><a class="tv-mega-link" href="internet-plan-cost-comparison-guide.html">Internet Plan Guide<span>Compare speed, fees, caps, and contract terms.</span></a></section>`;
   const injectInsuranceServices = () => {
     document.querySelectorAll('.tv-desktop-nav [data-tv-menu="tools"] .tv-mega-grid').forEach((grid) => {
